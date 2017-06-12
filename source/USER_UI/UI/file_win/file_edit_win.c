@@ -256,7 +256,7 @@ static MYUSER_WINDOW_T save_file_window=
 /**
   * @brief  文件新建窗口的数据结构定义
   */
-static MYUSER_WINDOW_T NewFileWindows=
+static MYUSER_WINDOW_T new_file_window=
 {
     {"新建文件","New File"},
     file_edit_win_cb,NULL,
@@ -742,8 +742,8 @@ void create_save_file_dialog(int hWin)
 void create_new_file_dialog(int hWin)
 {
     set_custom_msg_id(CM_FILE_UI_NEW);
-    init_window_size(&NewFileWindows, file_edit_win_pos_size_pool[sys_par.screem_size]);
-    create_user_dialog(&NewFileWindows, &windows_list, g_cur_win->handle);//创建主界面
+    init_window_size(&new_file_window, file_edit_win_pos_size_pool[sys_par.screem_size]);
+    create_user_dialog(&new_file_window, &windows_list, g_cur_win->handle);//创建主界面
 }
 
 /**

@@ -236,7 +236,7 @@ static TEXT_ELE_T test_ui_ele_pool[]=
 	{{"2.000mA","2.000mA"   }, TEST_UI_RES1_CUR      },
 	{{"123.4s" ,"123.4s"    }, TEST_UI_RES1_TIME     },
 	{{"上限报警","High Fail"}, TEST_UI_RES1_RESULT   },
-	                                                 
+    
 	{{"0001"   ,"0001"      }, TEST_UI_RES2_NUM      },
 	{{"5.000kV","5.000kV"   }, TEST_UI_RES2_VOL      },
 	{{"2.000mA","2.000mA"   }, TEST_UI_RES2_CUR      },
