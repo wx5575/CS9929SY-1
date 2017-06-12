@@ -236,12 +236,12 @@ static void edit_step_direct_key_down_cb(KEY_MESSAGE *key_msg)
     direct_key_down_cb(key_msg);
 }
 
-static void edit_step_sys_key(int data)
+static void edit_step_sys_key(WM_HMEM hWin)
 {
-    register_system_key_fun(edit_step_sys_key_pool, ARRAY_SIZE(edit_step_sys_key_pool), data);
+    register_system_key_fun(edit_step_sys_key_pool, ARRAY_SIZE(edit_step_sys_key_pool), hWin);
 }
 
-static void step_edit_sys_key(int hWin)
+static void step_edit_sys_key(WM_HMEM hWin)
 {
     int32_t data = g_cur_edit_ele->dis.edit.handle;
     register_system_key_fun(sys_key_pool, ARRAY_SIZE(sys_key_pool), data);
@@ -249,7 +249,7 @@ static void step_edit_sys_key(int hWin)
 /*********************************************************************/
 
 
-static void edit_step_menu_key(int hWin)
+static void edit_step_menu_key(WM_HMEM hWin)
 {
     MENU_KEY_INFO_T * info = edit_step_num_menu_key_info;
     uint32_t size = ARRAY_SIZE(edit_step_num_menu_key_info);
@@ -314,7 +314,7 @@ void init_menu_key_custom_inf(CUSTOM_MENU_KEY_INF *cus_inf,
     }
 }
 
-static void edit_mode_menu_key(int hWin)
+static void edit_mode_menu_key(WM_HMEM hWin)
 {
     MENU_KEY_INFO_T * info = edit_mode_menu_key_info;
     uint32_t size = ARRAY_SIZE(edit_mode_menu_key_info);

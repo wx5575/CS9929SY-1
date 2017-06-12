@@ -740,7 +740,11 @@ static void show_user_window(MYUSER_WINDOW_T* win_info)
     }
     
     WM_ShowWindow(win_info->handle);
-	win_info->init_key_fun(win_info->handle);//初始化按键
+    
+    if(NULL != win_info->init_key_fun)
+    {
+        win_info->init_key_fun(win_info->handle);//初始化按键
+    }
 }
 /**
   * @brief  返回上一级窗口,返回上级窗口要做的操作是1.删除当前窗口 2.显示新的当前窗口

@@ -208,9 +208,9 @@ struct WIDGET_ELEMENT_{
     
     /* 按键信息 包含系统键 菜单键 键盘服务函数 */
     struct{
-        void (*fun_sys_key)();///< 方向键信息更新函数
-        void (*fun_menu_key)();//菜单键更新函数
-        void (*fun_key)();///< 设置该变量的键盘服务函数
+        void (*fun_sys_key)(WM_HMEM);///< 方向键信息更新函数
+        void (*fun_menu_key)(WM_HMEM);//菜单键更新函数
+        void (*fun_key)(uint32_t);///< 设置该变量的键盘服务函数
     }key_inf;
     
     EDIT_ELE_DISPLAY_INF dis;///<显示相关的配置信息

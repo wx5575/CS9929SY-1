@@ -257,6 +257,15 @@ TEST_FILE* get_file_inf(FILE_NUM file_num, CS_ERR* err)
     return &file_pool[file_num];
 }
 /**
+  * @brief  获取密码的最大长度
+  * @param  无
+  * @retval 密码的最大长度
+  */
+uint8_t pwd_max_len(void)
+{
+    return PWD_MAX_LEN;
+}
+/**
   * @brief  检查系统参数的合法性
   * @param  [out] err 错误码 CS_ERR_NONE ，CS_ERR_DATA_OUT_OF_RANGE 
   * @retval 无

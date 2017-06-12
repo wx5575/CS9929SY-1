@@ -60,24 +60,31 @@ static void file_win_direct_key_down_cb(KEY_MESSAGE *key_msg);
 
 static void update_cur_row_menu_key_st(WM_HWIN hWin);
 /* Private variables ---------------------------------------------------------*/
-
-static LISTVIEW_Handle list_h;
-static FUNCTION_KEY_INFO_T 	sys_key_pool[];
-
+/**
+  * @brief  文件管理列表句柄
+  */
+static LISTVIEW_Handle   file_list_handle;
+/**
+  * @brief  文件管理窗口位置尺寸信息，根据屏幕尺寸来进行配置
+  */
 static WIDGET_POS_SIZE_T* file_win_pos_size_pool[SCREEN_NUM]=
 {
     &_7_file_windows,/*4.3寸屏*/
     &_7_file_windows,/*5.6寸屏*/
     &_7_file_windows,/*7寸屏*/
 };
-
-MYUSER_WINDOW_T FileWindows=
+/**
+  * @brief  文件管理窗口数据结构定义
+  */
+MYUSER_WINDOW_T file_window=
 {
     {"File_window"},
     file_win_cb,file_win_update_fun_key_inf,
 	0,0, 0,
 };
-/* 文件存在的按键菜单 */
+/**
+  * @brief  文件存在的按键菜单
+  */
 static MENU_KEY_INFO_T 	file_exist_menu_key_info[] =
 {
     {"", F_KEY_SAVE		, KEY_F1 & _KEY_UP, file_exist_f1_cb },//f1
@@ -88,7 +95,9 @@ static MENU_KEY_INFO_T 	file_exist_menu_key_info[] =
     {"", F_KEY_BACK		, KEY_F6 & _KEY_UP, file_exist_f6_cb },//f6
 };
 
-/* 文件不存在的按键菜单 */
+/**
+  * @brief  文件不存在的按键菜单
+  */
 static MENU_KEY_INFO_T 	file_no_exist_menu_key_info[] =
 {
     {"", F_KEY_SAVE		, KEY_F1 & _KEY_UP, file_no_exist_f1_cb },//f1
@@ -98,8 +107,10 @@ static MENU_KEY_INFO_T 	file_no_exist_menu_key_info[] =
     {"", F_KEY_NULL     , KEY_F5 & _KEY_UP, file_no_exist_f5_cb },//f5
     {"", F_KEY_BACK		, KEY_F6 & _KEY_UP, file_no_exist_f6_cb },//f6
 };
-
-static FUNCTION_KEY_INFO_T 	sys_key_pool[]={
+/**
+  * @brief  文件不存在的按键菜单
+  */
+static FUNCTION_KEY_INFO_T 	file_win_sys_key_pool[]={
 	{KEY_UP		, file_win_direct_key_up_cb		},
 	{KEY_DOWN	, file_win_direct_key_down_cb 	},
 	{CODE_LEFT	, file_win_direct_key_down_cb   },
@@ -217,7 +228,7 @@ static void file_no_exist_f6_cb(KEY_MESSAGE *key_msg)
   */
 static void file_win_direct_key_up_cb(KEY_MESSAGE *key_msg)
 {
-	LISTVIEW_DecSel(list_h);
+	LISTVIEW_DecSel(file_list_handle);
     update_cur_row_menu_key_st(key_msg->user_data);
 }
 /**
@@ -227,7 +238,7 @@ static void file_win_direct_key_up_cb(KEY_MESSAGE *key_msg)
   */
 static void file_win_direct_key_down_cb(KEY_MESSAGE *key_msg)
 {
-	LISTVIEW_IncSel(list_h);
+	LISTVIEW_IncSel(file_list_handle);
     update_cur_row_menu_key_st(key_msg->user_data);
 }
 
@@ -277,7 +288,7 @@ static void into_save_file_dialog(WM_HWIN hWin)
 {
     int row = 0;
     
-	row = LISTVIEW_GetSel(list_h);
+	row = LISTVIEW_GetSel(file_list_handle);
 	
 	/* 文件存在 */
 	if(CS_TRUE == is_file_exist(row + 1))
@@ -301,7 +312,7 @@ static void update_cur_row_menu_key_st(WM_HWIN hWin)
     uint8_t size = 0;
     MENU_KEY_INFO_T *info = NULL;
     
-	row = LISTVIEW_GetSel(list_h);
+	row = LISTVIEW_GetSel(file_list_handle);
 	
 	/* 文件存在 */
 	if(CS_TRUE == is_file_exist(row + 1))
@@ -374,7 +385,7 @@ static void dis_one_file_info(TEST_FILE *file)
 	
 	for(i = 1; i < 5; i++)
 	{
-		LISTVIEW_SetItemText(list_h, i, row, (const char*)list_buf[i]);
+		LISTVIEW_SetItemText(file_list_handle, i, row, (const char*)list_buf[i]);
 	}
 }
 
@@ -426,7 +437,7 @@ static WM_HWIN create_file_listview(WM_HWIN hWin)
   */
 static void create_init_file_listview(WM_HWIN hWin)
 {
-    list_h = create_file_listview(hWin);
+    file_list_handle = create_file_listview(hWin);
 	update_file_dis();
 }
 
@@ -439,7 +450,7 @@ static void create_init_file_listview(WM_HWIN hWin)
 static void file_win_update_key_inf(WM_HWIN hWin)
 {
     file_win_update_fun_key_inf(hWin);
-    register_system_key_fun(sys_key_pool, ARRAY_SIZE(sys_key_pool), hWin);
+    register_system_key_fun(file_win_sys_key_pool, ARRAY_SIZE(file_win_sys_key_pool), hWin);
 }
 /**
   * @brief  处理子窗口消息
@@ -474,7 +485,7 @@ static void dispose_child_win_msg(CUSTOM_MSG_T * msg, WM_HWIN hWin)
 				
 				f = (TEST_FILE*)msg->user_data;
 				
-				row = LISTVIEW_GetSel(list_h);
+				row = LISTVIEW_GetSel(file_list_handle);
 				
 				f->num = row + 1;
 				if(f->num < MAX_FILES)
@@ -583,9 +594,9 @@ static void file_win_cb(WM_MESSAGE* pMsg)
   */
 void create_file_win(int hWin)
 {
-    init_window_size(&FileWindows, file_win_pos_size_pool[sys_par.screem_size]);
+    init_window_size(&file_window, file_win_pos_size_pool[sys_par.screem_size]);
     
-    create_user_window(&FileWindows, &windows_list, hWin);//创建文件管理界面
+    create_user_window(&file_window, &windows_list, hWin);//创建文件管理界面
 }
 
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

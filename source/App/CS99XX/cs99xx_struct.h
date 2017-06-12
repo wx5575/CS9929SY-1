@@ -532,6 +532,7 @@ extern void init_all_file(void);
 extern TEST_FILE* get_file_inf(FILE_NUM file_num, CS_ERR* err);
 extern void init_sys_par(void);
 extern void check_sys_par(CS_ERR *err);
+extern uint8_t pwd_max_len(void);
 extern void set_cur_file(FILE_NUM file_num);
 extern void init_instrument_data(void);
 extern void swap_step(const STEP_NUM one, const STEP_NUM two);
