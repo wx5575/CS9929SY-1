@@ -76,7 +76,7 @@ MYUSER_WINDOW_T result_windows =
 	0,0, 0,
 };
 
-static MENU_KEY_INFO_T 	step_exist_menu_key_info[] =
+static MENU_KEY_INFO_T 	result_exist_menu_key_info[] =
 {
     {"", F_KEY_SAVE		, KEY_F1 & _KEY_UP, result_exist_f1_cb },//f1
     {"", F_KEY_READ		, KEY_F2 & _KEY_UP, result_exist_f2_cb },//f2
@@ -85,7 +85,7 @@ static MENU_KEY_INFO_T 	step_exist_menu_key_info[] =
     {"", F_KEY_NULL		, KEY_F5 & _KEY_UP, result_exist_f5_cb },//f5
     {"", F_KEY_BACK		, KEY_F6 & _KEY_UP, result_exist_f6_cb },//f6
 };
-static MENU_KEY_INFO_T 	step_no_exist_menu_key_info[] =
+static MENU_KEY_INFO_T 	result_no_exist_menu_key_info[] =
 {
     {"", F_KEY_SAVE		, KEY_F1 & _KEY_UP, result_no_exist_f1_cb },//f1
     {"", F_KEY_NEW		, KEY_F2 & _KEY_UP, result_no_exist_f2_cb },//f2
@@ -259,15 +259,16 @@ static void update_cur_row_menu_key_st(WM_HWIN hWin)
 	/* 步骤存在 */
 	if(CS_TRUE == is_file_exist(row + 1))
 	{
-        size = ARRAY_SIZE(step_exist_menu_key_info);
-        info = step_exist_menu_key_info;
+        size = ARRAY_SIZE(result_exist_menu_key_info);
+        info = result_exist_menu_key_info;
 	}
 	/* 步骤不存在 */
 	else
 	{
-        size = ARRAY_SIZE(step_no_exist_menu_key_info);
-        info = step_no_exist_menu_key_info;
+        size = ARRAY_SIZE(result_no_exist_menu_key_info);
+        info = result_no_exist_menu_key_info;
 	}
+    
     
 	init_menu_key_info(info, size, hWin);//刷新菜单键显示
 }

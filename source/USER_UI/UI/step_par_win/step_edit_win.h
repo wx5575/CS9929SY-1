@@ -10,7 +10,7 @@
 #ifndef __STEP_EDIT_WIN_H__
 #define __STEP_EDIT_WIN_H__
 
-extern void create_step_edit_ui(int hWin);
+extern void create_step_edit_win(int hWin);
 
 #endif //__STEP_EDIT_WIN_H__
 

@@ -334,6 +334,19 @@ enum{
 	AC_2A	    = 0XA,
     AC_GEAR_END,
 };
+#define CUR_2uA_STR     "2uA"
+#define CUR_20uA_STR    "20uA"
+#define CUR_200uA_STR   "200uA"
+#define CUR_2mA_STR     "2mA"
+#define CUR_10mA_STR    "10mA"
+#define CUR_20mA_STR    "20mA"
+#define CUR_50mA_STR    "50mA"
+#define CUR_100mA_STR   "100mA"
+#define CUR_200mA_STR   "200mA"
+#define CUR_2A_STR      "2A"
+
+
+
 /**
   * @brief  DC档位枚举定义
   */
@@ -488,8 +501,6 @@ typedef struct{
   */
 typedef struct {
     uint8_t* name;///<档位名称
-    const uint8_t* high_str;///<档位上限字符串
-    const uint8_t* low_str;///<档位下限字符串
     uint8_t unit;///<单位
     uint32_t high_max;///<档位的上限最大值
     uint32_t high_min;///<档位的上限最小值
@@ -537,8 +548,10 @@ extern void set_cur_file(FILE_NUM file_num);
 extern void init_instrument_data(void);
 extern void swap_step(const STEP_NUM one, const STEP_NUM two);
 extern void insert_step(uint16_t pos, uint8_t mode);
+extern void del_step(STEP_NUM step);
 extern void load_steps_to_list(const int16_t step, uint8_t step_num);
 extern NODE_STEP *get_g_cur_step(void);
+extern void init_mode(NODE_STEP *p);
 
 #endif //__CS99XX_STRUCT_H__
 

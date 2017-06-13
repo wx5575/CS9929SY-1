@@ -143,11 +143,11 @@ void init_window_edit_ele_dis_inf(MYUSER_WINDOW_T *win, EDIT_ELE_AUTO_LAYOUT_T* 
 	CS_LIST *list = &win->edit.list_head;
     EDIT_ELE_DISPLAY_INF *dis;
 	CS_LIST* t_node = NULL;
-	WIDGET_ELEMENT *node = NULL;
+	EDIT_ELE_T *node = NULL;
 	
     list_for_each(t_node, list)
     {
-        node = list_entry( t_node, WIDGET_ELEMENT, e_list );
+        node = list_entry( t_node, EDIT_ELE_T, e_list );
         
         dis = &node->dis;
         
@@ -232,11 +232,11 @@ void init_window_com_ele_list(MYUSER_WINDOW_T *win)
 static void update_win_edit_ele_text(CS_LIST *list)
 {
     CS_LIST *t_node;
-    WIDGET_ELEMENT *node;
+    EDIT_ELE_T *node;
     
 	list_for_each(t_node, list)
 	{
-		node = list_entry( t_node, WIDGET_ELEMENT, e_list );
+		node = list_entry( t_node, EDIT_ELE_T, e_list );
         
         TEXT_SetText(node->dis.name.handle, (const char *)node->name[SYS_LANGUAGE]);
 	}
@@ -635,12 +635,12 @@ static void delete_text_list_node(CS_LIST *list_head)
   */
 static void delete_edit_list_node(CS_LIST *list_head)
 {
-    WIDGET_ELEMENT *node;
+    EDIT_ELE_T *node;
     CS_LIST *index;
     
 	list_for_each( index, list_head )
 	{
-		node = list_entry( index, WIDGET_ELEMENT, e_list );
+		node = list_entry( index, EDIT_ELE_T, e_list );
         
 		if(node->dis.name.handle != 0)
 		{
@@ -684,7 +684,7 @@ void delete_win_com_ele(MYUSER_WINDOW_T* win)
   * @param  [in] node 编辑对象地址
   * @retval 无
   */
-void set_cur_edit_ele(WIDGET_ELEMENT *node)
+void set_cur_edit_ele(EDIT_ELE_T *node)
 {
     CPU_SR_ALLOC();
     

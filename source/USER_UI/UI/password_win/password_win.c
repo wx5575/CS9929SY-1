@@ -34,7 +34,9 @@
 #include "app.h"
 
 /* Private typedef -----------------------------------------------------------*/
-
+/**
+  * @brief  密码类型结构定义
+  */
 typedef struct{
     uint8_t new_pwd[PWD_MAX_LEN + 1];///<新设密码缓冲区
     uint8_t old_pwd[PWD_MAX_LEN + 1];///<原始密码缓冲区
@@ -49,7 +51,6 @@ typedef struct{
 /* Private function prototypes -----------------------------------------------*/
 
 static void password_win_cb(WM_MESSAGE* pMsg);
-//static void update_menu_key_inf(WM_HMEM hWin);
 static FUNCTION_KEY_INFO_T 	sys_key_pool[];
 static void menu_key_ok(int hWin);
 
@@ -77,28 +78,37 @@ static void direct_key_left_cb(KEY_MESSAGE *key_msg);
 static void direct_key_right_cb(KEY_MESSAGE *key_msg);
 
 /* Private variables ---------------------------------------------------------*/
-
+/**
+  * @brief  密码管理窗口位置尺寸信息，根据不同的屏幕尺寸进行初始化
+  */
 static WIDGET_POS_SIZE_T* password_win_pos_size_pool[SCREEN_NUM]=
 {
     &_7_password_windows,/*4.3寸屏*/
     &_7_password_windows,/*5.6寸屏*/
     &_7_password_windows,/*7寸屏*/
 };
-
-TEXT_ELE_AUTO_LAYOUT_T  *pwd_text_ele_auto_layout[]=
+/**
+  * @brief  密码管理窗口文本控件自动布局信息数组，根据不同的屏幕尺寸进行初始化
+  */
+static TEXT_ELE_AUTO_LAYOUT_T  *pwd_text_ele_auto_layout[]=
 {
     &_7_pwd_text_ele_auto_layout_inf,//4.3寸屏
     &_7_pwd_text_ele_auto_layout_inf,//5.6寸屏
     &_7_pwd_text_ele_auto_layout_inf,//7寸屏
 };
-EDIT_ELE_AUTO_LAYOUT_T      *pwd_edit_ele_auto_layout[]=
+/**
+  * @brief  密码管理窗口编辑控件自动布局信息数组，根据不同的屏幕尺寸进行初始化
+  */
+static EDIT_ELE_AUTO_LAYOUT_T      *pwd_edit_ele_auto_layout[]=
 {
     &_7_pwd_edit_ele_auto_layout_inf,//4.3寸屏
     &_7_pwd_edit_ele_auto_layout_inf,//5.6寸屏
     &_7_pwd_edit_ele_auto_layout_inf,//7寸屏
 };
 
-/* 原始密码 新设密码 */
+/**
+  * @brief  原始密码 新设密码使用的菜单键信息初始化数组
+  */
 static MENU_KEY_INFO_T 	o_n_pwd_menu_key_info[] =
 {
     {"", F_KEY_DEL      , KEY_F1 & _KEY_UP, old_new_pwd_win_f1_cb },//f1
@@ -109,13 +119,18 @@ static MENU_KEY_INFO_T 	o_n_pwd_menu_key_info[] =
     {"", F_KEY_BACK     , KEY_F6 & _KEY_UP, old_new_pwd_win_f6_cb },//f6
 };
 
-/* 确认密码 */
+/**
+  * @brief  确认密码 新设密码使用的菜单键信息初始化数组
+  */
 static MENU_KEY_INFO_T 	c_pwd_menu_key_info[] =
 {
     {"", F_KEY_OK       , KEY_F5 & _KEY_UP, confirm_pwd_win_f5_cb },//f5
 };
 
-WIDGET_ELEMENT password_ele_pool[]=
+/**
+  * @brief  窗口中使用到的编辑控件初始化数组
+  */
+static EDIT_ELE_T password_ele_pool[]=
 {
     {
         {"原始密码:","Old PWD:"}, /* 名称 */
@@ -155,7 +170,7 @@ WIDGET_ELEMENT password_ele_pool[]=
     },
 };
 
-PWD_T pdw_inf;
+static PWD_T pdw_inf;
 
 static FUNCTION_KEY_INFO_T sys_key_pool[]={
 	{KEY_UP		, direct_key_up_cb		 },
@@ -199,7 +214,7 @@ static TEXT_ELE_T password_ui_text_ele_pool[]=
 /**
   * @brief  密码界面窗口结构
   */
-MYUSER_WINDOW_T password_windows=
+static MYUSER_WINDOW_T password_windows=
 {
     {"系统密码","password_windows"},
     password_win_cb, NULL,
@@ -474,7 +489,7 @@ static void direct_key_up_cb(KEY_MESSAGE *key_msg)
     
     if(&g_cur_win->edit.list_head != g_cur_edit_ele->e_list.prev)
     {
-        g_cur_edit_ele = list_entry(g_cur_edit_ele->e_list.prev, WIDGET_ELEMENT, e_list);
+        g_cur_edit_ele = list_entry(g_cur_edit_ele->e_list.prev, EDIT_ELE_T, e_list);
     }
     
     select_edit_ele(g_cur_edit_ele);
@@ -527,7 +542,7 @@ static void direct_key_down_cb(KEY_MESSAGE *key_msg)
     {
         if(&g_cur_win->edit.list_head != g_cur_edit_ele->e_list.next)
         {
-            g_cur_edit_ele = list_entry(g_cur_edit_ele->e_list.next, WIDGET_ELEMENT, e_list);
+            g_cur_edit_ele = list_entry(g_cur_edit_ele->e_list.next, EDIT_ELE_T, e_list);
         }
     }
     
@@ -712,6 +727,8 @@ static void password_win_cb(WM_MESSAGE* pMsg)
 			WM_DefaultProc(pMsg);
 	}
 }
+/* Public functions ---------------------------------------------------------*/
+
 /**
   * @brief  创建密码窗口
   * @param  [in] hWin 父窗口句柄

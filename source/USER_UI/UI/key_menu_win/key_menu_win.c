@@ -488,6 +488,40 @@ void set_menu_function_status(uint32_t key_value, MENU_KEY_ST_ENUM st)
     update_menu_key_enable_color(key_value, st);
 }
 /**
+  * @brief  设置菜单功能键初始化信息中的按键状态
+  * @param  [in] inf 菜单键初始化信息数组
+  * @param  [in] size 菜单键初始化信息数组中元素个数
+  * @param  [in] index 要设置状态的菜单按键的索引值
+  * @param  [in] st 要设置菜单按键的状态
+  * @param  [in] err 错误码
+  * @retval 无
+  */
+void set_menu_key_config_st(MENU_KEY_INFO_T * inf, uint32_t size,
+                        CS_INDEX index, MENU_KEY_ST_ENUM st, CS_ERR *err)
+{
+	int32_t i = 0;
+	
+    *err = CS_ERR_NONE;
+    
+	/* 查找索引的按键 */
+	for(i = 0; i < size; i++)
+	{
+		if(inf[i].index == index)
+		{
+			break;
+		}
+	}
+	
+	/* 没找到返回空字符串 */
+	if(i == size)
+	{
+        *err = CS_ERR_INDEX_INVALID;
+		return;
+	}
+    
+    inf[i].fun_key.en = st;
+}
+/**
   * @brief  初始化菜单键
   * @param  [in] info 初始化信息数组
   * @param  [in] n 菜单键信息数组中的元素个数

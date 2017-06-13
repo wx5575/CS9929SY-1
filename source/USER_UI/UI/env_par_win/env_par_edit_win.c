@@ -98,7 +98,7 @@ static FUNCTION_KEY_INFO_T env_par_sys_key_pool[]={
 /**
   * @brief  环境变量窗口显示的编辑对象池
   */
-static WIDGET_ELEMENT env_par_ele_pool[]={
+static EDIT_ELE_T env_par_ele_pool[]={
     {
         {"语  言:","Language:"}, /* 名称 */
         ENV_PAR_LANGUAGE,/* 通过枚举索引 */
@@ -253,7 +253,7 @@ static void env_par_direct_key_up_cb(KEY_MESSAGE *key_msg)
     dis_select_edit_ele(g_cur_edit_ele, LOAD_TO_RAM);
     if(&g_cur_win->edit.list_head != g_cur_edit_ele->e_list.prev)
     {
-        g_cur_edit_ele = list_entry(g_cur_edit_ele->e_list.prev, WIDGET_ELEMENT, e_list);
+        g_cur_edit_ele = list_entry(g_cur_edit_ele->e_list.prev, EDIT_ELE_T, e_list);
     }
     select_edit_ele(g_cur_edit_ele);
 }
@@ -267,7 +267,7 @@ static void env_par_direct_key_down_cb(KEY_MESSAGE *key_msg)
     dis_select_edit_ele(g_cur_edit_ele, LOAD_TO_RAM);
     if(&g_cur_win->edit.list_head != g_cur_edit_ele->e_list.next)
     {
-        g_cur_edit_ele = list_entry(g_cur_edit_ele->e_list.next, WIDGET_ELEMENT, e_list);
+        g_cur_edit_ele = list_entry(g_cur_edit_ele->e_list.next, EDIT_ELE_T, e_list);
     }
     select_edit_ele(g_cur_edit_ele);
 }

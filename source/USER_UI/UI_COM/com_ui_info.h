@@ -35,7 +35,7 @@
 /** 
   * @brief 编辑控件结构
   */
-typedef struct WIDGET_ELEMENT_  WIDGET_ELEMENT;
+typedef struct EDIT_ELE_T_   EDIT_ELE_T;
 
 /** 
   * @brief 用户窗口结构
@@ -166,7 +166,7 @@ typedef struct{
 /** 
   * @brief 编辑控件结构 包含3个子控件 名称+编辑控件+单位信息
   */
-struct WIDGET_ELEMENT_{
+struct EDIT_ELE_T_{
 	uint8_t *name[LANGUAGE_NUM];///< 名称
 	CS_INDEX index;///< 通过枚举索引
 	uint8_t *value[10];///< 默认值
@@ -203,7 +203,7 @@ struct WIDGET_ELEMENT_{
         uint32_t high;///< 上限
         uint32_t low;///< 下限 
         uint8_t *notice[LANGUAGE_NUM];///< 提示信息包含中英文
-        void (*check_value_validity)(WIDGET_ELEMENT*,uint32_t*);///<检查数据的正确性
+        void (*check_value_validity)(EDIT_ELE_T*,uint32_t*);///<检查数据的正确性
     }range;
     
     /* 按键信息 包含系统键 菜单键 键盘服务函数 */
@@ -336,7 +336,7 @@ typedef struct{
 
 COM_UI_EXT CS_LIST 				windows_list;///<窗口链表
 COM_UI_EXT MYUSER_WINDOW_T      *g_cur_win;///<当前窗口指针
-COM_UI_EXT WIDGET_ELEMENT     *g_cur_edit_ele;///<当前编辑对象
+COM_UI_EXT EDIT_ELE_T     *g_cur_edit_ele;///<当前编辑对象
 COM_UI_EXT TEXT_ELE_T           *g_cur_text_ele;///<当前文本对象
 COM_UI_EXT CUSTOM_MSG_T 	    g_custom_msg;///<用户自定义消息实体变量
 COM_UI_EXT volatile UI_FLAG     ui_flag;///<界面使用全局标记
@@ -351,7 +351,7 @@ extern void init_create_win_all_ele(MYUSER_WINDOW_T* win);
 extern void create_user_dialog(MYUSER_WINDOW_T* win_info, CS_LIST *list_head, WM_HWIN hWin);
 extern void set_user_window_handle(WM_HWIN hWin);
 extern void set_cur_window(MYUSER_WINDOW_T* win_info);
-extern void set_cur_edit_ele(WIDGET_ELEMENT *node);
+extern void set_cur_edit_ele(EDIT_ELE_T *node);
 extern void show_user_window(MYUSER_WINDOW_T* win_info);
 extern void back_win(int id);
 extern MYUSER_WINDOW_T * get_user_window_info(WM_HWIN hWin);

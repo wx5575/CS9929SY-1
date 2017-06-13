@@ -543,7 +543,7 @@ extern void init_default_type(void);
 extern void judge_single_gr(void);
 extern uint8_t get_max_cur_gear(uint8_t mode);
 extern uint32_t defined_hz_kinds(uint8_t mode, const uint8_t** gear_buf, uint8_t *flag);
-extern uint32_t defined_cur_kinds(uint8_t mode, const uint8_t *gear[], uint8_t* flag);
+extern uint32_t defined_cur_kinds(uint8_t mode, const uint8_t *gear[], uint8_t* flag, uint16_t *kind);
 extern uint32_t defined_fail_mode_kinds(const uint8_t *fail_mode_buf[], uint8_t *flag);
 extern uint32_t defined_vol_kinds(uint8_t mode, const uint8_t **gear, uint8_t *flag);
 extern int32_t check_mode(void);
@@ -558,6 +558,9 @@ extern uint8_t get_first_mode(void);
 extern void *get_defined_mode_table(void);
 extern uint16_t get_defined_mode_num(void);
 extern void *get_defined_mode_flag(void);
+extern uint16_t get_defined_range_num(uint8_t mode);
+extern void *get_defined_range_flag(uint8_t mode);
+extern void *get_defined_range_table(uint8_t mode);
 
 #endif //__TYPE_SELECT__
 
