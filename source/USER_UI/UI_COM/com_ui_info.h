@@ -320,13 +320,7 @@ typedef struct{
 	int msg;///<命令
 	int user_data;///<用户数据
 }CUSTOM_MSG_T;
-/** 
-  * @brief 用户界面使用的全局标记
-  */
-typedef struct{
-    uint8_t shift_flag;///< SHIFT键按下标记
-    uint8_t key_lock_flag;///< SHIFT键按下标记
-}UI_FLAG;
+
 
 #ifdef   COM_UI_GLOBALS
 #define  COM_UI_EXT
@@ -339,7 +333,6 @@ COM_UI_EXT MYUSER_WINDOW_T      *g_cur_win;///<当前窗口指针
 COM_UI_EXT EDIT_ELE_T     *g_cur_edit_ele;///<当前编辑对象
 COM_UI_EXT TEXT_ELE_T           *g_cur_text_ele;///<当前文本对象
 COM_UI_EXT CUSTOM_MSG_T 	    g_custom_msg;///<用户自定义消息实体变量
-COM_UI_EXT volatile UI_FLAG     ui_flag;///<界面使用全局标记
 COM_UI_EXT uint32_t             id_base;///<全局控件ID变量
 
 extern void init_window_text_ele(MYUSER_WINDOW_T* win);

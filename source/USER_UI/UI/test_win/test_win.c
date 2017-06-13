@@ -480,8 +480,8 @@ static void test_win_cb(WM_MESSAGE* pMsg)
 /* Public functions ---------------------------------------------------------*/
 
 /**
-  * @brief  7寸屏布局1的入口
-  * @param  [in] hWin窗口
+  * @brief  创建测试窗口
+  * @param  [in] hWin 父窗口句柄
   * @retval 无
   */
 void create_test_win(int hWin)

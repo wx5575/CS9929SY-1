@@ -184,7 +184,9 @@ static void update_main_ui_menu_key_inf(WM_HMEM hWin)
 
 void update_shift_bmp(void)
 {
-    if(ui_flag.shift_flag)
+    uint8_t flag = get_shift_status();
+    
+    if(flag)
     {
         set_capital_letter_image(KEY_CAPITAL_SMALL_handle);
     }
@@ -200,13 +202,17 @@ void update_shift_bmp(void)
   */
 static void sys_shift_key_fun_cb(KEY_MESSAGE *key_msg)
 {
-    ui_flag.shift_flag = !ui_flag.shift_flag;
+    uint8_t flag = get_shift_status();
+    
+    set_shift_status(!flag);
     update_shift_bmp();
 }
 
 void update_unlock_bmp(void)
 {
-    if(ui_flag.key_lock_flag)
+    uint8_t flag = get_key_lock_flag();
+    
+    if(flag)
     {
         set_key_lock_image(KEY_LOCK_handle);
     }
@@ -222,7 +228,9 @@ void update_unlock_bmp(void)
   */
 static void sys_unlock_key_fun_cb(KEY_MESSAGE *key_msg)
 {
-    ui_flag.key_lock_flag = !ui_flag.key_lock_flag;
+    uint8_t flag = get_key_lock_flag();
+    
+    set_key_lock_flag(!flag);
     update_unlock_bmp();
 }
 

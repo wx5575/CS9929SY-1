@@ -72,7 +72,12 @@ typedef struct{
 #define  KEY_DISPOSE_EXT  extern
 #endif
 
-
+/**
+  * @brief  全局的功能键处理函数指针
+  */
+KEY_DISPOSE_EXT		void (*global_fun_key_dispose)(uint32_t key_value);
+KEY_DISPOSE_EXT		void (*scan_key_custom_fun)();
+KEY_DISPOSE_EXT		void (*scan_direct_key_fun)();
 KEY_DISPOSE_EXT		 KEY_FUNCATION		key_funcation;
 KEY_DISPOSE_EXT		 KEY_DISPOSE_FUN 	golbal_key_info;
 extern void dispose_funcation_key(uint32_t key);
@@ -81,6 +86,12 @@ extern void register_key_dispose_fun(uint32_t key, KEY_DISPOSE_FUN *fun);
 extern void enable_function_key(uint32_t key, uint8_t st);
 extern uint8_t get_function_key_st(uint32_t key, CS_ERR *err);
 extern void disable_system_fun_key_fun(void);
+extern void scan_key_task(void);
+
+extern void set_shift_status(uint8_t st);
+extern uint8_t get_shift_status(void);
+extern void set_key_lock_flag(uint8_t flag);
+extern uint8_t get_key_lock_flag(void);
 
 #endif //__SCAN_KEYBOARD_H__
 

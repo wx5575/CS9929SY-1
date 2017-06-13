@@ -1,10 +1,10 @@
 /**
   ******************************************************************************
-  * @file    file_ui_com.c
+  * @file    step_edit_win.c
   * @author  王鑫
   * @version V1.0.0
-  * @date    2017.4.18
-  * @brief   文件管理界面
+  * @date    2017.6.13
+  * @brief   步骤编辑窗口
   ******************************************************************************
   */
 
@@ -29,6 +29,19 @@
 #include "step_par_win/7_step_edit_win.h"
 #include "type/cs99xx_type.h"
 
+#include "keyboard.h"
+//#include "stm32f4xx.h"
+//#include "rtc_config.h"
+//#include "GUI.H"
+//#include "WM.h"
+//#include "DIALOG.h"
+//#include "fonts.h"
+//#include "ff.h"
+//#include "OS.H"
+#include "app.h"
+//#include "cs99xx_struct.h"
+//#include "FRAMEWIN.H"
+//#include "EDIT.H"
 /* Private typedef -----------------------------------------------------------*/
 /**
   * @brief  步骤编辑窗口中编辑对象的枚举索引
@@ -255,8 +268,6 @@ static EDIT_ELE_T step_par_ele_pool[]=
 //    },
 };
 
-
-
 /**
   * @brief  步骤编辑窗口结构初始化定义
   */
@@ -329,8 +340,6 @@ static void edit_step_num_f6_cb(KEY_MESSAGE *key_msg)
 {
     back_win(key_msg->user_data);
 }
-
-
 /**
   * @brief  编辑测试模式使用的功能键F1回调函数
   * @param  [in] key_msg 按键消息
@@ -380,8 +389,6 @@ static void edit_mode_f6_cb(KEY_MESSAGE *key_msg)
 {
     back_win(key_msg->user_data);
 }
-
-
 /**
   * @brief  获取当前步的步号数据
   * @param  无
@@ -702,7 +709,6 @@ static void init_create_step_edit_win_com_ele(MYUSER_WINDOW_T* win)
     update_group_inf(win);
     init_window_com_text_ele(win);//初始化创建窗口中的公共文本对象
 }
-
 
 /**
   * @brief  窗口重绘

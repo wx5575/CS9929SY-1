@@ -144,7 +144,7 @@
             <UsePdscDebugDescription>0</UsePdscDebugDescription>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>6</TargetSelection>
+          <TargetSelection>7</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -1417,6 +1417,16 @@
               <FileName>result_win.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\USER_UI\UI\result_win\result_win.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>DOCUMENT</GroupName>
+          <Files>
+            <File>
+              <FileName>templet.c.txt</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\source\Document\templet.c.txt</FilePath>
             </File>
           </Files>
         </Group>

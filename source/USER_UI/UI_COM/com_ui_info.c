@@ -1179,10 +1179,7 @@ void send_no_par_msg_to_parent(WM_HWIN hwin, int id)
 		WM_SendMessageNoPara(hParent, id);
 }
 /*********************************************************************/
-/**
-  * @brief  全局的功能键处理函数指针
-  */
-void (*global_fun_key_dispose)(uint32_t key_value);
+
 /**
   * @brief  设置全局的功能键处理函数指针
   * @param  [in] fun 功能键处理函数的指针
