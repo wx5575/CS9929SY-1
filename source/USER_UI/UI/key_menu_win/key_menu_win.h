@@ -10,7 +10,7 @@
 #ifndef __KEY_MENU_WIN_H__
 #define __KEY_MENU_WIN_H__
 
-#include "scan_keyboard.h"
+#include "key_fun_manage.h"
 #include "cs99xx_struct.h"
 
 /**

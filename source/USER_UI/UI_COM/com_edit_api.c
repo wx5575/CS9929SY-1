@@ -22,6 +22,7 @@
 #include "tools.h"
 #include "stdlib.h"
 #include "stdio.h"
+#include "keyboard.h"
 
 #define SELETED_COLOR	GUI_LIGHTBLUE
 
@@ -185,6 +186,31 @@ void set_edit_ele_value(EDIT_ELE_T* ele, uint32_t value, uint8_t *buf)
             break;
     }
 }
+void update_unit_dis(EDIT_ELE_T* ele)
+{
+	const char * pText;//文本
+	WM_HWIN    handle;//句柄
+	int align;/* 对齐方式 */
+	const GUI_FONT * font;// 字体
+	GUI_COLOR	font_color;// 字体颜色
+	GUI_COLOR	back_color;// 背景颜色
+    uint8_t unit = 0;
+	
+	handle = ele->dis.unit.handle;
+	align = ele->dis.unit.align;
+	font = ele->dis.unit.font;
+	back_color = ele->dis.unit.back_color;
+	font_color = ele->dis.unit.font_color;
+	
+    unit = ele->format.unit;
+    pText = (const char *)unit_pool[unit];
+    
+	TEXT_SetTextAlign(handle, align);
+	TEXT_SetFont(handle, font);
+	TEXT_SetBkColor(handle, back_color);
+	TEXT_SetTextColor(handle, font_color);
+	TEXT_SetText(handle, pText);
+}
 void set_edit_num_value(EDIT_ELE_T* ele, uint32_t value)
 {
     WM_HMEM handle = ele->dis.edit.handle;
@@ -194,15 +220,18 @@ void set_edit_num_value(EDIT_ELE_T* ele, uint32_t value)
     
     mysprintf(buf, NULL, decs + lon * 10 + 1 * 100, value);
     EDIT_SetText(handle, (const void*)buf);
+    update_unit_dis(ele);
 }
 
 void default_check_value_validity(EDIT_ELE_T* ele, uint32_t *value)
 {
-    if(*value > ele->range.high)
+    uint32_t val = *value;
+    
+    if(val > ele->range.high)
     {
         *value = ele->range.high;
     }
-    else if(*value < ele->range.low)
+    else if(val < ele->range.low)
     {
         *value = ele->range.low;
     }
@@ -270,6 +299,13 @@ void upload_par_to_ram(EDIT_ELE_T* ele)
         {
 			value = DROPDOWN_GetSel(handle);
             DROPDOWN_GetUserData(handle, &value, size);
+            
+            /* 对数据进行检查 */
+            if(ele->range.check_value_validity != NULL)
+            {
+                ele->range.check_value_validity(ele, &value);
+            }
+            
             memcpy(data, (const void*)&value, size);
             break;
         }
@@ -772,14 +808,16 @@ void del_a_char_from_edit_str(uint8_t cur)
     uint8_t len;
     uint8_t buf[10];
     
+    if(cur == 0)
+    {
+        return;
+    }
+    
     str = g_cur_edit_ele->data.data;
     len = strlen((const char*)str);
-    strncpy((char*)buf, (const char*)str, sizeof((const char*)buf) - 1);
+    strncpy((char*)buf, (const char*)str, sizeof(buf) - 1);
     
-    if(cur > 0)
-    {
-        str[cur - 1] = 0;
-    }
+    str[cur - 1] = 0;
     
     if(len > cur)
     {
@@ -805,7 +843,7 @@ void add_a_char_into_edit_str(uint8_t ch, uint8_t cur, uint8_t max_len)
         return;
     }
     
-    strncpy((char*)buf, (const char*)str, sizeof((const char*)buf) - 1);
+    strncpy((char*)buf, (const char*)str, sizeof(buf) - 1);
     
     str[cur] = ch;
     str[cur + 1] = 0;
@@ -853,6 +891,14 @@ void init_menu_key_custom_inf(CUSTOM_MENU_KEY_INF *cus_inf,
                     break;
                 }
             }
+        }
+    }
+    
+    for(; i < size; i++)
+    {
+        if(inf[i].index == F_KEY_CUSTOM)
+        {
+            inf[i].name = "";
         }
     }
 }

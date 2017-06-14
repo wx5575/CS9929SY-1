@@ -1173,6 +1173,11 @@
               <FileType>1</FileType>
               <FilePath>..\source\App\CS99XX\cs99xx_usb_manager.c</FilePath>
             </File>
+            <File>
+              <FileName>key_server.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\App\CS99XX\key_server.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

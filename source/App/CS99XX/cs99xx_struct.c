@@ -43,16 +43,16 @@ static uint8_t  const  cs99xx_maptbl[256] = {
 GEAR_STR ac_gear[]=
 {
     {0},//0
-    {CUR_2uA_STR   , CUR_U_uA, 2000, 1, 2000, 0, 3},//2uA
-    {CUR_20uA_STR  , CUR_U_uA, 2000, 1, 2000, 0, 2},//20uA
-    {CUR_200uA_STR , CUR_U_uA, 2000, 1, 2000, 0, 1},//200uA
-    {CUR_2mA_STR   , CUR_U_mA, 2000, 1, 2000, 0, 3},
-    {CUR_10mA_STR  , CUR_U_mA, 1000, 1, 1000, 0, 2},
-    {CUR_20mA_STR  , CUR_U_mA, 2000, 1, 2000, 0, 2},
-    {CUR_50mA_STR  , CUR_U_mA, 5000, 1, 5000, 0, 2},
-    {CUR_100mA_STR , CUR_U_mA, 1000, 1, 1000, 0, 1},
-    {CUR_200mA_STR , CUR_U_mA, 2000, 1, 2000, 0, 1},
-    {CUR_2A_STR    , CUR_U_A , 1250, 1, 1250, 0, 3},//2A
+    {CUR_2uA_STR   , CUR_U_uA, 2000, 1, 2000, 0, 5, 3},//2uA
+    {CUR_20uA_STR  , CUR_U_uA, 2000, 1, 2000, 0, 5, 2},//20uA
+    {CUR_200uA_STR , CUR_U_uA, 2000, 1, 2000, 0, 5, 1},//200uA
+    {CUR_2mA_STR   , CUR_U_mA, 2000, 1, 2000, 0, 5, 3},
+    {CUR_10mA_STR  , CUR_U_mA, 1000, 1, 1000, 0, 5, 2},
+    {CUR_20mA_STR  , CUR_U_mA, 2000, 1, 2000, 0, 5, 2},
+    {CUR_50mA_STR  , CUR_U_mA, 5000, 1, 5000, 0, 5, 2},
+    {CUR_100mA_STR , CUR_U_mA, 1000, 1, 1000, 0, 5, 1},
+    {CUR_200mA_STR , CUR_U_mA, 2000, 1, 2000, 0, 5, 1},
+    {CUR_2A_STR    , CUR_U_A , 1250, 1, 1250, 0, 5, 3},//2A
 };
 /**
   * @brief  DC档位信息
@@ -60,26 +60,26 @@ GEAR_STR ac_gear[]=
 GEAR_STR dc_gear[]=
 {
     {0},//0
-    {CUR_2uA_STR   , CUR_U_uA, 2000, 1, 2000, 0, 3},//2uA
-    {CUR_20uA_STR  , CUR_U_uA, 2000, 1, 2000, 0, 2},//20uA
-    {CUR_200uA_STR , CUR_U_uA, 2000, 1, 2000, 0, 1},//200uA
-    {CUR_2mA_STR   , CUR_U_mA, 2000, 1, 2000, 0, 3},
-    {CUR_10mA_STR  , CUR_U_mA, 1000, 1, 1000, 0, 2},
-    {CUR_20mA_STR  , CUR_U_mA, 2000, 1, 2000, 0, 2},
-    {CUR_50mA_STR  , CUR_U_mA, 5000, 1, 5000, 0, 2},
-    {CUR_100mA_STR , CUR_U_mA, 1000, 1, 1000, 0, 1},
+    {CUR_2uA_STR   , CUR_U_uA, 2000, 1, 2000, 0, 5, 3},//2uA
+    {CUR_20uA_STR  , CUR_U_uA, 2000, 1, 2000, 0, 5, 2},//20uA
+    {CUR_200uA_STR , CUR_U_uA, 2000, 1, 2000, 0, 5, 1},//200uA
+    {CUR_2mA_STR   , CUR_U_mA, 2000, 1, 2000, 0, 5, 3},
+    {CUR_10mA_STR  , CUR_U_mA, 1000, 1, 1000, 0, 5, 2},
+    {CUR_20mA_STR  , CUR_U_mA, 2000, 1, 2000, 0, 5, 2},
+    {CUR_50mA_STR  , CUR_U_mA, 5000, 1, 5000, 0, 5, 2},
+    {CUR_100mA_STR , CUR_U_mA, 1000, 1, 1000, 0, 5, 1},
 };
-/**  CUR_2A_STR    
+/**
   * @brief  IR档位信息
   */
 GEAR_STR ir_gear[]=
 {
     {0},//0
-    {"" , RES_U_MOHM, 0, 0, 0, 0, 3},//IR_10MOHM
-    {"" , RES_U_MOHM, 0, 0, 0, 0, 2},//IR_100MOHM
-    {"" , RES_U_MOHM, 0, 0, 0, 0, 1},//IR_1GOHM
-    {"" , RES_U_GOHM, 0, 0, 0, 0, 3},//IR_10GOHM
-    {"" , RES_U_GOHM, 0, 0, 0, 0, 2},//IR_100GOHM
+    {"" , RES_U_MOHM, 0, 0, 0, 0, 5, 3},//IR_10MOHM
+    {"" , RES_U_MOHM, 0, 0, 0, 0, 5, 2},//IR_100MOHM
+    {"" , RES_U_MOHM, 0, 0, 0, 0, 5, 1},//IR_1GOHM
+    {"" , RES_U_GOHM, 0, 0, 0, 0, 5, 3},//IR_10GOHM
+    {"" , RES_U_GOHM, 0, 0, 0, 0, 5, 2},//IR_100GOHM
 };
 /**
   * @brief  默认文件定义

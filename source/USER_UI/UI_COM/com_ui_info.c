@@ -1,12 +1,13 @@
 /**
   ******************************************************************************
-  * @file    com_ui_info.c
+  * @file    com_ui_info.h
   * @author  王鑫
   * @version V1.0.0
   * @date    2017.4.18
-  * @brief   这个文件定义了文本控件操作的函数
+  * @brief   提供公共界面服务接口
   ******************************************************************************
   */
+  
 /* Private macro -------------------------------------------------------------*/
 #define COM_UI_GLOBALS
 
@@ -183,10 +184,15 @@ void init_window_edit_ele_dis_inf(MYUSER_WINDOW_T *win, EDIT_ELE_AUTO_LAYOUT_T* 
         
         ++row;
         
-        if(row > inf->rows)
+        if(row >= inf->rows)
         {
             row = 0;
             column++;
+            
+            if(column >= inf->columns)
+            {
+                return;
+            }
         }
     }
 }

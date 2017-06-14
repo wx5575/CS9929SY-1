@@ -4,7 +4,7 @@
   * @author  王鑫
   * @version V1.0.0
   * @date    2017.4.18
-  * @brief   测试界面文本控件对应文本数组中的索引枚举定义
+  * @brief   提供公共界面服务接口
   ******************************************************************************
   */
 #ifndef __COM_UI_INFO_H__
@@ -256,8 +256,8 @@ typedef struct{
     uint16_t height;///<控件的高度
     uint8_t rows;///<最大行数
     uint8_t columns;///<最大列数
-    uint8_t row_spacing;///<行距
-    uint8_t column_spacing;///<列距
+    uint16_t row_spacing;///<行距
+    uint16_t column_spacing;///<列距
     const GUI_FONT *font;///<字体
     GUI_COLOR font_color;///<字体颜色
     GUI_COLOR back_color;///<背景颜色

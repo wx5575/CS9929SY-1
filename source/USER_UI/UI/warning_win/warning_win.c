@@ -9,19 +9,13 @@
   */
 
 
-#include "warning_win.h"
 #include "stm32f4xx.h"
-#include "keyboard.h"
-#include "rtc_config.h"
 #include "GUI.H"
-#include "WM.h"
-#include "fonts.h"
-#include "app.h"
-#include "scan_keyboard.h"
-#include "IMAGE.H"
 #include "UI_COM/com_ui_info.h"
 #include "string.h"
+#include "keyboard.h"
 #include "7_warning_win.h"
+#include "warning_win.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/

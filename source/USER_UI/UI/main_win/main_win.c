@@ -7,28 +7,28 @@
   * @brief   文件保存界面
   ******************************************************************************
   */
-#include "main_win.h"
+/* Includes ------------------------------------------------------------------*/
+
 #include "stm32f4xx.h"
-#include "keyboard.h"
-#include "rtc_config.h"
 #include "GUI.H"
 #include "WM.h"
-#include "fonts.h"
-#include "app.h"
-#include "scan_keyboard.h"
 #include "IMAGE.H"
-#include "UI_COM/com_ui_info.h"
-#include "7_main_win.h"
-#include "key_menu_win/key_menu_win.h"
-#include "image/logo.h"
+#include "FILE_SYS.H"
 #include "image/user_image.h"
+#include "image/logo.h"
+#include "UI_COM/com_ui_info.h"
+#include "key_menu_win/key_menu_win.h"
 #include "sys_win/sys_manage_win.h"
 #include "file_win/file_win.h"
 #include "test_win/test_win.h"
-#include "FILE_SYS.H"
 #include "cs99xx_usb_manager.h"
 #include "step_par_win/step_win.h"
 #include "result_win/result_win.h"
+#include "key_server.h"
+#include "keyboard.h"
+#include "rtc_config.h"
+#include "7_main_win.h"
+#include "main_win.h"
 
 static	WM_HWIN progbar_handle;///<进度条
 static	WM_HWIN timer_handle;///<定时器句柄
@@ -378,12 +378,6 @@ static void main_win_cb(WM_MESSAGE * pMsg)
 		case WM_PAINT:
 			_PaintFrame();
             draw_main_win_status_bar();
-			
-            /* 唤醒按键扫描任务 */
-			{
-				OS_ERR	err;
-				OSTaskResume(&ScanKeyTaskTCB, &err);
-			}
 			break;
 		case WM_TIMER:
 		{

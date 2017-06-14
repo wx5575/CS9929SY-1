@@ -10,17 +10,11 @@
   
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx.h"
-#include "keyboard.h"
-#include "rtc_config.h"
+#include "string.h"
 #include "GUI.H"
-#include "WM.h"
-#include "fonts.h"
-#include "app.h"
-#include "scan_keyboard.h"
-#include "IMAGE.H"
+#include "keyboard.h"
 #include "UI_COM/com_ui_info.h"
 #include "test_win.h"
-#include "string.h"
 
 
 /* Private typedef -----------------------------------------------------------*/

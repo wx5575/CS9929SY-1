@@ -7,40 +7,25 @@
   * @brief   用户应用程序
   ******************************************************************************
   */
+/* Includes ------------------------------------------------------------------*/
+
 #define APP_GLOBALS
-#include "app.h"
-#include "sys.h"
-#include "board_support_package.h"
-#include "delay.h"
-#include "usart.h"
-#include "sram.h"
-#include "mem_alloc.h"
-#include "led.h"
-#include "timer.h"
-#include "GUI.h"
-#include "ff.h"
-#include "bsp.h"
-#include "includes.h"
-#include "WM.h"
-#include "Key_LED.h"
-#include "ff.h"
-#include "rtc_config.h"
-#include "keyboard.h"
 #include "os.h"
 #include "GUI.H"
-#include "EDIT.h"
-#include "scan_keyboard.h"
-#include "LCD_RA8875.H"
-#include "CODED_DISC/coded_disc.h"
-#include "ui_com/com_edit_api.h"
-#include "spi_flash.h"
-#include "cs99xx_mem_api.h"
-#include "CH376_USB_UI.H"
-#include "cs99xx_usb_manager.h"
 #include "WM.h"
 #include "DIALOG.h"
-//#include "password_win/password_win.h"
+#include "sys.h"
+#include "mem_alloc.h"
+#include "bsp.h"
+#include "board.h"
+#include "Key_LED.h"
+#include "CH376_USB_UI.H"
+#include "key_fun_manage.h"
+#include "cs99xx_mem_api.h"
+#include "cs99xx_usb_manager.h"
 #include "type/cs99xx_type.h"
+#include "key_server.h"
+#include "app.h"
 
 void AppTaskScanKey(void *p_arg);
 
@@ -299,34 +284,12 @@ void emwindemo_task(void *p_arg)
 	}
 }
 
-//TOUCH任务
-void touch_task(void *p_arg)
-{
-	OS_ERR err;
-	while(1)
-	{
-		GUI_TOUCH_Exec();
-		OSTimeDlyHMSM(0,0,0,5,OS_OPT_TIME_PERIODIC,&err);//延时5ms
-	}
-}
-
-//LED0任务
-void led0_task(void *p_arg)
-{
-	OS_ERR err;
-	while(1)
-	{
-		LED0 = !LED0;
-		OSTimeDlyHMSM(0,0,0,500,OS_OPT_TIME_PERIODIC,&err);//延时500ms
-	}
-}
 
 void AppTaskScanKey(void *p_arg)
 {
-	OS_ERR	err;
+	OS_ERR err;
     
-	OSTaskSuspend(&ScanKeyTaskTCB, &err);
-    
+    OSTimeDlyHMSM(0,0,1,0,OS_OPT_TIME_PERIODIC,&err);
     scan_key_task();
     while(1);
 }

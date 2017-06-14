@@ -51,6 +51,21 @@ typedef enum{
     STEP_EDIT_WIN_MODE,///<测试模式
     STEP_EDIT_WIN_VOL,///<输出电压
     STEP_EDIT_WIN_RANGE,///<电流档位
+    STEP_EDIT_WIN_UPPER,///<电流上限
+    STEP_EDIT_WIN_LOWER,///<电流下限
+    
+    STEP_EDIT_WIN_ARC,
+    STEP_EDIT_WIN_REAL_C,
+    STEP_EDIT_WIN_FREQ,
+    STEP_EDIT_WIN_RAISE_T,
+    STEP_EDIT_WIN_TEST_T,
+    STEP_EDIT_WIN_FALL_T,
+    STEP_EDIT_WIN_INTER_T,
+    STEP_EDIT_WIN_CONT,
+    STEP_EDIT_WIN_PASS,
+    STEP_EDIT_WIN_PORT,
+    
+    
     STEP_EDIT_UI_END,
 }STEP_EDIT_UI_INDEX;
 /* Private define ------------------------------------------------------------*/
@@ -78,6 +93,13 @@ static void edit_mode_f4_cb(KEY_MESSAGE *key_msg);
 static void edit_mode_f5_cb(KEY_MESSAGE *key_msg);
 static void edit_mode_f6_cb(KEY_MESSAGE *key_msg);
 
+static void edit_range_f1_cb(KEY_MESSAGE *key_msg);
+static void edit_range_f2_cb(KEY_MESSAGE *key_msg);
+static void edit_range_f3_cb(KEY_MESSAGE *key_msg);
+static void edit_range_f4_cb(KEY_MESSAGE *key_msg);
+static void edit_range_f5_cb(KEY_MESSAGE *key_msg);
+static void edit_range_f6_cb(KEY_MESSAGE *key_msg);
+
 static void edit_step_num_direct_key_up_cb(KEY_MESSAGE *key_msg);
 static void edit_step_num_direct_key_down_cb(KEY_MESSAGE *key_msg);
 static void edit_step_num_direct_key_enter_cb(KEY_MESSAGE *key_msg);
@@ -96,6 +118,9 @@ static void edit_mode_menu_key_init(WM_HMEM hWin);
 static void edit_mode_win_sys_key_init(WM_HMEM hWin);
 static void set_step_par_window_ele_data(UN_STRUCT *step);
 static void update_and_init_mode(void);
+static void edit_range_menu_key_init(WM_HMEM hWin);
+
+static void check_range_value_validity(EDIT_ELE_T* ele, uint32_t *value);
 /* Private variables ---------------------------------------------------------*/
 /**
   * @brief  为设置而定义的中间的步骤变量
@@ -121,6 +146,19 @@ static CS_INDEX step_par_index[]=
     STEP_EDIT_WIN_MODE,
     STEP_EDIT_WIN_VOL,
     STEP_EDIT_WIN_RANGE,
+    STEP_EDIT_WIN_UPPER,///<电流上限
+    STEP_EDIT_WIN_LOWER,///<电流下限
+    
+    STEP_EDIT_WIN_ARC,
+    STEP_EDIT_WIN_REAL_C,
+    STEP_EDIT_WIN_FREQ,
+    STEP_EDIT_WIN_RAISE_T,
+    STEP_EDIT_WIN_TEST_T,
+    STEP_EDIT_WIN_FALL_T,
+    STEP_EDIT_WIN_INTER_T,
+    STEP_EDIT_WIN_CONT,
+    STEP_EDIT_WIN_PASS,
+    STEP_EDIT_WIN_PORT,
 };
 /**
   * @brief  编辑步骤编号时使用的菜单键初始化信息数组
@@ -145,6 +183,18 @@ static MENU_KEY_INFO_T 	edit_mode_menu_key_init_info[] =
     {"", F_KEY_CUSTOM   , KEY_F4 & _KEY_UP, edit_mode_f4_cb },//f4
     {"", F_KEY_CUSTOM   , KEY_F5 & _KEY_UP, edit_mode_f5_cb },//f5
     {"", F_KEY_BACK		, KEY_F6 & _KEY_UP, edit_mode_f6_cb },//f6
+};
+/**
+  * @brief  编辑测试模式时使用的菜单键初始化信息数组
+  */
+static MENU_KEY_INFO_T 	edit_range_menu_key_init_info[] =
+{
+    {"", F_KEY_CUSTOM   , KEY_F1 & _KEY_UP, edit_range_f1_cb },//f1
+    {"", F_KEY_CUSTOM   , KEY_F2 & _KEY_UP, edit_range_f2_cb },//f2
+    {"", F_KEY_CUSTOM   , KEY_F3 & _KEY_UP, edit_range_f3_cb },//f3
+    {"", F_KEY_CUSTOM   , KEY_F4 & _KEY_UP, edit_range_f4_cb },//f4
+    {"", F_KEY_CUSTOM   , KEY_F5 & _KEY_UP, edit_range_f5_cb },//f5
+    {"", F_KEY_BACK		, KEY_F6 & _KEY_UP, edit_range_f6_cb },//f6
 };
 /**
   * @brief  步骤编辑窗口系统功能键初始化信息数组
@@ -237,12 +287,12 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {"输出电压:","Voltage:"}, /* 名称 */
         STEP_EDIT_WIN_VOL,/* 通过枚举索引 */
         {0},/* 默认值 */
-        {NULL, 1/*数据字节数*/},/* 数据指针 */
+        {NULL, 2/*数据字节数*/},/* 数据指针 */
         {NULL, 0,NULL, 0},/* 资源表 */
         {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
         {3/*decs*/,5/*lon*/,VOL_U_kV/*unit*/,},/*format*/
         {5000/*heigh*/,50/*low*/,{"",""}/*notice*/},/*range*/
-        {step_edit_win_sys_key_init, edit_mode_menu_key_init, keyboard_fun_num,},/*key_inf*/
+        {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
     },
     {
         {"电流档位:","Cur.Range:"}, /* 名称 */
@@ -252,20 +302,141 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {NULL, 0,NULL, 0},/* 资源表 */
         {ELE_DROPDOWN, E_INT_T},/*类型*/
         {0/*decs*/,20/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
-        {MODE_END/*heigh*/,ACW/*low*/,{"",""}/*notice*/},/*range*/
-        {step_edit_win_sys_key_init, edit_mode_menu_key_init, keyboard_fun_num,},/*key_inf*/
+        {MODE_END/*heigh*/,ACW/*low*/,{"",""}/*notice*/,check_range_value_validity},/*range*/
+        {step_edit_win_sys_key_init, edit_range_menu_key_init, keyboard_fun_num,},/*key_inf*/
     },
-//    {
-//        {"测试模式:","TestMode:"}, /* 名称 */
-//        STEP_EDIT_WIN_MODE,/* 通过枚举索引 */
-//        {0},/* 默认值 */
-//        {NULL, 1/*数据字节数*/},/* 数据指针 */
-//        {language_pool, ARRAY_SIZE(language_pool)},/* 资源表 */
-//        {ELE_DROPDOWN, E_INT_T},/*类型*/
-//        {0/*decs*/,20/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
-//        {0/*heigh*/,0/*low*/,{"Language","Language"}/*notice*/},/*range*/
-//        {env_langulag_sys_key,env_langulag_menu_key,keyboard_fun_num,},/*key_inf*/
-//    },
+    {
+        {"电流上限:","Up Limt:"}, /* 名称 */
+        STEP_EDIT_WIN_UPPER,/* 通过枚举索引 */
+        {0},/* 默认值 */
+        {NULL, 2/*数据字节数*/},/* 数据指针 */
+        {NULL, 0,NULL, 0},/* 资源表 */
+        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {3/*decs*/,5/*lon*/,CUR_U_mA/*unit*/,},/*format*/
+        {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
+        {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
+    },
+    {
+        {"电流下限:","LowLimt:"}, /* 名称 */
+        STEP_EDIT_WIN_LOWER,/* 通过枚举索引 */
+        {0},/* 默认值 */
+        {NULL, 2/*数据字节数*/},/* 数据指针 */
+        {NULL, 0,NULL, 0},/* 资源表 */
+        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {3/*decs*/,5/*lon*/,CUR_U_mA/*unit*/,},/*format*/
+        {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
+        {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
+    },
+    {
+        {"电弧侦测:","ARC:"}, /* 名称 */
+        STEP_EDIT_WIN_ARC,/* 通过枚举索引 */
+        {0},/* 默认值 */
+        {NULL, 2/*数据字节数*/},/* 数据指针 */
+        {NULL, 0,NULL, 0},/* 资源表 */
+        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {3/*decs*/,5/*lon*/,CUR_U_mA/*unit*/,},/*format*/
+        {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
+        {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
+    },
+    {
+        {"真实电流:","Real Cur.:"}, /* 名称 */
+        STEP_EDIT_WIN_REAL_C,/* 通过枚举索引 */
+        {0},/* 默认值 */
+        {NULL, 2/*数据字节数*/},/* 数据指针 */
+        {NULL, 0,NULL, 0},/* 资源表 */
+        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {3/*decs*/,5/*lon*/,CUR_U_mA/*unit*/,},/*format*/
+        {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
+        {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
+    },
+    {
+        {"输出频率:","Frequence:"}, /* 名称 */
+        STEP_EDIT_WIN_FREQ,/* 通过枚举索引 */
+        {0},/* 默认值 */
+        {NULL, 2/*数据字节数*/},/* 数据指针 */
+        {NULL, 0,NULL, 0},/* 资源表 */
+        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {3/*decs*/,5/*lon*/,CUR_U_mA/*unit*/,},/*format*/
+        {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
+        {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
+    },
+    {
+        {"上升时间:","Raise:"}, /* 名称 */
+        STEP_EDIT_WIN_RAISE_T,/* 通过枚举索引 */
+        {0},/* 默认值 */
+        {NULL, 2/*数据字节数*/},/* 数据指针 */
+        {NULL, 0,NULL, 0},/* 资源表 */
+        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {3/*decs*/,5/*lon*/,CUR_U_mA/*unit*/,},/*format*/
+        {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
+        {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
+    },
+    {
+        {"测试时间:","TestTime:"}, /* 名称 */
+        STEP_EDIT_WIN_TEST_T,/* 通过枚举索引 */
+        {0},/* 默认值 */
+        {NULL, 2/*数据字节数*/},/* 数据指针 */
+        {NULL, 0,NULL, 0},/* 资源表 */
+        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {3/*decs*/,5/*lon*/,CUR_U_mA/*unit*/,},/*format*/
+        {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
+        {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
+    },
+    {
+        {"下降时间:","FallTime:"}, /* 名称 */
+        STEP_EDIT_WIN_FALL_T,/* 通过枚举索引 */
+        {0},/* 默认值 */
+        {NULL, 2/*数据字节数*/},/* 数据指针 */
+        {NULL, 0,NULL, 0},/* 资源表 */
+        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {3/*decs*/,5/*lon*/,CUR_U_mA/*unit*/,},/*format*/
+        {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
+        {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
+    },
+    {
+        {"间隔时间:","Inter.Time:"}, /* 名称 */
+        STEP_EDIT_WIN_INTER_T,/* 通过枚举索引 */
+        {0},/* 默认值 */
+        {NULL, 2/*数据字节数*/},/* 数据指针 */
+        {NULL, 0,NULL, 0},/* 资源表 */
+        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {3/*decs*/,5/*lon*/,CUR_U_mA/*unit*/,},/*format*/
+        {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
+        {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
+    },
+    {
+        {"步间连续:","Step Con.:"}, /* 名称 */
+        STEP_EDIT_WIN_INTER_T,/* 通过枚举索引 */
+        {0},/* 默认值 */
+        {NULL, 2/*数据字节数*/},/* 数据指针 */
+        {NULL, 0,NULL, 0},/* 资源表 */
+        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {3/*decs*/,5/*lon*/,CUR_U_mA/*unit*/,},/*format*/
+        {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
+        {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
+    },
+    {
+        {"步间PASS:","Step Pass:"}, /* 名称 */
+        STEP_EDIT_WIN_PASS,/* 通过枚举索引 */
+        {0},/* 默认值 */
+        {NULL, 2/*数据字节数*/},/* 数据指针 */
+        {NULL, 0,NULL, 0},/* 资源表 */
+        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {3/*decs*/,5/*lon*/,CUR_U_mA/*unit*/,},/*format*/
+        {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
+        {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
+    },
+    {
+        {"输出端口:","Port:"}, /* 名称 */
+        STEP_EDIT_WIN_PORT,/* 通过枚举索引 */
+        {0},/* 默认值 */
+        {NULL, 2/*数据字节数*/},/* 数据指针 */
+        {NULL, 0,NULL, 0},/* 资源表 */
+        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {3/*decs*/,5/*lon*/,CUR_U_mA/*unit*/,},/*format*/
+        {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
+        {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
+    },
 };
 
 /**
@@ -386,6 +557,56 @@ static void edit_mode_f5_cb(KEY_MESSAGE *key_msg)
   * @retval 无
   */
 static void edit_mode_f6_cb(KEY_MESSAGE *key_msg)
+{
+    back_win(key_msg->user_data);
+}
+
+/**
+  * @brief  编辑电流档位使用的功能键F1回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void edit_range_f1_cb(KEY_MESSAGE *key_msg)
+{
+}
+/**
+  * @brief  编辑电流档位使用的功能键F2回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void edit_range_f2_cb(KEY_MESSAGE *key_msg)
+{
+}
+/**
+  * @brief  编辑电流档位使用的功能键F3回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void edit_range_f3_cb(KEY_MESSAGE *key_msg)
+{
+}
+/**
+  * @brief  编辑电流档位使用的功能键F4回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void edit_range_f4_cb(KEY_MESSAGE *key_msg)
+{
+}
+/**
+  * @brief  编辑电流档位使用的功能键F5回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void edit_range_f5_cb(KEY_MESSAGE *key_msg)
+{
+}
+/**
+  * @brief  编辑电流档位使用的功能键F6回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void edit_range_f6_cb(KEY_MESSAGE *key_msg)
 {
     back_win(key_msg->user_data);
 }
@@ -585,14 +806,14 @@ static void edit_mode_menu_key_init(WM_HMEM hWin)
 	init_menu_key_info(info, size, data);
 }
 /**
-  * @brief  编辑测试模式时使用的菜单键初始化
+  * @brief  编辑电流档位时使用的菜单键初始化
   * @param  [in] hWin 窗口句柄
   * @retval 无
   */
 static void edit_range_menu_key_init(WM_HMEM hWin)
 {
-    MENU_KEY_INFO_T * info = edit_mode_menu_key_init_info;
-    uint32_t size = ARRAY_SIZE(edit_mode_menu_key_init_info);
+    MENU_KEY_INFO_T * info = edit_range_menu_key_init_info;
+    uint32_t size = ARRAY_SIZE(edit_range_menu_key_init_info);
     int32_t data = g_cur_edit_ele->dis.edit.handle;
     CUSTOM_MENU_KEY_INF *cus_inf = acw_range_inf_pool;
     uint16_t cus_size = sizeof(acw_range_inf_pool);
@@ -601,6 +822,62 @@ static void edit_range_menu_key_init(WM_HMEM hWin)
 	init_menu_key_info(info, size, data);
 }
 
+static uint8_t get_cur_step_mode(void)
+{
+    return g_cur_step->one_step.com.mode;
+}
+
+static void check_acw_range_value(EDIT_ELE_T* ele, uint32_t *range)
+{
+    uint8_t tmp = *range;
+    ACW_STRUCT *acw = &g_cur_step->one_step.acw;
+    uint32_t new_range = get_edit_ele_value(g_cur_edit_ele, NULL);
+    uint32_t old_range = acw->range;
+    EDIT_ELE_T* tmp_ele;
+    
+    if(new_range == old_range)
+    {
+        return;
+    }
+    
+    if(tmp >= AC_GEAR_END)
+    {
+        *range = get_acw_max_gear();
+        tmp = *range;
+    }
+    
+    tmp_ele = &step_par_ele_pool[STEP_EDIT_WIN_UPPER];
+    tmp_ele->format.unit = ac_gear[tmp].unit;
+    tmp_ele->format.lon = ac_gear[tmp].lon;
+    tmp_ele->format.decs = ac_gear[tmp].decs;
+    tmp_ele->range.high = ac_gear[tmp].high_max;
+    acw->upper_limit = ACW_UPPER_DEFAULT_VAL;
+    set_edit_num_value(tmp_ele, acw->upper_limit);
+    
+    tmp_ele = &step_par_ele_pool[STEP_EDIT_WIN_LOWER];
+    tmp_ele->format.unit = ac_gear[tmp].unit;
+    tmp_ele->format.lon = ac_gear[tmp].lon;
+    tmp_ele->format.decs = ac_gear[tmp].decs;
+    tmp_ele->range.high = acw->upper_limit;
+    acw->lower_limit = ACW_LOWER_DEFAULT_VAL;
+    set_edit_num_value(tmp_ele, acw->lower_limit);
+    
+}
+static void check_range_value_validity(EDIT_ELE_T* ele, uint32_t *value)
+{
+    uint8_t mode;
+    
+    mode = get_cur_step_mode();
+    
+    switch(mode)
+    {
+        case ACW:
+            check_acw_range_value(ele, value);
+            break;
+        case DCW:
+            break;
+    }
+}
 /**
   * @brief  设置ACW参数对应编辑控件的数据指针
   * @param  [in] step 步骤参数结构
@@ -617,6 +894,8 @@ static void set_acw_par_win_ele_data(UN_STRUCT *step)
     step_par_ele_pool[STEP_EDIT_WIN_RANGE].resource.user_data = get_defined_range_flag(mode);
     step_par_ele_pool[STEP_EDIT_WIN_RANGE].resource.user_data_size = get_defined_range_num(mode);
     
+    step_par_ele_pool[STEP_EDIT_WIN_UPPER].data.data = &step->acw.upper_limit;
+    step_par_ele_pool[STEP_EDIT_WIN_LOWER].data.data = &step->acw.lower_limit;
     
 }
 /**

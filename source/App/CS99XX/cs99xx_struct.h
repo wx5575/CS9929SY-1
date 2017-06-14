@@ -501,11 +501,12 @@ typedef struct{
   */
 typedef struct {
     uint8_t* name;///<档位名称
-    uint8_t unit;///<单位
+    UNIT_T unit;///<单位
     uint32_t high_max;///<档位的上限最大值
     uint32_t high_min;///<档位的上限最小值
     uint32_t low_max;///<档位的下限最大值
     uint32_t low_min;///<档位的下限最小值
+    uint8_t lon;///<最大长度，包括小数点
     uint8_t decs;///<档位的小数点位数
 }GEAR_STR;
 

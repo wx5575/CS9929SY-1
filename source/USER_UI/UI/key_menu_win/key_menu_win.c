@@ -4,23 +4,15 @@
   * @author  王鑫
   * @version V0.0.1
   * @date    2017.4.18
-  * @brief   文件保存界面
+  * @brief   按键菜单窗口
   ******************************************************************************
   */
 #include "stm32f4xx.h"
+#include "string.h"
 #include "keyboard.h"
-#include "rtc_config.h"
-#include "GUI.H"
-#include "WM.h"
-#include "DIALOG.h"
-#include "fonts.h"
-#include "ff.h"
-#include "OS.H"
 #include "UI_COM/com_ui_info.h"
 #include "7_key_menu_win.h"
-#include "string.h"
 #include "key_menu_win.h"
-#include "scan_keyboard.h"
 
 
 /* Private typedef -----------------------------------------------------------*/
@@ -334,12 +326,6 @@ static void key_menu_win_cb(WM_MESSAGE* pMsg)
 			win = get_user_window_info(hWin);
 			
             init_create_win_all_ele(win);
-//			if(win != NULL)
-//			{
-//                init_key_menu_ui_text_ele_pos_inf();//初始化文本对象的位置信息
-//                init_window_text_ele_list(win);//初始化窗口文本对象链表
-//				init_window_text_ele(win);
-//			}
             
             set_global_fun_key_dispose(scan_menu_key_dispose);
 			break;

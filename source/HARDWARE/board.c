@@ -7,13 +7,16 @@
   * @brief   °å¼¶Ö§³Ö
   ******************************************************************************
   */
-#include "board_support_package.h"
+  
+/* Includes ------------------------------------------------------------------*/
+
+#include "board.h"
 #include "rtc_config.h"
 #include "keyboard.h"
 #include "os.h"
 #include "GUI.H"
 #include "EDIT.h"
-#include "scan_keyboard.h"
+#include "key_fun_manage.h"
 #include "LCD_RA8875.H"
 #include "CODED_DISC/coded_disc.h"
 #include "ui_com/com_edit_api.h"
