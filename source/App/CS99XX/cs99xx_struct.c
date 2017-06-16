@@ -614,7 +614,7 @@ void init_gr_step(NODE_STEP * p)
 	l_gr.step = p->one_step.com.step;
 	l_gr.mode = GR;
 	l_gr.voltage_gear = l_flag[0];
-	l_gr.testing_cur = GR_CUR_L;
+	l_gr.output_cur = GR_CUR_L;
 	l_gr.upper_limit = 1000;
 	l_gr.lower_limit = 0;
 	l_gr.test_time = 30;
@@ -1005,6 +1005,61 @@ void load_steps_to_list(const int16_t step, uint8_t step_num)
             /* 计算出读出的步是第几步 并对错误进行修正 */
             test_step_buf.test_steps[i].one_step.com.step = step + i;
         }
+    }
+}
+
+/**
+  * @brief  将test_port结构数据转换为字符串
+  * @param  [in] port 测试端口结构数据
+  * @param  [out] buf 字符串缓冲区
+  * @retval 无
+  */
+void transform_test_port_to_str(TEST_PORT *port, uint8_t *buf)
+{
+    int32_t i = 0;
+    uint16_t *p = NULL;
+    uint8_t temp = 0;
+    uint8_t *str[3] = {"X","L","H"};
+    
+    p = (void*)port->ports;
+    
+    for(i = 0; i < port->num; i++)
+    {
+        temp = (p[i / 8] >> (2 * (i % 8))) & 3;
+        
+        strcat((char*)buf, (const char*)str[temp]);
+    }
+}
+/**
+  * @brief  将字符串转换为test_port结构数据
+  * @param  [out] port 测试端口结构数据
+  * @param  [in] buf 字符串缓冲区
+  * @retval 无
+  */
+void transform_str_to_test_port(TEST_PORT *port, uint8_t *buf)
+{
+    int32_t i = 0;
+    uint16_t *p = NULL;
+    uint8_t temp = 0;
+    
+    p = (void*)port->ports;
+    
+    for(i = 0; i < port->num; i++)
+    {
+        switch(buf[i])
+        {
+            case 'X':
+                temp = 0;
+                break;
+            case 'L':
+                temp = 1;
+                break;
+            case 'H':
+                temp = 2;
+                break;
+        }
+        
+        p[i / 8] |= (temp << (2 * (i % 8)));
     }
 }
 

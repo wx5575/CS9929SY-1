@@ -476,9 +476,9 @@
               <FilePath>..\source\HARDWARE\SPI_FLASH\spi_flash.c</FilePath>
             </File>
             <File>
-              <FileName>board_support_package.c</FileName>
+              <FileName>board.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\source\HARDWARE\board_support_package.c</FilePath>
+              <FilePath>..\source\HARDWARE\board.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1154,11 +1154,6 @@
               <FilePath>..\source\App\CS99XX\cs99xx_struct.c</FilePath>
             </File>
             <File>
-              <FileName>scan_keyboard.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\App\CS99XX\scan_keyboard.c</FilePath>
-            </File>
-            <File>
               <FileName>cs99xx_flash_manage.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\App\CS99XX\cs99xx_flash_manage.c</FilePath>
@@ -1177,6 +1172,11 @@
               <FileName>key_server.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\App\CS99XX\key_server.c</FilePath>
+            </File>
+            <File>
+              <FileName>key_fun_manage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\App\CS99XX\key_fun_manage.c</FilePath>
             </File>
           </Files>
         </Group>

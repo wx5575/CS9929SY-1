@@ -50,6 +50,7 @@ typedef enum{
     STEP_EDIT_WIN_STEP,///<测试步骤
     STEP_EDIT_WIN_MODE,///<测试模式
     STEP_EDIT_WIN_VOL,///<输出电压
+    STEP_EDIT_WIN_CUR,///<输出电流
     STEP_EDIT_WIN_RANGE,///<电流档位
     STEP_EDIT_WIN_UPPER,///<电流上限
     STEP_EDIT_WIN_LOWER,///<电流下限
@@ -147,10 +148,19 @@ static void edit_arc_menu_key_init(WM_HMEM hWin);
 static void provided_dis_test_time_range_fun(EDIT_ELE_T* ele);
 static void check_test_time_value_validity(EDIT_ELE_T* ele, uint32_t *value);
 
+static void check_acw_upper_value_validity(EDIT_ELE_T* ele, uint32_t *value);
+static void check_acw_lower_value_validity(EDIT_ELE_T* ele, uint32_t *value);
+static void check_dcw_upper_value_validity(EDIT_ELE_T* ele, uint32_t *value);
+static void check_dcw_lower_value_validity(EDIT_ELE_T* ele, uint32_t *value);
 static void check_ir_upper_value_validity(EDIT_ELE_T* ele, uint32_t *value);
 static void check_ir_lower_value_validity(EDIT_ELE_T* ele, uint32_t *value);
+static void check_acw_dcw_upper_value_validity(EDIT_ELE_T* ele, uint32_t *value);
+static void check_acw_dcw_lower_value_validity(EDIT_ELE_T* ele, uint32_t *value);
+static void check_gr_upper_value_validity(EDIT_ELE_T* ele, uint32_t *value);
+static void check_gr_lower_value_validity(EDIT_ELE_T* ele, uint32_t *value);
 
 static void check_range_value_validity(EDIT_ELE_T* ele, uint32_t *value);
+static void check_test_port_value_validity(EDIT_ELE_T* ele, uint32_t *value);
 /* Private variables ---------------------------------------------------------*/
 /**
   * @brief  为设置而定义的中间的步骤变量
@@ -268,6 +278,22 @@ static CS_INDEX ir_par_index[]=
     STEP_EDIT_WIN_CONT,///<步间连续
     STEP_EDIT_WIN_PASS,///<步间PASS
     STEP_EDIT_WIN_PORT,///<输出端口
+};
+/**
+  * @brief  GR 步骤编辑窗口中要显示的编辑控件的索引表
+  */
+static CS_INDEX gr_par_index[]=
+{
+    STEP_EDIT_WIN_STEP,
+    STEP_EDIT_WIN_MODE,
+    STEP_EDIT_WIN_CUR,
+    STEP_EDIT_WIN_UPPER_GR,///<电流上限
+    STEP_EDIT_WIN_LOWER_GR,///<电流下限
+    
+    STEP_EDIT_WIN_TEST_T,///<测试时间
+    STEP_EDIT_WIN_INTER_T,///<间隔时间
+    STEP_EDIT_WIN_CONT,///<步间连续
+    STEP_EDIT_WIN_PASS,///<步间PASS
 };
 /**
   * @brief  编辑步骤编号时使用的菜单键初始化信息数组
@@ -442,7 +468,10 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {NULL, 0,NULL, 0},/* 资源表 */
         {ELE_DROPDOWN, E_INT_T},/*类型*/
         {0/*decs*/,20/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
-        {MODE_END/*heigh*/,ACW/*low*/,{"",""}/*notice*/,check_range_value_validity},/*range*/
+        {
+            MODE_END/*heigh*/,ACW/*low*/,{"",""}/*notice*/,
+            check_range_value_validity
+        },/*range*/
         {step_edit_win_sys_key_init, edit_range_menu_key_init, keyboard_fun_num,},/*key_inf*/
     },
     /* ACW DCW 上限 */
@@ -454,7 +483,10 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {NULL, 0,NULL, 0},/* 资源表 */
         {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
         {3/*decs*/,5/*lon*/,CUR_U_mA/*unit*/,},/*format*/
-        {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
+        {
+            2000/*heigh*/,0/*low*/,{"",""}/*notice*/,
+            check_acw_dcw_upper_value_validity,
+        },/*range*/
         {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
     },
     /* ACW DCW 下限 */
@@ -466,7 +498,10 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {NULL, 0,NULL, 0},/* 资源表 */
         {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
         {3/*decs*/,5/*lon*/,CUR_U_mA/*unit*/,},/*format*/
-        {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
+        {
+            2000/*heigh*/,0/*low*/,{"",""}/*notice*/,
+            check_acw_dcw_lower_value_validity,
+        },/*range*/
         {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
     },
     /* IR 自动换档 */
@@ -520,7 +555,11 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {NULL, 0,NULL, 0},/* 资源表 */
         {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
         {1/*decs*/,5/*lon*/,RES_U_mOHM/*unit*/,},/*format*/
-        {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
+        {
+            2000/*heigh*/,0/*low*/,{"",""}/*notice*/,
+            check_gr_upper_value_validity
+            
+        },/*range*/
         {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
     },
     /* GR下限 */
@@ -532,7 +571,10 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {NULL, 0,NULL, 0},/* 资源表 */
         {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
         {1/*decs*/,5/*lon*/,RES_U_mOHM/*unit*/,},/*format*/
-        {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
+        {
+            2000/*heigh*/,0/*low*/,{"",""}/*notice*/,
+            check_gr_lower_value_validity
+        },/*range*/
         {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
     },
     {
@@ -662,8 +704,22 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {NULL, 0,NULL, 0},/* 资源表 */
         {ELE_EDIT_STR, E_STRING_T},/*类型*/
         {3/*decs*/,20/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
-        {2000/*heigh*/,0/*low*/,{"0-X 1-L 2-H","0-X 1-L 2-H"}/*notice*/},/*range*/
-        {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_str,},/*key_inf*/
+        {
+            2000/*heigh*/,0/*low*/,{"0-X 1-L 2-H","0-X 1-L 2-H"}/*notice*/,
+            check_test_port_value_validity
+        },/*range*/
+        {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_test_port},/*key_inf*/
+    },
+    {
+        {"输出电流:","Current:"}, /* 名称 */
+        STEP_EDIT_WIN_CUR,/* 通过枚举索引 */
+        {0},/* 默认值 */
+        {NULL, 2/*数据字节数*/},/* 数据指针 */
+        {NULL, 0,NULL, 0},/* 资源表 */
+        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {2/*decs*/,5/*lon*/,CUR_U_A/*unit*/,},/*format*/
+        {4000/*heigh*/,300/*low*/,{"",""}/*notice*/,},/*range*/
+        {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num},/*key_inf*/
     },
 };
 
@@ -996,6 +1052,51 @@ static void check_test_time_value_validity(EDIT_ELE_T* ele, uint32_t *value)
         *value = ele->range.high;
     }
 }
+
+TEST_PORT *get_cur_step_test_port(uint8_t mode)
+{
+    void *p = NULL;
+    
+    switch(mode)
+    {
+        case ACW:
+            p = &g_cur_step->one_step.acw.port;
+            break;
+        case DCW:
+            p = &g_cur_step->one_step.dcw.port;
+            break;
+        case IR:
+            p = &g_cur_step->one_step.ir.port;
+            break;
+        default:
+            break;
+    }
+    
+    return p;
+}
+static uint8_t get_g_cur_mode(void)
+{
+    return g_cur_step->one_step.com.mode;
+}
+/**
+  * @brief  用于检查测试端口设置值是否合法
+  * @param  [in] ele 当前编辑对象
+  * @param  [in/out] value 要检查的数值
+  * @retval 无
+  */
+static void check_test_port_value_validity(EDIT_ELE_T* ele, uint32_t *value)
+{
+    uint8_t* str = (void*)value;
+    uint8_t mode = get_g_cur_mode();
+    TEST_PORT * port;
+    
+    port = get_cur_step_test_port(mode);
+    
+    if(port !=  NULL)
+    {
+        transform_str_to_test_port(port, str);
+    }
+}
 /**
   * @brief  用于显示测试时间范围信息的专用函数
   * @param  [in] ele 当前编辑对象
@@ -1251,17 +1352,36 @@ static void edit_range_menu_key_init(WM_HMEM hWin)
 	init_menu_key_info(info, size, data);
 }
 
-
+/**
+  * @brief  获取当前编辑步骤的测试模式
+  * @param  [in] ele 编辑对象
+  * @param  [in] range 档位数据的地址
+  * @retval 无
+  */
 static uint8_t get_cur_step_mode(void)
 {
     return g_cur_step->one_step.com.mode;
 }
 
+/**
+  * @brief  检查ACW档位值的合法性
+  * @param  [in] ele 编辑对象
+  * @param  [in] range 档位数据的地址
+  * @retval 无
+  */
 static void check_acw_range_value(EDIT_ELE_T* ele, uint32_t *range)
 {
     uint8_t tmp = *range;
     ACW_STRUCT *acw = &g_cur_step->one_step.acw;
     EDIT_ELE_T* tmp_ele;
+    CS_ERR err;
+    EDIT_ELE_T *pool;
+    uint32_t size;
+    
+    pool = step_par_ele_pool;
+    size = ARRAY_SIZE(step_par_ele_pool);
+    
+    
     
     if(tmp >= AC_GEAR_END)
     {
@@ -1269,51 +1389,77 @@ static void check_acw_range_value(EDIT_ELE_T* ele, uint32_t *range)
         tmp = *range;
     }
     
-    tmp_ele = &step_par_ele_pool[STEP_EDIT_WIN_UPPER];
-    tmp_ele->format.unit = ac_gear[tmp].unit;
-    tmp_ele->format.lon = ac_gear[tmp].lon;
-    tmp_ele->format.decs = ac_gear[tmp].decs;
-    tmp_ele->range.high = ac_gear[tmp].high_max;
+    tmp_ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_UPPER, &err);
     
-    if(acw->upper_limit > tmp_ele->range.high)
+    if(err == CS_ERR_NONE)
     {
-        acw->upper_limit = tmp_ele->range.high;
+        tmp_ele->format.unit = ac_gear[tmp].unit;
+        tmp_ele->format.lon = ac_gear[tmp].lon;
+        tmp_ele->format.decs = ac_gear[tmp].decs;
+        tmp_ele->range.high = ac_gear[tmp].high_max;
+        
+        if(acw->upper_limit > tmp_ele->range.high)
+        {
+            acw->upper_limit = tmp_ele->range.high;
+        }
+        
+        set_edit_num_value(tmp_ele, acw->upper_limit);
     }
     
-    set_edit_num_value(tmp_ele, acw->upper_limit);
     
-    tmp_ele = &step_par_ele_pool[STEP_EDIT_WIN_LOWER];
-    tmp_ele->format.unit = ac_gear[tmp].unit;
-    tmp_ele->format.lon = ac_gear[tmp].lon;
-    tmp_ele->format.decs = ac_gear[tmp].decs;
-    tmp_ele->range.high = acw->upper_limit;
+    tmp_ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_LOWER, &err);
     
-    if(acw->lower_limit > acw->upper_limit)
+    if(err == CS_ERR_NONE)
     {
-        acw->lower_limit = acw->upper_limit;
+        tmp_ele->format.unit = ac_gear[tmp].unit;
+        tmp_ele->format.lon = ac_gear[tmp].lon;
+        tmp_ele->format.decs = ac_gear[tmp].decs;
+        tmp_ele->range.high = acw->upper_limit;
+        
+        if(acw->lower_limit > acw->upper_limit)
+        {
+            acw->lower_limit = acw->upper_limit;
+        }
+        
+        set_edit_num_value(tmp_ele, acw->lower_limit);
     }
     
-    set_edit_num_value(tmp_ele, acw->lower_limit);
     
-    tmp_ele = &step_par_ele_pool[STEP_EDIT_WIN_REAL_C];
-    tmp_ele->format.unit = ac_gear[tmp].unit;
-    tmp_ele->format.lon = ac_gear[tmp].lon;
-    tmp_ele->format.decs = ac_gear[tmp].decs;
-    tmp_ele->range.high = acw->upper_limit;
+    tmp_ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_REAL_C, &err);
     
-    if(acw->real_cur > acw->upper_limit)
+    if(err == CS_ERR_NONE)
     {
-        acw->real_cur = acw->upper_limit;
+        tmp_ele->format.unit = ac_gear[tmp].unit;
+        tmp_ele->format.lon = ac_gear[tmp].lon;
+        tmp_ele->format.decs = ac_gear[tmp].decs;
+        tmp_ele->range.high = acw->upper_limit;
+        
+        if(acw->real_cur > acw->upper_limit)
+        {
+            acw->real_cur = acw->upper_limit;
+        }
+        
+        set_edit_num_value(tmp_ele, acw->real_cur);
     }
-    
-    set_edit_num_value(tmp_ele, acw->real_cur);
-    
 }
+/**
+  * @brief  检查DCW档位值的合法性
+  * @param  [in] ele 编辑对象
+  * @param  [in] range 档位数据的地址
+  * @retval 无
+  */
 static void check_dcw_range_value(EDIT_ELE_T* ele, uint32_t *range)
 {
     uint8_t tmp = *range;
     DCW_STRUCT *dcw = &g_cur_step->one_step.dcw;
     EDIT_ELE_T* tmp_ele;
+    CS_ERR err;
+    EDIT_ELE_T *pool;
+    uint32_t size;
+    
+    pool = step_par_ele_pool;
+    size = ARRAY_SIZE(step_par_ele_pool);
+    
     
     if(tmp >= DC_GEAR_END)
     {
@@ -1321,33 +1467,92 @@ static void check_dcw_range_value(EDIT_ELE_T* ele, uint32_t *range)
         tmp = *range;
     }
     
-    tmp_ele = &step_par_ele_pool[STEP_EDIT_WIN_UPPER];
-    tmp_ele->format.unit = dc_gear[tmp].unit;
-    tmp_ele->format.lon = dc_gear[tmp].lon;
-    tmp_ele->format.decs = dc_gear[tmp].decs;
-    tmp_ele->range.high = dc_gear[tmp].high_max;
+    tmp_ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_UPPER, &err);
     
-    if(dcw->upper_limit > tmp_ele->range.high)
+    if(err == CS_ERR_NONE)
     {
-        dcw->upper_limit = tmp_ele->range.high;
+        tmp_ele->format.unit = dc_gear[tmp].unit;
+        tmp_ele->format.lon = dc_gear[tmp].lon;
+        tmp_ele->format.decs = dc_gear[tmp].decs;
+        tmp_ele->range.high = dc_gear[tmp].high_max;
+        
+        if(dcw->upper_limit > tmp_ele->range.high)
+        {
+            dcw->upper_limit = tmp_ele->range.high;
+        }
+        
+        set_edit_num_value(tmp_ele, dcw->upper_limit);
     }
     
-    set_edit_num_value(tmp_ele, dcw->upper_limit);
     
-    tmp_ele = &step_par_ele_pool[STEP_EDIT_WIN_LOWER];
-    tmp_ele->format.unit = dc_gear[tmp].unit;
-    tmp_ele->format.lon = dc_gear[tmp].lon;
-    tmp_ele->format.decs = dc_gear[tmp].decs;
-    tmp_ele->range.high = dcw->upper_limit;
+    tmp_ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_LOWER, &err);
     
-    if(dcw->lower_limit > dcw->upper_limit)
+    if(err == CS_ERR_NONE)
     {
-        dcw->lower_limit = dcw->upper_limit;
+        tmp_ele->format.unit = dc_gear[tmp].unit;
+        tmp_ele->format.lon = dc_gear[tmp].lon;
+        tmp_ele->format.decs = dc_gear[tmp].decs;
+        tmp_ele->range.high = dcw->upper_limit;
+        
+        if(dcw->lower_limit > dcw->upper_limit)
+        {
+            dcw->lower_limit = dcw->upper_limit;
+        }
+        
+        set_edit_num_value(tmp_ele, dcw->lower_limit);
     }
-    
-    set_edit_num_value(tmp_ele, dcw->lower_limit);
-    
 }
+
+static uint8_t get_cur_mode(void)
+{
+    return g_cur_step->one_step.com.mode;
+}
+/**
+  * @brief  检查交直流上限值的合法性
+  * @param  [in] ele 编辑对象
+  * @param  [in] value 数据的地址
+  * @retval 无
+  */
+static void check_acw_dcw_upper_value_validity(EDIT_ELE_T* ele, uint32_t *value)
+{
+    uint8_t mode = get_cur_mode();
+    
+    switch(mode)
+    {
+        case ACW:
+            check_acw_upper_value_validity(ele, value);
+            break;
+        case DCW:
+            check_dcw_upper_value_validity(ele, value);
+            break;
+    }
+}
+/**
+  * @brief  检查交直流上限值的合法性
+  * @param  [in] ele 编辑对象
+  * @param  [in] value 数据的地址
+  * @retval 无
+  */
+static void check_acw_dcw_lower_value_validity(EDIT_ELE_T* ele, uint32_t *value)
+{
+    uint8_t mode = get_cur_mode();
+    
+    switch(mode)
+    {
+        case ACW:
+            check_acw_lower_value_validity(ele, value);
+            break;
+        case DCW:
+            check_dcw_lower_value_validity(ele, value);
+            break;
+    }
+}
+/**
+  * @brief  检查档位值的合法性
+  * @param  [in] ele 编辑对象
+  * @param  [in] value 数据的地址
+  * @retval 无
+  */
 static void check_range_value_validity(EDIT_ELE_T* ele, uint32_t *value)
 {
     uint8_t mode;
@@ -1372,7 +1577,22 @@ static void check_range_value_validity(EDIT_ELE_T* ele, uint32_t *value)
   */
 static void reg_step_ele_data(CS_INDEX index, void *data, uint8_t bytes)
 {
-    EDIT_ELE_T* ele = &step_par_ele_pool[index];
+    CS_INDEX tmp_index;
+    CS_ERR err;
+    EDIT_ELE_T *pool;
+    EDIT_ELE_T* ele;
+    uint32_t size;
+    
+    pool = step_par_ele_pool;
+    size = ARRAY_SIZE(step_par_ele_pool);
+    tmp_index = get_edit_ele_index(pool, size, index, &err);
+    
+    if(err != CS_ERR_NONE)
+    {
+        return;
+    }
+    
+    ele = &step_par_ele_pool[tmp_index];
     
     ele->data.data = data;
     ele->data.bytes = bytes;
@@ -1413,6 +1633,60 @@ static void update_dcw_range_affect_inf(EDIT_ELE_T* ele, UN_STRUCT *step)
     
     check_range_value_validity(ele, &range);
 }
+
+/**
+  * @brief  检查 ACW 上限值
+  * @param  [in] ele 编辑对象
+  * @param  [in] value 上限值
+  * @retval 无
+  */
+static void check_acw_upper_value_validity(EDIT_ELE_T* ele, uint32_t *value)
+{
+    uint32_t val = *value;
+    EDIT_ELE_T* tmp_ele;
+    CS_ERR err;
+    EDIT_ELE_T *pool;
+    uint32_t size;
+    
+    pool = step_par_ele_pool;
+    size = ARRAY_SIZE(step_par_ele_pool);
+    
+    if(val > ele->range.high)
+    {
+        *value = ele->range.high;
+        val = *value;
+    }
+    
+    tmp_ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_LOWER, &err);
+    
+    if(err == CS_ERR_NONE)
+    {
+        tmp_ele->range.high = val;
+        
+        if(g_cur_step->one_step.acw.lower_limit > val)
+        {
+            g_cur_step->one_step.acw.lower_limit = val;
+        }
+        
+        set_edit_num_value(tmp_ele, g_cur_step->one_step.acw.lower_limit);
+    }
+    
+}
+/**
+  * @brief  检查 ACW 上限值
+  * @param  [in] ele 编辑对象
+  * @param  [in] value 上限值
+  * @retval 无
+  */
+static void check_acw_lower_value_validity(EDIT_ELE_T* ele, uint32_t *value)
+{
+    uint32_t val = *value;
+    
+    if(val > ele->range.high)
+    {
+        *value = ele->range.high;
+    }
+}
 /**
   * @brief  设置ACW参数对应编辑控件的数据指针
   * @param  [in] step 步骤参数结构
@@ -1422,20 +1696,34 @@ static void set_acw_par_win_ele_data(UN_STRUCT *step)
 {
     EDIT_ELE_T* ele;
     ACW_STRUCT *acw = &step->acw;
+    CS_ERR err;
+    EDIT_ELE_T *pool;
+    uint32_t size;
     
-    g_cur_win->edit.index_pool = acw_par_index;
-    g_cur_win->edit.index_size = ARRAY_SIZE(acw_par_index);
+    pool = step_par_ele_pool;
+    size = ARRAY_SIZE(step_par_ele_pool);
+    
+    set_g_cur_win_edit_index_inf(acw_par_index, ARRAY_SIZE(acw_par_index));//设置编辑对象索引表信息
     
     reg_step_ele_data(STEP_EDIT_WIN_VOL, &acw->output_vol, sizeof(acw->output_vol));
-    ele = &step_par_ele_pool[STEP_EDIT_WIN_VOL];
-    ele->range.high = ACW_VOL_H;
-    ele->range.low = ACW_VOL_L;
+    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_VOL, &err);
+    
+    if(err == CS_ERR_NONE)
+    {
+        ele->range.high = ACW_VOL_H;
+        ele->range.low = ACW_VOL_L;
+    }
     
     reg_step_ele_data(STEP_EDIT_WIN_RANGE, &acw->range, sizeof(acw->range));
-    update_acw_range_affect_inf(&step_par_ele_pool[STEP_EDIT_WIN_RANGE], step);
+    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_RANGE, &err);
     
-    reg_step_ele_data(STEP_EDIT_WIN_UPPER, &acw->upper_limit, sizeof(acw->upper_limit));
-    reg_step_ele_data(STEP_EDIT_WIN_LOWER, &acw->lower_limit, sizeof(acw->lower_limit));
+    if(err == CS_ERR_NONE)
+    {
+        update_acw_range_affect_inf(ele, step);
+    }
+    
+    reg_step_ele_data(STEP_EDIT_WIN_UPPER, &acw->upper_limit, sizeof(acw->upper_limit));//电流上限
+    reg_step_ele_data(STEP_EDIT_WIN_LOWER, &acw->lower_limit, sizeof(acw->lower_limit));//电流下限
     reg_step_ele_data(STEP_EDIT_WIN_ARC, &acw->arc_sur, sizeof(acw->arc_sur));//<电弧侦测
     reg_step_ele_data(STEP_EDIT_WIN_REAL_C, &acw->real_cur, sizeof(acw->real_cur));//<真实电流
     reg_step_ele_data(STEP_EDIT_WIN_FREQ, &acw->output_freq,   sizeof(acw->output_freq));//<输出频率
@@ -1445,17 +1733,85 @@ static void set_acw_par_win_ele_data(UN_STRUCT *step)
     reg_step_ele_data(STEP_EDIT_WIN_INTER_T, &acw->inter_time,  sizeof(acw->inter_time));//间隔时间
     
     reg_step_ele_data(STEP_EDIT_WIN_CONT, &acw->step_con,  sizeof(acw->step_con));//步间连续
-    ele = &step_par_ele_pool[STEP_EDIT_WIN_CONT];
-    ele->resource.table = sw_pool[SYS_LANGUAGE];
-    ele->resource.size = ARRAY_SIZE(sw_pool[SYS_LANGUAGE]);
+    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_CONT, &err);
+    
+    if(err == CS_ERR_NONE)
+    {
+        init_sw_type_edit_ele_resource_inf(ele);
+    }
     
     reg_step_ele_data(STEP_EDIT_WIN_PASS, &acw->step_pass,  sizeof(acw->step_pass));//步间PASS
-    ele = &step_par_ele_pool[STEP_EDIT_WIN_PASS];
-    ele->resource.table = sw_pool[SYS_LANGUAGE];
-    ele->resource.size = ARRAY_SIZE(sw_pool[SYS_LANGUAGE]);
+    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_PASS, &err);
     
-    reg_step_ele_data(STEP_EDIT_WIN_PORT, set_port_buf,  type_spe.port_num);//输出端口
+    if(err == CS_ERR_NONE)
+    {
+        init_sw_type_edit_ele_resource_inf(ele);
+    }
     
+    /* 输出端口 */
+    transform_test_port_to_str(&acw->port, set_port_buf);
+    reg_step_ele_data(STEP_EDIT_WIN_PORT, set_port_buf, sizeof(set_port_buf));
+    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_PORT, &err);
+    
+    if(err == CS_ERR_NONE)
+    {
+        ele->format.lon = type_spe.port_num;
+    }
+    
+}
+/**
+  * @brief  检查 DCW 上限值
+  * @param  [in] ele 编辑对象
+  * @param  [in] value 上限值
+  * @retval 无
+  */
+static void check_dcw_upper_value_validity(EDIT_ELE_T* ele, uint32_t *value)
+{
+    uint32_t val = *value;
+    EDIT_ELE_T* tmp_ele;
+    CS_ERR err;
+    EDIT_ELE_T *pool;
+    uint32_t size;
+    
+    pool = step_par_ele_pool;
+    size = ARRAY_SIZE(step_par_ele_pool);
+    
+    
+    if(val > ele->range.high)
+    {
+        *value = ele->range.high;
+        val = *value;
+    }
+    
+    tmp_ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_LOWER, &err);
+    
+    if(err == CS_ERR_NONE)
+    {
+        tmp_ele->range.high = val;
+        
+        if(g_cur_step->one_step.dcw.lower_limit > val)
+        {
+            g_cur_step->one_step.dcw.lower_limit = val;
+        }
+        
+        set_edit_num_value(tmp_ele, g_cur_step->one_step.dcw.lower_limit);
+    }
+    
+}
+/**
+  * @brief  检查 DCW 上限值
+  * @param  [in] ele 编辑对象
+  * @param  [in] value 上限值
+  * @retval 无
+  */
+static void check_dcw_lower_value_validity(EDIT_ELE_T* ele, uint32_t *value)
+{
+    uint32_t val = *value;
+    
+    if(val > ele->range.high)
+    {
+        *value = ele->range.high;
+    }
 }
 /**
   * @brief  设置DCW参数对应编辑控件的数据指针
@@ -1466,39 +1822,71 @@ static void set_dcw_par_win_ele_data(UN_STRUCT *step)
 {
     EDIT_ELE_T* ele;
     DCW_STRUCT *dcw = &step->dcw;
+    CS_ERR err;
+    EDIT_ELE_T *pool;
+    uint32_t size;
     
-    g_cur_win->edit.index_pool = dcw_par_index;
-    g_cur_win->edit.index_size = ARRAY_SIZE(dcw_par_index);
+    pool = step_par_ele_pool;
+    size = ARRAY_SIZE(step_par_ele_pool);
     
+    set_g_cur_win_edit_index_inf(dcw_par_index, ARRAY_SIZE(dcw_par_index));//设置编辑对象索引表信息
+    
+    /* 输出电压 */
     reg_step_ele_data(STEP_EDIT_WIN_VOL, &dcw->output_vol, sizeof(dcw->output_vol));
-    ele = &step_par_ele_pool[STEP_EDIT_WIN_VOL];
-    ele->range.high = DCW_VOL_H;
-    ele->range.low = DCW_VOL_L;
+    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_VOL, &err);
     
+    if(err == CS_ERR_NONE)
+    {
+        ele->range.high = DCW_VOL_H;
+        ele->range.low = DCW_VOL_L;
+    }
+    
+    /* 电流档位 */
     reg_step_ele_data(STEP_EDIT_WIN_RANGE, &dcw->range, sizeof(dcw->range));
-    update_dcw_range_affect_inf(&step_par_ele_pool[STEP_EDIT_WIN_RANGE], step);
+    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_RANGE, &err);
     
-    reg_step_ele_data(STEP_EDIT_WIN_UPPER, &dcw->upper_limit, sizeof(dcw->upper_limit));
-    reg_step_ele_data(STEP_EDIT_WIN_LOWER, &dcw->lower_limit, sizeof(dcw->lower_limit));
+    if(err == CS_ERR_NONE)
+    {
+        update_dcw_range_affect_inf(ele, step);
+    }
+    
+    reg_step_ele_data(STEP_EDIT_WIN_UPPER, &dcw->upper_limit, sizeof(dcw->upper_limit));//电流上限
+    reg_step_ele_data(STEP_EDIT_WIN_LOWER, &dcw->lower_limit, sizeof(dcw->lower_limit));//电流下限
     reg_step_ele_data(STEP_EDIT_WIN_ARC, &dcw->arc_sur, sizeof(dcw->arc_sur));//<电弧侦测
     
+    reg_step_ele_data(STEP_EDIT_WIN_DELAY_T, &dcw->delay_time,  sizeof(dcw->delay_time));//延时时间
     reg_step_ele_data(STEP_EDIT_WIN_RAISE_T, &dcw->rise_time,  sizeof(dcw->rise_time));//上升时间
     reg_step_ele_data(STEP_EDIT_WIN_TEST_T, &dcw->test_time,  sizeof(dcw->test_time));//测试时间
     reg_step_ele_data(STEP_EDIT_WIN_FALL_T, &dcw->fall_time,  sizeof(dcw->fall_time));//下降时间
     reg_step_ele_data(STEP_EDIT_WIN_INTER_T, &dcw->inter_time,  sizeof(dcw->inter_time));//间隔时间
     
-    reg_step_ele_data(STEP_EDIT_WIN_CONT, &dcw->step_con,  sizeof(dcw->step_con));//步间连续
-    ele = &step_par_ele_pool[STEP_EDIT_WIN_CONT];
-    ele->resource.table = sw_pool[SYS_LANGUAGE];
-    ele->resource.size = ARRAY_SIZE(sw_pool[SYS_LANGUAGE]);
+    /* 步间连续 */
+    reg_step_ele_data(STEP_EDIT_WIN_CONT, &dcw->step_con,  sizeof(dcw->step_con));
+    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_CONT, &err);
     
-    reg_step_ele_data(STEP_EDIT_WIN_PASS, &dcw->step_pass,  sizeof(dcw->step_pass));//步间PASS
-    ele = &step_par_ele_pool[STEP_EDIT_WIN_PASS];
-    ele->resource.table = sw_pool[SYS_LANGUAGE];
-    ele->resource.size = ARRAY_SIZE(sw_pool[SYS_LANGUAGE]);
+    if(err == CS_ERR_NONE)
+    {
+        init_sw_type_edit_ele_resource_inf(ele);
+    }
     
+    /* 步间PASS */
+    reg_step_ele_data(STEP_EDIT_WIN_PASS, &dcw->step_pass,  sizeof(dcw->step_pass));
+    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_PASS, &err);
     
-    reg_step_ele_data(STEP_EDIT_WIN_PORT, set_port_buf,  type_spe.port_num);//输出端口
+    if(err == CS_ERR_NONE)
+    {
+        init_sw_type_edit_ele_resource_inf(ele);
+    }
+    
+    /* 输出端口 */
+    transform_test_port_to_str(&dcw->port, set_port_buf);
+    reg_step_ele_data(STEP_EDIT_WIN_PORT, set_port_buf, sizeof(set_port_buf));
+    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_PORT, &err);
+    
+    if(err == CS_ERR_NONE)
+    {
+        ele->format.lon = type_spe.port_num;
+    }
     
 }
 
@@ -1563,6 +1951,61 @@ static void check_ir_lower_value_validity(EDIT_ELE_T* ele, uint32_t *value)
     }
 }
 /**
+  * @brief  检查 GR 上限值
+  * @param  [in] ele 编辑对象
+  * @param  [in] value 上限值
+  * @retval 无
+  */
+static void check_gr_upper_value_validity(EDIT_ELE_T* ele, uint32_t *value)
+{
+    uint32_t val = *value;
+    EDIT_ELE_T* tmp_ele;
+    CS_ERR err;
+    EDIT_ELE_T *pool;
+    uint32_t size;
+    
+    pool = step_par_ele_pool;
+    size = ARRAY_SIZE(step_par_ele_pool);
+    
+    
+    if(val > ele->range.high)
+    {
+        *value = ele->range.high;
+        val = *value;
+    }
+    
+    /* 输出电压 */
+    tmp_ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_LOWER_GR, &err);
+    
+    if(err == CS_ERR_NONE)
+    {
+        tmp_ele->range.high = val;
+        
+        if(g_cur_step->one_step.gr.lower_limit > val)
+        {
+            g_cur_step->one_step.gr.lower_limit = val;
+        }
+        
+        set_edit_num_value(tmp_ele, g_cur_step->one_step.gr.lower_limit);
+    }
+    
+}
+/**
+  * @brief  检查 GR 上限值
+  * @param  [in] ele 编辑对象
+  * @param  [in] value 上限值
+  * @retval 无
+  */
+static void check_gr_lower_value_validity(EDIT_ELE_T* ele, uint32_t *value)
+{
+    uint32_t val = *value;
+    
+    if(val > ele->range.high)
+    {
+        *value = ele->range.high;
+    }
+}
+/**
   * @brief  设置 IR 参数对应编辑控件的数据指针
   * @param  [in] step 步骤参数结构
   * @retval 无
@@ -1571,61 +2014,177 @@ static void set_ir_par_win_ele_data(UN_STRUCT *step)
 {
     EDIT_ELE_T* ele;
     IR_STRUCT *ir = &step->ir;
+    CS_ERR err;
+    EDIT_ELE_T *pool;
+    uint32_t size;
     
-    g_cur_win->edit.index_pool = ir_par_index;
-    g_cur_win->edit.index_size = ARRAY_SIZE(ir_par_index);
+    pool = step_par_ele_pool;
+    size = ARRAY_SIZE(step_par_ele_pool);
     
+    set_g_cur_win_edit_index_inf(ir_par_index, ARRAY_SIZE(ir_par_index));//设置编辑对象索引表信息
+    
+    /* 输出电压 */
     reg_step_ele_data(STEP_EDIT_WIN_VOL, &ir->output_vol, sizeof(ir->output_vol));
-    ele = &step_par_ele_pool[STEP_EDIT_WIN_VOL];
-    ele->range.high = IR_VOL_H;
-    ele->range.low = IR_VOL_L;
+    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_VOL, &err);
     
+    if(err == CS_ERR_NONE)
+    {
+        ele->range.high = IR_VOL_H;
+        ele->range.low = IR_VOL_L;
+    }
     
+    /* 电阻上限 */
     reg_step_ele_data(STEP_EDIT_WIN_UPPER_IR, &ir->upper_limit, sizeof(ir->upper_limit));
-    ele = &step_par_ele_pool[STEP_EDIT_WIN_UPPER_IR];
-    ele->range.high = IR_RES_H;
-    check_ir_upper_value_validity(ele, &ir->upper_limit);
+    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_UPPER_IR, &err);
     
+    if(err == CS_ERR_NONE)
+    {
+        ele->range.high = IR_RES_H;
+        check_ir_upper_value_validity(ele, &ir->upper_limit);
+    }
+    
+    /* 电阻下限 */
     reg_step_ele_data(STEP_EDIT_WIN_LOWER_IR, &ir->lower_limit, sizeof(ir->lower_limit));
-    ele = &step_par_ele_pool[STEP_EDIT_WIN_LOWER_IR];
-    ele->range.low = IR_RES_L;
+    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_LOWER_IR, &err);
     
-    check_ir_lower_value_validity(ele, &ir->lower_limit);
+    if(err == CS_ERR_NONE)
+    {
+        ele->range.low = IR_RES_L;
+        check_ir_lower_value_validity(ele, &ir->lower_limit);
+    }
     
-    reg_step_ele_data(STEP_EDIT_WIN_AUTO_IR, &ir->auto_shift,  sizeof(ir->auto_shift));//自动换档
-    ele = &step_par_ele_pool[STEP_EDIT_WIN_AUTO_IR];
-    ele->resource.table = sw_pool[SYS_LANGUAGE];
-    ele->resource.size = ARRAY_SIZE(sw_pool[SYS_LANGUAGE]);
+    /* 自动换档 */
+    reg_step_ele_data(STEP_EDIT_WIN_AUTO_IR, &ir->auto_shift,  sizeof(ir->auto_shift));
+    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_AUTO_IR, &err);
     
-    reg_step_ele_data(STEP_EDIT_WIN_DELAY_T, &ir->delay_time,  sizeof(ir->delay_time));//自动换档
+    if(err == CS_ERR_NONE)
+    {
+        init_sw_type_edit_ele_resource_inf(ele);
+    }
+    
+    reg_step_ele_data(STEP_EDIT_WIN_DELAY_T, &ir->delay_time,  sizeof(ir->delay_time));//延时时间
     reg_step_ele_data(STEP_EDIT_WIN_RAISE_T, &ir->rise_time,  sizeof(ir->rise_time));//上升时间
     reg_step_ele_data(STEP_EDIT_WIN_TEST_T, &ir->test_time,  sizeof(ir->test_time));//测试时间
     reg_step_ele_data(STEP_EDIT_WIN_INTER_T, &ir->inter_time,  sizeof(ir->inter_time));//间隔时间
     
+    
     reg_step_ele_data(STEP_EDIT_WIN_CONT, &ir->step_con,  sizeof(ir->step_con));//步间连续
-    ele = &step_par_ele_pool[STEP_EDIT_WIN_CONT];
-    ele->resource.table = sw_pool[SYS_LANGUAGE];
-    ele->resource.size = ARRAY_SIZE(sw_pool[SYS_LANGUAGE]);
+    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_CONT, &err);
+    
+    if(err == CS_ERR_NONE)
+    {
+        init_sw_type_edit_ele_resource_inf(ele);
+    }
     
     reg_step_ele_data(STEP_EDIT_WIN_PASS, &ir->step_pass,  sizeof(ir->step_pass));//步间PASS
-    ele = &step_par_ele_pool[STEP_EDIT_WIN_PASS];
-    ele->resource.table = sw_pool[SYS_LANGUAGE];
-    ele->resource.size = ARRAY_SIZE(sw_pool[SYS_LANGUAGE]);
+    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_PASS, &err);
     
-    reg_step_ele_data(STEP_EDIT_WIN_PORT, set_port_buf,  type_spe.port_num);//输出端口
+    if(err == CS_ERR_NONE)
+    {
+        init_sw_type_edit_ele_resource_inf(ele);
+    }
+    
+    /* 输出端口 */
+    transform_test_port_to_str(&ir->port, set_port_buf);
+    reg_step_ele_data(STEP_EDIT_WIN_PORT, set_port_buf, sizeof(set_port_buf));
+    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_PORT, &err);
+    
+    if(err == CS_ERR_NONE)
+    {
+        ele->format.lon = type_spe.port_num;
+    }
     
 }
-
-
 /**
-  * @brief  设置GR参数对应编辑控件的数据指针
+  * @brief  设置 IR 参数对应编辑控件的数据指针
   * @param  [in] step 步骤参数结构
   * @retval 无
   */
+//static CS_INDEX gr_par_index[]=
+//{
+//    STEP_EDIT_WIN_STEP,
+//    STEP_EDIT_WIN_MODE,
+//    STEP_EDIT_WIN_CUR,
+//    STEP_EDIT_WIN_UPPER_GR,///<电流上限
+//    STEP_EDIT_WIN_LOWER_GR,///<电流下限
+//    
+//    STEP_EDIT_WIN_TEST_T,///<测试时间
+//    STEP_EDIT_WIN_INTER_T,///<间隔时间
+//    STEP_EDIT_WIN_CONT,///<步间连续
+//    STEP_EDIT_WIN_PASS,///<步间PASS
+//};
 static void set_gr_par_win_ele_data(UN_STRUCT *step)
 {
+    EDIT_ELE_T* ele;
+    GR_STRUCT *gr = &step->gr;
+    CS_ERR err;
+    EDIT_ELE_T *pool;
+    uint32_t size;
+    uint32_t value;
+    
+    
+    pool = step_par_ele_pool;
+    size = ARRAY_SIZE(step_par_ele_pool);
+    
+    set_g_cur_win_edit_index_inf(gr_par_index, ARRAY_SIZE(gr_par_index));//设置编辑对象索引表信息
+    
+    /* 输出电流 */
+    reg_step_ele_data(STEP_EDIT_WIN_CUR, &gr->output_cur, sizeof(gr->output_cur));
+    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_CUR, &err);
+    
+    if(err == CS_ERR_NONE)
+    {
+        ele->range.high = GR_CUR_H;
+        ele->range.low = GR_CUR_L;
+    }
+    
+    /* 电阻上限 */
+    reg_step_ele_data(STEP_EDIT_WIN_UPPER_GR, &gr->upper_limit, sizeof(gr->upper_limit));
+    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_UPPER_GR, &err);
+    
+    if(err == CS_ERR_NONE)
+    {
+        value = gr->upper_limit;
+        ele->range.high = GR_RES_H(gr->output_cur);
+        check_gr_upper_value_validity(ele, &value);
+        gr->upper_limit = value;
+    }
+    
+    /* 电阻下限 */
+    reg_step_ele_data(STEP_EDIT_WIN_LOWER_GR, &gr->lower_limit, sizeof(gr->lower_limit));
+    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_LOWER_GR, &err);
+    
+    if(err == CS_ERR_NONE)
+    {
+        value = gr->lower_limit;
+        ele->range.low = GR_RES_L;
+        check_gr_lower_value_validity(ele, &value);
+        gr->lower_limit = value;
+    }
+    
+    reg_step_ele_data(STEP_EDIT_WIN_TEST_T, &gr->test_time,  sizeof(gr->test_time));//测试时间
+    reg_step_ele_data(STEP_EDIT_WIN_INTER_T, &gr->inter_time,  sizeof(gr->inter_time));//间隔时间
+    
+    /* 步间连续 */
+    reg_step_ele_data(STEP_EDIT_WIN_CONT, &gr->step_con,  sizeof(gr->step_con));
+    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_CONT, &err);
+    
+    if(err == CS_ERR_NONE)
+    {
+        init_sw_type_edit_ele_resource_inf(ele);
+    }
+    
+    /* 步间PASS */
+    reg_step_ele_data(STEP_EDIT_WIN_PASS, &gr->step_pass,  sizeof(gr->step_pass));
+    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_PASS, &err);
+    
+    if(err == CS_ERR_NONE)
+    {
+        init_sw_type_edit_ele_resource_inf(ele);
+    }
     
 }
+
 
 /**
   * @brief  根据测试模式来设置参数对应编辑控件的数据指针

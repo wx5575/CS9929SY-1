@@ -18,7 +18,6 @@
 #include "fonts.h"
 #include "ff.h"
 #include "OS.H"
-#include "app.h"
 #include "cs99xx_struct.h"
 #include "FRAMEWIN.H"
 #include "EDIT.H"

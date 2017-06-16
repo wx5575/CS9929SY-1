@@ -185,7 +185,7 @@ typedef struct {
 	STEP_NUM 	step;
 	uint8_t 	mode;
 	uint8_t		voltage_gear;               ///< 电压档位 1 20mv 2 200mv 3 2000mv */
-	uint16_t	testing_cur;                ///< 输出电流 */
+	uint16_t	output_cur;                ///< 输出电流 */
 	uint16_t 	upper_limit;				///< 电阻上限 */
 	uint16_t 	lower_limit;				///< 电阻下限 */
 	uint16_t	test_time;               ///< 测试时间 */
@@ -561,6 +561,8 @@ extern void del_step(STEP_NUM step);
 extern void load_steps_to_list(const int16_t step, uint8_t step_num);
 extern NODE_STEP *get_g_cur_step(void);
 extern void init_mode(NODE_STEP *p);
+extern void transform_test_port_to_str(TEST_PORT *port, uint8_t *buf);
+extern void transform_str_to_test_port(TEST_PORT *port, uint8_t *buf);
 
 #endif //__CS99XX_STRUCT_H__
 

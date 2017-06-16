@@ -2039,7 +2039,7 @@ void config_CS9919B(void)
 
 void config_CS9929A(void)
 {
-    type_spe.mode_en = /* */__ACW | __DCW | __IR /*| __GR | __BBD*/;
+    type_spe.mode_en = /* */__ACW | __DCW | __IR | __GR/* | __BBD*/;
     
     type_spe.port_num = PORT_NUM8;/* 测试端口数 0 4 8 */
     

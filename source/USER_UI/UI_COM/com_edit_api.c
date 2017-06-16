@@ -55,6 +55,21 @@ CS_INDEX get_edit_ele_index(EDIT_ELE_T *edit_pool, uint32_t pool_size, CS_INDEX 
     return (CS_INDEX)0;
 }
 
+EDIT_ELE_T* get_edit_ele_inf(EDIT_ELE_T *edit_pool, uint32_t pool_size, CS_INDEX index, CS_ERR*err)
+{
+    EDIT_ELE_T *ele = NULL;
+    CS_INDEX tmp_index;
+    
+    tmp_index = get_edit_ele_index(edit_pool, pool_size, index, err);
+    
+    if(*err == CS_ERR_NONE)
+    {
+        ele = &edit_pool[tmp_index];
+    }
+    
+    return ele;
+}
+
 /**
   * @brief  初始化窗口中文本对象的链表
   * @param  [in] win 用户窗口信息
@@ -286,9 +301,15 @@ void upload_par_to_ram(EDIT_ELE_T* ele)
         case ELE_EDIT_STR:
         {
 			EDIT_GetText(handle, (char*)buf, max_len);
+            
             if(strlen((const char*)buf) > 0)
             {
                 memcpy(data, (const void*)buf, max_len);
+                
+                if(ele->range.check_value_validity != NULL)
+                {
+                    ele->range.check_value_validity(ele, (uint32_t*)buf);
+                }
             }
             else
             {
@@ -985,5 +1006,27 @@ void com_edit_win_direct_key_down_cb(KEY_MESSAGE *key_msg)
     }
     
     select_edit_ele(g_cur_edit_ele);
+}
+
+/**
+  * @brief  初始化开关类型编辑对象的资源信息
+  * @param  [in] step 步骤参数结构
+  * @retval 无
+  */
+void init_sw_type_edit_ele_resource_inf(EDIT_ELE_T* ele)
+{
+    ele->resource.table = sw_pool[SYS_LANGUAGE];
+    ele->resource.size = ARRAY_SIZE(sw_pool[SYS_LANGUAGE]);
+}
+
+/**
+  * @brief  设置当前窗口编辑控件的索引表信息
+  * @param  [in] step 步骤参数结构
+  * @retval 无
+  */
+void set_g_cur_win_edit_index_inf(CS_INDEX *index_pool, uint32_t size)
+{
+    g_cur_win->edit.index_pool = index_pool;
+    g_cur_win->edit.index_size = size;
 }
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

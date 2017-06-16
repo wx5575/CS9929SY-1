@@ -21,6 +21,7 @@
 #include "fonts.h"
 #include "ui_com/com_ui_base.h"
 #include "tools.h"
+#include "key_server.h"
 
 #pragma  diag_suppress 870 //消除870号编译警告
 
