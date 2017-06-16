@@ -86,19 +86,19 @@ typedef struct{
 typedef struct {
 	STEP_NUM 	step;                       ///< 测试步 */
 	uint8_t 	mode;                       ///< 模式 */
-	uint16_t 	testing_voltage;            ///< 测试电压 */
+	uint16_t 	output_vol;            ///< 测试电压 */
 	uint8_t 	range;                      ///< 电流档位  200uA   2mA   20mA   10mA   100mA */
 	uint16_t	upper_limit;				///< 电流上限 */
 	uint16_t	lower_limit;				///< 电流下限 */
-	uint16_t	ac_real_cur;                ///< 真实电流上限值 */
+	uint16_t	real_cur;                ///< 真实电流上限值 */
 	uint16_t	arc_sur;					///< 电弧侦测 可能是等级模式即整数 可能为电流模式即为浮点数 这个有电弧侦测模式决定 */
 	uint16_t	output_freq;				///< 输出频率选择 可以连续也可以是等级 */
 	uint16_t	rise_time;                  ///< 上升时间 */
-	uint16_t	testing_time;               ///< 测试时间 */
+	uint16_t	test_time;               ///< 测试时间 */
 	uint16_t	fall_time;                  ///< 下降时间 */
-	uint16_t	interval_time;              ///< 间隔时间 */
-	uint8_t 	steps_pass;					///< 步间pass */
-	uint8_t 	steps_cont;					///< 步间连续 */
+	uint16_t	inter_time;              ///< 间隔时间 */
+	uint8_t 	step_pass;					///< 步间pass */
+	uint8_t 	step_con;					///< 步间连续 */
 	TEST_PORT	port;                       ///< 端口 */
 	
 	uint16_t	offset_cur;                 ///< 偏移电流 */
@@ -112,19 +112,19 @@ typedef struct {
 typedef struct {
 	STEP_NUM 	step;                       ///< 测试步 */
 	uint8_t 	mode;                       ///< 模式 */
-	uint16_t 	testing_voltage;            ///< 测试电压 */
+	uint16_t 	output_vol;            ///< 测试电压 */
 	uint8_t 	range;                      ///< 电流档位  200uA   2mA   20mA   10mA   100mA */
 	uint16_t	upper_limit;				///< 电流上限 */
 	uint16_t	lower_limit;				///< 电流下限 */
-	uint16_t	ac_real_cur;                ///< 真实电流上限值 */
+	uint16_t	real_cur;                ///< 真实电流上限值 */
 	uint16_t	cur_intensity;              ///< 电流强度 高 中 低 */
 	uint16_t	output_freq;      			///< 输出频率选择 可以连续也可以是等级 */
 	uint16_t	rise_time;                  ///< 上升时间 */
-	uint16_t	testing_time;               ///< 测试时间 */
+	uint16_t	test_time;               ///< 测试时间 */
 	uint16_t	fall_time;                  ///< 下降时间 */
-	uint16_t	interval_time;              ///< 间隔时间 */
-	uint8_t 	steps_pass;         		///< 步间pass */
-	uint8_t 	steps_cont; 				///< 步间连续 */
+	uint16_t	inter_time;              ///< 间隔时间 */
+	uint8_t 	step_pass;         		///< 步间pass */
+	uint8_t 	step_con; 				///< 步间连续 */
 	TEST_PORT	port;                       ///< 端口 */
 	
 	uint16_t	offset_cur;                 ///< 偏移电流 */
@@ -138,7 +138,7 @@ typedef struct {
 typedef struct {
 	STEP_NUM     step;                      ///< 测试步 */
 	uint8_t     mode;                       ///< 测试步 */
-	uint16_t 	testing_voltage;            ///< 测试电压 */
+	uint16_t 	output_vol;            ///< 测试电压 */
 	uint8_t 	range;                      ///< 电流档位   2uA ,  20uA , 200uA ,  2mA,   10mA */
 	uint16_t	upper_limit;				///< 电流上限 */
 	uint16_t	lower_limit;				///< 电流下限 */
@@ -148,11 +148,11 @@ typedef struct {
 	uint16_t	delay_time;                 ///< 延时时间 延时时间到了才判断 */
 	uint16_t	rise_time;                  ///< 上升时间 */
 	uint16_t	stab_time;                  ///< 稳压时间 */
-	uint16_t	testing_time;               ///< 测试时间 */
+	uint16_t	test_time;               ///< 测试时间 */
 	uint16_t	fall_time;                  ///< 下降时间 */
-	uint16_t	interval_time;              ///< 间隔时间 */
-	uint8_t 	steps_pass;         		///< 步间pass */
-	uint8_t		steps_cont; 				///< 步间连续 */
+	uint16_t	inter_time;              ///< 间隔时间 */
+	uint8_t 	step_pass;         		///< 步间pass */
+	uint8_t		step_con; 				///< 步间连续 */
 	TEST_PORT	port;                       ///< 端口 */
 	
 	uint16_t	offset_cur;                 ///< 偏移电流 */
@@ -165,16 +165,16 @@ typedef struct {
 typedef struct {
 	STEP_NUM 	step;                       ///< 测试步 */
 	uint8_t 	mode;                       ///< 模式 */
-	uint16_t 	testing_voltage;			///< 输出电压 */
-	uint8_t 	auto_shift_gears;           ///< 自动换挡 */
+	uint16_t 	output_vol;			///< 输出电压 */
+	uint8_t 	auto_shift;           ///< 自动换挡 */
 	uint32_t 	upper_limit;     			///< 电阻上限 */
 	uint32_t 	lower_limit;	    		///< 电阻下限 */
 	uint16_t	rise_time;	                ///< 上升时间 */
-	uint16_t	testing_time;	            ///< 测试时间 */
+	uint16_t	test_time;	            ///< 测试时间 */
 	uint16_t	delay_time;	                ///< 延时时间 */
-	uint16_t	interval_time;	            ///< 间隔时间 */
-	uint8_t 	steps_pass;	        		///< 步间pass */
-	uint8_t 	steps_cont;					///< 步间连续 */
+	uint16_t	inter_time;	            ///< 间隔时间 */
+	uint8_t 	step_pass;	        		///< 步间pass */
+	uint8_t 	step_con;					///< 步间连续 */
 	TEST_PORT	port;	                    ///< 端口 */
 }IR_STRUCT;
 
@@ -188,10 +188,10 @@ typedef struct {
 	uint16_t	testing_cur;                ///< 输出电流 */
 	uint16_t 	upper_limit;				///< 电阻上限 */
 	uint16_t 	lower_limit;				///< 电阻下限 */
-	uint16_t	testing_time;               ///< 测试时间 */
-	uint16_t	interval_time;              ///< 间隔时间 */
-	uint8_t 	steps_pass;					///< 步间pass */
-	uint8_t 	steps_cont; 				///< 步间连续 */
+	uint16_t	test_time;               ///< 测试时间 */
+	uint16_t	inter_time;              ///< 间隔时间 */
+	uint8_t 	step_pass;					///< 步间pass */
+	uint8_t 	step_con; 				///< 步间连续 */
 	uint16_t	output_freq;				///< 输出频率 */
 	uint16_t	test_method;                ///< 当脉冲测试模式使能了以后 0表示脉冲测试 1表示连续测试 */
 	
@@ -205,16 +205,16 @@ typedef struct {
 typedef struct {
 	STEP_NUM 	step; ///< 设置步 */
 	uint8_t 	mode; ///< 模式 */
-	uint16_t 	testing_voltage; ///< 输出电压 */
+	uint16_t 	output_vol; ///< 输出电压 */
 	uint16_t	open_ratio; ///< 开路比例 0，10%-100% */
 	uint16_t	short_ratio; ///< 短路比例 100% - 500% */
 	uint16_t 	upper_limit; ///< 电容上限 */
 	uint16_t 	lower_limit; ///< 电容下限 */
 	uint16_t	output_freq; ///<输出频率 */
-	uint16_t	testing_time; ///< 测试时间 */
-	uint16_t	interval_time; ///< 间隔时间 */
-	uint8_t 	steps_pass; ///< 步间pass */
-	uint8_t 	steps_cont; ///< 步间连续 */
+	uint16_t	test_time; ///< 测试时间 */
+	uint16_t	inter_time; ///< 间隔时间 */
+	uint8_t 	step_pass; ///< 步间pass */
+	uint8_t 	step_con; ///< 步间连续 */
 	float		cap_value; ///< 电容值 */
 	uint8_t 	gear; ///< 保存获取电容值时的电流档位 默认 20mA */
 	TEST_PORT	port; ///< 端口 */
@@ -439,6 +439,7 @@ typedef enum{
     CAP_U_pF,///< pF
     CAP_U_nF,///< nF
     CAP_U_uF,///< uF
+    FREQ_U_Hz,///< Hz
 }UNIT_T;
 
 /**
@@ -478,6 +479,13 @@ typedef enum{
     ENGLISH,///<英文
     LANGUAGE_NUM,///<语言个数
 }LANGUAGE_T;
+/**
+  * @brief  开关变量状态枚举定义
+  */
+typedef enum{
+    SW_OFF,
+    SW_ON,
+}SW_STATUS;
 /**
   * @brief  系统参数结构定义
   */

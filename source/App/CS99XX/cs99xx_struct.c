@@ -433,11 +433,11 @@ void init_acw_step(NODE_STEP * p)
 	
 	l_acw.step = p->one_step.com.step;
 	l_acw.mode = ACW;
-	l_acw.testing_voltage = ACW_VOL_L;
+	l_acw.output_vol = ACW_VOL_L;
 	l_acw.range = l_flag[0];
 	l_acw.upper_limit = 500;
 	l_acw.lower_limit = 0;
-	l_acw.ac_real_cur = 0;
+	l_acw.real_cur = 0;
 	l_acw.arc_sur = 0;
     
 	if(type_spe.hz_type == HZ_TYPE_GRADE)
@@ -451,11 +451,11 @@ void init_acw_step(NODE_STEP * p)
 	}
 	
 	l_acw.rise_time = type_spe.rise_time_min_value;
-	l_acw.testing_time = 30;
+	l_acw.test_time = 30;
 	l_acw.fall_time = 0;
-	l_acw.interval_time = 0;
-	l_acw.steps_pass = 1;
-	l_acw.steps_cont = 0;
+	l_acw.inter_time = 0;
+	l_acw.step_pass = 1;
+	l_acw.step_con = 0;
 	
 	l_acw.offset_cur = 0;
 	l_acw.offset_real = 0;
@@ -463,8 +463,8 @@ void init_acw_step(NODE_STEP * p)
     
 	if(g_cur_file->work_mode == G_MODE)
 	{
-		l_acw.steps_pass = 0;
-		l_acw.steps_cont = 1;
+		l_acw.step_pass = 0;
+		l_acw.step_con = 1;
 	}
     
     l_acw.port.num = type_spe.port_num;
@@ -488,11 +488,11 @@ void init_cc_step(NODE_STEP * p)
 	
 	l_cc.step = p->one_step.com.step;
 	l_cc.mode = CC;
-	l_cc.testing_voltage = CC_VOL_L;
+	l_cc.output_vol = CC_VOL_L;
 	l_cc.range = l_flag[0];
 	l_cc.upper_limit = 500;//ac_gear[get_cc_max_gear()].high_max;//;
 	l_cc.lower_limit = 50;
-	l_cc.ac_real_cur = 0;
+	l_cc.real_cur = 0;
 	l_cc.cur_intensity = 0;
     
 	if(type_spe.hz_type == HZ_TYPE_GRADE)
@@ -505,11 +505,11 @@ void init_cc_step(NODE_STEP * p)
 	}
 	
 	l_cc.rise_time = 0;
-	l_cc.testing_time = 1;
+	l_cc.test_time = 1;
 	l_cc.fall_time = 0;
-	l_cc.interval_time = 0;
-	l_cc.steps_pass = 1;
-	l_cc.steps_cont = 0;
+	l_cc.inter_time = 0;
+	l_cc.step_pass = 1;
+	l_cc.step_con = 0;
 	
 	l_cc.offset_cur = 0;
 	l_cc.offset_real = 0;
@@ -517,8 +517,8 @@ void init_cc_step(NODE_STEP * p)
     
 	if(g_cur_file->work_mode == G_MODE)
 	{
-		l_cc.steps_pass = 0;
-		l_cc.steps_cont = 1;
+		l_cc.step_pass = 0;
+		l_cc.step_con = 1;
 	}
     
     l_cc.port.num = type_spe.port_num;
@@ -542,7 +542,7 @@ void init_dcw_step(NODE_STEP * p)
 	
 	l_dcw.step = p->one_step.com.step;
 	l_dcw.mode = DCW;
-	l_dcw.testing_voltage = DCW_VOL_L;
+	l_dcw.output_vol = DCW_VOL_L;
 	l_dcw.range = l_flag[l_kinds-1];
 	l_dcw.upper_limit = 500;
 	l_dcw.lower_limit = 0;
@@ -551,19 +551,19 @@ void init_dcw_step(NODE_STEP * p)
 	l_dcw.delay_time = 0;
 	l_dcw.rise_time = 0;
 	l_dcw.stab_time = 0;
-	l_dcw.testing_time = 30;
+	l_dcw.test_time = 30;
 	l_dcw.fall_time = 0;
-	l_dcw.interval_time = 0;
-	l_dcw.steps_pass = 1;
-	l_dcw.steps_cont = 0;
+	l_dcw.inter_time = 0;
+	l_dcw.step_pass = 1;
+	l_dcw.step_con = 0;
 	
 	l_dcw.offset_cur = 0;
 	l_dcw.offset_result = 0;
 	
 	if(g_cur_file->work_mode == G_MODE)
 	{
-		l_dcw.steps_pass = 0;
-		l_dcw.steps_cont = 1;
+		l_dcw.step_pass = 0;
+		l_dcw.step_con = 1;
 	}
     
     l_dcw.port.num = type_spe.port_num;
@@ -582,16 +582,16 @@ void init_ir_step(NODE_STEP * p)
 	
 	l_ir.step = p->one_step.com.step;
 	l_ir.mode = IR;
-	l_ir.testing_voltage = IR_VOL_L;
-	l_ir.auto_shift_gears = 1;
+	l_ir.output_vol = IR_VOL_L;
+	l_ir.auto_shift = 1;
 	l_ir.upper_limit = 0;
 	l_ir.lower_limit = IR_RES_L;
 	l_ir.rise_time = 0;
-	l_ir.testing_time = 30;
+	l_ir.test_time = 30;
 	l_ir.delay_time = 0;
-	l_ir.interval_time = 0;
-	l_ir.steps_pass = 1;
-	l_ir.steps_cont = 0;
+	l_ir.inter_time = 0;
+	l_ir.step_pass = 1;
+	l_ir.step_con = 0;
 	
     l_ir.port.num = type_spe.port_num;
 	p->one_step.ir = l_ir;
@@ -617,10 +617,10 @@ void init_gr_step(NODE_STEP * p)
 	l_gr.testing_cur = GR_CUR_L;
 	l_gr.upper_limit = 1000;
 	l_gr.lower_limit = 0;
-	l_gr.testing_time = 30;
-	l_gr.interval_time = 0;
-	l_gr.steps_pass = 1;
-	l_gr.steps_cont = 0;
+	l_gr.test_time = 30;
+	l_gr.inter_time = 0;
+	l_gr.step_pass = 1;
+	l_gr.step_con = 0;
     
 	if(type_spe.gr_hz_type == HZ_TYPE_GRADE)
 	{
@@ -652,14 +652,14 @@ void init_bbd_step(NODE_STEP * p)
 	
 	l_bbd.step = p->one_step.com.step;
 	l_bbd.mode = BBD;
-	l_bbd.testing_voltage = 100;
+	l_bbd.output_vol = 100;
 	l_bbd.open_ratio = 50;
 	l_bbd.short_ratio = 120;
 	l_bbd.cap_value = 0;
-	l_bbd.testing_time = 30;
-	l_bbd.interval_time = 0;
-	l_bbd.steps_pass = 1;
-	l_bbd.steps_cont = 0;
+	l_bbd.test_time = 30;
+	l_bbd.inter_time = 0;
+	l_bbd.step_pass = 1;
+	l_bbd.step_con = 0;
 	l_bbd.output_freq = 0;
     
 	if(type_spe.hz_type == HZ_TYPE_GRADE)

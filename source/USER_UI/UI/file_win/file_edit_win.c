@@ -507,8 +507,6 @@ static void file_edit_direct_key_right_cb(KEY_MESSAGE *key_msg)
 	GUI_SendKeyMsg(GUI_KEY_RIGHT, 1);
 }
 
-
-
 /**
   * @brief  注册文件名编辑系统键
   * @param  [in] hWin 窗口句柄

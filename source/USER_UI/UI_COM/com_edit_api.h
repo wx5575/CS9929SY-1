@@ -42,6 +42,11 @@ extern void init_menu_key_custom_inf(CUSTOM_MENU_KEY_INF *cus_inf,
                             MENU_KEY_INFO_T * inf,
                             uint16_t size);
 extern uint32_t get_edit_ele_value(EDIT_ELE_T* ele, uint8_t *buf);
+extern void set_sw_status_on(WM_HMEM hWin);
+extern void set_sw_status_off(WM_HMEM hWin);
+extern void update_ele_range_text(EDIT_ELE_T *ele);
+extern void com_edit_win_direct_key_up_cb(KEY_MESSAGE *key_msg);
+extern void com_edit_win_direct_key_down_cb(KEY_MESSAGE *key_msg);
 
 #endif //__COM_EDIT_API_H__
 
