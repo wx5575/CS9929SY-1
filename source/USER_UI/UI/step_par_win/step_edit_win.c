@@ -87,6 +87,8 @@ static void step_edit_win_direct_key_up_cb(KEY_MESSAGE *key_msg);
 static void step_edit_win_direct_key_right_cb(KEY_MESSAGE *key_msg);
 static void step_edit_win_direct_key_left_cb(KEY_MESSAGE *key_msg);
 
+static void edit_test_port_direct_key_left_cb(KEY_MESSAGE *key_msg);
+static void edit_test_port_direct_key_right_cb(KEY_MESSAGE *key_msg);
 static void save_setting_step(void);
 
 static void edit_step_num_f1_cb(KEY_MESSAGE *key_msg);
@@ -137,6 +139,7 @@ static void init_create_step_edit_win_com_ele(MYUSER_WINDOW_T* win);
 static void init_create_step_edit_win_edit_ele(MYUSER_WINDOW_T* win);
 static void edit_step_num_sys_key(WM_HMEM hWin);
 static void step_edit_win_sys_key_init(WM_HMEM hWin);
+static void edit_test_port_sys_key_init(WM_HMEM hWin);
 static void edit_step_num_menu_key_init(WM_HMEM hWin);
 static void edit_mode_menu_key_init(WM_HMEM hWin);
 static void edit_mode_win_sys_key_init(WM_HMEM hWin);
@@ -161,6 +164,9 @@ static void check_gr_lower_value_validity(EDIT_ELE_T* ele, uint32_t *value);
 
 static void check_range_value_validity(EDIT_ELE_T* ele, uint32_t *value);
 static void check_test_port_value_validity(EDIT_ELE_T* ele, uint32_t *value);
+
+static uint8_t get_cur_step_mode(void);
+static TEST_PORT *get_cur_step_test_port(void);
 /* Private variables ---------------------------------------------------------*/
 /**
   * @brief  为设置而定义的中间的步骤变量
@@ -364,6 +370,20 @@ static FUNCTION_KEY_INFO_T 	step_edit_win_sys_key_init_pool[]=
 	{KEY_DOWN	, step_edit_win_direct_key_down_cb 	  },
 	{KEY_LEFT	, step_edit_win_direct_key_left_cb    },
 	{KEY_RIGHT	, step_edit_win_direct_key_right_cb   },
+	{CODE_LEFT	, step_edit_win_direct_key_down_cb    },
+	{CODE_RIGH	, step_edit_win_direct_key_up_cb      },
+};
+/**
+  * @brief  步骤编辑窗口系统功能键初始化信息数组
+  */
+static FUNCTION_KEY_INFO_T 	edit_test_port_sys_key_init_pool[]=
+{
+	{KEY_UP		, step_edit_win_direct_key_up_cb      },
+	{KEY_DOWN	, step_edit_win_direct_key_down_cb    },
+    
+	{KEY_LEFT	, edit_test_port_direct_key_left_cb    },
+	{KEY_RIGHT	, edit_test_port_direct_key_right_cb   },
+    
 	{CODE_LEFT	, step_edit_win_direct_key_down_cb    },
 	{CODE_RIGH	, step_edit_win_direct_key_up_cb      },
 };
@@ -708,7 +728,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
             2000/*heigh*/,0/*low*/,{"0-X 1-L 2-H","0-X 1-L 2-H"}/*notice*/,
             check_test_port_value_validity
         },/*range*/
-        {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_test_port},/*key_inf*/
+        {edit_test_port_sys_key_init, edit_step_num_menu_key_init, keyboard_test_port},/*key_inf*/
     },
     {
         {"输出电流:","Current:"}, /* 名称 */
@@ -998,6 +1018,11 @@ static void edit_arc_f4_cb(KEY_MESSAGE *key_msg)
     set_edit_num_value(g_cur_edit_ele, 0);
     select_edit_ele(g_cur_edit_ele);
     update_ele_range_text(g_cur_edit_ele);
+    
+//    g_cur_file->arc_mode = 
+//    
+//extern uint16_t transform_arc_cur_to_grade(uint16_t arc_cur_val);
+//extern uint16_t transform_arc_grade_to_cur(uint16_t gear);
 }
 /**
   * @brief  编辑电弧侦测时使用的功能键F5回调函数
@@ -1053,9 +1078,10 @@ static void check_test_time_value_validity(EDIT_ELE_T* ele, uint32_t *value)
     }
 }
 
-TEST_PORT *get_cur_step_test_port(uint8_t mode)
+static TEST_PORT *get_cur_step_test_port(void)
 {
     void *p = NULL;
+    uint8_t mode = get_cur_step_mode();
     
     switch(mode)
     {
@@ -1074,10 +1100,6 @@ TEST_PORT *get_cur_step_test_port(uint8_t mode)
     
     return p;
 }
-static uint8_t get_g_cur_mode(void)
-{
-    return g_cur_step->one_step.com.mode;
-}
 /**
   * @brief  用于检查测试端口设置值是否合法
   * @param  [in] ele 当前编辑对象
@@ -1087,10 +1109,9 @@ static uint8_t get_g_cur_mode(void)
 static void check_test_port_value_validity(EDIT_ELE_T* ele, uint32_t *value)
 {
     uint8_t* str = (void*)value;
-    uint8_t mode = get_g_cur_mode();
     TEST_PORT * port;
     
-    port = get_cur_step_test_port(mode);
+    port = get_cur_step_test_port();
     
     if(port !=  NULL)
     {
@@ -1263,6 +1284,17 @@ static void step_edit_win_sys_key_init(WM_HMEM hWin)
     register_system_key_fun(step_edit_win_sys_key_init_pool, ARRAY_SIZE(step_edit_win_sys_key_init_pool), data);
 }
 /**
+  * @brief  测试端口编辑使用的系统功能键初始化
+  * @param  [in] hWin 窗口句柄
+  * @retval 无
+  */
+static void edit_test_port_sys_key_init(WM_HMEM hWin)
+{
+    int32_t data = g_cur_edit_ele->dis.edit.handle;
+    
+    register_system_key_fun(edit_test_port_sys_key_init_pool, ARRAY_SIZE(edit_test_port_sys_key_init_pool), data);
+}
+/**
   * @brief  编辑步骤编号使用的菜单键初始化
   * @param  [in] hWin 窗口句柄
   * @retval 无
@@ -1378,9 +1410,8 @@ static void check_acw_range_value(EDIT_ELE_T* ele, uint32_t *range)
     EDIT_ELE_T *pool;
     uint32_t size;
     
-    pool = step_par_ele_pool;
-    size = ARRAY_SIZE(step_par_ele_pool);
-    
+    pool = g_cur_win->edit.pool;
+    size = g_cur_win->edit.pool_size;
     
     
     if(tmp >= AC_GEAR_END)
@@ -1424,7 +1455,6 @@ static void check_acw_range_value(EDIT_ELE_T* ele, uint32_t *range)
         set_edit_num_value(tmp_ele, acw->lower_limit);
     }
     
-    
     tmp_ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_REAL_C, &err);
     
     if(err == CS_ERR_NONE)
@@ -1457,9 +1487,8 @@ static void check_dcw_range_value(EDIT_ELE_T* ele, uint32_t *range)
     EDIT_ELE_T *pool;
     uint32_t size;
     
-    pool = step_par_ele_pool;
-    size = ARRAY_SIZE(step_par_ele_pool);
-    
+    pool = g_cur_win->edit.pool;
+    size = g_cur_win->edit.pool_size;
     
     if(tmp >= DC_GEAR_END)
     {
@@ -1503,10 +1532,6 @@ static void check_dcw_range_value(EDIT_ELE_T* ele, uint32_t *range)
     }
 }
 
-static uint8_t get_cur_mode(void)
-{
-    return g_cur_step->one_step.com.mode;
-}
 /**
   * @brief  检查交直流上限值的合法性
   * @param  [in] ele 编辑对象
@@ -1515,7 +1540,7 @@ static uint8_t get_cur_mode(void)
   */
 static void check_acw_dcw_upper_value_validity(EDIT_ELE_T* ele, uint32_t *value)
 {
-    uint8_t mode = get_cur_mode();
+    uint8_t mode = get_cur_step_mode();
     
     switch(mode)
     {
@@ -1535,7 +1560,7 @@ static void check_acw_dcw_upper_value_validity(EDIT_ELE_T* ele, uint32_t *value)
   */
 static void check_acw_dcw_lower_value_validity(EDIT_ELE_T* ele, uint32_t *value)
 {
-    uint8_t mode = get_cur_mode();
+    uint8_t mode = get_cur_step_mode();
     
     switch(mode)
     {
@@ -1568,34 +1593,6 @@ static void check_range_value_validity(EDIT_ELE_T* ele, uint32_t *value)
             check_dcw_range_value(ele, value);
             break;
     }
-}
-/**
-  * @brief  注册步骤编辑对象的数据
-  * @param  [in] index 编辑对象在编辑对象池中的索引
-  * @param  [in] data 数据的地址
-  * @retval 无
-  */
-static void reg_step_ele_data(CS_INDEX index, void *data, uint8_t bytes)
-{
-    CS_INDEX tmp_index;
-    CS_ERR err;
-    EDIT_ELE_T *pool;
-    EDIT_ELE_T* ele;
-    uint32_t size;
-    
-    pool = step_par_ele_pool;
-    size = ARRAY_SIZE(step_par_ele_pool);
-    tmp_index = get_edit_ele_index(pool, size, index, &err);
-    
-    if(err != CS_ERR_NONE)
-    {
-        return;
-    }
-    
-    ele = &step_par_ele_pool[tmp_index];
-    
-    ele->data.data = data;
-    ele->data.bytes = bytes;
 }
 /**
   * @brief  更新 ACW 电流档位影响的信息
@@ -1635,7 +1632,7 @@ static void update_dcw_range_affect_inf(EDIT_ELE_T* ele, UN_STRUCT *step)
 }
 
 /**
-  * @brief  检查 ACW 上限值
+  * @brief  检查 ACW 电流上限值
   * @param  [in] ele 编辑对象
   * @param  [in] value 上限值
   * @retval 无
@@ -1648,8 +1645,8 @@ static void check_acw_upper_value_validity(EDIT_ELE_T* ele, uint32_t *value)
     EDIT_ELE_T *pool;
     uint32_t size;
     
-    pool = step_par_ele_pool;
-    size = ARRAY_SIZE(step_par_ele_pool);
+    pool = g_cur_win->edit.pool;
+    size = g_cur_win->edit.pool_size;
     
     if(val > ele->range.high)
     {
@@ -1657,6 +1654,7 @@ static void check_acw_upper_value_validity(EDIT_ELE_T* ele, uint32_t *value)
         val = *value;
     }
     
+    /* 电流下限 */
     tmp_ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_LOWER, &err);
     
     if(err == CS_ERR_NONE)
@@ -1671,6 +1669,20 @@ static void check_acw_upper_value_validity(EDIT_ELE_T* ele, uint32_t *value)
         set_edit_num_value(tmp_ele, g_cur_step->one_step.acw.lower_limit);
     }
     
+    /* 真实电流 */
+    tmp_ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_REAL_C, &err);
+    
+    if(err == CS_ERR_NONE)
+    {
+        tmp_ele->range.high = val;
+        
+        if(g_cur_step->one_step.acw.real_cur > val)
+        {
+            g_cur_step->one_step.acw.real_cur = val;
+        }
+        
+        set_edit_num_value(tmp_ele, g_cur_step->one_step.acw.real_cur);
+    }
 }
 /**
   * @brief  检查 ACW 上限值
@@ -1700,8 +1712,8 @@ static void set_acw_par_win_ele_data(UN_STRUCT *step)
     EDIT_ELE_T *pool;
     uint32_t size;
     
-    pool = step_par_ele_pool;
-    size = ARRAY_SIZE(step_par_ele_pool);
+    pool = g_cur_win->edit.pool;
+    size = g_cur_win->edit.pool_size;
     
     set_g_cur_win_edit_index_inf(acw_par_index, ARRAY_SIZE(acw_par_index));//设置编辑对象索引表信息
     
@@ -1773,8 +1785,8 @@ static void check_dcw_upper_value_validity(EDIT_ELE_T* ele, uint32_t *value)
     EDIT_ELE_T *pool;
     uint32_t size;
     
-    pool = step_par_ele_pool;
-    size = ARRAY_SIZE(step_par_ele_pool);
+    pool = g_cur_win->edit.pool;
+    size = g_cur_win->edit.pool_size;
     
     
     if(val > ele->range.high)
@@ -1826,8 +1838,8 @@ static void set_dcw_par_win_ele_data(UN_STRUCT *step)
     EDIT_ELE_T *pool;
     uint32_t size;
     
-    pool = step_par_ele_pool;
-    size = ARRAY_SIZE(step_par_ele_pool);
+    pool = g_cur_win->edit.pool;
+    size = g_cur_win->edit.pool_size;
     
     set_g_cur_win_edit_index_inf(dcw_par_index, ARRAY_SIZE(dcw_par_index));//设置编辑对象索引表信息
     
@@ -1900,6 +1912,12 @@ static void check_ir_upper_value_validity(EDIT_ELE_T* ele, uint32_t *value)
 {
     uint32_t val = *value;
     EDIT_ELE_T* tmp_ele;
+    CS_ERR err;
+    EDIT_ELE_T *pool;
+    uint32_t size;
+    
+    pool = g_cur_win->edit.pool;
+    size = g_cur_win->edit.pool_size;
     
     if(val > ele->range.high)
     {
@@ -1907,7 +1925,7 @@ static void check_ir_upper_value_validity(EDIT_ELE_T* ele, uint32_t *value)
         val = *value;
     }
     
-    tmp_ele = &step_par_ele_pool[STEP_EDIT_WIN_LOWER_IR];
+    tmp_ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_LOWER_IR, &err);
     
     if(val > 0)
     {
@@ -1964,8 +1982,8 @@ static void check_gr_upper_value_validity(EDIT_ELE_T* ele, uint32_t *value)
     EDIT_ELE_T *pool;
     uint32_t size;
     
-    pool = step_par_ele_pool;
-    size = ARRAY_SIZE(step_par_ele_pool);
+    pool = g_cur_win->edit.pool;
+    size = g_cur_win->edit.pool_size;
     
     
     if(val > ele->range.high)
@@ -2018,8 +2036,8 @@ static void set_ir_par_win_ele_data(UN_STRUCT *step)
     EDIT_ELE_T *pool;
     uint32_t size;
     
-    pool = step_par_ele_pool;
-    size = ARRAY_SIZE(step_par_ele_pool);
+    pool = g_cur_win->edit.pool;
+    size = g_cur_win->edit.pool_size;
     
     set_g_cur_win_edit_index_inf(ir_par_index, ARRAY_SIZE(ir_par_index));//设置编辑对象索引表信息
     
@@ -2123,8 +2141,8 @@ static void set_gr_par_win_ele_data(UN_STRUCT *step)
     uint32_t value;
     
     
-    pool = step_par_ele_pool;
-    size = ARRAY_SIZE(step_par_ele_pool);
+    pool = g_cur_win->edit.pool;
+    size = g_cur_win->edit.pool_size;
     
     set_g_cur_win_edit_index_inf(gr_par_index, ARRAY_SIZE(gr_par_index));//设置编辑对象索引表信息
     
@@ -2194,11 +2212,19 @@ static void set_gr_par_win_ele_data(UN_STRUCT *step)
 static void set_step_par_window_ele_data(UN_STRUCT *step)
 {
     EDIT_ELE_T* ele;
+    CS_ERR err;
+    EDIT_ELE_T *pool;
+    uint32_t size;
+    
+    
+    pool = g_cur_win->edit.pool;
+    size = g_cur_win->edit.pool_size;
     
     reg_step_ele_data(STEP_EDIT_WIN_STEP, &step->com.step,  sizeof(step->com.step));//测试步骤
     reg_step_ele_data(STEP_EDIT_WIN_MODE, &step->com.mode,  sizeof(step->com.mode));//测试模式
     
-    ele = &step_par_ele_pool[STEP_EDIT_WIN_MODE];
+    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_MODE, &err);
+    
     ele->resource.table = get_defined_mode_table();//初始化资源表为已定义的测试模式
     ele->resource.size = get_defined_mode_num();//初始化资源表size为已定义的测试模式个数
     ele->resource.user_data = get_defined_mode_flag();//初始化用户数据为测试模式对应的数值数组
@@ -2379,6 +2405,68 @@ static void step_edit_win_direct_key_right_cb(KEY_MESSAGE *key_msg)
         }
 	}
 }
+/**
+  * @brief  编辑测试端口使用的向左键的回调函数
+  * @param  [in] key_msg 回调函数携带的按键消息
+  * @retval 无
+  */
+static void edit_test_port_direct_key_left_cb(KEY_MESSAGE *key_msg)
+{
+    uint8_t cursor;
+    WM_HWIN handle;
+    
+    handle = get_cur_edit_handle();
+    
+    if(handle == 0)
+    {
+        return;
+    }
+    
+    cursor = EDIT_GetCursorCharPos(handle);//获取光标位置
+    
+    if(cursor == 0)
+    {
+        step_edit_win_direct_key_left_cb(key_msg);
+    }
+    else
+    {
+        GUI_SendKeyMsg(GUI_KEY_LEFT, 1);
+    }
+}
+
+
+/**
+  * @brief  编辑测试端口使用的向右键的回调函数
+  * @param  [in] key_msg 回调函数携带的按键消息
+  * @retval 无
+  */
+static void edit_test_port_direct_key_right_cb(KEY_MESSAGE *key_msg)
+{
+    uint8_t cursor;
+    WM_HWIN handle;
+    TEST_PORT *port;
+    
+    handle = get_cur_edit_handle();
+    
+    if(handle == 0)
+    {
+        return;
+    }
+    
+    cursor = EDIT_GetCursorCharPos(handle);//获取光标位置
+    
+    port = get_cur_step_test_port();
+    
+    if(cursor == port->num)
+    {
+        step_edit_win_direct_key_left_cb(key_msg);
+    }
+    else
+    {
+        GUI_SendKeyMsg(GUI_KEY_RIGHT, 1);
+    }
+}
+ 
 /**
   * @brief  更新系统按键信息
   * @param  [in] hWin窗口句柄

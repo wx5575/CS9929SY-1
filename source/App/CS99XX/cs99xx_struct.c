@@ -86,14 +86,14 @@ GEAR_STR ir_gear[]=
   */
 TEST_FILE default_file = 
 {
-	0,
-	"DEFAULT",/* name */
-	N_MODE,	
-	0,
-	10,
-	0,
-	1,
-    0,
+	0,///<文件编号
+	"DEFAULT",///<文件名
+	N_MODE,	///<工作模式 N模式 G模式
+	0,///< 总测试步
+	10,///<蜂鸣时间
+	0,///<PASS时间
+	ARC_CUR_MODE,///<电弧侦测模式
+    0,///<存放日期时间 xxxx.xx.xx xx:xx:xx
 };
 
 /**
@@ -181,6 +181,10 @@ CS_ERR check_file_data(TEST_FILE*file)
     {
         err = CS_ERR_DATE_STR_TOO_LONG;
     }
+    else if(file->arc_mode != ARC_CUR_MODE && file->arc_mode != ARC_GRADE_MODE)
+    {
+        err = CS_ERR_DATA_OUT_OF_RANGE;
+    }
     
     return err;
 }
@@ -192,7 +196,7 @@ CS_ERR check_file_data(TEST_FILE*file)
   */
 void init_file_data(TEST_FILE *file, FILE_NUM file_num)
 {
-    TEST_FILE f={0,"DEFAULT", N_MODE, 0, 0,0,"2017-5-10 17:59:59"};
+    TEST_FILE f = {0,"DEFAULT", N_MODE, 0, 0, 0,ARC_CUR_MODE,"2017-5-10 17:59:59"};
     
     f.num = file_num;
     
@@ -1022,10 +1026,11 @@ void transform_test_port_to_str(TEST_PORT *port, uint8_t *buf)
     uint8_t *str[3] = {"X","L","H"};
     
     p = (void*)port->ports;
+    buf[0] = 0;
     
     for(i = 0; i < port->num; i++)
     {
-        temp = (p[i / 8] >> (2 * (i % 8))) & 3;
+        temp = ((p[i / 8] >> (2 * (i % 8))) & 3) % 3;
         
         strcat((char*)buf, (const char*)str[temp]);
     }
@@ -1043,6 +1048,7 @@ void transform_str_to_test_port(TEST_PORT *port, uint8_t *buf)
     uint8_t temp = 0;
     
     p = (void*)port->ports;
+    memset(port->ports, 0, sizeof(port->ports));
     
     for(i = 0; i < port->num; i++)
     {
@@ -1061,6 +1067,66 @@ void transform_str_to_test_port(TEST_PORT *port, uint8_t *buf)
         
         p[i / 8] |= (temp << (2 * (i % 8)));
     }
+}
+
+/**
+  * @brief  将电弧侦测的电流转换为对应的电弧档位
+  * @param  [out] arc_cur_val 电弧侦测的电流设置值
+  * @retval 电弧档位值
+  */
+uint16_t transform_arc_cur_to_grade(uint16_t arc_cur_val)
+{
+    if(arc_cur_val == 0)
+    {
+        return 0;
+    }
+    if(arc_cur_val <= 280)
+    {
+        return 9;
+    }
+    else if(arc_cur_val <= 550)
+    {
+        return 8;
+    }
+    else if(arc_cur_val <= 770)
+    {
+        return 7;
+    }
+    else if(arc_cur_val <= 1000)
+    {
+        return 6;
+    }
+    else if(arc_cur_val <= 1200)
+    {
+        return 5;
+    }
+    else if(arc_cur_val <= 1400)
+    {
+        return 4;
+    }
+    else if(arc_cur_val <= 1600)
+    {
+        return 3;
+    }
+    else if(arc_cur_val <= 1800)
+    {
+        return 2;
+    }
+    else
+    {
+        return 1;
+    }
+}
+/**
+  * @brief  将电电弧档位转换为对应的弧侦测的电流
+  * @param  [out] gear 电弧侦测的档位设置值
+  * @retval 电弧电流值
+  */
+uint16_t transform_arc_grade_to_cur(uint16_t gear)
+{
+    uint16_t buf[]={0, 280, 550, 770, 1000, 1200, 1400, 1600, 1800, 2000};
+    
+	return buf[gear % 10];
 }
 
 /************************ (C) COPYRIGHT Nanjing Changsheng 2017 *****END OF FILE****/

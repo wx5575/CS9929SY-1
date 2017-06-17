@@ -51,6 +51,7 @@ extern CS_INDEX get_edit_ele_index(EDIT_ELE_T *edit_pool, uint32_t pool_size, CS
 extern EDIT_ELE_T* get_edit_ele_inf(EDIT_ELE_T *edit_pool, uint32_t pool_size, CS_INDEX index, CS_ERR*err);
 extern void init_sw_type_edit_ele_resource_inf(EDIT_ELE_T* ele);
 extern void set_g_cur_win_edit_index_inf(CS_INDEX *index_pool, uint32_t size);
+extern void reg_step_ele_data(CS_INDEX index, void *data, uint8_t bytes);
 
 #endif //__COM_EDIT_API_H__
 

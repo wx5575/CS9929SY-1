@@ -312,6 +312,13 @@ enum{
 	PLC_ON		= 1,        ///<PLC打开
 };
 /**
+  * @brief  电弧侦测模式
+  */
+enum{
+	ARC_CUR_MODE,           ///<电弧侦测电流模式
+	ARC_GRADE_MODE,         ///<电弧侦测档位模式
+};
+/**
   * @brief  直流GR的测试方法
   */
 enum{
@@ -451,7 +458,8 @@ typedef struct{
 	WORK_MODE_T work_mode;///<工作模式 N模式 G模式
 	uint16_t total;///< 总测试步
 	uint16_t buzzer_time;///<蜂鸣时间
-	uint16_t pass_time;///<蜂鸣时间
+	uint16_t pass_time;///<PASS时间
+    uint16_t arc_mode;///<电弧侦测模式
 	uint8_t date[22];///<存放日期时间 xxxx.xx.xx xx:xx:xx
 }TEST_FILE;
 /**
@@ -563,6 +571,8 @@ extern NODE_STEP *get_g_cur_step(void);
 extern void init_mode(NODE_STEP *p);
 extern void transform_test_port_to_str(TEST_PORT *port, uint8_t *buf);
 extern void transform_str_to_test_port(TEST_PORT *port, uint8_t *buf);
+extern uint16_t transform_arc_cur_to_grade(uint16_t arc_cur_val);
+extern uint16_t transform_arc_grade_to_cur(uint16_t gear);
 
 #endif //__CS99XX_STRUCT_H__
 

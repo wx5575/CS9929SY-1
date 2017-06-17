@@ -757,7 +757,7 @@ static void show_user_window(MYUSER_WINDOW_T* win_info)
   * @param  [in] hWin 窗口句柄
   * @retval 无
   */
-void back_win(int hWin)
+void back_win(WM_HWIN hWin)
 {
     del_cur_window();
     show_user_window(g_cur_win);
