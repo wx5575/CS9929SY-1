@@ -119,13 +119,6 @@ static void edit_sw_f4_cb(KEY_MESSAGE *key_msg);
 static void edit_sw_f5_cb(KEY_MESSAGE *key_msg);
 static void edit_sw_f6_cb(KEY_MESSAGE *key_msg);
 
-static void edit_arc_f1_cb(KEY_MESSAGE *key_msg);
-static void edit_arc_f2_cb(KEY_MESSAGE *key_msg);
-static void edit_arc_f3_cb(KEY_MESSAGE *key_msg);
-static void edit_arc_f4_cb(KEY_MESSAGE *key_msg);
-static void edit_arc_f5_cb(KEY_MESSAGE *key_msg);
-static void edit_arc_f6_cb(KEY_MESSAGE *key_msg);
-
 static void edit_step_num_direct_key_up_cb(KEY_MESSAGE *key_msg);
 static void edit_step_num_direct_key_down_cb(KEY_MESSAGE *key_msg);
 static void edit_step_num_direct_key_enter_cb(KEY_MESSAGE *key_msg);
@@ -147,7 +140,6 @@ static void set_step_par_window_ele_data(UN_STRUCT *step);
 static void update_and_init_mode(void);
 static void edit_range_menu_key_init(WM_HMEM hWin);
 static void edit_sw_menu_key_init(WM_HMEM hWin);
-static void edit_arc_menu_key_init(WM_HMEM hWin);
 static void provided_dis_test_time_range_fun(EDIT_ELE_T* ele);
 static void check_test_time_value_validity(EDIT_ELE_T* ele, uint32_t *value);
 
@@ -167,6 +159,7 @@ static void check_test_port_value_validity(EDIT_ELE_T* ele, uint32_t *value);
 
 static uint8_t get_cur_step_mode(void);
 static TEST_PORT *get_cur_step_test_port(void);
+static void update_arc_mode_deit_inf(EDIT_ELE_T* ele);
 /* Private variables ---------------------------------------------------------*/
 /**
   * @brief  为设置而定义的中间的步骤变量
@@ -348,18 +341,6 @@ static MENU_KEY_INFO_T 	edit_sw_menu_key_init_info[] =
     {"", F_KEY_NULL , KEY_F4 & _KEY_UP, edit_sw_f4_cb },//f4
     {"", F_KEY_NULL , KEY_F5 & _KEY_UP, edit_sw_f5_cb },//f5
     {"", F_KEY_BACK , KEY_F6 & _KEY_UP, edit_sw_f6_cb },//f6
-};
-/**
-  * @brief  编辑电弧侦测时使用的菜单键初始化信息数组
-  */
-static MENU_KEY_INFO_T 	edit_arc_menu_key_init_info[] =
-{
-    {"", F_KEY_DEL      , KEY_F1 & _KEY_UP, edit_arc_f1_cb },//f1
-    {"", F_KEY_CLEAR    , KEY_F2 & _KEY_UP, edit_arc_f2_cb },//f2
-    {"", F_KEY_NULL     , KEY_F3 & _KEY_UP, edit_arc_f3_cb },//f3
-    {"", F_KEY_GRADE    , KEY_F4 & _KEY_UP, edit_arc_f4_cb },//f4
-    {"", F_KEY_CUR      , KEY_F5 & _KEY_UP, edit_arc_f5_cb },//f5
-    {"", F_KEY_BACK     , KEY_F6 & _KEY_UP, edit_arc_f6_cb },//f6
 };
 /**
   * @brief  步骤编辑窗口系统功能键初始化信息数组
@@ -606,7 +587,8 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
         {2/*decs*/,5/*lon*/,CUR_U_mA/*unit*/,},/*format*/
         {2000/*heigh*/,0/*low*/,{"(电流模式)",""}/*notice*/},/*range*/
-        {step_edit_win_sys_key_init, edit_arc_menu_key_init, keyboard_fun_num,},/*key_inf*/
+//        {step_edit_win_sys_key_init, edit_arc_menu_key_init, keyboard_fun_num,},/*key_inf*/
+        {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
     },
     {
         {"真实电流:","Real Cur.:"}, /* 名称 */
@@ -970,93 +952,41 @@ static void edit_sw_f6_cb(KEY_MESSAGE *key_msg)
 }
 
 /**
-  * @brief  编辑电弧侦测时使用的功能键F1回调函数
+  * @brief  更新电弧侦测模式的编辑信息
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
-static void edit_arc_f1_cb(KEY_MESSAGE *key_msg)
+static void update_arc_mode_deit_inf(EDIT_ELE_T* ele)
 {
-    menu_key_backspace(key_msg->user_data);
-}
-/**
-  * @brief  编辑电弧侦测时使用的功能键F2回调函数
-  * @param  [in] key_msg 按键消息
-  * @retval 无
-  */
-static void edit_arc_f2_cb(KEY_MESSAGE *key_msg)
-{
-    clear_edit_ele(key_msg->user_data);
-}
-/**
-  * @brief  编辑电弧侦测时使用的功能键F3回调函数
-  * @param  [in] key_msg 按键消息
-  * @retval 无
-  */
-static void edit_arc_f3_cb(KEY_MESSAGE *key_msg)
-{
-}
-/**
-  * @brief  编辑电弧侦测时使用的功能键F4回调函数
-  * @param  [in] key_msg 按键消息
-  * @retval 无
-  */
-static void edit_arc_f4_cb(KEY_MESSAGE *key_msg)
-{
-    uint8_t *buf[]=
+    uint8_t *buf[][2]=
     {
-        {"(等级模式)"},
-        {"(Grade Mode)"},
+        {"(电流模式)", "(等级模式)"},
+        {"(Current Mode)", "(Grade Mode)"},
     };
+    uint8_t arc_mode = g_cur_file->arc_mode;
     
-    g_cur_edit_ele->range.notice[CHINESE] = buf[CHINESE];
-    g_cur_edit_ele->range.notice[ENGLISH] = buf[ENGLISH];
-    g_cur_edit_ele->format.unit = NULL_U_NULL;
-    g_cur_edit_ele->range.high = 9;
-    g_cur_edit_ele->range.low = 0;
-    g_cur_edit_ele->format.decs = 0;
-    g_cur_edit_ele->format.lon = 1;
-    set_edit_num_value(g_cur_edit_ele, 0);
-    select_edit_ele(g_cur_edit_ele);
-    update_ele_range_text(g_cur_edit_ele);
-    
-//    g_cur_file->arc_mode = 
-//    
-//extern uint16_t transform_arc_cur_to_grade(uint16_t arc_cur_val);
-//extern uint16_t transform_arc_grade_to_cur(uint16_t gear);
-}
-/**
-  * @brief  编辑电弧侦测时使用的功能键F5回调函数
-  * @param  [in] key_msg 按键消息
-  * @retval 无
-  */
-static void edit_arc_f5_cb(KEY_MESSAGE *key_msg)
-{
-    uint8_t *buf[]=
+    /* 电流模式 */
+    if(arc_mode == ARC_CUR_MODE)
     {
-        {"(电流模式)"},
-        {"(Current Mode)"},
-    };
-    
-    g_cur_edit_ele->range.notice[CHINESE] = buf[CHINESE];
-    g_cur_edit_ele->range.notice[ENGLISH] = buf[ENGLISH];
-    g_cur_edit_ele->format.unit = CUR_U_mA;
-    g_cur_edit_ele->range.high = 2000;
-    g_cur_edit_ele->range.low = 0;
-    g_cur_edit_ele->format.decs = 2;
-    g_cur_edit_ele->format.lon = 5;
-    
-    set_edit_num_value(g_cur_edit_ele, 0);
-    select_edit_ele(g_cur_edit_ele);
-    update_ele_range_text(g_cur_edit_ele);
-}
-/**
-  * @brief  编辑电弧侦测时使用的功能键F6回调函数
-  * @param  [in] key_msg 按键消息
-  * @retval 无
-  */
-static void edit_arc_f6_cb(KEY_MESSAGE *key_msg)
-{
-    back_win(key_msg->user_data);
+        ele->range.notice[CHINESE] = buf[CHINESE][ARC_CUR_MODE];
+        ele->range.notice[ENGLISH] = buf[ENGLISH][ARC_CUR_MODE];
+        ele->format.unit = CUR_U_mA;
+        ele->range.high = 2000;
+        ele->range.low = 0;
+        ele->format.decs = 2;
+        ele->format.lon = 5;
+    }
+    /* 等级模式 */
+    else
+    {
+        ele->range.notice[CHINESE] = buf[CHINESE][ARC_GRADE_MODE];
+        ele->range.notice[ENGLISH] = buf[ENGLISH][ARC_GRADE_MODE];
+        ele->format.unit = NULL_U_NULL;
+        ele->range.high = 9;
+        ele->range.low = 0;
+        ele->format.decs = 0;
+        ele->format.lon = 1;
+    }
 }
 /**
   * @brief  用于检查测试时间设置值是否合法
@@ -1317,19 +1247,6 @@ static void edit_sw_menu_key_init(WM_HMEM hWin)
 {
     MENU_KEY_INFO_T * info = edit_sw_menu_key_init_info;
     uint32_t size = ARRAY_SIZE(edit_sw_menu_key_init_info);
-    int32_t data = g_cur_edit_ele->dis.edit.handle;
-    
-	init_menu_key_info(info, size, data);
-}
-/**
-  * @brief  编辑开关变量使用的菜单键初始化
-  * @param  [in] hWin 窗口句柄
-  * @retval 无
-  */
-static void edit_arc_menu_key_init(WM_HMEM hWin)
-{
-    MENU_KEY_INFO_T * info = edit_arc_menu_key_init_info;
-    uint32_t size = ARRAY_SIZE(edit_arc_menu_key_init_info);
     int32_t data = g_cur_edit_ele->dis.edit.handle;
     
 	init_menu_key_info(info, size, data);
@@ -1865,6 +1782,12 @@ static void set_dcw_par_win_ele_data(UN_STRUCT *step)
     reg_step_ele_data(STEP_EDIT_WIN_UPPER, &dcw->upper_limit, sizeof(dcw->upper_limit));//电流上限
     reg_step_ele_data(STEP_EDIT_WIN_LOWER, &dcw->lower_limit, sizeof(dcw->lower_limit));//电流下限
     reg_step_ele_data(STEP_EDIT_WIN_ARC, &dcw->arc_sur, sizeof(dcw->arc_sur));//<电弧侦测
+    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_ARC, &err);
+    
+    if(err == CS_ERR_NONE)
+    {
+        update_arc_mode_deit_inf(ele);
+    }
     
     reg_step_ele_data(STEP_EDIT_WIN_DELAY_T, &dcw->delay_time,  sizeof(dcw->delay_time));//延时时间
     reg_step_ele_data(STEP_EDIT_WIN_RAISE_T, &dcw->rise_time,  sizeof(dcw->rise_time));//上升时间
@@ -2254,16 +2177,11 @@ static void set_step_par_window_ele_data(UN_STRUCT *step)
   */
 static void init_create_step_edit_win_edit_ele(MYUSER_WINDOW_T* win)
 {
-    EDIT_ELE_AUTO_LAYOUT_T *auto_layout;
-    
-    memcpy(&tmp_step_par, g_cur_step, sizeof(tmp_step_par));
+    memcpy(&tmp_step_par, g_cur_step, sizeof(tmp_step_par));//将当前步信息拷贝到临时存放步骤信息的变量
     g_cur_step = &tmp_step_par;//当前步指向临时存放步骤信息的变量
     set_step_par_window_ele_data(&g_cur_step->one_step);//初始化编辑对象的参数
     init_window_edit_ele_list(win);//初始化窗口编辑对象链表
-    
-    auto_layout = win->edit_ele_auto_layout_pool[SCREEM_SIZE];//根据屏幕尺寸获取编辑对象的自动布局信息
-    
-    init_window_edit_ele_dis_inf(win, auto_layout);//初始化编辑对象显示信息
+    auto_layout_win_edit_ele(win);//自动布局窗口中的编辑对象
     init_window_edit_ele(win);//初始化创建编辑对象
 }
 /**
@@ -2343,7 +2261,7 @@ static void step_edit_win_direct_key_left_cb(KEY_MESSAGE *key_msg)
     uint8_t c = 0;
     uint8_t rows = 0;
     
-    rows = g_cur_win->edit_ele_auto_layout_pool[SCREEM_SIZE]->rows;
+    rows = g_cur_win->auto_layout.edit_ele_auto_layout_inf[SCREEM_SIZE]->rows;
     
     /* 初始化并创建编辑对象链表中的所有对象 */
 	list_for_each_reverse(t_index, t_list)
@@ -2381,7 +2299,7 @@ static void step_edit_win_direct_key_right_cb(KEY_MESSAGE *key_msg)
     uint8_t c = 0;
     uint8_t rows = 0;
     
-    rows = g_cur_win->edit_ele_auto_layout_pool[SCREEM_SIZE]->rows;
+    rows = g_cur_win->auto_layout.edit_ele_auto_layout_inf[SCREEM_SIZE]->rows;
     
     /* 初始化并创建编辑对象链表中的所有对象 */
 	list_for_each(t_index, t_list)

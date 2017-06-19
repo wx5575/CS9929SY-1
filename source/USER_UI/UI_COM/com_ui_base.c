@@ -35,6 +35,13 @@ const uint8_t *sw_pool[2][2]={
     {"OFF","ON"},
 };
 /**
+  * @brief  电弧侦测模式
+  */
+const uint8_t *arc_mode_pool[2][2]={
+    {"电流","等级"},
+    {"Current","Grade"},
+};
+/**
   * @brief  测试模式
   */
 const uint8_t * mode_pool[10]=

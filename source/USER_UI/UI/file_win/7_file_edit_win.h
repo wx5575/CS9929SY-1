@@ -12,8 +12,9 @@
 
 
 
-extern WIDGET_POS_SIZE_T        _7_file_edit_windows;
-extern EDIT_ELE_AUTO_LAYOUT_T   _7_file_edit_ele_auto_layout_inf;
+extern WIDGET_POS_SIZE_T            _7_file_edit_windows;
+extern EDIT_ELE_AUTO_LAYOUT_T       _7_file_edit_ele_auto_layout_inf;
+extern ADJUST_EDIT_ELE_LAYOUT_INF   _7_file_edit_win_edit_ele_adjust_layout_inf;
 
 #endif //__7_FILE_UI_SAVE_H__
 

@@ -132,6 +132,59 @@ typedef struct{
     int unit_align;///<对齐方式
     uint32_t max_len;///<最大长度
 }EDIT_ELE_AUTO_LAYOUT_T;
+
+typedef struct{
+    uint32_t value;///<调整值
+    CS_BOOL en;///<调整使能 CS_TRUE 表示调整使能 CS_FALSE 表示调整无效
+}ADJUST_OPT;///<调整项
+/**
+  * @brief  调整编辑对象布局结构定义 目前实际 使用中只需要调整控件的长度，
+  * @brief  如编辑文件名时编辑框的长度要增加
+  */
+typedef struct{
+    CS_INDEX index;///<编辑对象索引
+    struct{
+        ADJUST_OPT name;///<名称长度
+        ADJUST_OPT edit;///<编辑控件长度
+        ADJUST_OPT unit;///<单位显示的长度
+    }width;///<宽度
+    
+}ADJUST_EDIT_ELE_LAYOUT;
+
+/**
+  * @brief  调整文本对象布局结构定义 目前实际 使用中只需要调整控件的长度
+  */
+typedef struct{
+    CS_INDEX index;///<编辑对象索引
+    uint16_t lon;///<文本长度
+}ADJUST_TEXT_ELE_LAYOUT;
+
+/** 
+  * @brief 调整文本对象布局信息结构定义
+  */
+typedef struct{
+    ADJUST_TEXT_ELE_LAYOUT *pool;///<窗口中文本对象调整布局信息池
+    uint32_t size;
+}ADJUST_TEXT_ELE_LAYOUT_INF;
+
+/** 
+  * @brief 调整编辑对象布局信息结构定义
+  */
+typedef struct{
+    ADJUST_EDIT_ELE_LAYOUT *pool;///<窗口中编辑对象调整布局信息池
+    uint32_t size;
+}ADJUST_EDIT_ELE_LAYOUT_INF;
+
+/** 
+  * @brief 用户窗口自动布局信息结构
+  */
+typedef struct{
+    TEXT_ELE_AUTO_LAYOUT_T **text_ele_auto_layout_inf;///<窗口中文本对象自动布局信息池
+    EDIT_ELE_AUTO_LAYOUT_T **edit_ele_auto_layout_inf;///<窗口中编辑对象自动布局信息池
+    
+    ADJUST_TEXT_ELE_LAYOUT_INF **adjust_text_ele_layout_inf;///<文本对象调整布局信息池
+    ADJUST_EDIT_ELE_LAYOUT_INF **adjust_edit_ele_layout_inf;///<编辑对象调整布局信息池
+}AUTO_LAYOUT_POOL;
 /** 
   * @brief 用户窗口结构
   */
@@ -142,8 +195,7 @@ struct MYUSER_WINDOW{
     ELE_POOL_INF text;///<文本控件索引池
     ELE_POOL_INF edit;///<编辑控件索引池
     ELE_POOL_INF com;///<公共文本控件索引池
-    TEXT_ELE_AUTO_LAYOUT_T **text_ele_auto_layout_pool;///<窗口中文本对象自动布局信息池
-    EDIT_ELE_AUTO_LAYOUT_T **edit_ele_auto_layout_pool;///<窗口中编辑对象自动布局信息池
+    AUTO_LAYOUT_POOL auto_layout;///<自动布局信息
     
     WIDGET_POS_SIZE_T pos_size;///<窗口的位置尺寸
 	WM_HMEM	handle;///< 窗口句柄
@@ -364,6 +416,8 @@ extern void init_window_edit_ele_list(MYUSER_WINDOW_T *win);
 extern void init_window_com_ele_list(MYUSER_WINDOW_T *win);
 extern void init_window_text_ele_dis_inf(MYUSER_WINDOW_T *win, TEXT_ELE_AUTO_LAYOUT_T *inf);
 extern void init_window_edit_ele_dis_inf(MYUSER_WINDOW_T *win, EDIT_ELE_AUTO_LAYOUT_T* inf);
+extern void auto_init_win_edit_ele_dis_inf(MYUSER_WINDOW_T *win);
+extern void adjust_init_win_edit_ele_dis_inf(MYUSER_WINDOW_T *win);
 extern void set_custom_msg_id(CUSTOM_MSG_ID id);
 extern void update_win_menu_key(MYUSER_WINDOW_T* win);
 extern void init_dialog(MYUSER_WINDOW_T * win);

@@ -1010,13 +1010,25 @@ void com_edit_win_direct_key_down_cb(KEY_MESSAGE *key_msg)
 
 /**
   * @brief  初始化开关类型编辑对象的资源信息
-  * @param  [in] step 步骤参数结构
+  * @param  [in] ele 编辑对象
   * @retval 无
   */
 void init_sw_type_edit_ele_resource_inf(EDIT_ELE_T* ele)
 {
-    ele->resource.table = sw_pool[SYS_LANGUAGE];
-    ele->resource.size = ARRAY_SIZE(sw_pool[SYS_LANGUAGE]);
+    init_edit_ele_resource_inf(ele, sw_pool[SYS_LANGUAGE], ARRAY_SIZE(sw_pool[SYS_LANGUAGE]));
+}
+
+/**
+  * @brief  初始化编辑对象的资源信息
+  * @param  [in] ele 编辑对象
+  * @param  [in] res_table 资源表
+  * @param  [in] size 资源表中元素个数
+  * @retval 无
+  */
+void init_edit_ele_resource_inf(EDIT_ELE_T* ele, void *res_table, uint32_t size)
+{
+    ele->resource.table = res_table;
+    ele->resource.size = size;
 }
 
 /**
@@ -1057,5 +1069,16 @@ void reg_step_ele_data(CS_INDEX index, void *data, uint8_t bytes)
     
     ele->data.data = data;
     ele->data.bytes = bytes;
+}
+/**
+  * @brief  自动布局窗口中的编辑对象
+  * @param  [in] index 编辑对象在编辑对象池中的索引
+  * @param  [in] data 数据的地址
+  * @retval 无
+  */
+void auto_layout_win_edit_ele(MYUSER_WINDOW_T* win)
+{
+    auto_init_win_edit_ele_dis_inf(win);
+    adjust_init_win_edit_ele_dis_inf(win);
 }
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

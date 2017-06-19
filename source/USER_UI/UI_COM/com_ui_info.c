@@ -191,7 +191,154 @@ void init_window_edit_ele_dis_inf(MYUSER_WINDOW_T *win, EDIT_ELE_AUTO_LAYOUT_T* 
             
             if(column >= inf->columns)
             {
-                return;
+                //换页
+                column = 0;
+            }
+        }
+    }
+}
+/**
+  * @brief  根据自动布局的结构参数初始化界面中的编辑对象链表的位置信息
+  * @param  [in] win 用户窗口指针
+  * @param  [in] inf 自动布局结构参数
+  * @retval 无
+  */
+void auto_init_win_edit_ele_dis_inf(MYUSER_WINDOW_T *win)
+{
+	int32_t row = 0;
+	int32_t column = 0;
+	CS_LIST *list = &win->edit.list_head;
+    EDIT_ELE_DISPLAY_INF *dis;
+	CS_LIST* t_node = NULL;
+	EDIT_ELE_T *node = NULL;
+    EDIT_ELE_AUTO_LAYOUT_T *auto_layout;
+    
+    if(win->auto_layout.edit_ele_auto_layout_inf == NULL)
+    {
+        return;
+    }
+    
+    auto_layout = win->auto_layout.edit_ele_auto_layout_inf[SCREEM_SIZE];//根据屏幕尺寸获取编辑对象的自动布局信息
+	
+    if(auto_layout == NULL)
+    {
+        return;
+    }
+    
+    list_for_each(t_node, list)
+    {
+        node = list_entry( t_node, EDIT_ELE_T, e_list );
+        
+        dis = &node->dis;
+        
+        dis->x = auto_layout->base_x + auto_layout->column_spacing * column;
+        dis->y = auto_layout->base_y + auto_layout->row_spacing * row;
+        dis->edit.width = auto_layout->edit_w;
+        dis->name.width = auto_layout->name_w;
+        dis->unit.width = auto_layout->uint_w;
+        
+        dis->edit.height = auto_layout->height;
+        dis->name.height = auto_layout->height;
+        dis->unit.height = auto_layout->height;
+        
+        dis->name.font = auto_layout->font;
+        dis->edit.font = auto_layout->font;
+        dis->unit.font = auto_layout->font;
+        
+        dis->name.font_color = auto_layout->font_color;
+        dis->edit.font_color = auto_layout->font_color;
+        dis->unit.font_color = auto_layout->font_color;
+        
+        dis->name.back_color = auto_layout->back_color;
+        dis->edit.back_color = auto_layout->back_color;
+        dis->unit.back_color = auto_layout->back_color;
+        
+        dis->name.max_len = auto_layout->max_len;
+        dis->edit.max_len = node->format.lon;
+        dis->unit.max_len = auto_layout->max_len;
+        
+        dis->name.align = auto_layout->name_align;
+        dis->edit.align = auto_layout->edit_align;
+        dis->unit.align = auto_layout->unit_align;
+        
+        ++row;
+        
+        if(row >= auto_layout->rows)
+        {
+            row = 0;
+            column++;
+            
+            if(column >= auto_layout->columns)
+            {
+                //换页
+                column = 0;
+            }
+        }
+    }
+}
+/**
+  * @brief  调整界面中的编辑对象链表的显示
+  * @param  [in] win 用户窗口指针
+  * @retval 无
+  */
+void adjust_init_win_edit_ele_dis_inf(MYUSER_WINDOW_T *win)
+{
+	CS_LIST *list = &win->edit.list_head;
+    EDIT_ELE_DISPLAY_INF *dis;
+	CS_LIST* t_node = NULL;
+	EDIT_ELE_T *node = NULL;
+    ADJUST_EDIT_ELE_LAYOUT_INF *adjust_layout;
+    ADJUST_EDIT_ELE_LAYOUT *adjust_inf;
+    int32_t i = 0;
+    uint32_t size;
+    
+    if(win == NULL)
+    {
+        return;
+    }
+    
+    if(win->auto_layout.adjust_edit_ele_layout_inf == NULL)
+    {
+        return;
+    }
+    
+    adjust_layout = win->auto_layout.adjust_edit_ele_layout_inf[SCREEM_SIZE];//根据屏幕尺寸获取编辑对象的自动布局信息
+	
+    if(adjust_layout == NULL)
+    {
+        return;
+    }
+    
+    size = adjust_layout->size;
+    
+    for(i = 0; i < size; i++)
+    {
+        adjust_inf = &adjust_layout->pool[i];
+        
+        list_for_each(t_node, list)
+        {
+            node = list_entry( t_node, EDIT_ELE_T, e_list );
+            
+            if(adjust_inf->index == node->index)
+            {
+                dis = &node->dis;
+                
+                /* 允许调整名称宽度 */
+                if(adjust_inf->width.name.en == CS_TRUE)
+                {
+                    dis->name.width = adjust_inf->width.name.value;
+                }
+                /* 允许调整编辑控件宽度 */
+                if(adjust_inf->width.edit.en == CS_TRUE)
+                {
+                    dis->edit.width = adjust_inf->width.edit.value;
+                }
+                /* 允许调整单位文本控件宽度 */
+                if(adjust_inf->width.unit.en == CS_TRUE)
+                {
+                    dis->unit.width = adjust_inf->width.unit.value;
+                }
+                break;
             }
         }
     }

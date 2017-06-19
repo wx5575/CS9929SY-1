@@ -314,10 +314,10 @@ enum{
 /**
   * @brief  电弧侦测模式
   */
-enum{
+typedef enum{
 	ARC_CUR_MODE,           ///<电弧侦测电流模式
 	ARC_GRADE_MODE,         ///<电弧侦测档位模式
-};
+}ARC_MODE;
 /**
   * @brief  直流GR的测试方法
   */
@@ -459,7 +459,7 @@ typedef struct{
 	uint16_t total;///< 总测试步
 	uint16_t buzzer_time;///<蜂鸣时间
 	uint16_t pass_time;///<PASS时间
-    uint16_t arc_mode;///<电弧侦测模式
+    ARC_MODE arc_mode;///<电弧侦测模式
 	uint8_t date[22];///<存放日期时间 xxxx.xx.xx xx:xx:xx
 }TEST_FILE;
 /**

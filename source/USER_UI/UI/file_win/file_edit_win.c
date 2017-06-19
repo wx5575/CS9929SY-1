@@ -65,12 +65,12 @@ static void edit_pass_time_f2_cb(KEY_MESSAGE *key_msg);
 static void edit_pass_time_f3_cb(KEY_MESSAGE *key_msg);
 static void edit_pass_time_f4_cb(KEY_MESSAGE *key_msg);
 
-static void edit_sw_f1_cb(KEY_MESSAGE *key_msg);
-static void edit_sw_f2_cb(KEY_MESSAGE *key_msg);
-static void edit_sw_f3_cb(KEY_MESSAGE *key_msg);
-static void edit_sw_f4_cb(KEY_MESSAGE *key_msg);
-static void edit_sw_f5_cb(KEY_MESSAGE *key_msg);
-static void edit_sw_f6_cb(KEY_MESSAGE *key_msg);
+static void edit_arc_f1_cb(KEY_MESSAGE *key_msg);
+static void edit_arc_f2_cb(KEY_MESSAGE *key_msg);
+static void edit_arc_f3_cb(KEY_MESSAGE *key_msg);
+static void edit_arc_f4_cb(KEY_MESSAGE *key_msg);
+static void edit_arc_f5_cb(KEY_MESSAGE *key_msg);
+static void edit_arc_f6_cb(KEY_MESSAGE *key_msg);
 
 static void init_create_file_edit_win_com_ele(MYUSER_WINDOW_T* win);
 static void init_create_file_edit_win_edit_ele(MYUSER_WINDOW_T* win);
@@ -87,7 +87,7 @@ static void fbeeptime_menu_key(WM_HWIN data);
 static void set_fwmode_n(WM_HWIN hWin);
 static void set_fwmode_g(WM_HWIN hWin);
 
-static void edit_sw_menu_key_init(WM_HMEM hWin);
+static void edit_arc_menu_key_init(WM_HMEM hWin);
 /* Private variables ---------------------------------------------------------*/
 
 /**
@@ -99,6 +99,26 @@ static WIDGET_POS_SIZE_T* file_edit_win_pos_size_pool[SCREEN_NUM]=
     &_7_file_edit_windows,/*5.6寸屏*/
     &_7_file_edit_windows,/*7寸屏*/
 };
+
+/**
+  * @brief  步骤编辑窗口的位置尺寸信息数组，根据不同的屏幕尺寸进行初始化
+  */
+static EDIT_ELE_AUTO_LAYOUT_T *file_edit_win_edit_ele_auto_layout_pool[SCREEN_NUM]=
+{
+    &_7_file_edit_ele_auto_layout_inf,/*4.3寸屏*/
+    &_7_file_edit_ele_auto_layout_inf,/*5.6寸屏*/
+    &_7_file_edit_ele_auto_layout_inf,/*7寸屏*/
+};
+/**
+  * @brief  步骤编辑窗口的位置尺寸信息数组，根据不同的屏幕尺寸进行初始化
+  */
+static ADJUST_EDIT_ELE_LAYOUT_INF *file_edit_win_edit_ele_adiust_layout_pool[SCREEN_NUM]=
+{
+    &_7_file_edit_win_edit_ele_adjust_layout_inf,/*4.3寸屏*/
+    &_7_file_edit_win_edit_ele_adjust_layout_inf,/*5.6寸屏*/
+    &_7_file_edit_win_edit_ele_adjust_layout_inf,/*7寸屏*/
+};
+
 /**
   * @brief  文件名编辑菜单键信息数组
   */
@@ -156,17 +176,18 @@ static FUNCTION_KEY_INFO_T file_edit_sys_key_pool[]=
 	{CODE_RIGH	, file_edit_direct_key_up_cb      },
 	{CODE_LEFT	, file_edit_direct_key_down_cb	 },
 };
+
 /**
   * @brief  编辑开关变量时使用的菜单键初始化信息数组
-  */
-static MENU_KEY_INFO_T 	edit_sw_menu_key_init_info[] =
+  */ 
+static MENU_KEY_INFO_T 	edit_arc_menu_key_init_info[] =
 {
-    {"", F_KEY_ON   , KEY_F1 & _KEY_UP, edit_sw_f1_cb },//f1
-    {"", F_KEY_OFF  , KEY_F2 & _KEY_UP, edit_sw_f2_cb },//f2
-    {"", F_KEY_NULL , KEY_F3 & _KEY_UP, edit_sw_f3_cb },//f3
-    {"", F_KEY_NULL , KEY_F4 & _KEY_UP, edit_sw_f4_cb },//f4
-    {"", F_KEY_NULL , KEY_F5 & _KEY_UP, edit_sw_f5_cb },//f5
-    {"", F_KEY_BACK , KEY_F6 & _KEY_UP, edit_sw_f6_cb },//f6
+    {"", F_KEY_CUR  , KEY_F1 & _KEY_UP, edit_arc_f1_cb },//f1
+    {"", F_KEY_GRADE, KEY_F2 & _KEY_UP, edit_arc_f2_cb },//f2
+    {"", F_KEY_NULL , KEY_F3 & _KEY_UP, edit_arc_f3_cb },//f3
+    {"", F_KEY_NULL , KEY_F4 & _KEY_UP, edit_arc_f4_cb },//f4
+    {"", F_KEY_NULL , KEY_F5 & _KEY_UP, edit_arc_f5_cb },//f5
+    {"", F_KEY_BACK , KEY_F6 & _KEY_UP, edit_arc_f6_cb },//f6
 };
 /**
   * @brief  文件编辑窗口的编辑对象初始化数组
@@ -180,11 +201,10 @@ static EDIT_ELE_T edit_file_ele_pool[]=
         {NULL, D_N_BYTES},/* 数据指针 */
         {NULL,0},/* 资源表 */
         {ELE_EDIT_STR, E_STRING_T},/*类型*/
-        {0/*decs*/,20/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
+        {0/*decs*/, NAME_LON/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {
-            0/*heigh*/,0/*low*/,{"1-12个字符 \n(A-Z a-z 0-9 空格 + / - .)"
-            ,"1-12 characters\n(A-Z a-z 0-9 space + / - .)"}/*notice*/
-            
+            0/*heigh*/,0/*low*/,{"1-14个字符 \n(A-Z a-z 0-9 空格 + / - .)"
+            ,"1-14 characters\n(A-Z a-z 0-9 space + / - .)"}/*notice*/
         },/*range*/
         {fname_sys_key, fname_menu_key, keyboard_fun_str,},/*key_inf*/
     },
@@ -230,7 +250,7 @@ static EDIT_ELE_T edit_file_ele_pool[]=
         {ELE_DROPDOWN, E_INT_T},/*类型*/
         {1/*decs*/,5/*lon*/,TIM_U_s/*unit*/,},/*format*/
         {9999/*heigh*/,0/*low*/,{"PassTime","PassTime"}/*notice*/},/*range*/
-        {fpasstime_sys_key, edit_sw_menu_key_init, keyboard_fun_num,},/*key_inf*/
+        {fpasstime_sys_key, edit_arc_menu_key_init, keyboard_fun_num,},/*key_inf*/
     },
 };
 /**
@@ -286,6 +306,13 @@ static MYUSER_WINDOW_T save_file_window=
         (CS_INDEX*)range_com_ele_table,ARRAY_SIZE(range_com_ele_table),
         init_create_file_edit_win_com_ele,
     },
+    /* 自动布局 */
+    {
+        NULL,//文本自动布局信息池
+        file_edit_win_edit_ele_auto_layout_pool,///<编辑对象自动布局信息池
+        NULL,//文本对象调整布局信息池
+        file_edit_win_edit_ele_adiust_layout_pool,//编辑对象调整布局信息池
+    },/* auto_layout */
 };
 /**
   * @brief  文件新建窗口的数据结构定义
@@ -307,6 +334,13 @@ static MYUSER_WINDOW_T new_file_window=
         (CS_INDEX*)range_com_ele_table,ARRAY_SIZE(range_com_ele_table),
         init_create_file_edit_win_com_ele,
     },
+    /* 自动布局 */
+    {
+        NULL,//文本自动布局信息池
+        file_edit_win_edit_ele_auto_layout_pool,///<编辑对象自动布局信息池
+        NULL,//文本对象调整布局信息池
+        file_edit_win_edit_ele_adiust_layout_pool,//编辑对象调整布局信息池
+    },/* auto_layout */
 };
 /**
   * @brief  文件编辑窗口的数据结构定义
@@ -328,6 +362,13 @@ static MYUSER_WINDOW_T edit_file_windows=
         (CS_INDEX*)range_com_ele_table,ARRAY_SIZE(range_com_ele_table),
         init_create_file_edit_win_com_ele,
     },
+    /* 自动布局 */
+    {
+        NULL,//文本自动布局信息池
+        file_edit_win_edit_ele_auto_layout_pool,///<编辑对象自动布局信息池
+        NULL,//文本对象调整布局信息池
+        file_edit_win_edit_ele_adiust_layout_pool,//编辑对象调整布局信息池
+    },/* auto_layout */
 };
 
 
@@ -490,55 +531,85 @@ static void edit_pass_time_f4_cb(KEY_MESSAGE *key_msg)
 {
 }
 
+/**
+  * @brief  设置下拉框的开关变量为打开状态
+  * @param  [in] hWin 窗口句柄
+  * @retval 无
+  */
+static void set_arc_mode_current(WM_HMEM hWin)
+{
+    uint8_t size = g_cur_edit_ele->data.bytes;
+    uint32_t value = ARC_CUR_MODE;
+    WM_HMEM handle = g_cur_edit_ele->dis.edit.handle;
+    
+    DROPDOWN_SetSel(handle, value);
+    DROPDOWN_SetUserData(handle, &value, size);
+    upload_par_to_ram(g_cur_edit_ele);//数据更新到内存
+}
 
 /**
-  * @brief  编辑开关变量使用的功能键F1回调函数
-  * @param  [in] key_msg 按键消息
+  * @brief  设置下拉框的开关变量为关闭状态
+  * @param  [in] hWin 窗口句柄
   * @retval 无
   */
-static void edit_sw_f1_cb(KEY_MESSAGE *key_msg)
+static void set_arc_mode_grade(WM_HMEM hWin)
 {
-    set_sw_status_on(key_msg->user_data);
+    uint8_t size = g_cur_edit_ele->data.bytes;
+    uint32_t value = ARC_GRADE_MODE;
+    WM_HMEM handle = g_cur_edit_ele->dis.edit.handle;
+    
+    DROPDOWN_SetSel(handle, value);
+    DROPDOWN_SetUserData(handle, &value, size);
+    upload_par_to_ram(g_cur_edit_ele);//数据更新到内存
 }
 /**
-  * @brief  编辑开关变量使用的功能键F2回调函数
+  * @brief  编辑电弧侦测模式变量使用的功能键F1回调函数
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
-static void edit_sw_f2_cb(KEY_MESSAGE *key_msg)
+static void edit_arc_f1_cb(KEY_MESSAGE *key_msg)
 {
-    set_sw_status_off(key_msg->user_data);
+    set_arc_mode_current(key_msg->user_data);
 }
 /**
-  * @brief  编辑开关变量使用的功能键F3回调函数
+  * @brief  编辑电弧侦测模式变量使用的功能键F2回调函数
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
-static void edit_sw_f3_cb(KEY_MESSAGE *key_msg)
+static void edit_arc_f2_cb(KEY_MESSAGE *key_msg)
 {
+    set_arc_mode_grade(key_msg->user_data);
 }
 /**
-  * @brief  编辑开关变量使用的功能键F4回调函数
+  * @brief  编辑电弧侦测模式变量使用的功能键F3回调函数
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
-static void edit_sw_f4_cb(KEY_MESSAGE *key_msg)
-{
-}
-/**
-  * @brief  编辑开关变量使用的功能键F5回调函数
-  * @param  [in] key_msg 按键消息
-  * @retval 无
-  */
-static void edit_sw_f5_cb(KEY_MESSAGE *key_msg)
+static void edit_arc_f3_cb(KEY_MESSAGE *key_msg)
 {
 }
 /**
-  * @brief  编辑开关变量使用的功能键F6回调函数
+  * @brief  编辑电弧侦测模式变量使用的功能键F4回调函数
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
-static void edit_sw_f6_cb(KEY_MESSAGE *key_msg)
+static void edit_arc_f4_cb(KEY_MESSAGE *key_msg)
+{
+}
+/**
+  * @brief  编辑电弧侦测模式变量使用的功能键F5回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void edit_arc_f5_cb(KEY_MESSAGE *key_msg)
+{
+}
+/**
+  * @brief  编辑电弧侦测模式变量使用的功能键F6回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void edit_arc_f6_cb(KEY_MESSAGE *key_msg)
 {
     back_win(key_msg->user_data);
 }
@@ -547,10 +618,10 @@ static void edit_sw_f6_cb(KEY_MESSAGE *key_msg)
   * @param  [in] hWin 窗口句柄
   * @retval 无
   */
-static void edit_sw_menu_key_init(WM_HMEM hWin)
+static void edit_arc_menu_key_init(WM_HMEM hWin)
 {
-    MENU_KEY_INFO_T * info = edit_sw_menu_key_init_info;
-    uint32_t size = ARRAY_SIZE(edit_sw_menu_key_init_info);
+    MENU_KEY_INFO_T * info = edit_arc_menu_key_init_info;
+    uint32_t size = ARRAY_SIZE(edit_arc_menu_key_init_info);
     int32_t data = g_cur_edit_ele->dis.edit.handle;
     
 	init_menu_key_info(info, size, data);
@@ -766,7 +837,8 @@ static void set_file_par_window_ele_data(TEST_FILE *f)
     
     if(err == CS_ERR_NONE)
     {
-        init_sw_type_edit_ele_resource_inf(ele);
+//        init_sw_type_edit_ele_resource_inf(ele);
+        init_edit_ele_resource_inf(ele, arc_mode_pool[SYS_LANGUAGE], ARRAY_SIZE(arc_mode_pool[SYS_LANGUAGE]));
     }
 }
 /**
@@ -778,13 +850,10 @@ static void init_create_file_edit_win_edit_ele(MYUSER_WINDOW_T* win)
 {
     set_file_par_window_ele_data(&global_file);//初始化编辑对象的参数
     init_window_edit_ele_list(win);//初始化窗口编辑对象链表
-    
-    //初始化编辑对象显示信息
-    init_window_edit_ele_dis_inf(win, &_7_file_edit_ele_auto_layout_inf);
-    
+    auto_layout_win_edit_ele(win);//自动布局窗口中的编辑对象
+//    adjust_some_part_layout();//调整某些对象的布局
     init_window_edit_ele(win);//初始化创建编辑对象
 }
-
 /**
   * @brief  初始化并创建窗口公共文本对象
   * @param  [in] win 窗口结构信息
