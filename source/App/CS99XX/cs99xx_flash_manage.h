@@ -106,6 +106,7 @@ extern void save_group_table_flash(const FILE_NUM file_num);
 extern void read_step_used_flag_flash(const FILE_NUM file_num);
 extern void save_step_used_flag_flash(FILE_NUM file_num);
 extern void init_group_step_used_flag_flash(void);
+extern void copy_cur_file_to_new_pos_flash(const FILE_NUM file_num);
 
 #endif //__CS99XX_FLASH_MANAGE_H__
 

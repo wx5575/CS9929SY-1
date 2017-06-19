@@ -1079,6 +1079,6 @@ void reg_step_ele_data(CS_INDEX index, void *data, uint8_t bytes)
 void auto_layout_win_edit_ele(MYUSER_WINDOW_T* win)
 {
     auto_init_win_edit_ele_dis_inf(win);
-    adjust_init_win_edit_ele_dis_inf(win);
+    adjust_win_edit_ele_dis_inf(win);//调整某些对象的布局
 }
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

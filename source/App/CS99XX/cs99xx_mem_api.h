@@ -41,6 +41,7 @@ extern void save_one_step(NODE_STEP *node, const FILE_NUM file_num, const STEP_N
 extern void read_one_step(NODE_STEP *node, const FILE_NUM file_num, const STEP_NUM step);
 extern void save_group_info(const FILE_NUM file_num);
 extern void read_group_info(const FILE_NUM file_num);
+extern void copy_cur_file_to_new_pos(const FILE_NUM file_num);
 
 #endif //__CS99XX_MEM_API_H__
 

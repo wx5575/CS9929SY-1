@@ -185,5 +185,14 @@ void read_group_info(const FILE_NUM file_num)
     read_group_table(file_num);//保存记忆组映射表
     read_step_used_flag(file_num);//保存步骤已使用标记
 }
+/**
+  * @brief  拷贝当前文件到新的位置
+  * @param  [in] file_num 文件编号
+  * @retval 无
+  */
+void copy_cur_file_to_new_pos(const FILE_NUM file_num)
+{
+    copy_cur_file_to_new_pos_flash(file_num);
+}
 
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

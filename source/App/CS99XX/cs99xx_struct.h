@@ -557,6 +557,7 @@ extern void init_file_data(TEST_FILE *file, FILE_NUM file_num);
 extern void clear_file_data(TEST_FILE *file, FILE_NUM file_num);
 extern void clear_all_file_data(void);
 extern void init_all_file(void);
+extern void del_all_file(void);
 extern TEST_FILE* get_file_inf(FILE_NUM file_num, CS_ERR* err);
 extern void init_sys_par(void);
 extern void check_sys_par(CS_ERR *err);
@@ -573,6 +574,8 @@ extern void transform_test_port_to_str(TEST_PORT *port, uint8_t *buf);
 extern void transform_str_to_test_port(TEST_PORT *port, uint8_t *buf);
 extern uint16_t transform_arc_cur_to_grade(uint16_t arc_cur_val);
 extern uint16_t transform_arc_grade_to_cur(uint16_t gear);
+extern void init_new_group_inf(TEST_FILE *file);
+extern void del_one_group_inf(FILE_NUM file_num);
 
 #endif //__CS99XX_STRUCT_H__
 

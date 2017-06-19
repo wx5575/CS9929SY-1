@@ -59,6 +59,10 @@ static void file_win_direct_key_up_cb(KEY_MESSAGE *key_msg);
 static void file_win_direct_key_down_cb(KEY_MESSAGE *key_msg);
 
 static void update_cur_row_menu_key_st(WM_HWIN hWin);
+
+static void pop_warning_dialog_for_read_file(WM_HWIN hWin);
+static void pop_warning_dialog_for_del_file(WM_HWIN hWin);
+static void pop_warning_dialog_for_clear_file(WM_HWIN hWin);
 /* Private variables ---------------------------------------------------------*/
 /**
   * @brief  文件管理列表句柄
@@ -91,7 +95,7 @@ static MENU_KEY_INFO_T 	file_exist_menu_key_info[] =
     {"", F_KEY_READ		, KEY_F2 & _KEY_UP, file_exist_f2_cb },//f2
     {"", F_KEY_EDIT		, KEY_F3 & _KEY_UP, file_exist_f3_cb },//f3
     {"", F_KEY_DEL		, KEY_F4 & _KEY_UP, file_exist_f4_cb },//f4
-    {"", F_KEY_NULL		, KEY_F5 & _KEY_UP, file_exist_f5_cb },//f5
+    {"", F_KEY_CLEAR    , KEY_F5 & _KEY_UP, file_exist_f5_cb },//f5
     {"", F_KEY_BACK		, KEY_F6 & _KEY_UP, file_exist_f6_cb },//f6
 };
 
@@ -124,6 +128,7 @@ static FUNCTION_KEY_INFO_T 	file_win_sys_key_pool[]={
   */
 static void file_exist_f1_cb(KEY_MESSAGE *key_msg)
 {
+    memcpy(&global_file, g_cur_file, sizeof(global_file));
     into_save_file_dialog(key_msg->user_data);
 }
 /**
@@ -133,6 +138,7 @@ static void file_exist_f1_cb(KEY_MESSAGE *key_msg)
   */
 static void file_exist_f2_cb(KEY_MESSAGE *key_msg)
 {
+    pop_warning_dialog_for_read_file(key_msg->user_data);
 }
 /**
   * @brief  文件存在菜单键f3的回调函数
@@ -141,7 +147,31 @@ static void file_exist_f2_cb(KEY_MESSAGE *key_msg)
   */
 static void file_exist_f3_cb(KEY_MESSAGE *key_msg)
 {
-    create_edit_file_dialog(key_msg->user_data);
+    TEST_FILE* f;
+    int row = 0;
+    CS_ERR err;
+    
+	row = LISTVIEW_GetSel(file_list_handle);
+	
+	/* 文件不存在 */
+	if(CS_TRUE != is_file_exist(row + 1))
+	{
+        return;
+    }
+    
+	/* 文件存在 */
+    f = get_file_inf(row + 1, &err);
+    
+    if(err == CS_ERR_NONE)
+    {
+        memcpy(&global_file, f, sizeof(global_file));
+    }
+    else
+    {
+        return;
+    }
+    
+    create_edit_file_dialog(key_msg->user_data);//创建编辑文件对话框
 }
 /**
   * @brief  文件存在菜单键f4的回调函数
@@ -150,6 +180,32 @@ static void file_exist_f3_cb(KEY_MESSAGE *key_msg)
   */
 static void file_exist_f4_cb(KEY_MESSAGE *key_msg)
 {
+    //删除文件
+    TEST_FILE* f;
+    int row = 0;
+    CS_ERR err;
+    
+	row = LISTVIEW_GetSel(file_list_handle);
+	
+	/* 文件不存在 */
+	if(CS_TRUE != is_file_exist(row + 1))
+	{
+        return;
+    }
+    
+	/* 文件存在 */
+    f = get_file_inf(row + 1, &err);
+    
+    if(err == CS_ERR_NONE)
+    {
+        memcpy(&global_file, f, sizeof(global_file));
+    }
+    else
+    {
+        return;
+    }
+    
+    pop_warning_dialog_for_del_file(key_msg->user_data);
 }
 /**
   * @brief  文件存在菜单键f5的回调函数
@@ -158,6 +214,7 @@ static void file_exist_f4_cb(KEY_MESSAGE *key_msg)
   */
 static void file_exist_f5_cb(KEY_MESSAGE *key_msg)
 {
+    pop_warning_dialog_for_clear_file(key_msg->user_data);
 }
 /**
   * @brief  文件存在菜单键f6的回调函数
@@ -176,6 +233,7 @@ static void file_exist_f6_cb(KEY_MESSAGE *key_msg)
   */
 static void file_no_exist_f1_cb(KEY_MESSAGE *key_msg)
 {
+    memcpy(&global_file, g_cur_file, sizeof(global_file));
     create_save_file_dialog(key_msg->user_data);
 }
 /**
@@ -185,7 +243,8 @@ static void file_no_exist_f1_cb(KEY_MESSAGE *key_msg)
   */
 static void file_no_exist_f2_cb(KEY_MESSAGE *key_msg)
 {
-    create_new_file_dialog(key_msg->user_data);
+    init_file_data(&global_file, 0);//初始化文件数据
+    create_new_file_dialog(key_msg->user_data);//创建新建文件对话框
 }
 /**
   * @brief  文件不存在菜单键f3的回调函数
@@ -242,7 +301,114 @@ static void file_win_direct_key_down_cb(KEY_MESSAGE *key_msg)
     update_cur_row_menu_key_st(key_msg->user_data);
 }
 
-
+/**
+  * @brief  读取文件时弹出的警告框
+  * @param  [in] hWin 窗口句柄
+  * @retval 无
+  */
+static void pop_warning_dialog_for_read_file(WM_HWIN hWin)
+{
+    const uint16_t WAR_WIN_TX = 10;//警告文本的X坐标
+    const uint16_t WAR_WIN_TY = 20;//警告文本的Y坐标
+    const uint16_t WAR_WIN_W = 400;//警告对话框的宽度
+    const uint16_t WAR_WIN_H = 200;//警告对话框的高度
+    const uint16_t WAR_WIN_X = 150;//警告对话框在父窗口中的X坐标
+    const uint16_t WAR_WIN_Y = 50;//警告对话框在父窗口中的Y坐标
+    
+    WARNING_INF w_inf =
+    {
+        /* 标题 */
+        {{"警告","Warning"}, 0 },
+        /* 内容 */
+        {
+            {"是否读取该文件?",
+            "Do you want to read this file?"
+            }, 2,
+            0/*base_x*/,0/*base_y*/,
+            {WAR_WIN_TX,WAR_WIN_TY,WAR_WIN_W - 20,WAR_WIN_H - (WAR_WIN_TY + 10)},/*pos_size*/
+            100/*max_len*/,
+            {&GUI_Fonthz_20}, GUI_BLACK, GUI_INVALID_COLOR, GUI_TA_CENTER | GUI_TA_VCENTER
+        },
+        {WAR_WIN_X, WAR_WIN_Y, WAR_WIN_W, WAR_WIN_H},/*win_pos_size*/
+        0,/*dly_auto_close xx ms后自动关闭 0表示不自动关闭*/
+    };
+    
+    set_custom_msg_id(CM_FILE_UI_READ);
+    set_warning_ui_inf(&w_inf);
+    create_warning_dialog(hWin);
+}
+/**
+  * @brief  在删除文件时弹出的警告框
+  * @param  [in] hWin 窗口句柄
+  * @retval 无
+  */
+static void pop_warning_dialog_for_del_file(WM_HWIN hWin)
+{
+    const uint16_t WAR_WIN_TX = 10;//警告文本的X坐标
+    const uint16_t WAR_WIN_TY = 20;//警告文本的Y坐标
+    const uint16_t WAR_WIN_W = 400;//警告对话框的宽度
+    const uint16_t WAR_WIN_H = 200;//警告对话框的高度
+    const uint16_t WAR_WIN_X = 150;//警告对话框在父窗口中的X坐标
+    const uint16_t WAR_WIN_Y = 50;//警告对话框在父窗口中的Y坐标
+    
+    WARNING_INF w_inf =
+    {
+        /* 标题 */
+        {{"警告","Warning"}, 0 },
+        /* 内容 */
+        {
+            {"该操作会删除文件数据.\n\n确定要继续吗?\n",
+            "This will delete the file data.\n\n"
+            "Do you want to continue?"}, 2,
+            0/*base_x*/,0/*base_y*/,
+            {WAR_WIN_TX,WAR_WIN_TY,WAR_WIN_W - 20,WAR_WIN_H - (WAR_WIN_TY + 10)},/*pos_size*/
+            100/*max_len*/,
+            {&GUI_Fonthz_20}, GUI_BLACK, GUI_INVALID_COLOR, GUI_TA_CENTER | GUI_TA_VCENTER
+        },
+        {WAR_WIN_X, WAR_WIN_Y, WAR_WIN_W, WAR_WIN_H},/*win_pos_size*/
+        0,/*dly_auto_close xx ms后自动关闭 0表示不自动关闭*/
+    };
+    
+    set_custom_msg_id(CM_FILE_UI_DEL);
+    set_warning_ui_inf(&w_inf);
+    create_warning_dialog(hWin);
+}
+/**
+  * @brief  在删除所有文件时弹出的警告框
+  * @param  [in] hWin 窗口句柄
+  * @retval 无
+  */
+static void pop_warning_dialog_for_clear_file(WM_HWIN hWin)
+{
+    const uint16_t WAR_WIN_TX = 10;//警告文本的X坐标
+    const uint16_t WAR_WIN_TY = 20;//警告文本的Y坐标
+    const uint16_t WAR_WIN_W = 400;//警告对话框的宽度
+    const uint16_t WAR_WIN_H = 200;//警告对话框的高度
+    const uint16_t WAR_WIN_X = 150;//警告对话框在父窗口中的X坐标
+    const uint16_t WAR_WIN_Y = 50;//警告对话框在父窗口中的Y坐标
+    
+    WARNING_INF w_inf =
+    {
+        /* 标题 */
+        {{"警告","Warning"}, 0 },
+        /* 内容 */
+        {
+            {"该操作会删除所有文件数据.\n\n确定要继续吗?\n",
+            "This will delete all files.\n\n"
+            "Do you want to continue?"}, 2,
+            0/*base_x*/,0/*base_y*/,
+            {WAR_WIN_TX,WAR_WIN_TY,WAR_WIN_W - 20,WAR_WIN_H - (WAR_WIN_TY + 10)},/*pos_size*/
+            100/*max_len*/,
+            {&GUI_Fonthz_20}, GUI_BLACK, GUI_INVALID_COLOR, GUI_TA_CENTER | GUI_TA_VCENTER
+        },
+        {WAR_WIN_X, WAR_WIN_Y, WAR_WIN_W, WAR_WIN_H},/*win_pos_size*/
+        0,/*dly_auto_close xx ms后自动关闭 0表示不自动关闭*/
+    };
+    
+    set_custom_msg_id(CM_FILE_UI_CLEAR);
+    set_warning_ui_inf(&w_inf);
+    create_warning_dialog(hWin);
+}
 /**
   * @brief  在保存文件时弹出的警告框
   * @param  [in] hWin 窗口句柄
@@ -363,13 +529,23 @@ static void dis_one_file_info(TEST_FILE *file)
 	uint8_t list_buf[5][20] = {0};
 	int32_t i = 0;
 	uint16_t row = 0;
-    CS_ERR err;
-    
-    err = check_file_data(file);
 	
-    if(err != CS_ERR_NONE)
+	/* 文件存在 */
+	if(CS_TRUE == is_file_exist(file->num))
+	{
+        i = 1;
+        sprintf((char *)list_buf[i++], "%s", file->name);
+        sprintf((char *)list_buf[i++], "%s", work_mode_pool[file->work_mode%2]);
+        sprintf((char *)list_buf[i++], "%d", file->total);
+        sprintf((char *)list_buf[i++], "%s", file->date);//get_time_str(0));
+    }
+    /* 文件不存在 */
+    else
     {
-		return;
+        for(i = 1; i < 5; i++)
+        {
+            strcpy((char *)list_buf[i], "");
+        }
     }
     
 	if(file->num >= 1)
@@ -377,12 +553,7 @@ static void dis_one_file_info(TEST_FILE *file)
 		row = file->num - 1;
 	}
 	
-	i = 1;
-	sprintf((char *)list_buf[i++], "%s", file->name);
-	sprintf((char *)list_buf[i++], "%s", work_mode_pool[file->work_mode%2]);
-	sprintf((char *)list_buf[i++], "%d", file->total);
-	sprintf((char *)list_buf[i++], "%s", file->date);//get_time_str(0));
-	
+    /* 数据更新到listview控件上 */
 	for(i = 1; i < 5; i++)
 	{
 		LISTVIEW_SetItemText(file_list_handle, i, row, (const char*)list_buf[i]);
@@ -476,7 +647,78 @@ static void dispose_child_win_msg(CUSTOM_MSG_T * msg, WM_HWIN hWin)
             
             break;
         }
-		case CM_FILE_UI_SAVE://文件界面
+		case CM_FILE_UI_SAVE://存贮文件界面
+        {
+			if(msg->msg == CM_DIALOG_RETURN_OK)
+			{
+				int row = 0;
+				TEST_FILE *f;
+				
+				f = (TEST_FILE*)msg->user_data;
+				
+				row = LISTVIEW_GetSel(file_list_handle);
+				
+				f->num = row + 1;
+                
+				if(f->num < MAX_FILES)
+				{
+					strcpy((char *)f->date, (const char*)get_time_str(0));
+					file_pool[f->num] = *f;
+                    copy_cur_file_to_new_pos(f->num);//拷贝当前文件到指定位置
+				}
+                
+                update_file_dis();
+			}
+			break;
+        }
+		case CM_FILE_UI_NEW:
+        {
+			if(msg->msg == CM_DIALOG_RETURN_OK)
+			{
+				int row = 0;
+				TEST_FILE *f;
+				
+				f = (TEST_FILE*)msg->user_data;
+				
+				row = LISTVIEW_GetSel(file_list_handle);
+				
+				f->num = row + 1;
+				if(f->num < MAX_FILES)
+				{
+					strcpy((char *)f->date, (const char*)get_time_str(0));
+                    init_new_group_inf(f);//初始化记忆组
+					file_pool[f->num] = *f;
+                    save_file(f->num);
+				}
+                
+                update_file_dis();
+			}
+			break;
+        }
+		case CM_FILE_UI_READ://文件读取
+        {
+			if(msg->msg == CM_DIALOG_RETURN_OK)
+			{
+				int row = 0;
+                CS_ERR err;
+				TEST_FILE *f;
+				
+				row = LISTVIEW_GetSel(file_list_handle);
+				
+                f = get_file_inf(row + 1, &err);
+                
+                if(err == CS_ERR_NONE)
+                {
+                    g_cur_file = f;
+                    read_group_info(g_cur_file->num);//保存新建文件的记忆组信息
+                    sys_flag.last_file_num = g_cur_file->num;//更新最近使用的文件编号
+                    save_sys_flag();//保存系统标记
+                    read_group_info(g_cur_file->num);//恢复最近使用的记忆组信息
+                }
+			}
+			break;
+        }
+		case CM_FILE_UI_EDIT://文件编辑
         {
 			if(msg->msg == CM_DIALOG_RETURN_OK)
 			{
@@ -497,43 +739,46 @@ static void dispose_child_win_msg(CUSTOM_MSG_T * msg, WM_HWIN hWin)
                 
                 update_file_dis();
 			}
-			else
+			break;
+        }
+		case CM_FILE_UI_DEL://文件删除
+        {
+			if(msg->msg == CM_DIALOG_RETURN_OK)
 			{
+				int row = 0;
+				TEST_FILE *f;
+                CS_ERR err;
+                
+				row = LISTVIEW_GetSel(file_list_handle);
+				
+                del_one_group_inf(row + 1);//删除一个记组信息
+                update_file_dis();
+                
+                if(row + 1 == g_cur_file->num)
+                {
+                    f = get_file_inf(0, &err);
+                    
+                    if(err == CS_ERR_NONE)
+                    {
+                        g_cur_file = f;
+                        read_group_info(g_cur_file->num);//保存新建文件的记忆组信息
+                        sys_flag.last_file_num = g_cur_file->num;//更新最近使用的文件编号
+                        save_sys_flag();//保存系统标记
+                        read_group_info(g_cur_file->num);//恢复最近使用的记忆组信息
+                    }
+                }
 			}
 			break;
         }
-		case CM_FILE_UI_NEW:
+		case CM_FILE_UI_CLEAR://文件删除
+        {
 			if(msg->msg == CM_DIALOG_RETURN_OK)
 			{
-			}
-			else
-			{
-			}
-			break;
-		case CM_FILE_UI_READ://文件读取
-			if(msg->msg == CM_DIALOG_RETURN_OK)
-			{
-			}
-			else
-			{
+                del_all_file();
+                update_file_dis();
 			}
 			break;
-		case CM_FILE_UI_EDIT://文件编辑
-			if(msg->msg == CM_DIALOG_RETURN_OK)
-			{
-			}
-			else
-			{
-			}
-			break;
-		case CM_FILE_UI_DEL://文件删除
-			if(msg->msg == CM_DIALOG_RETURN_OK)
-			{
-			}
-			else
-			{
-			}
-			break;
+        }
 	}
     
     if(0 == flag)

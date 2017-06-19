@@ -252,7 +252,7 @@ TEST_FILE* get_file_inf(FILE_NUM file_num, CS_ERR* err)
 {
     *err = CS_ERR_NONE;
     
-    if(file_num)
+    if(file_num >= MAX_FILES)
     {
         *err = CS_ERR_DATA_OUT_OF_RANGE;
         return NULL;
@@ -396,7 +396,7 @@ void del_all_file(void)
 {
     int32_t i = 0;
     
-    default_file = file_pool[0];
+    default_file = file_pool[0];//备份默认文件
     init_file_table();
     
     clear_step_used_flag();
@@ -411,13 +411,12 @@ void del_all_file(void)
         }
     }
     
-    file_pool[0] = default_file;
+    file_pool[0] = default_file;//恢复默认文件
     g_cur_file = &file_pool[0];
     read_step_used_flag(g_cur_file->num);
     read_group_table(g_cur_file->num);
     
     save_all_file();
-    
     set_cur_file(0);
 }
 /**
@@ -948,6 +947,38 @@ void check_test_step_data(NODE_STEP *node, CS_ERR *err)
 {
     *err = CS_ERR_NONE;
     return;
+}
+
+/**
+  * @brief  初始化新的记忆组信息
+  * @param  [in] file 文件结构信息
+  * @retval 无
+  */
+void init_new_group_inf(TEST_FILE *file)
+{
+    uint8_t mode;
+    CS_ERR err;
+    
+    g_cur_file = file;
+    read_group_info(file->num);//读出新建的文件对应的记忆组信息
+    mode = get_first_mode();//获取仪器支持的第一个测试模式
+    insert_step(0, mode);//将仪器支持的第一个测试模式作为第一步的默认模式插入进记忆组中
+    save_group_info(file->num);//保存新建文件的记忆组信息
+    read_group_info(sys_flag.last_file_num);//恢复最近使用的记忆组信息
+    g_cur_file = get_file_inf(sys_flag.last_file_num, &err);
+}
+/**
+  * @brief  删除记忆组信息
+  * @param  [in] file_num 文件编号
+  * @retval 无
+  */
+void del_one_group_inf(FILE_NUM file_num)
+{
+    clear_step_used_flag();
+    clear_group_table();
+    clear_one_file(file_num);
+    save_group_info(file_num);//保存新建文件的记忆组信息
+    read_group_info(g_cur_file->num);
 }
 /**
   * @brief  加载步骤到测试步链表中

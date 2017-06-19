@@ -153,9 +153,6 @@ static void update_warning_ui_menu_key_inf(WM_HMEM hWin)
 static void menu_key_ok(int hWin)
 {
 	g_custom_msg.msg = CM_DIALOG_RETURN_OK;
-	g_custom_msg.user_data = (int)&global_file;
-//     upload_par_to_ram(g_cur_edit_ele);//数据更新到内存
-//     unregister_system_key_fun(sys_key_pool, ARRAY_SIZE(sys_key_pool));
     back_win(hWin);//关闭对话框
 }
 /**

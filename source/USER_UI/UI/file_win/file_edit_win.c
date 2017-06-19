@@ -10,6 +10,7 @@
   */
 
 #include "stm32f4xx.h"
+#include "string.h"
 #include "keyboard.h"
 #include "rtc_config.h"
 #include "GUI.H"
@@ -259,10 +260,10 @@ static EDIT_ELE_T edit_file_ele_pool[]=
 static CS_INDEX fsave_ui_ele_table[]=
 {
     FSAVE_UI_FNAME,
-    FSAVE_UI_WMODE,
-    FSAVE_UI_BEEPT,
-    FSAVE_UI_PASST,
-    FSAVE_UI_ARC_MODE,
+//    FSAVE_UI_WMODE,
+//    FSAVE_UI_BEEPT,
+//    FSAVE_UI_PASST,
+//    FSAVE_UI_ARC_MODE,
 };
 /**
   * @brief  文件新建窗口的编辑对象索引数组
@@ -313,6 +314,7 @@ static MYUSER_WINDOW_T save_file_window=
         NULL,//文本对象调整布局信息池
         file_edit_win_edit_ele_adiust_layout_pool,//编辑对象调整布局信息池
     },/* auto_layout */
+    NULL,/*init_pos_size_fun */123123
 };
 /**
   * @brief  文件新建窗口的数据结构定义
@@ -837,7 +839,6 @@ static void set_file_par_window_ele_data(TEST_FILE *f)
     
     if(err == CS_ERR_NONE)
     {
-//        init_sw_type_edit_ele_resource_inf(ele);
         init_edit_ele_resource_inf(ele, arc_mode_pool[SYS_LANGUAGE], ARRAY_SIZE(arc_mode_pool[SYS_LANGUAGE]));
     }
 }
@@ -851,7 +852,6 @@ static void init_create_file_edit_win_edit_ele(MYUSER_WINDOW_T* win)
     set_file_par_window_ele_data(&global_file);//初始化编辑对象的参数
     init_window_edit_ele_list(win);//初始化窗口编辑对象链表
     auto_layout_win_edit_ele(win);//自动布局窗口中的编辑对象
-//    adjust_some_part_layout();//调整某些对象的布局
     init_window_edit_ele(win);//初始化创建编辑对象
 }
 /**

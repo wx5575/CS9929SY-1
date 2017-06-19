@@ -196,7 +196,7 @@ struct MYUSER_WINDOW{
     ELE_POOL_INF edit;///<编辑控件索引池
     ELE_POOL_INF com;///<公共文本控件索引池
     AUTO_LAYOUT_POOL auto_layout;///<自动布局信息
-    
+    void (*init_pos_size_fun)(MYUSER_WINDOW_T *);///<初始化位置尺寸信息
     WIDGET_POS_SIZE_T pos_size;///<窗口的位置尺寸
 	WM_HMEM	handle;///< 窗口句柄
 	CS_LIST w_list;///< 窗口链表
@@ -355,21 +355,22 @@ extern void init_group_com_text_ele_dis_inf(MYUSER_WINDOW_T* win);
   * @brief 用户自定义消息
   */
 typedef enum{
-	CM_CHILD_W_MSG = 0XFFFFF,//子窗口发来的消息 
+	CM_CHILD_W_MSG = 0XFFFFF,///<子窗口发来的消息 
     CM_UPDATE_USB_ST,///<更新usb的状态
-	CM_FILE_UI_SAVE,
-	CM_FILE_UI_NEW,//文件界面
-	CM_FILE_UI_READ,//文件读取
-	CM_FILE_UI_EDIT,//文件编辑
-	CM_FILE_UI_DEL,//文件删除
-	CM_WARNING_UI,//警告框
+	CM_FILE_UI_SAVE,///<文件存贮
+	CM_FILE_UI_NEW,///<文件界面
+	CM_FILE_UI_READ,///<文件读取
+	CM_FILE_UI_EDIT,///<文件编辑
+	CM_FILE_UI_DEL,///<文件删除
+    CM_FILE_UI_CLEAR,///<清空文件
+	CM_WARNING_UI,///<警告框
     CM_WARNING_INTO_SAVE_FILE,///<进入存贮文件的警告框
     CM_WARNING_INTO_DELETE_FILE,///<进入存贮文件的警告框
-	CM_EDIT_WIDGET_CHANGE,//当编辑控件改变时程序监控到后向控件的父窗口发送这个消息，通常是为了选择按键服务程序
-	CM_DISTROY_DIALOG,//销毁对话框时发给父窗口的消息
+	CM_EDIT_WIDGET_CHANGE,///<当编辑控件改变时程序监控到后向控件的父窗口发送这个消息，通常是为了选择按键服务程序
+	CM_DISTROY_DIALOG,///<销毁对话框时发给父窗口的消息
 	
-	CM_DIALOG_RETURN_OK,//子窗口返回时按下了OK键 或 ENTER
-	CM_DIALOG_RETURN_CANCLE,//子窗口返回时按下了CANCLE键 或 EXIT
+	CM_DIALOG_RETURN_OK,///<子窗口返回时按下了OK键 或 ENTER
+	CM_DIALOG_RETURN_CANCLE,///<子窗口返回时按下了CANCLE键 或 EXIT
 }CUSTOM_MSG_ID;
 /** 
   * @brief 用户自定义消息结构
@@ -417,7 +418,7 @@ extern void init_window_com_ele_list(MYUSER_WINDOW_T *win);
 extern void init_window_text_ele_dis_inf(MYUSER_WINDOW_T *win, TEXT_ELE_AUTO_LAYOUT_T *inf);
 extern void init_window_edit_ele_dis_inf(MYUSER_WINDOW_T *win, EDIT_ELE_AUTO_LAYOUT_T* inf);
 extern void auto_init_win_edit_ele_dis_inf(MYUSER_WINDOW_T *win);
-extern void adjust_init_win_edit_ele_dis_inf(MYUSER_WINDOW_T *win);
+extern void adjust_win_edit_ele_dis_inf(MYUSER_WINDOW_T *win);
 extern void set_custom_msg_id(CUSTOM_MSG_ID id);
 extern void update_win_menu_key(MYUSER_WINDOW_T* win);
 extern void init_dialog(MYUSER_WINDOW_T * win);

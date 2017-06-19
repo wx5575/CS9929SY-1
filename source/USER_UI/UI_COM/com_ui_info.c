@@ -281,7 +281,7 @@ void auto_init_win_edit_ele_dis_inf(MYUSER_WINDOW_T *win)
   * @param  [in] win 用户窗口指针
   * @retval 无
   */
-void adjust_init_win_edit_ele_dis_inf(MYUSER_WINDOW_T *win)
+void adjust_win_edit_ele_dis_inf(MYUSER_WINDOW_T *win)
 {
 	CS_LIST *list = &win->edit.list_head;
     EDIT_ELE_DISPLAY_INF *dis;

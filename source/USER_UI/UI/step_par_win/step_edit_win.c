@@ -1330,7 +1330,6 @@ static void check_acw_range_value(EDIT_ELE_T* ele, uint32_t *range)
     pool = g_cur_win->edit.pool;
     size = g_cur_win->edit.pool_size;
     
-    
     if(tmp >= AC_GEAR_END)
     {
         *range = get_acw_max_gear();
