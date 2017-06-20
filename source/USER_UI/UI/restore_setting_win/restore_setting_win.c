@@ -122,7 +122,17 @@ MYUSER_WINDOW_T restore_setting_windows=
         restore_setting_ui_text_ele_pool, ARRAY_SIZE(restore_setting_ui_text_ele_pool),
         (CS_INDEX*)restore_setting_text_ele_table, ARRAY_SIZE(restore_setting_text_ele_table),
         init_create_restore_setting_text_ele
-    },
+    },/*text*/
+    {0},/*edit*/
+    {0},/*com*/
+    /* 自动布局 */
+    {
+        NULL,//文本自动布局信息池
+        NULL,//编辑对象自动布局信息池
+        NULL,//文本对象调整布局信息池
+        NULL,//编辑对象调整布局信息池
+    },/* auto_layout */
+    restore_setting_win_pos_size_pool/*pos_size_pool*/
 };
 /* Private functions ---------------------------------------------------------*/
 
@@ -264,8 +274,6 @@ static void restore_setting_win_cb(WM_MESSAGE* pMsg)
   */
 void create_restor_factory_setting_dialog(int hWin)
 {
-    init_window_size(&restore_setting_windows, restore_setting_win_pos_size_pool[sys_par.screem_size]);
-    
     create_user_dialog(&restore_setting_windows, &windows_list, hWin);
 }
 

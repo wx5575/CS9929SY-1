@@ -84,7 +84,17 @@ MYUSER_WINDOW_T file_window=
 {
     {"File_window"},
     file_win_cb,file_win_update_fun_key_inf,
-	0,0, 0,
+	{0},/*text*/
+    {0},/*edit*/
+    {0},/*com*/
+    /* 自动布局 */
+    {
+        NULL,//文本自动布局信息池
+        NULL,//编辑对象自动布局信息池
+        NULL,//文本对象调整布局信息池
+        NULL,//编辑对象调整布局信息池
+    },/* auto_layout */
+    file_win_pos_size_pool/*pos_size_pool*/
 };
 /**
   * @brief  文件存在的按键菜单
@@ -839,8 +849,6 @@ static void file_win_cb(WM_MESSAGE* pMsg)
   */
 void create_file_win(int hWin)
 {
-    init_window_size(&file_window, file_win_pos_size_pool[sys_par.screem_size]);
-    
     create_user_window(&file_window, &windows_list, hWin);//创建文件管理界面
 }
 

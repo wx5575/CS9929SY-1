@@ -133,7 +133,17 @@ static MYUSER_WINDOW_T sys_windows=
 	{
         sys_ui_ele_pool, ARRAY_SIZE(sys_ui_ele_pool),
         (CS_INDEX*)sys_win_text_index_table,ARRAY_SIZE(sys_win_text_index_table)
-    },
+    },/*text*/
+    {0},/*edit*/
+    {0},/*com*/
+    /* 自动布局 */
+    {
+        NULL,//文本自动布局信息池
+        NULL,///<编辑对象自动布局信息池
+        NULL,//文本对象调整布局信息池
+        NULL,//编辑对象调整布局信息池
+    },/* auto_layout */
+    sys_win_pos_size_pool,/*pos_size_pool */
 };
 
 /* Private functions ---------------------------------------------------------*/
@@ -325,8 +335,6 @@ static void sys_manage_win_cb(WM_MESSAGE* pMsg)
   */
 void create_sys_manager_win(int hWin)
 {
-    init_window_size(&sys_windows, sys_win_pos_size_pool[sys_par.screem_size]);
-    
     create_user_window(&sys_windows, &windows_list, hWin);//创建文件管理界面
 }
 

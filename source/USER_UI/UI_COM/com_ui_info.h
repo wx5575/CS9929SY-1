@@ -148,7 +148,6 @@ typedef struct{
         ADJUST_OPT edit;///<编辑控件长度
         ADJUST_OPT unit;///<单位显示的长度
     }width;///<宽度
-    
 }ADJUST_EDIT_ELE_LAYOUT;
 
 /**
@@ -156,7 +155,12 @@ typedef struct{
   */
 typedef struct{
     CS_INDEX index;///<编辑对象索引
-    uint16_t lon;///<文本长度
+    ADJUST_OPT align;///<文本对齐方式
+    struct{
+        ADJUST_OPT base_x;///<x基坐标
+        ADJUST_OPT x;///<x坐标
+        ADJUST_OPT width;///<宽度
+    }pos_size;
 }ADJUST_TEXT_ELE_LAYOUT;
 
 /** 
@@ -196,7 +200,7 @@ struct MYUSER_WINDOW{
     ELE_POOL_INF edit;///<编辑控件索引池
     ELE_POOL_INF com;///<公共文本控件索引池
     AUTO_LAYOUT_POOL auto_layout;///<自动布局信息
-    void (*init_pos_size_fun)(MYUSER_WINDOW_T *);///<初始化位置尺寸信息
+    WIDGET_POS_SIZE_T **pos_size_pool;///<窗口的位置尺寸池
     WIDGET_POS_SIZE_T pos_size;///<窗口的位置尺寸
 	WM_HMEM	handle;///< 窗口句柄
 	CS_LIST w_list;///< 窗口链表
@@ -371,6 +375,7 @@ typedef enum{
 	
 	CM_DIALOG_RETURN_OK,///<子窗口返回时按下了OK键 或 ENTER
 	CM_DIALOG_RETURN_CANCLE,///<子窗口返回时按下了CANCLE键 或 EXIT
+    CM_DIALOG_INPUT_PWD,///<进入密码确认身份窗口
 }CUSTOM_MSG_ID;
 /** 
   * @brief 用户自定义消息结构
@@ -380,7 +385,13 @@ typedef struct{
 	int msg;///<命令
 	int user_data;///<用户数据
 }CUSTOM_MSG_T;
-
+/** 
+  * @brief 备份将要进入窗口的信息,当需要进行密码验证的窗口时要备份一下信息，当正确输入密码后再恢复调用进入窗口
+  */
+typedef struct{
+    void (*into_win_fun)(int);//进入窗口的函数
+    int data;///<携带的参数
+}BACK_UP_WILL_ENTER_WIN_INF;
 
 #ifdef   COM_UI_GLOBALS
 #define  COM_UI_EXT
@@ -394,6 +405,7 @@ COM_UI_EXT EDIT_ELE_T     *g_cur_edit_ele;///<当前编辑对象
 COM_UI_EXT TEXT_ELE_T           *g_cur_text_ele;///<当前文本对象
 COM_UI_EXT CUSTOM_MSG_T 	    g_custom_msg;///<用户自定义消息实体变量
 COM_UI_EXT uint32_t             id_base;///<全局控件ID变量
+COM_UI_EXT BACK_UP_WILL_ENTER_WIN_INF   back_up_will_enter_win_inf;///<全局控件ID变量
 
 extern void init_window_text_ele(MYUSER_WINDOW_T* win);
 extern void update_text_ele(CS_INDEX index, MYUSER_WINDOW_T* win, const uint8_t *str);
@@ -418,7 +430,9 @@ extern void init_window_com_ele_list(MYUSER_WINDOW_T *win);
 extern void init_window_text_ele_dis_inf(MYUSER_WINDOW_T *win, TEXT_ELE_AUTO_LAYOUT_T *inf);
 extern void init_window_edit_ele_dis_inf(MYUSER_WINDOW_T *win, EDIT_ELE_AUTO_LAYOUT_T* inf);
 extern void auto_init_win_edit_ele_dis_inf(MYUSER_WINDOW_T *win);
+extern void auto_init_win_text_ele_dis_inf(MYUSER_WINDOW_T *win);
 extern void adjust_win_edit_ele_dis_inf(MYUSER_WINDOW_T *win);
+extern void adjust_win_text_ele_dis_inf(MYUSER_WINDOW_T *win);
 extern void set_custom_msg_id(CUSTOM_MSG_ID id);
 extern void update_win_menu_key(MYUSER_WINDOW_T* win);
 extern void init_dialog(MYUSER_WINDOW_T * win);

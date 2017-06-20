@@ -215,6 +215,7 @@ static void warning_win_cb(WM_MESSAGE * pMsg)
         {
             set_user_window_handle(hWin);
             win = get_user_window_info(hWin);
+            init_warning_content();
             
             init_dialog(win);
             update_warning_ui_menu_key_inf(hWin);
@@ -276,7 +277,6 @@ void set_warning_ui_inf(WARNING_INF *warning)
   */
 void create_warning_dialog(int hWin)
 {
-    init_warning_content();
     create_user_dialog(&warning_windows, &windows_list, hWin);//创建主界面
 }
 

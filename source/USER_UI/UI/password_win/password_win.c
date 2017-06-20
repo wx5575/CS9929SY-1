@@ -97,6 +97,15 @@ static TEXT_ELE_AUTO_LAYOUT_T  *pwd_text_ele_auto_layout[]=
     &_7_pwd_text_ele_auto_layout_inf,//7寸屏
 };
 /**
+  * @brief  密码管理窗口文本控件自动布局信息数组，根据不同的屏幕尺寸进行初始化
+  */
+static ADJUST_TEXT_ELE_LAYOUT_INF  *pwd_win_adjust_text_ele_layout_inf[]=
+{
+    &_7_pwd_win_adjust_text_ele_layout_inf,//4.3寸屏
+    &_7_pwd_win_adjust_text_ele_layout_inf,//5.6寸屏
+    &_7_pwd_win_adjust_text_ele_layout_inf,//7寸屏
+};
+/**
   * @brief  密码管理窗口编辑控件自动布局信息数组，根据不同的屏幕尺寸进行初始化
   */
 static EDIT_ELE_AUTO_LAYOUT_T      *pwd_edit_ele_auto_layout[]=
@@ -183,7 +192,7 @@ static FUNCTION_KEY_INFO_T sys_key_pool[]={
 };
 
 
-CS_INDEX password_ui_ele_table[]=
+static CS_INDEX password_ui_ele_table[]=
 {
     PASSWORD_OLD,
     PASSWORD_NEW,
@@ -233,6 +242,14 @@ static MYUSER_WINDOW_T password_windows=
         (CS_INDEX*)range_com_ele_table,ARRAY_SIZE(range_com_ele_table),
         init_create_pwd_com_ele
     },
+    /* 自动布局 */
+    {
+        pwd_text_ele_auto_layout,//文本自动布局信息池
+        NULL,//编辑对象自动布局信息池
+        pwd_win_adjust_text_ele_layout_inf,//文本对象调整布局信息池
+        NULL,//编辑对象调整布局信息池
+    },/* auto_layout */
+    password_win_pos_size_pool/*pos_size_pool*/
 };
 /* Private functions ---------------------------------------------------------*/
 
@@ -637,18 +654,7 @@ static void init_create_pwd_edit_ele(MYUSER_WINDOW_T* win)
     
     init_window_edit_ele(win);//初始化创建编辑对象
 }
-/**
-  * @brief  初始化其他的文本对象的显示信息
-  * @param  [in] win 窗口结构信息
-  * @retval 无
-  */
-static void init_window_other_text_ele_dis_inf(MYUSER_WINDOW_T* win)
-{
-    password_ui_text_ele_pool[PWD_UI_CHANGE_RESULT].dis_info.base_x = 0;
-    password_ui_text_ele_pool[PWD_UI_CHANGE_RESULT].dis_info.pos_size.x = 0;
-    password_ui_text_ele_pool[PWD_UI_CHANGE_RESULT].dis_info.pos_size.width = win->pos_size.width;
-    password_ui_text_ele_pool[PWD_UI_CHANGE_RESULT].dis_info.align = GUI_TA_CENTER;
-}
+
 /**
   * @brief  初始化并创建窗口中的文本对象
   * @param  [in] win 窗口结构信息
@@ -657,8 +663,7 @@ static void init_window_other_text_ele_dis_inf(MYUSER_WINDOW_T* win)
 static void init_create_pwd_text_ele(MYUSER_WINDOW_T* win)
 {
     init_window_text_ele_list(win);
-    init_window_text_ele_dis_inf(win, pwd_text_ele_auto_layout[sys_par.screem_size]);
-    init_window_other_text_ele_dis_inf(win);
+    auto_layout_win_text_ele(win);
     init_window_text_ele(win);
 }
 /**
@@ -736,8 +741,6 @@ static void password_win_cb(WM_MESSAGE* pMsg)
   */
 void create_password_ui(int hWin)
 {
-    init_window_size(&password_windows, password_win_pos_size_pool[sys_par.screem_size]);
-    
     create_user_dialog(&password_windows, &windows_list, hWin);
 }
 

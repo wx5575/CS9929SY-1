@@ -19,8 +19,10 @@
 /* Private macro -------------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 
-static void update_menu_key_inf(WM_HMEM hWin);
+static void update_test_win_menu_key_inf(WM_HMEM hWin);
 static void test_win_cb(WM_MESSAGE * pMsg);
+static void select_set_acw_par_menu_1(int hWin);
+static void select_set_acw_par_menu_2(int hWin);
 
 static void change_key_menu(int id);
 static void test_win_f0_cb(KEY_MESSAGE *key_msg);
@@ -31,16 +33,21 @@ static void test_win_f4_cb(KEY_MESSAGE *key_msg);
 static void test_win_f5_cb(KEY_MESSAGE *key_msg);
 static void test_win_f6_cb(KEY_MESSAGE *key_msg);
 
-static void test_win_f1_1_cb(KEY_MESSAGE *key_msg);
-static void test_win_f2_1_cb(KEY_MESSAGE *key_msg);
-static void test_win_f3_1_cb(KEY_MESSAGE *key_msg);
-static void test_win_f4_1_cb(KEY_MESSAGE *key_msg);
+static void set_acw_par_f1_1_cb(KEY_MESSAGE *key_msg);
+static void set_acw_par_f2_1_cb(KEY_MESSAGE *key_msg);
+static void set_acw_par_f3_1_cb(KEY_MESSAGE *key_msg);
+static void set_acw_par_f4_1_cb(KEY_MESSAGE *key_msg);
+static void set_acw_par_f5_1_cb(KEY_MESSAGE *key_msg);
+static void set_acw_par_f6_1_cb(KEY_MESSAGE *key_msg);
 
-static void test_win_f1_2_cb(KEY_MESSAGE *key_msg);
-static void test_win_f2_2_cb(KEY_MESSAGE *key_msg);
-static void test_win_f3_2_cb(KEY_MESSAGE *key_msg);
-static void test_win_f4_2_cb(KEY_MESSAGE *key_msg);
+static void set_acw_par_f1_2_cb(KEY_MESSAGE *key_msg);
+static void set_acw_par_f2_2_cb(KEY_MESSAGE *key_msg);
+static void set_acw_par_f3_2_cb(KEY_MESSAGE *key_msg);
+static void set_acw_par_f4_2_cb(KEY_MESSAGE *key_msg);
+static void set_acw_par_f5_2_cb(KEY_MESSAGE *key_msg);
+static void set_acw_par_f6_2_cb(KEY_MESSAGE *key_msg);
 
+static void test_win_edit_mode_f6_cb(KEY_MESSAGE *key_msg);
 /* Private variables ---------------------------------------------------------*/
 /**
   * @brief  定时器句柄
@@ -62,6 +69,19 @@ static WIDGET_POS_SIZE_T* test_win_pos_size_pool[SCREEN_NUM]=
 static MENU_KEY_INFO_T test_ui_menu_key_pool[]=
 {
     {"", F_KEY_DISPLAY	, KEY_F0 & _KEY_UP,	test_win_f0_cb },//f0
+    {"", F_KEY_FILE		, KEY_F1 & _KEY_UP,	test_win_f1_cb },//f1
+    {"", F_KEY_SETTING  , KEY_F2 & _KEY_UP,	test_win_f2_cb },//f2
+    {"", F_KEY_RESULT   , KEY_F3 & _KEY_UP,	test_win_f3_cb },//f3
+    {"", F_KEY_NULL	    , KEY_F4 & _KEY_UP,	test_win_f4_cb },//f4
+    {"", F_KEY_NULL     , KEY_F5 & _KEY_UP,	test_win_f5_cb },//f5
+    {"", F_KEY_BACK		, KEY_F6 & _KEY_UP,	test_win_f6_cb },//f6
+};
+/**
+  * @brief  测试界面下的菜单按键初始化数组
+  */
+static MENU_KEY_INFO_T test_ui_set_menu_key_pool[]=
+{
+    {"", F_KEY_DISPLAY	, KEY_F0 & _KEY_UP,	test_win_f0_cb },//f0
     {"", F_KEY_MODE		, KEY_F1 & _KEY_UP,	test_win_f1_cb },//f1
     {"", F_KEY_VOL	    , KEY_F2 & _KEY_UP,	test_win_f2_cb },//f2
     {"", F_KEY_RANGE    , KEY_F3 & _KEY_UP,	test_win_f3_cb },//f3
@@ -73,19 +93,23 @@ static MENU_KEY_INFO_T test_ui_menu_key_pool[]=
 /**
   * @brief  测试界面下ACW设置参数的菜单按键初始化数组
   */
-static MENU_KEY_INFO_T test_ui_acw_menu_pool[][4]=
+static MENU_KEY_INFO_T test_ui_acw_menu_pool[][6]=
 {
     {
-        {"", F_KEY_MODE  , KEY_F1 & _KEY_UP, test_win_f1_1_cb},//f1
-        {"", F_KEY_VOL   , KEY_F2 & _KEY_UP, test_win_f2_1_cb},//f2
-        {"", F_KEY_RANGE , KEY_F3 & _KEY_UP, test_win_f3_1_cb},//f3
-        {"", F_KEY_TIME  , KEY_F4 & _KEY_UP, test_win_f4_1_cb},//f4
+        {"", F_KEY_MODE  , KEY_F1 & _KEY_UP, set_acw_par_f1_1_cb},//f1
+        {"", F_KEY_VOL   , KEY_F2 & _KEY_UP, set_acw_par_f2_1_cb},//f2
+        {"", F_KEY_RANGE , KEY_F3 & _KEY_UP, set_acw_par_f3_1_cb},//f3
+        {"", F_KEY_TIME  , KEY_F4 & _KEY_UP, set_acw_par_f4_1_cb},//f4
+        {"", F_KEY_MORE  , KEY_F5 & _KEY_UP, set_acw_par_f5_1_cb},//f5
+        {"", F_KEY_BACK  , KEY_F6 & _KEY_UP, set_acw_par_f6_1_cb},//f6
     },
     {
-        {"", F_KEY_UPPER , KEY_F1 & _KEY_UP, test_win_f1_2_cb},//f1
-        {"", F_KEY_LOWER , KEY_F2 & _KEY_UP, test_win_f2_2_cb},//f2
-        {"", F_KEY_NULL  , KEY_F3 & _KEY_UP, test_win_f3_2_cb},//f3
-        {"", F_KEY_NULL  , KEY_F4 & _KEY_UP, test_win_f4_2_cb},//f4
+        {"", F_KEY_UPPER , KEY_F1 & _KEY_UP, set_acw_par_f1_2_cb},//f1
+        {"", F_KEY_LOWER , KEY_F2 & _KEY_UP, set_acw_par_f2_2_cb},//f2
+        {"", F_KEY_NULL  , KEY_F3 & _KEY_UP, set_acw_par_f3_2_cb},//f3
+        {"", F_KEY_NULL  , KEY_F4 & _KEY_UP, set_acw_par_f4_2_cb},//f4
+        {"", F_KEY_NULL  , KEY_F5 & _KEY_UP, set_acw_par_f5_2_cb},//f5
+        {"", F_KEY_BACK  , KEY_F6 & _KEY_UP, set_acw_par_f6_2_cb},//f6
     },
 };
 
@@ -255,14 +279,76 @@ static TEXT_ELE_T test_ui_ele_pool[]=
 static MYUSER_WINDOW_T test_windows=
 {
     {0},
-    test_win_cb, update_menu_key_inf,
+    test_win_cb, update_test_win_menu_key_inf,
 	{
         test_ui_ele_pool,COUNT_ARRAY_SIZE(test_ui_ele_pool),
         (CS_INDEX*)test_ui_ele_buf,COUNT_ARRAY_SIZE(test_ui_ele_buf)
-    },
+    },/*text*/
+    {0},/*edit*/
+    {0},/*com*/
+    /* 自动布局 */
+    {
+        NULL,//文本自动布局信息池
+        NULL,///<编辑对象自动布局信息池
+        NULL,//文本对象调整布局信息池
+        NULL,//编辑对象调整布局信息池
+    },/* auto_layout */
+    test_win_pos_size_pool,/*pos_size_pool */
 };
 
+/**
+  * @brief  编辑测试模式时使用的定制菜单键信息初始化数组
+  */
+static CUSTOM_MENU_KEY_INF test_win_mode_inf_pool[]=
+{
+    {ACW_STR , ACW},
+    {DCW_STR , DCW},
+    {IR_STR  , IR },
+    {GR_STR  , GR },
+    {BBD_STR , BBD},
+    {CC_STR  , CC },
+};
+
+/**
+  * @brief  编辑测试模式时使用的菜单键初始化信息数组
+  */
+static MENU_KEY_INFO_T 	test_win_edit_mode_menu_key_init_info[] =
+{
+    {"", F_KEY_CUSTOM   , KEY_F1 & _KEY_UP, 0},//f1
+    {"", F_KEY_CUSTOM   , KEY_F2 & _KEY_UP, 0},//f2
+    {"", F_KEY_CUSTOM   , KEY_F3 & _KEY_UP, 0},//f3
+    {"", F_KEY_CUSTOM   , KEY_F4 & _KEY_UP, 0},//f4
+    {"", F_KEY_CUSTOM   , KEY_F5 & _KEY_UP, 0},//f5
+    {"", F_KEY_BACK		, KEY_F6 & _KEY_UP, test_win_edit_mode_f6_cb },//f6
+};
 /* Private functions ---------------------------------------------------------*/
+
+/**
+  * @brief  编辑测试模式时使用的菜单键初始化
+  * @param  [in] hWin 窗口句柄
+  * @retval 无
+  */
+static void test_win_edit_mode_menu_key_init(WM_HMEM hWin)
+{
+    MENU_KEY_INFO_T * info = test_win_edit_mode_menu_key_init_info;
+    uint32_t size = ARRAY_SIZE(test_win_edit_mode_menu_key_init_info);
+    int32_t data = g_cur_edit_ele->dis.edit.handle;
+    CUSTOM_MENU_KEY_INF *cus_inf = test_win_mode_inf_pool;
+    uint16_t cus_size = ARRAY_SIZE(test_win_mode_inf_pool);
+    
+    init_menu_key_custom_inf(cus_inf, cus_size, g_cur_edit_ele, info, size);
+	init_menu_key_info(info, size, data);
+}
+
+/**
+  * @brief  设置测试界面功能键F0回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void test_win_edit_mode_f6_cb(KEY_MESSAGE *key_msg)
+{
+    back_win(key_msg->user_data);
+}
 /**
   * @brief  设置测试界面功能键F0回调函数
   * @param  [in] key_msg 按键消息
@@ -286,6 +372,7 @@ static void test_win_f1_cb(KEY_MESSAGE *key_msg)
   */
 static void test_win_f2_cb(KEY_MESSAGE *key_msg)
 {
+    change_key_menu(key_msg->user_data);
 }
 /**
   * @brief  设置测试界面功能键F3回调函数
@@ -310,7 +397,6 @@ static void test_win_f4_cb(KEY_MESSAGE *key_msg)
   */
 static void test_win_f5_cb(KEY_MESSAGE *key_msg)
 {
-    change_key_menu(key_msg->user_data);
 }
 /**
   * @brief  设置测试界面功能键F6回调函数
@@ -322,43 +408,75 @@ static void test_win_f6_cb(KEY_MESSAGE *key_msg)
     back_win(key_msg->user_data);
 }
 
-static void test_win_f1_1_cb(KEY_MESSAGE *key_msg)
+static void set_acw_par_f1_1_cb(KEY_MESSAGE *key_msg)
+{
+    test_win_edit_mode_menu_key_init(key_msg->user_data);
+}
+static void set_acw_par_f2_1_cb(KEY_MESSAGE *key_msg)
 {
 }
-static void test_win_f2_1_cb(KEY_MESSAGE *key_msg)
+static void set_acw_par_f3_1_cb(KEY_MESSAGE *key_msg)
 {
 }
-static void test_win_f3_1_cb(KEY_MESSAGE *key_msg)
+static void set_acw_par_f4_1_cb(KEY_MESSAGE *key_msg)
 {
 }
-static void test_win_f4_1_cb(KEY_MESSAGE *key_msg)
+static void set_acw_par_f5_1_cb(KEY_MESSAGE *key_msg)
 {
+    select_set_acw_par_menu_2(key_msg->user_data);
+}
+static void set_acw_par_f6_1_cb(KEY_MESSAGE *key_msg)
+{
+    update_test_win_menu_key_inf(key_msg->user_data);
 }
 
-static void test_win_f1_2_cb(KEY_MESSAGE *key_msg)
+static void set_acw_par_f1_2_cb(KEY_MESSAGE *key_msg)
 {
 }
-static void test_win_f2_2_cb(KEY_MESSAGE *key_msg)
+static void set_acw_par_f2_2_cb(KEY_MESSAGE *key_msg)
 {
 }
-static void test_win_f3_2_cb(KEY_MESSAGE *key_msg)
+static void set_acw_par_f3_2_cb(KEY_MESSAGE *key_msg)
 {
 }
-static void test_win_f4_2_cb(KEY_MESSAGE *key_msg)
+static void set_acw_par_f4_2_cb(KEY_MESSAGE *key_msg)
 {
+}
+static void set_acw_par_f5_2_cb(KEY_MESSAGE *key_msg)
+{
+}
+static void set_acw_par_f6_2_cb(KEY_MESSAGE *key_msg)
+{
+    select_set_acw_par_menu_1(key_msg->user_data);
+}
+
+static void change_key_set_acw_par_menu(int hWin)
+{
+    select_set_acw_par_menu_1(hWin);
+}
+static void select_set_acw_par_menu_1(int hWin)
+{
+    init_menu_key_info(test_ui_acw_menu_pool[0], ARRAY_SIZE(test_ui_acw_menu_pool[0]), hWin);
+}
+static void select_set_acw_par_menu_2(int hWin)
+{
+    init_menu_key_info(test_ui_acw_menu_pool[1], ARRAY_SIZE(test_ui_acw_menu_pool[1]), hWin);
 }
 /**
   * @brief  改变菜单按键信息
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
-static void change_key_menu(int id)
+static void change_key_menu(int hWin)
 {
-    static int i = 0;
-    uint8_t n = ARRAY_SIZE(test_ui_acw_menu_pool);
-    init_menu_key_info(test_ui_acw_menu_pool[i], ARRAY_SIZE(test_ui_acw_menu_pool[i]), id);
-//     init_menu_key_info(test_ui_acw_menu_pool[i]);
-    i = (i+1) % n;
+    switch(g_cur_step->one_step.com.mode)
+    {
+        case ACW:
+            change_key_set_acw_par_menu(hWin);
+            break;
+        case DCW:
+            break;
+    }
 }
 
 
@@ -367,9 +485,9 @@ static void change_key_menu(int id)
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
-static void update_menu_key_inf(WM_HMEM hWin)
+static void update_test_win_menu_key_inf(WM_HMEM hWin)
 {
-	init_menu_key_info(test_ui_menu_key_pool, 7, hWin);
+	init_menu_key_info(test_ui_menu_key_pool, ARRAY_SIZE(test_ui_menu_key_pool), hWin);
 }
 
 /**
@@ -431,7 +549,7 @@ static void test_win_cb(WM_MESSAGE* pMsg)
             win = get_user_window_info(hWin);
             
 			WM_SetFocus(hWin);/* 设置聚焦 */
-			update_menu_key_inf(hWin);
+			update_test_win_menu_key_inf(hWin);
 			WM_SetCreateFlags(WM_CF_MEMDEV);//如果不开启显示效果非常差, 开启后刷屏很慢
 			
 			if(win != NULL)
@@ -440,24 +558,24 @@ static void test_win_cb(WM_MESSAGE* pMsg)
                 init_window_text_ele_list(win);//初始化窗口文本对象链表
 				init_window_text_ele(win);
 			}
-			timer_handle = WM_CreateTimer(hWin, id_base++, 100, 0);
+//			timer_handle = WM_CreateTimer(hWin, id_base++, 100, 0);
 			break;
 		}
 		case WM_TIMER:
 		{
-            static int time = 0;
-            uint8_t buf[10];
-            if(++time > 9999)
-            {
-                time = 0;
-            }
-            mysprintf(buf, unit_pool[TIM_U_s], 151, time);
-			win = get_user_window_info(hWin);
-			update_text_ele((CS_INDEX)TEST_UI_ROAD01_TIME, win, buf);
-			update_text_ele((CS_INDEX)TEST_UI_ROAD02_TIME, win, buf);
-			update_text_ele((CS_INDEX)TEST_UI_ROAD03_TIME, win, buf);
-			update_text_ele((CS_INDEX)TEST_UI_ROAD04_TIME, win, buf);
-			WM_RestartTimer(timer_handle, 100);
+//            static int time = 0;
+//            uint8_t buf[10];
+//            if(++time > 9999)
+//            {
+//                time = 0;
+//            }
+//            mysprintf(buf, unit_pool[TIM_U_s], 151, time);
+//			win = get_user_window_info(hWin);
+//			update_text_ele((CS_INDEX)TEST_UI_ROAD01_TIME, win, buf);
+//			update_text_ele((CS_INDEX)TEST_UI_ROAD02_TIME, win, buf);
+//			update_text_ele((CS_INDEX)TEST_UI_ROAD03_TIME, win, buf);
+//			update_text_ele((CS_INDEX)TEST_UI_ROAD04_TIME, win, buf);
+//			WM_RestartTimer(timer_handle, 100);
 			break;
         }
         case WM_KEY:
@@ -481,8 +599,7 @@ static void test_win_cb(WM_MESSAGE* pMsg)
   * @retval 无
   */
 void create_test_win(int hWin)
-{    
-    init_window_size(&test_windows, test_win_pos_size_pool[sys_par.screem_size]);
+{
 	create_user_window(&test_windows, &windows_list, hWin);//创建测试界面
 }
 

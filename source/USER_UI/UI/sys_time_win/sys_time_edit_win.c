@@ -125,6 +125,15 @@ static void unsel_cur_time_list_wheel(void);
 static SYS_TIME_T *g_cur_sys_time;
 
 /**
+  * @brief  系统窗口与屏幕尺寸位置相关的数组
+  */
+static WIDGET_POS_SIZE_T* sys_time_win_pos_size_pool[SCREEN_NUM]=
+{
+    &_7_sys_time_windows,/*4.3寸屏*/
+    &_7_sys_time_windows,/*5.6寸屏*/
+    &_7_sys_time_windows,/*7寸屏*/
+};
+/**
   * @brief  系统时间窗口结构
   */
 static MYUSER_WINDOW_T sys_time_window=
@@ -137,15 +146,14 @@ static MYUSER_WINDOW_T sys_time_window=
         com_text_ele_pool,ARRAY_SIZE(com_text_ele_pool),
         (CS_INDEX*)range_com_ele_table,ARRAY_SIZE(range_com_ele_table)
     },
-};
-/**
-  * @brief  系统窗口与屏幕尺寸位置相关的数组
-  */
-static WIDGET_POS_SIZE_T* sys_time_win_pos_size_pool[SCREEN_NUM]=
-{
-    &_7_sys_time_windows,/*4.3寸屏*/
-    &_7_sys_time_windows,/*5.6寸屏*/
-    &_7_sys_time_windows,/*7寸屏*/
+    /* 自动布局 */
+    {
+        NULL,//文本自动布局信息池
+        NULL,///<编辑对象自动布局信息池
+        NULL,//文本对象调整布局信息池
+        NULL,//编辑对象调整布局信息池
+    },/* auto_layout */
+    sys_time_win_pos_size_pool,/*pos_size_pool */
 };
 
 /**
@@ -1242,7 +1250,6 @@ static void sys_time_edit_win_cb(WM_MESSAGE * pMsg)
   */
 void create_sys_time_dialog(int hWin)
 {
-    init_window_size(&sys_time_window, sys_time_win_pos_size_pool[sys_par.screem_size]);
     create_user_dialog(&sys_time_window, &windows_list, hWin);
 }
 

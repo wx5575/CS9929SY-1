@@ -21,7 +21,7 @@
   */
 typedef struct{
     uint8_t shift_flag;///< SHIFT键按下标记
-    uint8_t key_lock_flag;///< 键盘锁按下标记
+//    uint8_t key_lock_flag;///< 键盘锁按下标记
 }UI_FLAG;
 static volatile UI_FLAG ui_flag;///<界面使用全局标记
 
@@ -35,11 +35,11 @@ uint8_t get_shift_status(void)
 }
 void set_key_lock_flag(uint8_t flag)
 {
-    ui_flag.key_lock_flag = flag;
+    sys_par.key_lock = flag;
 }
 uint8_t get_key_lock_flag(void)
 {
-    return ui_flag.key_lock_flag;
+    return sys_par.key_lock;
 }
 /**
   * @brief  获取键值对应按键的索引值

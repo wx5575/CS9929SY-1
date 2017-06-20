@@ -732,19 +732,25 @@ static MYUSER_WINDOW_T step_edit_windows=
 {
     {"步骤编辑","step_edit_windows"},
     step_edit_windows_cb, update_key_inf,
-	{0},
+	{0},/*text*/
     {
         step_par_ele_pool,ARRAY_SIZE(step_par_ele_pool),
         (CS_INDEX*)step_par_index,ARRAY_SIZE(step_par_index),
         init_create_step_edit_win_edit_ele,
-    },
+    },/*edit*/
     {
         com_text_ele_pool,ARRAY_SIZE(com_text_ele_pool),
         (CS_INDEX*)range_group_com_ele_table,ARRAY_SIZE(range_group_com_ele_table),
         init_create_step_edit_win_com_ele,
-    },
-    NULL,//文本自动布局信息池
-    step_edit_win_edit_ele_auto_layout_pool,///<编辑对象自动布局信息池
+    },/*com*/
+    /* 自动布局 */
+    {
+        NULL,//文本自动布局信息池
+        step_edit_win_edit_ele_auto_layout_pool,//编辑对象自动布局信息池
+        NULL,//文本对象调整布局信息池
+        NULL,//编辑对象调整布局信息池
+    },/* auto_layout */
+    step_edit_win_pos_size_pool/*pos_size_pool*/
 };
 
 /* Private functions ---------------------------------------------------------*/
@@ -1633,7 +1639,7 @@ static void set_acw_par_win_ele_data(UN_STRUCT *step)
     
     set_g_cur_win_edit_index_inf(acw_par_index, ARRAY_SIZE(acw_par_index));//设置编辑对象索引表信息
     
-    reg_step_ele_data(STEP_EDIT_WIN_VOL, &acw->output_vol, sizeof(acw->output_vol));
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_VOL, &acw->output_vol, sizeof(acw->output_vol));
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_VOL, &err);
     
     if(err == CS_ERR_NONE)
@@ -1642,7 +1648,7 @@ static void set_acw_par_win_ele_data(UN_STRUCT *step)
         ele->range.low = ACW_VOL_L;
     }
     
-    reg_step_ele_data(STEP_EDIT_WIN_RANGE, &acw->range, sizeof(acw->range));
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_RANGE, &acw->range, sizeof(acw->range));
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_RANGE, &err);
     
     if(err == CS_ERR_NONE)
@@ -1650,17 +1656,17 @@ static void set_acw_par_win_ele_data(UN_STRUCT *step)
         update_acw_range_affect_inf(ele, step);
     }
     
-    reg_step_ele_data(STEP_EDIT_WIN_UPPER, &acw->upper_limit, sizeof(acw->upper_limit));//电流上限
-    reg_step_ele_data(STEP_EDIT_WIN_LOWER, &acw->lower_limit, sizeof(acw->lower_limit));//电流下限
-    reg_step_ele_data(STEP_EDIT_WIN_ARC, &acw->arc_sur, sizeof(acw->arc_sur));//<电弧侦测
-    reg_step_ele_data(STEP_EDIT_WIN_REAL_C, &acw->real_cur, sizeof(acw->real_cur));//<真实电流
-    reg_step_ele_data(STEP_EDIT_WIN_FREQ, &acw->output_freq,   sizeof(acw->output_freq));//<输出频率
-    reg_step_ele_data(STEP_EDIT_WIN_RAISE_T, &acw->rise_time,  sizeof(acw->rise_time));//上升时间
-    reg_step_ele_data(STEP_EDIT_WIN_TEST_T, &acw->test_time,  sizeof(acw->test_time));//测试时间
-    reg_step_ele_data(STEP_EDIT_WIN_FALL_T, &acw->fall_time,  sizeof(acw->fall_time));//下降时间
-    reg_step_ele_data(STEP_EDIT_WIN_INTER_T, &acw->inter_time,  sizeof(acw->inter_time));//间隔时间
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_UPPER, &acw->upper_limit, sizeof(acw->upper_limit));//电流上限
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_LOWER, &acw->lower_limit, sizeof(acw->lower_limit));//电流下限
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_ARC, &acw->arc_sur, sizeof(acw->arc_sur));//<电弧侦测
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_REAL_C, &acw->real_cur, sizeof(acw->real_cur));//<真实电流
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_FREQ, &acw->output_freq,   sizeof(acw->output_freq));//<输出频率
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_RAISE_T, &acw->rise_time,  sizeof(acw->rise_time));//上升时间
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_TEST_T, &acw->test_time,  sizeof(acw->test_time));//测试时间
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_FALL_T, &acw->fall_time,  sizeof(acw->fall_time));//下降时间
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_INTER_T, &acw->inter_time,  sizeof(acw->inter_time));//间隔时间
     
-    reg_step_ele_data(STEP_EDIT_WIN_CONT, &acw->step_con,  sizeof(acw->step_con));//步间连续
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_CONT, &acw->step_con,  sizeof(acw->step_con));//步间连续
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_CONT, &err);
     
     if(err == CS_ERR_NONE)
@@ -1668,7 +1674,7 @@ static void set_acw_par_win_ele_data(UN_STRUCT *step)
         init_sw_type_edit_ele_resource_inf(ele);
     }
     
-    reg_step_ele_data(STEP_EDIT_WIN_PASS, &acw->step_pass,  sizeof(acw->step_pass));//步间PASS
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_PASS, &acw->step_pass,  sizeof(acw->step_pass));//步间PASS
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_PASS, &err);
     
     if(err == CS_ERR_NONE)
@@ -1678,7 +1684,7 @@ static void set_acw_par_win_ele_data(UN_STRUCT *step)
     
     /* 输出端口 */
     transform_test_port_to_str(&acw->port, set_port_buf);
-    reg_step_ele_data(STEP_EDIT_WIN_PORT, set_port_buf, sizeof(set_port_buf));
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_PORT, set_port_buf, sizeof(set_port_buf));
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_PORT, &err);
     
     if(err == CS_ERR_NONE)
@@ -1760,7 +1766,7 @@ static void set_dcw_par_win_ele_data(UN_STRUCT *step)
     set_g_cur_win_edit_index_inf(dcw_par_index, ARRAY_SIZE(dcw_par_index));//设置编辑对象索引表信息
     
     /* 输出电压 */
-    reg_step_ele_data(STEP_EDIT_WIN_VOL, &dcw->output_vol, sizeof(dcw->output_vol));
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_VOL, &dcw->output_vol, sizeof(dcw->output_vol));
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_VOL, &err);
     
     if(err == CS_ERR_NONE)
@@ -1770,7 +1776,7 @@ static void set_dcw_par_win_ele_data(UN_STRUCT *step)
     }
     
     /* 电流档位 */
-    reg_step_ele_data(STEP_EDIT_WIN_RANGE, &dcw->range, sizeof(dcw->range));
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_RANGE, &dcw->range, sizeof(dcw->range));
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_RANGE, &err);
     
     if(err == CS_ERR_NONE)
@@ -1778,9 +1784,9 @@ static void set_dcw_par_win_ele_data(UN_STRUCT *step)
         update_dcw_range_affect_inf(ele, step);
     }
     
-    reg_step_ele_data(STEP_EDIT_WIN_UPPER, &dcw->upper_limit, sizeof(dcw->upper_limit));//电流上限
-    reg_step_ele_data(STEP_EDIT_WIN_LOWER, &dcw->lower_limit, sizeof(dcw->lower_limit));//电流下限
-    reg_step_ele_data(STEP_EDIT_WIN_ARC, &dcw->arc_sur, sizeof(dcw->arc_sur));//<电弧侦测
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_UPPER, &dcw->upper_limit, sizeof(dcw->upper_limit));//电流上限
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_LOWER, &dcw->lower_limit, sizeof(dcw->lower_limit));//电流下限
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_ARC, &dcw->arc_sur, sizeof(dcw->arc_sur));//<电弧侦测
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_ARC, &err);
     
     if(err == CS_ERR_NONE)
@@ -1788,14 +1794,14 @@ static void set_dcw_par_win_ele_data(UN_STRUCT *step)
         update_arc_mode_deit_inf(ele);
     }
     
-    reg_step_ele_data(STEP_EDIT_WIN_DELAY_T, &dcw->delay_time,  sizeof(dcw->delay_time));//延时时间
-    reg_step_ele_data(STEP_EDIT_WIN_RAISE_T, &dcw->rise_time,  sizeof(dcw->rise_time));//上升时间
-    reg_step_ele_data(STEP_EDIT_WIN_TEST_T, &dcw->test_time,  sizeof(dcw->test_time));//测试时间
-    reg_step_ele_data(STEP_EDIT_WIN_FALL_T, &dcw->fall_time,  sizeof(dcw->fall_time));//下降时间
-    reg_step_ele_data(STEP_EDIT_WIN_INTER_T, &dcw->inter_time,  sizeof(dcw->inter_time));//间隔时间
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_DELAY_T, &dcw->delay_time,  sizeof(dcw->delay_time));//延时时间
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_RAISE_T, &dcw->rise_time,  sizeof(dcw->rise_time));//上升时间
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_TEST_T, &dcw->test_time,  sizeof(dcw->test_time));//测试时间
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_FALL_T, &dcw->fall_time,  sizeof(dcw->fall_time));//下降时间
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_INTER_T, &dcw->inter_time,  sizeof(dcw->inter_time));//间隔时间
     
     /* 步间连续 */
-    reg_step_ele_data(STEP_EDIT_WIN_CONT, &dcw->step_con,  sizeof(dcw->step_con));
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_CONT, &dcw->step_con,  sizeof(dcw->step_con));
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_CONT, &err);
     
     if(err == CS_ERR_NONE)
@@ -1804,7 +1810,7 @@ static void set_dcw_par_win_ele_data(UN_STRUCT *step)
     }
     
     /* 步间PASS */
-    reg_step_ele_data(STEP_EDIT_WIN_PASS, &dcw->step_pass,  sizeof(dcw->step_pass));
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_PASS, &dcw->step_pass,  sizeof(dcw->step_pass));
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_PASS, &err);
     
     if(err == CS_ERR_NONE)
@@ -1814,7 +1820,7 @@ static void set_dcw_par_win_ele_data(UN_STRUCT *step)
     
     /* 输出端口 */
     transform_test_port_to_str(&dcw->port, set_port_buf);
-    reg_step_ele_data(STEP_EDIT_WIN_PORT, set_port_buf, sizeof(set_port_buf));
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_PORT, set_port_buf, sizeof(set_port_buf));
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_PORT, &err);
     
     if(err == CS_ERR_NONE)
@@ -1964,7 +1970,7 @@ static void set_ir_par_win_ele_data(UN_STRUCT *step)
     set_g_cur_win_edit_index_inf(ir_par_index, ARRAY_SIZE(ir_par_index));//设置编辑对象索引表信息
     
     /* 输出电压 */
-    reg_step_ele_data(STEP_EDIT_WIN_VOL, &ir->output_vol, sizeof(ir->output_vol));
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_VOL, &ir->output_vol, sizeof(ir->output_vol));
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_VOL, &err);
     
     if(err == CS_ERR_NONE)
@@ -1974,7 +1980,7 @@ static void set_ir_par_win_ele_data(UN_STRUCT *step)
     }
     
     /* 电阻上限 */
-    reg_step_ele_data(STEP_EDIT_WIN_UPPER_IR, &ir->upper_limit, sizeof(ir->upper_limit));
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_UPPER_IR, &ir->upper_limit, sizeof(ir->upper_limit));
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_UPPER_IR, &err);
     
     if(err == CS_ERR_NONE)
@@ -1984,7 +1990,7 @@ static void set_ir_par_win_ele_data(UN_STRUCT *step)
     }
     
     /* 电阻下限 */
-    reg_step_ele_data(STEP_EDIT_WIN_LOWER_IR, &ir->lower_limit, sizeof(ir->lower_limit));
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_LOWER_IR, &ir->lower_limit, sizeof(ir->lower_limit));
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_LOWER_IR, &err);
     
     if(err == CS_ERR_NONE)
@@ -1994,7 +2000,7 @@ static void set_ir_par_win_ele_data(UN_STRUCT *step)
     }
     
     /* 自动换档 */
-    reg_step_ele_data(STEP_EDIT_WIN_AUTO_IR, &ir->auto_shift,  sizeof(ir->auto_shift));
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_AUTO_IR, &ir->auto_shift,  sizeof(ir->auto_shift));
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_AUTO_IR, &err);
     
     if(err == CS_ERR_NONE)
@@ -2002,13 +2008,13 @@ static void set_ir_par_win_ele_data(UN_STRUCT *step)
         init_sw_type_edit_ele_resource_inf(ele);
     }
     
-    reg_step_ele_data(STEP_EDIT_WIN_DELAY_T, &ir->delay_time,  sizeof(ir->delay_time));//延时时间
-    reg_step_ele_data(STEP_EDIT_WIN_RAISE_T, &ir->rise_time,  sizeof(ir->rise_time));//上升时间
-    reg_step_ele_data(STEP_EDIT_WIN_TEST_T, &ir->test_time,  sizeof(ir->test_time));//测试时间
-    reg_step_ele_data(STEP_EDIT_WIN_INTER_T, &ir->inter_time,  sizeof(ir->inter_time));//间隔时间
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_DELAY_T, &ir->delay_time,  sizeof(ir->delay_time));//延时时间
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_RAISE_T, &ir->rise_time,  sizeof(ir->rise_time));//上升时间
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_TEST_T, &ir->test_time,  sizeof(ir->test_time));//测试时间
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_INTER_T, &ir->inter_time,  sizeof(ir->inter_time));//间隔时间
     
     
-    reg_step_ele_data(STEP_EDIT_WIN_CONT, &ir->step_con,  sizeof(ir->step_con));//步间连续
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_CONT, &ir->step_con,  sizeof(ir->step_con));//步间连续
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_CONT, &err);
     
     if(err == CS_ERR_NONE)
@@ -2016,7 +2022,7 @@ static void set_ir_par_win_ele_data(UN_STRUCT *step)
         init_sw_type_edit_ele_resource_inf(ele);
     }
     
-    reg_step_ele_data(STEP_EDIT_WIN_PASS, &ir->step_pass,  sizeof(ir->step_pass));//步间PASS
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_PASS, &ir->step_pass,  sizeof(ir->step_pass));//步间PASS
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_PASS, &err);
     
     if(err == CS_ERR_NONE)
@@ -2026,7 +2032,7 @@ static void set_ir_par_win_ele_data(UN_STRUCT *step)
     
     /* 输出端口 */
     transform_test_port_to_str(&ir->port, set_port_buf);
-    reg_step_ele_data(STEP_EDIT_WIN_PORT, set_port_buf, sizeof(set_port_buf));
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_PORT, set_port_buf, sizeof(set_port_buf));
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_PORT, &err);
     
     if(err == CS_ERR_NONE)
@@ -2069,7 +2075,7 @@ static void set_gr_par_win_ele_data(UN_STRUCT *step)
     set_g_cur_win_edit_index_inf(gr_par_index, ARRAY_SIZE(gr_par_index));//设置编辑对象索引表信息
     
     /* 输出电流 */
-    reg_step_ele_data(STEP_EDIT_WIN_CUR, &gr->output_cur, sizeof(gr->output_cur));
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_CUR, &gr->output_cur, sizeof(gr->output_cur));
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_CUR, &err);
     
     if(err == CS_ERR_NONE)
@@ -2079,7 +2085,7 @@ static void set_gr_par_win_ele_data(UN_STRUCT *step)
     }
     
     /* 电阻上限 */
-    reg_step_ele_data(STEP_EDIT_WIN_UPPER_GR, &gr->upper_limit, sizeof(gr->upper_limit));
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_UPPER_GR, &gr->upper_limit, sizeof(gr->upper_limit));
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_UPPER_GR, &err);
     
     if(err == CS_ERR_NONE)
@@ -2091,7 +2097,7 @@ static void set_gr_par_win_ele_data(UN_STRUCT *step)
     }
     
     /* 电阻下限 */
-    reg_step_ele_data(STEP_EDIT_WIN_LOWER_GR, &gr->lower_limit, sizeof(gr->lower_limit));
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_LOWER_GR, &gr->lower_limit, sizeof(gr->lower_limit));
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_LOWER_GR, &err);
     
     if(err == CS_ERR_NONE)
@@ -2102,11 +2108,11 @@ static void set_gr_par_win_ele_data(UN_STRUCT *step)
         gr->lower_limit = value;
     }
     
-    reg_step_ele_data(STEP_EDIT_WIN_TEST_T, &gr->test_time,  sizeof(gr->test_time));//测试时间
-    reg_step_ele_data(STEP_EDIT_WIN_INTER_T, &gr->inter_time,  sizeof(gr->inter_time));//间隔时间
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_TEST_T, &gr->test_time,  sizeof(gr->test_time));//测试时间
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_INTER_T, &gr->inter_time,  sizeof(gr->inter_time));//间隔时间
     
     /* 步间连续 */
-    reg_step_ele_data(STEP_EDIT_WIN_CONT, &gr->step_con,  sizeof(gr->step_con));
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_CONT, &gr->step_con,  sizeof(gr->step_con));
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_CONT, &err);
     
     if(err == CS_ERR_NONE)
@@ -2115,7 +2121,7 @@ static void set_gr_par_win_ele_data(UN_STRUCT *step)
     }
     
     /* 步间PASS */
-    reg_step_ele_data(STEP_EDIT_WIN_PASS, &gr->step_pass,  sizeof(gr->step_pass));
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_PASS, &gr->step_pass,  sizeof(gr->step_pass));
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_PASS, &err);
     
     if(err == CS_ERR_NONE)
@@ -2142,8 +2148,8 @@ static void set_step_par_window_ele_data(UN_STRUCT *step)
     pool = g_cur_win->edit.pool;
     size = g_cur_win->edit.pool_size;
     
-    reg_step_ele_data(STEP_EDIT_WIN_STEP, &step->com.step,  sizeof(step->com.step));//测试步骤
-    reg_step_ele_data(STEP_EDIT_WIN_MODE, &step->com.mode,  sizeof(step->com.mode));//测试模式
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_STEP, &step->com.step,  sizeof(step->com.step));//测试步骤
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_MODE, &step->com.mode,  sizeof(step->com.mode));//测试模式
     
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_MODE, &err);
     
@@ -2465,8 +2471,6 @@ static void step_edit_windows_cb(WM_MESSAGE* pMsg)
   */
 void create_step_edit_win(int hWin)
 {
-    init_window_size(&step_edit_windows, step_edit_win_pos_size_pool[sys_par.screem_size]);
-    
     create_user_window(&step_edit_windows, &windows_list, hWin);//创建文件管理界面
 }
 

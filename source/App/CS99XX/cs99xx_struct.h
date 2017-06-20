@@ -503,6 +503,7 @@ typedef struct{
     LANGUAGE_T      language;///<语言
     uint8_t         password[PWD_MAX_LEN + 1];///<系统密码
     uint32_t        instrument_type;///<仪器型号
+    uint8_t key_lock;///<键盘锁
 }SYS_PAR;
 /**
   * @brief  系统标志结构定义

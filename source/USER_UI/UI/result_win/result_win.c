@@ -73,7 +73,17 @@ MYUSER_WINDOW_T result_windows =
 {
     {"File_window"},
     result_win_cb,update_menu_key_inf,
-	0,0, 0,
+	{0},/*text*/
+    {0},/*edit*/
+    {0},/*com*/
+    /* 自动布局 */
+    {
+        NULL,//文本自动布局信息池
+        NULL,//编辑对象自动布局信息池
+        NULL,//文本对象调整布局信息池
+        NULL,//编辑对象调整布局信息池
+    },/* auto_layout */
+    result_win_pos_size_pool/*pos_size_pool*/
 };
 
 static MENU_KEY_INFO_T 	result_exist_menu_key_info[] =
@@ -367,8 +377,6 @@ static void result_win_cb(WM_MESSAGE* pMsg)
   */
 void create_result_win(int hWin)
 {
-    init_window_size(&result_windows, result_win_pos_size_pool[sys_par.screem_size]);
-    
     create_user_window(&result_windows, &windows_list, hWin);//创建文件管理界面
 }
 

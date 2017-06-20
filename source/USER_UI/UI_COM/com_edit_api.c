@@ -1033,7 +1033,8 @@ void init_edit_ele_resource_inf(EDIT_ELE_T* ele, void *res_table, uint32_t size)
 
 /**
   * @brief  设置当前窗口编辑控件的索引表信息
-  * @param  [in] step 步骤参数结构
+  * @param  [in] index_pool 编辑对象索引池
+  * @param  [in] size 编辑对象索引池大小
   * @retval 无
   */
 void set_g_cur_win_edit_index_inf(CS_INDEX *index_pool, uint32_t size)
@@ -1046,9 +1047,10 @@ void set_g_cur_win_edit_index_inf(CS_INDEX *index_pool, uint32_t size)
   * @brief  注册步骤编辑对象的数据
   * @param  [in] index 编辑对象在编辑对象池中的索引
   * @param  [in] data 数据的地址
+  * @param  [in] bytes 字节个数
   * @retval 无
   */
-void reg_step_ele_data(CS_INDEX index, void *data, uint8_t bytes)
+void reg_edit_ele_data_inf(CS_INDEX index, void *data, uint8_t bytes)
 {
     CS_INDEX tmp_index;
     CS_ERR err;
@@ -1072,13 +1074,22 @@ void reg_step_ele_data(CS_INDEX index, void *data, uint8_t bytes)
 }
 /**
   * @brief  自动布局窗口中的编辑对象
-  * @param  [in] index 编辑对象在编辑对象池中的索引
-  * @param  [in] data 数据的地址
+  * @param  [in] win 窗口信息
   * @retval 无
   */
 void auto_layout_win_edit_ele(MYUSER_WINDOW_T* win)
 {
     auto_init_win_edit_ele_dis_inf(win);
     adjust_win_edit_ele_dis_inf(win);//调整某些对象的布局
+}
+/**
+  * @brief  自动布局窗口中的文本对象
+  * @param  [in] win 窗口信息
+  * @retval 无
+  */
+void auto_layout_win_text_ele(MYUSER_WINDOW_T* win)
+{
+    auto_init_win_text_ele_dis_inf(win);
+    adjust_win_text_ele_dis_inf(win);//调整某些对象的布局
 }
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

@@ -103,6 +103,14 @@ static MYUSER_WINDOW_T step_windows =
         (CS_INDEX*)group_com_ele_table,ARRAY_SIZE(group_com_ele_table),
         init_create_step_edit_win_com_ele,
     },
+    /* 自动布局 */
+    {
+        NULL,//文本自动布局信息池
+        NULL,///<编辑对象自动布局信息池
+        NULL,//文本对象调整布局信息池
+        NULL,//编辑对象调整布局信息池
+    },/* auto_layout */
+    step_win_pos_size_pool,/*pos_size_pool*/
 };
 
 /**
@@ -581,16 +589,29 @@ static uint32_t init_step_dis_inf(uint8_t buf[5][20], NODE_STEP *node)
         case ACW:
             mysprintf(buf[i++], unit_pool[VOL_U_kV] , 53, un->acw.output_vol);
             mysprintf(buf[i++], unit_pool[TIM_U_s]  , 51, un->acw.test_time);
+            strcpy((char*)buf[i++], (const char*)sw_pool[SYS_LANGUAGE][!!un->acw.step_con]);
+            transform_test_port_to_str(&un->acw.port, buf[i++]);
             
             break;
         case DCW:
             mysprintf(buf[i++], unit_pool[VOL_U_kV] , 53, un->dcw.output_vol);
             mysprintf(buf[i++], unit_pool[TIM_U_s]  , 51, un->dcw.test_time);
+            strcpy((char*)buf[i++], (const char*)sw_pool[SYS_LANGUAGE][!!un->dcw.step_con]);
+            transform_test_port_to_str(&un->dcw.port, buf[i++]);
             
             break;
         case IR:
             mysprintf(buf[i++], unit_pool[VOL_U_kV] , 53, un->ir.output_vol);
             mysprintf(buf[i++], unit_pool[TIM_U_s]  , 51, un->ir.test_time);
+            strcpy((char*)buf[i++], (const char*)sw_pool[SYS_LANGUAGE][!!un->ir.step_con]);
+            transform_test_port_to_str(&un->ir.port, buf[i++]);
+            
+            break;
+        case GR:
+            mysprintf(buf[i++], unit_pool[VOL_U_kV] , 53, un->gr.output_cur);
+            mysprintf(buf[i++], unit_pool[TIM_U_s]  , 51, un->gr.test_time);
+            strcpy((char*)buf[i++], (const char*)sw_pool[SYS_LANGUAGE][!!un->gr.step_con]);
+            strcpy((char*)buf[i++], "-");
             
             break;
     }
@@ -605,7 +626,7 @@ static uint32_t init_step_dis_inf(uint8_t buf[5][20], NODE_STEP *node)
   */
 static void dis_one_step(NODE_STEP *node, int32_t row)
 {
-	uint8_t list_buf[5][20] = {0};
+	uint8_t list_buf[6][20] = {0};
 	int32_t i = 0;
     CS_ERR err;
     uint32_t n = 0;
@@ -732,9 +753,7 @@ static void step_win_cb(WM_MESSAGE* pMsg)
   * @retval 无
   */
 void create_step_par_win(int hWin)
-{
-    init_window_size(&step_windows, step_win_pos_size_pool[sys_par.screem_size]);
-    
+{    
     create_user_window(&step_windows, &windows_list, hWin);//创建文件管理界面
 }
 

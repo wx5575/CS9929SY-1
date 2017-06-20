@@ -24,11 +24,36 @@
 #include "cs99xx_usb_manager.h"
 #include "step_par_win/step_win.h"
 #include "result_win/result_win.h"
+#include "password_win/input_password_win.h"
 #include "key_server.h"
 #include "keyboard.h"
 #include "rtc_config.h"
 #include "7_main_win.h"
 #include "main_win.h"
+#include "PROGBAR.h"
+  
+/* Includes ------------------------------------------------------------------*/
+
+/* Private typedef -----------------------------------------------------------*/
+
+/* Private define ------------------------------------------------------------*/
+/* Private macro -------------------------------------------------------------*/
+
+/* Private function prototypes -----------------------------------------------*/
+static void main_win_cb(WM_MESSAGE * pMsg);
+static void update_main_ui_menu_key_inf(WM_HMEM hWin);
+
+static void sys_shift_key_fun_cb(KEY_MESSAGE *key_msg);
+static void sys_unlock_key_fun_cb(KEY_MESSAGE *key_msg);
+static void screen_capture_key_fun_cb(KEY_MESSAGE *key_msg);
+
+static void main_win_f1_cb(KEY_MESSAGE *key_msg);
+static void main_win_f2_cb(KEY_MESSAGE *key_msg);
+static void main_win_f3_cb(KEY_MESSAGE *key_msg);
+static void main_win_f4_cb(KEY_MESSAGE *key_msg);
+static void main_win_f5_cb(KEY_MESSAGE *key_msg);
+static void main_win_f6_cb(KEY_MESSAGE *key_msg);
+/* Private variables ---------------------------------------------------------*/
 
 static	WM_HWIN progbar_handle;///<进度条
 static	WM_HWIN timer_handle;///<定时器句柄
@@ -36,12 +61,13 @@ static	WM_HWIN U_FLASH_1_handle;///<U盘图标1句柄
 static	WM_HWIN U_FLASH_2_handle;///<U盘图标2句柄
 static	WM_HWIN KEY_LOCK_handle;///<键盘锁图标句柄
 static	WM_HWIN KEY_CAPITAL_SMALL_handle;///<大小写图标句柄
-static void main_win_cb(WM_MESSAGE * pMsg);
-static void update_main_ui_menu_key_inf(WM_HMEM hWin);
+/** 主界面显示的文本索引表 */
 
-static void sys_shift_key_fun_cb(KEY_MESSAGE *key_msg);
-static void sys_unlock_key_fun_cb(KEY_MESSAGE *key_msg);
-static void screen_capture_key_fun_cb(KEY_MESSAGE *key_msg);
+static CS_INDEX main_ui_text_ele_table[] =
+{
+	MAIN_UI_COM_ST,
+	MAIN_UI_SYS_TIME,
+};
 /**
   * @brief  系统按键信息
   */
@@ -51,7 +77,6 @@ static FUNCTION_KEY_INFO_T sys_key_pool[]=
 	{KEY_UNLOCK	        , sys_unlock_key_fun_cb    },
 	{KEY_F1 & KEY_0     , screen_capture_key_fun_cb},
 };
-
 /**
   * @brief  根据不同屏幕尺寸填入位置尺寸信息
   */
@@ -61,13 +86,6 @@ static WIDGET_POS_SIZE_T* main_win_pos_size_pool[SCREEN_NUM]=
     &_7_main_windows,/*5.6寸屏*/
     &_7_main_windows,/*7寸屏*/
 };
-
-static void main_win_f1_cb(KEY_MESSAGE *key_msg);
-static void main_win_f2_cb(KEY_MESSAGE *key_msg);
-static void main_win_f3_cb(KEY_MESSAGE *key_msg);
-static void main_win_f4_cb(KEY_MESSAGE *key_msg);
-static void main_win_f5_cb(KEY_MESSAGE *key_msg);
-static void main_win_f6_cb(KEY_MESSAGE *key_msg);
 /** 主界面使用的菜单键信息的配置 */
 static MENU_KEY_INFO_T 	main_ui_menu_key_inf[] = 
 {
@@ -79,30 +97,6 @@ static MENU_KEY_INFO_T 	main_ui_menu_key_inf[] =
     {"", F_KEY_TEST		, KEY_F5 & _KEY_UP, main_win_f5_cb, MENU_KEY_EN},//f5
     {"", F_KEY_HELP		, KEY_F6 & _KEY_UP, main_win_f6_cb, MENU_KEY_DIS },//f6
 };
-
-static void main_win_f1_cb(KEY_MESSAGE *key_msg)
-{
-    create_file_win(key_msg->user_data);
-}
-static void main_win_f2_cb(KEY_MESSAGE *key_msg)
-{
-    create_step_par_win(key_msg->user_data);
-}
-static void main_win_f3_cb(KEY_MESSAGE *key_msg)
-{
-    create_sys_manager_win(key_msg->user_data);
-}
-static void main_win_f4_cb(KEY_MESSAGE *key_msg)
-{
-    create_result_win(key_msg->user_data);
-}
-static void main_win_f5_cb(KEY_MESSAGE *key_msg)
-{
-    create_test_win(key_msg->user_data);
-}
-static void main_win_f6_cb(KEY_MESSAGE *key_msg)
-{
-}
 /**
   * @brief  主界面的文本对象池
   */
@@ -111,6 +105,97 @@ static TEXT_ELE_T main_ui_text_ele_pool[]=
 	{{"本控","UNLINK"}, MAIN_UI_COM_ST },
 	{{"2017-04-07 08:59:00","2017-04-07 08:59:00"}, MAIN_UI_SYS_TIME },
 };
+/**
+  * @brief  主窗口结构体初始化
+  */
+MYUSER_WINDOW_T main_windows=
+{
+    {"main_window"},
+    main_win_cb, update_main_ui_menu_key_inf,
+	{
+        main_ui_text_ele_pool, ARRAY_SIZE(main_ui_text_ele_pool),
+        (CS_INDEX*)main_ui_text_ele_table, ARRAY_SIZE(main_ui_text_ele_table)
+    },
+    {0},
+    {0},
+    /* 自动布局 */
+    {
+        NULL,//文本自动布局信息池
+        NULL,///<编辑对象自动布局信息池
+        NULL,//文本对象调整布局信息池
+        NULL,//编辑对象调整布局信息池
+    },/* auto_layout */
+    main_win_pos_size_pool,/*pos_size_pool */
+};
+/* Private functions ---------------------------------------------------------*/
+/**
+  * @brief  主窗口中功能键F1回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void main_win_f1_cb(KEY_MESSAGE *key_msg)
+{
+    uint8_t flag = get_key_lock_flag();
+    
+    /* 加锁 */
+    if(flag)
+    {
+        back_up_will_enter_win_inf.into_win_fun = create_file_win;
+        back_up_will_enter_win_inf.data = key_msg->user_data;
+        
+        set_custom_msg_id(CM_DIALOG_INPUT_PWD);
+        create_input_password_ui(key_msg->user_data);
+    }
+    /* 未加锁 */
+    else
+    {
+        create_file_win(key_msg->user_data);
+    }
+}
+/**
+  * @brief  主窗口中功能键F2回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void main_win_f2_cb(KEY_MESSAGE *key_msg)
+{
+    create_step_par_win(key_msg->user_data);
+}
+/**
+  * @brief  主窗口中功能键F3回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void main_win_f3_cb(KEY_MESSAGE *key_msg)
+{
+    create_sys_manager_win(key_msg->user_data);
+}
+/**
+  * @brief  主窗口中功能键F4回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void main_win_f4_cb(KEY_MESSAGE *key_msg)
+{
+    create_result_win(key_msg->user_data);
+}
+/**
+  * @brief  主窗口中功能键F5回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void main_win_f5_cb(KEY_MESSAGE *key_msg)
+{
+    create_test_win(key_msg->user_data);
+}
+/**
+  * @brief  主窗口中功能键F6回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void main_win_f6_cb(KEY_MESSAGE *key_msg)
+{
+}
 /**
   * @brief  根据屏幕尺寸初始化主界面的文本对象位置尺寸信息
   * @param  无
@@ -153,25 +238,8 @@ static void draw_main_win_status_bar(void)
 }
 
 
-/** 主界面显示的文本索引表 */
-static CS_INDEX main_ui_text_ele_table[] =
-{
-	MAIN_UI_COM_ST,
-	MAIN_UI_SYS_TIME,
-};
 
-/**
-  * @brief  主窗口结构体初始化
-  */
-MYUSER_WINDOW_T main_windows=
-{
-    {"main_window"},
-    main_win_cb, update_main_ui_menu_key_inf,
-	{
-        main_ui_text_ele_pool, ARRAY_SIZE(main_ui_text_ele_pool),
-        (CS_INDEX*)main_ui_text_ele_table, ARRAY_SIZE(main_ui_text_ele_table)
-    },
-};
+
 /**
   * @brief  更新主界面的菜单键信息
   * @param  [in] hWin 主界面窗口句柄
@@ -182,7 +250,13 @@ static void update_main_ui_menu_key_inf(WM_HMEM hWin)
 	init_menu_key_info(main_ui_menu_key_inf, ARRAY_SIZE(main_ui_menu_key_inf), hWin);
 }
 
-void update_shift_bmp(void)
+
+/**
+  * @brief  更新上档键的图标显示
+  * @param  [in] hWin 主界面窗口句柄
+  * @retval 无
+  */
+static void update_shift_bmp(void)
 {
     uint8_t flag = get_shift_status();
     
@@ -195,6 +269,7 @@ void update_shift_bmp(void)
         set_small_letter_image(KEY_CAPITAL_SMALL_handle);
     }
 }
+
 /**
   * @brief  系统SHIFT按键回调函数
   * @param  [in] data 用户数据
@@ -221,6 +296,14 @@ void update_unlock_bmp(void)
         set_key_unlock_image(KEY_LOCK_handle);
     }
 }
+
+static void change_key_lock_status(int data)
+{
+    uint8_t flag = get_key_lock_flag();
+    
+    set_key_lock_flag(!flag);
+    update_unlock_bmp();
+}
 /**
   * @brief  系统键盘锁按键回调函数
   * @param  [in] data 用户数据
@@ -228,10 +311,11 @@ void update_unlock_bmp(void)
   */
 static void sys_unlock_key_fun_cb(KEY_MESSAGE *key_msg)
 {
-    uint8_t flag = get_key_lock_flag();
+    back_up_will_enter_win_inf.into_win_fun = change_key_lock_status;
+    back_up_will_enter_win_inf.data = key_msg->user_data;
     
-    set_key_lock_flag(!flag);
-    update_unlock_bmp();
+    set_custom_msg_id(CM_DIALOG_INPUT_PWD);
+    create_input_password_ui(key_msg->user_data);
 }
 
 /**
@@ -239,7 +323,6 @@ static void sys_unlock_key_fun_cb(KEY_MESSAGE *key_msg)
   * @param  [in] data 用户数据
   * @retval 无
   */
-#include "PROGBAR.h"
 static void screen_capture_key_fun_cb(KEY_MESSAGE *key_msg)
 {
     int32_t data = key_msg->user_data;
@@ -348,11 +431,27 @@ static void main_win_cb(WM_MESSAGE * pMsg)
 {
 	MYUSER_WINDOW_T* win;
 	WM_HWIN hWin = pMsg->hWin;
+    static CUSTOM_MSG_T msg;
 	
 	switch (pMsg->MsgId)
 	{
-        case CM_UPDATE_USB_ST:
-            break;
+        case CM_DIALOG_INPUT_PWD:
+        {
+			msg = *(CUSTOM_MSG_T*)pMsg->Data.v;//拷贝消息
+            
+            if(msg.msg == CM_DIALOG_RETURN_OK)
+			{
+                if(back_up_will_enter_win_inf.into_win_fun != NULL)
+                {
+                    back_up_will_enter_win_inf.into_win_fun(back_up_will_enter_win_inf.data);
+                }
+        
+            }
+            
+            back_up_will_enter_win_inf.into_win_fun = NULL;
+            back_up_will_enter_win_inf.data = 0;
+			break;
+        }
 		case WM_CREATE:
 			set_main_windows_handle(hWin);
 			win = get_user_window_info(hWin);
@@ -401,10 +500,8 @@ static void main_win_cb(WM_MESSAGE * pMsg)
   * @param  无
   * @retval 无
   */
-void create_main_windows(void)
+static void create_main_windows(void)
 {
-    init_window_size(&main_windows, main_win_pos_size_pool[sys_par.screem_size]);
-    
     create_user_window(&main_windows, &windows_list, 0);
 }
 /**
@@ -412,10 +509,12 @@ void create_main_windows(void)
   * @param  无
   * @retval 无
   */
-void init_user_window_env(void)
+static void init_user_window_env(void)
 {
 	list_init(&windows_list);//初始化窗口链表
 }
+/* Public functions ---------------------------------------------------------*/
+
 /**
   * @brief  7寸屏布局1的入口
   * @param  无

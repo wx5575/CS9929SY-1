@@ -100,6 +100,15 @@ static WIDGET_POS_SIZE_T* file_edit_win_pos_size_pool[SCREEN_NUM]=
     &_7_file_edit_windows,/*5.6寸屏*/
     &_7_file_edit_windows,/*7寸屏*/
 };
+/**
+  * @brief  文件存贮窗口的位置尺寸信息池，对应不同尺寸的屏幕
+  */
+static WIDGET_POS_SIZE_T* file_save_as_win_pos_size_pool[SCREEN_NUM]=
+{
+    &_7_file_save_as_windows,/*4.3寸屏*/
+    &_7_file_save_as_windows,/*5.6寸屏*/
+    &_7_file_save_as_windows,/*7寸屏*/
+};
 
 /**
   * @brief  步骤编辑窗口的位置尺寸信息数组，根据不同的屏幕尺寸进行初始化
@@ -314,7 +323,7 @@ static MYUSER_WINDOW_T save_file_window=
         NULL,//文本对象调整布局信息池
         file_edit_win_edit_ele_adiust_layout_pool,//编辑对象调整布局信息池
     },/* auto_layout */
-    NULL,/*init_pos_size_fun */123123
+    file_save_as_win_pos_size_pool,/*pos_size_pool */
 };
 /**
   * @brief  文件新建窗口的数据结构定义
@@ -343,6 +352,7 @@ static MYUSER_WINDOW_T new_file_window=
         NULL,//文本对象调整布局信息池
         file_edit_win_edit_ele_adiust_layout_pool,//编辑对象调整布局信息池
     },/* auto_layout */
+    file_edit_win_pos_size_pool,/*pos_size_pool */
 };
 /**
   * @brief  文件编辑窗口的数据结构定义
@@ -371,6 +381,7 @@ static MYUSER_WINDOW_T edit_file_windows=
         NULL,//文本对象调整布局信息池
         file_edit_win_edit_ele_adiust_layout_pool,//编辑对象调整布局信息池
     },/* auto_layout */
+    file_edit_win_pos_size_pool,/*pos_size_pool */
 };
 
 
@@ -829,12 +840,12 @@ static void set_file_par_window_ele_data(TEST_FILE *f)
     pool = g_cur_win->edit.pool;
     size = g_cur_win->edit.pool_size;
     
-    reg_step_ele_data(FSAVE_UI_FNAME, f->name,  sizeof(f->name));//文件名
-    reg_step_ele_data(FSAVE_UI_WMODE, &f->work_mode,  sizeof(f->work_mode));//工作模式
-    reg_step_ele_data(FSAVE_UI_BEEPT, &f->buzzer_time,  sizeof(f->buzzer_time));//蜂鸣时间
-    reg_step_ele_data(FSAVE_UI_PASST, &f->pass_time,  sizeof(f->pass_time));//PASS时间
+    reg_edit_ele_data_inf(FSAVE_UI_FNAME, f->name,  sizeof(f->name));//文件名
+    reg_edit_ele_data_inf(FSAVE_UI_WMODE, &f->work_mode,  sizeof(f->work_mode));//工作模式
+    reg_edit_ele_data_inf(FSAVE_UI_BEEPT, &f->buzzer_time,  sizeof(f->buzzer_time));//蜂鸣时间
+    reg_edit_ele_data_inf(FSAVE_UI_PASST, &f->pass_time,  sizeof(f->pass_time));//PASS时间
     
-    reg_step_ele_data(FSAVE_UI_ARC_MODE, &f->arc_mode,  sizeof(f->arc_mode));//电弧侦测
+    reg_edit_ele_data_inf(FSAVE_UI_ARC_MODE, &f->arc_mode,  sizeof(f->arc_mode));//电弧侦测
     ele = get_edit_ele_inf(pool, size, FSAVE_UI_ARC_MODE, &err);
     
     if(err == CS_ERR_NONE)
@@ -914,7 +925,6 @@ static void file_edit_win_cb(WM_MESSAGE * pMsg)
 void create_save_file_dialog(int hWin)
 {
     set_custom_msg_id(CM_FILE_UI_SAVE);
-    init_window_size(&save_file_window, file_edit_win_pos_size_pool[sys_par.screem_size]);
     create_user_dialog(&save_file_window, &windows_list, g_cur_win->handle);//创建主界面
 }
 /**
@@ -925,7 +935,6 @@ void create_save_file_dialog(int hWin)
 void create_new_file_dialog(int hWin)
 {
     set_custom_msg_id(CM_FILE_UI_NEW);
-    init_window_size(&new_file_window, file_edit_win_pos_size_pool[sys_par.screem_size]);
     create_user_dialog(&new_file_window, &windows_list, g_cur_win->handle);//创建主界面
 }
 
@@ -937,7 +946,6 @@ void create_new_file_dialog(int hWin)
 void create_edit_file_dialog(int hWin)
 {
     set_custom_msg_id(CM_FILE_UI_EDIT);
-    init_window_size(&edit_file_windows, file_edit_win_pos_size_pool[sys_par.screem_size]);
     create_user_dialog(&edit_file_windows, &windows_list, g_cur_win->handle);//创建主界面
 }
 

@@ -151,17 +151,25 @@ static MYUSER_WINDOW_T env_par_window=
 {
     {"环境参数","Env.Par"},
     env_par_edit_win_cb,NULL,
-    {0},
+    {0},/*text*/
     {
         env_par_ele_pool,ARRAY_SIZE(env_par_ele_pool),
         (CS_INDEX*)env_par_ui_ele_table,ARRAY_SIZE(env_par_ui_ele_table),
         init_create_env_par_win_edit_ele,
-    },
+    },/*edit*/
     {
         com_text_ele_pool,ARRAY_SIZE(com_text_ele_pool),
         (CS_INDEX*)range_com_ele_table,ARRAY_SIZE(range_com_ele_table),
         init_create_env_par_win_com_ele,
-    },
+    },/*com*/
+    /* 自动布局 */
+    {
+        NULL,//文本自动布局信息池
+        NULL,//编辑对象自动布局信息池
+        NULL,//文本对象调整布局信息池
+        NULL,//编辑对象调整布局信息池
+    },/* auto_layout */
+    env_par_win_pos_size_pool/*pos_size_pool*/
 };
 
 /* Private functions ---------------------------------------------------------*/
@@ -425,7 +433,6 @@ static void env_par_edit_win_cb(WM_MESSAGE * pMsg)
   */
 void create_env_par_dialog(int hWin)
 {
-    init_window_size(&env_par_window, env_par_win_pos_size_pool[sys_par.screem_size]);
     create_user_dialog(&env_par_window, &windows_list, hWin);//创建主界面
 }
 

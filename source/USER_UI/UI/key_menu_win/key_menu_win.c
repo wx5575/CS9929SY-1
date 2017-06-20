@@ -128,7 +128,8 @@ static const STAND_MENU_KEY_INFO_T all_menu_key_info_[]=
 	{{"后移", "Backward"}, F_KEY_BACKWARD   },
 	{{"开启", "ON"      }, F_KEY_ON   	    },
 	{{"关闭", "OFF"     }, F_KEY_OFF        },
-	{{"等级", "Grade"   }, F_KEY_GRADE        },
+	{{"等级", "Grade"   }, F_KEY_GRADE      },
+	{{"设置", "Setting" }, F_KEY_SETTING    },
 };
 
 /**
@@ -183,7 +184,17 @@ static MYUSER_WINDOW_T key_menu_windows=
         key_menu_win_ele_pool,COUNT_ARRAY_SIZE(key_menu_win_ele_pool),
         (CS_INDEX*)key_ui_ele_table, ARRAY_SIZE(key_ui_ele_table),
         init_create_key_menu_text_ele
-    },
+    },/*text*/
+    {0},/*edit*/
+    {0},/*com*/
+    /* 自动布局 */
+    {
+        NULL,//文本自动布局信息池
+        NULL,//编辑对象自动布局信息池
+        NULL,//文本对象调整布局信息池
+        NULL,//编辑对象调整布局信息池
+    },/* auto_layout */
+    key_menu_win_pos_size/*pos_size_pool*/
 };
 /* Private functions ---------------------------------------------------------*/
 
@@ -615,11 +626,7 @@ void register_system_key_fun(FUNCTION_KEY_INFO_T info[], uint32_t n, int data)
   */
 void create_key_menu_window(void)
 {
-	CS_LIST *list = &windows_list;//窗口链表
-    
-    init_window_size(&key_menu_windows, key_menu_win_pos_size[sys_par.screem_size]);
-    
-    create_user_window(&key_menu_windows, list, 0);//创建菜单界面
+    create_user_window(&key_menu_windows, &windows_list, 0);//创建菜单界面
 }
 
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

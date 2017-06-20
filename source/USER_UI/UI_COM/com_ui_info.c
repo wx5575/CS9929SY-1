@@ -132,6 +132,138 @@ void init_window_text_ele_dis_inf(MYUSER_WINDOW_T *win, TEXT_ELE_AUTO_LAYOUT_T* 
     }
 }
 /**
+  * @brief  根据自动布局的结构参数初始化界面中的文本对象链表的位置信息 
+  * @param  [in] win 用户窗口指针
+  * @retval 无
+  */
+void auto_init_win_text_ele_dis_inf(MYUSER_WINDOW_T *win)
+{
+	int32_t row = 0;
+	int32_t column = 0;
+	CS_LIST *list = &win->text.list_head;
+    WIDGET_POS_SIZE_T *pos;
+    UI_ELE_DISPLAY_INFO_T *dis;
+	CS_LIST* t_node = NULL;
+	TEXT_ELE_T *node = NULL;
+    TEXT_ELE_AUTO_LAYOUT_T *auto_layout;
+    
+    if(win->auto_layout.text_ele_auto_layout_inf == NULL)
+    {
+        return;
+    }
+    
+    auto_layout = win->auto_layout.text_ele_auto_layout_inf[SCREEM_SIZE];//根据屏幕尺寸获取编辑对象的自动布局信息
+	
+	
+    
+    
+    list_for_each(t_node, list)
+    {
+        node = list_entry( t_node, TEXT_ELE_T, list );
+        
+        dis = &node->dis_info;
+        pos = &node->dis_info.pos_size;
+        
+        dis->base_x = auto_layout->base_x;
+        dis->base_y = auto_layout->base_y;
+        pos->x = auto_layout->column_spacing * column;
+        pos->y = auto_layout->row_spacing * row;
+        pos->width = auto_layout->width;
+        pos->height = auto_layout->height;
+        
+        memcpy(dis->font, auto_layout->font, sizeof(auto_layout->font));
+        dis->font_color = auto_layout->font_color;
+        dis->back_color = auto_layout->back_color;
+        dis->align = auto_layout->align;
+        dis->max_len = auto_layout->max_len;
+        
+        ++row;
+        
+        if(row > auto_layout->rows)
+        {
+            row = 0;
+            column++;
+        }
+    }
+}
+/**
+  * @brief  调整界面中的编辑对象链表的显示
+  * @param  [in] win 用户窗口指针
+  * @retval 无
+  */
+void adjust_win_text_ele_dis_inf(MYUSER_WINDOW_T *win)
+{
+	CS_LIST *list = &win->text.list_head;
+    WIDGET_POS_SIZE_T *pos;
+    UI_ELE_DISPLAY_INFO_T *dis;
+	CS_LIST* t_node = NULL;
+	TEXT_ELE_T *node = NULL;
+    ADJUST_TEXT_ELE_LAYOUT_INF *adjust_layout;
+    ADJUST_TEXT_ELE_LAYOUT *adjust_inf;
+    int32_t i = 0;
+    uint32_t size;
+    
+    if(win == NULL)
+    {
+        return;
+    }
+    
+    if(win->auto_layout.adjust_text_ele_layout_inf == NULL)
+    {
+        return;
+    }
+    
+    adjust_layout = win->auto_layout.adjust_text_ele_layout_inf[SCREEM_SIZE];//根据屏幕尺寸获取编辑对象的自动布局信息
+	
+    if(adjust_layout == NULL)
+    {
+        return;
+    }
+    
+    size = adjust_layout->size;
+    
+    for(i = 0; i < size; i++)
+    {
+        adjust_inf = &adjust_layout->pool[i];
+        
+        list_for_each(t_node, list)
+        {
+            node = list_entry( t_node, TEXT_ELE_T, list );
+            
+            if(adjust_inf->index == node->index)
+            {
+                dis = &node->dis_info;
+                pos = &node->dis_info.pos_size;
+                
+                /* 调整x基坐标 */
+                if(adjust_inf->pos_size.base_x.en == CS_TRUE)
+                {
+                    dis->base_x = adjust_inf->pos_size.base_x.value;
+                }
+                
+                /* 调整文本对齐方式 */
+                if(adjust_inf->align.en == CS_TRUE)
+                {
+                    dis->align = adjust_inf->align.value;
+                }
+                
+                /* 调整文本的x坐标 */
+                if(adjust_inf->pos_size.x.en == CS_TRUE)
+                {
+                    pos->x = adjust_inf->pos_size.x.value;
+                }
+                
+                /* 调整文本控件的宽度 */
+                if(adjust_inf->pos_size.width.en == CS_TRUE)
+                {
+                    pos->width = adjust_inf->pos_size.width.value;
+                }
+                break;
+            }
+        }
+    }
+}
+/**
   * @brief  根据自动布局的结构参数初始化界面中的编辑对象链表的位置信息
   * @param  [in] win 用户窗口指针
   * @param  [in] inf 自动布局结构参数
@@ -646,16 +778,27 @@ void init_window_com_text_ele(MYUSER_WINDOW_T* win)
   */
 void create_user_window(MYUSER_WINDOW_T* win_info, CS_LIST *list_head, WM_HWIN h_parent)
 {
-	uint16_t x = win_info->pos_size.x;
-	uint16_t y = win_info->pos_size.y;
-	uint16_t width = win_info->pos_size.width;
-	uint16_t height = win_info->pos_size.height;
-	USER_CALLBACK cb_fun = win_info->call_back_fun;
+	uint16_t x = 0;
+	uint16_t y = 0;
+	uint16_t width = 0;
+	uint16_t height = 0;
+	USER_CALLBACK cb_fun = NULL;
     
     if(h_parent == 0)
     {
         h_parent = WM_HBKWIN;
     }
+    
+    if(win_info->pos_size_pool != NULL)
+    {
+        init_window_size(win_info, win_info->pos_size_pool[SCREEM_SIZE]);
+    }
+    
+    x = win_info->pos_size.x;
+    y = win_info->pos_size.y;
+    width = win_info->pos_size.width;
+    height = win_info->pos_size.height;
+    cb_fun = win_info->call_back_fun;
     
 	list_add_tail(&win_info->w_list, list_head);//将创建的新窗口加入窗口链表中
     list_init(&win_info->text.list_head);//初始化文本对象链表
@@ -734,17 +877,27 @@ void set_cur_window(MYUSER_WINDOW_T* win_info)
   */
 void create_user_dialog(MYUSER_WINDOW_T* win_info, CS_LIST *list_head, WM_HWIN hWin)
 {
-	uint16_t x = win_info->pos_size.x;
-	uint16_t y = win_info->pos_size.y;
-	uint16_t width = win_info->pos_size.width;
-	uint16_t height = win_info->pos_size.height;
-	USER_CALLBACK cb_fun = win_info->call_back_fun;
+	uint16_t x = 0;
+	uint16_t y = 0;
+	uint16_t width = 0;
+	uint16_t height = 0;
+	USER_CALLBACK cb_fun = NULL;
     GUI_WIDGET_CREATE_INFO aDialogBox =
     {
         FRAMEWIN_CreateIndirect, "", 0, 0, 0, 0, 0, 0, 0, 0
     };
 	
-    aDialogBox.Id = ++id_base;
+    if(win_info->pos_size_pool != NULL)
+    {
+        init_window_size(win_info, win_info->pos_size_pool[SCREEM_SIZE]);
+    }
+    
+    x = win_info->pos_size.x;
+    y = win_info->pos_size.y;
+    width = win_info->pos_size.width;
+    height = win_info->pos_size.height;
+    cb_fun = win_info->call_back_fun;aDialogBox.Id = ++id_base;
+    
     aDialogBox.x0 = x;
     aDialogBox.y0 = y;
     aDialogBox.xSize = width;

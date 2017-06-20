@@ -45,12 +45,12 @@ WM_HWIN _7_create_step_listview(WM_HWIN hWin)
 	hHeader = LISTVIEW_GetHeader(list_h);
 	HEADER_SetFont(hHeader,&GUI_Fonthz_24);
 	HEADER_SetHeight(hHeader,28);
-	LISTVIEW_AddColumn(list_h, 60	, SELE_STR("编号","NO.")			, GUI_TA_HCENTER | GUI_TA_VCENTER);
-    LISTVIEW_AddColumn(list_h, 80	, SELE_STR("模式","Mode")			, GUI_TA_HCENTER | GUI_TA_VCENTER);
-    LISTVIEW_AddColumn(list_h, 120	, SELE_STR("输出","Output")			, GUI_TA_HCENTER | GUI_TA_VCENTER);
+	LISTVIEW_AddColumn(list_h, 60	, SELE_STR("编号","NO.")            , GUI_TA_HCENTER | GUI_TA_VCENTER);
+    LISTVIEW_AddColumn(list_h, 80	, SELE_STR("模式","Mode")           , GUI_TA_HCENTER | GUI_TA_VCENTER);
+    LISTVIEW_AddColumn(list_h, 120	, SELE_STR("输出","Output")         , GUI_TA_HCENTER | GUI_TA_VCENTER);
     LISTVIEW_AddColumn(list_h, 120	, SELE_STR("测试时间","Test time")  , GUI_TA_HCENTER | GUI_TA_VCENTER);
-//    LISTVIEW_AddColumn(list_h, 190	, SELE_STR("文件名","FileName")		, GUI_TA_HCENTER | GUI_TA_VCENTER);
-//    LISTVIEW_AddColumn(list_h, 80	, SELE_STR("总步数","Total")		, GUI_TA_HCENTER | GUI_TA_VCENTER);
+    LISTVIEW_AddColumn(list_h, 120	, SELE_STR("步间连续","Step Con.")  , GUI_TA_HCENTER | GUI_TA_VCENTER);
+    LISTVIEW_AddColumn(list_h, 170	, SELE_STR("测试端口","Test Port")		, GUI_TA_HCENTER | GUI_TA_VCENTER);
 //    LISTVIEW_AddColumn(list_h, 262	, SELE_STR("建立时间","CreateDate")	, GUI_TA_HCENTER | GUI_TA_VCENTER);
 	 
     SCROLLBAR_SetWidth(hScrollbar,18);
