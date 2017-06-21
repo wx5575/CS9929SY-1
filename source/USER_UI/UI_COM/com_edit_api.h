@@ -52,6 +52,7 @@ extern EDIT_ELE_T* get_edit_ele_inf(EDIT_ELE_T *edit_pool, uint32_t pool_size, C
 extern void init_sw_type_edit_ele_resource_inf(EDIT_ELE_T* ele);
 extern void set_g_cur_win_edit_index_inf(CS_INDEX *index_pool, uint32_t size);
 extern void reg_edit_ele_data_inf(CS_INDEX index, void *data, uint8_t bytes);
+extern void reg_edit_ele_data(MYUSER_WINDOW_T* win, CS_INDEX index, void *data, uint8_t bytes);
 extern void auto_layout_win_edit_ele(MYUSER_WINDOW_T* win);
 extern void init_edit_ele_resource_inf(EDIT_ELE_T* ele, void *res_table, uint32_t size);
 extern void auto_layout_win_text_ele(MYUSER_WINDOW_T* win);

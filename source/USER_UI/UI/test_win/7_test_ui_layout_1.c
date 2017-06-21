@@ -44,7 +44,7 @@ typedef struct{
 
 #define PB_X 40		///<多路信息区基坐标
 #define PB_Y 50
-#define TP_W 270	///<每路信息区的宽度
+#define TP_W 275	///<每路信息区的宽度
 #define TP_XO 50	///<相临信息区的X坐标偏移
 #define TP_YO 40	///<相临信息区的Y坐标偏移
 #define TP_H 168	///<每路信息区的高度

@@ -581,13 +581,13 @@ I (..\source\EMWIN\emWin\Include\WM.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\WM_GUI.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\DIALOG_Intern.h)(0x59486745)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x51C7C554)
 I (..\source\HARDWARE\RA8875\RA8875\LCD_RA8875.H)(0x59486746)
 I (..\source\HARDWARE\CODED_DISC/coded_disc.h)(0x59486746)
-I (..\source\USER_UI\ui_com/com_edit_api.h)(0x5948CAA4)
-I (..\source\USER_UI\ui_com/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\ui_com/com_edit_api.h)(0x594A0A4C)
+I (..\source\USER_UI\ui_com/com_ui_info.h)(0x5949E2C9)
 I (..\source\EMWIN\emWin\Include\TEXT.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\WIDGET.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\WM_Intern.h)(0x59486745)
@@ -3367,7 +3367,7 @@ I (..\source\HARDWARE\CH376\inc\FILE_SYS.H)(0x59486746)
 I (..\source\HARDWARE\CH376\inc\HAL.H)(0x59486746)
 I (..\source\HARDWARE\CH376\inc\CH376INC.H)(0x59486746)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (..\source\App\CS99XX\cs99xx_mem_api.h)(0x5947B7C1)
 I (..\source\App\CS99XX\cs99xx_flash_manage.h)(0x5947B786)
@@ -3542,13 +3542,13 @@ I (..\source\FATFS\src\integer.h)(0x59486746)
 I (..\source\FATFS\src\ffconf.h)(0x59486746)
 I (..\source\App\CS99XX\cs99xx_mem_api.h)(0x5947B7C1)
 I (..\source\App\CS99XX\cs99xx_flash_manage.h)(0x5947B786)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x51C7C554)
 I (..\source\App\type\cs99xx_type.h)(0x594391EF)
 I (..\source\App\type\cs99xx_config.h)(0x59486745)
 I (..\source\App\type\cs99xx_type_config.h)(0x5944980C)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\EMWIN\emWin\Include\GUI.H)(0x59486745)
 I (..\source\EMWIN\emWin\Include\GUI_ConfDefaults.h)(0x59486745)
 I (..\source\EMWIN\emWin\Config\GUIConf.h)(0x59486745)
@@ -3574,8 +3574,8 @@ I (..\source\App\tools.h)(0x59486745)
 I (..\source\App\CS99XX\key_server.h)(0x5943895F)
 F (..\source\App\type\cs99xx_config.h)(0x59486745)()
 F (..\source\App\type\cs99xx_type_config.h)(0x5944980C)()
-F (..\source\App\CS99XX\cs99xx_struct.c)(0x59478B10)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\source\CORE -I..\source\SYSTEM\delay -I..\source\SYSTEM\sys -I..\source\SYSTEM\usart -I..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc -I..\source\USER -I..\source\HARDWARE\IIC -I..\source\HARDWARE\LCD -I..\source\HARDWARE\LED -I..\source\HARDWARE\SRAM -I..\source\HARDWARE\TIMER -I..\source\HARDWARE\24CXX -I..\source\HARDWARE\SPI -I..\source\HARDWARE\SDIO -I..\source\HARDWARE\TOUCH -I..\source\HARDWARE\W25QXX -I..\source\TEXT -I..\source\USMART -I..\source\FATFS\src -I..\source\FATFS\src\option -I..\source\MALLOC -I..\source\FWLIB\CMSIS\Include -I..\source\EMWIN\emWin\Config -I..\source\EMWIN\emWin\emWinTask -I..\source\EMWIN\Demo -I..\source\UCOSIII\uC-CPU -I..\source\UCOSIII\uC-LIB -I..\source\UCOSIII\uCOS-III -I..\source\UCOSIII\UCOS_BSP -I..\source\UCOSIII\uCOS_CONFIG -I..\source\UCOSIII\uCOS-III\Source -I..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView -I..\source\EMWIN_DEMO\NUM_DISPLAY -I..\source\HARDWARE\RA8875\BSP -I..\source\HARDWARE\RA8875\RA8875 -I..\source\EMWIN\emWin\Include -I..\source\HARDWARE\KeyBoard -I..\source\HARDWARE -I..\source\HARDWARE\sd_card -I..\source\HARDWARE\RTC -I..\source\HARDWARE\SPI_FLASH -I..\source\App -I..\source\App\fonts -I..\source\TESTER_UI -I..\source\App\CS99XX -I..\source\tools -I..\source\USER_UI -I..\source\USER_UI\UI -I..\source\HARDWARE\CH376\inc --locale=ENGLISH-I D:\Keil\ARM\RV31\INC-I D:\Keil\ARM\CMSIS\Include-I D:\Keil\ARM\Inc\ST\STM32F4xx-DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM-o ..\..\output\output\cs99xx_struct.o --omf_browse ..\..\output\output\cs99xx_struct.crf --depend ..\..\output\output\cs99xx_struct.d)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+F (..\source\App\CS99XX\cs99xx_struct.c)(0x594A3543)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\source\CORE -I..\source\SYSTEM\delay -I..\source\SYSTEM\sys -I..\source\SYSTEM\usart -I..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc -I..\source\USER -I..\source\HARDWARE\IIC -I..\source\HARDWARE\LCD -I..\source\HARDWARE\LED -I..\source\HARDWARE\SRAM -I..\source\HARDWARE\TIMER -I..\source\HARDWARE\24CXX -I..\source\HARDWARE\SPI -I..\source\HARDWARE\SDIO -I..\source\HARDWARE\TOUCH -I..\source\HARDWARE\W25QXX -I..\source\TEXT -I..\source\USMART -I..\source\FATFS\src -I..\source\FATFS\src\option -I..\source\MALLOC -I..\source\FWLIB\CMSIS\Include -I..\source\EMWIN\emWin\Config -I..\source\EMWIN\emWin\emWinTask -I..\source\EMWIN\Demo -I..\source\UCOSIII\uC-CPU -I..\source\UCOSIII\uC-LIB -I..\source\UCOSIII\uCOS-III -I..\source\UCOSIII\UCOS_BSP -I..\source\UCOSIII\uCOS_CONFIG -I..\source\UCOSIII\uCOS-III\Source -I..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView -I..\source\EMWIN_DEMO\NUM_DISPLAY -I..\source\HARDWARE\RA8875\BSP -I..\source\HARDWARE\RA8875\RA8875 -I..\source\EMWIN\emWin\Include -I..\source\HARDWARE\KeyBoard -I..\source\HARDWARE -I..\source\HARDWARE\sd_card -I..\source\HARDWARE\RTC -I..\source\HARDWARE\SPI_FLASH -I..\source\App -I..\source\App\fonts -I..\source\TESTER_UI -I..\source\App\CS99XX -I..\source\tools -I..\source\USER_UI -I..\source\USER_UI\UI -I..\source\HARDWARE\CH376\inc --locale=ENGLISH-I D:\Keil\ARM\RV31\INC-I D:\Keil\ARM\CMSIS\Include-I D:\Keil\ARM\Inc\ST\STM32F4xx-DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM-o ..\..\output\output\cs99xx_struct.o --omf_browse ..\..\output\output\cs99xx_struct.crf --depend ..\..\output\output\cs99xx_struct.d)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\USER\stm32f4xx.h)(0x59486746)
 I (..\source\CORE\core_cm4.h)(0x59486745)
 I (D:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7C554)
@@ -3654,7 +3654,7 @@ I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_can.h)(0x59486746)
 I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h)(0x59486746)
 I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h)(0x59486746)
 I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h)(0x59486746)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x51C7C554)
 I (..\source\HARDWARE\SPI_FLASH\spi_flash.h)(0x59486746)
@@ -3716,7 +3716,7 @@ I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h)(0x59486746)
 I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h)(0x59486746)
 I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h)(0x59486746)
 I (..\source\App\CS99XX\cs99xx_flash_manage.h)(0x5947B786)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x51C7C554)
 F (..\source\App\CS99XX\cs99xx_usb_manager.c)(0x59486745)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\source\CORE -I..\source\SYSTEM\delay -I..\source\SYSTEM\sys -I..\source\SYSTEM\usart -I..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc -I..\source\USER -I..\source\HARDWARE\IIC -I..\source\HARDWARE\LCD -I..\source\HARDWARE\LED -I..\source\HARDWARE\SRAM -I..\source\HARDWARE\TIMER -I..\source\HARDWARE\24CXX -I..\source\HARDWARE\SPI -I..\source\HARDWARE\SDIO -I..\source\HARDWARE\TOUCH -I..\source\HARDWARE\W25QXX -I..\source\TEXT -I..\source\USMART -I..\source\FATFS\src -I..\source\FATFS\src\option -I..\source\MALLOC -I..\source\FWLIB\CMSIS\Include -I..\source\EMWIN\emWin\Config -I..\source\EMWIN\emWin\emWinTask -I..\source\EMWIN\Demo -I..\source\UCOSIII\uC-CPU -I..\source\UCOSIII\uC-LIB -I..\source\UCOSIII\uCOS-III -I..\source\UCOSIII\UCOS_BSP -I..\source\UCOSIII\uCOS_CONFIG -I..\source\UCOSIII\uCOS-III\Source -I..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView -I..\source\EMWIN_DEMO\NUM_DISPLAY -I..\source\HARDWARE\RA8875\BSP -I..\source\HARDWARE\RA8875\RA8875 -I..\source\EMWIN\emWin\Include -I..\source\HARDWARE\KeyBoard -I..\source\HARDWARE -I..\source\HARDWARE\sd_card -I..\source\HARDWARE\RTC -I..\source\HARDWARE\SPI_FLASH -I..\source\App -I..\source\App\fonts -I..\source\TESTER_UI -I..\source\App\CS99XX -I..\source\tools -I..\source\USER_UI -I..\source\USER_UI\UI -I..\source\HARDWARE\CH376\inc --locale=ENGLISH-I D:\Keil\ARM\RV31\INC-I D:\Keil\ARM\CMSIS\Include-I D:\Keil\ARM\Inc\ST\STM32F4xx-DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM-o ..\..\output\output\cs99xx_usb_manager.o --omf_browse ..\..\output\output\cs99xx_usb_manager.crf --depend ..\..\output\output\cs99xx_usb_manager.d)
@@ -3760,7 +3760,7 @@ I (D:\Keil\ARM\RV31\INC\string.h)(0x4F58357C)
 I (..\source\HARDWARE\CH376\inc\FILE_SYS.H)(0x59486746)
 I (..\source\HARDWARE\CH376\inc\HAL.H)(0x59486746)
 I (..\source\HARDWARE\CH376\inc\CH376INC.H)(0x59486746)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x51C7C554)
 I (..\source\HARDWARE\RTC\rtc_config.h)(0x59486746)
@@ -3792,7 +3792,7 @@ I (..\source\EMWIN\emWin\Include\LCD.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\Global.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\GUI_Version.h)(0x59486745)
 I (..\source\App\mem_alloc.h)(0x59486745)
-F (..\source\App\CS99XX\key_server.c)(0x5948DA0B)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\source\CORE -I..\source\SYSTEM\delay -I..\source\SYSTEM\sys -I..\source\SYSTEM\usart -I..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc -I..\source\USER -I..\source\HARDWARE\IIC -I..\source\HARDWARE\LCD -I..\source\HARDWARE\LED -I..\source\HARDWARE\SRAM -I..\source\HARDWARE\TIMER -I..\source\HARDWARE\24CXX -I..\source\HARDWARE\SPI -I..\source\HARDWARE\SDIO -I..\source\HARDWARE\TOUCH -I..\source\HARDWARE\W25QXX -I..\source\TEXT -I..\source\USMART -I..\source\FATFS\src -I..\source\FATFS\src\option -I..\source\MALLOC -I..\source\FWLIB\CMSIS\Include -I..\source\EMWIN\emWin\Config -I..\source\EMWIN\emWin\emWinTask -I..\source\EMWIN\Demo -I..\source\UCOSIII\uC-CPU -I..\source\UCOSIII\uC-LIB -I..\source\UCOSIII\uCOS-III -I..\source\UCOSIII\UCOS_BSP -I..\source\UCOSIII\uCOS_CONFIG -I..\source\UCOSIII\uCOS-III\Source -I..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView -I..\source\EMWIN_DEMO\NUM_DISPLAY -I..\source\HARDWARE\RA8875\BSP -I..\source\HARDWARE\RA8875\RA8875 -I..\source\EMWIN\emWin\Include -I..\source\HARDWARE\KeyBoard -I..\source\HARDWARE -I..\source\HARDWARE\sd_card -I..\source\HARDWARE\RTC -I..\source\HARDWARE\SPI_FLASH -I..\source\App -I..\source\App\fonts -I..\source\TESTER_UI -I..\source\App\CS99XX -I..\source\tools -I..\source\USER_UI -I..\source\USER_UI\UI -I..\source\HARDWARE\CH376\inc --locale=ENGLISH-I D:\Keil\ARM\RV31\INC-I D:\Keil\ARM\CMSIS\Include-I D:\Keil\ARM\Inc\ST\STM32F4xx-DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM-o ..\..\output\output\key_server.o --omf_browse ..\..\output\output\key_server.crf --depend ..\..\output\output\key_server.d)
+F (..\source\App\CS99XX\key_server.c)(0x594A530B)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\source\CORE -I..\source\SYSTEM\delay -I..\source\SYSTEM\sys -I..\source\SYSTEM\usart -I..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc -I..\source\USER -I..\source\HARDWARE\IIC -I..\source\HARDWARE\LCD -I..\source\HARDWARE\LED -I..\source\HARDWARE\SRAM -I..\source\HARDWARE\TIMER -I..\source\HARDWARE\24CXX -I..\source\HARDWARE\SPI -I..\source\HARDWARE\SDIO -I..\source\HARDWARE\TOUCH -I..\source\HARDWARE\W25QXX -I..\source\TEXT -I..\source\USMART -I..\source\FATFS\src -I..\source\FATFS\src\option -I..\source\MALLOC -I..\source\FWLIB\CMSIS\Include -I..\source\EMWIN\emWin\Config -I..\source\EMWIN\emWin\emWinTask -I..\source\EMWIN\Demo -I..\source\UCOSIII\uC-CPU -I..\source\UCOSIII\uC-LIB -I..\source\UCOSIII\uCOS-III -I..\source\UCOSIII\UCOS_BSP -I..\source\UCOSIII\uCOS_CONFIG -I..\source\UCOSIII\uCOS-III\Source -I..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView -I..\source\EMWIN_DEMO\NUM_DISPLAY -I..\source\HARDWARE\RA8875\BSP -I..\source\HARDWARE\RA8875\RA8875 -I..\source\EMWIN\emWin\Include -I..\source\HARDWARE\KeyBoard -I..\source\HARDWARE -I..\source\HARDWARE\sd_card -I..\source\HARDWARE\RTC -I..\source\HARDWARE\SPI_FLASH -I..\source\App -I..\source\App\fonts -I..\source\TESTER_UI -I..\source\App\CS99XX -I..\source\tools -I..\source\USER_UI -I..\source\USER_UI\UI -I..\source\HARDWARE\CH376\inc --locale=ENGLISH-I D:\Keil\ARM\RV31\INC-I D:\Keil\ARM\CMSIS\Include-I D:\Keil\ARM\Inc\ST\STM32F4xx-DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM-o ..\..\output\output\key_server.o --omf_browse ..\..\output\output\key_server.crf --depend ..\..\output\output\key_server.d)
 I (D:\Keil\ARM\RV31\INC\string.h)(0x4F58357C)
 I (..\source\UCOSIII\uCOS-III\Source\os.h)(0x59486746)
 I (..\source\UCOSIII\uCOS_CONFIG\os_cfg.h)(0x59486746)
@@ -3853,8 +3853,8 @@ I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_can.h)(0x59486746)
 I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h)(0x59486746)
 I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h)(0x59486746)
 I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h)(0x59486746)
-I (..\source\USER_UI\ui_com/com_edit_api.h)(0x5948CAA4)
-I (..\source\USER_UI\ui_com/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\ui_com/com_edit_api.h)(0x594A0A4C)
+I (..\source\USER_UI\ui_com/com_ui_info.h)(0x5949E2C9)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x51C7C554)
 I (..\source\EMWIN\emWin\Include\TEXT.h)(0x59486745)
@@ -3864,7 +3864,7 @@ I (..\source\EMWIN\emWin\Include\GUI_Private.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\LCD_Protected.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\GUI_Debug.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\SCROLLBAR.h)(0x59486745)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\App\fonts\fonts.h)(0x59486745)
@@ -3907,7 +3907,7 @@ I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_can.h)(0x59486746)
 I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h)(0x59486746)
 I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h)(0x59486746)
 I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h)(0x59486746)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x51C7C554)
 I (..\source\HARDWARE\KeyBoard\keyboard.h)(0x59486746)
@@ -3941,7 +3941,7 @@ F (..\source\tools\cs_list.c)(0x59486747)(-c --cpu Cortex-M4.fp -g -O0 --apcs=in
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x51C7C554)
 F (..\source\USER_UI\image\logo.c)(0x59486746)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\source\CORE -I..\source\SYSTEM\delay -I..\source\SYSTEM\sys -I..\source\SYSTEM\usart -I..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc -I..\source\USER -I..\source\HARDWARE\IIC -I..\source\HARDWARE\LCD -I..\source\HARDWARE\LED -I..\source\HARDWARE\SRAM -I..\source\HARDWARE\TIMER -I..\source\HARDWARE\24CXX -I..\source\HARDWARE\SPI -I..\source\HARDWARE\SDIO -I..\source\HARDWARE\TOUCH -I..\source\HARDWARE\W25QXX -I..\source\TEXT -I..\source\USMART -I..\source\FATFS\src -I..\source\FATFS\src\option -I..\source\MALLOC -I..\source\FWLIB\CMSIS\Include -I..\source\EMWIN\emWin\Config -I..\source\EMWIN\emWin\emWinTask -I..\source\EMWIN\Demo -I..\source\UCOSIII\uC-CPU -I..\source\UCOSIII\uC-LIB -I..\source\UCOSIII\uCOS-III -I..\source\UCOSIII\UCOS_BSP -I..\source\UCOSIII\uCOS_CONFIG -I..\source\UCOSIII\uCOS-III\Source -I..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView -I..\source\EMWIN_DEMO\NUM_DISPLAY -I..\source\HARDWARE\RA8875\BSP -I..\source\HARDWARE\RA8875\RA8875 -I..\source\EMWIN\emWin\Include -I..\source\HARDWARE\KeyBoard -I..\source\HARDWARE -I..\source\HARDWARE\sd_card -I..\source\HARDWARE\RTC -I..\source\HARDWARE\SPI_FLASH -I..\source\App -I..\source\App\fonts -I..\source\TESTER_UI -I..\source\App\CS99XX -I..\source\tools -I..\source\USER_UI -I..\source\USER_UI\UI -I..\source\HARDWARE\CH376\inc --locale=ENGLISH-I D:\Keil\ARM\RV31\INC-I D:\Keil\ARM\CMSIS\Include-I D:\Keil\ARM\Inc\ST\STM32F4xx-DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM-o ..\..\output\output\logo.o --omf_browse ..\..\output\output\logo.crf --depend ..\..\output\output\logo.d)
-I (..\source\USER_UI\ui_com/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\ui_com/com_ui_info.h)(0x5949E2C9)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x51C7C554)
 I (..\source\EMWIN\emWin\Include\GUI.H)(0x59486745)
@@ -3995,7 +3995,7 @@ I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_can.h)(0x59486746)
 I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h)(0x59486746)
 I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h)(0x59486746)
 I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h)(0x59486746)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\App\fonts\fonts.h)(0x59486745)
@@ -4057,17 +4057,17 @@ I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_can.h)(0x59486746)
 I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h)(0x59486746)
 I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h)(0x59486746)
 I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h)(0x59486746)
-I (..\source\USER_UI\ui_com/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\ui_com/com_ui_info.h)(0x5949E2C9)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (..\source\EMWIN\emWin\Include\TEXT.h)(0x59486745)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\App\fonts\fonts.h)(0x59486745)
 I (..\source\USER_UI\ui_com/com_ui_base.h)(0x594743C9)
 I (..\source\App\tools.h)(0x59486745)
 I (..\source\App\CS99XX\key_server.h)(0x5943895F)
-F (..\source\USER_UI\UI_COM\com_edit_api.c)(0x5948CAA4)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\source\CORE -I..\source\SYSTEM\delay -I..\source\SYSTEM\sys -I..\source\SYSTEM\usart -I..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc -I..\source\USER -I..\source\HARDWARE\IIC -I..\source\HARDWARE\LCD -I..\source\HARDWARE\LED -I..\source\HARDWARE\SRAM -I..\source\HARDWARE\TIMER -I..\source\HARDWARE\24CXX -I..\source\HARDWARE\SPI -I..\source\HARDWARE\SDIO -I..\source\HARDWARE\TOUCH -I..\source\HARDWARE\W25QXX -I..\source\TEXT -I..\source\USMART -I..\source\FATFS\src -I..\source\FATFS\src\option -I..\source\MALLOC -I..\source\FWLIB\CMSIS\Include -I..\source\EMWIN\emWin\Config -I..\source\EMWIN\emWin\emWinTask -I..\source\EMWIN\Demo -I..\source\UCOSIII\uC-CPU -I..\source\UCOSIII\uC-LIB -I..\source\UCOSIII\uCOS-III -I..\source\UCOSIII\UCOS_BSP -I..\source\UCOSIII\uCOS_CONFIG -I..\source\UCOSIII\uCOS-III\Source -I..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView -I..\source\EMWIN_DEMO\NUM_DISPLAY -I..\source\HARDWARE\RA8875\BSP -I..\source\HARDWARE\RA8875\RA8875 -I..\source\EMWIN\emWin\Include -I..\source\HARDWARE\KeyBoard -I..\source\HARDWARE -I..\source\HARDWARE\sd_card -I..\source\HARDWARE\RTC -I..\source\HARDWARE\SPI_FLASH -I..\source\App -I..\source\App\fonts -I..\source\TESTER_UI -I..\source\App\CS99XX -I..\source\tools -I..\source\USER_UI -I..\source\USER_UI\UI -I..\source\HARDWARE\CH376\inc --locale=ENGLISH-I D:\Keil\ARM\RV31\INC-I D:\Keil\ARM\CMSIS\Include-I D:\Keil\ARM\Inc\ST\STM32F4xx-DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM-o ..\..\output\output\com_edit_api.o --omf_browse ..\..\output\output\com_edit_api.crf --depend ..\..\output\output\com_edit_api.d)
+F (..\source\USER_UI\UI_COM\com_edit_api.c)(0x594A0A4C)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\source\CORE -I..\source\SYSTEM\delay -I..\source\SYSTEM\sys -I..\source\SYSTEM\usart -I..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc -I..\source\USER -I..\source\HARDWARE\IIC -I..\source\HARDWARE\LCD -I..\source\HARDWARE\LED -I..\source\HARDWARE\SRAM -I..\source\HARDWARE\TIMER -I..\source\HARDWARE\24CXX -I..\source\HARDWARE\SPI -I..\source\HARDWARE\SDIO -I..\source\HARDWARE\TOUCH -I..\source\HARDWARE\W25QXX -I..\source\TEXT -I..\source\USMART -I..\source\FATFS\src -I..\source\FATFS\src\option -I..\source\MALLOC -I..\source\FWLIB\CMSIS\Include -I..\source\EMWIN\emWin\Config -I..\source\EMWIN\emWin\emWinTask -I..\source\EMWIN\Demo -I..\source\UCOSIII\uC-CPU -I..\source\UCOSIII\uC-LIB -I..\source\UCOSIII\uCOS-III -I..\source\UCOSIII\UCOS_BSP -I..\source\UCOSIII\uCOS_CONFIG -I..\source\UCOSIII\uCOS-III\Source -I..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView -I..\source\EMWIN_DEMO\NUM_DISPLAY -I..\source\HARDWARE\RA8875\BSP -I..\source\HARDWARE\RA8875\RA8875 -I..\source\EMWIN\emWin\Include -I..\source\HARDWARE\KeyBoard -I..\source\HARDWARE -I..\source\HARDWARE\sd_card -I..\source\HARDWARE\RTC -I..\source\HARDWARE\SPI_FLASH -I..\source\App -I..\source\App\fonts -I..\source\TESTER_UI -I..\source\App\CS99XX -I..\source\tools -I..\source\USER_UI -I..\source\USER_UI\UI -I..\source\HARDWARE\CH376\inc --locale=ENGLISH-I D:\Keil\ARM\RV31\INC-I D:\Keil\ARM\CMSIS\Include-I D:\Keil\ARM\Inc\ST\STM32F4xx-DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM-o ..\..\output\output\com_edit_api.o --omf_browse ..\..\output\output\com_edit_api.crf --depend ..\..\output\output\com_edit_api.d)
 I (..\source\USER\stm32f4xx.h)(0x59486746)
 I (..\source\CORE\core_cm4.h)(0x59486745)
 I (D:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7C554)
@@ -4102,8 +4102,8 @@ I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_can.h)(0x59486746)
 I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h)(0x59486746)
 I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h)(0x59486746)
 I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h)(0x59486746)
-I (..\source\USER_UI\UI_COM\com_edit_api.h)(0x5948CAA4)
-I (..\source\USER_UI\UI_COM\com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM\com_edit_api.h)(0x594A0A4C)
+I (..\source\USER_UI\UI_COM\com_ui_info.h)(0x5949E2C9)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x51C7C554)
 I (..\source\EMWIN\emWin\Include\GUI.H)(0x59486745)
@@ -4123,7 +4123,7 @@ I (..\source\EMWIN\emWin\Include\GUI_Private.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\LCD_Protected.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\GUI_Debug.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\SCROLLBAR.h)(0x59486745)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\App\fonts\fonts.h)(0x59486745)
@@ -4138,7 +4138,7 @@ I (D:\Keil\ARM\RV31\INC\string.h)(0x4F58357C)
 I (D:\Keil\ARM\RV31\INC\stdlib.h)(0x4F58357C)
 I (D:\Keil\ARM\RV31\INC\stdio.h)(0x4F58357C)
 I (..\source\HARDWARE\KeyBoard\keyboard.h)(0x59486746)
-F (..\source\USER_UI\UI_COM\com_ui_info.c)(0x5948C15D)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\source\CORE -I..\source\SYSTEM\delay -I..\source\SYSTEM\sys -I..\source\SYSTEM\usart -I..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc -I..\source\USER -I..\source\HARDWARE\IIC -I..\source\HARDWARE\LCD -I..\source\HARDWARE\LED -I..\source\HARDWARE\SRAM -I..\source\HARDWARE\TIMER -I..\source\HARDWARE\24CXX -I..\source\HARDWARE\SPI -I..\source\HARDWARE\SDIO -I..\source\HARDWARE\TOUCH -I..\source\HARDWARE\W25QXX -I..\source\TEXT -I..\source\USMART -I..\source\FATFS\src -I..\source\FATFS\src\option -I..\source\MALLOC -I..\source\FWLIB\CMSIS\Include -I..\source\EMWIN\emWin\Config -I..\source\EMWIN\emWin\emWinTask -I..\source\EMWIN\Demo -I..\source\UCOSIII\uC-CPU -I..\source\UCOSIII\uC-LIB -I..\source\UCOSIII\uCOS-III -I..\source\UCOSIII\UCOS_BSP -I..\source\UCOSIII\uCOS_CONFIG -I..\source\UCOSIII\uCOS-III\Source -I..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView -I..\source\EMWIN_DEMO\NUM_DISPLAY -I..\source\HARDWARE\RA8875\BSP -I..\source\HARDWARE\RA8875\RA8875 -I..\source\EMWIN\emWin\Include -I..\source\HARDWARE\KeyBoard -I..\source\HARDWARE -I..\source\HARDWARE\sd_card -I..\source\HARDWARE\RTC -I..\source\HARDWARE\SPI_FLASH -I..\source\App -I..\source\App\fonts -I..\source\TESTER_UI -I..\source\App\CS99XX -I..\source\tools -I..\source\USER_UI -I..\source\USER_UI\UI -I..\source\HARDWARE\CH376\inc --locale=ENGLISH-I D:\Keil\ARM\RV31\INC-I D:\Keil\ARM\CMSIS\Include-I D:\Keil\ARM\Inc\ST\STM32F4xx-DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM-o ..\..\output\output\com_ui_info.o --omf_browse ..\..\output\output\com_ui_info.crf --depend ..\..\output\output\com_ui_info.d)
+F (..\source\USER_UI\UI_COM\com_ui_info.c)(0x5949E2C9)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\source\CORE -I..\source\SYSTEM\delay -I..\source\SYSTEM\sys -I..\source\SYSTEM\usart -I..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc -I..\source\USER -I..\source\HARDWARE\IIC -I..\source\HARDWARE\LCD -I..\source\HARDWARE\LED -I..\source\HARDWARE\SRAM -I..\source\HARDWARE\TIMER -I..\source\HARDWARE\24CXX -I..\source\HARDWARE\SPI -I..\source\HARDWARE\SDIO -I..\source\HARDWARE\TOUCH -I..\source\HARDWARE\W25QXX -I..\source\TEXT -I..\source\USMART -I..\source\FATFS\src -I..\source\FATFS\src\option -I..\source\MALLOC -I..\source\FWLIB\CMSIS\Include -I..\source\EMWIN\emWin\Config -I..\source\EMWIN\emWin\emWinTask -I..\source\EMWIN\Demo -I..\source\UCOSIII\uC-CPU -I..\source\UCOSIII\uC-LIB -I..\source\UCOSIII\uCOS-III -I..\source\UCOSIII\UCOS_BSP -I..\source\UCOSIII\uCOS_CONFIG -I..\source\UCOSIII\uCOS-III\Source -I..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView -I..\source\EMWIN_DEMO\NUM_DISPLAY -I..\source\HARDWARE\RA8875\BSP -I..\source\HARDWARE\RA8875\RA8875 -I..\source\EMWIN\emWin\Include -I..\source\HARDWARE\KeyBoard -I..\source\HARDWARE -I..\source\HARDWARE\sd_card -I..\source\HARDWARE\RTC -I..\source\HARDWARE\SPI_FLASH -I..\source\App -I..\source\App\fonts -I..\source\TESTER_UI -I..\source\App\CS99XX -I..\source\tools -I..\source\USER_UI -I..\source\USER_UI\UI -I..\source\HARDWARE\CH376\inc --locale=ENGLISH-I D:\Keil\ARM\RV31\INC-I D:\Keil\ARM\CMSIS\Include-I D:\Keil\ARM\Inc\ST\STM32F4xx-DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM-o ..\..\output\output\com_ui_info.o --omf_browse ..\..\output\output\com_ui_info.crf --depend ..\..\output\output\com_ui_info.d)
 I (..\source\USER\stm32f4xx.h)(0x59486746)
 I (..\source\CORE\core_cm4.h)(0x59486745)
 I (D:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7C554)
@@ -4217,9 +4217,9 @@ I (..\source\EMWIN\emWin\Include\TEXT.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\TREEVIEW.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\KNOB.h)(0x59486745)
 I (..\source\App\fonts\fonts.h)(0x59486745)
-I (..\source\USER_UI\ui_com/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\ui_com/com_ui_info.h)(0x5949E2C9)
 I (..\source\tools\cs_list.h)(0x59422C2A)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\USER_UI\ui_com/com_ui_base.h)(0x594743C9)
@@ -4350,10 +4350,10 @@ I (..\source\EMWIN\emWin\Include\LCD_Protected.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\GUI_Debug.h)(0x59486745)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x51C7C554)
 I (..\source\EMWIN\emWin\Include\SCROLLBAR.h)(0x59486745)
-I (..\source\USER_UI\ui_com/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\ui_com/com_ui_info.h)(0x5949E2C9)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (..\source\EMWIN\emWin\Include\TEXT.h)(0x59486745)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\USER_UI\ui_com/com_ui_base.h)(0x594743C9)
@@ -4362,7 +4362,7 @@ I (..\source\App\CS99XX\key_server.h)(0x5943895F)
 I (..\source\USER_UI\UI\main_win\7_main_win.h)(0x59486746)
 I (..\source\USER_UI\UI\main_win\main_win.h)(0x59486746)
 I (D:\Keil\ARM\RV31\INC\string.h)(0x4F58357C)
-F (..\source\USER_UI\UI\main_win\main_win.c)(0x59490AD6)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\source\CORE -I..\source\SYSTEM\delay -I..\source\SYSTEM\sys -I..\source\SYSTEM\usart -I..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc -I..\source\USER -I..\source\HARDWARE\IIC -I..\source\HARDWARE\LCD -I..\source\HARDWARE\LED -I..\source\HARDWARE\SRAM -I..\source\HARDWARE\TIMER -I..\source\HARDWARE\24CXX -I..\source\HARDWARE\SPI -I..\source\HARDWARE\SDIO -I..\source\HARDWARE\TOUCH -I..\source\HARDWARE\W25QXX -I..\source\TEXT -I..\source\USMART -I..\source\FATFS\src -I..\source\FATFS\src\option -I..\source\MALLOC -I..\source\FWLIB\CMSIS\Include -I..\source\EMWIN\emWin\Config -I..\source\EMWIN\emWin\emWinTask -I..\source\EMWIN\Demo -I..\source\UCOSIII\uC-CPU -I..\source\UCOSIII\uC-LIB -I..\source\UCOSIII\uCOS-III -I..\source\UCOSIII\UCOS_BSP -I..\source\UCOSIII\uCOS_CONFIG -I..\source\UCOSIII\uCOS-III\Source -I..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView -I..\source\EMWIN_DEMO\NUM_DISPLAY -I..\source\HARDWARE\RA8875\BSP -I..\source\HARDWARE\RA8875\RA8875 -I..\source\EMWIN\emWin\Include -I..\source\HARDWARE\KeyBoard -I..\source\HARDWARE -I..\source\HARDWARE\sd_card -I..\source\HARDWARE\RTC -I..\source\HARDWARE\SPI_FLASH -I..\source\App -I..\source\App\fonts -I..\source\TESTER_UI -I..\source\App\CS99XX -I..\source\tools -I..\source\USER_UI -I..\source\USER_UI\UI -I..\source\HARDWARE\CH376\inc --locale=ENGLISH-I D:\Keil\ARM\RV31\INC-I D:\Keil\ARM\CMSIS\Include-I D:\Keil\ARM\Inc\ST\STM32F4xx-DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM-o ..\..\output\output\main_win.o --omf_browse ..\..\output\output\main_win.crf --depend ..\..\output\output\main_win.d)
+F (..\source\USER_UI\UI\main_win\main_win.c)(0x594A5553)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\source\CORE -I..\source\SYSTEM\delay -I..\source\SYSTEM\sys -I..\source\SYSTEM\usart -I..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc -I..\source\USER -I..\source\HARDWARE\IIC -I..\source\HARDWARE\LCD -I..\source\HARDWARE\LED -I..\source\HARDWARE\SRAM -I..\source\HARDWARE\TIMER -I..\source\HARDWARE\24CXX -I..\source\HARDWARE\SPI -I..\source\HARDWARE\SDIO -I..\source\HARDWARE\TOUCH -I..\source\HARDWARE\W25QXX -I..\source\TEXT -I..\source\USMART -I..\source\FATFS\src -I..\source\FATFS\src\option -I..\source\MALLOC -I..\source\FWLIB\CMSIS\Include -I..\source\EMWIN\emWin\Config -I..\source\EMWIN\emWin\emWinTask -I..\source\EMWIN\Demo -I..\source\UCOSIII\uC-CPU -I..\source\UCOSIII\uC-LIB -I..\source\UCOSIII\uCOS-III -I..\source\UCOSIII\UCOS_BSP -I..\source\UCOSIII\uCOS_CONFIG -I..\source\UCOSIII\uCOS-III\Source -I..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView -I..\source\EMWIN_DEMO\NUM_DISPLAY -I..\source\HARDWARE\RA8875\BSP -I..\source\HARDWARE\RA8875\RA8875 -I..\source\EMWIN\emWin\Include -I..\source\HARDWARE\KeyBoard -I..\source\HARDWARE -I..\source\HARDWARE\sd_card -I..\source\HARDWARE\RTC -I..\source\HARDWARE\SPI_FLASH -I..\source\App -I..\source\App\fonts -I..\source\TESTER_UI -I..\source\App\CS99XX -I..\source\tools -I..\source\USER_UI -I..\source\USER_UI\UI -I..\source\HARDWARE\CH376\inc --locale=ENGLISH-I D:\Keil\ARM\RV31\INC-I D:\Keil\ARM\CMSIS\Include-I D:\Keil\ARM\Inc\ST\STM32F4xx-DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM-o ..\..\output\output\main_win.o --omf_browse ..\..\output\output\main_win.crf --depend ..\..\output\output\main_win.d)
 I (..\source\USER\stm32f4xx.h)(0x59486746)
 I (..\source\CORE\core_cm4.h)(0x59486745)
 I (D:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7C554)
@@ -4420,10 +4420,10 @@ I (..\source\HARDWARE\CH376\inc\HAL.H)(0x59486746)
 I (..\source\HARDWARE\CH376\inc\CH376INC.H)(0x59486746)
 I (..\source\USER_UI\image/user_image.h)(0x59486746)
 I (..\source\USER_UI\image/logo.h)(0x59486746)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (..\source\EMWIN\emWin\Include\TEXT.h)(0x59486745)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\App\fonts\fonts.h)(0x59486745)
@@ -4442,6 +4442,8 @@ I (..\source\HARDWARE\RTC\rtc_config.h)(0x59486746)
 I (..\source\USER_UI\UI\main_win\7_main_win.h)(0x59486746)
 I (..\source\USER_UI\UI\main_win\main_win.h)(0x59486746)
 I (..\source\EMWIN\emWin\Include\PROGBAR.h)(0x59486745)
+I (..\source\App\CS99XX\cs99xx_mem_api.h)(0x5947B7C1)
+I (..\source\App\CS99XX\cs99xx_flash_manage.h)(0x5947B786)
 F (..\source\USER_UI\UI\file_win\file_edit_win.c)(0x5948CAA4)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\source\CORE -I..\source\SYSTEM\delay -I..\source\SYSTEM\sys -I..\source\SYSTEM\usart -I..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc -I..\source\USER -I..\source\HARDWARE\IIC -I..\source\HARDWARE\LCD -I..\source\HARDWARE\LED -I..\source\HARDWARE\SRAM -I..\source\HARDWARE\TIMER -I..\source\HARDWARE\24CXX -I..\source\HARDWARE\SPI -I..\source\HARDWARE\SDIO -I..\source\HARDWARE\TOUCH -I..\source\HARDWARE\W25QXX -I..\source\TEXT -I..\source\USMART -I..\source\FATFS\src -I..\source\FATFS\src\option -I..\source\MALLOC -I..\source\FWLIB\CMSIS\Include -I..\source\EMWIN\emWin\Config -I..\source\EMWIN\emWin\emWinTask -I..\source\EMWIN\Demo -I..\source\UCOSIII\uC-CPU -I..\source\UCOSIII\uC-LIB -I..\source\UCOSIII\uCOS-III -I..\source\UCOSIII\UCOS_BSP -I..\source\UCOSIII\uCOS_CONFIG -I..\source\UCOSIII\uCOS-III\Source -I..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView -I..\source\EMWIN_DEMO\NUM_DISPLAY -I..\source\HARDWARE\RA8875\BSP -I..\source\HARDWARE\RA8875\RA8875 -I..\source\EMWIN\emWin\Include -I..\source\HARDWARE\KeyBoard -I..\source\HARDWARE -I..\source\HARDWARE\sd_card -I..\source\HARDWARE\RTC -I..\source\HARDWARE\SPI_FLASH -I..\source\App -I..\source\App\fonts -I..\source\TESTER_UI -I..\source\App\CS99XX -I..\source\tools -I..\source\USER_UI -I..\source\USER_UI\UI -I..\source\HARDWARE\CH376\inc --locale=ENGLISH-I D:\Keil\ARM\RV31\INC-I D:\Keil\ARM\CMSIS\Include-I D:\Keil\ARM\Inc\ST\STM32F4xx-DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM-o ..\..\output\output\file_edit_win.o --omf_browse ..\..\output\output\file_edit_win.crf --depend ..\..\output\output\file_edit_win.d)
 I (..\source\USER\stm32f4xx.h)(0x59486746)
 I (..\source\CORE\core_cm4.h)(0x59486745)
@@ -4540,9 +4542,9 @@ I (..\source\UCOSIII\uC-LIB\lib_str.h)(0x59486746)
 I (..\source\UCOSIII\uC-LIB\lib_ascii.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Source\os_type.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView\os_cpu.h)(0x59486746)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\USER_UI\ui_com/com_ui_base.h)(0x594743C9)
@@ -4550,8 +4552,8 @@ I (..\source\App\tools.h)(0x59486745)
 I (..\source\App\CS99XX\key_server.h)(0x5943895F)
 I (..\source\USER_UI\UI\file_win\file_edit_win.h)(0x5944ECA8)
 I (..\source\USER_UI\UI\file_win\7_file_edit_win.h)(0x5948909D)
-I (..\source\USER_UI\ui_com/com_edit_api.h)(0x5948CAA4)
-F (..\source\USER_UI\UI\file_win\file_win.c)(0x594897E9)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\source\CORE -I..\source\SYSTEM\delay -I..\source\SYSTEM\sys -I..\source\SYSTEM\usart -I..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc -I..\source\USER -I..\source\HARDWARE\IIC -I..\source\HARDWARE\LCD -I..\source\HARDWARE\LED -I..\source\HARDWARE\SRAM -I..\source\HARDWARE\TIMER -I..\source\HARDWARE\24CXX -I..\source\HARDWARE\SPI -I..\source\HARDWARE\SDIO -I..\source\HARDWARE\TOUCH -I..\source\HARDWARE\W25QXX -I..\source\TEXT -I..\source\USMART -I..\source\FATFS\src -I..\source\FATFS\src\option -I..\source\MALLOC -I..\source\FWLIB\CMSIS\Include -I..\source\EMWIN\emWin\Config -I..\source\EMWIN\emWin\emWinTask -I..\source\EMWIN\Demo -I..\source\UCOSIII\uC-CPU -I..\source\UCOSIII\uC-LIB -I..\source\UCOSIII\uCOS-III -I..\source\UCOSIII\UCOS_BSP -I..\source\UCOSIII\uCOS_CONFIG -I..\source\UCOSIII\uCOS-III\Source -I..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView -I..\source\EMWIN_DEMO\NUM_DISPLAY -I..\source\HARDWARE\RA8875\BSP -I..\source\HARDWARE\RA8875\RA8875 -I..\source\EMWIN\emWin\Include -I..\source\HARDWARE\KeyBoard -I..\source\HARDWARE -I..\source\HARDWARE\sd_card -I..\source\HARDWARE\RTC -I..\source\HARDWARE\SPI_FLASH -I..\source\App -I..\source\App\fonts -I..\source\TESTER_UI -I..\source\App\CS99XX -I..\source\tools -I..\source\USER_UI -I..\source\USER_UI\UI -I..\source\HARDWARE\CH376\inc --locale=ENGLISH-I D:\Keil\ARM\RV31\INC-I D:\Keil\ARM\CMSIS\Include-I D:\Keil\ARM\Inc\ST\STM32F4xx-DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM-o ..\..\output\output\file_win.o --omf_browse ..\..\output\output\file_win.crf --depend ..\..\output\output\file_win.d)
+I (..\source\USER_UI\ui_com/com_edit_api.h)(0x594A0A4C)
+F (..\source\USER_UI\UI\file_win\file_win.c)(0x594A5E13)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\source\CORE -I..\source\SYSTEM\delay -I..\source\SYSTEM\sys -I..\source\SYSTEM\usart -I..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc -I..\source\USER -I..\source\HARDWARE\IIC -I..\source\HARDWARE\LCD -I..\source\HARDWARE\LED -I..\source\HARDWARE\SRAM -I..\source\HARDWARE\TIMER -I..\source\HARDWARE\24CXX -I..\source\HARDWARE\SPI -I..\source\HARDWARE\SDIO -I..\source\HARDWARE\TOUCH -I..\source\HARDWARE\W25QXX -I..\source\TEXT -I..\source\USMART -I..\source\FATFS\src -I..\source\FATFS\src\option -I..\source\MALLOC -I..\source\FWLIB\CMSIS\Include -I..\source\EMWIN\emWin\Config -I..\source\EMWIN\emWin\emWinTask -I..\source\EMWIN\Demo -I..\source\UCOSIII\uC-CPU -I..\source\UCOSIII\uC-LIB -I..\source\UCOSIII\uCOS-III -I..\source\UCOSIII\UCOS_BSP -I..\source\UCOSIII\uCOS_CONFIG -I..\source\UCOSIII\uCOS-III\Source -I..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView -I..\source\EMWIN_DEMO\NUM_DISPLAY -I..\source\HARDWARE\RA8875\BSP -I..\source\HARDWARE\RA8875\RA8875 -I..\source\EMWIN\emWin\Include -I..\source\HARDWARE\KeyBoard -I..\source\HARDWARE -I..\source\HARDWARE\sd_card -I..\source\HARDWARE\RTC -I..\source\HARDWARE\SPI_FLASH -I..\source\App -I..\source\App\fonts -I..\source\TESTER_UI -I..\source\App\CS99XX -I..\source\tools -I..\source\USER_UI -I..\source\USER_UI\UI -I..\source\HARDWARE\CH376\inc --locale=ENGLISH-I D:\Keil\ARM\RV31\INC-I D:\Keil\ARM\CMSIS\Include-I D:\Keil\ARM\Inc\ST\STM32F4xx-DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM-o ..\..\output\output\file_win.o --omf_browse ..\..\output\output\file_win.crf --depend ..\..\output\output\file_win.d)
 I (..\source\USER\stm32f4xx.h)(0x59486746)
 I (..\source\CORE\core_cm4.h)(0x59486745)
 I (D:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7C554)
@@ -4648,14 +4650,14 @@ I (..\source\UCOSIII\uC-LIB\lib_str.h)(0x59486746)
 I (..\source\UCOSIII\uC-LIB\lib_ascii.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Source\os_type.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView\os_cpu.h)(0x59486746)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\RV31\INC\stdio.h)(0x4F58357C)
 I (D:\Keil\ARM\RV31\INC\string.h)(0x4F58357C)
 I (..\source\USER_UI\UI\file_win\file_edit_win.h)(0x5944ECA8)
 I (..\source\App\CS99XX\cs99xx_mem_api.h)(0x5947B7C1)
 I (..\source\App\CS99XX\cs99xx_flash_manage.h)(0x5947B786)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\USER_UI\ui_com/com_ui_base.h)(0x594743C9)
@@ -4761,11 +4763,11 @@ I (..\source\UCOSIII\uC-LIB\lib_str.h)(0x59486746)
 I (..\source\UCOSIII\uC-LIB\lib_ascii.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Source\os_type.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView\os_cpu.h)(0x59486746)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\RV31\INC\stdio.h)(0x4F58357C)
 I (D:\Keil\ARM\RV31\INC\string.h)(0x4F58357C)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\USER_UI\ui_com/com_ui_base.h)(0x594743C9)
@@ -4870,9 +4872,9 @@ I (..\source\UCOSIII\uCOS-III\Source\os_type.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView\os_cpu.h)(0x59486746)
 I (..\source\App\app.h)(0x5943895F)
 I (..\source\App\app_cfg.h)(0x59486745)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\USER_UI\ui_com/com_ui_base.h)(0x594743C9)
@@ -4978,11 +4980,11 @@ I (..\source\UCOSIII\uC-LIB\lib_str.h)(0x59486746)
 I (..\source\UCOSIII\uC-LIB\lib_ascii.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Source\os_type.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView\os_cpu.h)(0x59486746)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\RV31\INC\stdio.h)(0x4F58357C)
 I (D:\Keil\ARM\RV31\INC\string.h)(0x4F58357C)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\USER_UI\ui_com/com_ui_base.h)(0x594743C9)
@@ -5085,11 +5087,11 @@ I (..\source\UCOSIII\uC-LIB\lib_str.h)(0x59486746)
 I (..\source\UCOSIII\uC-LIB\lib_ascii.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Source\os_type.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView\os_cpu.h)(0x59486746)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\RV31\INC\stdio.h)(0x4F58357C)
 I (D:\Keil\ARM\RV31\INC\string.h)(0x4F58357C)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\USER_UI\ui_com/com_ui_base.h)(0x594743C9)
@@ -5100,7 +5102,7 @@ I (..\source\USER_UI\UI\warning_win/warning_win.h)(0x59486746)
 I (..\source\App\CS99XX\cs99xx_mem_api.h)(0x5947B7C1)
 I (..\source\App\CS99XX\cs99xx_flash_manage.h)(0x5947B786)
 I (..\source\USER_UI\UI\sys_win\7_sys_manage_win.h)(0x59486746)
-I (..\source\USER_UI\ui_com/com_edit_api.h)(0x5948CAA4)
+I (..\source\USER_UI\ui_com/com_edit_api.h)(0x594A0A4C)
 I (..\source\USER_UI\UI\env_par_win/env_par_edit_win.h)(0x59486746)
 I (..\source\USER_UI\UI\sys_time_win/sys_time_edit_win.h)(0x59486746)
 I (..\source\USER_UI\UI\password_win/password_win.h)(0x59486746)
@@ -5202,11 +5204,11 @@ I (..\source\UCOSIII\uC-LIB\lib_str.h)(0x59486746)
 I (..\source\UCOSIII\uC-LIB\lib_ascii.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Source\os_type.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView\os_cpu.h)(0x59486746)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\RV31\INC\stdio.h)(0x4F58357C)
 I (D:\Keil\ARM\RV31\INC\string.h)(0x4F58357C)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\USER_UI\ui_com/com_ui_base.h)(0x594743C9)
@@ -5312,12 +5314,12 @@ I (..\source\UCOSIII\uCOS-III\Source\os_type.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView\os_cpu.h)(0x59486746)
 I (..\source\App\app.h)(0x5943895F)
 I (..\source\App\app_cfg.h)(0x59486745)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (..\source\App\CS99XX\cs99xx_mem_api.h)(0x5947B7C1)
 I (..\source\App\CS99XX\cs99xx_flash_manage.h)(0x5947B786)
-I (..\source\USER_UI\UI_COM/com_edit_api.h)(0x5948CAA4)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_edit_api.h)(0x594A0A4C)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\USER_UI\ui_com/com_ui_base.h)(0x594743C9)
@@ -5370,7 +5372,7 @@ I (..\source\EMWIN\emWin\Include\Global.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\GUI_Version.h)(0x59486745)
 I (..\source\App\fonts\fonts.h)(0x59486745)
 I (..\source\USER_UI\UI\key_menu_win\7_key_menu_win.h)(0x59486746)
-I (..\source\USER_UI\ui_com/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\ui_com/com_ui_info.h)(0x5949E2C9)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x51C7C554)
 I (..\source\EMWIN\emWin\Include\WM.h)(0x59486745)
@@ -5383,7 +5385,7 @@ I (..\source\EMWIN\emWin\Include\GUI_Private.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\LCD_Protected.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\GUI_Debug.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\SCROLLBAR.h)(0x59486745)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\USER_UI\ui_com/com_ui_base.h)(0x594743C9)
@@ -5427,7 +5429,7 @@ I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h)(0x59486746)
 I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h)(0x59486746)
 I (D:\Keil\ARM\RV31\INC\string.h)(0x4F58357C)
 I (..\source\HARDWARE\KeyBoard\keyboard.h)(0x59486746)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x51C7C554)
 I (..\source\EMWIN\emWin\Include\GUI.H)(0x59486745)
@@ -5447,7 +5449,7 @@ I (..\source\EMWIN\emWin\Include\GUI_Private.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\LCD_Protected.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\GUI_Debug.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\SCROLLBAR.h)(0x59486745)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\App\fonts\fonts.h)(0x59486745)
@@ -5455,7 +5457,7 @@ I (..\source\USER_UI\ui_com/com_ui_base.h)(0x594743C9)
 I (..\source\App\tools.h)(0x59486745)
 I (..\source\App\CS99XX\key_server.h)(0x5943895F)
 I (..\source\USER_UI\UI\key_menu_win\7_key_menu_win.h)(0x59486746)
-F (..\source\USER_UI\UI\test_win\7_test_ui_layout_1.c)(0x59486746)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\source\CORE -I..\source\SYSTEM\delay -I..\source\SYSTEM\sys -I..\source\SYSTEM\usart -I..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc -I..\source\USER -I..\source\HARDWARE\IIC -I..\source\HARDWARE\LCD -I..\source\HARDWARE\LED -I..\source\HARDWARE\SRAM -I..\source\HARDWARE\TIMER -I..\source\HARDWARE\24CXX -I..\source\HARDWARE\SPI -I..\source\HARDWARE\SDIO -I..\source\HARDWARE\TOUCH -I..\source\HARDWARE\W25QXX -I..\source\TEXT -I..\source\USMART -I..\source\FATFS\src -I..\source\FATFS\src\option -I..\source\MALLOC -I..\source\FWLIB\CMSIS\Include -I..\source\EMWIN\emWin\Config -I..\source\EMWIN\emWin\emWinTask -I..\source\EMWIN\Demo -I..\source\UCOSIII\uC-CPU -I..\source\UCOSIII\uC-LIB -I..\source\UCOSIII\uCOS-III -I..\source\UCOSIII\UCOS_BSP -I..\source\UCOSIII\uCOS_CONFIG -I..\source\UCOSIII\uCOS-III\Source -I..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView -I..\source\EMWIN_DEMO\NUM_DISPLAY -I..\source\HARDWARE\RA8875\BSP -I..\source\HARDWARE\RA8875\RA8875 -I..\source\EMWIN\emWin\Include -I..\source\HARDWARE\KeyBoard -I..\source\HARDWARE -I..\source\HARDWARE\sd_card -I..\source\HARDWARE\RTC -I..\source\HARDWARE\SPI_FLASH -I..\source\App -I..\source\App\fonts -I..\source\TESTER_UI -I..\source\App\CS99XX -I..\source\tools -I..\source\USER_UI -I..\source\USER_UI\UI -I..\source\HARDWARE\CH376\inc --locale=ENGLISH-I D:\Keil\ARM\RV31\INC-I D:\Keil\ARM\CMSIS\Include-I D:\Keil\ARM\Inc\ST\STM32F4xx-DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM-o ..\..\output\output\7_test_ui_layout_1.o --omf_browse ..\..\output\output\7_test_ui_layout_1.crf --depend ..\..\output\output\7_test_ui_layout_1.d)
+F (..\source\USER_UI\UI\test_win\7_test_ui_layout_1.c)(0x594A4119)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\source\CORE -I..\source\SYSTEM\delay -I..\source\SYSTEM\sys -I..\source\SYSTEM\usart -I..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc -I..\source\USER -I..\source\HARDWARE\IIC -I..\source\HARDWARE\LCD -I..\source\HARDWARE\LED -I..\source\HARDWARE\SRAM -I..\source\HARDWARE\TIMER -I..\source\HARDWARE\24CXX -I..\source\HARDWARE\SPI -I..\source\HARDWARE\SDIO -I..\source\HARDWARE\TOUCH -I..\source\HARDWARE\W25QXX -I..\source\TEXT -I..\source\USMART -I..\source\FATFS\src -I..\source\FATFS\src\option -I..\source\MALLOC -I..\source\FWLIB\CMSIS\Include -I..\source\EMWIN\emWin\Config -I..\source\EMWIN\emWin\emWinTask -I..\source\EMWIN\Demo -I..\source\UCOSIII\uC-CPU -I..\source\UCOSIII\uC-LIB -I..\source\UCOSIII\uCOS-III -I..\source\UCOSIII\UCOS_BSP -I..\source\UCOSIII\uCOS_CONFIG -I..\source\UCOSIII\uCOS-III\Source -I..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView -I..\source\EMWIN_DEMO\NUM_DISPLAY -I..\source\HARDWARE\RA8875\BSP -I..\source\HARDWARE\RA8875\RA8875 -I..\source\EMWIN\emWin\Include -I..\source\HARDWARE\KeyBoard -I..\source\HARDWARE -I..\source\HARDWARE\sd_card -I..\source\HARDWARE\RTC -I..\source\HARDWARE\SPI_FLASH -I..\source\App -I..\source\App\fonts -I..\source\TESTER_UI -I..\source\App\CS99XX -I..\source\tools -I..\source\USER_UI -I..\source\USER_UI\UI -I..\source\HARDWARE\CH376\inc --locale=ENGLISH-I D:\Keil\ARM\RV31\INC-I D:\Keil\ARM\CMSIS\Include-I D:\Keil\ARM\Inc\ST\STM32F4xx-DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM-o ..\..\output\output\7_test_ui_layout_1.o --omf_browse ..\..\output\output\7_test_ui_layout_1.crf --depend ..\..\output\output\7_test_ui_layout_1.d)
 I (..\source\USER\stm32f4xx.h)(0x59486746)
 I (..\source\CORE\core_cm4.h)(0x59486745)
 I (D:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7C554)
@@ -5499,7 +5501,7 @@ I (..\source\EMWIN\emWin\Include\LCD.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\Global.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\GUI_Version.h)(0x59486745)
 I (..\source\HARDWARE\KeyBoard\keyboard.h)(0x59486746)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x51C7C554)
 I (..\source\EMWIN\emWin\Include\WM.h)(0x59486745)
@@ -5512,7 +5514,7 @@ I (..\source\EMWIN\emWin\Include\GUI_Private.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\LCD_Protected.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\GUI_Debug.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\SCROLLBAR.h)(0x59486745)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\App\fonts\fonts.h)(0x59486745)
@@ -5520,7 +5522,7 @@ I (..\source\USER_UI\ui_com/com_ui_base.h)(0x594743C9)
 I (..\source\App\tools.h)(0x59486745)
 I (..\source\App\CS99XX\key_server.h)(0x5943895F)
 I (..\source\USER_UI\UI\test_win\test_win.h)(0x59486746)
-F (..\source\USER_UI\UI\test_win\test_win.c)(0x59492BC3)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\source\CORE -I..\source\SYSTEM\delay -I..\source\SYSTEM\sys -I..\source\SYSTEM\usart -I..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc -I..\source\USER -I..\source\HARDWARE\IIC -I..\source\HARDWARE\LCD -I..\source\HARDWARE\LED -I..\source\HARDWARE\SRAM -I..\source\HARDWARE\TIMER -I..\source\HARDWARE\24CXX -I..\source\HARDWARE\SPI -I..\source\HARDWARE\SDIO -I..\source\HARDWARE\TOUCH -I..\source\HARDWARE\W25QXX -I..\source\TEXT -I..\source\USMART -I..\source\FATFS\src -I..\source\FATFS\src\option -I..\source\MALLOC -I..\source\FWLIB\CMSIS\Include -I..\source\EMWIN\emWin\Config -I..\source\EMWIN\emWin\emWinTask -I..\source\EMWIN\Demo -I..\source\UCOSIII\uC-CPU -I..\source\UCOSIII\uC-LIB -I..\source\UCOSIII\uCOS-III -I..\source\UCOSIII\UCOS_BSP -I..\source\UCOSIII\uCOS_CONFIG -I..\source\UCOSIII\uCOS-III\Source -I..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView -I..\source\EMWIN_DEMO\NUM_DISPLAY -I..\source\HARDWARE\RA8875\BSP -I..\source\HARDWARE\RA8875\RA8875 -I..\source\EMWIN\emWin\Include -I..\source\HARDWARE\KeyBoard -I..\source\HARDWARE -I..\source\HARDWARE\sd_card -I..\source\HARDWARE\RTC -I..\source\HARDWARE\SPI_FLASH -I..\source\App -I..\source\App\fonts -I..\source\TESTER_UI -I..\source\App\CS99XX -I..\source\tools -I..\source\USER_UI -I..\source\USER_UI\UI -I..\source\HARDWARE\CH376\inc --locale=ENGLISH-I D:\Keil\ARM\RV31\INC-I D:\Keil\ARM\CMSIS\Include-I D:\Keil\ARM\Inc\ST\STM32F4xx-DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM-o ..\..\output\output\test_win.o --omf_browse ..\..\output\output\test_win.crf --depend ..\..\output\output\test_win.d)
+F (..\source\USER_UI\UI\test_win\test_win.c)(0x594A51EF)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\source\CORE -I..\source\SYSTEM\delay -I..\source\SYSTEM\sys -I..\source\SYSTEM\usart -I..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc -I..\source\USER -I..\source\HARDWARE\IIC -I..\source\HARDWARE\LCD -I..\source\HARDWARE\LED -I..\source\HARDWARE\SRAM -I..\source\HARDWARE\TIMER -I..\source\HARDWARE\24CXX -I..\source\HARDWARE\SPI -I..\source\HARDWARE\SDIO -I..\source\HARDWARE\TOUCH -I..\source\HARDWARE\W25QXX -I..\source\TEXT -I..\source\USMART -I..\source\FATFS\src -I..\source\FATFS\src\option -I..\source\MALLOC -I..\source\FWLIB\CMSIS\Include -I..\source\EMWIN\emWin\Config -I..\source\EMWIN\emWin\emWinTask -I..\source\EMWIN\Demo -I..\source\UCOSIII\uC-CPU -I..\source\UCOSIII\uC-LIB -I..\source\UCOSIII\uCOS-III -I..\source\UCOSIII\UCOS_BSP -I..\source\UCOSIII\uCOS_CONFIG -I..\source\UCOSIII\uCOS-III\Source -I..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView -I..\source\EMWIN_DEMO\NUM_DISPLAY -I..\source\HARDWARE\RA8875\BSP -I..\source\HARDWARE\RA8875\RA8875 -I..\source\EMWIN\emWin\Include -I..\source\HARDWARE\KeyBoard -I..\source\HARDWARE -I..\source\HARDWARE\sd_card -I..\source\HARDWARE\RTC -I..\source\HARDWARE\SPI_FLASH -I..\source\App -I..\source\App\fonts -I..\source\TESTER_UI -I..\source\App\CS99XX -I..\source\tools -I..\source\USER_UI -I..\source\USER_UI\UI -I..\source\HARDWARE\CH376\inc --locale=ENGLISH-I D:\Keil\ARM\RV31\INC-I D:\Keil\ARM\CMSIS\Include-I D:\Keil\ARM\Inc\ST\STM32F4xx-DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM-o ..\..\output\output\test_win.o --omf_browse ..\..\output\output\test_win.crf --depend ..\..\output\output\test_win.d)
 I (..\source\USER\stm32f4xx.h)(0x59486746)
 I (..\source\CORE\core_cm4.h)(0x59486745)
 I (D:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7C554)
@@ -5555,8 +5557,9 @@ I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_can.h)(0x59486746)
 I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h)(0x59486746)
 I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h)(0x59486746)
 I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h)(0x59486746)
+I (D:\Keil\ARM\RV31\INC\string.h)(0x4F58357C)
 I (..\source\HARDWARE\KeyBoard\keyboard.h)(0x59486746)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x51C7C554)
 I (..\source\EMWIN\emWin\Include\GUI.H)(0x59486745)
@@ -5576,7 +5579,7 @@ I (..\source\EMWIN\emWin\Include\GUI_Private.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\LCD_Protected.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\GUI_Debug.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\SCROLLBAR.h)(0x59486745)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\App\fonts\fonts.h)(0x59486745)
@@ -5585,8 +5588,10 @@ I (..\source\App\tools.h)(0x59486745)
 I (..\source\App\CS99XX\key_server.h)(0x5943895F)
 I (..\source\USER_UI\UI\test_win\test_win.h)(0x59486746)
 I (..\source\USER_UI\UI\test_win\7_test_ui_layout_1.h)(0x59486746)
+I (..\source\USER_UI\UI\step_par_win/step_edit_win.h)(0x594A26CC)
+I (..\source\USER_UI\ui_com/com_edit_api.h)(0x594A0A4C)
 F (..\source\USER_UI\UI\warning_win\7_warning_win.c)(0x59486746)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\source\CORE -I..\source\SYSTEM\delay -I..\source\SYSTEM\sys -I..\source\SYSTEM\usart -I..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc -I..\source\USER -I..\source\HARDWARE\IIC -I..\source\HARDWARE\LCD -I..\source\HARDWARE\LED -I..\source\HARDWARE\SRAM -I..\source\HARDWARE\TIMER -I..\source\HARDWARE\24CXX -I..\source\HARDWARE\SPI -I..\source\HARDWARE\SDIO -I..\source\HARDWARE\TOUCH -I..\source\HARDWARE\W25QXX -I..\source\TEXT -I..\source\USMART -I..\source\FATFS\src -I..\source\FATFS\src\option -I..\source\MALLOC -I..\source\FWLIB\CMSIS\Include -I..\source\EMWIN\emWin\Config -I..\source\EMWIN\emWin\emWinTask -I..\source\EMWIN\Demo -I..\source\UCOSIII\uC-CPU -I..\source\UCOSIII\uC-LIB -I..\source\UCOSIII\uCOS-III -I..\source\UCOSIII\UCOS_BSP -I..\source\UCOSIII\uCOS_CONFIG -I..\source\UCOSIII\uCOS-III\Source -I..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView -I..\source\EMWIN_DEMO\NUM_DISPLAY -I..\source\HARDWARE\RA8875\BSP -I..\source\HARDWARE\RA8875\RA8875 -I..\source\EMWIN\emWin\Include -I..\source\HARDWARE\KeyBoard -I..\source\HARDWARE -I..\source\HARDWARE\sd_card -I..\source\HARDWARE\RTC -I..\source\HARDWARE\SPI_FLASH -I..\source\App -I..\source\App\fonts -I..\source\TESTER_UI -I..\source\App\CS99XX -I..\source\tools -I..\source\USER_UI -I..\source\USER_UI\UI -I..\source\HARDWARE\CH376\inc --locale=ENGLISH-I D:\Keil\ARM\RV31\INC-I D:\Keil\ARM\CMSIS\Include-I D:\Keil\ARM\Inc\ST\STM32F4xx-DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM-o ..\..\output\output\7_warning_win.o --omf_browse ..\..\output\output\7_warning_win.crf --depend ..\..\output\output\7_warning_win.d)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x51C7C554)
 I (..\source\EMWIN\emWin\Include\GUI.H)(0x59486745)
@@ -5640,7 +5645,7 @@ I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_can.h)(0x59486746)
 I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h)(0x59486746)
 I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h)(0x59486746)
 I (..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h)(0x59486746)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\App\fonts\fonts.h)(0x59486745)
@@ -5691,7 +5696,7 @@ I (..\source\EMWIN\emWin\Include\GUI_Type.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\LCD.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\Global.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\GUI_Version.h)(0x59486745)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x51C7C554)
 I (..\source\EMWIN\emWin\Include\WM.h)(0x59486745)
@@ -5704,7 +5709,7 @@ I (..\source\EMWIN\emWin\Include\GUI_Private.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\LCD_Protected.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\GUI_Debug.h)(0x59486745)
 I (..\source\EMWIN\emWin\Include\SCROLLBAR.h)(0x59486745)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\App\fonts\fonts.h)(0x59486745)
@@ -5812,11 +5817,11 @@ I (..\source\UCOSIII\uC-LIB\lib_str.h)(0x59486746)
 I (..\source\UCOSIII\uC-LIB\lib_ascii.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Source\os_type.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView\os_cpu.h)(0x59486746)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\RV31\INC\stdio.h)(0x4F58357C)
 I (D:\Keil\ARM\RV31\INC\string.h)(0x4F58357C)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\USER_UI\ui_com/com_ui_base.h)(0x594743C9)
@@ -5921,12 +5926,12 @@ I (..\source\UCOSIII\uCOS-III\Source\os_type.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView\os_cpu.h)(0x59486746)
 I (..\source\App\app.h)(0x5943895F)
 I (..\source\App\app_cfg.h)(0x59486745)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (..\source\App\CS99XX\cs99xx_mem_api.h)(0x5947B7C1)
 I (..\source\App\CS99XX\cs99xx_flash_manage.h)(0x5947B786)
-I (..\source\USER_UI\UI_COM/com_edit_api.h)(0x5948CAA4)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_edit_api.h)(0x594A0A4C)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\USER_UI\ui_com/com_ui_base.h)(0x594743C9)
@@ -6037,17 +6042,17 @@ I (..\source\UCOSIII\uCOS-III\Source\os_type.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView\os_cpu.h)(0x59486746)
 I (..\source\App\app.h)(0x5943895F)
 I (..\source\App\app_cfg.h)(0x59486745)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\USER_UI\ui_com/com_ui_base.h)(0x594743C9)
 I (..\source\App\tools.h)(0x59486745)
 I (..\source\App\CS99XX\key_server.h)(0x5943895F)
-I (..\source\USER_UI\UI\step_par_win\step_edit_win.h)(0x59486746)
-I (..\source\USER_UI\ui_com/com_edit_api.h)(0x5948CAA4)
-F (..\source\USER_UI\UI\step_par_win\step_edit_win.c)(0x59491309)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\source\CORE -I..\source\SYSTEM\delay -I..\source\SYSTEM\sys -I..\source\SYSTEM\usart -I..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc -I..\source\USER -I..\source\HARDWARE\IIC -I..\source\HARDWARE\LCD -I..\source\HARDWARE\LED -I..\source\HARDWARE\SRAM -I..\source\HARDWARE\TIMER -I..\source\HARDWARE\24CXX -I..\source\HARDWARE\SPI -I..\source\HARDWARE\SDIO -I..\source\HARDWARE\TOUCH -I..\source\HARDWARE\W25QXX -I..\source\TEXT -I..\source\USMART -I..\source\FATFS\src -I..\source\FATFS\src\option -I..\source\MALLOC -I..\source\FWLIB\CMSIS\Include -I..\source\EMWIN\emWin\Config -I..\source\EMWIN\emWin\emWinTask -I..\source\EMWIN\Demo -I..\source\UCOSIII\uC-CPU -I..\source\UCOSIII\uC-LIB -I..\source\UCOSIII\uCOS-III -I..\source\UCOSIII\UCOS_BSP -I..\source\UCOSIII\uCOS_CONFIG -I..\source\UCOSIII\uCOS-III\Source -I..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView -I..\source\EMWIN_DEMO\NUM_DISPLAY -I..\source\HARDWARE\RA8875\BSP -I..\source\HARDWARE\RA8875\RA8875 -I..\source\EMWIN\emWin\Include -I..\source\HARDWARE\KeyBoard -I..\source\HARDWARE -I..\source\HARDWARE\sd_card -I..\source\HARDWARE\RTC -I..\source\HARDWARE\SPI_FLASH -I..\source\App -I..\source\App\fonts -I..\source\TESTER_UI -I..\source\App\CS99XX -I..\source\tools -I..\source\USER_UI -I..\source\USER_UI\UI -I..\source\HARDWARE\CH376\inc --locale=ENGLISH-I D:\Keil\ARM\RV31\INC-I D:\Keil\ARM\CMSIS\Include-I D:\Keil\ARM\Inc\ST\STM32F4xx-DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM-o ..\..\output\output\step_edit_win.o --omf_browse ..\..\output\output\step_edit_win.crf --depend ..\..\output\output\step_edit_win.d)
+I (..\source\USER_UI\UI\step_par_win\step_edit_win.h)(0x594A26CC)
+I (..\source\USER_UI\ui_com/com_edit_api.h)(0x594A0A4C)
+F (..\source\USER_UI\UI\step_par_win\step_edit_win.c)(0x594A3544)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\source\CORE -I..\source\SYSTEM\delay -I..\source\SYSTEM\sys -I..\source\SYSTEM\usart -I..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc -I..\source\USER -I..\source\HARDWARE\IIC -I..\source\HARDWARE\LCD -I..\source\HARDWARE\LED -I..\source\HARDWARE\SRAM -I..\source\HARDWARE\TIMER -I..\source\HARDWARE\24CXX -I..\source\HARDWARE\SPI -I..\source\HARDWARE\SDIO -I..\source\HARDWARE\TOUCH -I..\source\HARDWARE\W25QXX -I..\source\TEXT -I..\source\USMART -I..\source\FATFS\src -I..\source\FATFS\src\option -I..\source\MALLOC -I..\source\FWLIB\CMSIS\Include -I..\source\EMWIN\emWin\Config -I..\source\EMWIN\emWin\emWinTask -I..\source\EMWIN\Demo -I..\source\UCOSIII\uC-CPU -I..\source\UCOSIII\uC-LIB -I..\source\UCOSIII\uCOS-III -I..\source\UCOSIII\UCOS_BSP -I..\source\UCOSIII\uCOS_CONFIG -I..\source\UCOSIII\uCOS-III\Source -I..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView -I..\source\EMWIN_DEMO\NUM_DISPLAY -I..\source\HARDWARE\RA8875\BSP -I..\source\HARDWARE\RA8875\RA8875 -I..\source\EMWIN\emWin\Include -I..\source\HARDWARE\KeyBoard -I..\source\HARDWARE -I..\source\HARDWARE\sd_card -I..\source\HARDWARE\RTC -I..\source\HARDWARE\SPI_FLASH -I..\source\App -I..\source\App\fonts -I..\source\TESTER_UI -I..\source\App\CS99XX -I..\source\tools -I..\source\USER_UI -I..\source\USER_UI\UI -I..\source\HARDWARE\CH376\inc --locale=ENGLISH-I D:\Keil\ARM\RV31\INC-I D:\Keil\ARM\CMSIS\Include-I D:\Keil\ARM\Inc\ST\STM32F4xx-DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM-o ..\..\output\output\step_edit_win.o --omf_browse ..\..\output\output\step_edit_win.crf --depend ..\..\output\output\step_edit_win.d)
 I (..\source\USER\stm32f4xx.h)(0x59486746)
 I (..\source\CORE\core_cm4.h)(0x59486745)
 I (D:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7C554)
@@ -6144,11 +6149,11 @@ I (..\source\UCOSIII\uC-LIB\lib_str.h)(0x59486746)
 I (..\source\UCOSIII\uC-LIB\lib_ascii.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Source\os_type.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView\os_cpu.h)(0x59486746)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\RV31\INC\stdio.h)(0x4F58357C)
 I (D:\Keil\ARM\RV31\INC\string.h)(0x4F58357C)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\USER_UI\ui_com/com_ui_base.h)(0x594743C9)
@@ -6156,7 +6161,7 @@ I (..\source\App\tools.h)(0x59486745)
 I (..\source\App\CS99XX\key_server.h)(0x5943895F)
 I (..\source\App\CS99XX\cs99xx_mem_api.h)(0x5947B7C1)
 I (..\source\App\CS99XX\cs99xx_flash_manage.h)(0x5947B786)
-I (..\source\USER_UI\ui_com/com_edit_api.h)(0x5948CAA4)
+I (..\source\USER_UI\ui_com/com_edit_api.h)(0x594A0A4C)
 I (..\source\USER_UI\UI\step_par_win/7_step_edit_win.h)(0x59486746)
 I (..\source\App\type/cs99xx_type.h)(0x594391EF)
 I (..\source\App\type/cs99xx_config.h)(0x59486745)
@@ -6259,17 +6264,17 @@ I (..\source\UCOSIII\uC-LIB\lib_str.h)(0x59486746)
 I (..\source\UCOSIII\uC-LIB\lib_ascii.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Source\os_type.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView\os_cpu.h)(0x59486746)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\RV31\INC\stdio.h)(0x4F58357C)
 I (D:\Keil\ARM\RV31\INC\string.h)(0x4F58357C)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\USER_UI\ui_com/com_ui_base.h)(0x594743C9)
 I (..\source\App\tools.h)(0x59486745)
 I (..\source\App\CS99XX\key_server.h)(0x5943895F)
-F (..\source\USER_UI\UI\step_par_win\step_win.c)(0x59489543)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\source\CORE -I..\source\SYSTEM\delay -I..\source\SYSTEM\sys -I..\source\SYSTEM\usart -I..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc -I..\source\USER -I..\source\HARDWARE\IIC -I..\source\HARDWARE\LCD -I..\source\HARDWARE\LED -I..\source\HARDWARE\SRAM -I..\source\HARDWARE\TIMER -I..\source\HARDWARE\24CXX -I..\source\HARDWARE\SPI -I..\source\HARDWARE\SDIO -I..\source\HARDWARE\TOUCH -I..\source\HARDWARE\W25QXX -I..\source\TEXT -I..\source\USMART -I..\source\FATFS\src -I..\source\FATFS\src\option -I..\source\MALLOC -I..\source\FWLIB\CMSIS\Include -I..\source\EMWIN\emWin\Config -I..\source\EMWIN\emWin\emWinTask -I..\source\EMWIN\Demo -I..\source\UCOSIII\uC-CPU -I..\source\UCOSIII\uC-LIB -I..\source\UCOSIII\uCOS-III -I..\source\UCOSIII\UCOS_BSP -I..\source\UCOSIII\uCOS_CONFIG -I..\source\UCOSIII\uCOS-III\Source -I..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView -I..\source\EMWIN_DEMO\NUM_DISPLAY -I..\source\HARDWARE\RA8875\BSP -I..\source\HARDWARE\RA8875\RA8875 -I..\source\EMWIN\emWin\Include -I..\source\HARDWARE\KeyBoard -I..\source\HARDWARE -I..\source\HARDWARE\sd_card -I..\source\HARDWARE\RTC -I..\source\HARDWARE\SPI_FLASH -I..\source\App -I..\source\App\fonts -I..\source\TESTER_UI -I..\source\App\CS99XX -I..\source\tools -I..\source\USER_UI -I..\source\USER_UI\UI -I..\source\HARDWARE\CH376\inc --locale=ENGLISH-I D:\Keil\ARM\RV31\INC-I D:\Keil\ARM\CMSIS\Include-I D:\Keil\ARM\Inc\ST\STM32F4xx-DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM-o ..\..\output\output\step_win.o --omf_browse ..\..\output\output\step_win.crf --depend ..\..\output\output\step_win.d)
+F (..\source\USER_UI\UI\step_par_win\step_win.c)(0x5949BD9E)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\source\CORE -I..\source\SYSTEM\delay -I..\source\SYSTEM\sys -I..\source\SYSTEM\usart -I..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc -I..\source\USER -I..\source\HARDWARE\IIC -I..\source\HARDWARE\LCD -I..\source\HARDWARE\LED -I..\source\HARDWARE\SRAM -I..\source\HARDWARE\TIMER -I..\source\HARDWARE\24CXX -I..\source\HARDWARE\SPI -I..\source\HARDWARE\SDIO -I..\source\HARDWARE\TOUCH -I..\source\HARDWARE\W25QXX -I..\source\TEXT -I..\source\USMART -I..\source\FATFS\src -I..\source\FATFS\src\option -I..\source\MALLOC -I..\source\FWLIB\CMSIS\Include -I..\source\EMWIN\emWin\Config -I..\source\EMWIN\emWin\emWinTask -I..\source\EMWIN\Demo -I..\source\UCOSIII\uC-CPU -I..\source\UCOSIII\uC-LIB -I..\source\UCOSIII\uCOS-III -I..\source\UCOSIII\UCOS_BSP -I..\source\UCOSIII\uCOS_CONFIG -I..\source\UCOSIII\uCOS-III\Source -I..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView -I..\source\EMWIN_DEMO\NUM_DISPLAY -I..\source\HARDWARE\RA8875\BSP -I..\source\HARDWARE\RA8875\RA8875 -I..\source\EMWIN\emWin\Include -I..\source\HARDWARE\KeyBoard -I..\source\HARDWARE -I..\source\HARDWARE\sd_card -I..\source\HARDWARE\RTC -I..\source\HARDWARE\SPI_FLASH -I..\source\App -I..\source\App\fonts -I..\source\TESTER_UI -I..\source\App\CS99XX -I..\source\tools -I..\source\USER_UI -I..\source\USER_UI\UI -I..\source\HARDWARE\CH376\inc --locale=ENGLISH-I D:\Keil\ARM\RV31\INC-I D:\Keil\ARM\CMSIS\Include-I D:\Keil\ARM\Inc\ST\STM32F4xx-DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM-o ..\..\output\output\step_win.o --omf_browse ..\..\output\output\step_win.crf --depend ..\..\output\output\step_win.d)
 I (..\source\USER\stm32f4xx.h)(0x59486746)
 I (..\source\CORE\core_cm4.h)(0x59486745)
 I (D:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7C554)
@@ -6366,13 +6371,13 @@ I (..\source\UCOSIII\uC-LIB\lib_str.h)(0x59486746)
 I (..\source\UCOSIII\uC-LIB\lib_ascii.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Source\os_type.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView\os_cpu.h)(0x59486746)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\RV31\INC\stdio.h)(0x4F58357C)
 I (D:\Keil\ARM\RV31\INC\string.h)(0x4F58357C)
 I (..\source\App\CS99XX\cs99xx_mem_api.h)(0x5947B7C1)
 I (..\source\App\CS99XX\cs99xx_flash_manage.h)(0x5947B786)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\USER_UI\ui_com/com_ui_base.h)(0x594743C9)
@@ -6383,7 +6388,7 @@ I (..\source\USER_UI\UI\step_par_win\7_step_ui.h)(0x59486746)
 I (..\source\USER_UI\UI\step_par_win\step_win.h)(0x59486746)
 I (..\source\App\type/cs99xx_type.h)(0x594391EF)
 I (..\source\App\type/cs99xx_config.h)(0x59486745)
-I (..\source\USER_UI\UI\step_par_win\step_edit_win.h)(0x59486746)
+I (..\source\USER_UI\UI\step_par_win\step_edit_win.h)(0x594A26CC)
 F (..\source\USER_UI\UI\step_par_win\7_quick_setting_win.c)(0x59491900)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\source\CORE -I..\source\SYSTEM\delay -I..\source\SYSTEM\sys -I..\source\SYSTEM\usart -I..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc -I..\source\USER -I..\source\HARDWARE\IIC -I..\source\HARDWARE\LCD -I..\source\HARDWARE\LED -I..\source\HARDWARE\SRAM -I..\source\HARDWARE\TIMER -I..\source\HARDWARE\24CXX -I..\source\HARDWARE\SPI -I..\source\HARDWARE\SDIO -I..\source\HARDWARE\TOUCH -I..\source\HARDWARE\W25QXX -I..\source\TEXT -I..\source\USMART -I..\source\FATFS\src -I..\source\FATFS\src\option -I..\source\MALLOC -I..\source\FWLIB\CMSIS\Include -I..\source\EMWIN\emWin\Config -I..\source\EMWIN\emWin\emWinTask -I..\source\EMWIN\Demo -I..\source\UCOSIII\uC-CPU -I..\source\UCOSIII\uC-LIB -I..\source\UCOSIII\uCOS-III -I..\source\UCOSIII\UCOS_BSP -I..\source\UCOSIII\uCOS_CONFIG -I..\source\UCOSIII\uCOS-III\Source -I..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView -I..\source\EMWIN_DEMO\NUM_DISPLAY -I..\source\HARDWARE\RA8875\BSP -I..\source\HARDWARE\RA8875\RA8875 -I..\source\EMWIN\emWin\Include -I..\source\HARDWARE\KeyBoard -I..\source\HARDWARE -I..\source\HARDWARE\sd_card -I..\source\HARDWARE\RTC -I..\source\HARDWARE\SPI_FLASH -I..\source\App -I..\source\App\fonts -I..\source\TESTER_UI -I..\source\App\CS99XX -I..\source\tools -I..\source\USER_UI -I..\source\USER_UI\UI -I..\source\HARDWARE\CH376\inc --locale=ENGLISH-I D:\Keil\ARM\RV31\INC-I D:\Keil\ARM\CMSIS\Include-I D:\Keil\ARM\Inc\ST\STM32F4xx-DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM-o ..\..\output\output\7_quick_setting_win.o --omf_browse ..\..\output\output\7_quick_setting_win.crf --depend ..\..\output\output\7_quick_setting_win.d)
 I (..\source\USER\stm32f4xx.h)(0x59486746)
 I (..\source\CORE\core_cm4.h)(0x59486745)
@@ -6483,16 +6488,16 @@ I (..\source\UCOSIII\uCOS-III\Source\os_type.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView\os_cpu.h)(0x59486746)
 I (..\source\App\app.h)(0x5943895F)
 I (..\source\App\app_cfg.h)(0x59486745)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\USER_UI\ui_com/com_ui_base.h)(0x594743C9)
 I (..\source\App\tools.h)(0x59486745)
 I (..\source\App\CS99XX\key_server.h)(0x5943895F)
-I (..\source\USER_UI\UI\step_par_win\step_edit_win.h)(0x59486746)
-I (..\source\USER_UI\ui_com/com_edit_api.h)(0x5948CAA4)
+I (..\source\USER_UI\UI\step_par_win\step_edit_win.h)(0x594A26CC)
+I (..\source\USER_UI\ui_com/com_edit_api.h)(0x594A0A4C)
 F (..\source\USER_UI\UI\step_par_win\quick_setting_win.c)(0x5949135A)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I..\source\CORE -I..\source\SYSTEM\delay -I..\source\SYSTEM\sys -I..\source\SYSTEM\usart -I..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc -I..\source\USER -I..\source\HARDWARE\IIC -I..\source\HARDWARE\LCD -I..\source\HARDWARE\LED -I..\source\HARDWARE\SRAM -I..\source\HARDWARE\TIMER -I..\source\HARDWARE\24CXX -I..\source\HARDWARE\SPI -I..\source\HARDWARE\SDIO -I..\source\HARDWARE\TOUCH -I..\source\HARDWARE\W25QXX -I..\source\TEXT -I..\source\USMART -I..\source\FATFS\src -I..\source\FATFS\src\option -I..\source\MALLOC -I..\source\FWLIB\CMSIS\Include -I..\source\EMWIN\emWin\Config -I..\source\EMWIN\emWin\emWinTask -I..\source\EMWIN\Demo -I..\source\UCOSIII\uC-CPU -I..\source\UCOSIII\uC-LIB -I..\source\UCOSIII\uCOS-III -I..\source\UCOSIII\UCOS_BSP -I..\source\UCOSIII\uCOS_CONFIG -I..\source\UCOSIII\uCOS-III\Source -I..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView -I..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView -I..\source\EMWIN_DEMO\NUM_DISPLAY -I..\source\HARDWARE\RA8875\BSP -I..\source\HARDWARE\RA8875\RA8875 -I..\source\EMWIN\emWin\Include -I..\source\HARDWARE\KeyBoard -I..\source\HARDWARE -I..\source\HARDWARE\sd_card -I..\source\HARDWARE\RTC -I..\source\HARDWARE\SPI_FLASH -I..\source\App -I..\source\App\fonts -I..\source\TESTER_UI -I..\source\App\CS99XX -I..\source\tools -I..\source\USER_UI -I..\source\USER_UI\UI -I..\source\HARDWARE\CH376\inc --locale=ENGLISH-I D:\Keil\ARM\RV31\INC-I D:\Keil\ARM\CMSIS\Include-I D:\Keil\ARM\Inc\ST\STM32F4xx-DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM-o ..\..\output\output\quick_setting_win.o --omf_browse ..\..\output\output\quick_setting_win.crf --depend ..\..\output\output\quick_setting_win.d)
 I (..\source\USER\stm32f4xx.h)(0x59486746)
 I (..\source\CORE\core_cm4.h)(0x59486745)
@@ -6590,11 +6595,11 @@ I (..\source\UCOSIII\uC-LIB\lib_str.h)(0x59486746)
 I (..\source\UCOSIII\uC-LIB\lib_ascii.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Source\os_type.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView\os_cpu.h)(0x59486746)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\RV31\INC\stdio.h)(0x4F58357C)
 I (D:\Keil\ARM\RV31\INC\string.h)(0x4F58357C)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\USER_UI\ui_com/com_ui_base.h)(0x594743C9)
@@ -6602,7 +6607,7 @@ I (..\source\App\tools.h)(0x59486745)
 I (..\source\App\CS99XX\key_server.h)(0x5943895F)
 I (..\source\App\CS99XX\cs99xx_mem_api.h)(0x5947B7C1)
 I (..\source\App\CS99XX\cs99xx_flash_manage.h)(0x5947B786)
-I (..\source\USER_UI\ui_com/com_edit_api.h)(0x5948CAA4)
+I (..\source\USER_UI\ui_com/com_edit_api.h)(0x594A0A4C)
 I (..\source\USER_UI\UI\step_par_win/7_step_edit_win.h)(0x59486746)
 I (..\source\App\type/cs99xx_type.h)(0x594391EF)
 I (..\source\App\type/cs99xx_config.h)(0x59486745)
@@ -6705,11 +6710,11 @@ I (..\source\UCOSIII\uC-LIB\lib_str.h)(0x59486746)
 I (..\source\UCOSIII\uC-LIB\lib_ascii.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Source\os_type.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView\os_cpu.h)(0x59486746)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\RV31\INC\stdio.h)(0x4F58357C)
 I (D:\Keil\ARM\RV31\INC\string.h)(0x4F58357C)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\USER_UI\ui_com/com_ui_base.h)(0x594743C9)
@@ -6813,18 +6818,18 @@ I (..\source\UCOSIII\uC-LIB\lib_str.h)(0x59486746)
 I (..\source\UCOSIII\uC-LIB\lib_ascii.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Source\os_type.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView\os_cpu.h)(0x59486746)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\RV31\INC\stdio.h)(0x4F58357C)
 I (D:\Keil\ARM\RV31\INC\string.h)(0x4F58357C)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\USER_UI\ui_com/com_ui_base.h)(0x594743C9)
 I (..\source\App\tools.h)(0x59486745)
 I (..\source\App\CS99XX\key_server.h)(0x5943895F)
 I (..\source\USER_UI\UI\file_win/file_edit_win.h)(0x5944ECA8)
-I (..\source\USER_UI\ui_com/com_edit_api.h)(0x5948CAA4)
+I (..\source\USER_UI\ui_com/com_edit_api.h)(0x594A0A4C)
 I (..\source\USER_UI\UI\warning_win/warning_win.h)(0x59486746)
 I (..\source\App\CS99XX\cs99xx_mem_api.h)(0x5947B7C1)
 I (..\source\App\CS99XX\cs99xx_flash_manage.h)(0x5947B786)
@@ -6929,11 +6934,11 @@ I (..\source\UCOSIII\uC-LIB\lib_str.h)(0x59486746)
 I (..\source\UCOSIII\uC-LIB\lib_ascii.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Source\os_type.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView\os_cpu.h)(0x59486746)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\RV31\INC\stdio.h)(0x4F58357C)
 I (D:\Keil\ARM\RV31\INC\string.h)(0x4F58357C)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\USER_UI\ui_com/com_ui_base.h)(0x594743C9)
@@ -7037,18 +7042,18 @@ I (..\source\UCOSIII\uC-LIB\lib_str.h)(0x59486746)
 I (..\source\UCOSIII\uC-LIB\lib_ascii.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Source\os_type.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView\os_cpu.h)(0x59486746)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\RV31\INC\stdio.h)(0x4F58357C)
 I (D:\Keil\ARM\RV31\INC\string.h)(0x4F58357C)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\USER_UI\ui_com/com_ui_base.h)(0x594743C9)
 I (..\source\App\tools.h)(0x59486745)
 I (..\source\App\CS99XX\key_server.h)(0x5943895F)
 I (..\source\USER_UI\UI\file_win/file_edit_win.h)(0x5944ECA8)
-I (..\source\USER_UI\ui_com/com_edit_api.h)(0x5948CAA4)
+I (..\source\USER_UI\ui_com/com_edit_api.h)(0x594A0A4C)
 I (..\source\USER_UI\UI\warning_win/warning_win.h)(0x59486746)
 I (..\source\App\CS99XX\cs99xx_mem_api.h)(0x5947B7C1)
 I (..\source\App\CS99XX\cs99xx_flash_manage.h)(0x5947B786)
@@ -7153,11 +7158,11 @@ I (..\source\UCOSIII\uC-LIB\lib_str.h)(0x59486746)
 I (..\source\UCOSIII\uC-LIB\lib_ascii.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Source\os_type.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView\os_cpu.h)(0x59486746)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\RV31\INC\stdio.h)(0x4F58357C)
 I (D:\Keil\ARM\RV31\INC\string.h)(0x4F58357C)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\USER_UI\ui_com/com_ui_base.h)(0x594743C9)
@@ -7260,18 +7265,18 @@ I (..\source\UCOSIII\uC-LIB\lib_str.h)(0x59486746)
 I (..\source\UCOSIII\uC-LIB\lib_ascii.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Source\os_type.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView\os_cpu.h)(0x59486746)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\RV31\INC\stdio.h)(0x4F58357C)
 I (D:\Keil\ARM\RV31\INC\string.h)(0x4F58357C)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\USER_UI\ui_com/com_ui_base.h)(0x594743C9)
 I (..\source\App\tools.h)(0x59486745)
 I (..\source\App\CS99XX\key_server.h)(0x5943895F)
 I (..\source\USER_UI\UI\file_win/file_edit_win.h)(0x5944ECA8)
-I (..\source\USER_UI\ui_com/com_edit_api.h)(0x5948CAA4)
+I (..\source\USER_UI\ui_com/com_edit_api.h)(0x594A0A4C)
 I (..\source\USER_UI\UI\warning_win/warning_win.h)(0x59486746)
 I (..\source\App\CS99XX\cs99xx_mem_api.h)(0x5947B7C1)
 I (..\source\App\CS99XX\cs99xx_flash_manage.h)(0x5947B786)
@@ -7376,11 +7381,11 @@ I (..\source\UCOSIII\uC-LIB\lib_str.h)(0x59486746)
 I (..\source\UCOSIII\uC-LIB\lib_ascii.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Source\os_type.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView\os_cpu.h)(0x59486746)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\RV31\INC\stdio.h)(0x4F58357C)
 I (D:\Keil\ARM\RV31\INC\string.h)(0x4F58357C)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\USER_UI\ui_com/com_ui_base.h)(0x594743C9)
@@ -7483,13 +7488,13 @@ I (..\source\UCOSIII\uC-LIB\lib_str.h)(0x59486746)
 I (..\source\UCOSIII\uC-LIB\lib_ascii.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Source\os_type.h)(0x59486746)
 I (..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView\os_cpu.h)(0x59486746)
-I (..\source\App\CS99XX\cs99xx_struct.h)(0x5948D9D3)
+I (..\source\App\CS99XX\cs99xx_struct.h)(0x594A3544)
 I (..\source\tools\cs_list.h)(0x59422C2A)
 I (D:\Keil\ARM\RV31\INC\stdio.h)(0x4F58357C)
 I (D:\Keil\ARM\RV31\INC\string.h)(0x4F58357C)
 I (..\source\App\CS99XX\cs99xx_mem_api.h)(0x5947B7C1)
 I (..\source\App\CS99XX\cs99xx_flash_manage.h)(0x5947B786)
-I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5948DEE4)
+I (..\source\USER_UI\UI_COM/com_ui_info.h)(0x5949E2C9)
 I (..\source\USER_UI\UI/KEY_MENU_WIN/key_menu_win.h)(0x59491DF5)
 I (..\source\App\CS99XX\key_fun_manage.h)(0x59486745)
 I (..\source\USER_UI\ui_com/com_ui_base.h)(0x594743C9)

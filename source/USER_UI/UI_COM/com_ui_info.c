@@ -52,6 +52,45 @@ CS_INDEX get_text_ele_index_in_pool(CS_INDEX index, ELE_POOL_INF *pool, CS_ERR *
     
     return (CS_INDEX)0;
 }
+
+CS_INDEX get_text_ele_index(TEXT_ELE_T *text_pool, uint32_t pool_size, CS_INDEX index, CS_ERR*err)
+{
+    uint32_t size = pool_size;
+    int32_t i = 0;
+    
+    *err = CS_ERR_NONE;
+    
+    for(i = 0; i < size; i++)
+    {
+        if(index == text_pool[i].index)
+        {
+            return (CS_INDEX)i;
+        }
+    }
+    
+    *err = CS_ERR_ELE_INDEX_INVALID;
+    
+    return (CS_INDEX)0;
+}
+/**
+  * @brief  初始化窗口中文本对象的链表
+  * @param  [in] win 用户窗口信息
+  * @retval 无
+  */
+TEXT_ELE_T * get_text_ele_inf(TEXT_ELE_T *text_pool, uint32_t pool_size, CS_INDEX index, CS_ERR*err)
+{
+    TEXT_ELE_T *ele = NULL;
+    CS_INDEX tmp_index;
+    
+    tmp_index = get_text_ele_index(text_pool, pool_size, index, err);
+    
+    if(*err == CS_ERR_NONE)
+    {
+        ele = &text_pool[tmp_index];
+    }
+    
+    return ele;
+}
 /**
   * @brief  初始化窗口中文本对象的链表
   * @param  [in] win 用户窗口信息
@@ -977,6 +1016,15 @@ void delete_win_all_ele(MYUSER_WINDOW_T* win)
     delete_edit_list_node(&win->edit.list_head);
 }
 /**
+  * @brief  删除窗口中所有的编辑对象
+  * @param  [in] win 窗口信息
+  * @retval 无
+  */
+void delete_win_edit_ele(MYUSER_WINDOW_T* win)
+{
+    delete_edit_list_node(&win->edit.list_head);
+}
+/**
   * @brief  删除窗口中所有的公共文本对象
   * @param  [in] win 窗口信息
   * @retval 无
@@ -1496,4 +1544,17 @@ void set_global_fun_key_dispose(void (*fun)(uint32_t))
 	global_fun_key_dispose = fun;
 }
 
+/**
+  * @brief  初始化并创建窗口中的公共文本对象
+  * @param  [in] win 用户窗口信息
+  * @retval 无
+  */
+void init_create_win_com_ele(MYUSER_WINDOW_T* win)
+{
+    init_window_com_ele_list(win);//初始化窗口文本对象链表
+    init_com_text_ele_dis_inf(win);//初始化公共文本对象的显示信息
+    init_group_com_text_ele_dis_inf(win);//初始化记忆组对象的显示信息
+    update_group_inf(win);
+    init_window_com_text_ele(win);//初始化创建窗口中的公共文本对象
+}
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

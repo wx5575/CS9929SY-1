@@ -407,6 +407,7 @@ COM_UI_EXT CUSTOM_MSG_T 	    g_custom_msg;///<用户自定义消息实体变量
 COM_UI_EXT uint32_t             id_base;///<全局控件ID变量
 COM_UI_EXT BACK_UP_WILL_ENTER_WIN_INF   back_up_will_enter_win_inf;///<全局控件ID变量
 
+extern TEXT_ELE_T * get_text_ele_inf(TEXT_ELE_T *text_pool, uint32_t pool_size, CS_INDEX index, CS_ERR*err);
 extern void init_window_text_ele(MYUSER_WINDOW_T* win);
 extern void update_text_ele(CS_INDEX index, MYUSER_WINDOW_T* win, const uint8_t *str);
 extern void set_text_ele_font_color(CS_INDEX index, MYUSER_WINDOW_T* win, GUI_COLOR color);
@@ -447,6 +448,8 @@ extern void draw_group_inf_area(void);
 extern void update_group_inf(MYUSER_WINDOW_T* win);
 extern void delete_win_all_ele(MYUSER_WINDOW_T* win);
 extern void delete_win_com_ele(MYUSER_WINDOW_T* win);
+extern void delete_win_edit_ele(MYUSER_WINDOW_T* win);
+extern void init_create_win_com_ele(MYUSER_WINDOW_T* win);
 
 #endif //__COM_UI_INFO_H__
 

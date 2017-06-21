@@ -1160,4 +1160,19 @@ uint16_t transform_arc_grade_to_cur(uint16_t gear)
 	return buf[gear % 10];
 }
 
+/**
+  * @brief  保存正在设置的步骤
+  * @param  无
+  * @retval 无
+  */
+void save_setting_step(void)
+{
+    FILE_NUM file_num;
+    STEP_NUM step_num;
+    
+    file_num = g_cur_file->num;
+    step_num = g_cur_step->one_step.com.step;
+    
+    save_one_step(g_cur_step, file_num, step_num);//保存数据
+}
 /************************ (C) COPYRIGHT Nanjing Changsheng 2017 *****END OF FILE****/

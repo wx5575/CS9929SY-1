@@ -63,6 +63,9 @@ static void update_cur_row_menu_key_st(WM_HWIN hWin);
 static void pop_warning_dialog_for_read_file(WM_HWIN hWin);
 static void pop_warning_dialog_for_del_file(WM_HWIN hWin);
 static void pop_warning_dialog_for_clear_file(WM_HWIN hWin);
+
+static void unprominent_dis_cur_file_in_listview(void);
+static void prominent_dis_cur_file_in_listview(void);
 /* Private variables ---------------------------------------------------------*/
 /**
   * @brief  文件管理列表句柄
@@ -610,6 +613,54 @@ static WM_HWIN create_file_listview(WM_HWIN hWin)
     return handle;
 }
 
+/**
+  * @brief  凸显当前文件
+  * @param  无
+  * @retval 无
+  */
+static void prominent_dis_cur_file_in_listview(void)
+{
+    uint8_t row = 0;
+    int32_t i = 0;
+    
+    if(g_cur_file->num > 0)
+    {
+        row = g_cur_file->num - 1;
+        
+        for(i = 0; i < 5; i++)
+        {
+            LISTVIEW_SetItemTextColor(file_list_handle, i, row, LISTVIEW_CI_UNSEL, GUI_RED);
+            LISTVIEW_SetItemTextColor(file_list_handle, i, row, LISTVIEW_CI_SEL, GUI_RED);
+        }
+    }
+}
+
+/**
+  * @brief  反凸显当前文件
+  * @param  无
+  * @retval 无
+  */
+static void unprominent_dis_cur_file_in_listview(void)
+{
+    uint8_t row = 0;
+    int32_t i = 0;
+    GUI_COLOR col_1;
+    GUI_COLOR col_2;
+    
+    if(g_cur_file->num > 0)
+    {
+        row = g_cur_file->num - 1;
+        
+        col_1 = LISTVIEW_GetTextColor(file_list_handle, LISTVIEW_CI_UNSEL);
+        col_2 = LISTVIEW_GetTextColor(file_list_handle, LISTVIEW_CI_SEL);
+        
+        for(i = 0; i < 5; i++)
+        {
+            LISTVIEW_SetItemTextColor(file_list_handle, i, row, LISTVIEW_CI_UNSEL, col_1);
+            LISTVIEW_SetItemTextColor(file_list_handle, i, row, LISTVIEW_CI_SEL, col_2);
+        }
+    }
+}
 
 /**
   * @brief  创建并初始化文件listview控件
@@ -620,6 +671,7 @@ static void create_init_file_listview(WM_HWIN hWin)
 {
     file_list_handle = create_file_listview(hWin);
 	update_file_dis();
+    prominent_dis_cur_file_in_listview();
 }
 
 
@@ -719,7 +771,9 @@ static void dispose_child_win_msg(CUSTOM_MSG_T * msg, WM_HWIN hWin)
                 
                 if(err == CS_ERR_NONE)
                 {
+                    unprominent_dis_cur_file_in_listview();//反凸显当前文件
                     g_cur_file = f;
+                    prominent_dis_cur_file_in_listview();//凸显当前文件
                     read_group_info(g_cur_file->num);//保存新建文件的记忆组信息
                     sys_flag.last_file_num = g_cur_file->num;//更新最近使用的文件编号
                     save_sys_flag();//保存系统标记

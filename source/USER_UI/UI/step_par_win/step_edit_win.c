@@ -89,7 +89,7 @@ static void step_edit_win_direct_key_left_cb(KEY_MESSAGE *key_msg);
 
 static void edit_test_port_direct_key_left_cb(KEY_MESSAGE *key_msg);
 static void edit_test_port_direct_key_right_cb(KEY_MESSAGE *key_msg);
-static void save_setting_step(void);
+
 
 static void edit_step_num_f1_cb(KEY_MESSAGE *key_msg);
 static void edit_step_num_f2_cb(KEY_MESSAGE *key_msg);
@@ -1542,7 +1542,7 @@ static void update_acw_range_affect_inf(EDIT_ELE_T* ele, UN_STRUCT *step)
   */
 static void update_dcw_range_affect_inf(EDIT_ELE_T* ele, UN_STRUCT *step)
 {
-    uint32_t range = step->acw.range;
+    uint32_t range = step->dcw.range;
     uint8_t mode = DCW;
     
     ele->resource.table = get_defined_range_table(mode);
@@ -1827,7 +1827,6 @@ static void set_dcw_par_win_ele_data(UN_STRUCT *step)
     {
         ele->format.lon = type_spe.port_num;
     }
-    
 }
 
 /**
@@ -2046,19 +2045,6 @@ static void set_ir_par_win_ele_data(UN_STRUCT *step)
   * @param  [in] step 步骤参数结构
   * @retval 无
   */
-//static CS_INDEX gr_par_index[]=
-//{
-//    STEP_EDIT_WIN_STEP,
-//    STEP_EDIT_WIN_MODE,
-//    STEP_EDIT_WIN_CUR,
-//    STEP_EDIT_WIN_UPPER_GR,///<电流上限
-//    STEP_EDIT_WIN_LOWER_GR,///<电流下限
-//    
-//    STEP_EDIT_WIN_TEST_T,///<测试时间
-//    STEP_EDIT_WIN_INTER_T,///<间隔时间
-//    STEP_EDIT_WIN_CONT,///<步间连续
-//    STEP_EDIT_WIN_PASS,///<步间PASS
-//};
 static void set_gr_par_win_ele_data(UN_STRUCT *step)
 {
     EDIT_ELE_T* ele;
@@ -2214,21 +2200,6 @@ static void step_edit_win_paint_frame(void)
 	WM_GetClientRect(&r);
 	GUI_SetBkColor(GUI_WHITE);
 	GUI_ClearRectEx(&r);
-}
-/**
-  * @brief  保存正在设置的步骤
-  * @param  无
-  * @retval 无
-  */
-static void save_setting_step(void)
-{
-    FILE_NUM file_num;
-    STEP_NUM step_num;
-    
-    file_num = g_cur_file->num;
-    step_num = g_cur_step->one_step.com.step;
-    
-    save_one_step(g_cur_step, file_num, step_num);//保存数据
 }
 
 /**
@@ -2464,6 +2435,244 @@ static void step_edit_windows_cb(WM_MESSAGE* pMsg)
 }
 
 /* Public functions ---------------------------------------------------------*/
+
+
+EDIT_ELE_T *get_mode_edit_ele_inf(UN_STRUCT *step)
+{
+    EDIT_ELE_T* ele = NULL;
+    CS_ERR err;
+    EDIT_ELE_T *pool;
+    uint32_t size;
+    
+    pool = step_edit_windows.edit.pool;
+    size = step_edit_windows.edit.pool_size;
+    
+    reg_edit_ele_data(&step_edit_windows, STEP_EDIT_WIN_MODE, &step->com.mode,  sizeof(step->com.mode));//测试模式
+    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_MODE, &err);
+    
+    if(err == CS_ERR_NONE)
+    {
+        ele->resource.table = get_defined_mode_table();//初始化资源表为已定义的测试模式
+        ele->resource.size = get_defined_mode_num();//初始化资源表size为已定义的测试模式个数
+        ele->resource.user_data = get_defined_mode_flag();//初始化用户数据为测试模式对应的数值数组
+        ele->resource.user_data_size = get_defined_mode_num();//初始化用户数据个数
+    }
+    
+    return ele;
+}
+EDIT_ELE_T *get_range_edit_ele_inf(UN_STRUCT *step)
+{
+    EDIT_ELE_T* ele = NULL;
+    CS_ERR err;
+    EDIT_ELE_T *pool;
+    uint32_t size;
+    uint8_t mode = 0;
+    void *p_data;
+    uint8_t n = 0;
+    
+    mode = get_cur_step_mode();
+    pool = step_edit_windows.edit.pool;
+    size = step_edit_windows.edit.pool_size;
+    
+    //电流档位
+    switch(mode)
+    {
+        case ACW:
+            p_data = &step->acw.range;
+            n = sizeof(step->acw.range);
+            break;
+        case DCW:
+            p_data = &step->dcw.range;
+            n = sizeof(step->dcw.range);
+            break;
+        default:
+            return ele;
+    }
+    
+    reg_edit_ele_data(&step_edit_windows, STEP_EDIT_WIN_RANGE, p_data,  n);
+    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_RANGE, &err);
+    
+    if(err == CS_ERR_NONE)
+    {
+        ele->resource.table = get_defined_range_table(mode);
+        ele->resource.size = get_defined_range_num(mode);
+        ele->resource.user_data = get_defined_range_flag(mode);
+        ele->resource.user_data_size = get_defined_range_num(mode);
+    }
+    
+    return ele;
+}
+
+EDIT_ELE_T *get_vol_edit_ele_inf(UN_STRUCT *step)
+{
+    EDIT_ELE_T* ele = NULL;
+    CS_ERR err;
+    EDIT_ELE_T *pool;
+    uint32_t size;
+    uint8_t mode = 0;
+    void *p_data;
+    uint8_t n = 0;
+    CS_INDEX index;
+    
+    mode = get_cur_step_mode();
+    pool = step_edit_windows.edit.pool;
+    size = step_edit_windows.edit.pool_size;
+    
+    //电流档位
+    switch(mode)
+    {
+        case ACW:
+            p_data = &step->acw.output_vol;
+            n = sizeof(step->acw.output_vol);
+            index = STEP_EDIT_WIN_VOL;
+            break;
+        case DCW:
+            p_data = &step->dcw.output_vol;
+            n = sizeof(step->dcw.output_vol);
+            index = STEP_EDIT_WIN_VOL;
+            break;
+        case IR:
+            p_data = &step->dcw.output_vol;
+            n = sizeof(step->dcw.output_vol);
+            index = STEP_EDIT_WIN_VOL;
+            break;
+        case GR:
+            p_data = &step->gr.output_cur;
+            n = sizeof(step->gr.output_cur);
+            index = STEP_EDIT_WIN_CUR;
+            break;
+        default:
+            return ele;
+    }
+    
+    reg_edit_ele_data(&step_edit_windows, index, p_data,  n);
+    ele = get_edit_ele_inf(pool, size, index, &err);
+    ele->dis.edit.max_len = 5;
+    
+    return ele;
+}
+EDIT_ELE_T *get_test_time_edit_ele_inf(UN_STRUCT *step)
+{
+    EDIT_ELE_T* ele = NULL;
+    CS_ERR err;
+    EDIT_ELE_T *pool;
+    uint32_t size;
+    uint8_t mode = 0;
+    void *p_data;
+    uint8_t n = 0;
+    CS_INDEX index;
+    
+    mode = get_cur_step_mode();
+    pool = step_edit_windows.edit.pool;
+    size = step_edit_windows.edit.pool_size;
+    
+    index = STEP_EDIT_WIN_TEST_T;
+    
+    //电流档位
+    switch(mode)
+    {
+        case ACW:
+            p_data = &step->acw.test_time;
+            n = sizeof(step->acw.test_time);
+            break;
+        case DCW:
+            p_data = &step->dcw.test_time;
+            n = sizeof(step->dcw.test_time);
+            break;
+        case IR:
+            p_data = &step->dcw.test_time;
+            n = sizeof(step->dcw.test_time);
+            break;
+        case GR:
+            p_data = &step->gr.test_time;
+            n = sizeof(step->gr.test_time);
+            break;
+        default:
+            return ele;
+    }
+    
+    reg_edit_ele_data(&step_edit_windows, index, p_data,  n);
+    ele = get_edit_ele_inf(pool, size, index, &err);
+    ele->dis.edit.max_len = 5;
+    
+    return ele;
+}
+EDIT_ELE_T *get_cur_upper_edit_ele_inf(UN_STRUCT *step)
+{
+    EDIT_ELE_T* ele = NULL;
+    CS_ERR err;
+    EDIT_ELE_T *pool;
+    uint32_t size;
+    uint8_t mode = 0;
+    void *p_data;
+    uint8_t n = 0;
+    CS_INDEX index;
+    
+    mode = get_cur_step_mode();
+    pool = step_edit_windows.edit.pool;
+    size = step_edit_windows.edit.pool_size;
+    
+    index = STEP_EDIT_WIN_UPPER;
+    
+    //电流档位
+    switch(mode)
+    {
+        case ACW:
+            p_data = &step->acw.upper_limit;
+            n = sizeof(step->acw.upper_limit);
+            break;
+        case DCW:
+            p_data = &step->dcw.upper_limit;
+            n = sizeof(step->dcw.upper_limit);
+            break;
+        default:
+            return ele;
+    }
+    
+    reg_edit_ele_data(&step_edit_windows, index, p_data,  n);
+    ele = get_edit_ele_inf(pool, size, index, &err);
+    ele->dis.edit.max_len = 5;
+    
+    return ele;
+}
+EDIT_ELE_T *get_cur_lower_edit_ele_inf(UN_STRUCT *step)
+{
+    EDIT_ELE_T* ele = NULL;
+    CS_ERR err;
+    EDIT_ELE_T *pool;
+    uint32_t size;
+    uint8_t mode = 0;
+    void *p_data;
+    uint8_t n = 0;
+    CS_INDEX index;
+    
+    mode = get_cur_step_mode();
+    pool = step_edit_windows.edit.pool;
+    size = step_edit_windows.edit.pool_size;
+    
+    index = STEP_EDIT_WIN_LOWER;
+    
+    //电流档位
+    switch(mode)
+    {
+        case ACW:
+            p_data = &step->acw.lower_limit;
+            n = sizeof(step->acw.lower_limit);
+            break;
+        case DCW:
+            p_data = &step->dcw.lower_limit;
+            n = sizeof(step->dcw.lower_limit);
+            break;
+        default:
+            return ele;
+    }
+    
+    reg_edit_ele_data(&step_edit_windows, index, p_data,  n);
+    ele = get_edit_ele_inf(pool, size, index, &err);
+    ele->dis.edit.max_len = 5;
+    
+    return ele;
+}
 /**
   * @brief  创建步骤编辑窗口
   * @param  [in] hWin 父窗口句柄

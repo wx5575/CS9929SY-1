@@ -31,9 +31,8 @@
 #include "7_main_win.h"
 #include "main_win.h"
 #include "PROGBAR.h"
+#include "cs99xx_mem_api.h"
   
-/* Includes ------------------------------------------------------------------*/
-
 /* Private typedef -----------------------------------------------------------*/
 
 /* Private define ------------------------------------------------------------*/
@@ -303,6 +302,7 @@ static void change_key_lock_status(int data)
     
     set_key_lock_flag(!flag);
     update_unlock_bmp();
+    save_sys_par();
 }
 /**
   * @brief  系统键盘锁按键回调函数

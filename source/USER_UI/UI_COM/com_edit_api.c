@@ -1073,6 +1073,36 @@ void reg_edit_ele_data_inf(CS_INDEX index, void *data, uint8_t bytes)
     ele->data.bytes = bytes;
 }
 /**
+  * @brief  注册步骤编辑对象的数据
+  * @param  [in] win 窗口信息
+  * @param  [in] index 编辑对象在编辑对象池中的索引
+  * @param  [in] data 数据的地址
+  * @param  [in] bytes 字节个数
+  * @retval 无
+  */
+void reg_edit_ele_data(MYUSER_WINDOW_T* win, CS_INDEX index, void *data, uint8_t bytes)
+{
+    CS_INDEX tmp_index;
+    CS_ERR err;
+    EDIT_ELE_T *pool;
+    EDIT_ELE_T* ele;
+    uint32_t size;
+    
+    pool = win->edit.pool;
+    size = win->edit.pool_size;
+    tmp_index = get_edit_ele_index(pool, size, index, &err);
+    
+    if(err != CS_ERR_NONE)
+    {
+        return;
+    }
+    
+    ele = &pool[tmp_index];
+    
+    ele->data.data = data;
+    ele->data.bytes = bytes;
+}
+/**
   * @brief  自动布局窗口中的编辑对象
   * @param  [in] win 窗口信息
   * @retval 无
