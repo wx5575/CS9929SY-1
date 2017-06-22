@@ -301,6 +301,7 @@ static void init_create_step_edit_win_com_ele(MYUSER_WINDOW_T* win)
     init_group_com_text_ele_dis_inf(win);//初始化记忆组对象的显示信息
     update_group_inf(win);
     init_window_com_text_ele(win);//初始化创建窗口中的公共文本对象
+    update_default_range_notice();
 }
 /**
   * @brief  新建一个测试步

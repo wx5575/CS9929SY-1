@@ -1388,6 +1388,16 @@
               <FileType>1</FileType>
               <FilePath>..\source\USER_UI\UI\step_par_win\step_win.c</FilePath>
             </File>
+            <File>
+              <FileName>7_quick_setting_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\step_par_win\7_quick_setting_win.c</FilePath>
+            </File>
+            <File>
+              <FileName>quick_setting_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\step_par_win\quick_setting_win.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1402,6 +1412,16 @@
               <FileName>password_win.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\USER_UI\UI\password_win\password_win.c</FilePath>
+            </File>
+            <File>
+              <FileName>7_input_password_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\password_win\7_input_password_win.c</FilePath>
+            </File>
+            <File>
+              <FileName>input_password_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\password_win\input_password_win.c</FilePath>
             </File>
           </Files>
         </Group>

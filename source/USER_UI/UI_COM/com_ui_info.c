@@ -707,6 +707,11 @@ static void _show_text_ele(TEXT_ELE_T*node, const uint8_t*str)
         pText = (const char *)node->text[SYS_LANGUAGE];
     }
     
+    if(handle == 0)
+    {
+        return;
+    }
+    
 	TEXT_SetTextAlign(handle, align);
 	TEXT_SetFont(handle, font);
 	TEXT_SetBkColor(handle, back_color);
@@ -1357,6 +1362,21 @@ void init_com_text_ele_dis_inf(MYUSER_WINDOW_T* win)
 }
 
 /**
+  * @brief  更新范围名称公共文本显示
+  * @param  [in] str 文本中英文
+  * @retval 无
+  */
+void update_range_notice(uint8_t *str)
+{
+    update_com_text_ele(COM_RANGE_NAME, g_cur_win, str);
+}
+void update_default_range_notice(void)
+{
+    uint8_t *buf[2]={"范 围:","Range:"};
+    
+    update_range_notice(buf[SYS_LANGUAGE]);
+}
+/**
   * @brief  初始化记忆组公共文本对象的显示信息(坐标，尺寸
   * @param  [in] win 窗口指针
   * @retval 无
@@ -1470,6 +1490,7 @@ void update_group_inf(MYUSER_WINDOW_T* win)
     update_com_text_ele((CS_INDEX)COM_UI_CUR_STEP, win, NULL);
     update_com_text_ele((CS_INDEX)COM_UI_CUR_WORK_MODE, win, NULL);
 }
+
 /**************************************************************/
 /**
   * @brief  设置全局自定义消息的ID
@@ -1556,5 +1577,6 @@ void init_create_win_com_ele(MYUSER_WINDOW_T* win)
     init_group_com_text_ele_dis_inf(win);//初始化记忆组对象的显示信息
     update_group_inf(win);
     init_window_com_text_ele(win);//初始化创建窗口中的公共文本对象
+    update_default_range_notice();
 }
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

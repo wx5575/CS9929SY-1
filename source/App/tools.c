@@ -121,5 +121,43 @@ void mysprintf(uint8_t *buf, const uint8_t* unit, uint8_t format, uint32_t value
         strcat((char*)buf, (const char*)unit);
     }
 }
-
+/**
+  * @brief  使用指定字符来替换前导零
+  * @param  [in] buf 字符串
+  * @param  [in] ch 指定的字符
+  * @retval 结果
+  */
+uint8_t *dis_str_prev_zero(uint8_t *buf, uint8_t ch)
+{
+    uint8_t lon = 0;
+    int32_t i = 0;
+    
+    lon = strlen((const char*)buf);
+    
+    for(i = 0; i < lon; i++)
+    {
+        if(buf[i] == '0')
+        {
+            if(buf[i + 1] < '0' || buf[i + 1] > '9')
+            {
+                break;
+            }
+            else
+            {
+                buf[i] = ch;
+            }
+        }
+        else
+        {
+            break;
+        }
+    }
+    
+    return buf;
+}
+void mysprintf_2(uint8_t *buf, const uint8_t* unit, uint8_t format, uint32_t value)
+{
+    mysprintf(buf, unit, format, value);
+    dis_str_prev_zero(buf, ' ');
+}
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

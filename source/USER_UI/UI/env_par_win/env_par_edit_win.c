@@ -57,6 +57,7 @@ static void init_create_env_par_win_com_ele(MYUSER_WINDOW_T* win);
 static void init_create_env_par_win_edit_ele(MYUSER_WINDOW_T* win);
 static void reg_env_language_sys_key(WM_HMEM hWin);
 static void env_language_menu_key(WM_HMEM hWin);
+static void env_win_edit_language_menu_key_init(WM_HMEM hWin);
 /* Private variables ---------------------------------------------------------*/
 
 /**
@@ -70,16 +71,24 @@ static WIDGET_POS_SIZE_T* env_par_win_pos_size_pool[SCREEN_NUM]=
 };
 
 /**
+  * @brief  编辑系统语言时使用的定制菜单键信息初始化数组
+  */
+static CUSTOM_MENU_KEY_INF env_win_language_custom_menu_inf[]=
+{
+    { CHINESE_STR , CHINESE	, edit_language_f1_cb},
+    { ENGLISH_STR , ENGLISH	, edit_language_f2_cb},
+};
+/**
   * @brief  编辑语言使用的菜单键初始化信息
   */
 static MENU_KEY_INFO_T 	env_par_language_menu_key_inf[] =
 {
-    {"中文"     , F_KEY_CUSTOM, KEY_F1 & _KEY_UP, edit_language_f1_cb },//f1
-    {"English"  , F_KEY_CUSTOM, KEY_F2 & _KEY_UP, edit_language_f2_cb },//f2
-    {""         , F_KEY_NULL  , KEY_F3 & _KEY_UP, edit_language_f3_cb },//f3
-    {""         , F_KEY_NULL  , KEY_F4 & _KEY_UP, edit_language_f4_cb },//f4
-    {""         , F_KEY_NULL  , KEY_F5 & _KEY_UP, edit_language_f5_cb },//f3
-    {""         , F_KEY_BACK  , KEY_F6 & _KEY_UP, edit_language_f6_cb },//f4
+    {"", F_KEY_CUSTOM, KEY_F1 & _KEY_UP, edit_language_f1_cb },//f1
+    {"", F_KEY_CUSTOM, KEY_F2 & _KEY_UP, edit_language_f2_cb },//f2
+    {"", F_KEY_NULL  , KEY_F3 & _KEY_UP, edit_language_f3_cb },//f3
+    {"", F_KEY_NULL  , KEY_F4 & _KEY_UP, edit_language_f4_cb },//f4
+    {"", F_KEY_NULL  , KEY_F5 & _KEY_UP, edit_language_f5_cb },//f5
+    {"", F_KEY_BACK  , KEY_F6 & _KEY_UP, edit_language_f6_cb },//f6
 };
 
 /**
@@ -108,7 +117,7 @@ static EDIT_ELE_T env_par_ele_pool[]={
         {ELE_DROPDOWN, E_INT_T},/*类型*/
         {0/*decs*/,20/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {0/*heigh*/,0/*low*/,{"Language","Language"}/*notice*/},/*range*/
-        {reg_env_language_sys_key,env_language_menu_key,keyboard_fun_num,},/*key_inf*/
+        {reg_env_language_sys_key,env_win_edit_language_menu_key_init,keyboard_fun_num,},/*key_inf*/
     },
 //     {
 //         {"蜂鸣时间:","BeepTime:"}, /* 名称 */
@@ -174,6 +183,33 @@ static MYUSER_WINDOW_T env_par_window=
 
 /* Private functions ---------------------------------------------------------*/
 
+/**
+  * @brief  编辑电流档位时使用的菜单键初始化
+  * @param  [in] hWin 窗口句柄
+  * @retval 无
+  */
+static void env_win_edit_language_menu_key_init(WM_HMEM hWin)
+{
+    MENU_KEY_INFO_T * info = env_par_language_menu_key_inf;
+    uint32_t size = ARRAY_SIZE(env_par_language_menu_key_inf);
+    CUSTOM_MENU_KEY_INF *cus_inf = env_win_language_custom_menu_inf;
+    uint16_t cus_size = ARRAY_SIZE(env_win_language_custom_menu_inf);
+    EDIT_ELE_T* ele = NULL;
+    CS_ERR err;
+    EDIT_ELE_T *pool;
+    uint32_t pool_size;
+    
+    pool = g_cur_win->edit.pool;
+    pool_size = g_cur_win->edit.pool_size;
+    
+    ele = get_edit_ele_inf(pool, pool_size, ENV_PAR_LANGUAGE, &err);
+    
+    if(err == CS_ERR_NONE)
+    {
+        init_menu_key_custom_inf(cus_inf, cus_size, ele, info, size);
+        init_menu_key_info(info, size, hWin);
+    }
+}
 /**
   * @brief  设置系统语言为中文
   * @param  [in] hWin 窗口句柄
@@ -348,9 +384,33 @@ static void menu_key_ok(WM_HMEM hWin)
   * @param  [in] par 系统参数
   * @retval 无
   */
+static uint8_t language_table[]=
+{
+    CHINESE,
+    ENGLISH,
+};
 static void set_env_par_window_ele_data(SYS_PAR *par)
 {
+    EDIT_ELE_T* ele = NULL;
+    CS_ERR err;
+    EDIT_ELE_T *pool;
+    uint32_t size;
     set_edit_ele_data(&env_par_ele_pool[ENV_PAR_LANGUAGE], &par->language);
+    
+    
+    pool = g_cur_win->edit.pool;
+    size = g_cur_win->edit.pool_size;
+    //系统语言
+    reg_edit_ele_data(g_cur_win, ENV_PAR_LANGUAGE, &par->language,  sizeof(par->language));
+    ele = get_edit_ele_inf(pool, size, ENV_PAR_LANGUAGE, &err);
+    
+    if(err == CS_ERR_NONE)
+    {
+//        ele->resource.table = get_defined_mode_table();//初始化资源表为已定义的测试模式
+//        ele->resource.size = get_defined_mode_num();//初始化资源表size为已定义的测试模式个数
+        ele->resource.user_data = language_table;//get_defined_mode_flag();//初始化用户数据为测试模式对应的数值数组
+        ele->resource.user_data_size = ARRAY_SIZE(language_table);//get_defined_mode_num();//初始化用户数据个数
+    }
 }
 
 /**

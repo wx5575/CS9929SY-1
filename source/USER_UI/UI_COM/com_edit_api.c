@@ -147,6 +147,11 @@ uint32_t get_edit_ele_value(EDIT_ELE_T* ele, uint8_t *buf)
     uint32_t index = 0;
     uint8_t t_buf[20] = {0};
     
+    if(handle == 0)
+    {
+        return 0;
+    }
+    
     switch(ele->type.type)
     {
         case ELE_TEXT:
@@ -185,6 +190,11 @@ void set_edit_ele_value(EDIT_ELE_T* ele, uint32_t value, uint8_t *buf)
     uint8_t lon = ele->format.lon;
     uint8_t t_buf[20] = {0};
     
+    if(handle == 0)
+    {
+        return;
+    }
+    
     switch(ele->type.type)
     {
         case ELE_TEXT:
@@ -212,6 +222,12 @@ void update_unit_dis(EDIT_ELE_T* ele)
     uint8_t unit = 0;
 	
 	handle = ele->dis.unit.handle;
+    
+    if(handle == 0)
+    {
+        return;
+    }
+    
 	align = ele->dis.unit.align;
 	font = ele->dis.unit.font;
 	back_color = ele->dis.unit.back_color;
@@ -232,6 +248,11 @@ void set_edit_num_value(EDIT_ELE_T* ele, uint32_t value)
     uint8_t buf[20] = {0};
     uint8_t decs = ele->format.decs;
     uint8_t lon = ele->format.lon;
+    
+    if(handle == 0)
+    {
+        return;
+    }
     
     mysprintf(buf, NULL, decs + lon * 10 + 1 * 100, value);
     EDIT_SetMaxLen(handle, lon);
@@ -268,6 +289,11 @@ void upload_par_to_ram(EDIT_ELE_T* ele)
     uint32_t value = 0;
     
     if(ele == NULL)
+    {
+        return;
+    }
+    
+    if(handle == 0)
     {
         return;
     }
@@ -516,16 +542,10 @@ void create_one_edit_ele(EDIT_ELE_T *ele, WM_HWIN hParent)
                 }
             }
             
-// 			DROPDOWN_AddString(hwidget, (const char*)ele->value[1]);
 			DROPDOWN_SetFont(hwidget, ele->dis.edit.font);
 			DROPDOWN_SetAutoScroll(hwidget, 1);
 			DROPDOWN_SetTextAlign(hwidget, ele->dis.edit.align);
 			
-//			if(ele->data.data != NULL)
-//            {
-//                load_par_to_buf(ele, &data);
-//				DROPDOWN_SetSel(hwidget, data);
-//            }
             if(ele->resource.user_data != NULL)
             {
                 CS_INDEX index;

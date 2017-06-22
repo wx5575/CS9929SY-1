@@ -17,7 +17,7 @@
 
 extern uint32_t ten_power(u8 n);
 extern void mysprintf(uint8_t *buf, const uint8_t* unit, uint8_t type, uint32_t value);
-
+extern void mysprintf_2(uint8_t *buf, const uint8_t* unit, uint8_t format, uint32_t value);
 
 #endif //__TOOLS_H__
 

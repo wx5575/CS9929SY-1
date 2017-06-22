@@ -86,6 +86,7 @@ static void step_edit_win_direct_key_down_cb(KEY_MESSAGE *key_msg);
 static void step_edit_win_direct_key_up_cb(KEY_MESSAGE *key_msg);
 static void step_edit_win_direct_key_right_cb(KEY_MESSAGE *key_msg);
 static void step_edit_win_direct_key_left_cb(KEY_MESSAGE *key_msg);
+static void step_edit_win_sys_key_enter_cb(KEY_MESSAGE *key_msg);
 
 static void edit_test_port_direct_key_left_cb(KEY_MESSAGE *key_msg);
 static void edit_test_port_direct_key_right_cb(KEY_MESSAGE *key_msg);
@@ -353,6 +354,7 @@ static FUNCTION_KEY_INFO_T 	step_edit_win_sys_key_init_pool[]=
 	{KEY_RIGHT	, step_edit_win_direct_key_right_cb   },
 	{CODE_LEFT	, step_edit_win_direct_key_down_cb    },
 	{CODE_RIGH	, step_edit_win_direct_key_up_cb      },
+	{KEY_ENTER	, step_edit_win_sys_key_enter_cb },
 };
 /**
   * @brief  步骤编辑窗口系统功能键初始化信息数组
@@ -367,6 +369,7 @@ static FUNCTION_KEY_INFO_T 	edit_test_port_sys_key_init_pool[]=
     
 	{CODE_LEFT	, step_edit_win_direct_key_down_cb    },
 	{CODE_RIGH	, step_edit_win_direct_key_up_cb      },
+	{KEY_ENTER	, step_edit_win_sys_key_enter_cb },
 };
 /**
   * @brief  编辑步骤编号时使用的系统功能键初始化信息数组
@@ -752,7 +755,7 @@ static MYUSER_WINDOW_T step_edit_windows=
     },/* auto_layout */
     step_edit_win_pos_size_pool/*pos_size_pool*/
 };
-
+static MYUSER_WINDOW_T *this_win = &step_edit_windows;
 /* Private functions ---------------------------------------------------------*/
 /**
   * @brief  编辑步骤编号使用的功能键F1回调函数
@@ -1118,6 +1121,7 @@ static void edit_step_num_direct_key_enter_cb(KEY_MESSAGE *key_msg)
     {
         set_edit_num_value(g_cur_edit_ele, old_step);
     }
+    com_edit_win_direct_key_down_cb(key_msg);//调用通用的向下键回调
 }
 
 /**
@@ -1150,6 +1154,7 @@ static void edit_step_num_direct_key_down_cb(KEY_MESSAGE *key_msg)
 static void edit_mode_direct_key_enter_cb(KEY_MESSAGE *key_msg)
 {
     update_and_init_mode();
+    com_edit_win_direct_key_down_cb(key_msg);//调用通用的向下键回调
 }
 
 /**
@@ -1333,8 +1338,8 @@ static void check_acw_range_value(EDIT_ELE_T* ele, uint32_t *range)
     EDIT_ELE_T *pool;
     uint32_t size;
     
-    pool = g_cur_win->edit.pool;
-    size = g_cur_win->edit.pool_size;
+    pool = this_win->edit.pool;
+    size = this_win->edit.pool_size;
     
     if(tmp >= AC_GEAR_END)
     {
@@ -1409,8 +1414,8 @@ static void check_dcw_range_value(EDIT_ELE_T* ele, uint32_t *range)
     EDIT_ELE_T *pool;
     uint32_t size;
     
-    pool = g_cur_win->edit.pool;
-    size = g_cur_win->edit.pool_size;
+    pool = this_win->edit.pool;
+    size = this_win->edit.pool_size;
     
     if(tmp >= DC_GEAR_END)
     {
@@ -1933,7 +1938,6 @@ static void check_gr_upper_value_validity(EDIT_ELE_T* ele, uint32_t *value)
         
         set_edit_num_value(tmp_ele, g_cur_step->one_step.gr.lower_limit);
     }
-    
 }
 /**
   * @brief  检查 GR 上限值
@@ -2187,6 +2191,7 @@ static void init_create_step_edit_win_com_ele(MYUSER_WINDOW_T* win)
     init_group_com_text_ele_dis_inf(win);//初始化记忆组对象的显示信息
     update_group_inf(win);
     init_window_com_text_ele(win);//初始化创建窗口中的公共文本对象
+    update_default_range_notice();
 }
 
 /**
@@ -2210,6 +2215,16 @@ static void step_edit_win_paint_frame(void)
 static void step_edit_win_direct_key_up_cb(KEY_MESSAGE *key_msg)
 {
     com_edit_win_direct_key_up_cb(key_msg);//调用通用的向上键回调
+    save_setting_step();//保存数据
+}
+/**
+  * @brief  向上键的回调函数
+  * @param  [in] key_msg 回调函数携带的按键消息
+  * @retval 无
+  */
+static void step_edit_win_sys_key_enter_cb(KEY_MESSAGE *key_msg)
+{
+    com_edit_win_direct_key_down_cb(key_msg);//调用通用的向下键回调
     save_setting_step();//保存数据
 }
 /**
@@ -2645,6 +2660,7 @@ EDIT_ELE_T *get_cur_lower_edit_ele_inf(UN_STRUCT *step)
     void *p_data;
     uint8_t n = 0;
     CS_INDEX index;
+    uint16_t high = 0;
     
     mode = get_cur_step_mode();
     pool = step_edit_windows.edit.pool;
@@ -2658,10 +2674,12 @@ EDIT_ELE_T *get_cur_lower_edit_ele_inf(UN_STRUCT *step)
         case ACW:
             p_data = &step->acw.lower_limit;
             n = sizeof(step->acw.lower_limit);
+            high = step->acw.upper_limit;
             break;
         case DCW:
             p_data = &step->dcw.lower_limit;
             n = sizeof(step->dcw.lower_limit);
+            high = step->dcw.upper_limit;
             break;
         default:
             return ele;
@@ -2670,6 +2688,7 @@ EDIT_ELE_T *get_cur_lower_edit_ele_inf(UN_STRUCT *step)
     reg_edit_ele_data(&step_edit_windows, index, p_data,  n);
     ele = get_edit_ele_inf(pool, size, index, &err);
     ele->dis.edit.max_len = 5;
+    ele->range.high = high;
     
     return ele;
 }

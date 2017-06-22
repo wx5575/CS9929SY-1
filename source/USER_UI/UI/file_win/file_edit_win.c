@@ -258,7 +258,7 @@ static EDIT_ELE_T edit_file_ele_pool[]=
         {NULL, 2/*数据字节数*/},/* 数据指针 */
         {NULL, 0},/* 资源表 */
         {ELE_DROPDOWN, E_INT_T},/*类型*/
-        {1/*decs*/,5/*lon*/,TIM_U_s/*unit*/,},/*format*/
+        {1/*decs*/,5/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {9999/*heigh*/,0/*low*/,{"PassTime","PassTime"}/*notice*/},/*range*/
         {fpasstime_sys_key, edit_arc_menu_key_init, keyboard_fun_num,},/*key_inf*/
     },
@@ -904,6 +904,7 @@ static void file_edit_win_cb(WM_MESSAGE * pMsg)
             
             g_cur_edit_ele = get_cur_win_edit_ele_list_head();//获取当前窗口编辑表头节点
             select_edit_ele(g_cur_edit_ele);//选中当前编辑对象
+            update_default_range_notice();
             break;
 		case WM_DELETE:
 		{

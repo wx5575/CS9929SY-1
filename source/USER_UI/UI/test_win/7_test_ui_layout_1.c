@@ -46,7 +46,7 @@ typedef struct{
 #define PB_Y 50
 #define TP_W 275	///<每路信息区的宽度
 #define TP_XO 50	///<相临信息区的X坐标偏移
-#define TP_YO 40	///<相临信息区的Y坐标偏移
+#define TP_YO 30	///<相临信息区的Y坐标偏移
 #define TP_H 168	///<每路信息区的高度
 
 #define PB1_X (PB_X)	///<第一路坐标
@@ -118,6 +118,7 @@ static void _7_test_ui_init_file_inf(uint16_t base_x, uint16_t base_y, FILE_T *p
     inf.base_y = base_y;//y基坐标
     
     inf.font[CHINESE] = TF_FONT;//字体
+    inf.font[ENGLISH] = TF_FONT;//字体
     inf.max_len = 100;//最大长度
     inf.font_color = GUI_BLACK;//字体颜色
     inf.back_color = GUI_INVALID_COLOR;//背景颜色
@@ -206,6 +207,7 @@ static void init_one_road_pos_size_inf(uint16_t base_x, uint16_t base_y, ROAD_T 
     inf.align = GUI_TA_CENTER | GUI_TA_TOP;
     inf.back_color = GUI_INVALID_COLOR;
     inf.font[CHINESE] = ROAD_FONTS;
+    inf.font[ENGLISH] = ROAD_FONTS;
     inf.font_color = GUI_WHITE;
     inf.pos_size.height = RB_H;
     inf.pos_size.width = RN_W;

@@ -450,6 +450,8 @@ extern void delete_win_all_ele(MYUSER_WINDOW_T* win);
 extern void delete_win_com_ele(MYUSER_WINDOW_T* win);
 extern void delete_win_edit_ele(MYUSER_WINDOW_T* win);
 extern void init_create_win_com_ele(MYUSER_WINDOW_T* win);
+extern void update_range_notice(uint8_t *str);
+extern void update_default_range_notice(void);
 
 #endif //__COM_UI_INFO_H__
 
