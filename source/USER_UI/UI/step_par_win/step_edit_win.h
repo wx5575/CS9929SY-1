@@ -17,6 +17,7 @@ extern EDIT_ELE_T *get_vol_edit_ele_inf(UN_STRUCT *step);
 extern EDIT_ELE_T *get_test_time_edit_ele_inf(UN_STRUCT *step);
 extern EDIT_ELE_T *get_cur_lower_edit_ele_inf(UN_STRUCT *step);
 extern EDIT_ELE_T *get_cur_upper_edit_ele_inf(UN_STRUCT *step);
+extern EDIT_ELE_T *get_auto_shift_edit_ele_inf(UN_STRUCT *step);
 
 #endif //__STEP_EDIT_WIN_H__
 

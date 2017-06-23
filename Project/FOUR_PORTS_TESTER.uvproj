@@ -1188,6 +1188,11 @@
               <FileType>1</FileType>
               <FilePath>..\source\App\CS99XX\key_fun_manage.c</FilePath>
             </File>
+            <File>
+              <FileName>running_test.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\App\CS99XX\running_test.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

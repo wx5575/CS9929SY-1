@@ -79,6 +79,7 @@ typedef enum{
     F_KEY_OFF,
     F_KEY_GRADE,
     F_KEY_SETTING,
+    F_KEY_AUTO,
 }MENU_KEY_INDEX_ENUM;
 
 /** 系统标准菜单键初始化信息结构 */

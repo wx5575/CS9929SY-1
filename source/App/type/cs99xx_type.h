@@ -451,11 +451,11 @@ typedef struct{
 	
 	uint8_t gr_dis_opt; /* gr需要显示的项目 有电压 和 电阻供组合选择 */
 	uint8_t gr_cur_unit;/* gr电流的单位 A ，mA */
-	uint8_t gr_cur_decs;/* gr电流的小数位数 */
+	uint8_t gr_cur_dec;/* gr电流的小数位数 */
 	uint8_t gr_res_unit;/* gr电阻的单位 Ω ，mΩ */
-	uint8_t gr_res_decs;/* gr电阻的小数位数 */
+	uint8_t gr_res_dec;/* gr电阻的小数位数 */
 	uint8_t gr_vol_unit;/* gr电压单位 */
-	uint8_t gr_vol_decs;/* gr电压的小数位数 */
+	uint8_t gr_vol_dec;/* gr电压的小数位数 */
 	
 	uint8_t gr_dc_en;/* 标记gr 是交流的还是直流的 */
 	uint8_t gr_vol_drop_mode;/* gr直流压降模式 1打开 0关闭 */

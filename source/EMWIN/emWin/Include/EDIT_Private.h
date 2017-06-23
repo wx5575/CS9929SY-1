@@ -74,7 +74,7 @@ struct EDIT_Obj_struct {
   I16                  MaxLen;
   U16                  BufferSize;
   I32                  Min, Max;        // Min max values as normalized floats (integers)
-  U8                   NumDecs;         // Number of decimals
+  U8                   NumDecs;         // Number of decmals
   I32                  CurrentValue;    // Current value
   int                  CursorPos;       // Cursor position. 0 means left most
   unsigned             SelSize;         // Number of selected characters

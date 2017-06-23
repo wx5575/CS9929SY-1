@@ -398,7 +398,7 @@ U8        GUI_SetPenSize   (U8 Size);
 U8        GUI_SetPenShape  (U8 Shape);
 U8        GUI_SetLineStyle (U8 Style);
 
-/* Get/Set Character used as decimal point (usually '.' or ',') */
+/* Get/Set Character used as decmal point (usually '.' or ',') */
 char      GUI_GetDecChar(void);
 char      GUI_SetDecChar(char c);
 
@@ -810,7 +810,7 @@ U16  GUI_DB2UC (U8 Byte0, U8 Byte1);
 
 /*********************************************************************
 *
-*       Drawing of binary, decimal and hexadecimal values
+*       Drawing of binary, decmal and hexadecmal values
 */
 void GUI_DispBin  (U32  v, U8 Len);
 void GUI_DispBinAt(U32  v, I16P x, I16P y, U8 Len);

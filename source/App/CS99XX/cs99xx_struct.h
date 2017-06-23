@@ -524,7 +524,7 @@ typedef struct {
     uint32_t low_max;///<档位的下限最大值
     uint32_t low_min;///<档位的下限最小值
     uint8_t lon;///<最大长度，包括小数点
-    uint8_t decs;///<档位的小数点位数
+    uint8_t dec;///<档位的小数点位数
 }GEAR_STR;
 
 #ifdef   STRUCT_GLOBALS

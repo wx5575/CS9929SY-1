@@ -2293,9 +2293,9 @@ CPU_CHAR  *Str_FmtNbr_Int32S (CPU_INT32S    nbr,
 *
 * Argument(s) : nbr             Number                         to format (see Note #1).
 *
-*               nbr_dig         Number of decimal       digits to format (see Note #2).
+*               nbr_dig         Number of decmal       digits to format (see Note #2).
 *
-*               nbr_dp          Number of decimal point digits to format.
+*               nbr_dp          Number of decmal point digits to format.
 *
 *               lead_char       Prepend leading character (see Note #3) :
 *
@@ -2378,7 +2378,7 @@ CPU_CHAR  *Str_FmtNbr_Int32S (CPU_INT32S    nbr,
 *
 *                       (3) If the number to format ('nbr') is negative but the number of significant
 *                           integer digits is zero, & the number of digits to format ('nbr_dig') is one
-*                           but the number of decimal point digits to format ('nbr_dp') is zero; then
+*                           but the number of decmal point digits to format ('nbr_dp') is zero; then
 *                           an invalid string is formatted instead of truncating the negative sign.
 *
 *                               Example :
@@ -2391,9 +2391,9 @@ CPU_CHAR  *Str_FmtNbr_Int32S (CPU_INT32S    nbr,
 *
 *                       (4) (A) If the number to format ('nbr') is negative but the number of significant
 *                               integer digits is zero, & the number of digits to format ('nbr_dig') is
-*                               zero but the number of decimal point digits to format ('nbr_dp') is non-
-*                               zero; then the negative sign immediately prefixes the decimal point --
-*                               with NO decimal digits formatted, NOT even a single decimal digit of '0'.
+*                               zero but the number of decmal point digits to format ('nbr_dp') is non-
+*                               zero; then the negative sign immediately prefixes the decmal point --
+*                               with NO decmal digits formatted, NOT even a single decmal digit of '0'.
 *
 *                                   Example :
 *
@@ -2405,11 +2405,11 @@ CPU_CHAR  *Str_FmtNbr_Int32S (CPU_INT32S    nbr,
 *
 *                           (B) If the number to format ('nbr') is positive but the number of significant
 *                               integer digits is zero, & the number of digits to format ('nbr_dig') is
-*                               zero but the number of decimal point digits to format ('nbr_dp') is non-
-*                               zero; then a single decimal digit of '0' prefixes the decimal point.
+*                               zero but the number of decmal point digits to format ('nbr_dp') is non-
+*                               zero; then a single decmal digit of '0' prefixes the decmal point.
 *
 *                               This '0' digit is used whenever a negative sign is not formatted (see
-*                               Note #2b4A) so that the formatted string's decimal point is not floating,
+*                               Note #2b4A) so that the formatted string's decmal point is not floating,
 *                               but fixed in the string as the 2nd character.
 *
 *                                   Example :
@@ -2426,7 +2426,7 @@ CPU_CHAR  *Str_FmtNbr_Int32S (CPU_INT32S    nbr,
 *                               numbers, digits following all significantly-accurate digits of the number to
 *                               format ('nbr') will be inaccurate; ...
 *                           (B) ... the configured maximum accuracy ('LIB_STR_CFG_FP_MAX_NBR_DIG_SIG'), all
-*                               digits or decimal places following all significantly-accurate digits of the
+*                               digits or decmal places following all significantly-accurate digits of the
 *                               number to format ('nbr') will be replaced & formatted with zeros ('0').
 *
 *                                   Example :
@@ -2522,7 +2522,7 @@ CPU_CHAR  *Str_FmtNbr_Int32S (CPU_INT32S    nbr,
 *                           Character array size MUST be  >=  ('nbr_dig'          +
 *                                                              'nbr_dp'           +
 *                                                               1 negative sign   +
-*                                                               1 decimal point   +
+*                                                               1 decmal point   +
 *                                                               1 'NUL' terminator)  characters
 *
 *               (6) String format terminates when :
@@ -2545,7 +2545,7 @@ CPU_CHAR  *Str_FmtNbr_Int32S (CPU_INT32S    nbr,
 *
 *               (7) For any unsuccessful string format or error(s), an invalid string of question marks
 *                   ('?') will be formatted, where the number of question marks is determined by the
-*                   number of digits ('nbr_dig') & number of decimal point digits ('nbr_dp') to format :
+*                   number of digits ('nbr_dig') & number of decmal point digits ('nbr_dp') to format :
 *
 *                                           {  (a)    0 (NULL string)          ,  if 'nbr_dig' = 0  AND
 *                                           {                                        'nbr_dp'  = 0
@@ -2554,12 +2554,12 @@ CPU_CHAR  *Str_FmtNbr_Int32S (CPU_INT32S    nbr,
 *                                           {                                        'nbr_dp'  = 0
 *                      Invalid string's     {
 *                          number of     =  {  (c)  ['nbr_dp'               +  ,  if 'nbr_dig' = 0  AND
-*                       question marks      {         1 (for decimal point) +        'nbr_dp'  > 0
+*                       question marks      {         1 (for decmal point) +        'nbr_dp'  > 0
 *                                           {         1 (for negative sign) ]
 *                                           {
 *                                           {  (d)  ['nbr_dig'              +  ,  if 'nbr_dig' > 0  AND
 *                                           {        'nbr_dp'               +        'nbr_dp'  > 0
-*                                           {         1 (for decimal point) ]
+*                                           {         1 (for decmal point) ]
 *
 *********************************************************************************************************
 */
@@ -2820,17 +2820,17 @@ CPU_CHAR  *Str_FmtNbr_32 (CPU_FP32      nbr,
 *                                    determined by the value of 'base' ('nbr_base')" :
 *
 *                                   (a) "If the value of 'base' ('nbr_base') is 0, the expected form of the
-*                                        subject sequence is that of a decimal constant, octal constant, or
-*                                        hexadecimal constant" :
+*                                        subject sequence is that of a decmal constant, octal constant, or
+*                                        hexadecmal constant" :
 *
-*                                       (1) "A decimal constant begins with a non-zero digit, and consists of a
-*                                            sequence of decimal digits."
+*                                       (1) "A decmal constant begins with a non-zero digit, and consists of a
+*                                            sequence of decmal digits."
 *
 *                                       (2) "An octal constant consists of the prefix '0' optionally followed by
 *                                            a sequence of the digits '0' to '7' only."
 *
-*                                       (3) "A hexadecimal constant consists of the prefix '0x' or '0X' followed
-*                                            by a sequence of the decimal digits and letters 'a' (or 'A') to 'f'
+*                                       (3) "A hexadecmal constant consists of the prefix '0x' or '0X' followed
+*                                            by a sequence of the decmal digits and letters 'a' (or 'A') to 'f'
 *                                            (or 'F') with values 10 to 15 respectively."
 *
 *                                   (b) "If the value of 'base' ('nbr_base') is between 2 and 36, the expected form
@@ -2920,7 +2920,7 @@ CPU_CHAR  *Str_FmtNbr_32 (CPU_FP32      nbr,
 *                           pstr_next = pstr = "     ABCDE"
 *
 *
-*                   (c) Valid hexadecimal parse string integer :
+*                   (c) Valid hexadecmal parse string integer :
 *
 *                           pstr      = "     0xGABCDE"
 *                           nbr_base  = 16
@@ -2929,8 +2929,8 @@ CPU_CHAR  *Str_FmtNbr_32 (CPU_FP32      nbr,
 *                           pstr_next = "xGABCDE"
 *
 *
-*                   (d) Valid decimal parse string integer ('0x' prefix ignored
-*                               following invalid hexadecimal characters) :
+*                   (d) Valid decmal parse string integer ('0x' prefix ignored
+*                               following invalid hexadecmal characters) :
 *
 *                           pstr      = "     0xGABCDE"
 *                           nbr_base  =  0
@@ -2939,7 +2939,7 @@ CPU_CHAR  *Str_FmtNbr_32 (CPU_FP32      nbr,
 *                           pstr_next = "xGABCDE"
 *
 *
-*                   (e) Valid decimal parse string integer ('0'  prefix ignored
+*                   (e) Valid decmal parse string integer ('0'  prefix ignored
 *                               following invalid octal       characters) :
 *
 *                           pstr      = "     0GABCDE"
@@ -3033,17 +3033,17 @@ CPU_INT32U  Str_ParseNbr_Int32U (const  CPU_CHAR     *pstr,
 *                                    determined by the value of 'base' ('nbr_base')" :
 *
 *                                   (a) "If the value of 'base' ('nbr_base') is 0, the expected form of the
-*                                        subject sequence is that of a decimal constant, octal constant, or
-*                                        hexadecimal constant" :
+*                                        subject sequence is that of a decmal constant, octal constant, or
+*                                        hexadecmal constant" :
 *
-*                                       (1) "A decimal constant begins with a non-zero digit, and consists of a
-*                                            sequence of decimal digits."
+*                                       (1) "A decmal constant begins with a non-zero digit, and consists of a
+*                                            sequence of decmal digits."
 *
 *                                       (2) "An octal constant consists of the prefix '0' optionally followed by
 *                                            a sequence of the digits '0' to '7' only."
 *
-*                                       (3) "A hexadecimal constant consists of the prefix '0x' or '0X' followed
-*                                            by a sequence of the decimal digits and letters 'a' (or 'A') to 'f'
+*                                       (3) "A hexadecmal constant consists of the prefix '0x' or '0X' followed
+*                                            by a sequence of the decmal digits and letters 'a' (or 'A') to 'f'
 *                                            (or 'F') with values 10 to 15 respectively."
 *
 *                                   (b) "If the value of 'base' ('nbr_base') is between 2 and 36, the expected form
@@ -3136,7 +3136,7 @@ CPU_INT32U  Str_ParseNbr_Int32U (const  CPU_CHAR     *pstr,
 *                           pstr_next = pstr = "     ABCDE"
 *
 *
-*                   (c) Valid hexadecimal parse string integer :
+*                   (c) Valid hexadecmal parse string integer :
 *
 *                           pstr      = "     0xGABCDE"
 *                           nbr_base  = 16
@@ -3145,8 +3145,8 @@ CPU_INT32U  Str_ParseNbr_Int32U (const  CPU_CHAR     *pstr,
 *                           pstr_next = "xGABCDE"
 *
 *
-*                   (d) Valid decimal parse string integer ('0x' prefix ignored
-*                               following invalid hexadecimal characters) :
+*                   (d) Valid decmal parse string integer ('0x' prefix ignored
+*                               following invalid hexadecmal characters) :
 *
 *                           pstr      = "     0xGABCDE"
 *                           nbr_base  =  0
@@ -3155,7 +3155,7 @@ CPU_INT32U  Str_ParseNbr_Int32U (const  CPU_CHAR     *pstr,
 *                           pstr_next = "xGABCDE"
 *
 *
-*                   (e) Valid decimal parse string integer ('0'  prefix ignored
+*                   (e) Valid decmal parse string integer ('0'  prefix ignored
 *                               following invalid octal       characters) :
 *
 *                           pstr      = "     0GABCDE"
@@ -3663,17 +3663,17 @@ static  CPU_CHAR  *Str_FmtNbr_Int32 (CPU_INT32U    nbr,
 *                                    determined by the value of 'base' ('nbr_base')" :
 *
 *                                   (a) "If the value of 'base' ('nbr_base') is 0, the expected form of the
-*                                        subject sequence is that of a decimal constant, octal constant, or
-*                                        hexadecimal constant" :
+*                                        subject sequence is that of a decmal constant, octal constant, or
+*                                        hexadecmal constant" :
 *
-*                                       (1) "A decimal constant begins with a non-zero digit, and consists of a
-*                                            sequence of decimal digits."
+*                                       (1) "A decmal constant begins with a non-zero digit, and consists of a
+*                                            sequence of decmal digits."
 *
 *                                       (2) "An octal constant consists of the prefix '0' optionally followed by
 *                                            a sequence of the digits '0' to '7' only."
 *
-*                                       (3) "A hexadecimal constant consists of the prefix '0x' or '0X' followed
-*                                            by a sequence of the decimal digits and letters 'a' (or 'A') to 'f'
+*                                       (3) "A hexadecmal constant consists of the prefix '0x' or '0X' followed
+*                                            by a sequence of the decmal digits and letters 'a' (or 'A') to 'f'
 *                                            (or 'F') with values 10 to 15 respectively."
 *
 *                                   (b) "If the value of 'base' ('nbr_base') is between 2 and 36, the expected form
@@ -3765,7 +3765,7 @@ static  CPU_CHAR  *Str_FmtNbr_Int32 (CPU_INT32U    nbr,
 *                           pstr_next = pstr = "     ABCDE"
 *
 *
-*                   (c) Valid hexadecimal parse string integer :
+*                   (c) Valid hexadecmal parse string integer :
 *
 *                           pstr      = "     0xGABCDE"
 *                           nbr_base  = 16
@@ -3774,8 +3774,8 @@ static  CPU_CHAR  *Str_FmtNbr_Int32 (CPU_INT32U    nbr,
 *                           pstr_next = "xGABCDE"
 *
 *
-*                   (d) Valid decimal parse string integer ('0x' prefix ignored
-*                               following invalid hexadecimal characters) :
+*                   (d) Valid decmal parse string integer ('0x' prefix ignored
+*                               following invalid hexadecmal characters) :
 *
 *                           pstr      = "     0xGABCDE"
 *                           nbr_base  =  0
@@ -3784,7 +3784,7 @@ static  CPU_CHAR  *Str_FmtNbr_Int32 (CPU_INT32U    nbr,
 *                           pstr_next = "xGABCDE"
 *
 *
-*                   (e) Valid decimal parse string integer ('0'  prefix ignored
+*                   (e) Valid decmal parse string integer ('0'  prefix ignored
 *                               following invalid octal       characters) :
 *
 *                           pstr      = "     0GABCDE"

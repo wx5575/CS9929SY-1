@@ -143,7 +143,7 @@ uint32_t get_edit_ele_value(EDIT_ELE_T* ele, uint8_t *buf)
     WM_HMEM handle = ele->dis.edit.handle;
     uint32_t max_len = ele->dis.edit.max_len + 1;
     uint32_t value = 0;
-    uint8_t decs = ele->format.decs;
+    uint8_t dec = ele->format.dec;
     uint32_t index = 0;
     uint8_t t_buf[20] = {0};
     
@@ -158,7 +158,7 @@ uint32_t get_edit_ele_value(EDIT_ELE_T* ele, uint8_t *buf)
             break;
         case ELE_EDIT_NUM:
             EDIT_GetText(handle, (char*)t_buf, max_len);
-            value = atof((const char*)t_buf) * ten_power(decs);
+            value = atof((const char*)t_buf) * ten_power(dec);
             if(buf == NULL)
             {
                 break;
@@ -186,7 +186,7 @@ uint32_t get_edit_ele_value(EDIT_ELE_T* ele, uint8_t *buf)
 void set_edit_ele_value(EDIT_ELE_T* ele, uint32_t value, uint8_t *buf)
 {
     WM_HMEM handle = ele->dis.edit.handle;
-    uint8_t decs = ele->format.decs;
+    uint8_t dec = ele->format.dec;
     uint8_t lon = ele->format.lon;
     uint8_t t_buf[20] = {0};
     
@@ -200,7 +200,7 @@ void set_edit_ele_value(EDIT_ELE_T* ele, uint32_t value, uint8_t *buf)
         case ELE_TEXT:
             break;
         case ELE_EDIT_NUM:
-            mysprintf(t_buf, NULL, decs + lon * 10 + 1 * 100, value);
+            mysprintf(t_buf, NULL, dec + lon * 10 + 1 * 100, value);
             EDIT_SetText(handle, (const void*)t_buf);
             break;
         case ELE_EDIT_STR:
@@ -246,7 +246,7 @@ void set_edit_num_value(EDIT_ELE_T* ele, uint32_t value)
 {
     WM_HMEM handle = ele->dis.edit.handle;
     uint8_t buf[20] = {0};
-    uint8_t decs = ele->format.decs;
+    uint8_t dec = ele->format.dec;
     uint8_t lon = ele->format.lon;
     
     if(handle == 0)
@@ -254,7 +254,7 @@ void set_edit_num_value(EDIT_ELE_T* ele, uint32_t value)
         return;
     }
     
-    mysprintf(buf, NULL, decs + lon * 10 + 1 * 100, value);
+    mysprintf(buf, NULL, dec + lon * 10 + 1 * 100, value);
     EDIT_SetMaxLen(handle, lon);
     EDIT_SetText(handle, (const void*)buf);
     update_unit_dis(ele);
@@ -496,7 +496,7 @@ void create_one_edit_ele(EDIT_ELE_T *ele, WM_HWIN hParent)
 			if(ele->data.data != NULL)
 			{
                 load_par_to_buf(ele, &data);
-                mysprintf(buf, NULL, ele->format.decs + ele->format.lon * 10 + 1 * 100, data);
+                mysprintf(buf, NULL, ele->format.dec + ele->format.lon * 10 + 1 * 100, data);
 			}
 			
 			EDIT_SetText(hwidget, (const void*)buf);
@@ -677,8 +677,8 @@ void update_ele_range_text(EDIT_ELE_T *ele)
             }
             else
             {
-                mysprintf(buf1, unit_pool[ele->format.unit], ele->format.decs + ele->format.lon * 10 + 1 * 100, ele->range.low);
-                mysprintf(buf2, unit_pool[ele->format.unit], ele->format.decs + ele->format.lon * 10 + 1 * 100, ele->range.high);
+                mysprintf(buf1, unit_pool[ele->format.unit], ele->format.dec + ele->format.lon * 10 + 1 * 100, ele->range.low);
+                mysprintf(buf2, unit_pool[ele->format.unit], ele->format.dec + ele->format.lon * 10 + 1 * 100, ele->range.high);
                 sprintf((char*)buf, "%s - %s", buf1, buf2);
                 sprintf((char*)buf1, "%s %s", buf, str[CHINESE]);
                 sprintf((char*)buf2, "%s %s", buf, str[ENGLISH]);

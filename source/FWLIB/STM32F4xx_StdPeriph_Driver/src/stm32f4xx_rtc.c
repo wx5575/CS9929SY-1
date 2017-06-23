@@ -2717,7 +2717,7 @@ void RTC_ClearITPendingBit(uint32_t RTC_IT)
   */
 
 /**
-  * @brief  Converts a 2 digit decimal to BCD format.
+  * @brief  Converts a 2 digit decmal to BCD format.
   * @param  Value: Byte to be converted.
   * @retval Converted byte
   */

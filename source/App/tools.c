@@ -38,7 +38,7 @@ uint32_t ten_power(u8 n)
   */
 void mysprintf(uint8_t *buf, const uint8_t* unit, uint8_t format, uint32_t value)
 {
-    uint8_t decs_n = (format / 1) % 10;/* 小数位 */
+    uint8_t dec_n = (format / 1) % 10;/* 小数位 */
     uint8_t lon    = (format / 10) % 10;/* 长度 */
     uint8_t app_0  = (format / 100) % 10;/* 前导零标志 */
     uint8_t int_n = 0;
@@ -52,7 +52,7 @@ void mysprintf(uint8_t *buf, const uint8_t* unit, uint8_t format, uint32_t value
         return;
     }
     
-    if(decs_n > 0 && lon - decs_n < 2)
+    if(dec_n > 0 && lon - dec_n < 2)
     {
         strcpy((char*)buf, "0.000");
         if(unit != NULL)
@@ -62,11 +62,11 @@ void mysprintf(uint8_t *buf, const uint8_t* unit, uint8_t format, uint32_t value
         return;
     }
     
-    int_n =  lon - decs_n - (decs_n > 0);
+    int_n =  lon - dec_n - (dec_n > 0);
     
     for(i = 0, j = 0; i < int_n; i++)
     {
-        if(decs_n > 0)
+        if(dec_n > 0)
         {
             temp = (value / ten_power(lon - 2 - i)) % 10;
         }
@@ -99,7 +99,7 @@ void mysprintf(uint8_t *buf, const uint8_t* unit, uint8_t format, uint32_t value
         }
     }
     
-    if(decs_n)
+    if(dec_n)
     {
         buf[j++] = '.';
     }
@@ -107,9 +107,9 @@ void mysprintf(uint8_t *buf, const uint8_t* unit, uint8_t format, uint32_t value
     temp_l = j;
     
     /* 小数部分 */
-    for(i = 0; i < decs_n; i++)
+    for(i = 0; i < dec_n; i++)
     {
-        temp = (value / ten_power(decs_n - i - 1)) % 10;
+        temp = (value / ten_power(dec_n - i - 1)) % 10;
         buf[i + temp_l] = temp + '0';
     }
     

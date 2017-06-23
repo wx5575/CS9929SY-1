@@ -2295,7 +2295,7 @@ void  OS_TaskReturn (void)
 
 
 
-    OSTaskReturnHook(OSTCBCurPtr);                          /* Call hook to let user decide on what to do             */
+    OSTaskReturnHook(OSTCBCurPtr);                          /* Call hook to let user decde on what to do             */
 #if OS_CFG_TASK_DEL_EN > 0u
     OSTaskDel((OS_TCB *)0,                                  /* Delete task if it accidentally returns!                */
               (OS_ERR *)&err);

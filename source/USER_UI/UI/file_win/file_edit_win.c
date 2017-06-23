@@ -211,7 +211,7 @@ static EDIT_ELE_T edit_file_ele_pool[]=
         {NULL, D_N_BYTES},/* 数据指针 */
         {NULL,0},/* 资源表 */
         {ELE_EDIT_STR, E_STRING_T},/*类型*/
-        {0/*decs*/, NAME_LON/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
+        {0/*dec*/, NAME_LON/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {
             0/*heigh*/,0/*low*/,{"1-14个字符 \n(A-Z a-z 0-9 空格 + / - .)"
             ,"1-14 characters\n(A-Z a-z 0-9 space + / - .)"}/*notice*/
@@ -225,7 +225,7 @@ static EDIT_ELE_T edit_file_ele_pool[]=
         {NULL, 1/*数据字节数*/},/* 数据指针 */
         {work_mode_pool, ARRAY_SIZE(work_mode_pool)},/* 资源表 */
         {ELE_DROPDOWN, E_INT_T},/*类型*/
-        {0/*decs*/,20/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
+        {0/*dec*/,20/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {0/*heigh*/,0/*low*/,{"WorkMode","WorkMode"}/*notice*/},/*range*/
         {fwmode_sys_key, fwmode_menu_key, keyboard_fun_num,},/*key_inf*/
     },
@@ -236,7 +236,7 @@ static EDIT_ELE_T edit_file_ele_pool[]=
         {NULL, 2/*数据字节数*/},/* 数据指针 */
         {NULL, 0},/* 资源表 */
         {ELE_EDIT_NUM, E_INT_T},/*类型*/
-        {1/*decs*/,5/*lon*/,TIM_U_s/*unit*/,},/*format*/
+        {1/*dec*/,5/*lon*/,TIM_U_s/*unit*/,},/*format*/
         {9999/*heigh*/,0/*low*/,{"BeepTime","BeepTime"}/*notice*/},/*range*/
         {fbeeptime_sys_key, fbeeptime_menu_key, keyboard_fun_num,},/*key_inf*/
     },
@@ -247,7 +247,7 @@ static EDIT_ELE_T edit_file_ele_pool[]=
         {NULL, 2/*数据字节数*/},/* 数据指针 */
         {NULL, 0},/* 资源表 */
         {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
-        {1/*decs*/,5/*lon*/,TIM_U_s/*unit*/,},/*format*/
+        {1/*dec*/,5/*lon*/,TIM_U_s/*unit*/,},/*format*/
         {9999/*heigh*/,0/*low*/,{"PassTime","PassTime"}/*notice*/},/*range*/
         {fpasstime_sys_key, fpasstime_menu_key, keyboard_fun_num,},/*key_inf*/
     },
@@ -258,7 +258,7 @@ static EDIT_ELE_T edit_file_ele_pool[]=
         {NULL, 2/*数据字节数*/},/* 数据指针 */
         {NULL, 0},/* 资源表 */
         {ELE_DROPDOWN, E_INT_T},/*类型*/
-        {1/*decs*/,5/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
+        {1/*dec*/,5/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {9999/*heigh*/,0/*low*/,{"PassTime","PassTime"}/*notice*/},/*range*/
         {fpasstime_sys_key, edit_arc_menu_key_init, keyboard_fun_num,},/*key_inf*/
     },
@@ -904,7 +904,7 @@ static void file_edit_win_cb(WM_MESSAGE * pMsg)
             
             g_cur_edit_ele = get_cur_win_edit_ele_list_head();//获取当前窗口编辑表头节点
             select_edit_ele(g_cur_edit_ele);//选中当前编辑对象
-            update_default_range_notice();
+            update_default_range_name();
             break;
 		case WM_DELETE:
 		{

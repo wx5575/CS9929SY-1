@@ -255,18 +255,18 @@ CPU_BOOLEAN  ASCII_IsUpper (CPU_CHAR  c)
 *********************************************************************************************************
 *                                            ASCII_IsDig()
 *
-* Description : Determine whether a character is a decimal-digit character.
+* Description : Determine whether a character is a decmal-digit character.
 *
 * Argument(s) : c           Character to examine.
 *
-* Return(s)   : DEF_YES, if character is     a decimal-digit character.
+* Return(s)   : DEF_YES, if character is     a decmal-digit character.
 *
-*               DEF_NO,     if character is NOT a decimal-digit character.
+*               DEF_NO,     if character is NOT a decmal-digit character.
 *
 * Caller(s)   : Application.
 *
 * Note(s)     : (1) ISO/IEC 9899:TC2, Section 7.4.1.5.(2)  states that "isdigit()  ... tests for any
-*                   decimal-digit character".
+*                   decmal-digit character".
 *********************************************************************************************************
 */
 
@@ -314,18 +314,18 @@ CPU_BOOLEAN  ASCII_IsDigOct (CPU_CHAR  c)
 *********************************************************************************************************
 *                                          ASCII_IsDigHex()
 *
-* Description : Determine whether a character is a hexadecimal-digit character.
+* Description : Determine whether a character is a hexadecmal-digit character.
 *
 * Argument(s) : c           Character to examine.
 *
-* Return(s)   : DEF_YES, if character is     a hexadecimal-digit character.
+* Return(s)   : DEF_YES, if character is     a hexadecmal-digit character.
 *
-*               DEF_NO,     if character is NOT a hexadecimal-digit character.
+*               DEF_NO,     if character is NOT a hexadecmal-digit character.
 *
 * Caller(s)   : Application.
 *
 * Note(s)     : (1) ISO/IEC 9899:TC2, Section 7.4.1.12.(2) states that "isxdigit() ... tests for any
-*                   hexadecimal-digit character".
+*                   hexadecmal-digit character".
 *********************************************************************************************************
 */
 

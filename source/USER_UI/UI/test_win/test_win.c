@@ -18,6 +18,7 @@
 #include "7_test_ui_layout_1.h"
 #include "step_par_win/step_edit_win.h"
 #include "ui_com/com_edit_api.h"
+#include "running_test.h"
 
 
 /* Private typedef -----------------------------------------------------------*/
@@ -29,6 +30,8 @@ static void update_test_win_menu_key_inf(WM_HMEM hWin);
 static void test_win_cb(WM_MESSAGE * pMsg);
 static void select_set_acw_par_menu_1(int hWin);
 static void select_set_acw_par_menu_2(int hWin);
+static void select_set_ir_par_menu_1(int hWin);
+static void select_set_ir_par_menu_2(int hWin);
 
 static void change_key_menu(int id);
 static void test_win_f0_cb(KEY_MESSAGE *key_msg);
@@ -53,6 +56,20 @@ static void set_acw_par_f4_2_cb(KEY_MESSAGE *key_msg);
 static void set_acw_par_f5_2_cb(KEY_MESSAGE *key_msg);
 static void set_acw_par_f6_2_cb(KEY_MESSAGE *key_msg);
 
+static void set_ir_par_f1_1_cb(KEY_MESSAGE *key_msg);
+static void set_ir_par_f2_1_cb(KEY_MESSAGE *key_msg);
+static void set_ir_par_f3_1_cb(KEY_MESSAGE *key_msg);
+static void set_ir_par_f4_1_cb(KEY_MESSAGE *key_msg);
+static void set_ir_par_f5_1_cb(KEY_MESSAGE *key_msg);
+static void set_ir_par_f6_1_cb(KEY_MESSAGE *key_msg);
+                
+static void set_ir_par_f1_2_cb(KEY_MESSAGE *key_msg);
+static void set_ir_par_f2_2_cb(KEY_MESSAGE *key_msg);
+static void set_ir_par_f3_2_cb(KEY_MESSAGE *key_msg);
+static void set_ir_par_f4_2_cb(KEY_MESSAGE *key_msg);
+static void set_ir_par_f5_2_cb(KEY_MESSAGE *key_msg);
+static void set_ir_par_f6_2_cb(KEY_MESSAGE *key_msg);
+
 static void edit_test_win_vol_f1_cb(KEY_MESSAGE *key_msg);
 static void edit_test_win_vol_f2_cb(KEY_MESSAGE *key_msg);
 static void edit_test_win_vol_f3_cb(KEY_MESSAGE *key_msg);
@@ -67,6 +84,13 @@ static void edit_test_win_upper_f4_cb(KEY_MESSAGE *key_msg);
 static void edit_test_win_upper_f5_cb(KEY_MESSAGE *key_msg);
 static void edit_test_win_upper_f6_cb(KEY_MESSAGE *key_msg);
     
+static void edit_auto_shift_f1_cb(KEY_MESSAGE *key_msg);
+static void edit_auto_shift_f2_cb(KEY_MESSAGE *key_msg);
+static void edit_auto_shift_f3_cb(KEY_MESSAGE *key_msg);
+static void edit_auto_shift_f4_cb(KEY_MESSAGE *key_msg);
+static void edit_auto_shift_f5_cb(KEY_MESSAGE *key_msg);
+static void edit_auto_shift_f6_cb(KEY_MESSAGE *key_msg);
+
 static void test_win_edit_mode_f6_cb(KEY_MESSAGE *key_msg);
 static void test_win_edit_range_f6_cb(KEY_MESSAGE *key_msg);
 
@@ -74,6 +98,7 @@ static void test_win_edit_mode_menu_key_init(WM_HMEM hWin);
 static void test_win_edit_range_menu_key_init(WM_HMEM hWin);
 static void test_win_edit_vol_menu_key_init(WM_HMEM hWin);
 static void test_win_edit_test_time_menu_key_init(WM_HMEM hWin);
+static void test_win_edit_auto_shift_menu_key_init(WM_HMEM hWin);
 
 static void init_create_test_win_edit_ele(MYUSER_WINDOW_T *win);
 static void init_vol_edit_ele_pos_size(MYUSER_WINDOW_T *win);
@@ -92,11 +117,17 @@ static void init_create_test_win_com_ele(MYUSER_WINDOW_T* win);
 static void init_create_test_win_text_ele(MYUSER_WINDOW_T* win);
 static void clear_range_text_ele(MYUSER_WINDOW_T* win);
 static void test_win_select_test_mode_key_cb(KEY_MESSAGE *key_msg);
+
+static void change_key_set_ir_par_menu(int hWin);
+static void update_key_set_ir_par_menu(int hWin);
+static void change_key_set_acw_par_menu(int hWin);
+
 /* Private variables ---------------------------------------------------------*/
 /**
-  * @brief  定时器句柄
+  * @brief  当前所在菜单页标记
   */
-static	WM_HWIN timer_handle;
+static int8_t cur_at_menu_page_flag;
+//static	WM_HWIN timer_handle;
 /**
   * @brief  测试界面的位置尺寸信息，根据不同屏幕进行初始化
   */
@@ -123,16 +154,16 @@ static MENU_KEY_INFO_T test_ui_menu_key_pool[]=
 /**
   * @brief  测试界面下的菜单按键初始化数组
   */
-static MENU_KEY_INFO_T test_ui_set_menu_key_pool[]=
-{
-    {"", F_KEY_DISPLAY	, KEY_F0 & _KEY_UP,	test_win_f0_cb },//f0
-    {"", F_KEY_MODE		, KEY_F1 & _KEY_UP,	test_win_f1_cb },//f1
-    {"", F_KEY_VOL	    , KEY_F2 & _KEY_UP,	test_win_f2_cb },//f2
-    {"", F_KEY_RANGE    , KEY_F3 & _KEY_UP,	test_win_f3_cb },//f3
-    {"", F_KEY_TIME	    , KEY_F4 & _KEY_UP,	test_win_f4_cb },//f4
-    {"", F_KEY_MORE     , KEY_F5 & _KEY_UP,	test_win_f5_cb },//f5
-    {"", F_KEY_BACK		, KEY_F6 & _KEY_UP,	test_win_f6_cb },//f6
-};
+//static MENU_KEY_INFO_T test_ui_set_menu_key_pool[]=
+//{
+//    {"", F_KEY_DISPLAY	, KEY_F0 & _KEY_UP,	test_win_f0_cb },//f0
+//    {"", F_KEY_MODE		, KEY_F1 & _KEY_UP,	test_win_f1_cb },//f1
+//    {"", F_KEY_VOL	    , KEY_F2 & _KEY_UP,	test_win_f2_cb },//f2
+//    {"", F_KEY_RANGE    , KEY_F3 & _KEY_UP,	test_win_f3_cb },//f3
+//    {"", F_KEY_TIME	    , KEY_F4 & _KEY_UP,	test_win_f4_cb },//f4
+//    {"", F_KEY_MORE     , KEY_F5 & _KEY_UP,	test_win_f5_cb },//f5
+//    {"", F_KEY_BACK		, KEY_F6 & _KEY_UP,	test_win_f6_cb },//f6
+//};
 
 /**
   * @brief  测试界面下ACW设置参数的菜单按键初始化数组
@@ -154,6 +185,28 @@ static MENU_KEY_INFO_T test_ui_acw_menu_pool[][6]=
         {"", F_KEY_NULL  , KEY_F4 & _KEY_UP, set_acw_par_f4_2_cb},//f4
         {"", F_KEY_NULL  , KEY_F5 & _KEY_UP, set_acw_par_f5_2_cb},//f5
         {"", F_KEY_BACK  , KEY_F6 & _KEY_UP, set_acw_par_f6_2_cb},//f6
+    },
+};
+/**
+  * @brief  测试界面下ACW设置参数的菜单按键初始化数组
+  */
+static MENU_KEY_INFO_T test_ui_ir_menu_pool[][6]=
+{
+    {
+        {"", F_KEY_MODE  , KEY_F1 & _KEY_UP, set_ir_par_f1_1_cb},//f1
+        {"", F_KEY_VOL   , KEY_F2 & _KEY_UP, set_ir_par_f2_1_cb},//f2
+        {"", F_KEY_AUTO  , KEY_F3 & _KEY_UP, set_ir_par_f3_1_cb},//f3
+        {"", F_KEY_TIME  , KEY_F4 & _KEY_UP, set_ir_par_f4_1_cb},//f4
+        {"", F_KEY_MORE  , KEY_F5 & _KEY_UP, set_ir_par_f5_1_cb},//f5
+        {"", F_KEY_BACK  , KEY_F6 & _KEY_UP, set_ir_par_f6_1_cb},//f6
+    },
+    {
+        {"", F_KEY_UPPER , KEY_F1 & _KEY_UP, set_ir_par_f1_2_cb},//f1
+        {"", F_KEY_LOWER , KEY_F2 & _KEY_UP, set_ir_par_f2_2_cb},//f2
+        {"", F_KEY_NULL  , KEY_F3 & _KEY_UP, set_ir_par_f3_2_cb},//f3
+        {"", F_KEY_NULL  , KEY_F4 & _KEY_UP, set_ir_par_f4_2_cb},//f4
+        {"", F_KEY_NULL  , KEY_F5 & _KEY_UP, set_ir_par_f5_2_cb},//f5
+        {"", F_KEY_BACK  , KEY_F6 & _KEY_UP, set_ir_par_f6_2_cb},//f6
     },
 };
 
@@ -333,7 +386,7 @@ static EDIT_ELE_T test_win_edit_ele_pool[]=
         {NULL, 0/*数据字节数*/},/* 数据指针 */
         {NULL, 0},/* 资源表 */
         {ELE_EDIT_NUM, E_INT_T},/*类型*/
-        {0/*decs*/,2/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
+        {0/*dec*/,2/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {99/*heigh*/,1/*low*/,{"",""}/*notice*/},/*range*/
         {NULL, NULL, NULL,},/*key_inf*/
     },
@@ -391,7 +444,6 @@ static CUSTOM_MENU_KEY_INF test_win_mode_inf_pool[]=
 static void test_win_select_test_mode_key_cb(KEY_MESSAGE *key_msg)
 {
     int data = key_msg->custom_data;
-    int hWin = key_msg->user_data;
     uint8_t mode = 0;
     
     mode = g_cur_step->one_step.com.mode;
@@ -412,7 +464,6 @@ static void test_win_select_test_mode_key_cb(KEY_MESSAGE *key_msg)
 static void test_win_select_cur_range_key_cb(KEY_MESSAGE *key_msg)
 {
     int data = key_msg->custom_data;
-    int hWin = key_msg->user_data;
     uint8_t mode = 0;
     uint8_t *range;
     uint8_t range_bk;
@@ -481,7 +532,7 @@ static MENU_KEY_INFO_T 	test_win_edit_mode_menu_key_init_info[] =
     {"", F_KEY_BACK		, KEY_F6 & _KEY_UP, test_win_edit_mode_f6_cb },//f6
 };
 /**
-  * @brief  编辑测试模式时使用的菜单键初始化信息数组
+  * @brief  编辑电流档位时使用的菜单键初始化信息数组
   */
 static MENU_KEY_INFO_T 	test_win_edit_range_menu_key_init_info[] =
 {
@@ -491,6 +542,18 @@ static MENU_KEY_INFO_T 	test_win_edit_range_menu_key_init_info[] =
     {"", F_KEY_CUSTOM   , KEY_F4 & _KEY_UP, 0},//f4
     {"", F_KEY_CUSTOM   , KEY_F5 & _KEY_UP, 0},//f5
     {"", F_KEY_BACK		, KEY_F6 & _KEY_UP, test_win_edit_range_f6_cb },//f6
+};
+/**
+  * @brief  编辑IR自动换档时使用的菜单键初始化信息数组
+  */
+static MENU_KEY_INFO_T 	edit_auto_shift_menu_key_init_info[] =
+{
+    {"", F_KEY_ON   , KEY_F1 & _KEY_UP, edit_auto_shift_f1_cb },//f1
+    {"", F_KEY_OFF  , KEY_F2 & _KEY_UP, edit_auto_shift_f2_cb },//f2
+    {"", F_KEY_NULL , KEY_F3 & _KEY_UP, edit_auto_shift_f3_cb },//f3
+    {"", F_KEY_NULL , KEY_F4 & _KEY_UP, edit_auto_shift_f4_cb },//f4
+    {"", F_KEY_NULL , KEY_F5 & _KEY_UP, edit_auto_shift_f5_cb },//f5
+    {"", F_KEY_BACK , KEY_F6 & _KEY_UP, edit_auto_shift_f6_cb },//f6
 };
 
 /**
@@ -560,7 +623,7 @@ static void test_win_edit_mode_menu_key_init(WM_HMEM hWin)
     {
         init_menu_key_custom_inf(cus_inf, cus_size, ele, info, size);
         init_menu_key_info(info, size, hWin);
-        update_range_notice(ele->name[SYS_LANGUAGE]);
+        update_range_name(ele->name[SYS_LANGUAGE]);
         update_ele_range_text(ele);
     }
 }
@@ -584,7 +647,27 @@ static void test_win_edit_range_menu_key_init(WM_HMEM hWin)
     {
         init_menu_key_custom_inf(cus_inf, cus_size, ele, info, size);
         init_menu_key_info(info, size, hWin);
-        update_range_notice(ele->name[SYS_LANGUAGE]);
+        update_range_name(ele->name[SYS_LANGUAGE]);
+        update_ele_range_text(ele);
+    }
+}
+/**
+  * @brief  编辑IR自动换档时使用的菜单键初始化
+  * @param  [in] hWin 窗口句柄
+  * @retval 无
+  */
+static void test_win_edit_auto_shift_menu_key_init(WM_HMEM hWin)
+{
+    MENU_KEY_INFO_T * info = edit_auto_shift_menu_key_init_info;
+    uint32_t size = ARRAY_SIZE(edit_auto_shift_menu_key_init_info);
+    EDIT_ELE_T *ele;
+    
+    ele = get_auto_shift_edit_ele_inf(&g_cur_step->one_step);
+    
+    if(ele != NULL)
+    {
+        init_menu_key_info(info, size, hWin);
+        update_range_name(ele->name[SYS_LANGUAGE]);
         update_ele_range_text(ele);
     }
 }
@@ -622,7 +705,7 @@ static void test_win_edit_vol_menu_key_init(WM_HMEM hWin)
         init_vol_edit_ele_pos_size(g_cur_win);
         init_create_test_win_edit_ele(g_cur_win);
         init_menu_key_info(info, size, hWin);
-        update_range_notice(ele->name[SYS_LANGUAGE]);
+        update_range_name(ele->name[SYS_LANGUAGE]);
     }
 }
 /**
@@ -659,7 +742,7 @@ static void test_win_edit_test_time_menu_key_init(WM_HMEM hWin)
         init_test_time_edit_ele_pos_size(g_cur_win);
         init_create_test_win_edit_ele(g_cur_win);
         init_menu_key_info(info, size, hWin);
-        update_range_notice(ele->name[SYS_LANGUAGE]);
+        update_range_name(ele->name[SYS_LANGUAGE]);
     }
 }
 /**
@@ -696,7 +779,7 @@ static void test_win_edit_cur_upper_menu_key_init(WM_HMEM hWin)
         init_cur_upper_edit_ele_pos_size(g_cur_win);
         init_create_test_win_edit_ele(g_cur_win);
         init_menu_key_info(info, size, hWin);
-        update_range_notice(ele->name[SYS_LANGUAGE]);
+        update_range_name(ele->name[SYS_LANGUAGE]);
     }
 }
 /**
@@ -733,7 +816,7 @@ static void test_win_edit_cur_lower_menu_key_init(WM_HMEM hWin)
         init_cur_lower_edit_ele_pos_size(g_cur_win);
         init_create_test_win_edit_ele(g_cur_win);
         init_menu_key_info(info, size, hWin);
-        update_range_notice(ele->name[SYS_LANGUAGE]);
+        update_range_name(ele->name[SYS_LANGUAGE]);
     }
 }
 static void init_test_win_edit_ele_pos_size(TEXT_ELE_T * text_ele, EDIT_ELE_T *edit_ele)
@@ -753,7 +836,6 @@ static void init_test_win_edit_ele_pos_size(TEXT_ELE_T * text_ele, EDIT_ELE_T *e
 }
 static void init_vol_edit_ele_pos_size(MYUSER_WINDOW_T *win)
 {
-    EDIT_ELE_T *ele = NULL;
     EDIT_ELE_T *edit_ele = NULL;
     CS_ERR err;
     EDIT_ELE_T *edit_pool;
@@ -786,7 +868,6 @@ static void init_vol_edit_ele_pos_size(MYUSER_WINDOW_T *win)
 }
 static void init_test_time_edit_ele_pos_size(MYUSER_WINDOW_T *win)
 {
-    EDIT_ELE_T *ele = NULL;
     EDIT_ELE_T *edit_ele = NULL;
     CS_ERR err;
     EDIT_ELE_T *edit_pool;
@@ -819,7 +900,6 @@ static void init_test_time_edit_ele_pos_size(MYUSER_WINDOW_T *win)
 }
 static void init_cur_upper_edit_ele_pos_size(MYUSER_WINDOW_T *win)
 {
-    EDIT_ELE_T *ele = NULL;
     EDIT_ELE_T *edit_ele = NULL;
     CS_ERR err;
     EDIT_ELE_T *edit_pool;
@@ -852,7 +932,6 @@ static void init_cur_upper_edit_ele_pos_size(MYUSER_WINDOW_T *win)
 }
 static void init_cur_lower_edit_ele_pos_size(MYUSER_WINDOW_T *win)
 {
-    EDIT_ELE_T *ele = NULL;
     EDIT_ELE_T *edit_ele = NULL;
     CS_ERR err;
     EDIT_ELE_T *edit_pool;
@@ -978,6 +1057,27 @@ static void edit_test_win_vol_f6_cb(KEY_MESSAGE *key_msg)
     change_key_menu(key_msg->user_data);
     delete_win_edit_ele(g_cur_win);
 }
+
+static void edit_auto_shift_f1_cb(KEY_MESSAGE *key_msg)
+{
+}
+static void edit_auto_shift_f2_cb(KEY_MESSAGE *key_msg)
+{
+}
+static void edit_auto_shift_f3_cb(KEY_MESSAGE *key_msg)
+{
+}
+static void edit_auto_shift_f4_cb(KEY_MESSAGE *key_msg)
+{
+}
+static void edit_auto_shift_f5_cb(KEY_MESSAGE *key_msg)
+{
+}
+static void edit_auto_shift_f6_cb(KEY_MESSAGE *key_msg)
+{
+    change_key_menu(key_msg->user_data);
+    delete_win_edit_ele(g_cur_win);
+}
 /**
   * @brief  设置测试界面功能键F0回调函数
   * @param  [in] key_msg 按键消息
@@ -1086,7 +1186,56 @@ static void set_acw_par_f6_2_cb(KEY_MESSAGE *key_msg)
     delete_win_edit_ele(g_cur_win);
     clear_range_text_ele(g_cur_win);
 }
-static int8_t cur_at_menu_page_flag;
+
+static void set_ir_par_f1_1_cb(KEY_MESSAGE *key_msg)
+{
+    test_win_edit_mode_menu_key_init(key_msg->user_data);
+}
+static void set_ir_par_f2_1_cb(KEY_MESSAGE *key_msg)
+{
+    test_win_edit_vol_menu_key_init(key_msg->user_data);
+}
+static void set_ir_par_f3_1_cb(KEY_MESSAGE *key_msg)
+{
+    test_win_edit_auto_shift_menu_key_init(key_msg->user_data);
+}
+static void set_ir_par_f4_1_cb(KEY_MESSAGE *key_msg)
+{
+    test_win_edit_test_time_menu_key_init(key_msg->user_data);
+}
+static void set_ir_par_f5_1_cb(KEY_MESSAGE *key_msg)
+{
+    change_key_set_ir_par_menu(key_msg->user_data);
+}
+static void set_ir_par_f6_1_cb(KEY_MESSAGE *key_msg)
+{
+    update_test_win_menu_key_inf(key_msg->user_data);
+    delete_win_edit_ele(g_cur_win);
+    clear_range_text_ele(g_cur_win);
+}
+                
+static void set_ir_par_f1_2_cb(KEY_MESSAGE *key_msg)
+{
+}
+static void set_ir_par_f2_2_cb(KEY_MESSAGE *key_msg)
+{
+}
+static void set_ir_par_f3_2_cb(KEY_MESSAGE *key_msg)
+{
+}
+static void set_ir_par_f4_2_cb(KEY_MESSAGE *key_msg)
+{
+}
+static void set_ir_par_f5_2_cb(KEY_MESSAGE *key_msg)
+{
+}
+static void set_ir_par_f6_2_cb(KEY_MESSAGE *key_msg)
+{
+    select_set_acw_par_menu_1(key_msg->user_data);
+    delete_win_edit_ele(g_cur_win);
+    clear_range_text_ele(g_cur_win);
+}
+
 static void change_key_set_acw_par_menu(int hWin)
 {
     if(cur_at_menu_page_flag == 0)
@@ -1098,6 +1247,28 @@ static void change_key_set_acw_par_menu(int hWin)
         select_set_acw_par_menu_2(hWin);
     }
 }
+static void change_key_set_ir_par_menu(int hWin)
+{
+    if(cur_at_menu_page_flag == 0)
+    {
+        select_set_ir_par_menu_2(hWin);
+    }
+    else
+    {
+        select_set_ir_par_menu_1(hWin);
+    }
+}
+static void update_key_set_ir_par_menu(int hWin)
+{
+    if(cur_at_menu_page_flag == 0)
+    {
+        select_set_ir_par_menu_1(hWin);
+    }
+    else
+    {
+        select_set_ir_par_menu_2(hWin);
+    }
+}
 static void select_set_acw_par_menu_1(int hWin)
 {
     cur_at_menu_page_flag = 0;
@@ -1107,6 +1278,16 @@ static void select_set_acw_par_menu_2(int hWin)
 {
     cur_at_menu_page_flag = 1;
     init_menu_key_info(test_ui_acw_menu_pool[1], ARRAY_SIZE(test_ui_acw_menu_pool[1]), hWin);
+}
+static void select_set_ir_par_menu_1(int hWin)
+{
+    cur_at_menu_page_flag = 0;
+    init_menu_key_info(test_ui_ir_menu_pool[0], ARRAY_SIZE(test_ui_ir_menu_pool[0]), hWin);
+}
+static void select_set_ir_par_menu_2(int hWin)
+{
+    cur_at_menu_page_flag = 1;
+    init_menu_key_info(test_ui_ir_menu_pool[1], ARRAY_SIZE(test_ui_ir_menu_pool[1]), hWin);
 }
 /**
   * @brief  改变菜单按键信息
@@ -1123,6 +1304,10 @@ static void change_key_menu(int hWin)
             change_key_set_acw_par_menu(hWin);
             break;
         case DCW:
+            change_key_set_acw_par_menu(hWin);
+            break;
+        case IR:
+            update_key_set_ir_par_menu(hWin);
             break;
     }
 }
@@ -1197,6 +1382,67 @@ static CS_INDEX roads_vol_index_table[]=
     TEST_UI_ROAD03_VOLTAGE,    
     TEST_UI_ROAD04_VOLTAGE,    
 };
+static void transform_output_to_str(uint8_t *buf)
+{
+    uint8_t mode = 0;
+    uint8_t dec = 0;
+    uint8_t unit = 0;
+    uint8_t lon = 0;
+    uint8_t format = 0;
+//    uint8_t range = 0;
+    
+    mode = g_cur_step->one_step.com.mode;
+    
+    switch(mode)
+    {
+        /* 只有ACW有真实电流 */
+        case ACW:
+        {
+            dec = 3;
+            lon = 5;
+            unit = VOL_U_kV;
+            format = 100 + 10 * lon + dec;
+            
+            mysprintf_2(buf, unit_pool[unit], format, g_cur_step->one_step.acw.output_vol);
+            break;
+        }
+        case DCW:
+        {
+            dec = 3;
+            lon = 5;
+            unit = VOL_U_kV;
+            format = 100 + 10 * lon + dec;
+            
+            mysprintf_2(buf, unit_pool[unit], format, g_cur_step->one_step.dcw.output_vol);
+            break;
+        }
+        case IR:
+        {
+            dec = 3;
+            lon = 5;
+            unit = VOL_U_kV;
+            format = 100 + 10 * lon + dec;
+            
+            mysprintf_2(buf, unit_pool[unit], format, g_cur_step->one_step.ir.output_vol);
+            break;
+        }
+        case GR:
+        {
+            dec = 2;
+            lon = 5;
+            unit = CUR_U_A;
+            format = 100 + 10 * lon + dec;
+            
+            mysprintf_2(buf, unit_pool[unit], format, g_cur_step->one_step.gr.output_cur);
+            break;
+        }
+        default:
+        {
+            buf[0] = 0;
+            break;
+        }
+    }
+}
 static void updata_test_win_test_vol(MYUSER_WINDOW_T* win)
 {
     uint8_t n = 0;
@@ -1207,7 +1453,7 @@ static void updata_test_win_test_vol(MYUSER_WINDOW_T* win)
     index_pool = roads_vol_index_table;
     n = ARRAY_SIZE(roads_vol_index_table);
     
-    mysprintf_2(buf, unit_pool[VOL_U_kV], 153, g_cur_step->one_step.acw.output_vol);
+    transform_output_to_str(buf);
     
     for(i = 0; i < n; i++)
     {
@@ -1221,26 +1467,80 @@ static CS_INDEX roads_upper_index_table[]=
     TEST_UI_ROAD03_UPPER,
     TEST_UI_ROAD04_UPPER,
 };
+static void transform_upper_to_str(uint8_t *buf)
+{
+    uint8_t mode = 0;
+    uint8_t dec = 0;
+    uint8_t unit = 0;
+    uint8_t lon = 0;
+    uint8_t format = 0;
+    uint8_t range = 0;
+    uint32_t value = 0;
+    
+    mode = g_cur_step->one_step.com.mode;
+    
+    switch(mode)
+    {
+        /* 只有ACW有真实电流 */
+        case ACW:
+        {
+            range = g_cur_step->one_step.acw.range;
+            dec = ac_gear[range].dec;
+            lon = ac_gear[range].lon;
+            unit = ac_gear[range].unit;
+            format = 100 + 10 * lon + dec;
+            value = g_cur_step->one_step.acw.upper_limit;
+            break;
+        }
+        case DCW:
+        {
+            range = g_cur_step->one_step.dcw.range;
+            dec = dc_gear[range].dec;
+            lon = dc_gear[range].lon;
+            unit = dc_gear[range].unit;
+            format = 100 + 10 * lon + dec;
+            
+            value = g_cur_step->one_step.dcw.upper_limit;
+            break;
+        }
+        case IR:
+        {
+            cur_range = IR_10MOHM;
+            dec = ir_gear[cur_range].dec;
+            lon = ir_gear[cur_range].lon;
+            unit = ir_gear[cur_range].unit;
+            format = 100 + 10 * lon + dec;
+            
+            value = g_cur_step->one_step.ir.lower_limit * ten_power(dec);
+            break;
+        }
+        case GR:
+        {
+            dec = 1;
+            lon = 5;
+            unit = RES_U_mOHM;
+            format = 100 + 10 * lon + dec;
+            
+            value = g_cur_step->one_step.gr.upper_limit;
+            break;
+        }
+        default:
+        {
+            buf[0] = 0;
+            return;
+        }
+    }
+    
+    mysprintf_2(buf, unit_pool[unit], format, value);
+}
 static void updata_test_win_test_upper(MYUSER_WINDOW_T* win)
 {
     uint8_t n = 0;
     int32_t i = 0;
     uint8_t buf[10];
     CS_INDEX *index_pool = NULL;
-    uint8_t decs = 0;
-    uint8_t unit = 0;
-    uint8_t lon = 0;
-    uint8_t format = 0;
-    uint8_t range = 0;
     
-    range = g_cur_step->one_step.acw.range;
-    decs = ac_gear[range].decs;
-    lon = ac_gear[range].lon;
-    unit = ac_gear[range].unit;
-    format = 100 + 10 * lon + decs;
-    
-    mysprintf_2(buf, unit_pool[unit], format, g_cur_step->one_step.acw.upper_limit);
-    
+    transform_upper_to_str(buf);
     index_pool = roads_upper_index_table;
     n = ARRAY_SIZE(roads_upper_index_table);
     
@@ -1256,26 +1556,54 @@ static CS_INDEX roads_real_index_table[]=
     TEST_UI_ROAD03_REAL,
     TEST_UI_ROAD04_REAL,
 };
+
+void transform_real_cur_to_str(uint8_t *buf)
+{
+    uint8_t mode = 0;
+    uint8_t dec = 0;
+    uint8_t unit = 0;
+    uint8_t lon = 0;
+    uint8_t format = 0;
+    uint8_t range = 0;
+    
+    mode = g_cur_step->one_step.com.mode;
+    
+    switch(mode)
+    {
+        /* 只有ACW有真实电流 */
+        case ACW:
+        {
+            range = g_cur_step->one_step.acw.range;
+            dec = ac_gear[range].dec;
+            lon = ac_gear[range].lon;
+            unit = ac_gear[range].unit;
+            format = 100 + 10 * lon + dec;
+            
+            if(g_cur_step->one_step.acw.real_cur == 0)
+            {
+                buf[0] = 0;
+            }
+            else
+            {
+                mysprintf_2(buf, unit_pool[unit], format, g_cur_step->one_step.acw.real_cur);
+            }
+            break;
+        }
+        default:
+        {
+            buf[0] = 0;
+            break;
+        }
+    }
+}
 static void updata_test_win_test_real(MYUSER_WINDOW_T* win)
 {
     uint8_t n = 0;
     int32_t i = 0;
     uint8_t buf[10];
     CS_INDEX *index_pool = NULL;
-    uint8_t decs = 0;
-    uint8_t unit = 0;
-    uint8_t lon = 0;
-    uint8_t format = 0;
-    uint8_t range = 0;
     
-    range = g_cur_step->one_step.acw.range;
-    decs = ac_gear[range].decs;
-    lon = ac_gear[range].lon;
-    unit = ac_gear[range].unit;
-    format = 100 + 10 * lon + decs;
-    
-    mysprintf_2(buf, unit_pool[unit], format, g_cur_step->one_step.acw.real_cur);
-    
+    transform_real_cur_to_str(buf);
     index_pool = roads_real_index_table;
     n = ARRAY_SIZE(roads_real_index_table);
     
@@ -1291,6 +1619,54 @@ static CS_INDEX roads_time_index_table[]=
     TEST_UI_ROAD03_TIME,
     TEST_UI_ROAD04_TIME,
 };
+static void transform_test_time_to_str(uint8_t *buf)
+{
+    uint8_t mode = 0;
+    uint8_t dec = 0;
+    uint8_t unit = 0;
+    uint8_t lon = 0;
+    uint8_t format = 0;
+    uint16_t time = 0;
+    
+    mode = g_cur_step->one_step.com.mode;
+    
+    dec = 1;
+    lon = 5;
+    unit = TIM_U_s;
+    format = 100 + 10 * lon + dec;
+    
+    switch(mode)
+    {
+        /* 只有ACW有真实电流 */
+        case ACW:
+        {
+            time = g_cur_step->one_step.acw.test_time;
+            break;
+        }
+        case DCW:
+        {
+            time = g_cur_step->one_step.dcw.test_time;
+            break;
+        }
+        case IR:
+        {
+            time = g_cur_step->one_step.ir.test_time;
+            break;
+        }
+        case GR:
+        {
+            time = g_cur_step->one_step.gr.test_time;
+            break;
+        }
+        default:
+        {
+            buf[0] = 0;
+            return;
+        }
+    }
+    
+    mysprintf_2(buf, unit_pool[unit], format, time);
+}
 static void updata_test_win_test_time(MYUSER_WINDOW_T* win)
 {
     uint8_t n = 0;
@@ -1300,8 +1676,7 @@ static void updata_test_win_test_time(MYUSER_WINDOW_T* win)
     
     index_pool = roads_time_index_table;
     n = ARRAY_SIZE(roads_time_index_table);
-    
-    mysprintf_2(buf, unit_pool[TIM_U_s], 151, g_cur_step->one_step.acw.test_time);
+    transform_test_time_to_str(buf);
     
     for(i = 0; i < n; i++)
     {
@@ -1315,7 +1690,6 @@ static CS_INDEX roads_status_index_table[]=
     TEST_UI_ROAD03_STATUS,
     TEST_UI_ROAD04_STATUS,
 };
-uint8_t cur_status;
 static void updata_test_win_test_status(MYUSER_WINDOW_T* win)
 {
     uint8_t n = 0;
@@ -1396,8 +1770,6 @@ static void clear_range_text_ele(MYUSER_WINDOW_T* win)
     uint8_t *buf[2]={"",""};
     set_com_text_ele_inf(COM_RANGE_NAME, win, buf);
     set_com_text_ele_inf(COM_RANGE_NOTICE, win, buf);
-    update_com_text_ele(COM_RANGE_NAME, win, 0);
-    update_com_text_ele(COM_RANGE_NOTICE, win, 0);
 }
 /**
   * @brief  初始化并创建窗口中的公共文本对象

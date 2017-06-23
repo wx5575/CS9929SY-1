@@ -646,7 +646,7 @@ void I2C_ITConfig(I2C_TypeDef* I2Cx, uint16_t I2C_IT, FunctionalState NewState);
           - Limitations
              - User may need to define his own events.
              - Same remark concerning the error management is applicable for this 
-               function if user decides to check only regular communication flags 
+               function if user decdes to check only regular communication flags 
                (and ignores error flags).
       
  

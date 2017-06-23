@@ -232,7 +232,7 @@ CPU_INT32U     const  OSCfg_DataSizeRAM          = sizeof(OSCfg_IdleTaskStk)
 *
 * Note(s)    : (1) This code doesn't do anything, it simply prevents the compiler from optimizing out the 'const'
 *                  variables which are declared in this file.
-*              (2) You may decide to 'compile out' the code (by using #if 0/#endif) INSIDE the function if your compiler
+*              (2) You may decde to 'compile out' the code (by using #if 0/#endif) INSIDE the function if your compiler
 *                  DOES NOT optimize out the 'const' variables above.
 ************************************************************************************************************************
 */

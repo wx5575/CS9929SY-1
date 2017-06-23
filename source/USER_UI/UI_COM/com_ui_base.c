@@ -9,7 +9,8 @@
   */
 #include "com_ui_base.h"
 
-
+//去除870# warning 中文遇到这个问题？因为ruby是采用US-ASCII，所以才会出现这种问题
+#pragma  diag_suppress 870 
 
 /**
   * @brief  单位信息池

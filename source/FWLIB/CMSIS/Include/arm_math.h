@@ -3311,66 +3311,66 @@ void arm_rfft_fast_f32(
 
 
   /**
-   * @brief Instance structure for the Q15 FIR decimator.
+   * @brief Instance structure for the Q15 FIR decmator.
    */
 
   typedef struct
   {
-    uint8_t M;                      /**< decimation factor. */
+    uint8_t M;                      /**< decmation factor. */
     uint16_t numTaps;               /**< number of coefficients in the filter. */
     q15_t *pCoeffs;                  /**< points to the coefficient array. The array is of length numTaps.*/
     q15_t *pState;                   /**< points to the state variable array. The array is of length numTaps+blockSize-1. */
-  } arm_fir_decimate_instance_q15;
+  } arm_fir_decmate_instance_q15;
 
   /**
-   * @brief Instance structure for the Q31 FIR decimator.
+   * @brief Instance structure for the Q31 FIR decmator.
    */
 
   typedef struct
   {
-    uint8_t M;                  /**< decimation factor. */
+    uint8_t M;                  /**< decmation factor. */
     uint16_t numTaps;           /**< number of coefficients in the filter. */
     q31_t *pCoeffs;              /**< points to the coefficient array. The array is of length numTaps.*/
     q31_t *pState;               /**< points to the state variable array. The array is of length numTaps+blockSize-1. */
 
-  } arm_fir_decimate_instance_q31;
+  } arm_fir_decmate_instance_q31;
 
   /**
-   * @brief Instance structure for the floating-point FIR decimator.
+   * @brief Instance structure for the floating-point FIR decmator.
    */
 
   typedef struct
   {
-    uint8_t M;                          /**< decimation factor. */
+    uint8_t M;                          /**< decmation factor. */
     uint16_t numTaps;                   /**< number of coefficients in the filter. */
     float32_t *pCoeffs;                  /**< points to the coefficient array. The array is of length numTaps.*/
     float32_t *pState;                   /**< points to the state variable array. The array is of length numTaps+blockSize-1. */
 
-  } arm_fir_decimate_instance_f32;
+  } arm_fir_decmate_instance_f32;
 
 
 
   /**
-   * @brief Processing function for the floating-point FIR decimator.
-   * @param[in] *S points to an instance of the floating-point FIR decimator structure.
+   * @brief Processing function for the floating-point FIR decmator.
+   * @param[in] *S points to an instance of the floating-point FIR decmator structure.
    * @param[in] *pSrc points to the block of input data.
    * @param[out] *pDst points to the block of output data
    * @param[in] blockSize number of input samples to process per call.
    * @return none
    */
 
-  void arm_fir_decimate_f32(
-  const arm_fir_decimate_instance_f32 * S,
+  void arm_fir_decmate_f32(
+  const arm_fir_decmate_instance_f32 * S,
   float32_t * pSrc,
   float32_t * pDst,
   uint32_t blockSize);
 
 
   /**
-   * @brief  Initialization function for the floating-point FIR decimator.
-   * @param[in,out] *S points to an instance of the floating-point FIR decimator structure.
+   * @brief  Initialization function for the floating-point FIR decmator.
+   * @param[in,out] *S points to an instance of the floating-point FIR decmator structure.
    * @param[in] numTaps  number of coefficients in the filter.
-   * @param[in] M  decimation factor.
+   * @param[in] M  decmation factor.
    * @param[in] *pCoeffs points to the filter coefficients.
    * @param[in] *pState points to the state buffer.
    * @param[in] blockSize number of input samples to process per call.
@@ -3378,8 +3378,8 @@ void arm_rfft_fast_f32(
    * <code>blockSize</code> is not a multiple of <code>M</code>.
    */
 
-  arm_status arm_fir_decimate_init_f32(
-  arm_fir_decimate_instance_f32 * S,
+  arm_status arm_fir_decmate_init_f32(
+  arm_fir_decmate_instance_f32 * S,
   uint16_t numTaps,
   uint8_t M,
   float32_t * pCoeffs,
@@ -3387,31 +3387,31 @@ void arm_rfft_fast_f32(
   uint32_t blockSize);
 
   /**
-   * @brief Processing function for the Q15 FIR decimator.
-   * @param[in] *S points to an instance of the Q15 FIR decimator structure.
+   * @brief Processing function for the Q15 FIR decmator.
+   * @param[in] *S points to an instance of the Q15 FIR decmator structure.
    * @param[in] *pSrc points to the block of input data.
    * @param[out] *pDst points to the block of output data
    * @param[in] blockSize number of input samples to process per call.
    * @return none
    */
 
-  void arm_fir_decimate_q15(
-  const arm_fir_decimate_instance_q15 * S,
+  void arm_fir_decmate_q15(
+  const arm_fir_decmate_instance_q15 * S,
   q15_t * pSrc,
   q15_t * pDst,
   uint32_t blockSize);
 
   /**
-   * @brief Processing function for the Q15 FIR decimator (fast variant) for Cortex-M3 and Cortex-M4.
-   * @param[in] *S points to an instance of the Q15 FIR decimator structure.
+   * @brief Processing function for the Q15 FIR decmator (fast variant) for Cortex-M3 and Cortex-M4.
+   * @param[in] *S points to an instance of the Q15 FIR decmator structure.
    * @param[in] *pSrc points to the block of input data.
    * @param[out] *pDst points to the block of output data
    * @param[in] blockSize number of input samples to process per call.
    * @return none
    */
 
-  void arm_fir_decimate_fast_q15(
-  const arm_fir_decimate_instance_q15 * S,
+  void arm_fir_decmate_fast_q15(
+  const arm_fir_decmate_instance_q15 * S,
   q15_t * pSrc,
   q15_t * pDst,
   uint32_t blockSize);
@@ -3419,10 +3419,10 @@ void arm_rfft_fast_f32(
 
 
   /**
-   * @brief  Initialization function for the Q15 FIR decimator.
-   * @param[in,out] *S points to an instance of the Q15 FIR decimator structure.
+   * @brief  Initialization function for the Q15 FIR decmator.
+   * @param[in,out] *S points to an instance of the Q15 FIR decmator structure.
    * @param[in] numTaps  number of coefficients in the filter.
-   * @param[in] M  decimation factor.
+   * @param[in] M  decmation factor.
    * @param[in] *pCoeffs points to the filter coefficients.
    * @param[in] *pState points to the state buffer.
    * @param[in] blockSize number of input samples to process per call.
@@ -3430,8 +3430,8 @@ void arm_rfft_fast_f32(
    * <code>blockSize</code> is not a multiple of <code>M</code>.
    */
 
-  arm_status arm_fir_decimate_init_q15(
-  arm_fir_decimate_instance_q15 * S,
+  arm_status arm_fir_decmate_init_q15(
+  arm_fir_decmate_instance_q15 * S,
   uint16_t numTaps,
   uint8_t M,
   q15_t * pCoeffs,
@@ -3439,41 +3439,41 @@ void arm_rfft_fast_f32(
   uint32_t blockSize);
 
   /**
-   * @brief Processing function for the Q31 FIR decimator.
-   * @param[in] *S points to an instance of the Q31 FIR decimator structure.
+   * @brief Processing function for the Q31 FIR decmator.
+   * @param[in] *S points to an instance of the Q31 FIR decmator structure.
    * @param[in] *pSrc points to the block of input data.
    * @param[out] *pDst points to the block of output data
    * @param[in] blockSize number of input samples to process per call.
    * @return none
    */
 
-  void arm_fir_decimate_q31(
-  const arm_fir_decimate_instance_q31 * S,
+  void arm_fir_decmate_q31(
+  const arm_fir_decmate_instance_q31 * S,
   q31_t * pSrc,
   q31_t * pDst,
   uint32_t blockSize);
 
   /**
-   * @brief Processing function for the Q31 FIR decimator (fast variant) for Cortex-M3 and Cortex-M4.
-   * @param[in] *S points to an instance of the Q31 FIR decimator structure.
+   * @brief Processing function for the Q31 FIR decmator (fast variant) for Cortex-M3 and Cortex-M4.
+   * @param[in] *S points to an instance of the Q31 FIR decmator structure.
    * @param[in] *pSrc points to the block of input data.
    * @param[out] *pDst points to the block of output data
    * @param[in] blockSize number of input samples to process per call.
    * @return none
    */
 
-  void arm_fir_decimate_fast_q31(
-  arm_fir_decimate_instance_q31 * S,
+  void arm_fir_decmate_fast_q31(
+  arm_fir_decmate_instance_q31 * S,
   q31_t * pSrc,
   q31_t * pDst,
   uint32_t blockSize);
 
 
   /**
-   * @brief  Initialization function for the Q31 FIR decimator.
-   * @param[in,out] *S points to an instance of the Q31 FIR decimator structure.
+   * @brief  Initialization function for the Q31 FIR decmator.
+   * @param[in,out] *S points to an instance of the Q31 FIR decmator structure.
    * @param[in] numTaps  number of coefficients in the filter.
-   * @param[in] M  decimation factor.
+   * @param[in] M  decmation factor.
    * @param[in] *pCoeffs points to the filter coefficients.
    * @param[in] *pState points to the state buffer.
    * @param[in] blockSize number of input samples to process per call.
@@ -3481,8 +3481,8 @@ void arm_rfft_fast_f32(
    * <code>blockSize</code> is not a multiple of <code>M</code>.
    */
 
-  arm_status arm_fir_decimate_init_q31(
-  arm_fir_decimate_instance_q31 * S,
+  arm_status arm_fir_decmate_init_q31(
+  arm_fir_decmate_instance_q31 * S,
   uint16_t numTaps,
   uint8_t M,
   q31_t * pCoeffs,

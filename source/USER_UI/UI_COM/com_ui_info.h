@@ -292,7 +292,7 @@ struct EDIT_ELE_T_{
     
     /* 格式 */
     struct{
-        uint8_t decs;///< 小数点位数
+        uint8_t dec;///< 小数点位数
         uint8_t lon;///< 数据显示长度,如果是浮点数包含小数点，必须小于10
         UNIT_T unit;///< 单位
     }format;
@@ -450,8 +450,8 @@ extern void delete_win_all_ele(MYUSER_WINDOW_T* win);
 extern void delete_win_com_ele(MYUSER_WINDOW_T* win);
 extern void delete_win_edit_ele(MYUSER_WINDOW_T* win);
 extern void init_create_win_com_ele(MYUSER_WINDOW_T* win);
-extern void update_range_notice(uint8_t *str);
-extern void update_default_range_notice(void);
+extern void update_range_name(uint8_t *str);
+extern void update_default_range_name(void);
 
 #endif //__COM_UI_INFO_H__
 

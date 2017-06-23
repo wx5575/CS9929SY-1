@@ -115,7 +115,7 @@ static EDIT_ELE_T env_par_ele_pool[]={
         {NULL, 1/*数据字节数*/},/* 数据指针 */
         {language_pool, ARRAY_SIZE(language_pool)},/* 资源表 */
         {ELE_DROPDOWN, E_INT_T},/*类型*/
-        {0/*decs*/,20/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
+        {0/*dec*/,20/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {0/*heigh*/,0/*low*/,{"Language","Language"}/*notice*/},/*range*/
         {reg_env_language_sys_key,env_win_edit_language_menu_key_init,keyboard_fun_num,},/*key_inf*/
     },
@@ -126,7 +126,7 @@ static EDIT_ELE_T env_par_ele_pool[]={
 //         {NULL, 2/*数据字节数*/},/* 数据指针 */
 //         {work_mode_pool, ARRAY_SIZE(work_mode_pool)},/* 资源表 */
 //         {ELE_EDIT_NUM, E_INT_T},/*类型*/
-//         {1/*decs*/,5/*lon*/,TIM_U_s/*unit*/,},/*format*/
+//         {1/*dec*/,5/*lon*/,TIM_U_s/*unit*/,},/*format*/
 //         {9999/*heigh*/,0/*low*/,{"BeepTime","BeepTime"}/*notice*/},/*range*/
 //         {fbeeptime_sys_key,fbeeptime_menu_key,keyboard_fun_num,},/*key_inf*/
 //         &save_file_ele_pos_pool[FSAVE_UI_BEEPT],/*dis*/
@@ -138,7 +138,7 @@ static EDIT_ELE_T env_par_ele_pool[]={
 //         {NULL, 2/*数据字节数*/},/* 数据指针 */
 //         {work_mode_pool, ARRAY_SIZE(work_mode_pool)},/* 资源表 */
 //         {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
-//         {1/*decs*/,5/*lon*/,TIM_U_s/*unit*/,},/*format*/
+//         {1/*dec*/,5/*lon*/,TIM_U_s/*unit*/,},/*format*/
 //         {9999/*heigh*/,0/*low*/,{"PassTime","PassTime"}/*notice*/},/*range*/
 //         {fpasstime_sys_key,fpasstime_menu_key,keyboard_fun_num,},/*key_inf*/
 //         &save_file_ele_pos_pool[FSAVE_UI_PASST],/*dis*/

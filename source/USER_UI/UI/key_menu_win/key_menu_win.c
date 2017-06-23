@@ -130,6 +130,7 @@ static const STAND_MENU_KEY_INFO_T all_menu_key_info_[]=
 	{{"关闭", "OFF"     }, F_KEY_OFF        },
 	{{"等级", "Grade"   }, F_KEY_GRADE      },
 	{{"设置", "Setting" }, F_KEY_SETTING    },
+	{{"自动", "Auto"    }, F_KEY_AUTO       },
 };
 
 /**

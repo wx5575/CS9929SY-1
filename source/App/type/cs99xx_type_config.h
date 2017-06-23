@@ -61,7 +61,7 @@ void config_all_init(void)
 	type_spe.ir_short_int_en = 0;/* IR短路中断使能 当电压高于1k 后就需要打开ir短路中断 */
 	
 	type_spe.gr_cur_unit = CUR_U_A;
-	type_spe.gr_cur_decs = 2;
+	type_spe.gr_cur_dec = 2;
 	type_spe.gr_cur_h = 3200;   /* 32A */
 	type_spe.gr_cur_l = 300;    /* 3A */
     type_spe.gr_res_h = 5100;   /* 电阻上限510.0mohm */
@@ -2535,7 +2535,7 @@ void config_CS9933EG(void)
 	type_spe.ir_res_h = 50*1000;	/* 50G */
     type_spe.ir_short_int_en = 0;/* IR短路中断使能 */
     
-    type_spe.gr_cur_decs = 2;
+    type_spe.gr_cur_dec = 2;
     type_spe.gr_cur_h = 4000;	/* 40A */
     type_spe.gr_cur_l = 300;	/* 3A */
     type_spe.gr_res_h = 5100;	/* 电阻上限510.0mohm */
@@ -2564,7 +2564,7 @@ void config_CS9933ET(void)
 	type_spe.ir_res_h = 50*1000;	/* 50G */
     type_spe.ir_short_int_en = 0;/* IR短路中断使能 */
     
-    type_spe.gr_cur_decs = 2;
+    type_spe.gr_cur_dec = 2;
     type_spe.gr_cur_h = 4000;	/* 40A */
     type_spe.gr_cur_l = 300;	/* 3A */
     type_spe.gr_res_h = 5100;	/* 电阻上限510.0mohm */
@@ -2598,7 +2598,7 @@ void config_CS9933ET_1(void)
     type_spe.ir_res_h = 50*1000;	/* 50G */
     type_spe.ir_short_int_en = 0;/* IR短路中断使能 */
     
-    type_spe.gr_cur_decs = 2;
+    type_spe.gr_cur_dec = 2;
     type_spe.gr_cur_h = 4000;	/* 40A */
     type_spe.gr_cur_l = 300;	/* 3A */
     type_spe.gr_res_h = 5100;	/* 电阻上限510.0mohm */
@@ -2629,7 +2629,7 @@ void config_CS9933ET_2(void)
     type_spe.ir_res_l = 5;	/* 5M */
     type_spe.ir_short_int_en = 0;/* IR短路中断使能 */
     
-    type_spe.gr_cur_decs = 2;
+    type_spe.gr_cur_dec = 2;
     type_spe.gr_cur_h = 4000;	/* 40A */
     type_spe.gr_cur_l = 300;	/* 3A */
     type_spe.gr_res_h = 5100;	/* 电阻上限510.0mohm */
@@ -2660,7 +2660,7 @@ void config_CS9933ET_3(void)
     type_spe.ir_res_l = 5;	/* 5M */
     type_spe.ir_short_int_en = 0;/* IR短路中断使能 */
     
-    type_spe.gr_cur_decs = 2;
+    type_spe.gr_cur_dec = 2;
     type_spe.gr_cur_h = 4000;	/* 40A */
     type_spe.gr_cur_l = 300;	/* 3A */
     type_spe.gr_res_h = 5100;	/* 电阻上限510.0mohm */
@@ -2903,14 +2903,14 @@ void config_CS9906B_K(void)
     
     /* GR 电流单位 mA 1位小数 */
     type_spe.gr_cur_unit = CUR_U_mA;
-    type_spe.gr_cur_decs = POINT_1/*POINT_0  */;
+    type_spe.gr_cur_dec = POINT_1/*POINT_0  */;
     
     /* GR 电阻单位 OHM 小数位不确定 */
     type_spe.gr_res_unit = RES_U_OHM/* GR_RES_U_MOHM */;
     
     /* GR 电压点位 V 2位小数 */
     type_spe.gr_vol_unit = VOL_U_V/* GR_VOL_U_MV */;
-    type_spe.gr_vol_decs = POINT_2;
+    type_spe.gr_vol_dec = POINT_2;
     
 // 			type_spe.gr_hz = _AC_50HZ | _AC_60HZ /*| _AC_100HZ | _AC_150HZ | _AC_200HZ| _AC_250HZ |_AC_300HZ |  _AC_350HZ | _AC_400HZ */;
     type_spe.gr_dc_en = 1;/* GR为直流模式 */
@@ -2950,7 +2950,7 @@ void config_CS9906A(void)
     
     /* GR 电流单位 mA 1位小数 */
     type_spe.gr_cur_unit = CUR_U_mA;
-    type_spe.gr_cur_decs = POINT_1/* POINT_0  */;
+    type_spe.gr_cur_dec = POINT_1/* POINT_0  */;
     
     type_spe.gr_dis_opt = GR_DIS_VOL /*| GR_DIS_RES*/;
     
@@ -2959,7 +2959,7 @@ void config_CS9906A(void)
     
     /* GR 电压点位 V 2位小数 */
     type_spe.gr_vol_unit = VOL_U_V/* GR_VOL_U_MV */;
-    type_spe.gr_vol_decs = POINT_2;
+    type_spe.gr_vol_dec = POINT_2;
     
 // 			type_spe.gr_hz = _AC_50HZ | _AC_60HZ /*| _AC_100HZ | _AC_150HZ | _AC_200HZ| _AC_250HZ |_AC_300HZ |  _AC_350HZ | _AC_400HZ */;
     type_spe.gr_dc_en = 1;/* GR为直流模式 */

@@ -707,6 +707,11 @@ static void _show_text_ele(TEXT_ELE_T*node, const uint8_t*str)
         pText = (const char *)node->text[SYS_LANGUAGE];
     }
     
+    if(node == NULL)
+    {
+        return;
+    }
+    
     if(handle == 0)
     {
         return;
@@ -1222,10 +1227,14 @@ CS_INDEX group_com_ele_table[COM_GRUOP_ELE_NUM]=
 /**
   * @brief  公共文本对象池
   */
+#define COM_RANGE_NAME_MAX_LON      20
+#define COM_RANGE_NOTICE_MAX_LON    100
+static uint8_t range_name_buf[2][COM_RANGE_NAME_MAX_LON + 1]    = {"范 围:","Range:"};
+static uint8_t range_notice_buf[2][COM_RANGE_NOTICE_MAX_LON + 1]= {"提示"  ,"Notice"};
 TEXT_ELE_T com_text_ele_pool[COM_ELE_NUM]=
 {
-	{{"范 围:","Range:"}, COM_RANGE_NAME   },
-	{{"提示"  ,"Notice"}, COM_RANGE_NOTICE },
+	{{range_name_buf[0]   , range_name_buf[1] }, COM_RANGE_NAME   },
+	{{range_notice_buf[0] ,range_notice_buf[1]}, COM_RANGE_NOTICE },
     
 	{{"文件名:", "FileName:" }, COM_UI_FILE_NAME    },
 	{{"DEFAULT", "DEFAULT"   }, COM_UI_CUR_FILE_NAME},
@@ -1261,8 +1270,7 @@ void set_com_text_ele_inf(CS_INDEX index, MYUSER_WINDOW_T* win, uint8_t *str[])
 {
 	TEXT_ELE_T *node = NULL;
     CS_ERR err;
-    static uint8_t buf[2][100];//这里使用了内部静态变量，是因为有外部指针指向了它
-	
+    
 	node = get_text_ele_node(index, &win->com.list_head, &err);//获取文本对象指针
 	
 	if(node == NULL || err != CS_ERR_NONE)
@@ -1271,11 +1279,31 @@ void set_com_text_ele_inf(CS_INDEX index, MYUSER_WINDOW_T* win, uint8_t *str[])
 	}
     
     /* 使用安全的字符串拷贝 */
-    strncpy((char*)buf[CHINESE], (void*)str[CHINESE], sizeof(buf[CHINESE]) - 1);
-    strncpy((char*)buf[ENGLISH], (void*)str[ENGLISH], sizeof(buf[ENGLISH]) - 1);
+    strncpy((char*)node->text[CHINESE], (const char*)str[CHINESE], node->dis_info.max_len);
+    strncpy((char*)node->text[ENGLISH], (const char*)str[ENGLISH], node->dis_info.max_len);
     
-    node->text[CHINESE] = buf[CHINESE];
-    node->text[ENGLISH] = buf[ENGLISH];
+    update_com_text_ele(index, g_cur_win, node->text[SYS_LANGUAGE]);
+}
+
+/**
+  * @brief  更新范围名称公共文本显示
+  * @param  [in] str 文本内容
+  * @retval 无
+  */
+void update_range_name(uint8_t *str)
+{
+    update_com_text_ele(COM_RANGE_NAME, g_cur_win, str);
+}
+/**
+  * @brief  更新默认的范围名称公共文本显示
+  * @param  无
+  * @retval 无
+  */
+void update_default_range_name(void)
+{
+    uint8_t *buf[2]={"范 围:","Range:"};
+    
+    update_range_name(buf[SYS_LANGUAGE]);
 }
 /**
   * @brief  设置记忆组文本对象的显示文本内容
@@ -1349,7 +1377,7 @@ void init_com_text_ele_dis_inf(MYUSER_WINDOW_T* win)
     dis_info.pos_size.y = win->pos_size.height - 45;
     dis_info.pos_size.width = 70;
     dis_info.pos_size.height = 45;
-    dis_info.max_len = 100;
+    dis_info.max_len = COM_RANGE_NAME_MAX_LON;
     dis_info.font[CHINESE] = &GUI_Fonthz_20;
     dis_info.font_color = GUI_BLACK;
     dis_info.back_color = GUI_INVALID_COLOR;
@@ -1358,24 +1386,10 @@ void init_com_text_ele_dis_inf(MYUSER_WINDOW_T* win)
     set_com_text_ele_dis_inf(&dis_info, COM_RANGE_NAME);//范围
     dis_info.pos_size.x += dis_info.pos_size.width;
     dis_info.pos_size.width = win->pos_size.width - 15 -  dis_info.pos_size.width;
+    dis_info.max_len = COM_RANGE_NOTICE_MAX_LON;
     set_com_text_ele_dis_inf(&dis_info, COM_RANGE_NOTICE);//提示信息
 }
 
-/**
-  * @brief  更新范围名称公共文本显示
-  * @param  [in] str 文本中英文
-  * @retval 无
-  */
-void update_range_notice(uint8_t *str)
-{
-    update_com_text_ele(COM_RANGE_NAME, g_cur_win, str);
-}
-void update_default_range_notice(void)
-{
-    uint8_t *buf[2]={"范 围:","Range:"};
-    
-    update_range_notice(buf[SYS_LANGUAGE]);
-}
 /**
   * @brief  初始化记忆组公共文本对象的显示信息(坐标，尺寸
   * @param  [in] win 窗口指针
@@ -1577,6 +1591,5 @@ void init_create_win_com_ele(MYUSER_WINDOW_T* win)
     init_group_com_text_ele_dis_inf(win);//初始化记忆组对象的显示信息
     update_group_inf(win);
     init_window_com_text_ele(win);//初始化创建窗口中的公共文本对象
-    update_default_range_notice();
 }
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/
