@@ -10,6 +10,7 @@
 /* Includes ------------------------------------------------------------------*/
 
 #include "stm32f4xx.h"
+#include "string.h"
 #include "GUI.H"
 #include "WM.h"
 #include "IMAGE.H"
@@ -42,6 +43,7 @@
 static void main_win_cb(WM_MESSAGE * pMsg);
 static void update_main_ui_menu_key_inf(WM_HMEM hWin);
 
+static void sys_exit_key_fun_cb(KEY_MESSAGE *key_msg);
 static void sys_shift_key_fun_cb(KEY_MESSAGE *key_msg);
 static void sys_unlock_key_fun_cb(KEY_MESSAGE *key_msg);
 static void screen_capture_key_fun_cb(KEY_MESSAGE *key_msg);
@@ -52,6 +54,8 @@ static void main_win_f3_cb(KEY_MESSAGE *key_msg);
 static void main_win_f4_cb(KEY_MESSAGE *key_msg);
 static void main_win_f5_cb(KEY_MESSAGE *key_msg);
 static void main_win_f6_cb(KEY_MESSAGE *key_msg);
+
+static void update_key_inf(WM_HWIN hWin);
 /* Private variables ---------------------------------------------------------*/
 
 static	WM_HWIN progbar_handle;///<进度条
@@ -74,6 +78,7 @@ static FUNCTION_KEY_INFO_T sys_key_pool[]=
 {
 	{KEY_SHIFT	        , sys_shift_key_fun_cb     },
 	{KEY_UNLOCK	        , sys_unlock_key_fun_cb    },
+	{KEY_EXIT	        , sys_exit_key_fun_cb    },
 	{KEY_F1 & KEY_0     , screen_capture_key_fun_cb},
 };
 /**
@@ -107,9 +112,10 @@ static TEXT_ELE_T main_ui_text_ele_pool[]=
 /**
   * @brief  主窗口结构体初始化
   */
+#define MAIN_WIN_NAME   "主窗口"
 MYUSER_WINDOW_T main_windows=
 {
-    {"main_window"},
+    {MAIN_WIN_NAME, "main_window"},
     main_win_cb, update_main_ui_menu_key_inf,
 	{
         main_ui_text_ele_pool, ARRAY_SIZE(main_ui_text_ele_pool),
@@ -269,6 +275,31 @@ static void update_shift_bmp(void)
     }
 }
 
+/**
+  * @brief  系统SHIFT按键回调函数
+  * @param  [in] data 用户数据
+  * @retval 无
+  */
+static void sys_exit_key_fun_cb(KEY_MESSAGE *key_msg)
+{
+	MYUSER_WINDOW_T *node;
+	CS_LIST *index = NULL;
+//	CS_LIST *t_list = &win->com.list_head;//文本链表
+	CS_LIST *list = &windows_list;
+	MYUSER_WINDOW_T* win_info;
+    
+	list_for_each(index, list)
+	{
+		node = list_entry(index, MYUSER_WINDOW_T, w_list);
+        
+        if(0 != strcmp((const char*)MAIN_WIN_NAME, node->win_name[0]))
+        {
+            del_cur_window();
+        }
+	}
+    
+    update_key_inf(key_msg->user_data);
+}
 /**
   * @brief  系统SHIFT按键回调函数
   * @param  [in] data 用户数据

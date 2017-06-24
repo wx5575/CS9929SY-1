@@ -23,6 +23,8 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
+#define CUR_VALUE_AT_KEY_COLOR      GUI_RED
+#define NO_CUR_VALUE_AT_KEY_COLOR   GUI_WHITE
 /* Private macro -------------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 
@@ -32,6 +34,8 @@ static void select_set_acw_par_menu_1(int hWin);
 static void select_set_acw_par_menu_2(int hWin);
 static void select_set_ir_par_menu_1(int hWin);
 static void select_set_ir_par_menu_2(int hWin);
+static void select_set_gr_par_menu_1(int hWin);
+static void select_set_gr_par_menu_2(int hWin);
 
 static void change_key_menu(int id);
 static void test_win_f0_cb(KEY_MESSAGE *key_msg);
@@ -69,6 +73,20 @@ static void set_ir_par_f3_2_cb(KEY_MESSAGE *key_msg);
 static void set_ir_par_f4_2_cb(KEY_MESSAGE *key_msg);
 static void set_ir_par_f5_2_cb(KEY_MESSAGE *key_msg);
 static void set_ir_par_f6_2_cb(KEY_MESSAGE *key_msg);
+
+static void set_gr_par_f1_1_cb(KEY_MESSAGE *key_msg);
+static void set_gr_par_f2_1_cb(KEY_MESSAGE *key_msg);
+static void set_gr_par_f3_1_cb(KEY_MESSAGE *key_msg);
+static void set_gr_par_f4_1_cb(KEY_MESSAGE *key_msg);
+static void set_gr_par_f5_1_cb(KEY_MESSAGE *key_msg);
+static void set_gr_par_f6_1_cb(KEY_MESSAGE *key_msg);
+
+static void set_gr_par_f1_2_cb(KEY_MESSAGE *key_msg);
+static void set_gr_par_f2_2_cb(KEY_MESSAGE *key_msg);
+static void set_gr_par_f3_2_cb(KEY_MESSAGE *key_msg);
+static void set_gr_par_f4_2_cb(KEY_MESSAGE *key_msg);
+static void set_gr_par_f5_2_cb(KEY_MESSAGE *key_msg);
+static void set_gr_par_f6_2_cb(KEY_MESSAGE *key_msg);
 
 static void edit_test_win_vol_f1_cb(KEY_MESSAGE *key_msg);
 static void edit_test_win_vol_f2_cb(KEY_MESSAGE *key_msg);
@@ -120,7 +138,12 @@ static void test_win_select_test_mode_key_cb(KEY_MESSAGE *key_msg);
 
 static void change_key_set_ir_par_menu(int hWin);
 static void update_key_set_ir_par_menu(int hWin);
+static void change_key_set_gr_par_menu(int hWin);
+static void update_key_set_gr_par_menu(int hWin);
 static void change_key_set_acw_par_menu(int hWin);
+
+
+static void update_cur_range_cur_value_menu_key_color(void);
 
 /* Private variables ---------------------------------------------------------*/
 /**
@@ -188,7 +211,7 @@ static MENU_KEY_INFO_T test_ui_acw_menu_pool[][6]=
     },
 };
 /**
-  * @brief  测试界面下ACW设置参数的菜单按键初始化数组
+  * @brief  测试界面下IR设置参数的菜单按键初始化数组
   */
 static MENU_KEY_INFO_T test_ui_ir_menu_pool[][6]=
 {
@@ -207,6 +230,28 @@ static MENU_KEY_INFO_T test_ui_ir_menu_pool[][6]=
         {"", F_KEY_NULL  , KEY_F4 & _KEY_UP, set_ir_par_f4_2_cb},//f4
         {"", F_KEY_NULL  , KEY_F5 & _KEY_UP, set_ir_par_f5_2_cb},//f5
         {"", F_KEY_BACK  , KEY_F6 & _KEY_UP, set_ir_par_f6_2_cb},//f6
+    },
+};
+/**
+  * @brief  测试界面下GR设置参数的菜单按键初始化数组
+  */
+static MENU_KEY_INFO_T test_ui_gr_menu_pool[][6]=
+{
+    {
+        {"", F_KEY_MODE  , KEY_F1 & _KEY_UP, set_gr_par_f1_1_cb},//f1
+        {"", F_KEY_CUR   , KEY_F2 & _KEY_UP, set_gr_par_f2_1_cb},//f2
+        {"", F_KEY_TIME  , KEY_F3 & _KEY_UP, set_gr_par_f3_1_cb},//f3
+        {"", F_KEY_UPPER , KEY_F4 & _KEY_UP, set_gr_par_f4_1_cb},//f4
+        {"", F_KEY_MORE  , KEY_F5 & _KEY_UP, set_gr_par_f5_1_cb},//f5
+        {"", F_KEY_BACK  , KEY_F6 & _KEY_UP, set_gr_par_f6_1_cb},//f6
+    },
+    {
+        {"", F_KEY_LOWER , KEY_F1 & _KEY_UP, set_gr_par_f1_2_cb},//f1
+        {"", F_KEY_NULL  , KEY_F2 & _KEY_UP, set_gr_par_f2_2_cb},//f2
+        {"", F_KEY_NULL  , KEY_F3 & _KEY_UP, set_gr_par_f3_2_cb},//f3
+        {"", F_KEY_NULL  , KEY_F4 & _KEY_UP, set_gr_par_f4_2_cb},//f4
+        {"", F_KEY_NULL  , KEY_F5 & _KEY_UP, set_gr_par_f5_2_cb},//f5
+        {"", F_KEY_BACK  , KEY_F6 & _KEY_UP, set_gr_par_f6_2_cb},//f6
     },
 };
 
@@ -436,6 +481,45 @@ static CUSTOM_MENU_KEY_INF test_win_mode_inf_pool[]=
     {CC_STR  , CC , test_win_select_test_mode_key_cb},
 };
 
+static void update_test_mode_cur_value_menu_key_color(void)
+{
+    uint32_t key_value = 0;
+    int32_t i = 0;
+    GUI_COLOR color;
+    EDIT_ELE_T *ele;
+    uint32_t size = 0;
+    uint8_t **p_mode;
+    const uint8_t *cur_mode;
+    uint32_t key_value_buf[] ={
+        KEY_F1 & _KEY_UP,
+        KEY_F2 & _KEY_UP,
+        KEY_F3 & _KEY_UP,
+        KEY_F4 & _KEY_UP,
+        KEY_F5 & _KEY_UP,
+        KEY_F6 & _KEY_UP,
+    };
+    
+    ele = get_mode_edit_ele_inf(&g_cur_step->one_step);
+    cur_mode = mode_pool[g_cur_step->one_step.com.mode];
+    p_mode = ele->resource.table;
+    size = ele->resource.size;
+    
+    for(i = 0; i < size; i++)
+    {
+        key_value = key_value_buf[i];
+        
+        if(0 == strcmp((const char*)cur_mode, (const char*)p_mode[i]))
+        {
+            color = CUR_VALUE_AT_KEY_COLOR;
+        }
+        else
+        {
+            color = NO_CUR_VALUE_AT_KEY_COLOR;
+        }
+        
+        change_menu_key_font_color(key_value, color);
+    }
+}
 /**
   * @brief  选择测试模式时使用的按键回调函数
   * @param  [in] key_msg 按键消息
@@ -454,6 +538,7 @@ static void test_win_select_test_mode_key_cb(KEY_MESSAGE *key_msg)
         init_mode(g_cur_step);//初始化参数
         save_setting_step();//保存正在设置的步骤参数
         update_test_win_text_ele_text(g_cur_win);
+        update_test_mode_cur_value_menu_key_color();
     }
 }
 /**
@@ -498,7 +583,7 @@ static void test_win_select_cur_range_key_cb(KEY_MESSAGE *key_msg)
             value = data;
             ele->range.check_value_validity(ele, &value);
         }
-        
+        update_cur_range_cur_value_menu_key_color();
         save_setting_step();//保存正在设置的步骤参数
         update_test_win_text_ele_text(g_cur_win);
     }
@@ -519,6 +604,58 @@ static CUSTOM_MENU_KEY_INF test_win_cur_range_inf_pool[]=
     { CUR_200mA_STR , AC_200mA  , test_win_select_cur_range_key_cb},
     { CUR_2A_STR    , AC_2A     , test_win_select_cur_range_key_cb},
 };
+static void update_cur_range_cur_value_menu_key_color(void)
+{
+    uint32_t key_value = 0;
+    int32_t i = 0;
+    GUI_COLOR color;
+    EDIT_ELE_T *ele;
+    uint32_t size = 0;
+    uint8_t **p_range;
+    uint8_t *cur_range;
+    uint8_t mode = 0;
+    uint32_t key_value_buf[] ={
+        KEY_F1 & _KEY_UP,
+        KEY_F2 & _KEY_UP,
+        KEY_F3 & _KEY_UP,
+        KEY_F4 & _KEY_UP,
+        KEY_F5 & _KEY_UP,
+        KEY_F6 & _KEY_UP,
+    };
+    
+    mode = g_cur_step->one_step.com.mode;
+    ele = get_range_edit_ele_inf(&g_cur_step->one_step);
+    p_range = ele->resource.table;
+    size = ele->resource.size;
+    
+    switch(mode)
+    {
+        case ACW:
+            cur_range = ac_gear[g_cur_step->one_step.acw.range].name;
+            break;
+        case DCW:
+            cur_range = dc_gear[g_cur_step->one_step.dcw.range].name;
+            break;
+        default:
+            return;
+    }
+    
+    for(i = 0; i < size; i++)
+    {
+        key_value = key_value_buf[i];
+        
+        if(0 == strcmp((const char*)cur_range, (const char*)p_range[i]))
+        {
+            color = CUR_VALUE_AT_KEY_COLOR;
+        }
+        else
+        {
+            color = NO_CUR_VALUE_AT_KEY_COLOR;
+        }
+        
+        change_menu_key_font_color(key_value, color);
+    }
+}
 /**
   * @brief  编辑测试模式时使用的菜单键初始化信息数组
   */
@@ -623,6 +760,7 @@ static void test_win_edit_mode_menu_key_init(WM_HMEM hWin)
     {
         init_menu_key_custom_inf(cus_inf, cus_size, ele, info, size);
         init_menu_key_info(info, size, hWin);
+        update_test_mode_cur_value_menu_key_color();
         update_range_name(ele->name[SYS_LANGUAGE]);
         update_ele_range_text(ele);
     }
@@ -647,6 +785,7 @@ static void test_win_edit_range_menu_key_init(WM_HMEM hWin)
     {
         init_menu_key_custom_inf(cus_inf, cus_size, ele, info, size);
         init_menu_key_info(info, size, hWin);
+        update_cur_range_cur_value_menu_key_color();
         update_range_name(ele->name[SYS_LANGUAGE]);
         update_ele_range_text(ele);
     }
@@ -661,12 +800,32 @@ static void test_win_edit_auto_shift_menu_key_init(WM_HMEM hWin)
     MENU_KEY_INFO_T * info = edit_auto_shift_menu_key_init_info;
     uint32_t size = ARRAY_SIZE(edit_auto_shift_menu_key_init_info);
     EDIT_ELE_T *ele;
+    uint32_t key_value = 0;
+    int32_t i = 0;
     
     ele = get_auto_shift_edit_ele_inf(&g_cur_step->one_step);
     
+    for(i = 0; i < size; i++)
+    {
+        if(g_cur_step->one_step.ir.auto_shift)
+        {
+            if(info[i].index == F_KEY_ON)
+            {
+                key_value = info[i].fun_key.key_value;
+            }
+        }
+        else
+        {
+            if(info[i].index == F_KEY_OFF)
+            {
+                key_value = info[i].fun_key.key_value;
+            }
+        }
+    }
     if(ele != NULL)
     {
         init_menu_key_info(info, size, hWin);
+        change_menu_key_font_color(key_value, CUR_VALUE_AT_KEY_COLOR);
         update_range_name(ele->name[SYS_LANGUAGE]);
         update_ele_range_text(ele);
     }
@@ -770,7 +929,7 @@ static void test_win_edit_cur_upper_menu_key_init(WM_HMEM hWin)
         return;
     }
     
-    ele = get_cur_upper_edit_ele_inf(&g_cur_step->one_step);
+    ele = get_upper_edit_ele_inf(&g_cur_step->one_step);
     
     if(ele != NULL)
     {
@@ -782,6 +941,8 @@ static void test_win_edit_cur_upper_menu_key_init(WM_HMEM hWin)
         update_range_name(ele->name[SYS_LANGUAGE]);
     }
 }
+
+
 /**
   * @brief  编辑电流下限时使用的菜单键初始化
   * @param  [in] hWin 窗口句柄
@@ -807,7 +968,7 @@ static void test_win_edit_cur_lower_menu_key_init(WM_HMEM hWin)
         return;
     }
     
-    ele = get_cur_lower_edit_ele_inf(&g_cur_step->one_step);
+    ele = get_lower_edit_ele_inf(&g_cur_step->one_step);
     
     if(ele != NULL)
     {
@@ -1058,11 +1219,61 @@ static void edit_test_win_vol_f6_cb(KEY_MESSAGE *key_msg)
     delete_win_edit_ele(g_cur_win);
 }
 
+static void update_auto_shift_cur_value_menu_key_color(void)
+{
+    MENU_KEY_INFO_T * info = edit_auto_shift_menu_key_init_info;
+    uint32_t size = ARRAY_SIZE(edit_auto_shift_menu_key_init_info);
+    uint32_t key_value = 0;
+    int32_t i = 0;
+    GUI_COLOR color_1;
+    GUI_COLOR color_2;
+    
+    for(i = 0; i < size; i++)
+    {
+        if(info[i].index == F_KEY_ON)
+        {
+            key_value = info[i].fun_key.key_value;
+            
+            if(g_cur_step->one_step.ir.auto_shift)
+            {
+                color_1 = CUR_VALUE_AT_KEY_COLOR;
+            }
+            else
+            {
+                color_1 = NO_CUR_VALUE_AT_KEY_COLOR;
+            }
+            
+            change_menu_key_font_color(key_value, color_1);
+        }
+        
+        if(info[i].index == F_KEY_OFF)
+        {
+            key_value = info[i].fun_key.key_value;
+            
+            if(g_cur_step->one_step.ir.auto_shift)
+            {
+                color_2 = NO_CUR_VALUE_AT_KEY_COLOR;
+            }
+            else
+            {
+                color_2 = CUR_VALUE_AT_KEY_COLOR;
+            }
+            
+            change_menu_key_font_color(key_value, color_2);
+        }
+    }
+}
 static void edit_auto_shift_f1_cb(KEY_MESSAGE *key_msg)
 {
+    g_cur_step->one_step.ir.auto_shift = SW_ON;
+    save_setting_step();
+    update_auto_shift_cur_value_menu_key_color();
 }
 static void edit_auto_shift_f2_cb(KEY_MESSAGE *key_msg)
 {
+    g_cur_step->one_step.ir.auto_shift = SW_OFF;
+    save_setting_step();
+    update_auto_shift_cur_value_menu_key_color();
 }
 static void edit_auto_shift_f3_cb(KEY_MESSAGE *key_msg)
 {
@@ -1213,12 +1424,14 @@ static void set_ir_par_f6_1_cb(KEY_MESSAGE *key_msg)
     delete_win_edit_ele(g_cur_win);
     clear_range_text_ele(g_cur_win);
 }
-                
+
 static void set_ir_par_f1_2_cb(KEY_MESSAGE *key_msg)
 {
+    test_win_edit_cur_upper_menu_key_init(key_msg->user_data);
 }
 static void set_ir_par_f2_2_cb(KEY_MESSAGE *key_msg)
 {
+    test_win_edit_cur_lower_menu_key_init(key_msg->user_data);
 }
 static void set_ir_par_f3_2_cb(KEY_MESSAGE *key_msg)
 {
@@ -1231,11 +1444,60 @@ static void set_ir_par_f5_2_cb(KEY_MESSAGE *key_msg)
 }
 static void set_ir_par_f6_2_cb(KEY_MESSAGE *key_msg)
 {
-    select_set_acw_par_menu_1(key_msg->user_data);
+    change_key_set_ir_par_menu(key_msg->user_data);
     delete_win_edit_ele(g_cur_win);
     clear_range_text_ele(g_cur_win);
 }
 
+static void set_gr_par_f1_1_cb(KEY_MESSAGE *key_msg)
+{
+    test_win_edit_mode_menu_key_init(key_msg->user_data);
+}
+static void set_gr_par_f2_1_cb(KEY_MESSAGE *key_msg)
+{
+    test_win_edit_vol_menu_key_init(key_msg->user_data);
+}
+static void set_gr_par_f3_1_cb(KEY_MESSAGE *key_msg)
+{
+    test_win_edit_test_time_menu_key_init(key_msg->user_data);
+}
+static void set_gr_par_f4_1_cb(KEY_MESSAGE *key_msg)
+{
+    test_win_edit_cur_upper_menu_key_init(key_msg->user_data);
+}
+static void set_gr_par_f5_1_cb(KEY_MESSAGE *key_msg)
+{
+    change_key_set_gr_par_menu(key_msg->user_data);
+}
+static void set_gr_par_f6_1_cb(KEY_MESSAGE *key_msg)
+{
+    update_test_win_menu_key_inf(key_msg->user_data);
+    delete_win_edit_ele(g_cur_win);
+    clear_range_text_ele(g_cur_win);
+}
+
+static void set_gr_par_f1_2_cb(KEY_MESSAGE *key_msg)
+{
+    test_win_edit_cur_lower_menu_key_init(key_msg->user_data);
+}
+static void set_gr_par_f2_2_cb(KEY_MESSAGE *key_msg)
+{
+}
+static void set_gr_par_f3_2_cb(KEY_MESSAGE *key_msg)
+{
+}
+static void set_gr_par_f4_2_cb(KEY_MESSAGE *key_msg)
+{
+}
+static void set_gr_par_f5_2_cb(KEY_MESSAGE *key_msg)
+{
+}
+static void set_gr_par_f6_2_cb(KEY_MESSAGE *key_msg)
+{
+    change_key_set_gr_par_menu(key_msg->user_data);
+    delete_win_edit_ele(g_cur_win);
+    clear_range_text_ele(g_cur_win);
+}
 static void change_key_set_acw_par_menu(int hWin)
 {
     if(cur_at_menu_page_flag == 0)
@@ -1269,6 +1531,28 @@ static void update_key_set_ir_par_menu(int hWin)
         select_set_ir_par_menu_2(hWin);
     }
 }
+static void change_key_set_gr_par_menu(int hWin)
+{
+    if(cur_at_menu_page_flag == 0)
+    {
+        select_set_gr_par_menu_2(hWin);
+    }
+    else
+    {
+        select_set_gr_par_menu_1(hWin);
+    }
+}
+static void update_key_set_gr_par_menu(int hWin)
+{
+    if(cur_at_menu_page_flag == 0)
+    {
+        select_set_gr_par_menu_1(hWin);
+    }
+    else
+    {
+        select_set_gr_par_menu_2(hWin);
+    }
+}
 static void select_set_acw_par_menu_1(int hWin)
 {
     cur_at_menu_page_flag = 0;
@@ -1289,6 +1573,16 @@ static void select_set_ir_par_menu_2(int hWin)
     cur_at_menu_page_flag = 1;
     init_menu_key_info(test_ui_ir_menu_pool[1], ARRAY_SIZE(test_ui_ir_menu_pool[1]), hWin);
 }
+static void select_set_gr_par_menu_1(int hWin)
+{
+    cur_at_menu_page_flag = 0;
+    init_menu_key_info(test_ui_gr_menu_pool[0], ARRAY_SIZE(test_ui_gr_menu_pool[0]), hWin);
+}
+static void select_set_gr_par_menu_2(int hWin)
+{
+    cur_at_menu_page_flag = 1;
+    init_menu_key_info(test_ui_gr_menu_pool[1], ARRAY_SIZE(test_ui_gr_menu_pool[1]), hWin);
+}
 /**
   * @brief  改变菜单按键信息
   * @param  [in] key_msg 按键消息
@@ -1308,6 +1602,9 @@ static void change_key_menu(int hWin)
             break;
         case IR:
             update_key_set_ir_par_menu(hWin);
+            break;
+        case GR:
+            update_key_set_gr_par_menu(hWin);
             break;
     }
 }

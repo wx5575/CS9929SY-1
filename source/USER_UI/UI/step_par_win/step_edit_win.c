@@ -147,6 +147,7 @@ static void check_gr_lower_value_validity(EDIT_ELE_T* ele, uint32_t *value);
 
 static void check_range_value_validity(EDIT_ELE_T* ele, uint32_t *value);
 static void check_test_port_value_validity(EDIT_ELE_T* ele, uint32_t *value);
+static void check_gr_output_cur_value_validity(EDIT_ELE_T* ele, uint32_t *value);
 
 static uint8_t get_cur_step_mode(void);
 static TEST_PORT *get_cur_step_test_port(void);
@@ -713,7 +714,10 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {NULL, 0,NULL, 0},/* 资源表 */
         {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
         {2/*dec*/,5/*lon*/,CUR_U_A/*unit*/,},/*format*/
-        {4000/*heigh*/,300/*low*/,{"",""}/*notice*/,},/*range*/
+        {
+            4000/*heigh*/,300/*low*/,{"",""}/*notice*/,
+            check_gr_output_cur_value_validity
+        },/*range*/
         {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num},/*key_inf*/
     },
 };
@@ -1045,6 +1049,45 @@ static void check_test_port_value_validity(EDIT_ELE_T* ele, uint32_t *value)
     if(port !=  NULL)
     {
         transform_str_to_test_port(port, str);
+    }
+}
+/**
+  * @brief  用于检查GR输出电流设置值是否合法
+  * @param  [in] ele 当前编辑对象
+  * @param  [in/out] value 要检查的数值
+  * @retval 无
+  */
+static void check_gr_output_cur_value_validity(EDIT_ELE_T* ele, uint32_t *value)
+{
+    uint32_t val = *value;
+    uint32_t res_high = 0;
+    uint32_t high;
+    uint32_t low;
+    
+    if(val > ele->range.high)
+    {
+        *value = ele->range.high;
+    }
+    else if(val < ele->range.low)
+    {
+        *value = ele->range.low;
+    }
+    
+    val = *value;
+    
+    res_high = GR_RES_H(val);
+    high = g_cur_step->one_step.gr.upper_limit;
+    low = g_cur_step->one_step.gr.lower_limit;
+    
+    if(high > res_high)
+    {
+        g_cur_step->one_step.gr.upper_limit = res_high;
+        high = res_high;
+    }
+    
+    if(low > high)
+    {
+        g_cur_step->one_step.gr.lower_limit = high;
     }
 }
 /**
@@ -1886,6 +1929,10 @@ static void check_ir_lower_value_validity(EDIT_ELE_T* ele, uint32_t *value)
         {
             *value = ele->range.high;
         }
+        else if(val < ele->range.low)
+        {
+            *value = ele->range.low;
+        }
     }
 }
 /**
@@ -2447,8 +2494,8 @@ EDIT_ELE_T *get_mode_edit_ele_inf(UN_STRUCT *step)
     EDIT_ELE_T *pool;
     uint32_t size;
     
-    pool = step_edit_windows.edit.pool;
-    size = step_edit_windows.edit.pool_size;
+    pool = this_win->edit.pool;
+    size = this_win->edit.pool_size;
     
     reg_edit_ele_data(&step_edit_windows, STEP_EDIT_WIN_MODE, &step->com.mode,  sizeof(step->com.mode));//测试模式
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_MODE, &err);
@@ -2474,8 +2521,8 @@ EDIT_ELE_T *get_range_edit_ele_inf(UN_STRUCT *step)
     uint8_t n = 0;
     
     mode = get_cur_step_mode();
-    pool = step_edit_windows.edit.pool;
-    size = step_edit_windows.edit.pool_size;
+    pool = this_win->edit.pool;
+    size = this_win->edit.pool_size;
     
     //电流档位
     switch(mode)
@@ -2549,10 +2596,12 @@ EDIT_ELE_T *get_vol_edit_ele_inf(UN_STRUCT *step)
     void *p_data;
     uint8_t n = 0;
     CS_INDEX index;
+    uint32_t high = 0;
+    uint32_t low = 0;
     
     mode = get_cur_step_mode();
-    pool = step_edit_windows.edit.pool;
-    size = step_edit_windows.edit.pool_size;
+    pool = this_win->edit.pool;
+    size = this_win->edit.pool_size;
     
     //电流档位
     switch(mode)
@@ -2561,21 +2610,29 @@ EDIT_ELE_T *get_vol_edit_ele_inf(UN_STRUCT *step)
             p_data = &step->acw.output_vol;
             n = sizeof(step->acw.output_vol);
             index = STEP_EDIT_WIN_VOL;
+            high = ACW_VOL_H;
+            low = ACW_VOL_L;
             break;
         case DCW:
             p_data = &step->dcw.output_vol;
             n = sizeof(step->dcw.output_vol);
             index = STEP_EDIT_WIN_VOL;
+            high = DCW_VOL_H;
+            low = DCW_VOL_L;
             break;
         case IR:
             p_data = &step->dcw.output_vol;
             n = sizeof(step->dcw.output_vol);
             index = STEP_EDIT_WIN_VOL;
+            high = IR_VOL_H;
+            low = IR_VOL_L;
             break;
         case GR:
             p_data = &step->gr.output_cur;
             n = sizeof(step->gr.output_cur);
             index = STEP_EDIT_WIN_CUR;
+            high = GR_CUR_H;
+            low = GR_CUR_L;
             break;
         default:
             return ele;
@@ -2584,6 +2641,8 @@ EDIT_ELE_T *get_vol_edit_ele_inf(UN_STRUCT *step)
     reg_edit_ele_data(&step_edit_windows, index, p_data,  n);
     ele = get_edit_ele_inf(pool, size, index, &err);
     ele->dis.edit.max_len = 5;
+    ele->range.high = high;
+    ele->range.low = low;
     
     return ele;
 }
@@ -2599,8 +2658,8 @@ EDIT_ELE_T *get_test_time_edit_ele_inf(UN_STRUCT *step)
     CS_INDEX index;
     
     mode = get_cur_step_mode();
-    pool = step_edit_windows.edit.pool;
-    size = step_edit_windows.edit.pool_size;
+    pool = this_win->edit.pool;
+    size = this_win->edit.pool_size;
     
     index = STEP_EDIT_WIN_TEST_T;
     
@@ -2633,7 +2692,7 @@ EDIT_ELE_T *get_test_time_edit_ele_inf(UN_STRUCT *step)
     
     return ele;
 }
-EDIT_ELE_T *get_cur_upper_edit_ele_inf(UN_STRUCT *step)
+EDIT_ELE_T *get_upper_edit_ele_inf(UN_STRUCT *step)
 {
     EDIT_ELE_T* ele = NULL;
     CS_ERR err;
@@ -2643,35 +2702,60 @@ EDIT_ELE_T *get_cur_upper_edit_ele_inf(UN_STRUCT *step)
     void *p_data;
     uint8_t n = 0;
     CS_INDEX index;
+    uint32_t high = 0;
+    uint32_t low = 0;
+    uint8_t range = 0;
     
     mode = get_cur_step_mode();
-    pool = step_edit_windows.edit.pool;
-    size = step_edit_windows.edit.pool_size;
-    
-    index = STEP_EDIT_WIN_UPPER;
+    pool = this_win->edit.pool;
+    size = this_win->edit.pool_size;
     
     //电流档位
     switch(mode)
     {
         case ACW:
+            index = STEP_EDIT_WIN_UPPER;
             p_data = &step->acw.upper_limit;
             n = sizeof(step->acw.upper_limit);
+            range = step->acw.range;
+            high = ac_gear[range].high_max;
+            low = 0;
             break;
         case DCW:
+            index = STEP_EDIT_WIN_UPPER;
             p_data = &step->dcw.upper_limit;
             n = sizeof(step->dcw.upper_limit);
+            range = step->dcw.range;
+            high = dc_gear[range].high_max;
+            low = 0;
+            break;
+        case IR:
+            index = STEP_EDIT_WIN_UPPER_IR;
+            p_data = &step->ir.upper_limit;
+            n = sizeof(step->ir.upper_limit);
+            high = IR_RES_H;
+            low = 0;
+            break;
+        case GR:
+            index = STEP_EDIT_WIN_UPPER_GR;
+            p_data = &step->gr.upper_limit;
+            n = sizeof(step->gr.upper_limit);
+            high = GR_RES_H(step->gr.output_cur);
+            low = GR_RES_L;
             break;
         default:
             return ele;
     }
     
-    reg_edit_ele_data(&step_edit_windows, index, p_data,  n);
+    reg_edit_ele_data(this_win, index, p_data,  n);
     ele = get_edit_ele_inf(pool, size, index, &err);
     ele->dis.edit.max_len = 5;
+    ele->range.high = high;
+    ele->range.low = low;
     
     return ele;
 }
-EDIT_ELE_T *get_cur_lower_edit_ele_inf(UN_STRUCT *step)
+EDIT_ELE_T *get_lower_edit_ele_inf(UN_STRUCT *step)
 {
     EDIT_ELE_T* ele = NULL;
     CS_ERR err;
@@ -2681,26 +2765,51 @@ EDIT_ELE_T *get_cur_lower_edit_ele_inf(UN_STRUCT *step)
     void *p_data;
     uint8_t n = 0;
     CS_INDEX index;
-    uint16_t high = 0;
+    uint32_t low = 0;
+    uint32_t high = 0;
     
     mode = get_cur_step_mode();
-    pool = step_edit_windows.edit.pool;
-    size = step_edit_windows.edit.pool_size;
-    
-    index = STEP_EDIT_WIN_LOWER;
+    pool = this_win->edit.pool;
+    size = this_win->edit.pool_size;
     
     //电流档位
     switch(mode)
     {
         case ACW:
+            index = STEP_EDIT_WIN_LOWER;
             p_data = &step->acw.lower_limit;
             n = sizeof(step->acw.lower_limit);
             high = step->acw.upper_limit;
+            low = 0;
             break;
         case DCW:
+            index = STEP_EDIT_WIN_LOWER;
             p_data = &step->dcw.lower_limit;
             n = sizeof(step->dcw.lower_limit);
             high = step->dcw.upper_limit;
+            low = 0;
+            break;
+        case IR:
+            index = STEP_EDIT_WIN_LOWER_IR;
+            p_data = &step->ir.lower_limit;
+            n = sizeof(step->ir.lower_limit);
+            if(step->ir.upper_limit != 0)
+            {
+                high = step->ir.upper_limit;
+            }
+            else
+            {
+                high = IR_RES_H;
+            }
+            
+            low = IR_RES_L;
+            break;
+        case GR:
+            index = STEP_EDIT_WIN_LOWER_GR;
+            p_data = &step->gr.lower_limit;
+            n = sizeof(step->gr.lower_limit);
+            high = step->gr.upper_limit;
+            low = 0;
             break;
         default:
             return ele;
@@ -2710,6 +2819,7 @@ EDIT_ELE_T *get_cur_lower_edit_ele_inf(UN_STRUCT *step)
     ele = get_edit_ele_inf(pool, size, index, &err);
     ele->dis.edit.max_len = 5;
     ele->range.high = high;
+    ele->range.low = low;
     
     return ele;
 }

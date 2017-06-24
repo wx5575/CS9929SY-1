@@ -420,6 +420,7 @@ extern void set_cur_window(MYUSER_WINDOW_T* win_info);
 extern void set_cur_edit_ele(EDIT_ELE_T *node);
 extern void show_user_window(MYUSER_WINDOW_T* win_info);
 extern void back_win(WM_HWIN id);
+extern void del_cur_window(void);
 extern MYUSER_WINDOW_T * get_user_window_info(WM_HWIN hWin);
 extern TEXT_ELE_T* get_text_ele_node(CS_INDEX index, CS_LIST* list, CS_ERR *err);
 extern void set_com_text_ele_dis_inf(UI_ELE_DISPLAY_INFO_T *inf, CS_INDEX index);

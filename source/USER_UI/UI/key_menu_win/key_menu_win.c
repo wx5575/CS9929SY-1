@@ -619,6 +619,28 @@ void register_system_key_fun(FUNCTION_KEY_INFO_T info[], uint32_t n, int data)
 	}
 }
 
+/**
+  * @brief  改变菜单键的字符颜色
+  * @param  [in] key_value 键值
+  * @param  [in] color 颜色
+  * @retval 无
+  */
+void change_menu_key_font_color(uint32_t key_value, GUI_COLOR color)
+{
+    CS_INDEX index;
+    CS_ERR err;
+    
+    index = get_key_inf_index(key_value, &err);
+    
+    if(err != CS_ERR_NONE)
+    {
+        return;
+    }
+    
+    key_menu_win_ele_pool[index].dis_info.font_color = color;
+    
+	display_menu_key();//刷新菜单键显示
+}
 
 /**
   * @brief  创建菜单按键窗口

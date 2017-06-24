@@ -193,7 +193,7 @@ void disable_system_fun_key_fun(void)
     {
         CODE_LEFT,
         CODE_RIGH,
-        KEY_EXIT,
+//        KEY_EXIT,
         KEY_ENTER,
         KEY_OFFSET,
 //         KEY_UNLOCK,

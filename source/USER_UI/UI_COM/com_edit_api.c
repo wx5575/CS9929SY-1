@@ -966,6 +966,16 @@ void set_sw_status_on(WM_HMEM hWin)
     uint32_t value = SW_ON;
     WM_HMEM handle = g_cur_edit_ele->dis.edit.handle;
     
+    if(g_cur_edit_ele == NULL)
+    {
+        return;
+    }
+    
+    if(handle == 0)
+    {
+        return;
+    }
+    
     DROPDOWN_SetSel(handle, value);
     DROPDOWN_SetUserData(handle, &value, size);
     upload_par_to_ram(g_cur_edit_ele);//数据更新到内存
@@ -981,6 +991,16 @@ void set_sw_status_off(WM_HMEM hWin)
     uint8_t size = g_cur_edit_ele->data.bytes;
     uint32_t value = SW_OFF;
     WM_HMEM handle = g_cur_edit_ele->dis.edit.handle;
+    
+    if(g_cur_edit_ele == NULL)
+    {
+        return;
+    }
+    
+    if(handle == 0)
+    {
+        return;
+    }
     
     DROPDOWN_SetSel(handle, value);
     DROPDOWN_SetUserData(handle, &value, size);
