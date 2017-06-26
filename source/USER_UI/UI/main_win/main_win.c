@@ -112,10 +112,9 @@ static TEXT_ELE_T main_ui_text_ele_pool[]=
 /**
   * @brief  主窗口结构体初始化
   */
-#define MAIN_WIN_NAME   "主窗口"
 MYUSER_WINDOW_T main_windows=
 {
-    {MAIN_WIN_NAME, "main_window"},
+    {"主窗口", "main_window"},
     main_win_cb, update_main_ui_menu_key_inf,
 	{
         main_ui_text_ele_pool, ARRAY_SIZE(main_ui_text_ele_pool),
@@ -145,11 +144,7 @@ static void main_win_f1_cb(KEY_MESSAGE *key_msg)
     /* 加锁 */
     if(flag)
     {
-        back_up_will_enter_win_inf.into_win_fun = create_file_win;
-        back_up_will_enter_win_inf.data = key_msg->user_data;
-        
-        set_custom_msg_id(CM_DIALOG_INPUT_PWD);
-        create_input_password_ui(key_msg->user_data);
+        init_back_up_will_enter_win_inf(create_file_win, g_cur_win->handle);
     }
     /* 未加锁 */
     else
@@ -284,21 +279,22 @@ static void sys_exit_key_fun_cb(KEY_MESSAGE *key_msg)
 {
 	MYUSER_WINDOW_T *node;
 	CS_LIST *index = NULL;
-//	CS_LIST *t_list = &win->com.list_head;//文本链表
 	CS_LIST *list = &windows_list;
-	MYUSER_WINDOW_T* win_info;
     
-	list_for_each(index, list)
+	list_for_each_reverse(index, list)
 	{
 		node = list_entry(index, MYUSER_WINDOW_T, w_list);
         
-        if(0 != strcmp((const char*)MAIN_WIN_NAME, node->win_name[0]))
+        if(node->handle == main_windows.handle)
         {
-            del_cur_window();
+            break;
         }
+        
+        del_cur_window();
 	}
     
-    update_key_inf(key_msg->user_data);
+    update_key_inf(main_windows.handle);
+    show_cur_window();
 }
 /**
   * @brief  系统SHIFT按键回调函数
@@ -342,11 +338,7 @@ static void change_key_lock_status(int data)
   */
 static void sys_unlock_key_fun_cb(KEY_MESSAGE *key_msg)
 {
-    back_up_will_enter_win_inf.into_win_fun = change_key_lock_status;
-    back_up_will_enter_win_inf.data = key_msg->user_data;
-    
-    set_custom_msg_id(CM_DIALOG_INPUT_PWD);
-    create_input_password_ui(key_msg->user_data);
+    init_back_up_will_enter_win_inf(change_key_lock_status, g_cur_win->handle);
 }
 
 /**
@@ -462,27 +454,9 @@ static void main_win_cb(WM_MESSAGE * pMsg)
 {
 	MYUSER_WINDOW_T* win;
 	WM_HWIN hWin = pMsg->hWin;
-    static CUSTOM_MSG_T msg;
 	
 	switch (pMsg->MsgId)
 	{
-        case CM_DIALOG_INPUT_PWD:
-        {
-			msg = *(CUSTOM_MSG_T*)pMsg->Data.v;//拷贝消息
-            
-            if(msg.msg == CM_DIALOG_RETURN_OK)
-			{
-                if(back_up_will_enter_win_inf.into_win_fun != NULL)
-                {
-                    back_up_will_enter_win_inf.into_win_fun(back_up_will_enter_win_inf.data);
-                }
-        
-            }
-            
-            back_up_will_enter_win_inf.into_win_fun = NULL;
-            back_up_will_enter_win_inf.data = 0;
-			break;
-        }
 		case WM_CREATE:
 			set_main_windows_handle(hWin);
 			win = get_user_window_info(hWin);

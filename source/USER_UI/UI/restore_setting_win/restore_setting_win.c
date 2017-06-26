@@ -86,7 +86,7 @@ static MENU_KEY_INFO_T 	restore_setting_menu_key_info[] =
     {"", F_KEY_NULL     , KEY_F2 & _KEY_UP, restore_setting_win_f2_cb },//f2
     {"", F_KEY_NULL     , KEY_F3 & _KEY_UP, restore_setting_win_f3_cb },//f3
     {"", F_KEY_NULL     , KEY_F4 & _KEY_UP, restore_setting_win_f4_cb },//f4
-    {"", F_KEY_OK       , KEY_F5 & _KEY_UP, restore_setting_win_f5_cb },//f5
+    {"", F_KEY_ENTER       , KEY_F5 & _KEY_UP, restore_setting_win_f5_cb },//f5
     {"", F_KEY_CANCLE   , KEY_F6 & _KEY_UP, restore_setting_win_f6_cb },//f6
 };
 

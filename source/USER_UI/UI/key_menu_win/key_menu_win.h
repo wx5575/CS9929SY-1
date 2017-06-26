@@ -30,7 +30,7 @@ typedef enum{
   * @brief  标准菜单键名称的枚举索引
   */
 typedef enum{
-	F_KEY_OK,
+	F_KEY_ENTER,
 	F_KEY_CANCLE,
 	F_KEY_NEXT,
 	F_KEY_DEL,

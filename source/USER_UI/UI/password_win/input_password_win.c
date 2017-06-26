@@ -35,6 +35,13 @@
 
 /* Private typedef -----------------------------------------------------------*/
 
+/** 
+  * @brief 备份将要进入窗口的信息,当需要进行密码验证的窗口时要备份一下信息，当正确输入密码后再恢复调用进入窗口
+  */
+typedef struct{
+    void (*into_win_fun)(int);//进入窗口的函数
+    int data;///<携带的参数
+}BACK_UP_WILL_ENTER_WIN_INF;
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 
@@ -64,8 +71,10 @@ static void input_pwd_direct_key_down_cb(KEY_MESSAGE *key_msg);
 static void input_pwd_direct_key_up_cb(KEY_MESSAGE *key_msg);
 static void input_pwd_direct_key_left_cb(KEY_MESSAGE *key_msg);
 static void input_pwd_direct_key_right_cb(KEY_MESSAGE *key_msg);
+static void input_pwd_enter_key_up_cb(KEY_MESSAGE *key_msg);
 
 /* Private variables ---------------------------------------------------------*/
+static BACK_UP_WILL_ENTER_WIN_INF   back_up_will_enter_win_inf;
 /**
   * @brief  临时存放输入密码
   */
@@ -98,7 +107,7 @@ static MENU_KEY_INFO_T 	input_pwd_menu_key_info[] =
     {"", F_KEY_CLEAR    , KEY_F2 & _KEY_UP, input_pwd_win_f2_cb },//f2
     {"", F_KEY_NULL     , KEY_F3 & _KEY_UP, input_pwd_win_f3_cb },//f3
     {"", F_KEY_NULL     , KEY_F4 & _KEY_UP, input_pwd_win_f4_cb },//f4
-    {"", F_KEY_OK       , KEY_F5 & _KEY_UP, input_pwd_win_f5_cb },//f5
+    {"", F_KEY_ENTER       , KEY_F5 & _KEY_UP, input_pwd_win_f5_cb },//f5
     {"", F_KEY_BACK     , KEY_F6 & _KEY_UP, input_pwd_win_f6_cb },//f6
 };
 
@@ -128,6 +137,7 @@ static FUNCTION_KEY_INFO_T sys_key_pool[]={
 	{KEY_DOWN	, input_pwd_direct_key_down_cb	 },
 	{KEY_LEFT	, input_pwd_direct_key_left_cb	 },
 	{KEY_RIGHT	, input_pwd_direct_key_right_cb	 },
+	{KEY_ENTER	, input_pwd_enter_key_up_cb	     },
     
 	{CODE_LEFT	, input_pwd_direct_key_down_cb    },
 	{CODE_RIGH	, input_pwd_direct_key_up_cb	     },
@@ -322,6 +332,15 @@ static void input_pwd_direct_key_right_cb(KEY_MESSAGE *key_msg)
 {
 	GUI_SendKeyMsg(GUI_KEY_RIGHT, 1);
 }
+/**
+  * @brief  向右功能键的回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void input_pwd_enter_key_up_cb(KEY_MESSAGE *key_msg)
+{
+    input_pwd_menu_key_ok(key_msg->user_data);
+}
 
 /**
   * @brief  密码设置窗口中系统功能键的初始化
@@ -368,6 +387,19 @@ static void init_create_pwd_edit_ele(MYUSER_WINDOW_T* win)
     init_window_edit_ele(win);//初始化创建编辑对象
 }
 
+static void input_pwd_win_into_win(void)
+{
+    if(NULL != back_up_will_enter_win_inf.into_win_fun)
+    {
+        back_up_will_enter_win_inf.into_win_fun(back_up_will_enter_win_inf.data);
+    }
+}
+
+static void clear_input_pwd_win_into_win_inf(void)
+{
+    back_up_will_enter_win_inf.into_win_fun = NULL;
+    back_up_will_enter_win_inf.data = 0;
+}
 /**
   * @brief  密码窗口回调函数
   * @param  [in] pMsg 窗口消息
@@ -406,7 +438,12 @@ static void input_password_win_cb(WM_MESSAGE* pMsg)
 			break;
 		case WM_DELETE:
 		{
-			send_msg_to_parent(hWin, CM_DIALOG_INPUT_PWD, (int)&g_custom_msg);
+            if(g_custom_msg.msg == CM_DIALOG_RETURN_OK)
+            {
+                input_pwd_win_into_win();
+            }
+            
+            clear_input_pwd_win_into_win_inf();
 			break;
 		}
 		default:
@@ -415,6 +452,13 @@ static void input_password_win_cb(WM_MESSAGE* pMsg)
 }
 /* Public functions ---------------------------------------------------------*/
 
+void init_back_up_will_enter_win_inf(void (*fun)(int), int data)
+{
+    back_up_will_enter_win_inf.into_win_fun = fun;
+    back_up_will_enter_win_inf.data = data;
+    set_custom_msg_id(CM_DIALOG_INPUT_PWD);
+    create_input_password_ui(g_cur_win->handle);
+}
 /**
   * @brief  创建密码窗口
   * @param  [in] hWin 父窗口句柄

@@ -854,6 +854,7 @@ void create_user_window(MYUSER_WINDOW_T* win_info, CS_LIST *list_head, WM_HWIN h
     list_init(&win_info->edit.list_head);//初始化编辑对象链表
     list_init(&win_info->com.list_head);//初始化公共文本对象链表
     
+    disable_system_fun_key_fun();//失能系统功能按键
     set_cur_window(win_info);//将新建窗口设为当前窗口
     win_info->handle = WM_CreateWindowAsChild(x, y, width, height, h_parent, WM_CF_MEMDEV_ON_REDRAW | WM_CF_SHOW, cb_fun, 0);//WM_CF_SHOW
 }
@@ -958,6 +959,7 @@ void create_user_dialog(MYUSER_WINDOW_T* win_info, CS_LIST *list_head, WM_HWIN h
     list_init(&win_info->edit.list_head);//初始化编辑对象链表
     list_init(&win_info->com.list_head);//初始化公共文本对象链表
     
+    disable_system_fun_key_fun();//失能系统功能按键
     set_cur_window(win_info);
     win_info->handle = GUI_CreateDialogBox(&aDialogBox, 1, cb_fun, hWin, 0, 0);//非阻塞
     WM_ShowWindow(win_info->handle);
@@ -981,6 +983,10 @@ static void delete_text_list_node(CS_LIST *list_head)
             WM_DeleteWindow(node->handle);//删除窗口控件
             node->handle = 0;//清除被删除窗口的句柄
 		}
+        else
+        {
+            break;
+        }
 	}
 }
 /**
@@ -1109,6 +1115,15 @@ static void show_user_window(MYUSER_WINDOW_T* win_info)
     {
         win_info->init_key_fun(win_info->handle);//初始化按键
     }
+}
+/**
+  * @brief  显示当前用户窗口
+  * @param  [in] win_info 窗口对象指针
+  * @retval 无
+  */
+void show_cur_window(void)
+{
+    show_user_window(g_cur_win);
 }
 /**
   * @brief  返回上一级窗口,返回上级窗口要做的操作是1.删除当前窗口 2.显示新的当前窗口
@@ -1592,4 +1607,19 @@ void init_create_win_com_ele(MYUSER_WINDOW_T* win)
     update_group_inf(win);
     init_window_com_text_ele(win);//初始化创建窗口中的公共文本对象
 }
+
+
+/**
+  * @brief  用画线函数实现的画矩形框函数,因为直接使用画线函数无法改变线的宽度
+  * @param  [in] pRect 矩形区域
+  * @retval 无
+  */
+void myGUI_DrawRectEx(const GUI_RECT * pRect)
+{
+	GUI_DrawLine(pRect->x0, pRect->y0, pRect->x1, pRect->y0);
+	GUI_DrawLine(pRect->x0, pRect->y1, pRect->x1, pRect->y1);
+	GUI_DrawLine(pRect->x0, pRect->y0, pRect->x0, pRect->y1);
+	GUI_DrawLine(pRect->x1, pRect->y0, pRect->x1, pRect->y1);
+}
+
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

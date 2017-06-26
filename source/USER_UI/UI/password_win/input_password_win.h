@@ -1,4 +1,4 @@
-﻿/**
+/**
   ******************************************************************************
   * @file    sys_manage_win.h
   * @author  王鑫
@@ -18,6 +18,7 @@ typedef enum{
     INPUT_PWD,///<输入的PWD
 }PWD_EDIT_INDEX;
 
+extern void init_back_up_will_enter_win_inf(void (*fun)(int), int data);
 void create_input_password_ui(int hWin);
 
 #endif //__PASSWORD_WIN_H__

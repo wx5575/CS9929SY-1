@@ -19,9 +19,15 @@
 #include "step_par_win/step_edit_win.h"
 #include "ui_com/com_edit_api.h"
 #include "running_test.h"
+#include "file_win/file_win.h"
+#include "password_win/input_password_win.h"
+#include "result_win/result_win.h"
 
 
 /* Private typedef -----------------------------------------------------------*/
+enum{
+    TEST_WIN_EDIT_INDEX,///<测试窗口中的编辑对象索引枚举
+};
 /* Private define ------------------------------------------------------------*/
 #define CUR_VALUE_AT_KEY_COLOR      GUI_RED
 #define NO_CUR_VALUE_AT_KEY_COLOR   GUI_WHITE
@@ -37,7 +43,7 @@ static void select_set_ir_par_menu_2(int hWin);
 static void select_set_gr_par_menu_1(int hWin);
 static void select_set_gr_par_menu_2(int hWin);
 
-static void change_key_menu(int id);
+static void update_key_menu(int id);
 static void test_win_f0_cb(KEY_MESSAGE *key_msg);
 static void test_win_f1_cb(KEY_MESSAGE *key_msg);
 static void test_win_f2_cb(KEY_MESSAGE *key_msg);
@@ -66,7 +72,7 @@ static void set_ir_par_f3_1_cb(KEY_MESSAGE *key_msg);
 static void set_ir_par_f4_1_cb(KEY_MESSAGE *key_msg);
 static void set_ir_par_f5_1_cb(KEY_MESSAGE *key_msg);
 static void set_ir_par_f6_1_cb(KEY_MESSAGE *key_msg);
-                
+
 static void set_ir_par_f1_2_cb(KEY_MESSAGE *key_msg);
 static void set_ir_par_f2_2_cb(KEY_MESSAGE *key_msg);
 static void set_ir_par_f3_2_cb(KEY_MESSAGE *key_msg);
@@ -135,6 +141,7 @@ static void init_create_test_win_com_ele(MYUSER_WINDOW_T* win);
 static void init_create_test_win_text_ele(MYUSER_WINDOW_T* win);
 static void clear_range_text_ele(MYUSER_WINDOW_T* win);
 static void test_win_select_test_mode_key_cb(KEY_MESSAGE *key_msg);
+static void test_win_select_cur_range_key_cb(KEY_MESSAGE *key_msg);
 
 static void change_key_set_ir_par_menu(int hWin);
 static void update_key_set_ir_par_menu(int hWin);
@@ -174,20 +181,6 @@ static MENU_KEY_INFO_T test_ui_menu_key_pool[]=
     {"", F_KEY_NULL     , KEY_F5 & _KEY_UP,	test_win_f5_cb },//f5
     {"", F_KEY_BACK		, KEY_F6 & _KEY_UP,	test_win_f6_cb },//f6
 };
-/**
-  * @brief  测试界面下的菜单按键初始化数组
-  */
-//static MENU_KEY_INFO_T test_ui_set_menu_key_pool[]=
-//{
-//    {"", F_KEY_DISPLAY	, KEY_F0 & _KEY_UP,	test_win_f0_cb },//f0
-//    {"", F_KEY_MODE		, KEY_F1 & _KEY_UP,	test_win_f1_cb },//f1
-//    {"", F_KEY_VOL	    , KEY_F2 & _KEY_UP,	test_win_f2_cb },//f2
-//    {"", F_KEY_RANGE    , KEY_F3 & _KEY_UP,	test_win_f3_cb },//f3
-//    {"", F_KEY_TIME	    , KEY_F4 & _KEY_UP,	test_win_f4_cb },//f4
-//    {"", F_KEY_MORE     , KEY_F5 & _KEY_UP,	test_win_f5_cb },//f5
-//    {"", F_KEY_BACK		, KEY_F6 & _KEY_UP,	test_win_f6_cb },//f6
-//};
-
 /**
   * @brief  测试界面下ACW设置参数的菜单按键初始化数组
   */
@@ -261,13 +254,6 @@ static MENU_KEY_INFO_T test_ui_gr_menu_pool[][6]=
   */
 static CS_INDEX test_ui_ele_buf[] =
 {
-//	TEST_UI_FILE_NAME,
-//	TEST_UI_CUR_FILE_NAME,
-//	TEST_UI_STEP,
-//	TEST_UI_CUR_STEP,
-//	TEST_UI_WORK_MODE,
-//	TEST_UI_CUR_WORK_MODE,
-	
 	TEST_UI_ROAD01_NUM,
 	TEST_UI_ROAD01_MODE,
 	TEST_UI_ROAD01_STATUS,
@@ -299,17 +285,10 @@ static CS_INDEX test_ui_ele_buf[] =
 };
 
 /**
-  * @brief 界面文本对象数组
+  * @brief 界面文本对象池数组
   */
 static TEXT_ELE_T test_ui_ele_pool[]=
 {
-	{{"文件名:", "FileName:"}, TEST_UI_FILE_NAME    },
-	{{"DEFAULT", "DEFAULT"  }, TEST_UI_CUR_FILE_NAME},
-	{{"步骤:"  , "Step:"    }, TEST_UI_STEP         },
-	{{"01/01"  , "01/01"    }, TEST_UI_CUR_STEP     },
-	{{"工作模式:","WorkMode:"}, TEST_UI_WORK_MODE   },
-	{{"N"      , "N"        }, TEST_UI_CUR_WORK_MODE},
-	
 	{{"输出电压:","Voltage:"}, TEST_UI_VOLTAGE      },
 	{{"5.000kV" , "5.000kV" }, TEST_UI_CUR_VOLTAGE  },
 	{{"电流档位:","CUR.Range:"}, TEST_UI_RANGE      },
@@ -415,13 +394,17 @@ static TEXT_ELE_T test_ui_ele_pool[]=
 	{{"123.4s" ,"123.4s"    }, TEST_UI_RES4_TIME     },
 	{{"上限报警","High Fail"}, TEST_UI_RES4_RESULT   },
 };
-enum{
-    TEST_WIN_EDIT_INDEX,///<测试窗口中的编辑对象索引枚举
-};
+
+/**
+  * @brief 界面编辑对象索引表
+  */
 CS_INDEX test_win_edit_index_table[]=
 {
     TEST_WIN_EDIT_INDEX,
 };
+/**
+  * @brief 界面编辑对象池数组
+  */
 static EDIT_ELE_T test_win_edit_ele_pool[]=
 {
     {
@@ -480,7 +463,159 @@ static CUSTOM_MENU_KEY_INF test_win_mode_inf_pool[]=
     {BBD_STR , BBD, test_win_select_test_mode_key_cb},
     {CC_STR  , CC , test_win_select_test_mode_key_cb},
 };
+/**
+  * @brief  编辑电流档位时使用的定制菜单键信息初始化数组
+  */
+static CUSTOM_MENU_KEY_INF test_win_cur_range_inf_pool[]=
+{
+    { CUR_2uA_STR   , AC_2uA	, test_win_select_cur_range_key_cb},
+    { CUR_20uA_STR  , AC_20uA	, test_win_select_cur_range_key_cb},
+    { CUR_200uA_STR , AC_200uA  , test_win_select_cur_range_key_cb},
+    { CUR_2mA_STR   , AC_2mA	, test_win_select_cur_range_key_cb},
+    { CUR_10mA_STR  , AC_10mA	, test_win_select_cur_range_key_cb},
+    { CUR_20mA_STR  , AC_20mA	, test_win_select_cur_range_key_cb},
+    { CUR_50mA_STR  , AC_50mA	, test_win_select_cur_range_key_cb},
+    { CUR_100mA_STR , AC_100mA  , test_win_select_cur_range_key_cb},
+    { CUR_200mA_STR , AC_200mA  , test_win_select_cur_range_key_cb},
+    { CUR_2A_STR    , AC_2A     , test_win_select_cur_range_key_cb},
+};
+/**
+  * @brief  编辑测试模式时使用的菜单键初始化信息数组
+  */
+static MENU_KEY_INFO_T 	test_win_edit_mode_menu_key_init_info[] =
+{
+    {"", F_KEY_CUSTOM   , KEY_F1 & _KEY_UP, 0},//f1
+    {"", F_KEY_CUSTOM   , KEY_F2 & _KEY_UP, 0},//f2
+    {"", F_KEY_CUSTOM   , KEY_F3 & _KEY_UP, 0},//f3
+    {"", F_KEY_CUSTOM   , KEY_F4 & _KEY_UP, 0},//f4
+    {"", F_KEY_CUSTOM   , KEY_F5 & _KEY_UP, 0},//f5
+    {"", F_KEY_BACK		, KEY_F6 & _KEY_UP, test_win_edit_mode_f6_cb },//f6
+};
+/**
+  * @brief  编辑电流档位时使用的菜单键初始化信息数组
+  */
+static MENU_KEY_INFO_T 	test_win_edit_range_menu_key_init_info[] =
+{
+    {"", F_KEY_CUSTOM   , KEY_F1 & _KEY_UP, 0},//f1
+    {"", F_KEY_CUSTOM   , KEY_F2 & _KEY_UP, 0},//f2
+    {"", F_KEY_CUSTOM   , KEY_F3 & _KEY_UP, 0},//f3
+    {"", F_KEY_CUSTOM   , KEY_F4 & _KEY_UP, 0},//f4
+    {"", F_KEY_CUSTOM   , KEY_F5 & _KEY_UP, 0},//f5
+    {"", F_KEY_BACK		, KEY_F6 & _KEY_UP, test_win_edit_range_f6_cb },//f6
+};
+/**
+  * @brief  编辑IR自动换档时使用的菜单键初始化信息数组
+  */
+static MENU_KEY_INFO_T 	edit_auto_shift_menu_key_init_info[] =
+{
+    {"", F_KEY_ON   , KEY_F1 & _KEY_UP, edit_auto_shift_f1_cb },//f1
+    {"", F_KEY_OFF  , KEY_F2 & _KEY_UP, edit_auto_shift_f2_cb },//f2
+    {"", F_KEY_NULL , KEY_F3 & _KEY_UP, edit_auto_shift_f3_cb },//f3
+    {"", F_KEY_NULL , KEY_F4 & _KEY_UP, edit_auto_shift_f4_cb },//f4
+    {"", F_KEY_NULL , KEY_F5 & _KEY_UP, edit_auto_shift_f5_cb },//f5
+    {"", F_KEY_BACK , KEY_F6 & _KEY_UP, edit_auto_shift_f6_cb },//f6
+};
 
+/**
+  * @brief  编辑电压时使用的菜单键初始化信息数组
+  */
+static MENU_KEY_INFO_T 	test_win_edit_vol_menu_key_init_info[] =
+{
+    {"", F_KEY_DEL		, KEY_F1 & _KEY_UP, edit_test_win_vol_f1_cb },//f1
+    {"", F_KEY_CLEAR    , KEY_F2 & _KEY_UP, edit_test_win_vol_f2_cb },//f2
+    {"", F_KEY_NULL		, KEY_F3 & _KEY_UP, edit_test_win_vol_f3_cb },//f3
+    {"", F_KEY_NULL		, KEY_F4 & _KEY_UP, edit_test_win_vol_f4_cb },//f4
+    {"", F_KEY_NULL		, KEY_F5 & _KEY_UP, edit_test_win_vol_f5_cb },//f5
+    {"", F_KEY_BACK		, KEY_F6 & _KEY_UP, edit_test_win_vol_f6_cb },//f6
+};
+
+/**
+* @brief  编辑上下限时使用的菜单键初始化信息数组
+  */
+static MENU_KEY_INFO_T 	test_win_edit_upper_menu_key_init_info[] =
+{
+    {"", F_KEY_DEL		, KEY_F1 & _KEY_UP, edit_test_win_upper_f1_cb },//f1
+    {"", F_KEY_CLEAR    , KEY_F2 & _KEY_UP, edit_test_win_upper_f2_cb },//f2
+    {"", F_KEY_NULL		, KEY_F3 & _KEY_UP, edit_test_win_upper_f3_cb },//f3
+    {"", F_KEY_NULL		, KEY_F4 & _KEY_UP, edit_test_win_upper_f4_cb },//f4
+    {"", F_KEY_NULL		, KEY_F5 & _KEY_UP, edit_test_win_upper_f5_cb },//f5
+    {"", F_KEY_BACK		, KEY_F6 & _KEY_UP, edit_test_win_upper_f6_cb },//f6
+};
+
+/**
+  * @brief  测试窗口编辑参数时使用的功能键的初始化信息数组
+  */
+static FUNCTION_KEY_INFO_T 	test_win_edit_par_sys_key_init_pool[]=
+{
+	{KEY_UP		, test_win_direct_key_up_cb      },
+	{KEY_DOWN	, test_win_direct_key_down_cb    },
+	{KEY_LEFT	, test_win_direct_key_left_cb    },
+	{KEY_RIGHT	, test_win_direct_key_right_cb   },
+	{KEY_ENTER	, test_win_sys_key_enter_cb      },
+};
+/* Private functions ---------------------------------------------------------*/
+/**
+  * @brief  更新当前编辑的电流档位对应的菜单键的颜色
+  * @param  无
+  * @retval 无
+  */
+static void update_cur_range_cur_value_menu_key_color(void)
+{
+    uint32_t key_value = 0;
+    int32_t i = 0;
+    GUI_COLOR color;
+    EDIT_ELE_T *ele;
+    uint32_t size = 0;
+    uint8_t **p_range;
+    uint8_t *cur_range;
+    uint8_t mode = 0;
+    uint32_t key_value_buf[] ={
+        KEY_F1 & _KEY_UP,
+        KEY_F2 & _KEY_UP,
+        KEY_F3 & _KEY_UP,
+        KEY_F4 & _KEY_UP,
+        KEY_F5 & _KEY_UP,
+        KEY_F6 & _KEY_UP,
+    };
+    
+    mode = g_cur_step->one_step.com.mode;
+    ele = get_range_edit_ele_inf(&g_cur_step->one_step);
+    p_range = ele->resource.table;
+    size = ele->resource.size;
+    
+    switch(mode)
+    {
+        case ACW:
+            cur_range = ac_gear[g_cur_step->one_step.acw.range].name;
+            break;
+        case DCW:
+            cur_range = dc_gear[g_cur_step->one_step.dcw.range].name;
+            break;
+        default:
+            return;
+    }
+    
+    for(i = 0; i < size; i++)
+    {
+        key_value = key_value_buf[i];
+        
+        if(0 == strcmp((const char*)cur_range, (const char*)p_range[i]))
+        {
+            color = CUR_VALUE_AT_KEY_COLOR;
+        }
+        else
+        {
+            color = NO_CUR_VALUE_AT_KEY_COLOR;
+        }
+        
+        change_menu_key_font_color(key_value, color);
+    }
+}
+/**
+  * @brief  更新当前编辑的测试模式对应的菜单键的颜色
+  * @param  无
+  * @retval 无
+  */
 static void update_test_mode_cur_value_menu_key_color(void)
 {
     uint32_t key_value = 0;
@@ -589,151 +724,10 @@ static void test_win_select_cur_range_key_cb(KEY_MESSAGE *key_msg)
     }
 }
 /**
-  * @brief  编辑测试模式时使用的定制菜单键信息初始化数组
+  * @brief  测试窗口系统功能键信息初始化
+  * @param  [in] hWin 窗口句柄
+  * @retval 无
   */
-static CUSTOM_MENU_KEY_INF test_win_cur_range_inf_pool[]=
-{
-    { CUR_2uA_STR   , AC_2uA	, test_win_select_cur_range_key_cb},
-    { CUR_20uA_STR  , AC_20uA	, test_win_select_cur_range_key_cb},
-    { CUR_200uA_STR , AC_200uA  , test_win_select_cur_range_key_cb},
-    { CUR_2mA_STR   , AC_2mA	, test_win_select_cur_range_key_cb},
-    { CUR_10mA_STR  , AC_10mA	, test_win_select_cur_range_key_cb},
-    { CUR_20mA_STR  , AC_20mA	, test_win_select_cur_range_key_cb},
-    { CUR_50mA_STR  , AC_50mA	, test_win_select_cur_range_key_cb},
-    { CUR_100mA_STR , AC_100mA  , test_win_select_cur_range_key_cb},
-    { CUR_200mA_STR , AC_200mA  , test_win_select_cur_range_key_cb},
-    { CUR_2A_STR    , AC_2A     , test_win_select_cur_range_key_cb},
-};
-static void update_cur_range_cur_value_menu_key_color(void)
-{
-    uint32_t key_value = 0;
-    int32_t i = 0;
-    GUI_COLOR color;
-    EDIT_ELE_T *ele;
-    uint32_t size = 0;
-    uint8_t **p_range;
-    uint8_t *cur_range;
-    uint8_t mode = 0;
-    uint32_t key_value_buf[] ={
-        KEY_F1 & _KEY_UP,
-        KEY_F2 & _KEY_UP,
-        KEY_F3 & _KEY_UP,
-        KEY_F4 & _KEY_UP,
-        KEY_F5 & _KEY_UP,
-        KEY_F6 & _KEY_UP,
-    };
-    
-    mode = g_cur_step->one_step.com.mode;
-    ele = get_range_edit_ele_inf(&g_cur_step->one_step);
-    p_range = ele->resource.table;
-    size = ele->resource.size;
-    
-    switch(mode)
-    {
-        case ACW:
-            cur_range = ac_gear[g_cur_step->one_step.acw.range].name;
-            break;
-        case DCW:
-            cur_range = dc_gear[g_cur_step->one_step.dcw.range].name;
-            break;
-        default:
-            return;
-    }
-    
-    for(i = 0; i < size; i++)
-    {
-        key_value = key_value_buf[i];
-        
-        if(0 == strcmp((const char*)cur_range, (const char*)p_range[i]))
-        {
-            color = CUR_VALUE_AT_KEY_COLOR;
-        }
-        else
-        {
-            color = NO_CUR_VALUE_AT_KEY_COLOR;
-        }
-        
-        change_menu_key_font_color(key_value, color);
-    }
-}
-/**
-  * @brief  编辑测试模式时使用的菜单键初始化信息数组
-  */
-static MENU_KEY_INFO_T 	test_win_edit_mode_menu_key_init_info[] =
-{
-    {"", F_KEY_CUSTOM   , KEY_F1 & _KEY_UP, 0},//f1
-    {"", F_KEY_CUSTOM   , KEY_F2 & _KEY_UP, 0},//f2
-    {"", F_KEY_CUSTOM   , KEY_F3 & _KEY_UP, 0},//f3
-    {"", F_KEY_CUSTOM   , KEY_F4 & _KEY_UP, 0},//f4
-    {"", F_KEY_CUSTOM   , KEY_F5 & _KEY_UP, 0},//f5
-    {"", F_KEY_BACK		, KEY_F6 & _KEY_UP, test_win_edit_mode_f6_cb },//f6
-};
-/**
-  * @brief  编辑电流档位时使用的菜单键初始化信息数组
-  */
-static MENU_KEY_INFO_T 	test_win_edit_range_menu_key_init_info[] =
-{
-    {"", F_KEY_CUSTOM   , KEY_F1 & _KEY_UP, 0},//f1
-    {"", F_KEY_CUSTOM   , KEY_F2 & _KEY_UP, 0},//f2
-    {"", F_KEY_CUSTOM   , KEY_F3 & _KEY_UP, 0},//f3
-    {"", F_KEY_CUSTOM   , KEY_F4 & _KEY_UP, 0},//f4
-    {"", F_KEY_CUSTOM   , KEY_F5 & _KEY_UP, 0},//f5
-    {"", F_KEY_BACK		, KEY_F6 & _KEY_UP, test_win_edit_range_f6_cb },//f6
-};
-/**
-  * @brief  编辑IR自动换档时使用的菜单键初始化信息数组
-  */
-static MENU_KEY_INFO_T 	edit_auto_shift_menu_key_init_info[] =
-{
-    {"", F_KEY_ON   , KEY_F1 & _KEY_UP, edit_auto_shift_f1_cb },//f1
-    {"", F_KEY_OFF  , KEY_F2 & _KEY_UP, edit_auto_shift_f2_cb },//f2
-    {"", F_KEY_NULL , KEY_F3 & _KEY_UP, edit_auto_shift_f3_cb },//f3
-    {"", F_KEY_NULL , KEY_F4 & _KEY_UP, edit_auto_shift_f4_cb },//f4
-    {"", F_KEY_NULL , KEY_F5 & _KEY_UP, edit_auto_shift_f5_cb },//f5
-    {"", F_KEY_BACK , KEY_F6 & _KEY_UP, edit_auto_shift_f6_cb },//f6
-};
-
-/**
-  * @brief  编辑电压时使用的菜单键初始化信息数组
-  */
-static MENU_KEY_INFO_T 	test_win_edit_vol_menu_key_init_info[] =
-{
-    {"", F_KEY_DEL		, KEY_F1 & _KEY_UP, edit_test_win_vol_f1_cb },//f1
-    {"", F_KEY_CLEAR    , KEY_F2 & _KEY_UP, edit_test_win_vol_f2_cb },//f2
-    {"", F_KEY_NULL		, KEY_F3 & _KEY_UP, edit_test_win_vol_f3_cb },//f3
-    {"", F_KEY_NULL		, KEY_F4 & _KEY_UP, edit_test_win_vol_f4_cb },//f4
-    {"", F_KEY_NULL		, KEY_F5 & _KEY_UP, edit_test_win_vol_f5_cb },//f5
-    {"", F_KEY_BACK		, KEY_F6 & _KEY_UP, edit_test_win_vol_f6_cb },//f6
-};
-
-/**
-  * @brief  编辑电压时使用的菜单键初始化信息数组
-  */
-static MENU_KEY_INFO_T 	test_win_edit_upper_menu_key_init_info[] =
-{
-    {"", F_KEY_DEL		, KEY_F1 & _KEY_UP, edit_test_win_upper_f1_cb },//f1
-    {"", F_KEY_CLEAR    , KEY_F2 & _KEY_UP, edit_test_win_upper_f2_cb },//f2
-    {"", F_KEY_NULL		, KEY_F3 & _KEY_UP, edit_test_win_upper_f3_cb },//f3
-    {"", F_KEY_NULL		, KEY_F4 & _KEY_UP, edit_test_win_upper_f4_cb },//f4
-    {"", F_KEY_NULL		, KEY_F5 & _KEY_UP, edit_test_win_upper_f5_cb },//f5
-    {"", F_KEY_BACK		, KEY_F6 & _KEY_UP, edit_test_win_upper_f6_cb },//f6
-};
-
-/**
-  * @brief  测试窗口编辑参数时使用的编辑控件功能键的初始化信息数组
-  */
-static FUNCTION_KEY_INFO_T 	test_win_edit_par_sys_key_init_pool[]=
-{
-	{KEY_UP		, test_win_direct_key_up_cb      },
-	{KEY_DOWN	, test_win_direct_key_down_cb 	  },
-	{KEY_LEFT	, test_win_direct_key_left_cb    },
-	{KEY_RIGHT	, test_win_direct_key_right_cb   },
-//	{CODE_LEFT	, test_win_direct_key_down_cb    },
-//	{CODE_RIGH	, test_win_direct_key_up_cb      },
-	{KEY_ENTER	, test_win_sys_key_enter_cb      },
-};
-/* Private functions ---------------------------------------------------------*/
-
 static void test_win_win_sys_key_init(WM_HMEM hWin)
 {
     FUNCTION_KEY_INFO_T *pool = test_win_edit_par_sys_key_init_pool;
@@ -942,7 +936,6 @@ static void test_win_edit_cur_upper_menu_key_init(WM_HMEM hWin)
     }
 }
 
-
 /**
   * @brief  编辑电流下限时使用的菜单键初始化
   * @param  [in] hWin 窗口句柄
@@ -980,6 +973,12 @@ static void test_win_edit_cur_lower_menu_key_init(WM_HMEM hWin)
         update_range_name(ele->name[SYS_LANGUAGE]);
     }
 }
+/**
+  * @brief  根据提供的文本对象信息来初始化编辑对象的位置尺寸信息
+  * @param  [in] text_ele 文本对象
+  * @param  [in] edit_ele 编辑对象
+  * @retval 无
+  */
 static void init_test_win_edit_ele_pos_size(TEXT_ELE_T * text_ele, EDIT_ELE_T *edit_ele)
 {
     
@@ -995,6 +994,11 @@ static void init_test_win_edit_ele_pos_size(TEXT_ELE_T * text_ele, EDIT_ELE_T *e
     edit_ele->dis.edit.font_color = GUI_BLACK;
     edit_ele->dis.edit.font = SEL_FONT(text_ele->dis_info.font);
 }
+/**
+  * @brief  初始化输出电压编辑控件的位置尺寸信息
+  * @param  [in] win 窗口结构信息
+  * @retval 无
+  */
 static void init_vol_edit_ele_pos_size(MYUSER_WINDOW_T *win)
 {
     EDIT_ELE_T *edit_ele = NULL;
@@ -1027,6 +1031,11 @@ static void init_vol_edit_ele_pos_size(MYUSER_WINDOW_T *win)
     
     init_test_win_edit_ele_pos_size(text_ele, edit_ele);
 }
+/**
+  * @brief  初始化测试时间编辑控件的位置尺寸信息
+  * @param  [in] win 窗口结构信息
+  * @retval 无
+  */
 static void init_test_time_edit_ele_pos_size(MYUSER_WINDOW_T *win)
 {
     EDIT_ELE_T *edit_ele = NULL;
@@ -1059,6 +1068,11 @@ static void init_test_time_edit_ele_pos_size(MYUSER_WINDOW_T *win)
     
     init_test_win_edit_ele_pos_size(text_ele, edit_ele);
 }
+/**
+  * @brief  初始化电流上限编辑控件的位置尺寸信息
+  * @param  [in] win 窗口结构信息
+  * @retval 无
+  */
 static void init_cur_upper_edit_ele_pos_size(MYUSER_WINDOW_T *win)
 {
     EDIT_ELE_T *edit_ele = NULL;
@@ -1091,6 +1105,11 @@ static void init_cur_upper_edit_ele_pos_size(MYUSER_WINDOW_T *win)
     
     init_test_win_edit_ele_pos_size(text_ele, edit_ele);
 }
+/**
+  * @brief  初始化电流下限编辑控件的位置尺寸信息
+  * @param  [in] win 窗口结构信息
+  * @retval 无
+  */
 static void init_cur_lower_edit_ele_pos_size(MYUSER_WINDOW_T *win)
 {
     EDIT_ELE_T *edit_ele = NULL;
@@ -1123,6 +1142,11 @@ static void init_cur_lower_edit_ele_pos_size(MYUSER_WINDOW_T *win)
     
     init_test_win_edit_ele_pos_size(text_ele, edit_ele);
 }
+/**
+  * @brief  初始化并创建测试窗口中的编辑对象
+  * @param  [in] win 窗口结构信息
+  * @retval 无
+  */
 static void init_create_test_win_edit_ele(MYUSER_WINDOW_T *win)
 {
     init_window_edit_ele_list(win);//初始化窗口编辑对象链表
@@ -1132,19 +1156,72 @@ static void init_create_test_win_edit_ele(MYUSER_WINDOW_T *win)
     select_edit_ele(g_cur_edit_ele);//选中当前编辑对象
     test_win_win_sys_key_init(g_cur_edit_ele->dis.edit.handle);
 }
-
+/**
+  * @brief  测试窗口向上键回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void test_win_direct_key_up_cb(KEY_MESSAGE *key_msg)
 {
+    NODE_STEP *node;
+    
+    if(g_cur_step->one_step.com.step < g_cur_file->total)
+    {
+        load_steps_to_list(g_cur_step->one_step.com.step + 1, 1);
+        node = get_g_cur_step();
+        
+        if(NULL != node)
+        {
+            g_cur_step = node;
+            update_test_win_text_ele_text(g_cur_win);
+            update_group_inf(g_cur_win);
+        }
+    }
 }
+/**
+  * @brief  测试窗口向下键回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void test_win_direct_key_down_cb(KEY_MESSAGE *key_msg)
 {
+    NODE_STEP *node;
+    
+    if(g_cur_step->one_step.com.step > 1)
+    {
+        load_steps_to_list(g_cur_step->one_step.com.step - 1, 1);
+        node = get_g_cur_step();
+        
+        if(NULL != node)
+        {
+            g_cur_step = node;
+            update_test_win_text_ele_text(g_cur_win);
+            update_group_inf(g_cur_win);
+        }
+    }
 }
+/**
+  * @brief  测试窗口向左键回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void test_win_direct_key_left_cb(KEY_MESSAGE *key_msg)
 {
 }
+
+/**
+  * @brief  测试窗口向右键回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void test_win_direct_key_right_cb(KEY_MESSAGE *key_msg)
 {
 }
+/**
+  * @brief  测试窗口ENTER键回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void test_win_sys_key_enter_cb(KEY_MESSAGE *key_msg)
 {
     upload_par_to_ram(g_cur_edit_ele);//将数据上载到内存中
@@ -1152,73 +1229,138 @@ static void test_win_sys_key_enter_cb(KEY_MESSAGE *key_msg)
     update_test_win_text_ele_text(g_cur_win);
     delete_win_edit_ele(g_cur_win);
     set_cur_edit_ele(NULL);//将当前编辑对象置为空
-    change_key_menu(key_msg->user_data);
+    update_key_menu(key_msg->user_data);
 }
 /**
-  * @brief  设置测试界面功能键F0回调函数
+  * @brief  测试界面编辑测试模式时菜单键F6的回调函数
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
 static void test_win_edit_mode_f6_cb(KEY_MESSAGE *key_msg)
 {
-    change_key_menu(key_msg->user_data);
+    update_key_menu(key_msg->user_data);
 }
 /**
-  * @brief  设置测试界面功能键F0回调函数
+  * @brief  设置测试窗口编辑电流档位时使用的功能键F6回调函数
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
 static void test_win_edit_range_f6_cb(KEY_MESSAGE *key_msg)
 {
-    change_key_menu(key_msg->user_data);
+    update_key_menu(key_msg->user_data);
 }
 
+/**
+  * @brief  设置测试窗口编辑上下限时使用的功能键F1回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void edit_test_win_upper_f1_cb(KEY_MESSAGE *key_msg)
 {
     menu_key_backspace(key_msg->user_data);
 }
+/**
+  * @brief  设置测试窗口编辑上下限时使用的功能键F2回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void edit_test_win_upper_f2_cb(KEY_MESSAGE *key_msg)
 {
     clear_edit_ele(g_cur_edit_ele->dis.edit.handle);
 }
+/**
+  * @brief  设置测试窗口编辑上下限时使用的功能键F3回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void edit_test_win_upper_f3_cb(KEY_MESSAGE *key_msg)
 {
 }
+/**
+  * @brief  设置测试窗口编辑上下限时使用的功能键F4回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void edit_test_win_upper_f4_cb(KEY_MESSAGE *key_msg)
 {
 }
+/**
+  * @brief  设置测试窗口编辑上下限时使用的功能键F5回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void edit_test_win_upper_f5_cb(KEY_MESSAGE *key_msg)
 {
 }
+/**
+  * @brief  设置测试窗口编辑上下限时使用的功能键F6回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void edit_test_win_upper_f6_cb(KEY_MESSAGE *key_msg)
 {
-    change_key_menu(key_msg->user_data);
+    update_key_menu(key_msg->user_data);
     delete_win_edit_ele(g_cur_win);
 }
 
+/**
+  * @brief  设置测试窗口编辑输出电压时使用的功能键F1回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void edit_test_win_vol_f1_cb(KEY_MESSAGE *key_msg)
 {
     menu_key_backspace(key_msg->user_data);
 }
+/**
+  * @brief  设置测试窗口编辑输出电压时使用的功能键F2回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void edit_test_win_vol_f2_cb(KEY_MESSAGE *key_msg)
 {
     clear_edit_ele(g_cur_edit_ele->dis.edit.handle);
 }
+/**
+  * @brief  设置测试窗口编辑输出电压时使用的功能键F3回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void edit_test_win_vol_f3_cb(KEY_MESSAGE *key_msg)
 {
 }
+/**
+  * @brief  设置测试窗口编辑输出电压时使用的功能键F4回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void edit_test_win_vol_f4_cb(KEY_MESSAGE *key_msg)
 {
 }
+/**
+  * @brief  设置测试窗口编辑输出电压时使用的功能键F5回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void edit_test_win_vol_f5_cb(KEY_MESSAGE *key_msg)
 {
 }
+/**
+  * @brief  设置测试窗口编辑输出电压时使用的功能键F6回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void edit_test_win_vol_f6_cb(KEY_MESSAGE *key_msg)
 {
-    change_key_menu(key_msg->user_data);
+    update_key_menu(key_msg->user_data);
     delete_win_edit_ele(g_cur_win);
 }
 
+/**
+  * @brief  更新当前编辑的IR自动换档对应的菜单键的文本颜色
+  * @param  无
+  * @retval 无
+  */
 static void update_auto_shift_cur_value_menu_key_color(void)
 {
     MENU_KEY_INFO_T * info = edit_auto_shift_menu_key_init_info;
@@ -1263,34 +1405,64 @@ static void update_auto_shift_cur_value_menu_key_color(void)
         }
     }
 }
+/**
+  * @brief  更新当前编辑的IR自动换档时使用的菜单键F1回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void edit_auto_shift_f1_cb(KEY_MESSAGE *key_msg)
 {
     g_cur_step->one_step.ir.auto_shift = SW_ON;
     save_setting_step();
     update_auto_shift_cur_value_menu_key_color();
 }
+/**
+  * @brief  更新当前编辑的IR自动换档时使用的菜单键F2回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void edit_auto_shift_f2_cb(KEY_MESSAGE *key_msg)
 {
     g_cur_step->one_step.ir.auto_shift = SW_OFF;
     save_setting_step();
     update_auto_shift_cur_value_menu_key_color();
 }
+/**
+  * @brief  更新当前编辑的IR自动换档时使用的菜单键F3回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void edit_auto_shift_f3_cb(KEY_MESSAGE *key_msg)
 {
 }
+/**
+  * @brief  更新当前编辑的IR自动换档时使用的菜单键F4回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void edit_auto_shift_f4_cb(KEY_MESSAGE *key_msg)
 {
 }
+/**
+  * @brief  更新当前编辑的IR自动换档时使用的菜单键F5回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void edit_auto_shift_f5_cb(KEY_MESSAGE *key_msg)
 {
 }
+/**
+  * @brief  更新当前编辑的IR自动换档时使用的菜单键F6回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void edit_auto_shift_f6_cb(KEY_MESSAGE *key_msg)
 {
-    change_key_menu(key_msg->user_data);
+    update_key_menu(key_msg->user_data);
     delete_win_edit_ele(g_cur_win);
 }
 /**
-  * @brief  设置测试界面功能键F0回调函数
+  * @brief  测试窗口菜单键F0回调函数
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
@@ -1298,32 +1470,56 @@ static void test_win_f0_cb(KEY_MESSAGE *key_msg)
 {
 }
 /**
-  * @brief  设置测试界面功能键F1回调函数
+  * @brief  测试窗口菜单键F1回调函数
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
 static void test_win_f1_cb(KEY_MESSAGE *key_msg)
 {
+    uint8_t flag = get_key_lock_flag();
+    
+    /* 加锁 */
+    if(flag)
+    {
+        init_back_up_will_enter_win_inf(create_file_win, g_cur_win->handle);
+    }
+    /* 未加锁 */
+    else
+    {
+        create_file_win(key_msg->user_data);
+    }
 }
 /**
-  * @brief  设置测试界面功能键F2回调函数
+  * @brief  测试窗口菜单键F2回调函数
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
 static void test_win_f2_cb(KEY_MESSAGE *key_msg)
 {
-    change_key_menu(key_msg->user_data);
+    update_key_menu(key_msg->user_data);
 }
 /**
-  * @brief  设置测试界面功能键F3回调函数
+  * @brief  测试窗口菜单键F3回调函数
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
 static void test_win_f3_cb(KEY_MESSAGE *key_msg)
 {
+    uint8_t flag = get_key_lock_flag();
+    
+    /* 加锁 */
+    if(flag)
+    {
+        init_back_up_will_enter_win_inf(create_result_win, g_cur_win->handle);
+    }
+    /* 未加锁 */
+    else
+    {
+        create_result_win(g_cur_win->handle);
+    }
 }
 /**
-  * @brief  设置测试界面功能键F4回调函数
+  * @brief  测试窗口菜单键F4回调函数
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
@@ -1331,7 +1527,7 @@ static void test_win_f4_cb(KEY_MESSAGE *key_msg)
 {
 }
 /**
-  * @brief  设置测试界面功能键F5回调函数
+  * @brief  测试窗口菜单键F5回调函数
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
@@ -1339,7 +1535,7 @@ static void test_win_f5_cb(KEY_MESSAGE *key_msg)
 {
 }
 /**
-  * @brief  设置测试界面功能键F6回调函数
+  * @brief  测试窗口菜单键F6回调函数
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
@@ -1348,49 +1544,108 @@ static void test_win_f6_cb(KEY_MESSAGE *key_msg)
     back_win(key_msg->user_data);
 }
 
+/**
+  * @brief  测试窗口编辑ACW/DCW参数时使用的第1页菜单键F1回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_acw_par_f1_1_cb(KEY_MESSAGE *key_msg)
 {
     test_win_edit_mode_menu_key_init(key_msg->user_data);
 }
+/**
+  * @brief  测试窗口编辑ACW/DCW参数时使用的第1页菜单键F2回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_acw_par_f2_1_cb(KEY_MESSAGE *key_msg)
 {
     test_win_edit_vol_menu_key_init(key_msg->user_data);
 }
+/**
+  * @brief  测试窗口编辑ACW/DCW参数时使用的第1页菜单键F3回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_acw_par_f3_1_cb(KEY_MESSAGE *key_msg)
 {
     test_win_edit_range_menu_key_init(key_msg->user_data);
 }
+/**
+  * @brief  测试窗口编辑ACW/DCW参数时使用的第1页菜单键F4回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_acw_par_f4_1_cb(KEY_MESSAGE *key_msg)
 {
     test_win_edit_test_time_menu_key_init(key_msg->user_data);
 }
+/**
+  * @brief  测试窗口编辑ACW/DCW参数时使用的第1页菜单键F5回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_acw_par_f5_1_cb(KEY_MESSAGE *key_msg)
 {
     select_set_acw_par_menu_2(key_msg->user_data);
 }
+/**
+  * @brief  测试窗口编辑ACW/DCW参数时使用的第1页菜单键F6回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_acw_par_f6_1_cb(KEY_MESSAGE *key_msg)
 {
     update_test_win_menu_key_inf(key_msg->user_data);
     clear_range_text_ele(g_cur_win);
 }
-
+/**
+  * @brief  测试窗口编辑ACW/DCW参数时使用的第2页菜单键F1回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_acw_par_f1_2_cb(KEY_MESSAGE *key_msg)
 {
     test_win_edit_cur_upper_menu_key_init(key_msg->user_data);
 }
+/**
+  * @brief  测试窗口编辑ACW/DCW参数时使用的第2页菜单键F2回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_acw_par_f2_2_cb(KEY_MESSAGE *key_msg)
 {
     test_win_edit_cur_lower_menu_key_init(key_msg->user_data);
 }
+/**
+  * @brief  测试窗口编辑ACW/DCW参数时使用的第2页菜单键F3回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_acw_par_f3_2_cb(KEY_MESSAGE *key_msg)
 {
 }
+/**
+  * @brief  测试窗口编辑ACW/DCW参数时使用的第2页菜单键F4回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_acw_par_f4_2_cb(KEY_MESSAGE *key_msg)
 {
 }
+/**
+  * @brief  测试窗口编辑ACW/DCW参数时使用的第2页菜单键F5回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_acw_par_f5_2_cb(KEY_MESSAGE *key_msg)
 {
 }
+/**
+  * @brief  测试窗口编辑ACW/DCW参数时使用的第2页菜单键F6回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_acw_par_f6_2_cb(KEY_MESSAGE *key_msg)
 {
     select_set_acw_par_menu_1(key_msg->user_data);
@@ -1398,50 +1653,109 @@ static void set_acw_par_f6_2_cb(KEY_MESSAGE *key_msg)
     clear_range_text_ele(g_cur_win);
 }
 
+/**
+  * @brief  测试窗口编辑IR参数时使用的第1页菜单键F1回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_ir_par_f1_1_cb(KEY_MESSAGE *key_msg)
 {
     test_win_edit_mode_menu_key_init(key_msg->user_data);
 }
+/**
+  * @brief  测试窗口编辑IR参数时使用的第1页菜单键F2回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_ir_par_f2_1_cb(KEY_MESSAGE *key_msg)
 {
     test_win_edit_vol_menu_key_init(key_msg->user_data);
 }
+/**
+  * @brief  测试窗口编辑IR参数时使用的第1页菜单键F3回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_ir_par_f3_1_cb(KEY_MESSAGE *key_msg)
 {
     test_win_edit_auto_shift_menu_key_init(key_msg->user_data);
 }
+/**
+  * @brief  测试窗口编辑IR参数时使用的第1页菜单键F4回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_ir_par_f4_1_cb(KEY_MESSAGE *key_msg)
 {
     test_win_edit_test_time_menu_key_init(key_msg->user_data);
 }
+/**
+  * @brief  测试窗口编辑IR参数时使用的第1页菜单键F5回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_ir_par_f5_1_cb(KEY_MESSAGE *key_msg)
 {
     change_key_set_ir_par_menu(key_msg->user_data);
 }
+/**
+  * @brief  测试窗口编辑IR参数时使用的第1页菜单键F6回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_ir_par_f6_1_cb(KEY_MESSAGE *key_msg)
 {
     update_test_win_menu_key_inf(key_msg->user_data);
     delete_win_edit_ele(g_cur_win);
     clear_range_text_ele(g_cur_win);
 }
-
+/**
+  * @brief  测试窗口编辑IR参数时使用的第2页菜单键F1回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_ir_par_f1_2_cb(KEY_MESSAGE *key_msg)
 {
     test_win_edit_cur_upper_menu_key_init(key_msg->user_data);
 }
+/**
+  * @brief  测试窗口编辑IR参数时使用的第2页菜单键F2回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_ir_par_f2_2_cb(KEY_MESSAGE *key_msg)
 {
     test_win_edit_cur_lower_menu_key_init(key_msg->user_data);
 }
+/**
+  * @brief  测试窗口编辑IR参数时使用的第2页菜单键F3回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_ir_par_f3_2_cb(KEY_MESSAGE *key_msg)
 {
 }
+/**
+  * @brief  测试窗口编辑IR参数时使用的第2页菜单键F4回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_ir_par_f4_2_cb(KEY_MESSAGE *key_msg)
 {
 }
+/**
+  * @brief  测试窗口编辑IR参数时使用的第2页菜单键F5回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_ir_par_f5_2_cb(KEY_MESSAGE *key_msg)
 {
 }
+/**
+  * @brief  测试窗口编辑IR参数时使用的第2页菜单键F6回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_ir_par_f6_2_cb(KEY_MESSAGE *key_msg)
 {
     change_key_set_ir_par_menu(key_msg->user_data);
@@ -1449,55 +1763,119 @@ static void set_ir_par_f6_2_cb(KEY_MESSAGE *key_msg)
     clear_range_text_ele(g_cur_win);
 }
 
+/**
+  * @brief  测试窗口编辑GR参数时使用的第1页菜单键F1回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_gr_par_f1_1_cb(KEY_MESSAGE *key_msg)
 {
     test_win_edit_mode_menu_key_init(key_msg->user_data);
 }
+/**
+  * @brief  测试窗口编辑GR参数时使用的第1页菜单键F2回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_gr_par_f2_1_cb(KEY_MESSAGE *key_msg)
 {
     test_win_edit_vol_menu_key_init(key_msg->user_data);
 }
+/**
+  * @brief  测试窗口编辑GR参数时使用的第1页菜单键F3回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_gr_par_f3_1_cb(KEY_MESSAGE *key_msg)
 {
     test_win_edit_test_time_menu_key_init(key_msg->user_data);
 }
+/**
+  * @brief  测试窗口编辑GR参数时使用的第1页菜单键F4回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_gr_par_f4_1_cb(KEY_MESSAGE *key_msg)
 {
     test_win_edit_cur_upper_menu_key_init(key_msg->user_data);
 }
+/**
+  * @brief  测试窗口编辑GR参数时使用的第1页菜单键F5回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_gr_par_f5_1_cb(KEY_MESSAGE *key_msg)
 {
     change_key_set_gr_par_menu(key_msg->user_data);
 }
+/**
+  * @brief  测试窗口编辑GR参数时使用的第1页菜单键F6回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_gr_par_f6_1_cb(KEY_MESSAGE *key_msg)
 {
     update_test_win_menu_key_inf(key_msg->user_data);
     delete_win_edit_ele(g_cur_win);
     clear_range_text_ele(g_cur_win);
 }
-
+/**
+  * @brief  测试窗口编辑GR参数时使用的第2页菜单键F1回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_gr_par_f1_2_cb(KEY_MESSAGE *key_msg)
 {
     test_win_edit_cur_lower_menu_key_init(key_msg->user_data);
 }
+/**
+  * @brief  测试窗口编辑GR参数时使用的第2页菜单键F2回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_gr_par_f2_2_cb(KEY_MESSAGE *key_msg)
 {
 }
+/**
+  * @brief  测试窗口编辑GR参数时使用的第2页菜单键F3回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_gr_par_f3_2_cb(KEY_MESSAGE *key_msg)
 {
 }
+/**
+  * @brief  测试窗口编辑GR参数时使用的第2页菜单键F4回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_gr_par_f4_2_cb(KEY_MESSAGE *key_msg)
 {
 }
+/**
+  * @brief  测试窗口编辑GR参数时使用的第2页菜单键F5回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_gr_par_f5_2_cb(KEY_MESSAGE *key_msg)
 {
 }
+/**
+  * @brief  测试窗口编辑GR参数时使用的第2页菜单键F6回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
 static void set_gr_par_f6_2_cb(KEY_MESSAGE *key_msg)
 {
     change_key_set_gr_par_menu(key_msg->user_data);
     delete_win_edit_ele(g_cur_win);
     clear_range_text_ele(g_cur_win);
 }
+/**
+  * @brief  切换设置ACW参数时的菜单键信息
+  * @param  [in] hWin 窗口句柄
+  * @retval 无
+  */
 static void change_key_set_acw_par_menu(int hWin)
 {
     if(cur_at_menu_page_flag == 0)
@@ -1509,6 +1887,11 @@ static void change_key_set_acw_par_menu(int hWin)
         select_set_acw_par_menu_2(hWin);
     }
 }
+/**
+  * @brief  切换设置IR参数时的菜单键信息
+  * @param  [in] hWin 窗口句柄
+  * @retval 无
+  */
 static void change_key_set_ir_par_menu(int hWin)
 {
     if(cur_at_menu_page_flag == 0)
@@ -1520,6 +1903,11 @@ static void change_key_set_ir_par_menu(int hWin)
         select_set_ir_par_menu_1(hWin);
     }
 }
+/**
+  * @brief  更新设置IR参数时的菜单键信息，根据当前的菜单页来更新
+  * @param  [in] hWin 窗口句柄
+  * @retval 无
+  */
 static void update_key_set_ir_par_menu(int hWin)
 {
     if(cur_at_menu_page_flag == 0)
@@ -1531,6 +1919,11 @@ static void update_key_set_ir_par_menu(int hWin)
         select_set_ir_par_menu_2(hWin);
     }
 }
+/**
+  * @brief  切换设置GR参数时的菜单键信息
+  * @param  [in] hWin 窗口句柄
+  * @retval 无
+  */
 static void change_key_set_gr_par_menu(int hWin)
 {
     if(cur_at_menu_page_flag == 0)
@@ -1542,6 +1935,11 @@ static void change_key_set_gr_par_menu(int hWin)
         select_set_gr_par_menu_1(hWin);
     }
 }
+/**
+  * @brief  更新设置GR参数时的菜单键信息，根据当前的菜单页来更新
+  * @param  [in] hWin 窗口句柄
+  * @retval 无
+  */
 static void update_key_set_gr_par_menu(int hWin)
 {
     if(cur_at_menu_page_flag == 0)
@@ -1553,31 +1951,61 @@ static void update_key_set_gr_par_menu(int hWin)
         select_set_gr_par_menu_2(hWin);
     }
 }
+/**
+  * @brief  选择显示设置ACW参数的第一页菜单键信息
+  * @param  [in] hWin 窗口句柄
+  * @retval 无
+  */
 static void select_set_acw_par_menu_1(int hWin)
 {
     cur_at_menu_page_flag = 0;
     init_menu_key_info(test_ui_acw_menu_pool[0], ARRAY_SIZE(test_ui_acw_menu_pool[0]), hWin);
 }
+/**
+  * @brief  选择显示设置ACW参数的第二页菜单键信息
+  * @param  [in] hWin 窗口句柄
+  * @retval 无
+  */
 static void select_set_acw_par_menu_2(int hWin)
 {
     cur_at_menu_page_flag = 1;
     init_menu_key_info(test_ui_acw_menu_pool[1], ARRAY_SIZE(test_ui_acw_menu_pool[1]), hWin);
 }
+/**
+  * @brief  选择显示设置IR参数的第一页菜单键信息
+  * @param  [in] hWin 窗口句柄
+  * @retval 无
+  */
 static void select_set_ir_par_menu_1(int hWin)
 {
     cur_at_menu_page_flag = 0;
     init_menu_key_info(test_ui_ir_menu_pool[0], ARRAY_SIZE(test_ui_ir_menu_pool[0]), hWin);
 }
+/**
+  * @brief  选择显示设置IR参数的第二页菜单键信息
+  * @param  [in] hWin 窗口句柄
+  * @retval 无
+  */
 static void select_set_ir_par_menu_2(int hWin)
 {
     cur_at_menu_page_flag = 1;
     init_menu_key_info(test_ui_ir_menu_pool[1], ARRAY_SIZE(test_ui_ir_menu_pool[1]), hWin);
 }
+/**
+  * @brief  选择显示设置GR参数的第一页菜单键信息
+  * @param  [in] hWin 窗口句柄
+  * @retval 无
+  */
 static void select_set_gr_par_menu_1(int hWin)
 {
     cur_at_menu_page_flag = 0;
     init_menu_key_info(test_ui_gr_menu_pool[0], ARRAY_SIZE(test_ui_gr_menu_pool[0]), hWin);
 }
+/**
+  * @brief  选择显示设置GR参数的第二页菜单键信息
+  * @param  [in] hWin 窗口句柄
+  * @retval 无
+  */
 static void select_set_gr_par_menu_2(int hWin)
 {
     cur_at_menu_page_flag = 1;
@@ -1588,7 +2016,7 @@ static void select_set_gr_par_menu_2(int hWin)
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
-static void change_key_menu(int hWin)
+static void update_key_menu(int hWin)
 {
     clear_range_text_ele(g_cur_win);
     
@@ -1617,6 +2045,7 @@ static void change_key_menu(int hWin)
 static void update_test_win_menu_key_inf(WM_HMEM hWin)
 {
 	init_menu_key_info(test_ui_menu_key_pool, ARRAY_SIZE(test_ui_menu_key_pool), hWin);
+    test_win_win_sys_key_init(hWin);
 }
 
 /**
@@ -1648,6 +2077,9 @@ static void init_test_ui_text_ele_pos_inf(void)
         break;
     }
 }
+/**
+  * @brief  多路测试模式文本对象信息索引表
+  */
 static CS_INDEX roads_mode_index_table[]=
 {
     TEST_UI_ROAD01_MODE,
@@ -1655,6 +2087,11 @@ static CS_INDEX roads_mode_index_table[]=
     TEST_UI_ROAD03_MODE,
     TEST_UI_ROAD04_MODE,
 };
+/**
+  * @brief  更新测试窗口的测试模式文本对象的显示信息
+  * @param  [in] win 窗口结构信息
+  * @retval 无
+  */
 static void updata_test_win_test_mode(MYUSER_WINDOW_T* win)
 {
     uint8_t n = 0;
@@ -1672,6 +2109,9 @@ static void updata_test_win_test_mode(MYUSER_WINDOW_T* win)
         update_text_ele(index_pool[i], win, buf);
     }
 }
+/**
+  * @brief  多路输出电压文本对象信息索引表
+  */
 static CS_INDEX roads_vol_index_table[]=
 {
     TEST_UI_ROAD01_VOLTAGE,
@@ -1679,6 +2119,11 @@ static CS_INDEX roads_vol_index_table[]=
     TEST_UI_ROAD03_VOLTAGE,    
     TEST_UI_ROAD04_VOLTAGE,    
 };
+/**
+  * @brief  转换输出电压/电流为显示字符串
+  * @param  [in] buf 字符串缓冲区
+  * @retval 无
+  */
 static void transform_output_to_str(uint8_t *buf)
 {
     uint8_t mode = 0;
@@ -1686,7 +2131,6 @@ static void transform_output_to_str(uint8_t *buf)
     uint8_t unit = 0;
     uint8_t lon = 0;
     uint8_t format = 0;
-//    uint8_t range = 0;
     
     mode = g_cur_step->one_step.com.mode;
     
@@ -1740,6 +2184,11 @@ static void transform_output_to_str(uint8_t *buf)
         }
     }
 }
+/**
+  * @brief  更新测试窗口的输出电压/电流文本对象的显示信息
+  * @param  [in] win 窗口结构信息
+  * @retval 无
+  */
 static void updata_test_win_test_vol(MYUSER_WINDOW_T* win)
 {
     uint8_t n = 0;
@@ -1757,6 +2206,9 @@ static void updata_test_win_test_vol(MYUSER_WINDOW_T* win)
         update_text_ele(index_pool[i], win, buf);
     }
 }
+/**
+  * @brief  多路上限文本对象信息索引表
+  */
 static CS_INDEX roads_upper_index_table[]=
 {
     TEST_UI_ROAD01_UPPER,
@@ -1764,6 +2216,11 @@ static CS_INDEX roads_upper_index_table[]=
     TEST_UI_ROAD03_UPPER,
     TEST_UI_ROAD04_UPPER,
 };
+/**
+  * @brief  转换各模式上限值为显示字符串
+  * @param  [in] buf 字符串缓冲区
+  * @retval 无
+  */
 static void transform_upper_to_str(uint8_t *buf)
 {
     uint8_t mode = 0;
@@ -1830,6 +2287,11 @@ static void transform_upper_to_str(uint8_t *buf)
     
     mysprintf_2(buf, unit_pool[unit], format, value);
 }
+/**
+  * @brief  更新测试窗口的上限值的文本对象的显示信息
+  * @param  [in] win 窗口结构信息
+  * @retval 无
+  */
 static void updata_test_win_test_upper(MYUSER_WINDOW_T* win)
 {
     uint8_t n = 0;
@@ -1846,6 +2308,9 @@ static void updata_test_win_test_upper(MYUSER_WINDOW_T* win)
         update_text_ele(index_pool[i], win, buf);
     }
 }
+/**
+  * @brief  多路真实电流文本对象信息索引表
+  */
 static CS_INDEX roads_real_index_table[]=
 {
     TEST_UI_ROAD01_REAL,
@@ -1854,7 +2319,12 @@ static CS_INDEX roads_real_index_table[]=
     TEST_UI_ROAD04_REAL,
 };
 
-void transform_real_cur_to_str(uint8_t *buf)
+/**
+  * @brief  转换ACW真实电流值为显示字符串
+  * @param  [in] buf 字符串缓冲区
+  * @retval 无
+  */
+static void transform_real_cur_to_str(uint8_t *buf)
 {
     uint8_t mode = 0;
     uint8_t dec = 0;
@@ -1893,6 +2363,11 @@ void transform_real_cur_to_str(uint8_t *buf)
         }
     }
 }
+/**
+  * @brief  更新测试窗口的真实电流值的文本对象的显示信息
+  * @param  [in] win 窗口结构信息
+  * @retval 无
+  */
 static void updata_test_win_test_real(MYUSER_WINDOW_T* win)
 {
     uint8_t n = 0;
@@ -1909,6 +2384,9 @@ static void updata_test_win_test_real(MYUSER_WINDOW_T* win)
         update_text_ele(index_pool[i], win, buf);
     }
 }
+/**
+  * @brief  多路测试时间文本对象信息索引表
+  */
 static CS_INDEX roads_time_index_table[]=
 {
     TEST_UI_ROAD01_TIME,
@@ -1916,6 +2394,11 @@ static CS_INDEX roads_time_index_table[]=
     TEST_UI_ROAD03_TIME,
     TEST_UI_ROAD04_TIME,
 };
+/**
+  * @brief  转换测试时间为显示字符串
+  * @param  [in] buf 字符串缓冲区
+  * @retval 无
+  */
 static void transform_test_time_to_str(uint8_t *buf)
 {
     uint8_t mode = 0;
@@ -1964,6 +2447,11 @@ static void transform_test_time_to_str(uint8_t *buf)
     
     mysprintf_2(buf, unit_pool[unit], format, time);
 }
+/**
+  * @brief  更新测试窗口的测试时间的文本对象的显示信息
+  * @param  [in] win 窗口结构信息
+  * @retval 无
+  */
 static void updata_test_win_test_time(MYUSER_WINDOW_T* win)
 {
     uint8_t n = 0;
@@ -1980,6 +2468,9 @@ static void updata_test_win_test_time(MYUSER_WINDOW_T* win)
         update_text_ele(index_pool[i], win, buf);
     }
 }
+/**
+  * @brief  多路状态显示文本对象信息索引表
+  */
 static CS_INDEX roads_status_index_table[]=
 {
     TEST_UI_ROAD01_STATUS,
@@ -1987,6 +2478,11 @@ static CS_INDEX roads_status_index_table[]=
     TEST_UI_ROAD03_STATUS,
     TEST_UI_ROAD04_STATUS,
 };
+/**
+  * @brief  更新测试窗口的测试状态的文本对象的显示信息
+  * @param  [in] win 窗口结构信息
+  * @retval 无
+  */
 static void updata_test_win_test_status(MYUSER_WINDOW_T* win)
 {
     uint8_t n = 0;
@@ -2004,6 +2500,11 @@ static void updata_test_win_test_status(MYUSER_WINDOW_T* win)
         update_text_ele(index_pool[i], win, buf);
     }
 }
+/**
+  * @brief  更新测试窗口中的多路测试文本对象显示信息
+  * @param  [in] win 窗口结构信息
+  * @retval 无
+  */
 static void update_test_win_text_ele_text(MYUSER_WINDOW_T* win)
 {
     updata_test_win_test_mode(win);//更新测试模式
@@ -2027,7 +2528,7 @@ static void test_win_paint_frame(void)
 }
 
 /**
-  * @brief  初始化并创建步骤编辑窗口中的编辑控件
+  * @brief  初始化并创建步骤编辑窗口中的文本控件
   * @param  [in] win 窗口的结构数据
   * @retval 无
   */
@@ -2038,6 +2539,11 @@ static void init_create_test_win_text_ele(MYUSER_WINDOW_T* win)
     init_window_text_ele(win);
     update_test_win_text_ele_text(win);
 }
+/**
+  * @brief  初始化范围公共文本对象的显示信息
+  * @param  [in] win 窗口的结构数据
+  * @retval 无
+  */
 static void init_range_com_text_ele_dis_inf(MYUSER_WINDOW_T* win)
 {
     UI_ELE_DISPLAY_INFO_T dis_info=
@@ -2062,6 +2568,11 @@ static void init_range_com_text_ele_dis_inf(MYUSER_WINDOW_T* win)
     dis_info.align = GUI_TA_LEFT;
     set_com_text_ele_dis_inf(&dis_info, COM_RANGE_NOTICE);//提示信息
 }
+/**
+  * @brief  清空范围公共文本对象的显示信息
+  * @param  [in] win 窗口的结构数据
+  * @retval 无
+  */
 static void clear_range_text_ele(MYUSER_WINDOW_T* win)
 {
     uint8_t *buf[2]={"",""};

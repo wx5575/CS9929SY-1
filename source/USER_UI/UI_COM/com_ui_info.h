@@ -385,13 +385,6 @@ typedef struct{
 	int msg;///<命令
 	int user_data;///<用户数据
 }CUSTOM_MSG_T;
-/** 
-  * @brief 备份将要进入窗口的信息,当需要进行密码验证的窗口时要备份一下信息，当正确输入密码后再恢复调用进入窗口
-  */
-typedef struct{
-    void (*into_win_fun)(int);//进入窗口的函数
-    int data;///<携带的参数
-}BACK_UP_WILL_ENTER_WIN_INF;
 
 #ifdef   COM_UI_GLOBALS
 #define  COM_UI_EXT
@@ -405,7 +398,6 @@ COM_UI_EXT EDIT_ELE_T     *g_cur_edit_ele;///<当前编辑对象
 COM_UI_EXT TEXT_ELE_T           *g_cur_text_ele;///<当前文本对象
 COM_UI_EXT CUSTOM_MSG_T 	    g_custom_msg;///<用户自定义消息实体变量
 COM_UI_EXT uint32_t             id_base;///<全局控件ID变量
-COM_UI_EXT BACK_UP_WILL_ENTER_WIN_INF   back_up_will_enter_win_inf;///<全局控件ID变量
 
 extern TEXT_ELE_T * get_text_ele_inf(TEXT_ELE_T *text_pool, uint32_t pool_size, CS_INDEX index, CS_ERR*err);
 extern void init_window_text_ele(MYUSER_WINDOW_T* win);
@@ -419,6 +411,7 @@ extern void set_user_window_handle(WM_HWIN hWin);
 extern void set_cur_window(MYUSER_WINDOW_T* win_info);
 extern void set_cur_edit_ele(EDIT_ELE_T *node);
 extern void show_user_window(MYUSER_WINDOW_T* win_info);
+extern void show_cur_window(void);
 extern void back_win(WM_HWIN id);
 extern void del_cur_window(void);
 extern MYUSER_WINDOW_T * get_user_window_info(WM_HWIN hWin);
@@ -453,6 +446,7 @@ extern void delete_win_edit_ele(MYUSER_WINDOW_T* win);
 extern void init_create_win_com_ele(MYUSER_WINDOW_T* win);
 extern void update_range_name(uint8_t *str);
 extern void update_default_range_name(void);
+extern void myGUI_DrawRectEx(const GUI_RECT * pRect);
 
 #endif //__COM_UI_INFO_H__
 

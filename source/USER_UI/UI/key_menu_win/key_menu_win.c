@@ -82,7 +82,7 @@ TEXT_ELE_AUTO_LAYOUT_T  *key_menu_text_ele_auto_layout[]=
   */
 static const STAND_MENU_KEY_INFO_T all_menu_key_info_[]=
 {
-	{{"确定", "Ok"		}, F_KEY_OK			},
+	{{"确定", "Enter"   }, F_KEY_ENTER      },
 	{{"取消", "Cancle"	}, F_KEY_CANCLE		},
 	{{"下一项", "Next"	}, F_KEY_NEXT		},
 	{{"删除", "Delete"	}, F_KEY_DEL		},

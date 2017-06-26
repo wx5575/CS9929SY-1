@@ -72,8 +72,8 @@ static void step_no_exist_f4_cb(KEY_MESSAGE *key_msg);
 static void step_no_exist_f5_cb(KEY_MESSAGE *key_msg);
 static void step_no_exist_f6_cb(KEY_MESSAGE *key_msg);
 
-static void direct_key_down_cb(KEY_MESSAGE *key_msg);
-static void direct_key_up_cb(KEY_MESSAGE *key_msg);
+static void step_win_direct_key_down_cb(KEY_MESSAGE *key_msg);
+static void step_win_direct_key_up_cb(KEY_MESSAGE *key_msg);
 static void move_step(MOVE_STEP_DIRECTION dir);
 /* Private variables ---------------------------------------------------------*/
 /**
@@ -142,10 +142,10 @@ static MENU_KEY_INFO_T 	step_no_exist_menu_key_info[] =
   * @brief  系统功能按键的初始化数组
   */
 static FUNCTION_KEY_INFO_T 	step_win_sys_key_pool[]={
-	{KEY_UP		, direct_key_up_cb      },
-	{KEY_DOWN	, direct_key_down_cb 	},
-	{CODE_LEFT	, direct_key_down_cb    },
-	{CODE_RIGH	, direct_key_up_cb      },
+	{KEY_UP		, step_win_direct_key_up_cb      },
+	{KEY_DOWN	, step_win_direct_key_down_cb 	},
+	{CODE_LEFT	, step_win_direct_key_down_cb    },
+	{CODE_RIGH	, step_win_direct_key_up_cb      },
 };
 /* Private functions ---------------------------------------------------------*/
 
@@ -264,7 +264,7 @@ static void step_no_exist_f6_cb(KEY_MESSAGE *key_msg)
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
-static void direct_key_up_cb(KEY_MESSAGE *key_msg)
+static void step_win_direct_key_up_cb(KEY_MESSAGE *key_msg)
 {
     uint32_t data = key_msg->user_data;
     
@@ -279,7 +279,7 @@ static void direct_key_up_cb(KEY_MESSAGE *key_msg)
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
-static void direct_key_down_cb(KEY_MESSAGE *key_msg)
+static void step_win_direct_key_down_cb(KEY_MESSAGE *key_msg)
 {
     uint32_t data = key_msg->user_data;
     
@@ -402,6 +402,7 @@ static void update_step_cur_row_menu_key_st(WM_HWIN hWin)
         info = step_no_exist_menu_key_info;
     }
     
+    /* 更新前移后移功能键的使能状态 */
     /* 是第一步*/
     if(row == 0)
     {

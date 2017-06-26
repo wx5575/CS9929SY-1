@@ -178,7 +178,7 @@ static MENU_KEY_INFO_T 	sys_time_key_info[] =
     {"" , F_KEY_NULL    , KEY_F2 & _KEY_UP, sys_time_f2_cb },//f2
     {"" , F_KEY_NULL    , KEY_F3 & _KEY_UP, sys_time_f3_cb },//f3
     {"" , F_KEY_NULL    , KEY_F4 & _KEY_UP, sys_time_f4_cb },//f4
-    {"" , F_KEY_OK      , KEY_F5 & _KEY_UP, sys_time_f5_cb },//f5
+    {"" , F_KEY_ENTER      , KEY_F5 & _KEY_UP, sys_time_f5_cb },//f5
     {"" , F_KEY_BACK    , KEY_F6 & _KEY_UP, sys_time_f6_cb },//f6
 };
 /**

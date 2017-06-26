@@ -19,14 +19,14 @@
 
 /* Private typedef -----------------------------------------------------------*/
 
-typedef struct{
-    TEXT_ELE_T * name;///<多路编号
-    TEXT_ELE_T * cur_name;///<多路测试模式
-    TEXT_ELE_T * step;///<多路测试状态
-    TEXT_ELE_T * cur_step;///<多路电压
-    TEXT_ELE_T * work_mode;///<多路电流
-    TEXT_ELE_T * cur_work_mode;///<多路真实电流
-}FILE_T;
+//typedef struct{
+//    TEXT_ELE_T * name;///<多路编号
+//    TEXT_ELE_T * cur_name;///<多路测试模式
+//    TEXT_ELE_T * step;///<多路测试状态
+//    TEXT_ELE_T * cur_step;///<多路电压
+//    TEXT_ELE_T * work_mode;///<多路电流
+//    TEXT_ELE_T * cur_work_mode;///<多路真实电流
+//}FILE_T;
 
 typedef struct{
     TEXT_ELE_T * num;///<多路编号
@@ -58,6 +58,23 @@ typedef struct{
 #define PB4_X (PB_X + TP_W + TP_XO)	///<第四路坐标
 #define PB4_Y (PB_Y + TP_H + TP_YO)
 
+#define GB_X		0 ///<记忆组
+#define GB_Y		0
+#define GB_H		30
+#define FN_W		120 ///<文件名
+#define FN_X		0
+#define C_FN_X		FN_X+FN_W ///<当前文件名
+#define C_FN_W		140
+#define STEP_X  	C_FN_X+C_FN_W+1 ///< 步骤
+#define STEP_W  	65
+#define CS_X  		STEP_X+STEP_W//当前步骤
+#define CS_W  		80
+#define WM_X  		CS_X+CS_W+1 ///<工作模式
+#define WM_W		120
+#define CWM_X		WM_X+WM_W
+#define CWM_W  		20
+#define TF_FONT     &GUI_Fonthz_24
+
 /* Private variables ---------------------------------------------------------*/
 
 /**
@@ -77,91 +94,6 @@ static const GUI_RECT test_port4_area = {PB4_X, PB4_Y, PB4_X + TP_W, PB4_Y + TP_
 
 /* Private functions ---------------------------------------------------------*/
 
-
-static void myGUI_DrawRectEx(const GUI_RECT * pRect)
-{
-	GUI_DrawLine(pRect->x0, pRect->y0, pRect->x1, pRect->y0);
-	GUI_DrawLine(pRect->x0, pRect->y1, pRect->x1, pRect->y1);
-	GUI_DrawLine(pRect->x0, pRect->y0, pRect->x0, pRect->y1);
-	GUI_DrawLine(pRect->x1, pRect->y0, pRect->x1, pRect->y1);
-}
-/**
-  * @brief  7寸屏测试界面文件内容显示信息初始化
-  * @param  [in] base_x x基坐标
-  * @param  [in] base_y y基坐标
-  * @param  [in] pool 文件信息的文本控件结构
-  * @retval 无
-  */
-static void _7_test_ui_init_file_inf(uint16_t base_x, uint16_t base_y, FILE_T *pool)
-{
-    UI_ELE_DISPLAY_INFO_T inf;
-    
-    #define GB_X		0 ///<记忆组
-    #define GB_Y		0
-    #define GB_H		30
-    #define FN_W		120 ///<文件名
-    #define FN_X		0
-    #define C_FN_X		FN_X+FN_W ///<当前文件名
-    #define C_FN_W		140
-    #define STEP_X  	C_FN_X+C_FN_W+1 ///< 步骤
-    #define STEP_W  	65
-    #define CS_X  		STEP_X+STEP_W//当前步骤
-    #define CS_W  		80
-    #define WM_X  		CS_X+CS_W+1 ///<工作模式
-    #define WM_W		120
-    #define CWM_X		WM_X+WM_W
-    #define CWM_W  		20
-    #define TF_FONT     &GUI_Fonthz_24
-    
-    /* "文件名" */
-    inf.base_x = base_x;//x基坐标 
-    inf.base_y = base_y;//y基坐标
-    
-    inf.font[CHINESE] = TF_FONT;//字体
-    inf.font[ENGLISH] = TF_FONT;//字体
-    inf.max_len = 100;//最大长度
-    inf.font_color = GUI_BLACK;//字体颜色
-    inf.back_color = GUI_INVALID_COLOR;//背景颜色
-    inf.align = GUI_TA_RIGHT | GUI_TA_VCENTER;//对齐方式
-    inf.pos_size.height = GB_H;//高
-    
-    inf.pos_size.width = FN_W;//宽
-    inf.pos_size.x = FN_X;//x相对坐标
-    inf.pos_size.y = 0;//y相对坐标
-    
-    memcpy(&pool->name->dis_info, &inf, sizeof(UI_ELE_DISPLAY_INFO_T));
-    
-    /* 文件名 */
-    inf.align = GUI_TA_LEFT | GUI_TA_VCENTER;//对齐方式
-    inf.pos_size.width = C_FN_W;//宽
-    inf.pos_size.x = C_FN_X;//x相对坐标
-    
-    memcpy(&pool->cur_name->dis_info, &inf, sizeof(UI_ELE_DISPLAY_INFO_T));
-    
-    /* "步骤" */
-    inf.pos_size.x = STEP_X;//x相对坐标
-    inf.pos_size.width = STEP_W;//宽
-    
-    memcpy(&pool->step->dis_info, &inf, sizeof(UI_ELE_DISPLAY_INFO_T));
-    
-    /* 步骤 */
-    inf.pos_size.x = CS_X;//x相对坐标
-    inf.pos_size.width = CS_W;//宽
-    
-    memcpy(&pool->cur_step->dis_info, &inf, sizeof(UI_ELE_DISPLAY_INFO_T));
-    
-    /* "工作模式" */
-    inf.pos_size.x = WM_X;//x相对坐标
-    inf.pos_size.width = WM_W;//宽
-    
-    memcpy(&pool->work_mode->dis_info, &inf, sizeof(UI_ELE_DISPLAY_INFO_T));
-    
-    /* 工作模式 */
-    inf.pos_size.x = CWM_X;//x相对坐标
-    inf.pos_size.width = CWM_W;//宽
-    
-    memcpy(&pool->cur_work_mode->dis_info, &inf, sizeof(UI_ELE_DISPLAY_INFO_T));
-}
 
 
 /**
@@ -273,15 +205,7 @@ static void init_one_road_pos_size_inf(uint16_t base_x, uint16_t base_y, ROAD_T 
   */
 void _7_init_test_ui_layout1_text_ele_pos(TEXT_ELE_T *pool)
 {
-    FILE_T file_t;
     ROAD_T road_pool[4];
-    
-    file_t.name = &pool[TEST_UI_FILE_NAME];
-    file_t.cur_name = &pool[TEST_UI_CUR_FILE_NAME];
-    file_t.step = &pool[TEST_UI_STEP];
-    file_t.cur_step = &pool[TEST_UI_CUR_STEP];
-    file_t.work_mode = &pool[TEST_UI_WORK_MODE];
-    file_t.cur_work_mode = &pool[TEST_UI_CUR_WORK_MODE];
     
     road_pool[0].num    = &pool[TEST_UI_ROAD01_NUM];
     road_pool[0].mode   = &pool[TEST_UI_ROAD01_MODE];
@@ -316,9 +240,6 @@ void _7_init_test_ui_layout1_text_ele_pos(TEXT_ELE_T *pool)
     road_pool[3].time   = &pool[TEST_UI_ROAD04_TIME];
     
     /******************** 测试界面文件信息 ***********************************/
-    
-    _7_test_ui_init_file_inf(GB_X, GB_Y, &file_t);
-    
 #define R1B_X	PB1_X+2
 #define R1B_Y	PB1_Y+5
 #define R2B_X	PB2_X+2

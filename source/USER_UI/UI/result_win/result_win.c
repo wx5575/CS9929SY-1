@@ -304,8 +304,6 @@ static void result_win_paint_frame(void)
 	GUI_ClearRectEx(&r);
 }
 
-
-
 /**
   * @brief  创建结果列表
   * @param  [in] hWin 窗口句柄

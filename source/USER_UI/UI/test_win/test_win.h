@@ -18,13 +18,6 @@ typedef enum {
 /** @defgroup 测试界面
   * @{
   */
-	TEST_UI_FILE_NAME,///<测试界面“文件名”文本
-	TEST_UI_CUR_FILE_NAME,///<测试界面当前文件名
-	TEST_UI_STEP,///<测试界面"步骤"文本
-	TEST_UI_CUR_STEP,///<测试界面当前步骤xx/xx
-	TEST_UI_WORK_MODE,///<测试界面"工作模式"文本
-	TEST_UI_CUR_WORK_MODE,///<测试界面当前工作模式 N/G
-	
 	TEST_UI_VOLTAGE,///<测试界面"输出电压"文本
 	TEST_UI_CUR_VOLTAGE,///<测试界面当前的输出电压
 	TEST_UI_RANGE,///<测试界面当前步"电流档位"文本

@@ -2705,6 +2705,8 @@ EDIT_ELE_T *get_upper_edit_ele_inf(UN_STRUCT *step)
     uint32_t high = 0;
     uint32_t low = 0;
     uint8_t range = 0;
+    UNIT_T unit = NULL_U_NULL;
+    uint8_t dec = 0;
     
     mode = get_cur_step_mode();
     pool = this_win->edit.pool;
@@ -2718,6 +2720,8 @@ EDIT_ELE_T *get_upper_edit_ele_inf(UN_STRUCT *step)
             p_data = &step->acw.upper_limit;
             n = sizeof(step->acw.upper_limit);
             range = step->acw.range;
+            unit = ac_gear[range].unit;
+            dec = ac_gear[range].dec;
             high = ac_gear[range].high_max;
             low = 0;
             break;
@@ -2726,6 +2730,8 @@ EDIT_ELE_T *get_upper_edit_ele_inf(UN_STRUCT *step)
             p_data = &step->dcw.upper_limit;
             n = sizeof(step->dcw.upper_limit);
             range = step->dcw.range;
+            unit = dc_gear[range].unit;
+            dec = dc_gear[range].dec;
             high = dc_gear[range].high_max;
             low = 0;
             break;
@@ -2733,6 +2739,9 @@ EDIT_ELE_T *get_upper_edit_ele_inf(UN_STRUCT *step)
             index = STEP_EDIT_WIN_UPPER_IR;
             p_data = &step->ir.upper_limit;
             n = sizeof(step->ir.upper_limit);
+            range = step->dcw.range;
+            unit = RES_U_MOHM;
+            dec = 0;
             high = IR_RES_H;
             low = 0;
             break;
@@ -2740,6 +2749,8 @@ EDIT_ELE_T *get_upper_edit_ele_inf(UN_STRUCT *step)
             index = STEP_EDIT_WIN_UPPER_GR;
             p_data = &step->gr.upper_limit;
             n = sizeof(step->gr.upper_limit);
+            unit = RES_U_mOHM;
+            dec = 1;
             high = GR_RES_H(step->gr.output_cur);
             low = GR_RES_L;
             break;
@@ -2752,6 +2763,8 @@ EDIT_ELE_T *get_upper_edit_ele_inf(UN_STRUCT *step)
     ele->dis.edit.max_len = 5;
     ele->range.high = high;
     ele->range.low = low;
+    ele->format.dec = dec;
+    ele->format.unit = unit;
     
     return ele;
 }
@@ -2767,6 +2780,9 @@ EDIT_ELE_T *get_lower_edit_ele_inf(UN_STRUCT *step)
     CS_INDEX index;
     uint32_t low = 0;
     uint32_t high = 0;
+    UNIT_T unit = NULL_U_NULL;
+    uint8_t dec = 0;
+    uint8_t range = 0;
     
     mode = get_cur_step_mode();
     pool = this_win->edit.pool;
@@ -2779,6 +2795,9 @@ EDIT_ELE_T *get_lower_edit_ele_inf(UN_STRUCT *step)
             index = STEP_EDIT_WIN_LOWER;
             p_data = &step->acw.lower_limit;
             n = sizeof(step->acw.lower_limit);
+            range = step->acw.range;
+            unit = ac_gear[range].unit;
+            dec = ac_gear[range].dec;
             high = step->acw.upper_limit;
             low = 0;
             break;
@@ -2786,6 +2805,9 @@ EDIT_ELE_T *get_lower_edit_ele_inf(UN_STRUCT *step)
             index = STEP_EDIT_WIN_LOWER;
             p_data = &step->dcw.lower_limit;
             n = sizeof(step->dcw.lower_limit);
+            range = step->dcw.range;
+            unit = dc_gear[range].unit;
+            dec = dc_gear[range].dec;
             high = step->dcw.upper_limit;
             low = 0;
             break;
@@ -2793,6 +2815,9 @@ EDIT_ELE_T *get_lower_edit_ele_inf(UN_STRUCT *step)
             index = STEP_EDIT_WIN_LOWER_IR;
             p_data = &step->ir.lower_limit;
             n = sizeof(step->ir.lower_limit);
+            unit = RES_U_MOHM;
+            dec = 0;
+            
             if(step->ir.upper_limit != 0)
             {
                 high = step->ir.upper_limit;
@@ -2808,6 +2833,8 @@ EDIT_ELE_T *get_lower_edit_ele_inf(UN_STRUCT *step)
             index = STEP_EDIT_WIN_LOWER_GR;
             p_data = &step->gr.lower_limit;
             n = sizeof(step->gr.lower_limit);
+            unit = RES_U_mOHM;
+            dec = 1;
             high = step->gr.upper_limit;
             low = 0;
             break;
@@ -2820,6 +2847,8 @@ EDIT_ELE_T *get_lower_edit_ele_inf(UN_STRUCT *step)
     ele->dis.edit.max_len = 5;
     ele->range.high = high;
     ele->range.low = low;
+    ele->format.dec = dec;
+    ele->format.unit = unit;
     
     return ele;
 }
