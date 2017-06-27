@@ -113,6 +113,8 @@ static void edit_sw_f6_cb(KEY_MESSAGE *key_msg);
 static void edit_step_num_direct_key_up_cb(KEY_MESSAGE *key_msg);
 static void edit_step_num_direct_key_down_cb(KEY_MESSAGE *key_msg);
 static void edit_step_num_direct_key_enter_cb(KEY_MESSAGE *key_msg);
+static void edit_step_num_direct_key_enter_down_cb(KEY_MESSAGE *key_msg);
+static void edit_step_num_direct_key_enter_up_cb(KEY_MESSAGE *key_msg);
 
 static void edit_mode_direct_key_up_cb(KEY_MESSAGE *key_msg);
 static void edit_mode_direct_key_down_cb(KEY_MESSAGE *key_msg);
@@ -227,6 +229,7 @@ static CS_INDEX acw_par_index[]=
     STEP_EDIT_WIN_CONT,///<步间连续
     STEP_EDIT_WIN_PASS,///<步间PASS
     STEP_EDIT_WIN_PORT,///<输出端口
+    STEP_EDIT_WIN_DELAY_T,///<延时时间
 };
 /**
   * @brief  DCW 步骤编辑窗口中要显示的编辑控件的索引表
@@ -373,7 +376,7 @@ static FUNCTION_KEY_INFO_T 	edit_step_num_sys_key_init_pool[]=
 	{KEY_RIGHT	, step_edit_win_direct_key_right_cb   },
 	{CODE_LEFT	, edit_step_num_direct_key_down_cb  },
 	{CODE_RIGH	, edit_step_num_direct_key_up_cb    },
-	{KEY_ENTER	, edit_step_num_direct_key_enter_cb },
+	{KEY_ENTER	, edit_step_num_direct_key_enter_down_cb },
 };
 /**
   * @brief  编辑步骤编号时使用的系统功能键初始化信息数组
@@ -737,7 +740,7 @@ static MYUSER_WINDOW_T step_edit_windows=
     },/*edit*/
     {
         com_text_ele_pool,ARRAY_SIZE(com_text_ele_pool),
-        (CS_INDEX*)range_group_com_ele_table,ARRAY_SIZE(range_group_com_ele_table),
+        (CS_INDEX*)range_page_group_com_ele_table,ARRAY_SIZE(range_page_group_com_ele_table),
         init_create_step_edit_win_com_ele,
     },/*com*/
     /* 自动布局 */
@@ -1134,10 +1137,11 @@ static void re_init_create_win_all_ele(STEP_NUM step)
         init_create_win_all_ele(g_cur_win);
         select_edit_ele(g_cur_edit_ele);//重新选重当前编辑控件
         update_group_inf(g_cur_win);
+        dis_one_page_win_edit_eles(g_cur_win, g_cur_edit_ele->page);//显示一页的编辑对象
     }
 }
 /**
-  * @brief  编辑步骤编号使用的确认键回调函数
+  * @brief  编辑步骤编号使用的确认键回调函数,确认并将光标移动到下一个编辑控件
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
@@ -1154,7 +1158,27 @@ static void edit_step_num_direct_key_enter_cb(KEY_MESSAGE *key_msg)
     {
         set_edit_num_value(g_cur_edit_ele, old_step);
     }
+}
+/**
+  * @brief  编辑步骤编号使用的确认键回调函数,确认并将光标移动到下一个编辑控件
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void edit_step_num_direct_key_enter_down_cb(KEY_MESSAGE *key_msg)
+{
+    edit_step_num_direct_key_enter_cb(key_msg);
     com_edit_win_direct_key_down_cb(key_msg);//调用通用的向下键回调
+}
+
+/**
+  * @brief  编辑步骤编号使用的确认键回调函数,确认并将光标移动到上一个编辑控件
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void edit_step_num_direct_key_enter_up_cb(KEY_MESSAGE *key_msg)
+{
+    edit_step_num_direct_key_enter_cb(key_msg);
+    com_edit_win_direct_key_up_cb(key_msg);//调用通用的向下键回调
 }
 
 /**
@@ -1164,8 +1188,7 @@ static void edit_step_num_direct_key_enter_cb(KEY_MESSAGE *key_msg)
   */
 static void edit_step_num_direct_key_up_cb(KEY_MESSAGE *key_msg)
 {
-    edit_step_num_direct_key_enter_cb(key_msg);
-    step_edit_win_direct_key_up_cb(key_msg);
+    edit_step_num_direct_key_enter_up_cb(key_msg);
 }
 
 /**
@@ -1175,7 +1198,7 @@ static void edit_step_num_direct_key_up_cb(KEY_MESSAGE *key_msg)
   */
 static void edit_step_num_direct_key_down_cb(KEY_MESSAGE *key_msg)
 {
-    edit_step_num_direct_key_enter_cb(key_msg);
+    edit_step_num_direct_key_enter_down_cb(key_msg);
 }
 
 /**
@@ -1201,6 +1224,13 @@ static void update_and_init_mode(void)
     /* 测试模式改变了 */
     if(g_cur_step->one_step.com.mode != mode)
     {
+        if(g_cur_file->work_mode == G_MODE)
+        {
+            clear_cur_group_all_test_step();
+            insert_step(0, mode);//插入一步
+            save_group_info(g_cur_file->num);//保存新建文件的记忆组信息
+        }
+        
         g_cur_step->one_step.com.mode = mode;//更新当前步的测试模式
         init_mode(g_cur_step);//初始化参数
         save_setting_step();//保存正在设置的步骤参数
@@ -2156,6 +2186,33 @@ static void set_gr_par_win_ele_data(UN_STRUCT *step)
     
 }
 
+static void init_test_mode_edit_ele_resource_inf(EDIT_ELE_T* ele, UN_STRUCT *step)
+{
+    if(g_cur_file->work_mode == G_MODE)
+    {
+        if(step->com.step == 1)
+        {
+            ele->resource.table = get_defined_g_mode_table();//初始化资源表为已定义的测试模式
+            ele->resource.size = get_defined_g_mode_num();//初始化资源表size为已定义的测试模式个数
+            ele->resource.user_data = get_defined_g_mode_flag();//初始化用户数据为测试模式对应的数值数组
+            ele->resource.user_data_size = get_defined_g_mode_num();//初始化用户数据个数
+        }
+        else
+        {
+            ele->resource.table = get_defined_g_mode_no_first_step_table();//初始化资源表为已定义的测试模式
+            ele->resource.size = get_defined_g_mode_first_step_num();//初始化资源表size为已定义的测试模式个数
+            ele->resource.user_data = get_defined_g_mode_first_step_flag();//初始化用户数据为测试模式对应的数值数组
+            ele->resource.user_data_size = get_defined_g_mode_first_step_num();//初始化用户数据个数
+        }
+    }
+    else
+    {
+        ele->resource.table = get_defined_mode_table();//初始化资源表为已定义的测试模式
+        ele->resource.size = get_defined_mode_num();//初始化资源表size为已定义的测试模式个数
+        ele->resource.user_data = get_defined_mode_flag();//初始化用户数据为测试模式对应的数值数组
+        ele->resource.user_data_size = get_defined_mode_num();//初始化用户数据个数
+    }
+}
 
 /**
   * @brief  根据测试模式来设置参数对应编辑控件的数据指针
@@ -2178,10 +2235,10 @@ static void set_step_par_window_ele_data(UN_STRUCT *step)
     
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_MODE, &err);
     
-    ele->resource.table = get_defined_mode_table();//初始化资源表为已定义的测试模式
-    ele->resource.size = get_defined_mode_num();//初始化资源表size为已定义的测试模式个数
-    ele->resource.user_data = get_defined_mode_flag();//初始化用户数据为测试模式对应的数值数组
-    ele->resource.user_data_size = get_defined_mode_num();//初始化用户数据个数
+    if(err == CS_ERR_NONE)
+    {
+        init_test_mode_edit_ele_resource_inf(ele, step);
+    }
     
     /* 根据不同的测试模式进行数据初始化 */
     switch(step->com.mode)
@@ -2223,6 +2280,7 @@ static void init_create_step_edit_win_com_ele(MYUSER_WINDOW_T* win)
 {
     init_window_com_ele_list(win);//初始化窗口文本对象链表
     init_com_text_ele_dis_inf(win);//初始化公共文本对象的显示信息
+    init_page_num_com_text_ele_dis_inf(win);//初始化页码公共文本对象的显示信息
     init_group_com_text_ele_dis_inf(win);//初始化记忆组对象的显示信息
     update_group_inf(win);
     init_window_com_text_ele(win);//初始化创建窗口中的公共文本对象
@@ -2285,6 +2343,7 @@ static void step_edit_win_direct_key_left_cb(KEY_MESSAGE *key_msg)
     uint8_t flag = 0;
     uint8_t c = 0;
     uint8_t rows = 0;
+    uint8_t this_page = 0;
     
     rows = g_cur_win->auto_layout.edit_ele_auto_layout_inf[SCREEM_SIZE]->rows;
     
@@ -2293,7 +2352,7 @@ static void step_edit_win_direct_key_left_cb(KEY_MESSAGE *key_msg)
 	{
 		node = list_entry(t_index, EDIT_ELE_T, e_list);
         
-        if(flag)
+        if(flag && node->page == this_page)
         {
             if(++c == rows)
             {
@@ -2307,6 +2366,7 @@ static void step_edit_win_direct_key_left_cb(KEY_MESSAGE *key_msg)
         if(g_cur_edit_ele == node)
         {
             flag = 1;
+            this_page = node->page;
         }
 	}
 }
@@ -2323,6 +2383,7 @@ static void step_edit_win_direct_key_right_cb(KEY_MESSAGE *key_msg)
     uint8_t flag = 0;
     uint8_t c = 0;
     uint8_t rows = 0;
+    uint8_t this_page = 0;
     
     rows = g_cur_win->auto_layout.edit_ele_auto_layout_inf[SCREEM_SIZE]->rows;
     
@@ -2331,7 +2392,7 @@ static void step_edit_win_direct_key_right_cb(KEY_MESSAGE *key_msg)
 	{
 		node = list_entry(t_index, EDIT_ELE_T, e_list);
         
-        if(flag)
+        if(flag && node->page == this_page)
         {
             if(++c == rows)
             {
@@ -2345,6 +2406,7 @@ static void step_edit_win_direct_key_right_cb(KEY_MESSAGE *key_msg)
         if(g_cur_edit_ele == node)
         {
             flag = 1;
+            this_page = node->page;
         }
 	}
 }
@@ -2458,11 +2520,11 @@ static void step_edit_windows_cb(WM_MESSAGE* pMsg)
 			WM_SetFocus(hWin);/* 设置聚焦 */
             
             init_create_win_all_ele(win);//创建窗口人所有的对象
-            
             g_cur_edit_ele = get_cur_win_edit_ele_list_head();//获取当前窗口编辑表头节点
             select_edit_ele(g_cur_edit_ele);//选中当前编辑对象
-            
-            update_default_range_name();
+            dis_one_page_win_edit_eles(win, g_cur_edit_ele->page);//显示一页的编辑对象
+            update_page_num(win, g_cur_edit_ele);//更新页码显示
+            update_default_range_name();//更新默认的范围显示
             break;
         }
 		case WM_DELETE:
@@ -2502,10 +2564,11 @@ EDIT_ELE_T *get_mode_edit_ele_inf(UN_STRUCT *step)
     
     if(err == CS_ERR_NONE)
     {
-        ele->resource.table = get_defined_mode_table();//初始化资源表为已定义的测试模式
-        ele->resource.size = get_defined_mode_num();//初始化资源表size为已定义的测试模式个数
-        ele->resource.user_data = get_defined_mode_flag();//初始化用户数据为测试模式对应的数值数组
-        ele->resource.user_data_size = get_defined_mode_num();//初始化用户数据个数
+        init_test_mode_edit_ele_resource_inf(ele, step);
+//        ele->resource.table = get_defined_mode_table();//初始化资源表为已定义的测试模式
+//        ele->resource.size = get_defined_mode_num();//初始化资源表size为已定义的测试模式个数
+//        ele->resource.user_data = get_defined_mode_flag();//初始化用户数据为测试模式对应的数值数组
+//        ele->resource.user_data_size = get_defined_mode_num();//初始化用户数据个数
     }
     
     return ele;

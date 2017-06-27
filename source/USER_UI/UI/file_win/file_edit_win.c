@@ -27,6 +27,7 @@
 #include "7_file_edit_win.h"
 #include "ui_com/com_edit_api.h"
 #include "key_menu_win/key_menu_win.h"
+#include "WARNING_WIN/warning_win.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -41,7 +42,7 @@ static void file_edit_direct_key_up_cb(KEY_MESSAGE *key_msg);
 static void file_edit_direct_key_down_cb(KEY_MESSAGE *key_msg);
 static void file_edit_direct_key_left_cb(KEY_MESSAGE *key_msg);
 static void file_edit_direct_key_right_cb(KEY_MESSAGE *key_msg);
-static void menu_key_ok(WM_HWIN);
+static void file_edit_win_menu_key_ok(WM_HWIN);
 static void menu_key_cancle(WM_HWIN);
 
 static void edit_name_f1_cb(KEY_MESSAGE *key_msg);
@@ -70,8 +71,8 @@ static void edit_arc_f1_cb(KEY_MESSAGE *key_msg);
 static void edit_arc_f2_cb(KEY_MESSAGE *key_msg);
 static void edit_arc_f3_cb(KEY_MESSAGE *key_msg);
 static void edit_arc_f4_cb(KEY_MESSAGE *key_msg);
-static void edit_arc_f5_cb(KEY_MESSAGE *key_msg);
-static void edit_arc_f6_cb(KEY_MESSAGE *key_msg);
+//static void edit_arc_f5_cb(KEY_MESSAGE *key_msg);
+//static void edit_arc_f6_cb(KEY_MESSAGE *key_msg);
 
 static void init_create_file_edit_win_com_ele(MYUSER_WINDOW_T* win);
 static void init_create_file_edit_win_edit_ele(MYUSER_WINDOW_T* win);
@@ -89,6 +90,7 @@ static void set_fwmode_n(WM_HWIN hWin);
 static void set_fwmode_g(WM_HWIN hWin);
 
 static void edit_arc_menu_key_init(WM_HMEM hWin);
+static void (*set_fwmode_fun)(WM_HWIN);
 /* Private variables ---------------------------------------------------------*/
 
 /**
@@ -138,7 +140,7 @@ static MENU_KEY_INFO_T 	fname_menu_key_info[] =
     {"", F_KEY_CLEAR    , KEY_F2 & _KEY_UP, edit_name_f2_cb },//f2
     {"", F_KEY_NULL     , KEY_F3 & _KEY_UP, edit_name_f3_cb },//f3
     {"", F_KEY_NULL     , KEY_F4 & _KEY_UP, edit_name_f4_cb },//f4
-    {"", F_KEY_ENTER       , KEY_F5 & _KEY_UP, edit_name_f5_cb },//f5
+    {"", F_KEY_ENTER    , KEY_F5 & _KEY_UP, edit_name_f5_cb },//f5
     {"", F_KEY_CANCLE   , KEY_F6 & _KEY_UP, edit_name_f6_cb },//f6
 };
 /**
@@ -150,6 +152,8 @@ static MENU_KEY_INFO_T 	fwmode_menu_key_info[] =
     {"G", F_KEY_CUSTOM, KEY_F2 & _KEY_UP, edit_work_mode_f2_cb },//f2
     {"" , F_KEY_NULL  , KEY_F3 & _KEY_UP, edit_work_mode_f3_cb },//f3
     {"" , F_KEY_NULL  , KEY_F4 & _KEY_UP, edit_work_mode_f4_cb },//f4
+    {"", F_KEY_ENTER    , KEY_F5 & _KEY_UP, edit_name_f5_cb },//f5
+    {"", F_KEY_CANCLE   , KEY_F6 & _KEY_UP, edit_name_f6_cb },//f6
 };
 
 /**
@@ -161,6 +165,8 @@ static MENU_KEY_INFO_T 	fbeept_menu_key_info[] =
     {"", F_KEY_CLEAR    , KEY_F2 & _KEY_UP, edit_beep_time_f2_cb },//f2
     {"" , F_KEY_NULL    , KEY_F3 & _KEY_UP, edit_beep_time_f3_cb },//f3
     {"" , F_KEY_NULL    , KEY_F4 & _KEY_UP, edit_beep_time_f4_cb },//f4
+    {"", F_KEY_ENTER    , KEY_F5 & _KEY_UP, edit_name_f5_cb },//f5
+    {"", F_KEY_CANCLE   , KEY_F6 & _KEY_UP, edit_name_f6_cb },//f6
 };
 /**
   * @brief  PASS时间编辑菜单键信息数组
@@ -171,6 +177,8 @@ static MENU_KEY_INFO_T 	fpasst_menu_key_info[] =
     {"", F_KEY_CLEAR, KEY_F2 & _KEY_UP, edit_pass_time_f2_cb },//f2
     {"", F_KEY_NULL , KEY_F3 & _KEY_UP, edit_pass_time_f3_cb },//f3
     {"", F_KEY_NULL , KEY_F4 & _KEY_UP, edit_pass_time_f4_cb },//f4
+    {"", F_KEY_ENTER    , KEY_F5 & _KEY_UP, edit_name_f5_cb },//f5
+    {"", F_KEY_CANCLE   , KEY_F6 & _KEY_UP, edit_name_f6_cb },//f6
 };
 
 /**
@@ -189,16 +197,17 @@ static FUNCTION_KEY_INFO_T file_edit_sys_key_pool[]=
 
 /**
   * @brief  编辑开关变量时使用的菜单键初始化信息数组
-  */ 
+  */
 static MENU_KEY_INFO_T 	edit_arc_menu_key_init_info[] =
 {
     {"", F_KEY_CUR  , KEY_F1 & _KEY_UP, edit_arc_f1_cb },//f1
     {"", F_KEY_GRADE, KEY_F2 & _KEY_UP, edit_arc_f2_cb },//f2
     {"", F_KEY_NULL , KEY_F3 & _KEY_UP, edit_arc_f3_cb },//f3
     {"", F_KEY_NULL , KEY_F4 & _KEY_UP, edit_arc_f4_cb },//f4
-    {"", F_KEY_NULL , KEY_F5 & _KEY_UP, edit_arc_f5_cb },//f5
-    {"", F_KEY_BACK , KEY_F6 & _KEY_UP, edit_arc_f6_cb },//f6
+    {"", F_KEY_ENTER    , KEY_F5 & _KEY_UP, edit_name_f5_cb },//f5
+    {"", F_KEY_CANCLE   , KEY_F6 & _KEY_UP, edit_name_f6_cb },//f6
 };
+
 /**
   * @brief  文件编辑窗口的编辑对象初始化数组
   */
@@ -226,7 +235,10 @@ static EDIT_ELE_T edit_file_ele_pool[]=
         {work_mode_pool, ARRAY_SIZE(work_mode_pool)},/* 资源表 */
         {ELE_DROPDOWN, E_INT_T},/*类型*/
         {0/*dec*/,20/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
-        {0/*heigh*/,0/*low*/,{"WorkMode","WorkMode"}/*notice*/},/*range*/
+        {
+            0/*heigh*/,0/*low*/,{"WorkMode","WorkMode"}/*notice*/,
+            
+        },/*range*/
         {fwmode_sys_key, fwmode_menu_key, keyboard_fun_num,},/*key_inf*/
     },
     {
@@ -269,10 +281,6 @@ static EDIT_ELE_T edit_file_ele_pool[]=
 static CS_INDEX fsave_ui_ele_table[]=
 {
     FSAVE_UI_FNAME,
-//    FSAVE_UI_WMODE,
-//    FSAVE_UI_BEEPT,
-//    FSAVE_UI_PASST,
-//    FSAVE_UI_ARC_MODE,
 };
 /**
   * @brief  文件新建窗口的编辑对象索引数组
@@ -385,6 +393,8 @@ static MYUSER_WINDOW_T edit_file_windows=
 };
 
 
+static MYUSER_WINDOW_T *g_cur_file_win;
+
 /* Private functions ---------------------------------------------------------*/
 
 /**
@@ -428,7 +438,7 @@ static void edit_name_f4_cb(KEY_MESSAGE *key_msg)
   */
 static void edit_name_f5_cb(KEY_MESSAGE *key_msg)
 {
-    menu_key_ok(key_msg->user_data);
+    file_edit_win_menu_key_ok(key_msg->user_data);
 }
 /**
   * @brief  编辑文件名功能键F6回调函数
@@ -439,6 +449,109 @@ static void edit_name_f6_cb(KEY_MESSAGE *key_msg)
 {
     menu_key_cancle(key_msg->user_data);
 }
+
+/**
+  * @brief  改变工作模式时弹出警告框后按下enter键的回调函数
+  * @param  [in] hWin 窗口句柄
+  * @retval 无
+  */
+static void file_edit_win_change_workmode_enter_cb(WM_HWIN hWin)
+{
+    EDIT_ELE_T* ele;
+    CS_ERR err;
+    EDIT_ELE_T *pool;
+    uint32_t size;
+    
+    pool = g_cur_file_win->edit.pool;
+    size = g_cur_file_win->edit.pool_size;
+    
+    ele = get_edit_ele_inf(pool, size, FSAVE_UI_WMODE, &err);
+    
+    if(err != CS_ERR_NONE)
+    {
+        return;
+    }
+    
+    g_cur_edit_ele = ele;
+    
+    if(set_fwmode_fun != NULL)
+    {
+        set_fwmode_fun(g_cur_edit_ele->dis.edit.handle);
+        set_fwmode_fun = NULL;
+    }
+    
+    upload_par_to_ram(ele);//将数据上载到内存中
+    select_edit_ele(g_cur_edit_ele);//选中当前编辑对象
+//    init_group_inf();
+}
+/**
+  * @brief  改变工作模式时弹出警告框后按下cancle键的回调函数
+  * @param  [in] hWin 窗口句柄
+  * @retval 无
+  */
+static void file_edit_win_change_workmode_cancle_cb(WM_HWIN hWin)
+{
+    EDIT_ELE_T* ele;
+    CS_ERR err;
+    EDIT_ELE_T *pool;
+    uint32_t size;
+    
+    pool = g_cur_file_win->edit.pool;
+    size = g_cur_file_win->edit.pool_size;
+    
+    ele = get_edit_ele_inf(pool, size, FSAVE_UI_WMODE, &err);
+    
+    if(err != CS_ERR_NONE)
+    {
+        return;
+    }
+    
+    g_cur_edit_ele = ele;
+    
+    if(set_fwmode_fun != NULL)
+    {
+        set_fwmode_fun(g_cur_edit_ele->dis.edit.handle);
+        set_fwmode_fun = NULL;
+    }
+    
+    upload_par_to_ram(ele);//将数据上载到内存中
+    select_edit_ele(g_cur_edit_ele);//选中当前编辑对象
+}
+static void pop_warning_dialog_for_change_workmode(WM_HWIN hWin)
+{
+    const uint16_t WAR_WIN_TX = 10;//警告文本的X坐标
+    const uint16_t WAR_WIN_TY = 20;//警告文本的Y坐标
+    const uint16_t WAR_WIN_W = 350;//警告对话框的宽度
+    const uint16_t WAR_WIN_H = 200;//警告对话框的高度
+    const uint16_t WAR_WIN_X = 20;//警告对话框在父窗口中的X坐标
+    const uint16_t WAR_WIN_Y = 50;//警告对话框在父窗口中的Y坐标
+    
+    WARNING_INF w_inf =
+    {
+        /* 标题 */
+        {{"警告","Warning"}, 0 },
+        /* 内容 */
+        {
+            {"更改工作模式会丢失用户数据.\n\n确定要继续吗?\n",
+            "To change the work mode\n of user data will be lost.\n"
+            "Do you want to continue?"}, 2,
+            0/*base_x*/,0/*base_y*/,
+            {WAR_WIN_TX,WAR_WIN_TY,WAR_WIN_W - 20,WAR_WIN_H - (WAR_WIN_TY + 10)},/*pos_size*/
+            100/*max_len*/,
+            {&GUI_Fonthz_20}, GUI_BLACK, GUI_INVALID_COLOR, GUI_TA_CENTER | GUI_TA_VCENTER
+        },
+        {WAR_WIN_X, WAR_WIN_Y, WAR_WIN_W, WAR_WIN_H},/*win_pos_size*/
+        0,/*dly_auto_close xx ms后自动关闭 0表示不自动关闭*/
+        {file_edit_win_change_workmode_enter_cb},
+        {file_edit_win_change_workmode_cancle_cb},
+    };
+    
+    w_inf.warnig_cancle_cb.handle = hWin;
+    w_inf.warning_enter_cb.handle = hWin;
+    
+    set_warning_ui_inf(&w_inf);
+    create_warning_dialog(hWin);
+}
 /**
   * @brief  编辑工作模式功能键F1回调函数
   * @param  [in] key_msg 按键消息
@@ -446,7 +559,12 @@ static void edit_name_f6_cb(KEY_MESSAGE *key_msg)
   */
 static void edit_work_mode_f1_cb(KEY_MESSAGE *key_msg)
 {
-    set_fwmode_n(key_msg->user_data);
+    if(global_file.work_mode != N_MODE)
+    {
+        pop_warning_dialog_for_change_workmode(g_cur_win->handle);
+        set_fwmode_fun = set_fwmode_n;
+//        set_fwmode_n(key_msg->user_data);
+    }
 }
 /**
   * @brief  编辑工作模式功能键F2回调函数
@@ -455,7 +573,12 @@ static void edit_work_mode_f1_cb(KEY_MESSAGE *key_msg)
   */
 static void edit_work_mode_f2_cb(KEY_MESSAGE *key_msg)
 {
-    set_fwmode_g(key_msg->user_data);
+    if(global_file.work_mode != G_MODE)
+    {
+        pop_warning_dialog_for_change_workmode(g_cur_win->handle);
+        set_fwmode_fun = set_fwmode_g;
+//        set_fwmode_g(key_msg->user_data);
+    }
 }
 /**
   * @brief  编辑工作模式功能键F3回调函数
@@ -614,18 +737,18 @@ static void edit_arc_f4_cb(KEY_MESSAGE *key_msg)
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
-static void edit_arc_f5_cb(KEY_MESSAGE *key_msg)
-{
-}
-/**
-  * @brief  编辑电弧侦测模式变量使用的功能键F6回调函数
-  * @param  [in] key_msg 按键消息
-  * @retval 无
-  */
-static void edit_arc_f6_cb(KEY_MESSAGE *key_msg)
-{
-    back_win(key_msg->user_data);
-}
+//static void edit_arc_f5_cb(KEY_MESSAGE *key_msg)
+//{
+//}
+///**
+//  * @brief  编辑电弧侦测模式变量使用的功能键F6回调函数
+//  * @param  [in] key_msg 按键消息
+//  * @retval 无
+//  */
+//static void edit_arc_f6_cb(KEY_MESSAGE *key_msg)
+//{
+//    back_win(key_msg->user_data);
+//}
 /**
   * @brief  编辑开关变量使用的菜单键初始化
   * @param  [in] hWin 窗口句柄
@@ -788,7 +911,13 @@ static void fbeeptime_menu_key(WM_HWIN hWin)
   */
 static void set_fwmode_n(WM_HWIN hWin)
 {
-    DROPDOWN_SetSel(g_cur_edit_ele->dis.edit.handle, N_MODE);
+    WORK_MODE_T workmode = N_MODE;
+    uint8_t bytes = 0;
+    
+    bytes = g_cur_edit_ele->data.bytes;
+    
+    DROPDOWN_SetUserData(hWin, &workmode, bytes);
+    DROPDOWN_SetSel(g_cur_edit_ele->dis.edit.handle, workmode);
 }
 /**
   * @brief  注册设置工作模式为G模式编辑菜单键
@@ -797,7 +926,13 @@ static void set_fwmode_n(WM_HWIN hWin)
   */
 static void set_fwmode_g(WM_HWIN hWin)
 {
-    DROPDOWN_SetSel(g_cur_edit_ele->dis.edit.handle, G_MODE);
+    WORK_MODE_T workmode = G_MODE;
+    uint8_t bytes = 0;
+    
+    bytes = g_cur_edit_ele->data.bytes;
+    
+    DROPDOWN_SetUserData(hWin, &workmode, bytes);
+    DROPDOWN_SetSel(hWin, workmode);
 }
 
 /**
@@ -805,12 +940,11 @@ static void set_fwmode_g(WM_HWIN hWin)
   * @param  [in] hWin 窗口句柄
   * @retval 无
   */
-static void menu_key_ok(WM_HWIN hWin)
+static void file_edit_win_menu_key_ok(WM_HWIN hWin)
 {
 	g_custom_msg.msg = CM_DIALOG_RETURN_OK;
 	g_custom_msg.user_data = (int)&global_file;
     upload_par_to_ram(g_cur_edit_ele);//数据更新到内存
-    unregister_system_key_fun(file_edit_sys_key_pool, ARRAY_SIZE(file_edit_sys_key_pool));
     back_win(hWin);//关闭对话框
 }
 /**
@@ -835,13 +969,25 @@ static void set_file_par_window_ele_data(TEST_FILE *f)
     CS_ERR err;
     EDIT_ELE_T *pool;
     uint32_t size;
-    
+    static uint8_t work_mode_flag[]=
+    {
+        N_MODE,// N模式
+        G_MODE,// G模式
+    };
     
     pool = g_cur_win->edit.pool;
     size = g_cur_win->edit.pool_size;
     
     reg_edit_ele_data_inf(FSAVE_UI_FNAME, f->name,  sizeof(f->name));//文件名
     reg_edit_ele_data_inf(FSAVE_UI_WMODE, &f->work_mode,  sizeof(f->work_mode));//工作模式
+    ele = get_edit_ele_inf(pool, size, FSAVE_UI_WMODE, &err);
+    
+    if(err == CS_ERR_NONE)
+    {
+        ele->resource.user_data = work_mode_flag;
+        ele->resource.user_data_size = ele->resource.size;
+    }
+    
     reg_edit_ele_data_inf(FSAVE_UI_BEEPT, &f->buzzer_time,  sizeof(f->buzzer_time));//蜂鸣时间
     reg_edit_ele_data_inf(FSAVE_UI_PASST, &f->pass_time,  sizeof(f->pass_time));//PASS时间
     
@@ -926,6 +1072,7 @@ static void file_edit_win_cb(WM_MESSAGE * pMsg)
 void create_save_file_dialog(int hWin)
 {
     set_custom_msg_id(CM_FILE_UI_SAVE);
+    g_cur_file_win = &save_file_window;
     create_user_dialog(&save_file_window, &windows_list, g_cur_win->handle);//创建主界面
 }
 /**
@@ -936,6 +1083,7 @@ void create_save_file_dialog(int hWin)
 void create_new_file_dialog(int hWin)
 {
     set_custom_msg_id(CM_FILE_UI_NEW);
+    g_cur_file_win = &new_file_window;
     create_user_dialog(&new_file_window, &windows_list, g_cur_win->handle);//创建主界面
 }
 
@@ -947,6 +1095,7 @@ void create_new_file_dialog(int hWin)
 void create_edit_file_dialog(int hWin)
 {
     set_custom_msg_id(CM_FILE_UI_EDIT);
+    g_cur_file_win = &edit_file_windows;
     create_user_dialog(&edit_file_windows, &windows_list, g_cur_win->handle);//创建主界面
 }
 

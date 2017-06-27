@@ -326,4 +326,33 @@ void copy_cur_file_to_new_pos_flash(const FILE_NUM file_num)
         save_one_step_flash(&node, file_num, i + 1);
     }
 }
+
+uint8_t get_first_step_mode_flash(void)
+{
+    uint16_t offset_addr = TABLE_VALUE_NULL;
+    NODE_STEP node;
+    
+    offset_addr = cur_group_table[0];
+    
+    if(offset_addr == TABLE_VALUE_NULL)
+    {
+        return 0;
+    }
+    
+    if(offset_addr != TABLE_VALUE_NULL && offset_addr < MAX_STEPS)
+    {
+        read_one_step_flash(&node, g_cur_file->num, 1);
+        
+        /* 计算出读出的步是第几步 并对错误进行修正 */
+        if(node.one_step.com.step != 1)
+        {
+            node.one_step.com.step = 1;
+            save_one_step_flash(&node, g_cur_file->num, 1);
+        }
+        
+        return node.one_step.com.mode;
+    }
+    
+    return 0;
+}
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

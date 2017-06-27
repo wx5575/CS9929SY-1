@@ -56,7 +56,7 @@ static void edit_language_f6_cb(KEY_MESSAGE *key_msg);
 static void init_create_env_par_win_com_ele(MYUSER_WINDOW_T* win);
 static void init_create_env_par_win_edit_ele(MYUSER_WINDOW_T* win);
 static void reg_env_language_sys_key(WM_HMEM hWin);
-static void env_language_menu_key(WM_HMEM hWin);
+//static void env_language_menu_key(WM_HMEM hWin);
 static void env_win_edit_language_menu_key_init(WM_HMEM hWin);
 /* Private variables ---------------------------------------------------------*/
 
@@ -358,14 +358,14 @@ static void reg_env_language_sys_key(WM_HMEM hWin)
   * @param  [in] hWin 窗口句柄
   * @retval 无
   */
-static void env_language_menu_key(WM_HMEM hWin)
-{
-    MENU_KEY_INFO_T * info = env_par_language_menu_key_inf;
-    uint32_t size = ARRAY_SIZE(env_par_language_menu_key_inf);
-    int32_t data = g_cur_edit_ele->dis.edit.handle;
-    
-	init_menu_key_info(info, size, data);
-}
+//static void env_language_menu_key(WM_HMEM hWin)
+//{
+//    MENU_KEY_INFO_T * info = env_par_language_menu_key_inf;
+//    uint32_t size = ARRAY_SIZE(env_par_language_menu_key_inf);
+//    int32_t data = g_cur_edit_ele->dis.edit.handle;
+//    
+//	init_menu_key_info(info, size, data);
+//}
 /**
   * @brief  按下确认键后调用这个函数进行保存数据并返回上级窗口
   * @param  [in] hWin 窗口句柄

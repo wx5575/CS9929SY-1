@@ -368,6 +368,44 @@ void init_window_edit_ele_dis_inf(MYUSER_WINDOW_T *win, EDIT_ELE_AUTO_LAYOUT_T* 
         }
     }
 }
+static void hide_edit_ele(EDIT_ELE_T *ele)
+{
+    WM_HideWindow(ele->dis.name.handle);
+    WM_HideWindow(ele->dis.edit.handle);
+    WM_HideWindow(ele->dis.unit.handle);
+}
+static void show_edit_ele(EDIT_ELE_T *ele)
+{
+    WM_ShowWindow(ele->dis.name.handle);
+    WM_ShowWindow(ele->dis.edit.handle);
+    WM_ShowWindow(ele->dis.unit.handle);
+}
+/**
+  * @brief  根据自动布局的结构参数初始化界面中的编辑对象链表的位置信息
+  * @param  [in] win 用户窗口指针
+  * @param  [in] inf 自动布局结构参数
+  * @retval 无
+  */
+void dis_one_page_win_edit_eles(MYUSER_WINDOW_T *win, uint8_t page)
+{
+	CS_LIST *list = &win->edit.list_head;
+	CS_LIST* t_node = NULL;
+	EDIT_ELE_T *node = NULL;
+    
+    list_for_each(t_node, list)
+    {
+        node = list_entry( t_node, EDIT_ELE_T, e_list );
+        
+        if(node->page != page)
+        {
+            hide_edit_ele(node);
+        }
+        else
+        {
+            show_edit_ele(node);
+        }
+    }
+}
 /**
   * @brief  根据自动布局的结构参数初始化界面中的编辑对象链表的位置信息
   * @param  [in] win 用户窗口指针
@@ -383,6 +421,7 @@ void auto_init_win_edit_ele_dis_inf(MYUSER_WINDOW_T *win)
 	CS_LIST* t_node = NULL;
 	EDIT_ELE_T *node = NULL;
     EDIT_ELE_AUTO_LAYOUT_T *auto_layout;
+    uint32_t n = 0;
     
     if(win->auto_layout.edit_ele_auto_layout_inf == NULL)
     {
@@ -396,9 +435,13 @@ void auto_init_win_edit_ele_dis_inf(MYUSER_WINDOW_T *win)
         return;
     }
     
+    win->edit.pages = 1;//页数赋值为1，说明至少有1页
+    
     list_for_each(t_node, list)
     {
         node = list_entry( t_node, EDIT_ELE_T, e_list );
+        node->page = win->edit.pages;//记录所在的页码
+        node->num = n++;
         
         dis = &node->dis;
         
@@ -443,6 +486,8 @@ void auto_init_win_edit_ele_dis_inf(MYUSER_WINDOW_T *win)
             {
                 //换页
                 column = 0;
+                n = 0;
+                win->edit.pages++;//页数加1
             }
         }
     }
@@ -1219,10 +1264,22 @@ CS_INDEX range_com_ele_table[COM_RANGE_ELE_NUM]=
 	COM_RANGE_NOTICE,///<主界面的系统时间
 };
 
-CS_INDEX range_group_com_ele_table[COM_ELE_NUM]=
+CS_INDEX range_group_com_ele_table[COM_RANGE_ELE_NUM + COM_GRUOP_ELE_NUM]=
 {
 	COM_RANGE_NAME,///<主界面的通信状态
 	COM_RANGE_NOTICE,///<主界面的系统时间
+    COM_UI_FILE_NAME    ,///< 记忆组文件名
+    COM_UI_CUR_FILE_NAME,///< 记忆组文件名内容
+    COM_UI_STEP         ,///< 记忆组步骤信息
+    COM_UI_CUR_STEP     ,///< 记忆组步骤信息内容
+    COM_UI_WORK_MODE    ,///< 记忆组工作模式
+    COM_UI_CUR_WORK_MODE,///< 记忆组工作模式内容
+};
+CS_INDEX range_page_group_com_ele_table[COM_ELE_NUM]=
+{
+	COM_RANGE_NAME,///<主界面的通信状态
+	COM_RANGE_NOTICE,///<主界面的系统时间
+    COM_PAGE_NOTICE,///<页码提示信息 1/1 表示 第1页/共1页
     COM_UI_FILE_NAME    ,///< 记忆组文件名
     COM_UI_CUR_FILE_NAME,///< 记忆组文件名内容
     COM_UI_STEP         ,///< 记忆组步骤信息
@@ -1246,10 +1303,13 @@ CS_INDEX group_com_ele_table[COM_GRUOP_ELE_NUM]=
 #define COM_RANGE_NOTICE_MAX_LON    100
 static uint8_t range_name_buf[2][COM_RANGE_NAME_MAX_LON + 1]    = {"范 围:","Range:"};
 static uint8_t range_notice_buf[2][COM_RANGE_NOTICE_MAX_LON + 1]= {"提示"  ,"Notice"};
+static uint8_t page_num_buf[2][3 + 1]= {"1/1"  ,"1/1"};
 TEXT_ELE_T com_text_ele_pool[COM_ELE_NUM]=
 {
 	{{range_name_buf[0]   , range_name_buf[1] }, COM_RANGE_NAME   },
 	{{range_notice_buf[0] ,range_notice_buf[1]}, COM_RANGE_NOTICE },
+    
+	{{page_num_buf[0]    ,page_num_buf[1] }, COM_PAGE_NOTICE },
     
 	{{"文件名:", "FileName:" }, COM_UI_FILE_NAME    },
 	{{"DEFAULT", "DEFAULT"   }, COM_UI_CUR_FILE_NAME},
@@ -1308,6 +1368,19 @@ void set_com_text_ele_inf(CS_INDEX index, MYUSER_WINDOW_T* win, uint8_t *str[])
 void update_range_name(uint8_t *str)
 {
     update_com_text_ele(COM_RANGE_NAME, g_cur_win, str);
+}
+
+void update_page_num(MYUSER_WINDOW_T* win, EDIT_ELE_T *ele)
+{
+    uint8_t buf[LANGUAGE_NUM][10] = {0};
+    uint8_t *str[LANGUAGE_NUM];
+    
+    str[CHINESE] = buf[CHINESE];
+    str[ENGLISH] = buf[ENGLISH];
+    
+    sprintf((char*)buf[CHINESE], "%d/%d", ele->page, win->edit.pages);
+    sprintf((char*)buf[ENGLISH], "%d/%d", ele->page, win->edit.pages);
+    set_com_text_ele_inf(COM_PAGE_NOTICE, win, str);
 }
 /**
   * @brief  更新默认的范围名称公共文本显示
@@ -1405,6 +1478,31 @@ void init_com_text_ele_dis_inf(MYUSER_WINDOW_T* win)
     set_com_text_ele_dis_inf(&dis_info, COM_RANGE_NOTICE);//提示信息
 }
 
+/**
+  * @brief  初始化页码公共文本对象的显示信息(坐标，尺寸
+  * @param  [in] win 窗口指针
+  * @retval 无
+  */
+void init_page_num_com_text_ele_dis_inf(MYUSER_WINDOW_T* win)
+{
+    UI_ELE_DISPLAY_INFO_T dis_info=
+    {
+        0/*base_x*/,0/*base_y*/,0/*x*/,200/*y*/,10/*width*/,30/*height*/,10,
+        {&GUI_Fonthz_20}, GUI_BLACK, GUI_INVALID_COLOR,GUI_TA_LEFT | GUI_TA_TOP
+    };
+    
+    dis_info.pos_size.width = 50;
+    dis_info.pos_size.height = 30;
+    dis_info.pos_size.x = win->pos_size.width - dis_info.pos_size.width;
+    dis_info.pos_size.y = win->pos_size.height - dis_info.pos_size.height;
+    dis_info.max_len = 4;
+    dis_info.font[CHINESE] = &GUI_Fonthz_20;
+    dis_info.font_color = GUI_BLACK;
+    dis_info.back_color = GUI_INVALID_COLOR;
+    dis_info.align = GUI_TA_LEFT;
+    
+    set_com_text_ele_dis_inf(&dis_info, COM_PAGE_NOTICE);//页码
+}
 /**
   * @brief  初始化记忆组公共文本对象的显示信息(坐标，尺寸
   * @param  [in] win 窗口指针

@@ -981,6 +981,17 @@ void del_one_group_inf(FILE_NUM file_num)
     read_group_info(g_cur_file->num);
 }
 /**
+  * @brief  清空记忆组中所有的测试步信息
+  * @param  无
+  * @retval 无
+  */
+void clear_cur_group_all_test_step(void)
+{
+    clear_step_used_flag();
+    clear_group_table();
+    g_cur_file->total = 0;
+}
+/**
   * @brief  加载步骤到测试步链表中
   * @param  [in] step 加载的起始测试步号
   * @param  [in] step_num 连续加载的测试步个数

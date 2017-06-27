@@ -28,6 +28,7 @@
 #include "WARNING_WIN/warning_win.h"
 #include "7_file_win.h"
 #include "file_win.h"
+#include "type/cs99xx_type.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -685,6 +686,37 @@ static void file_win_update_key_inf(WM_HWIN hWin)
     file_win_update_fun_key_inf(hWin);
     register_system_key_fun(file_win_sys_key_pool, ARRAY_SIZE(file_win_sys_key_pool), hWin);
 }
+
+static void init_group_inf(TEST_FILE *fs, TEST_FILE *fn)
+{
+    FILE_NUM file_num;
+    TEST_FILE *file_bak;
+    uint8_t mode = 0;
+    
+    file_bak = g_cur_file;
+    
+    g_cur_file = fs;
+    file_num = g_cur_file->num;
+    del_one_group_inf(file_num);
+    
+    if(fn->work_mode == N_MODE)
+    {
+        mode = get_first_mode();
+    }
+    else
+    {
+        mode = get_first_g_mode();
+        if(mode == NUL)
+        {
+            return;
+        }
+    }
+    
+    insert_step(0, mode);
+    save_group_info(file_num);//保存新建文件的记忆组信息
+    g_cur_file = file_bak;
+    read_group_info(g_cur_file->num);
+}
 /**
   * @brief  处理子窗口消息
   * @param  [in] msg 定制用户消息
@@ -787,19 +819,26 @@ static void dispose_child_win_msg(CUSTOM_MSG_T * msg, WM_HWIN hWin)
 			if(msg->msg == CM_DIALOG_RETURN_OK)
 			{
 				int row = 0;
-				TEST_FILE *f;
+				TEST_FILE *fn;
+                TEST_FILE *fs;
+                CS_ERR err;
 				
-				f = (TEST_FILE*)msg->user_data;
+				fn = (TEST_FILE*)msg->user_data;
 				
 				row = LISTVIEW_GetSel(file_list_handle);
 				
-				f->num = row + 1;
-				if(f->num < MAX_FILES)
-				{
-					strcpy((char *)f->date, (const char*)get_time_str(0));
-					file_pool[f->num] = *f;
-                    save_file(f->num);
-				}
+				fn->num = row + 1;
+                fs = get_file_inf(fn->num, &err);
+                
+                if(fn->work_mode != fs->work_mode)
+                {
+                    init_group_inf(fs, fn);
+                    fn->total = fs->total;
+                }
+                
+                strcpy((char *)fn->date, (const char*)get_time_str(0));
+                file_pool[fn->num] = *fn;
+                save_file(fn->num);
                 
                 update_file_dis();
 			}

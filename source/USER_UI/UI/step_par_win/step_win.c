@@ -319,7 +319,15 @@ static void new_one_step(int hwin)
         return;
     }
     
-    mode = get_first_mode();
+    if(g_cur_file->work_mode == G_MODE)
+    {
+        mode = get_first_step_mode();
+    }
+    else
+    {
+        mode = get_first_mode();
+    }
+    
     insert_step(step, mode);
     save_group_info(g_cur_file->num);
     dis_all_steps();
@@ -447,7 +455,7 @@ static void clear_step_listview(void)
     
     for(row = 0; row < n; row++)
     {
-        for(column = 1; column < 4; column++)
+        for(column = 1; column < 6; column++)
         {
             LISTVIEW_SetItemText(list_h, column, row, "");
         }
@@ -646,7 +654,6 @@ static void dis_one_step(NODE_STEP *node, int32_t row)
 		LISTVIEW_SetItemText(list_h, i + 1, row, (const char*)list_buf[i]);
 	}
 }
-
 /**
   * @brief  在列表中的显示所有步的信息
   * @param  无
@@ -661,6 +668,7 @@ static void dis_all_steps(void)
     
     file_num = g_cur_file->num;
     total = g_cur_file->total;
+    clear_step_listview();
     
     for(i = 0; i < total; i++)
     {

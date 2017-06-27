@@ -90,6 +90,7 @@ typedef struct{
     CS_INDEX *index_pool;///<控件索引池
     uint32_t index_size;///<索引池大小
     void (*init_create_fun)(MYUSER_WINDOW_T* win);///< 初始化并创建控件对象池中被索引的控件函数
+    uint8_t pages;///<窗口中控件的总页数
 	CS_LIST list_head;///< 控件链表头
 }ELE_POOL_INF;
 /** 
@@ -314,9 +315,15 @@ struct EDIT_ELE_T_{
     }key_inf;
     
     EDIT_ELE_DISPLAY_INF dis;///<显示相关的配置信息
-    
+    uint8_t num;///<显示页中的编号0-n
+    uint8_t total;///<所在页总共的编辑控件个数
+    uint8_t page;///<所在的页编号1-n
 	CS_LIST e_list;///< 编辑控件链表
 };
+typedef struct{
+    void (*dispose_cb)(WM_HWIN);///<处理使用的回调函数
+    WM_HWIN handle;///<窗口句柄
+}WIN_CB_INF;
 /** 
   * @brief 警告提示信息结构
   */
@@ -325,6 +332,8 @@ typedef struct{
     TEXT_ELE_T content;///<内容
     WIDGET_POS_SIZE_T win_pos_size;///<窗口位置尺寸
     uint32_t dly_auto_close;///<延时自动关闭,计时为0表示不关闭，非0时间到自动关闭,单位ms
+    WIN_CB_INF warning_enter_cb;///<当按下ENTER键时会使用的回调函数
+    WIN_CB_INF warnig_cancle_cb;///<当按下CANCLE键时会使用的回调函数
 }WARNING_INF;
 
 /*********************************************************************/
@@ -334,6 +343,7 @@ typedef struct{
 typedef enum {
 	COM_RANGE_NAME,///<主界面的通信状态
 	COM_RANGE_NOTICE,///<主界面的系统时间
+    COM_PAGE_NOTICE,///<页码提示信息 1/1 表示 第1页/共1页
     
     COM_UI_FILE_NAME    ,///< 记忆组文件名
     COM_UI_CUR_FILE_NAME,///< 记忆组文件名内容
@@ -347,12 +357,15 @@ typedef enum {
 
 #define COM_RANGE_ELE_NUM   2   ///< 范围公共文本对象个数
 #define COM_GRUOP_ELE_NUM   6   ///< 记忆组公共文本对象个数
+#define COM_PAGE_ELE_NUM    1   ///< 页码提示信息公共文本对象个数
 
 extern TEXT_ELE_T com_text_ele_pool[COM_ELE_NUM];
 extern CS_INDEX range_com_ele_table[COM_RANGE_ELE_NUM];
-extern CS_INDEX range_group_com_ele_table[COM_ELE_NUM];
+extern CS_INDEX range_page_group_com_ele_table[COM_ELE_NUM];
+extern CS_INDEX range_group_com_ele_table[COM_RANGE_ELE_NUM + COM_GRUOP_ELE_NUM];
 extern CS_INDEX group_com_ele_table[COM_GRUOP_ELE_NUM];
 extern void init_com_text_ele_dis_inf(MYUSER_WINDOW_T* win);
+extern void init_page_num_com_text_ele_dis_inf(MYUSER_WINDOW_T* win);
 extern void init_group_com_text_ele_dis_inf(MYUSER_WINDOW_T* win);
 /*********************************************************************/
 /** 
@@ -375,7 +388,7 @@ typedef enum{
 	
 	CM_DIALOG_RETURN_OK,///<子窗口返回时按下了OK键 或 ENTER
 	CM_DIALOG_RETURN_CANCLE,///<子窗口返回时按下了CANCLE键 或 EXIT
-    CM_DIALOG_INPUT_PWD,///<进入密码确认身份窗口
+    CM_DIALOG_CHANGE_WORK_MODE,///<更改记忆组工作模式
 }CUSTOM_MSG_ID;
 /** 
   * @brief 用户自定义消息结构
@@ -425,6 +438,7 @@ extern void init_window_com_ele_list(MYUSER_WINDOW_T *win);
 extern void init_window_text_ele_dis_inf(MYUSER_WINDOW_T *win, TEXT_ELE_AUTO_LAYOUT_T *inf);
 extern void init_window_edit_ele_dis_inf(MYUSER_WINDOW_T *win, EDIT_ELE_AUTO_LAYOUT_T* inf);
 extern void auto_init_win_edit_ele_dis_inf(MYUSER_WINDOW_T *win);
+extern void dis_one_page_win_edit_eles(MYUSER_WINDOW_T *win, uint8_t page);
 extern void auto_init_win_text_ele_dis_inf(MYUSER_WINDOW_T *win);
 extern void adjust_win_edit_ele_dis_inf(MYUSER_WINDOW_T *win);
 extern void adjust_win_text_ele_dis_inf(MYUSER_WINDOW_T *win);
@@ -446,6 +460,7 @@ extern void delete_win_edit_ele(MYUSER_WINDOW_T* win);
 extern void init_create_win_com_ele(MYUSER_WINDOW_T* win);
 extern void update_range_name(uint8_t *str);
 extern void update_default_range_name(void);
+extern void update_page_num(MYUSER_WINDOW_T* win, EDIT_ELE_T *ele);
 extern void myGUI_DrawRectEx(const GUI_RECT * pRect);
 
 #endif //__COM_UI_INFO_H__

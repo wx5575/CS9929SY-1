@@ -577,6 +577,7 @@ extern uint16_t transform_arc_cur_to_grade(uint16_t arc_cur_val);
 extern uint16_t transform_arc_grade_to_cur(uint16_t gear);
 extern void init_new_group_inf(TEST_FILE *file);
 extern void del_one_group_inf(FILE_NUM file_num);
+extern void clear_cur_group_all_test_step(void);
 extern void save_setting_step(void);
 
 #endif //__CS99XX_STRUCT_H__

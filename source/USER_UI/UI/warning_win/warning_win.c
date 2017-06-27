@@ -166,6 +166,27 @@ static void menu_key_cancle(int hWin)
     back_win(hWin);//关闭对话框
 }
 
+static void call_wrning_inf_call_back_fun(void)
+{
+    WM_HWIN handle;
+    
+	if(g_custom_msg.msg == CM_DIALOG_RETURN_OK)
+    {
+        if(warning_inf.warning_enter_cb.dispose_cb != NULL)
+        {
+            handle = warning_inf.warning_enter_cb.handle;
+            warning_inf.warning_enter_cb.dispose_cb(handle);
+        }
+    }
+    else
+    {
+        if(warning_inf.warnig_cancle_cb.dispose_cb != NULL)
+        {
+            handle = warning_inf.warnig_cancle_cb.handle;
+            warning_inf.warnig_cancle_cb.dispose_cb(handle);
+        }
+    }
+}
 /**
   * @brief  初始化警告框的内容显示
   * @param  无
@@ -239,6 +260,7 @@ static void warning_win_cb(WM_MESSAGE * pMsg)
 			break;
 		case WM_DELETE:
 		{
+            call_wrning_inf_call_back_fun();
 			send_msg_to_parent(hWin, CM_CHILD_W_MSG, (int)&g_custom_msg);
 			break;
 		}

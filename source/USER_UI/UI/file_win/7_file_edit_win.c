@@ -66,6 +66,12 @@ static ADJUST_EDIT_ELE_LAYOUT  _7_file_edit_win_edit_ele_adjust_layout_pool[]=
             {0/*name*/, CS_FALSE}, {220/*edit*/, CS_TRUE}, {0/*unit*/, CS_FALSE},
         }/*width*/,
     },
+    {
+        FSAVE_UI_ARC_MODE/*index*/,
+        {
+            {0/*name*/, CS_FALSE}, {150/*edit*/, CS_TRUE}, {0/*unit*/, CS_FALSE},
+        }/*width*/,
+    },
 };
 
 ADJUST_EDIT_ELE_LAYOUT_INF _7_file_edit_win_edit_ele_adjust_layout_inf =

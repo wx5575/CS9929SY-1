@@ -1014,16 +1014,26 @@ void set_sw_status_off(WM_HMEM hWin)
   */
 void com_edit_win_direct_key_up_cb(KEY_MESSAGE *key_msg)
 {
+    EDIT_ELE_T *node;
+    
     dis_select_edit_ele(g_cur_edit_ele, LOAD_TO_RAM);
     
     if(&g_cur_win->edit.list_head != g_cur_edit_ele->e_list.prev)
     {
-        g_cur_edit_ele = list_entry(g_cur_edit_ele->e_list.prev, EDIT_ELE_T, e_list);
+        node = list_entry(g_cur_edit_ele->e_list.prev, EDIT_ELE_T, e_list);
     }
     else
     {
-        g_cur_edit_ele = list_entry(g_cur_edit_ele->e_list.prev->prev, EDIT_ELE_T, e_list);
+        node = list_entry(g_cur_edit_ele->e_list.prev->prev, EDIT_ELE_T, e_list);
     }
+    
+    if(g_cur_edit_ele->page != node->page)
+    {
+        dis_one_page_win_edit_eles(g_cur_win, node->page);
+        update_page_num(g_cur_win, node);//更新页码显示
+    }
+    
+    g_cur_edit_ele = node;
     
     select_edit_ele(g_cur_edit_ele);
 }
@@ -1034,16 +1044,26 @@ void com_edit_win_direct_key_up_cb(KEY_MESSAGE *key_msg)
   */
 void com_edit_win_direct_key_down_cb(KEY_MESSAGE *key_msg)
 {
+    EDIT_ELE_T *node;
+    
     dis_select_edit_ele(g_cur_edit_ele, LOAD_TO_RAM);
     
     if(&g_cur_win->edit.list_head != g_cur_edit_ele->e_list.next)
     {
-        g_cur_edit_ele = list_entry(g_cur_edit_ele->e_list.next, EDIT_ELE_T, e_list);
+        node = list_entry(g_cur_edit_ele->e_list.next, EDIT_ELE_T, e_list);
     }
     else
     {
-        g_cur_edit_ele = list_entry(g_cur_edit_ele->e_list.next->next, EDIT_ELE_T, e_list);
+        node = list_entry(g_cur_edit_ele->e_list.next->next, EDIT_ELE_T, e_list);
     }
+    
+    if(g_cur_edit_ele->page != node->page)
+    {
+        dis_one_page_win_edit_eles(g_cur_win, node->page);
+        update_page_num(g_cur_win, node);//更新页码显示
+    }
+    
+    g_cur_edit_ele = node;
     
     select_edit_ele(g_cur_edit_ele);
 }

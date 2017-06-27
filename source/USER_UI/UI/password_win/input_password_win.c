@@ -456,7 +456,6 @@ void init_back_up_will_enter_win_inf(void (*fun)(int), int data)
 {
     back_up_will_enter_win_inf.into_win_fun = fun;
     back_up_will_enter_win_inf.data = data;
-    set_custom_msg_id(CM_DIALOG_INPUT_PWD);
     create_input_password_ui(g_cur_win->handle);
 }
 /**

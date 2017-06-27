@@ -307,6 +307,28 @@ uint8_t get_first_mode(void)
 	return mode;
 }
 /*
+ * 函数名： get_first_g_mode
+ * 描述  ：找到当前机型下的首个支持G模式的测试模式 优先顺序：ACW DCW
+ * 输入  ：无
+ * 输出  ：无
+ * 返回  ：首个模式
+ */
+uint8_t get_first_g_mode(void)
+{
+	uint8_t mode = NUL;
+	
+	if(MODEL_EN & __ACW)
+	{
+		mode = ACW;
+	}
+	else if(MODEL_EN & __DCW)
+	{
+		mode = DCW;
+	}
+    
+	return mode;
+}
+/*
  * 函数名：judge_support_g_mode
  * 描述  ：判断是否支持G模式
  * 输入  ：无
@@ -912,6 +934,28 @@ int32_t check_this_mode(uint8_t mode)
     return 0;
 }
 
+uint16_t define_g_modes(const uint8_t **mode_buf, uint8_t *flag, uint16_t *kinds)
+{
+	int32_t k = 0;
+	
+	if(MODEL_EN & __ACW)
+	{
+		mode_buf[k] = mode_pool[ACW];
+		flag[k++] = ACW;
+	}
+	if(MODEL_EN & __DCW)
+	{
+		mode_buf[k] = mode_pool[DCW];
+		flag[k++] = DCW;
+	}
+    
+	if(kinds != NULL)
+	{
+		*kinds = k;
+	}
+	
+	return k;
+}
 uint16_t define_modes(const uint8_t **mode_buf, uint8_t *flag, uint16_t *kinds)
 {
 	int32_t k = 0;
@@ -958,16 +1002,37 @@ typedef struct{
     const uint8_t *buf[MODE_END];///<模式对应的字符串
     uint8_t flag[MODE_END];///<模式对应的宏索引
     uint16_t kinds;///<模式的各类
-}DEFINED_MODE_INF,DEFINED_RANGE_INF;
-static DEFINED_MODE_INF defined_mode_inf;
+}DEFINED_N_MODE_INF,DEFINED_RANGE_INF;
+static DEFINED_N_MODE_INF defined_n_mode_inf;
+static DEFINED_N_MODE_INF defined_g_mode_inf;
+static DEFINED_N_MODE_INF defined_g_mode_first_step_inf;
 
-static void init_defined_mode_inf(DEFINED_MODE_INF *inf)
+static void init_defined_n_mode_inf(DEFINED_N_MODE_INF *inf)
 {
     define_modes(inf->buf, inf->flag, &inf->kinds);
 }
+static void init_defined_g_mode_inf(DEFINED_N_MODE_INF *inf)
+{
+    define_g_modes(inf->buf, inf->flag, &inf->kinds);
+}
+void *get_defined_g_mode_table(void)
+{
+    return defined_g_mode_inf.buf;
+}
+void *get_defined_g_mode_no_first_step_table(void)
+{
+    uint8_t mode;
+    mode = get_first_step_mode();
+    
+    defined_g_mode_first_step_inf.buf[0] = mode_pool[mode];
+    defined_g_mode_first_step_inf.kinds = 1;
+    defined_g_mode_first_step_inf.flag[0] = mode;
+    
+    return defined_g_mode_first_step_inf.buf;
+}
 void *get_defined_mode_table(void)
 {
-    return defined_mode_inf.buf;
+    return defined_n_mode_inf.buf;
 }
 static DEFINED_RANGE_INF acw_range_inf;
 static DEFINED_RANGE_INF dcw_range_inf;
@@ -1015,11 +1080,27 @@ uint16_t get_defined_range_num(uint8_t mode)
 }
 void *get_defined_mode_flag(void)
 {
-    return defined_mode_inf.flag;
+    return defined_n_mode_inf.flag;
 }
 uint16_t get_defined_mode_num(void)
 {
-    return defined_mode_inf.kinds;
+    return defined_n_mode_inf.kinds;
+}
+void *get_defined_g_mode_first_step_flag(void)
+{
+    return defined_g_mode_first_step_inf.flag;
+}
+uint16_t get_defined_g_mode_first_step_num(void)
+{
+    return defined_g_mode_first_step_inf.kinds;
+}
+void *get_defined_g_mode_flag(void)
+{
+    return defined_g_mode_inf.flag;
+}
+uint16_t get_defined_g_mode_num(void)
+{
+    return defined_g_mode_inf.kinds;
 }
 int32_t check_test_mode(NODE_STEP * p)
 {
@@ -1259,7 +1340,8 @@ int32_t check_type(void)
     
     init_other_speciality();//调用config后的其余初始化
     init_custom_type();//仅仅改变名称的定制机初始化
-    init_defined_mode_inf(&defined_mode_inf);
+    init_defined_n_mode_inf(&defined_n_mode_inf);
+    init_defined_g_mode_inf(&defined_g_mode_inf);
     init_defined_range_inf(ACW, &acw_range_inf);
     init_defined_range_inf(DCW, &dcw_range_inf);
     

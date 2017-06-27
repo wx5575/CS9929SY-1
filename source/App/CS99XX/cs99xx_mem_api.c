@@ -195,4 +195,8 @@ void copy_cur_file_to_new_pos(const FILE_NUM file_num)
     copy_cur_file_to_new_pos_flash(file_num);
 }
 
+uint8_t get_first_step_mode(void)
+{
+    return get_first_step_mode_flash();
+}
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/
