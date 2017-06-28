@@ -22,11 +22,12 @@
 #include "ui_com/com_ui_base.h"
 #include "tools.h"
 #include "key_server.h"
+#include "type/cs99xx_type.h"
 
 #pragma  diag_suppress 870 //消除870号编译警告
 
 #define SYS_LANGUAGE		sys_par.language //CHINESE //ENGLISH //
-#define SCREEM_SIZE         sys_par.screem_size
+#define SCREEM_SIZE         g_custom_sys_par.screem_size
 /* 选择字体 如果当前系统字体为空就使用系统字体 不为空就正常使用 */
 #define SEL_FONT(font)      font[SYS_LANGUAGE]==NULL?font[CHINESE]:font[SYS_LANGUAGE]
 #define SELE_STR(S1, S2)	(SYS_LANGUAGE==CHINESE?S1:S2) ///< 根据系统语言选择不同的字符串
@@ -408,6 +409,7 @@ typedef struct{
 COM_UI_EXT CS_LIST 				windows_list;///<窗口链表
 COM_UI_EXT MYUSER_WINDOW_T      *g_cur_win;///<当前窗口指针
 COM_UI_EXT EDIT_ELE_T     *g_cur_edit_ele;///<当前编辑对象
+COM_UI_EXT EDIT_ELE_T     *g_cur_edit_ele_bk;///<备份当前编辑对象
 COM_UI_EXT TEXT_ELE_T           *g_cur_text_ele;///<当前文本对象
 COM_UI_EXT CUSTOM_MSG_T 	    g_custom_msg;///<用户自定义消息实体变量
 COM_UI_EXT uint32_t             id_base;///<全局控件ID变量
@@ -462,6 +464,8 @@ extern void update_range_name(uint8_t *str);
 extern void update_default_range_name(void);
 extern void update_page_num(MYUSER_WINDOW_T* win, EDIT_ELE_T *ele);
 extern void myGUI_DrawRectEx(const GUI_RECT * pRect);
+extern void recover_g_cur_edit_ele(void);
+extern void backup_g_cur_edit_ele(void);
 
 #endif //__COM_UI_INFO_H__
 

@@ -175,6 +175,10 @@ TEXT_ELE_T key_menu_win_ele_pool[]=
 	{{"F6","F6"}, KEY_MENU_F6   },
 };
 /**
+  * @brief  菜单键窗口文本控件结构初始化池
+  */
+TEXT_ELE_T key_menu_win_ele_pool_bk[7];
+/**
   * @brief  菜单键窗口定义
   */
 static MYUSER_WINDOW_T key_menu_windows=
@@ -207,7 +211,7 @@ static MYUSER_WINDOW_T key_menu_windows=
 static void init_create_key_menu_text_ele(MYUSER_WINDOW_T* win)
 {
     init_window_text_ele_list(win);
-    init_window_text_ele_dis_inf(win, key_menu_text_ele_auto_layout[sys_par.screem_size]);
+    init_window_text_ele_dis_inf(win, key_menu_text_ele_auto_layout[SCREEM_SIZE]);
     init_window_text_ele(win);
 }
 /**
@@ -652,4 +656,18 @@ void create_key_menu_window(void)
     create_user_window(&key_menu_windows, &windows_list, 0);//创建菜单界面
 }
 
+void backup_key_inf(void)
+{
+    backup_key_funcation_inf();
+    backup_g_cur_edit_ele();
+    memcpy(&key_menu_win_ele_pool_bk, &key_menu_win_ele_pool, sizeof(key_menu_win_ele_pool_bk));
+}
+void recover_key_inf(void)
+{
+    recover_g_cur_edit_ele();
+    recover_key_funcation_inf();
+    memcpy(&key_menu_win_ele_pool, &key_menu_win_ele_pool_bk, sizeof(key_menu_win_ele_pool_bk));
+    
+	display_menu_key();//刷新菜单键显示
+}
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

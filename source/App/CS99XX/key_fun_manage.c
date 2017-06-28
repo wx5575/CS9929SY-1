@@ -219,5 +219,13 @@ void disable_system_fun_key_fun(void)
     }
 }
 
+void backup_key_funcation_inf(void)
+{
+    memcpy(&key_funcation_bk, &key_funcation, sizeof(KEY_FUNCATION));
+}
+void recover_key_funcation_inf(void)
+{
+    memcpy(&key_funcation, &key_funcation_bk, sizeof(KEY_FUNCATION));
+}
 
 /************************ (C) COPYRIGHT Nanjing Changsheng *****END OF FILE****/

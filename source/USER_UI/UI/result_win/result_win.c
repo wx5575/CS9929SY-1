@@ -313,7 +313,7 @@ static WM_HWIN create_result_listview(WM_HWIN hWin)
 {
     WM_HWIN handle = 0;
     
-    switch(sys_par.screem_size)
+    switch(SCREEM_SIZE)
     {
         case SCREEN_4_3INCH:
             break;

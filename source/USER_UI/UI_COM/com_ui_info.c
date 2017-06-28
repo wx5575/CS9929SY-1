@@ -899,6 +899,8 @@ void create_user_window(MYUSER_WINDOW_T* win_info, CS_LIST *list_head, WM_HWIN h
     list_init(&win_info->edit.list_head);//初始化编辑对象链表
     list_init(&win_info->com.list_head);//初始化公共文本对象链表
     
+    backup_g_cur_edit_ele();
+    backup_key_inf();//备份按键信息 当需要的时候可以用来恢复按键信息
     disable_system_fun_key_fun();//失能系统功能按键
     set_cur_window(win_info);//将新建窗口设为当前窗口
     win_info->handle = WM_CreateWindowAsChild(x, y, width, height, h_parent, WM_CF_MEMDEV_ON_REDRAW | WM_CF_SHOW, cb_fun, 0);//WM_CF_SHOW
@@ -1004,6 +1006,7 @@ void create_user_dialog(MYUSER_WINDOW_T* win_info, CS_LIST *list_head, WM_HWIN h
     list_init(&win_info->edit.list_head);//初始化编辑对象链表
     list_init(&win_info->com.list_head);//初始化公共文本对象链表
     
+    backup_key_inf();//备份按键信息 当需要的时候可以用来恢复按键信息
     disable_system_fun_key_fun();//失能系统功能按键
     set_cur_window(win_info);
     win_info->handle = GUI_CreateDialogBox(&aDialogBox, 1, cb_fun, hWin, 0, 0);//非阻塞
@@ -1244,7 +1247,7 @@ static void _7_draw_group_inf_area(void)
 }
 void draw_group_inf_area(void)
 {
-    switch(sys_par.screem_size)
+    switch(SCREEM_SIZE)
     {
         case SCREEN_4_3INCH:
             break;
@@ -1720,4 +1723,12 @@ void myGUI_DrawRectEx(const GUI_RECT * pRect)
 	GUI_DrawLine(pRect->x1, pRect->y0, pRect->x1, pRect->y1);
 }
 
+void backup_g_cur_edit_ele(void)
+{
+    g_cur_edit_ele_bk = g_cur_edit_ele;
+}
+void recover_g_cur_edit_ele(void)
+{
+    g_cur_edit_ele = g_cur_edit_ele_bk;
+}
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

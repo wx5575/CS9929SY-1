@@ -278,7 +278,7 @@ void check_sys_par(CS_ERR *err)
 {
     *err = CS_ERR_NONE;
     
-    if(sys_par.screem_size > SCREEN_NUM)
+    if(g_custom_sys_par.screem_size > SCREEN_NUM)
     {
         *err = CS_ERR_DATA_OUT_OF_RANGE;
     }
@@ -300,7 +300,7 @@ void check_sys_par(CS_ERR *err)
   */
 void init_sys_par(void)
 {
-    sys_par.screem_size = SCREEN_7INCH;
+    g_custom_sys_par.screem_size = SCREEN_7INCH;
     sys_par.language = CHINESE;
     memcpy(sys_par.password, DEFAULT_PWD, sizeof(sys_par.password));
     save_sys_par();

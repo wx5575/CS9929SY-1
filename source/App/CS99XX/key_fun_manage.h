@@ -81,6 +81,7 @@ KEY_DISPOSE_EXT		void (*global_fun_key_dispose)(uint32_t key_value);
 KEY_DISPOSE_EXT		void (*scan_key_custom_fun)();
 KEY_DISPOSE_EXT		void (*scan_direct_key_fun)();
 KEY_DISPOSE_EXT		 KEY_FUNCATION		key_funcation;
+KEY_DISPOSE_EXT		 KEY_FUNCATION		key_funcation_bk;///<备份使用
 KEY_DISPOSE_EXT		 KEY_DISPOSE_FUN 	golbal_key_info;
 extern void dispose_funcation_key(uint32_t key);
 extern void init_funcation_key_dispose_fun(KEY_FUNCATION *info);
@@ -88,6 +89,8 @@ extern void register_key_dispose_fun(uint32_t key, KEY_DISPOSE_FUN *fun);
 extern void enable_function_key(uint32_t key, uint8_t st);
 extern uint8_t get_function_key_st(uint32_t key, CS_ERR *err);
 extern void disable_system_fun_key_fun(void);
+extern void recover_key_funcation_inf(void);
+extern void backup_key_funcation_inf(void);
 
 #endif //__KEY_FUN_MANAGE_H__
 

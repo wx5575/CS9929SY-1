@@ -650,7 +650,7 @@ static void init_create_pwd_edit_ele(MYUSER_WINDOW_T* win)
     init_window_edit_ele_list(win);//初始化窗口编辑对象链表
     
     //初始化编辑对象显示信息
-    init_window_edit_ele_dis_inf(win, pwd_edit_ele_auto_layout[sys_par.screem_size]);
+    init_window_edit_ele_dis_inf(win, pwd_edit_ele_auto_layout[SCREEM_SIZE]);
     
     init_window_edit_ele(win);//初始化创建编辑对象
 }

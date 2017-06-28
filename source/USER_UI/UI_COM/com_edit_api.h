@@ -47,6 +47,8 @@ extern void set_sw_status_off(WM_HMEM hWin);
 extern void update_ele_range_text(EDIT_ELE_T *ele);
 extern void com_edit_win_direct_key_up_cb(KEY_MESSAGE *key_msg);
 extern void com_edit_win_direct_key_down_cb(KEY_MESSAGE *key_msg);
+extern void com_win_direct_key_right_cb(KEY_MESSAGE *key_msg);
+extern void com_win_direct_key_left_cb(KEY_MESSAGE *key_msg);
 extern CS_INDEX get_edit_ele_index(EDIT_ELE_T *edit_pool, uint32_t pool_size, CS_INDEX index, CS_ERR*err);
 extern EDIT_ELE_T* get_edit_ele_inf(EDIT_ELE_T *edit_pool, uint32_t pool_size, CS_INDEX index, CS_ERR*err);
 extern void init_sw_type_edit_ele_resource_inf(EDIT_ELE_T* ele);
@@ -55,6 +57,7 @@ extern void reg_edit_ele_data_inf(CS_INDEX index, void *data, uint8_t bytes);
 extern void reg_edit_ele_data(MYUSER_WINDOW_T* win, CS_INDEX index, void *data, uint8_t bytes);
 extern void auto_layout_win_edit_ele(MYUSER_WINDOW_T* win);
 extern void init_edit_ele_resource_inf(EDIT_ELE_T* ele, void *res_table, uint32_t size);
+extern void init_edit_ele_resource_user_data_inf(EDIT_ELE_T* ele, void *res_table, uint32_t size);
 extern void auto_layout_win_text_ele(MYUSER_WINDOW_T* win);
 
 #endif //__COM_EDIT_API_H__

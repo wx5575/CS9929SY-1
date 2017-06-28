@@ -661,6 +661,7 @@ void update_ele_range_text(EDIT_ELE_T *ele)
     uint8_t buf1[100] = {0};
     uint8_t buf2[100] = {0};
     int32_t i = 0;
+    uint8_t flag = 0;
     
     str[CHINESE] = ele->range.notice[CHINESE];
     str[ENGLISH] = ele->range.notice[ENGLISH];
@@ -674,6 +675,7 @@ void update_ele_range_text(EDIT_ELE_T *ele)
             if(ele->range.provided_dis_range_fun != NULL)
             {
                 ele->range.provided_dis_range_fun(ele);
+                flag = 1;
             }
             else
             {
@@ -701,8 +703,11 @@ void update_ele_range_text(EDIT_ELE_T *ele)
             break;
     }
     
-    set_com_text_ele_inf((CS_INDEX)COM_RANGE_NOTICE, g_cur_win, str);
-    update_com_text_ele((CS_INDEX)COM_RANGE_NOTICE, g_cur_win, str[SYS_LANGUAGE]);
+    if(0 == flag)
+    {
+        set_com_text_ele_inf((CS_INDEX)COM_RANGE_NOTICE, g_cur_win, str);
+        update_com_text_ele((CS_INDEX)COM_RANGE_NOTICE, g_cur_win, str[SYS_LANGUAGE]);
+    }
 }
 /**
   * @brief  改变编辑对象中编辑控件的背景色，根据编辑控件的类型来区别处理
@@ -1069,13 +1074,99 @@ void com_edit_win_direct_key_down_cb(KEY_MESSAGE *key_msg)
 }
 
 /**
+  * @brief  向左键的回调函数
+  * @param  [in] key_msg 回调函数携带的按键消息
+  * @retval 无
+  */
+void com_win_direct_key_left_cb(KEY_MESSAGE *key_msg)
+{
+    EDIT_ELE_T *node;
+	CS_LIST *t_index = NULL;
+	CS_LIST *t_list = &g_cur_win->edit.list_head;//链表头
+    uint8_t flag = 0;
+    uint8_t c = 0;
+    uint8_t rows = 0;
+    uint8_t this_page = 0;
+    
+    rows = g_cur_win->auto_layout.edit_ele_auto_layout_inf[SCREEM_SIZE]->rows;
+    
+    /* 初始化并创建编辑对象链表中的所有对象 */
+	list_for_each_reverse(t_index, t_list)
+	{
+		node = list_entry(t_index, EDIT_ELE_T, e_list);
+        
+        if(flag && node->page == this_page)
+        {
+            if(++c == rows)
+            {
+                dis_select_edit_ele(g_cur_edit_ele, LOAD_TO_RAM);
+                g_cur_edit_ele = node;
+                select_edit_ele(g_cur_edit_ele);
+                break;
+            }
+        }
+        
+        if(g_cur_edit_ele == node)
+        {
+            flag = 1;
+            this_page = node->page;
+        }
+	}
+}
+/**
+  * @brief  向右键的回调函数
+  * @param  [in] key_msg 回调函数携带的按键消息
+  * @retval 无
+  */
+void com_win_direct_key_right_cb(KEY_MESSAGE *key_msg)
+{
+    EDIT_ELE_T *node;
+	CS_LIST *t_index = NULL;
+	CS_LIST *t_list = &g_cur_win->edit.list_head;//链表
+    uint8_t flag = 0;
+    uint8_t c = 0;
+    uint8_t rows = 0;
+    uint8_t this_page = 0;
+    
+    rows = g_cur_win->auto_layout.edit_ele_auto_layout_inf[SCREEM_SIZE]->rows;
+    
+    /* 初始化并创建编辑对象链表中的所有对象 */
+	list_for_each(t_index, t_list)
+	{
+		node = list_entry(t_index, EDIT_ELE_T, e_list);
+        
+        if(flag && node->page == this_page)
+        {
+            if(++c == rows)
+            {
+                dis_select_edit_ele(g_cur_edit_ele, LOAD_TO_RAM);
+                g_cur_edit_ele = node;
+                select_edit_ele(g_cur_edit_ele);
+                break;
+            }
+        }
+        
+        if(g_cur_edit_ele == node)
+        {
+            flag = 1;
+            this_page = node->page;
+        }
+	}
+}
+/**
   * @brief  初始化开关类型编辑对象的资源信息
   * @param  [in] ele 编辑对象
   * @retval 无
   */
 void init_sw_type_edit_ele_resource_inf(EDIT_ELE_T* ele)
 {
+    static SW_STATUS st_buf[2] = 
+    {
+        SW_OFF,
+        SW_ON,
+    };
     init_edit_ele_resource_inf(ele, sw_pool[SYS_LANGUAGE], ARRAY_SIZE(sw_pool[SYS_LANGUAGE]));
+    init_edit_ele_resource_user_data_inf(ele, st_buf, ARRAY_SIZE(st_buf));
 }
 
 /**
@@ -1089,6 +1180,18 @@ void init_edit_ele_resource_inf(EDIT_ELE_T* ele, void *res_table, uint32_t size)
 {
     ele->resource.table = res_table;
     ele->resource.size = size;
+}
+/**
+  * @brief  初始化编辑对象的资源用户数据
+  * @param  [in] ele 编辑对象
+  * @param  [in] res_table 资源表
+  * @param  [in] size 资源表中元素个数
+  * @retval 无
+  */
+void init_edit_ele_resource_user_data_inf(EDIT_ELE_T* ele, void *res_table, uint32_t size)
+{
+    ele->resource.user_data = res_table;
+    ele->resource.user_data_size = size;
 }
 
 /**
@@ -1182,4 +1285,5 @@ void auto_layout_win_text_ele(MYUSER_WINDOW_T* win)
     auto_init_win_text_ele_dis_inf(win);
     adjust_win_text_ele_dis_inf(win);//调整某些对象的布局
 }
+
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

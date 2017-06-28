@@ -58,6 +58,7 @@ typedef enum{
     STEP_EDIT_WIN_TEST_T,///<测试时间
     STEP_EDIT_WIN_FALL_T,///<下降时间
     STEP_EDIT_WIN_INTER_T,///<间隔时间
+    STEP_EDIT_WIN_CHANGE_T,///<缓变时间
     STEP_EDIT_WIN_CONT,///<步间连续
     STEP_EDIT_WIN_PASS,///<步间PASS
     STEP_EDIT_WIN_PORT,///<输出端口
@@ -110,12 +111,16 @@ static void edit_sw_f4_cb(KEY_MESSAGE *key_msg);
 static void edit_sw_f5_cb(KEY_MESSAGE *key_msg);
 static void edit_sw_f6_cb(KEY_MESSAGE *key_msg);
 
+static void edit_step_num_direct_key_right_cb(KEY_MESSAGE *key_msg);
+static void edit_step_num_direct_key_lift_cb(KEY_MESSAGE *key_msg);
 static void edit_step_num_direct_key_up_cb(KEY_MESSAGE *key_msg);
 static void edit_step_num_direct_key_down_cb(KEY_MESSAGE *key_msg);
 static void edit_step_num_direct_key_enter_cb(KEY_MESSAGE *key_msg);
 static void edit_step_num_direct_key_enter_down_cb(KEY_MESSAGE *key_msg);
 static void edit_step_num_direct_key_enter_up_cb(KEY_MESSAGE *key_msg);
 
+static void edit_mode_direct_key_right_cb(KEY_MESSAGE *key_msg);
+static void edit_mode_direct_key_left_cb(KEY_MESSAGE *key_msg);
 static void edit_mode_direct_key_up_cb(KEY_MESSAGE *key_msg);
 static void edit_mode_direct_key_down_cb(KEY_MESSAGE *key_msg);
 static void edit_mode_direct_key_enter_cb(KEY_MESSAGE *key_msg);
@@ -232,6 +237,30 @@ static CS_INDEX acw_par_index[]=
     STEP_EDIT_WIN_DELAY_T,///<延时时间
 };
 /**
+  * @brief  ACW G模式 步骤编辑窗口中要显示的编辑控件的索引表
+  */
+static CS_INDEX acw_g_par_index[]=
+{
+    STEP_EDIT_WIN_STEP,
+    STEP_EDIT_WIN_MODE,
+    STEP_EDIT_WIN_VOL,
+    STEP_EDIT_WIN_RANGE,
+    STEP_EDIT_WIN_UPPER,///<电流上限
+    STEP_EDIT_WIN_LOWER,///<电流下限
+    
+    STEP_EDIT_WIN_ARC,///<电弧侦测
+    STEP_EDIT_WIN_REAL_C,///<真实电流
+    STEP_EDIT_WIN_FREQ,///<输出频率
+    STEP_EDIT_WIN_RAISE_T,///<上升时间
+    STEP_EDIT_WIN_TEST_T,///<测试时间
+    STEP_EDIT_WIN_FALL_T,///<下降时间
+    STEP_EDIT_WIN_CHANGE_T,///<缓变时间
+    STEP_EDIT_WIN_CONT,///<步间连续
+    STEP_EDIT_WIN_PASS,///<步间PASS
+    STEP_EDIT_WIN_PORT,///<输出端口
+    STEP_EDIT_WIN_DELAY_T,///<延时时间
+};
+/**
   * @brief  DCW 步骤编辑窗口中要显示的编辑控件的索引表
   */
 static CS_INDEX dcw_par_index[]=
@@ -248,6 +277,28 @@ static CS_INDEX dcw_par_index[]=
     STEP_EDIT_WIN_TEST_T,///<测试时间
     STEP_EDIT_WIN_FALL_T,///<下降时间
     STEP_EDIT_WIN_INTER_T,///<间隔时间
+    STEP_EDIT_WIN_DELAY_T,///<延时时间
+    STEP_EDIT_WIN_CONT,///<步间连续
+    STEP_EDIT_WIN_PASS,///<步间PASS
+    STEP_EDIT_WIN_PORT,///<输出端口
+};
+/**
+  * @brief  DCW G模式 步骤编辑窗口中要显示的编辑控件的索引表
+  */
+static CS_INDEX dcw_g_par_index[]=
+{
+    STEP_EDIT_WIN_STEP,
+    STEP_EDIT_WIN_MODE,
+    STEP_EDIT_WIN_VOL,
+    STEP_EDIT_WIN_RANGE,
+    STEP_EDIT_WIN_UPPER,///<电流上限
+    STEP_EDIT_WIN_LOWER,///<电流下限
+    
+    STEP_EDIT_WIN_ARC,///<电弧侦测
+    STEP_EDIT_WIN_RAISE_T,///<上升时间
+    STEP_EDIT_WIN_TEST_T,///<测试时间
+    STEP_EDIT_WIN_FALL_T,///<下降时间
+    STEP_EDIT_WIN_CHANGE_T,///<缓变时间
     STEP_EDIT_WIN_DELAY_T,///<延时时间
     STEP_EDIT_WIN_CONT,///<步间连续
     STEP_EDIT_WIN_PASS,///<步间PASS
@@ -355,15 +406,15 @@ static FUNCTION_KEY_INFO_T 	step_edit_win_sys_key_init_pool[]=
   */
 static FUNCTION_KEY_INFO_T 	edit_test_port_sys_key_init_pool[]=
 {
-	{KEY_UP		, step_edit_win_direct_key_up_cb      },
-	{KEY_DOWN	, step_edit_win_direct_key_down_cb    },
+	{KEY_UP		, step_edit_win_direct_key_up_cb     },
+	{KEY_DOWN	, step_edit_win_direct_key_down_cb   },
     
-	{KEY_LEFT	, edit_test_port_direct_key_left_cb    },
-	{KEY_RIGHT	, edit_test_port_direct_key_right_cb   },
+	{KEY_LEFT	, edit_test_port_direct_key_left_cb  },
+	{KEY_RIGHT	, edit_test_port_direct_key_right_cb },
     
-	{CODE_LEFT	, step_edit_win_direct_key_down_cb    },
-	{CODE_RIGH	, step_edit_win_direct_key_up_cb      },
-	{KEY_ENTER	, step_edit_win_sys_key_enter_cb },
+	{CODE_LEFT	, step_edit_win_direct_key_down_cb   },
+	{CODE_RIGH	, step_edit_win_direct_key_up_cb     },
+	{KEY_ENTER	, step_edit_win_sys_key_enter_cb     },
 };
 /**
   * @brief  编辑步骤编号时使用的系统功能键初始化信息数组
@@ -372,8 +423,8 @@ static FUNCTION_KEY_INFO_T 	edit_step_num_sys_key_init_pool[]=
 {
 	{KEY_UP		, edit_step_num_direct_key_up_cb    },
 	{KEY_DOWN	, edit_step_num_direct_key_down_cb  },
-	{KEY_LEFT	, step_edit_win_direct_key_left_cb    },
-	{KEY_RIGHT	, step_edit_win_direct_key_right_cb   },
+	{KEY_LEFT	, edit_step_num_direct_key_lift_cb  },
+	{KEY_RIGHT	, edit_step_num_direct_key_right_cb },
 	{CODE_LEFT	, edit_step_num_direct_key_down_cb  },
 	{CODE_RIGH	, edit_step_num_direct_key_up_cb    },
 	{KEY_ENTER	, edit_step_num_direct_key_enter_down_cb },
@@ -385,8 +436,8 @@ static FUNCTION_KEY_INFO_T 	edit_mode_sys_key_init_pool[]=
 {
 	{KEY_UP		, edit_mode_direct_key_up_cb    },
 	{KEY_DOWN	, edit_mode_direct_key_down_cb  },
-	{KEY_LEFT	, step_edit_win_direct_key_left_cb    },
-	{KEY_RIGHT	, step_edit_win_direct_key_right_cb   },
+	{KEY_LEFT	, edit_mode_direct_key_left_cb  },
+	{KEY_RIGHT	, edit_mode_direct_key_right_cb },
 	{CODE_LEFT	, edit_mode_direct_key_down_cb  },
 	{CODE_RIGH	, edit_mode_direct_key_up_cb    },
 	{KEY_ENTER	, edit_mode_direct_key_enter_cb },
@@ -665,6 +716,17 @@ static EDIT_ELE_T step_par_ele_pool[]=
     {
         {"间隔时间:","Inter.Time:"}, /* 名称 */
         STEP_EDIT_WIN_INTER_T,/* 通过枚举索引 */
+        {0},/* 默认值 */
+        {NULL, 2/*数据字节数*/},/* 数据指针 */
+        {NULL, 0,NULL, 0},/* 资源表 */
+        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {1/*dec*/,5/*lon*/,TIM_U_s/*unit*/,},/*format*/
+        {9999/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
+        {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
+    },
+    {
+        {"缓变时间:","Chang.Time:"}, /* 名称 */
+        STEP_EDIT_WIN_CHANGE_T,/* 通过枚举索引 */
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
         {NULL, 0,NULL, 0},/* 资源表 */
@@ -1101,9 +1163,23 @@ static void check_gr_output_cur_value_validity(EDIT_ELE_T* ele, uint32_t *value)
 static void provided_dis_test_time_range_fun(EDIT_ELE_T* ele)
 {
     uint8_t*str[2] = {0};
+    uint8_t buf[100] = {0};
+    uint8_t buf1[100] = {0};
+    uint8_t buf2[100] = {0};
     
-    str[CHINESE] = ele->range.notice[CHINESE];
-    str[ENGLISH] = ele->range.notice[CHINESE];
+    if(ele->range.high == 0)
+    {
+        mysprintf(buf1, unit_pool[ele->format.unit], ele->format.dec + ele->format.lon * 10 + 1 * 100, ele->range.low);
+        mysprintf(buf2, unit_pool[ele->format.unit], ele->format.dec + ele->format.lon * 10 + 1 * 100, ele->range.high);
+        sprintf((char*)buf, "%s - %s", buf1, buf2);
+        str[CHINESE] = buf;
+        str[ENGLISH] = buf;
+    }
+    else
+    {
+        str[CHINESE] = ele->range.notice[CHINESE];
+        str[ENGLISH] = ele->range.notice[CHINESE];
+    }
     
     set_com_text_ele_inf((CS_INDEX)COM_RANGE_NOTICE, g_cur_win, str);
     update_com_text_ele((CS_INDEX)COM_RANGE_NOTICE, g_cur_win, str[SYS_LANGUAGE]);
@@ -1138,6 +1214,8 @@ static void re_init_create_win_all_ele(STEP_NUM step)
         select_edit_ele(g_cur_edit_ele);//重新选重当前编辑控件
         update_group_inf(g_cur_win);
         dis_one_page_win_edit_eles(g_cur_win, g_cur_edit_ele->page);//显示一页的编辑对象
+        update_page_num(g_cur_win, g_cur_edit_ele);//更新页码显示
+        update_default_range_name();//更新默认的范围显示
     }
 }
 /**
@@ -1202,6 +1280,26 @@ static void edit_step_num_direct_key_down_cb(KEY_MESSAGE *key_msg)
 }
 
 /**
+  * @brief  编辑步骤编号使用的向左键回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void edit_step_num_direct_key_lift_cb(KEY_MESSAGE *key_msg)
+{
+    edit_step_num_direct_key_enter_cb(key_msg);
+    step_edit_win_direct_key_left_cb(key_msg);
+}
+/**
+  * @brief  编辑步骤编号使用的向右键回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void edit_step_num_direct_key_right_cb(KEY_MESSAGE *key_msg)
+{
+    edit_step_num_direct_key_enter_cb(key_msg);
+    step_edit_win_direct_key_right_cb(key_msg);
+}
+/**
   * @brief  编辑测试模式使用的确认键回调函数
   * @param  [in] key_msg 按键消息
   * @retval 无
@@ -1257,6 +1355,17 @@ static void edit_mode_direct_key_down_cb(KEY_MESSAGE *key_msg)
 {
     update_and_init_mode();
     step_edit_win_direct_key_down_cb(key_msg);
+}
+
+static void edit_mode_direct_key_left_cb(KEY_MESSAGE *key_msg)
+{
+    update_and_init_mode();
+    step_edit_win_direct_key_left_cb(key_msg);
+}
+static void edit_mode_direct_key_right_cb(KEY_MESSAGE *key_msg)
+{
+    update_and_init_mode();
+    step_edit_win_direct_key_right_cb(key_msg);
 }
 /**
   * @brief  编辑步骤编号使用的系统功能按键初始化
@@ -1687,6 +1796,207 @@ static void check_acw_lower_value_validity(EDIT_ELE_T* ele, uint32_t *value)
         *value = ele->range.high;
     }
 }
+
+static void update_time_range_affect_inf(UN_STRUCT *step)
+{
+    EDIT_ELE_T* ele;
+    EDIT_ELE_T* ele_1;
+    EDIT_ELE_T* ele_2;
+    CS_ERR err;
+    EDIT_ELE_T *pool;
+    uint32_t size;
+    ACW_STRUCT *acw = &step->acw;
+    DCW_STRUCT *dcw = &step->dcw;
+    uint8_t mode = step->com.mode;
+    
+    pool = g_cur_win->edit.pool;
+    size = g_cur_win->edit.pool_size;
+    
+    /* 设置编辑对象索引表信息 */
+    if(mode == ACW)
+    {
+        if(g_cur_file->work_mode == G_MODE)
+        {
+            set_g_cur_win_edit_index_inf(acw_g_par_index, ARRAY_SIZE(acw_g_par_index));
+        }
+        else
+        {
+            set_g_cur_win_edit_index_inf(acw_par_index, ARRAY_SIZE(acw_par_index));
+        }
+    }
+    else
+    {
+        if(g_cur_file->work_mode == G_MODE)
+        {
+            set_g_cur_win_edit_index_inf(dcw_g_par_index, ARRAY_SIZE(dcw_g_par_index));
+        }
+        else
+        {
+            set_g_cur_win_edit_index_inf(dcw_par_index, ARRAY_SIZE(dcw_par_index));
+        }
+    }
+    
+    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_CHANGE_T, &err);//缓变时间
+    
+    if(err != CS_ERR_NONE)
+    {
+        return;
+    }
+    
+    ele_1 = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_RAISE_T, &err);//上升时间
+    
+    if(err != CS_ERR_NONE)
+    {
+        return;
+    }
+    
+    ele_2 = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_FALL_T, &err);//下降时间
+    
+    if(err != CS_ERR_NONE)
+    {
+        return;
+    }
+    
+    /* 检查并修正G模式下不同步骤编号的缓变时间与上升下降时间 */
+    if(g_cur_file->work_mode == G_MODE)
+    {
+        /* 只有一步 */
+        if(g_cur_file->total == 1)
+        {
+            if(mode == ACW)
+            {
+                if(acw->inter_time > 0)
+                {
+                    acw->inter_time = 0;
+                }
+            }
+            else
+            {
+                if(dcw->inter_time > 0)
+                {
+                    dcw->inter_time = 0;
+                }
+            }
+            
+            ele->range.high = 0;
+            ele->range.low = 0;
+            ele_1->range.high = 9999;//999.9s
+            ele_1->range.low = 0;
+            ele_2->range.high = 9999;//999.9s
+            ele_2->range.low = 0;
+        }
+        /* 大于一步 */
+        else
+        {
+            /* 第一步 */
+            if(step->com.step == 1)
+            {
+                
+                if(mode == ACW)
+                {
+                    if(acw->inter_time != 0)
+                    {
+                        acw->inter_time = 0;
+                    }
+                    
+                    if(acw->fall_time != 0)
+                    {
+                        acw->fall_time = 0;
+                    }
+                }
+                else
+                {
+                    if(dcw->inter_time != 0)
+                    {
+                        dcw->inter_time = 0;
+                    }
+                    
+                    if(dcw->fall_time != 0)
+                    {
+                        dcw->fall_time = 0;
+                    }
+                }
+                
+                ele->range.high = 0;
+                ele->range.low = 0;
+                ele_1->range.high = 9999;//999.9s
+                ele_1->range.low = 0;
+                ele_2->range.high = 0;
+                ele_2->range.low = 0;
+            }
+            
+            /* 最后一步 */
+            if(step->com.step == g_cur_file->total)
+            {
+                if(mode == ACW)
+                {
+                    if(acw->rise_time > 0)
+                    {
+                        acw->rise_time = 0;
+                    }
+                }
+                else
+                {
+                    if(dcw->rise_time > 0)
+                    {
+                        dcw->rise_time = 0;
+                    }
+                }
+                
+                ele->range.high = 9999;//999.9s
+                ele->range.low = 0;
+                ele_1->range.high = 0;
+                ele_1->range.low = 0;
+                ele_2->range.high = 9999;//999.9s
+                ele_2->range.low = 0;
+            }
+            
+            /* 中间步 */
+            if(step->com.step != 1 && step->com.step != g_cur_file->total)
+            {
+                if(mode == ACW)
+                {
+                    if(acw->rise_time > 0)
+                    {
+                        acw->rise_time = 0;
+                    }
+                    
+                    if(acw->fall_time != 0)
+                    {
+                        acw->fall_time = 0;
+                    }
+                }
+                else
+                {
+                    if(dcw->rise_time > 0)
+                    {
+                        dcw->rise_time = 0;
+                    }
+                    
+                    if(dcw->fall_time != 0)
+                    {
+                        dcw->fall_time = 0;
+                    }
+                }
+                
+                ele->range.high = 9999;//999.9s
+                ele->range.low = 0;
+                ele_1->range.high = 0;
+                ele_1->range.low = 0;
+                ele_2->range.high = 0;
+                ele_2->range.low = 0;
+            }
+        }
+    }
+    /* 检查并修正N模式下上升下降时间 */
+    else
+    {
+        ele_1->range.high = 9999;//999.9s
+        ele_1->range.low = 0;
+        ele_2->range.high = 9999;//999.9s
+        ele_2->range.low = 0;
+    }
+}
 /**
   * @brief  设置ACW参数对应编辑控件的数据指针
   * @param  [in] step 步骤参数结构
@@ -1703,7 +2013,15 @@ static void set_acw_par_win_ele_data(UN_STRUCT *step)
     pool = g_cur_win->edit.pool;
     size = g_cur_win->edit.pool_size;
     
-    set_g_cur_win_edit_index_inf(acw_par_index, ARRAY_SIZE(acw_par_index));//设置编辑对象索引表信息
+    /* 设置编辑对象索引表信息 */
+    if(g_cur_file->work_mode == G_MODE)
+    {
+        set_g_cur_win_edit_index_inf(acw_g_par_index, ARRAY_SIZE(acw_g_par_index));
+    }
+    else
+    {
+        set_g_cur_win_edit_index_inf(acw_par_index, ARRAY_SIZE(acw_par_index));
+    }
     
     reg_edit_ele_data_inf(STEP_EDIT_WIN_VOL, &acw->output_vol, sizeof(acw->output_vol));
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_VOL, &err);
@@ -1730,7 +2048,19 @@ static void set_acw_par_win_ele_data(UN_STRUCT *step)
     reg_edit_ele_data_inf(STEP_EDIT_WIN_RAISE_T, &acw->rise_time,  sizeof(acw->rise_time));//上升时间
     reg_edit_ele_data_inf(STEP_EDIT_WIN_TEST_T, &acw->test_time,  sizeof(acw->test_time));//测试时间
     reg_edit_ele_data_inf(STEP_EDIT_WIN_FALL_T, &acw->fall_time,  sizeof(acw->fall_time));//下降时间
-    reg_edit_ele_data_inf(STEP_EDIT_WIN_INTER_T, &acw->inter_time,  sizeof(acw->inter_time));//间隔时间
+    
+    /* 缓变时间 */
+    if(g_cur_file->work_mode == G_MODE)
+    {
+        reg_edit_ele_data_inf(STEP_EDIT_WIN_CHANGE_T, &acw->inter_time,  sizeof(acw->inter_time));
+    }
+    /* 间隔时间 */
+    else
+    {
+        reg_edit_ele_data_inf(STEP_EDIT_WIN_INTER_T, &acw->inter_time,  sizeof(acw->inter_time));
+    }
+    
+    update_time_range_affect_inf(step);//更新时间范围信息
     
     reg_edit_ele_data_inf(STEP_EDIT_WIN_CONT, &acw->step_con,  sizeof(acw->step_con));//步间连续
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_CONT, &err);
@@ -1829,7 +2159,15 @@ static void set_dcw_par_win_ele_data(UN_STRUCT *step)
     pool = g_cur_win->edit.pool;
     size = g_cur_win->edit.pool_size;
     
-    set_g_cur_win_edit_index_inf(dcw_par_index, ARRAY_SIZE(dcw_par_index));//设置编辑对象索引表信息
+    /* 设置编辑对象索引表信息 */
+    if(g_cur_file->work_mode == G_MODE)
+    {
+        set_g_cur_win_edit_index_inf(dcw_g_par_index, ARRAY_SIZE(dcw_g_par_index));
+    }
+    else
+    {
+        set_g_cur_win_edit_index_inf(dcw_par_index, ARRAY_SIZE(dcw_par_index));
+    }
     
     /* 输出电压 */
     reg_edit_ele_data_inf(STEP_EDIT_WIN_VOL, &dcw->output_vol, sizeof(dcw->output_vol));
@@ -1864,7 +2202,19 @@ static void set_dcw_par_win_ele_data(UN_STRUCT *step)
     reg_edit_ele_data_inf(STEP_EDIT_WIN_RAISE_T, &dcw->rise_time,  sizeof(dcw->rise_time));//上升时间
     reg_edit_ele_data_inf(STEP_EDIT_WIN_TEST_T, &dcw->test_time,  sizeof(dcw->test_time));//测试时间
     reg_edit_ele_data_inf(STEP_EDIT_WIN_FALL_T, &dcw->fall_time,  sizeof(dcw->fall_time));//下降时间
-    reg_edit_ele_data_inf(STEP_EDIT_WIN_INTER_T, &dcw->inter_time,  sizeof(dcw->inter_time));//间隔时间
+    
+    /* 缓变时间 */
+    if(g_cur_file->work_mode == G_MODE)
+    {
+        reg_edit_ele_data_inf(STEP_EDIT_WIN_CHANGE_T, &dcw->inter_time,  sizeof(dcw->inter_time));
+    }
+    /* 间隔时间 */
+    else
+    {
+        reg_edit_ele_data_inf(STEP_EDIT_WIN_INTER_T, &dcw->inter_time,  sizeof(dcw->inter_time));
+    }
+    
+    update_time_range_affect_inf(step);//更新时间范围信息
     
     /* 步间连续 */
     reg_edit_ele_data_inf(STEP_EDIT_WIN_CONT, &dcw->step_con,  sizeof(dcw->step_con));
@@ -2337,38 +2687,7 @@ static void step_edit_win_direct_key_down_cb(KEY_MESSAGE *key_msg)
   */
 static void step_edit_win_direct_key_left_cb(KEY_MESSAGE *key_msg)
 {
-    EDIT_ELE_T *node;
-	CS_LIST *t_index = NULL;
-	CS_LIST *t_list = &g_cur_win->edit.list_head;//链表头
-    uint8_t flag = 0;
-    uint8_t c = 0;
-    uint8_t rows = 0;
-    uint8_t this_page = 0;
-    
-    rows = g_cur_win->auto_layout.edit_ele_auto_layout_inf[SCREEM_SIZE]->rows;
-    
-    /* 初始化并创建编辑对象链表中的所有对象 */
-	list_for_each_reverse(t_index, t_list)
-	{
-		node = list_entry(t_index, EDIT_ELE_T, e_list);
-        
-        if(flag && node->page == this_page)
-        {
-            if(++c == rows)
-            {
-                dis_select_edit_ele(g_cur_edit_ele, LOAD_TO_RAM);
-                g_cur_edit_ele = node;
-                select_edit_ele(g_cur_edit_ele);
-                break;
-            }
-        }
-        
-        if(g_cur_edit_ele == node)
-        {
-            flag = 1;
-            this_page = node->page;
-        }
-	}
+    com_win_direct_key_left_cb(key_msg);
 }
 /**
   * @brief  向右键的回调函数
@@ -2377,38 +2696,7 @@ static void step_edit_win_direct_key_left_cb(KEY_MESSAGE *key_msg)
   */
 static void step_edit_win_direct_key_right_cb(KEY_MESSAGE *key_msg)
 {
-    EDIT_ELE_T *node;
-	CS_LIST *t_index = NULL;
-	CS_LIST *t_list = &g_cur_win->edit.list_head;//链表
-    uint8_t flag = 0;
-    uint8_t c = 0;
-    uint8_t rows = 0;
-    uint8_t this_page = 0;
-    
-    rows = g_cur_win->auto_layout.edit_ele_auto_layout_inf[SCREEM_SIZE]->rows;
-    
-    /* 初始化并创建编辑对象链表中的所有对象 */
-	list_for_each(t_index, t_list)
-	{
-		node = list_entry(t_index, EDIT_ELE_T, e_list);
-        
-        if(flag && node->page == this_page)
-        {
-            if(++c == rows)
-            {
-                dis_select_edit_ele(g_cur_edit_ele, LOAD_TO_RAM);
-                g_cur_edit_ele = node;
-                select_edit_ele(g_cur_edit_ele);
-                break;
-            }
-        }
-        
-        if(g_cur_edit_ele == node)
-        {
-            flag = 1;
-            this_page = node->page;
-        }
-	}
+    com_win_direct_key_right_cb(key_msg);
 }
 /**
   * @brief  编辑测试端口使用的向左键的回调函数

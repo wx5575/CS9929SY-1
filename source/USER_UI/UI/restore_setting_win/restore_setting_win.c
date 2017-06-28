@@ -214,7 +214,7 @@ static void menu_key_cancle(WM_HMEM hWin)
 static void init_create_restore_setting_text_ele(MYUSER_WINDOW_T* win)
 {
     init_window_text_ele_list(win);
-    init_window_text_ele_dis_inf(win, restore_setting_text_ele_auto_layout[sys_par.screem_size]);
+    init_window_text_ele_dis_inf(win, restore_setting_text_ele_auto_layout[SCREEM_SIZE]);
     init_window_text_ele(win);
 }
 /**

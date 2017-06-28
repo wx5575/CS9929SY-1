@@ -251,7 +251,7 @@ const static TYPE_STR type_pool[] = {
  */
 uint16_t read_type(void)
 {
-    return sys_par.instrument_type;
+    return g_custom_sys_par.instrument_type;
 }
 
 /*

@@ -447,6 +447,7 @@ typedef enum{
     CAP_U_nF,///< nF
     CAP_U_uF,///< uF
     FREQ_U_Hz,///< Hz
+    U_PER_CENT,///< (%) 
 }UNIT_T;
 
 /**
@@ -497,14 +498,73 @@ typedef enum{
 /**
   * @brief  系统参数结构定义
   */
+
+//typedef struct{
+//    uint8_t amp_select;/* 功放类型 老功放 和 8833功放 */
+//    uint8_t par_medium;/* 参数存储介质 eep 或 flash */
+//    uint8_t res_medium;/* 结果存储介质 eep 或 flash */
+//    uint8_t cal_medium;/* 校准存储介质 eep 或 flash */
+//    uint8_t buzzer_en;/* 蜂鸣器硬开关 */
+//    uint8_t mute_sw;/* 系统静音模式开关 静音时测试报警不会一直响 */
+//    uint8_t amp_type;/* 功放类型 LINE PWM */
+//    uint8_t leading_sw;/* 数据导入导出到U盘开关 */
+//	uint8_t ir_gear_hold;/* IR换挡保持时间开关 */
+//	uint8_t ir_speed_sw;/* IR测试速度定制开关 打开后系统参数中有相应的设置项 快 中 慢 */
+//	uint8_t offset_set_en;/* 偏移手动设置使能 */
+//}CUSTOM_SYS_PAR;//定制系统参数
+
 typedef struct{
-	SCREEM_SIZE_T   screem_size;///< 屏幕尺寸 7inch 5.6inch 4.3inch
-	UI_LAYOUT_T     ui_composition;///<界面布局
-    LANGUAGE_T      language;///<语言
-    uint8_t         password[PWD_MAX_LEN + 1];///<系统密码
-    uint32_t        instrument_type;///<仪器型号
-    uint8_t key_lock;///<键盘锁
+    uint8_t addr[16];/* 地址缓存 */
+    uint8_t count;/* 模块个数计数 */
+}DC_MODULE_USING_INFO;
+
+/**
+  * @brief  系统参数结构定义
+  */
+typedef struct Sys_Parameter{
+	uint8_t contrast;			///< 液晶对比度(0-9)
+	uint8_t allowance;			///< 余量提示 (0-9)
+	uint8_t is_save_res;		///< 是否保存结果，0不保存，1保存
+	uint8_t is_overflow_cover;	///< 是否溢出覆盖
+	
+	uint8_t is_gfi_protect;		///< 是否GFI保护
+	uint8_t is_self_check;		///< 是否打开开机自检功能
+	uint8_t language;			///< 语言切换，1中文，0英文
+	uint8_t is_falt_continue;	///< 失败继续是否失败继续，0不继续，1继续
+    uint8_t fail_mode;          ///< 失败模式
+	uint8_t test_method;		///< 测试方法 1接地 0浮地 
+	uint8_t test_level;			///< 测试电平 1电平 0触点 
+	
+	char 	data_of_survey[21];	///< 检验时间 
+	uint8_t is_table_dis;		///< 是否打开列表显示功能 0，关闭，1打开 
+	uint8_t num_rule;			///< 编号规则 (0-2) 
+	uint8_t buzzer_sw;			///< 蜂鸣器开关 
+	
+	uint8_t commu_on_off;		///< 通信开关 1打开 0关闭
+	uint8_t baud_rate_gear;		///< 波特率：1表示9600 2表示14400 3表示19200 
+	uint8_t local_addr;			///< 本机地址 (1-255) 
+    
+	uint8_t plc_on_off;			///< PLC开关 1打开，0关闭 
+	char password[PWD_MAX_LEN+1];	///< 密码最多8位，最少1位 
+	
+	uint16_t used_res_num;		///< 已经记录的结果总数 用于统计结果
+	uint16_t pass_res_num;		///< 合格的数 用于统计结果 
+	uint16_t cover_res_num;		///< 当used_res_num记满n条后就如果允许覆盖就启动该计数变量计数 当其记满4500条后清零 
+	
+	uint8_t key_lock;		    ///< 键盘锁 
+	
+    char dut_name[NAME_LON+1];	///< 被测件名 
+	uint8_t silent_sw;			///< 静音开关 
+    uint8_t plc_signal;         ///< plc 信号 当失败继续打开后如果plc_signal=each_step 表示每步都会发Plc信号 \
+                                   最后一步也是，如果 plc_signal=all_steps 表示最后一步不单独发plc信号 \
+                                   而是做一个综合判断 
+    uint16_t output_delay;		///< 输出延时 用户要求启动后等待一段时间在输出高压 
+    uint16_t ir_gear_hold;		///< IR切换档位延时 
+	uint8_t ir_speed_sw;		///< IR测试速度 快 中 慢 通过设置滤波深度实现 
+    uint8_t start_way;			///< 仪器的启动方式 组合启动与通信和PLC都发出信号才会启动仪器 
+    DC_MODULE_USING_INFO    dc_module_using_info;///< 正在使用的DC模块地址信息 
 }SYS_PAR;
+
 /**
   * @brief  系统标志结构定义
   */

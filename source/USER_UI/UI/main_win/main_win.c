@@ -203,7 +203,7 @@ static void main_win_f6_cb(KEY_MESSAGE *key_msg)
   */
 static void init_main_ui_text_ele_pos_inf(void)
 {
-    switch(sys_par.screem_size)
+    switch(SCREEM_SIZE)
     {
     case SCREEN_4_3INCH:
         break;
@@ -224,7 +224,7 @@ static void draw_main_win_status_bar(void)
 {
     GUI_SetColor(GUI_LIGHTGRAY);
     
-    switch(sys_par.screem_size)
+    switch(SCREEM_SIZE)
     {
         case SCREEN_4_3INCH:
             break;
@@ -527,7 +527,7 @@ static void init_user_window_env(void)
   */
 void main_ui_enter(void)
 {
-	sys_par.screem_size = SCREEN_7INCH;
+	SCREEM_SIZE = SCREEN_7INCH;
 	id_base = GUI_ID_USER;//窗口控件ID
     init_user_window_env();
     create_key_menu_window();//创建按键界面

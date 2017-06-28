@@ -393,6 +393,10 @@ static void input_pwd_win_into_win(void)
     {
         back_up_will_enter_win_inf.into_win_fun(back_up_will_enter_win_inf.data);
     }
+    else
+    {
+        recover_key_inf();
+    }
 }
 
 static void clear_input_pwd_win_into_win_inf(void)
@@ -441,6 +445,10 @@ static void input_password_win_cb(WM_MESSAGE* pMsg)
             if(g_custom_msg.msg == CM_DIALOG_RETURN_OK)
             {
                 input_pwd_win_into_win();
+            }
+            else
+            {
+                recover_key_inf();
             }
             
             clear_input_pwd_win_into_win_inf();

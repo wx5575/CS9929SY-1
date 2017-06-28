@@ -22,6 +22,7 @@
 #include "file_win/file_win.h"
 #include "password_win/input_password_win.h"
 #include "result_win/result_win.h"
+#include "cs99xx_mem_api.h"
 
 
 /* Private typedef -----------------------------------------------------------*/
@@ -669,11 +670,25 @@ static void test_win_select_test_mode_key_cb(KEY_MESSAGE *key_msg)
     
     if(data != mode)
     {
-        g_cur_step->one_step.com.mode = data;//更新当前步的测试模式
-        init_mode(g_cur_step);//初始化参数
-        save_setting_step();//保存正在设置的步骤参数
+        if(g_cur_file->work_mode == G_MODE)
+        {
+            clear_cur_group_all_test_step();
+            insert_step(0, data);//插入一步
+            save_group_info(g_cur_file->num);//保存新建文件的记忆组信息
+            
+            load_steps_to_list(1, 1);
+            g_cur_step = get_g_cur_step();
+        }
+        else
+        {
+            g_cur_step->one_step.com.mode = data;//更新当前步的测试模式
+            init_mode(g_cur_step);//初始化参数
+            save_setting_step();//保存正在设置的步骤参数
+        }
+        
         update_test_win_text_ele_text(g_cur_win);
         update_test_mode_cur_value_menu_key_color();
+        update_group_inf(g_cur_win);
     }
 }
 /**
@@ -2065,7 +2080,7 @@ static void set_test_windows_handle(WM_HWIN hWin)
   */
 static void init_test_ui_text_ele_pos_inf(void)
 {
-    switch(sys_par.screem_size)
+    switch(SCREEM_SIZE)
     {
     case SCREEN_4_3INCH:
         break;

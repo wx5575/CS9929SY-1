@@ -17,7 +17,7 @@
   */
 const uint8_t *unit_pool[]=
 {
-	"","s","mV","V","kV","uA","mA","A","mΩ","Ω","MΩ","GΩ","pF","nF","uF","Hz",
+	"","s","mV","V","kV","uA","mA","A","mΩ","Ω","MΩ","GΩ","pF","nF","uF","Hz","%",
 };
 /**
   * @brief  工作模式
