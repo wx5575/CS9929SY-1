@@ -15,10 +15,8 @@
 #include "GUI.H"
 #include "WM.h"
 #include "DIALOG.h"
-#include "fonts.h"
 #include "ff.h"
 #include "OS.H"
-#include "app.h"
 #include "cs99xx_struct.h"
 #include "FRAMEWIN.H"
 #include "EDIT.H"
@@ -927,7 +925,7 @@ static void create_list_wheel(int x, int y, int xSize, int ySize,
     //
     // Create overlay devices
     //
-    create_decoration(xSize, ySize, LineHeight, pWheel);
+//    create_decoration(xSize, ySize, LineHeight, pWheel);
     //
     // Fill WHEEL structure
     //
@@ -1132,25 +1130,25 @@ static void init_create_time_listwheel(WM_HWIN hWin)
     
     init_time_list_wheel_pos_size();
     
-    for(i = 0; i < 3; i++)
+    for(i = 0; i < 6; i++)
     {
         create_sys_time_listwheel(&sys_time_t[i], hWin, i);
     }
-    
-    round_up_corners(sys_time_t[0].wheel.hMemOverlay, LEFT,  4, TOP | BOTTOM);
-    round_up_corners(sys_time_t[0].wheel.hMemLBorder, LEFT,  4, TOP | BOTTOM);
-    round_up_corners(sys_time_t[2].wheel.hMemOverlay, RIGHT, 4, TOP | BOTTOM);
-    round_up_corners(sys_time_t[2].wheel.hMemRBorder, RIGHT, 4, TOP | BOTTOM);
-    
-    for(i = 3; i < n; i++)
-    {
-        create_sys_time_listwheel(&sys_time_t[i], hWin, i);
-    }
-    
-    round_up_corners(sys_time_t[3].wheel.hMemOverlay, LEFT,  4, TOP | BOTTOM);
-    round_up_corners(sys_time_t[3].wheel.hMemRBorder, LEFT,  4, TOP | BOTTOM);
-    round_up_corners(sys_time_t[5].wheel.hMemOverlay, RIGHT, 4, TOP | BOTTOM);
-    round_up_corners(sys_time_t[5].wheel.hMemRBorder, RIGHT, 4, TOP | BOTTOM);
+//    
+//    round_up_corners(sys_time_t[0].wheel.hMemOverlay, LEFT,  4, TOP | BOTTOM);
+//    round_up_corners(sys_time_t[0].wheel.hMemLBorder, LEFT,  4, TOP | BOTTOM);
+//    round_up_corners(sys_time_t[2].wheel.hMemOverlay, RIGHT, 4, TOP | BOTTOM);
+//    round_up_corners(sys_time_t[2].wheel.hMemRBorder, RIGHT, 4, TOP | BOTTOM);
+//    
+//    for(i = 3; i < n; i++)
+//    {
+//        create_sys_time_listwheel(&sys_time_t[i], hWin, i);
+//    }
+//    
+//    round_up_corners(sys_time_t[3].wheel.hMemOverlay, LEFT,  4, TOP | BOTTOM);
+//    round_up_corners(sys_time_t[3].wheel.hMemRBorder, LEFT,  4, TOP | BOTTOM);
+//    round_up_corners(sys_time_t[5].wheel.hMemOverlay, RIGHT, 4, TOP | BOTTOM);
+//    round_up_corners(sys_time_t[5].wheel.hMemRBorder, RIGHT, 4, TOP | BOTTOM);
     
     g_cur_sys_time = &sys_time_t[0];
 }

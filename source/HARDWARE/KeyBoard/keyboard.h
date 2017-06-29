@@ -100,7 +100,7 @@ typedef struct
 extern void init_keyboard(void);
 extern uint32_t scan_keyboard(void);
 extern void report_key_value(void);
-extern uint32_t get_key_value(void);
+extern void register_key_send_msg_fun(void(*fun)(uint32_t *));
 
 #endif //__KEYBOARD_H__
 

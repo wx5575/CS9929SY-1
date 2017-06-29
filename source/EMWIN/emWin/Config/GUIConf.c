@@ -49,7 +49,7 @@ Purpose     : Display controller initialization
 #if EX_SRAM
 #define GUI_NUMBYTES  (1024*1024*1)
 #else
-#define GUI_NUMBYTES  (50*1024)
+#define GUI_NUMBYTES  (80*1024)
 #endif
 
 /* Define the average block size */

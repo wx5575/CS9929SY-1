@@ -138,8 +138,7 @@ static void init_one_road_pos_size_inf(uint16_t base_x, uint16_t base_y, ROAD_T 
     inf.max_len = 20;//最大长度
     inf.align = GUI_TA_CENTER | GUI_TA_TOP;
     inf.back_color = GUI_INVALID_COLOR;
-    inf.font[CHINESE] = ROAD_FONTS;
-    inf.font[ENGLISH] = ROAD_FONTS;
+    inf.font = ROAD_FONTS;
     inf.font_color = GUI_WHITE;
     inf.pos_size.height = RB_H;
     inf.pos_size.width = RN_W;

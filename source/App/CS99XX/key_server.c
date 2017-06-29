@@ -7,6 +7,7 @@
   * @brief   提供按键服务，字符输入，数字输入、密码输入、按键查询任务
   ******************************************************************************
   */
+/* Includes ------------------------------------------------------------------*/
 #include "string.h"
 #include "os.h"
 #include "GUI.H"
@@ -15,39 +16,40 @@
 #include "ui_com/com_edit_api.h"
 #include "keyboard.h"
 #include "key_fun_manage.h"
+#include "CODED_DISC/coded_disc.h"
+
+
+/* Private typedef -----------------------------------------------------------*/
 
 /** 
   * @brief 用户界面使用的全局标记
   */
 typedef struct{
     uint8_t shift_flag;///< SHIFT键按下标记
-//    uint8_t key_lock_flag;///< 键盘锁按下标记
 }UI_FLAG;
-static volatile UI_FLAG ui_flag;///<界面使用全局标记
+/* Private define ------------------------------------------------------------*/
+#define OS_MAX_QS       10
+#define ASCII_NUM 	    "0123456789."
+#define KEY_ALL_VALUE   "0+/-1ABC2DEF3GHI4JKL5MNO6PQR7STU8VWX9YZ ."
+#define KEY_ALL_VALUE_  "0+/-1abc2def3ghi4jkl5mno6pqr7stu8vwx9yz ."
+/* Private macro -------------------------------------------------------------*/
 
-void set_shift_status(uint8_t st)
-{
-    ui_flag.shift_flag = st;
-}
-uint8_t get_shift_status(void)
-{
-    return ui_flag.shift_flag;
-}
-void set_key_lock_flag(uint8_t flag)
-{
-    sys_par.key_lock = flag;
-}
-uint8_t get_key_lock_flag(void)
-{
-    return sys_par.key_lock;
-}
+/* Private variables ---------------------------------------------------------*/
+
+static volatile UI_FLAG ui_flag;///<界面使用全局标记
+static OS_Q KeyboardQSem;	/* 消息队列 */
+
+/* Private function prototypes -----------------------------------------------*/
+
+/* Private functions ---------------------------------------------------------*/
+
 /**
   * @brief  获取键值对应按键的索引值
   * @param  [in] key 键值
   * @param  [in] flag 1表示对小数点进行索引，0表示不对小数点进行索引
   * @retval 按键的索引值
   */
-uint8_t get_key_value_index(uint32_t key, uint8_t flag)
+static uint8_t get_key_value_index(uint32_t key, uint8_t flag)
 {
 	uint8_t key_index = 0xff;
     
@@ -102,28 +104,27 @@ uint8_t get_key_value_index(uint32_t key, uint8_t flag)
   */
 void keyboard_str(uint32_t key)
 {
-#define KEY_ALL_VALUE "0+/-1ABC2DEF3GHI4JKL5MNO6PQR7STU8VWX9YZ ."
-#define KEY_ALL_VALUE_ "0+/-1abc2def3ghi4jkl5mno6pqr7stu8vwx9yz ."
+    
 	uint8_t bufx[]={
 	4,4,4,4,4,//0 1 2 3 4
 	4,4,4,4,4,//5 6 7 8 9
 	1,		  //.
-	};
+    };//每个按键上拥有的ASCII字符个数 例如:按键0上有4个字符0+/-
 	uint8_t num_buf[]={
 		0 ,  4,  8, 12, 16,//0 1 2 3 4
 		20, 24, 28, 32, 36,//5 6 7 8 9
 		40, 			   //.
-	};
-	static uint8_t key_timeout = 0;
-	static uint8_t c = 0;
-	static uint32_t key_back = KEY_NONE;
-	static uint8_t index_back = 0xff;
-	static uint8_t cour = 0;
-	static uint8_t input_st = 0;
-	static uint8_t temp_cur_num = 0;
-    WM_HMEM handle = 0;
-    uint8_t key_char;
-    uint8_t key_index = 0;
+	};//每个按键上第一个字符的索引值，例如按键1上的字符1的索引值=按键0上的字符个数
+	static uint8_t key_timeout = 0;//按键超时计数
+	static uint8_t c = 0;//单个按键连续按下次数计数
+	static uint32_t key_back = KEY_NONE;//备份历史键值
+	static uint8_t index_back = 0xff;//备份键值的索引值
+	static uint8_t input_st = 0;//键盘输入所在的状态：0初始化状态;1发生按键事件;
+	static uint8_t temp_cur_num = 0;//记录当前所按下的按键上拥有的字符个数
+    WM_HMEM handle = 0;//编辑控件句柄
+    uint8_t cour = 0;//光标位置
+    uint8_t key_char;//存放按键字符
+    uint8_t key_index = 0;//最新获取的按键索引值
     uint8_t temp;
 	
     
@@ -196,7 +197,7 @@ void keyboard_str(uint32_t key)
     key_char = (ui_flag.shift_flag? KEY_ALL_VALUE : KEY_ALL_VALUE_)[temp];
     
     GUI_SendKeyMsg(key_char, 1);//在光标位置插入一个字符
-//        GUI_StoreKeyMsg(key_char, 1);//在光标位置插入一个字符
+//    GUI_StoreKeyMsg(key_char, 1);//在光标位置插入一个字符
     key_timeout = 0;
     input_st = 1;
     EDIT_SetCursorAtChar(handle, cour);//保持光标位置不动
@@ -208,7 +209,6 @@ void keyboard_str(uint32_t key)
   */
 void keyboard_password(uint32_t key)
 {
-	#define ASCII_NUM 	"0123456789."
 	uint8_t key_index = 0xff;
 	static uint8_t cour = 0;
     WM_HMEM handle = 0;
@@ -249,7 +249,6 @@ void keyboard_password(uint32_t key)
   */
 void keyboard_num(uint32_t key)
 {
-	#define ASCII_NUM 	"0123456789."
 	uint8_t key_index = 0xff;
     
 	key_index = get_key_value_index(key, 1);//包含小数点因此传入1
@@ -261,6 +260,24 @@ void keyboard_num(uint32_t key)
     
 	GUI_StoreKeyMsg(ASCII_NUM[key_index], 1);
 }
+/* Public functions ---------------------------------------------------------*/
+
+void set_shift_status(uint8_t st)
+{
+    ui_flag.shift_flag = st;
+}
+uint8_t get_shift_status(void)
+{
+    return ui_flag.shift_flag;
+}
+void set_key_lock_flag(uint8_t flag)
+{
+    sys_par.key_lock = flag;
+}
+uint8_t get_key_lock_flag(void)
+{
+    return sys_par.key_lock;
+}
 /**
   * @brief  专门设置测试端口的按键服务函数
   * @param  [in] key 键值
@@ -268,7 +285,6 @@ void keyboard_num(uint32_t key)
   */
 void keyboard_test_port(uint32_t key)
 {
-	#define ASCII_NUM 	"0123456789."
 	uint8_t key_index = 0xff;
     uint8_t buf[] = "XLH";
     
@@ -286,6 +302,7 @@ void keyboard_test_port(uint32_t key)
     
 	GUI_StoreKeyMsg(buf[key_index], 1);
 }
+
 /**
   * @brief  设置按键服务函数
   * @param  [in] fun 按键服务函数
@@ -325,6 +342,35 @@ void keyboard_fun_pwd(uint32_t key_value)
 {
     keyboard_password(key_value);
 }
+
+void create_key_fifo_queue(void)
+{
+	OS_ERR	  err;
+	/* 创建消息队列为键盘服务 */
+	OSQCreate(&KeyboardQSem, "keyboard_queue", OS_MAX_QS, &err);
+}
+void send_coded_disc_msg(uint32_t *MSG)
+{
+    OS_ERR err;
+    
+    OSQPost(&KeyboardQSem, MSG, sizeof(uint32_t), OS_OPT_POST_FIFO, &err);
+}
+uint32_t get_key_value(void)
+{
+    OS_ERR err;
+    uint32_t *p_key_value = NULL;
+    uint16_t size = 0;
+    
+    p_key_value = (uint32_t*)OSQPend(&KeyboardQSem, 0, OS_OPT_PEND_NON_BLOCKING, &size,
+                    NULL, &err);
+    
+    if(err == OS_ERR_NONE && p_key_value != NULL)
+    {
+        return *p_key_value;
+    }
+    
+    return KEY_NONE;
+}
 /**
   * @brief  按键扫描任务
   * @param  无
@@ -336,7 +382,10 @@ void scan_key_task(void)
 	OS_ERR	err;
 	
 	init_keyboard();
+    create_key_fifo_queue();
 	set_scan_key_custom_fun(NULL);
+    register_key_send_msg_fun(send_coded_disc_msg);
+    register_coded_disc_send_msg_fun(send_coded_disc_msg);
 	
 	while(1)
 	{

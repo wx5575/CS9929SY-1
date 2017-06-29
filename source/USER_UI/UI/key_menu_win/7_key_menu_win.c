@@ -10,7 +10,6 @@
 
 #include "stm32f4xx.h"
 #include "GUI.H"
-#include "fonts.h"
 #include "7_key_menu_win.h"
 #include "key_menu_win.h"
 #include "string.h"
@@ -46,6 +45,8 @@ WIDGET_POS_SIZE_T _7_key_menu_windows=
 #define MK_F_COLOR      GUI_WHITE
 #define KEY_UP_COLOR    0x804000 //GUI_LIGHTGRAY//GUI_LIGHTBLUE //
 #define KEY_EN_COLOR    KEY_UP_COLOR
+#define MK_FONTS_BIG    MK_FONTS_CN
+#define MK_FONTS_SMALL  MK_FONTS_EN
 
 /**
   * @brief  7寸屏按键菜单窗口界面控件自动布局结构
@@ -55,6 +56,11 @@ TEXT_ELE_AUTO_LAYOUT_T _7_key_menu_auto_layout_inf=
    MK_B_X/*base_x*/,MK_B_Y/*base_y*/,MK_W/*width*/,MK_H/*height*/,
     7/*rows*/,1/*column*/,MK_H + MENU_KEY_O/*row_spacing*/,0/*column_spacing*/,
     {MK_FONTS_CN, MK_FONTS_EN}, MK_F_COLOR, KEY_UP_COLOR, MK_ALIGN,20
+};
+
+const GUI_FONT * _7_key_menu_win_font_pool[]=
+{
+    MK_FONTS_BIG, MK_FONTS_SMALL
 };
 
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

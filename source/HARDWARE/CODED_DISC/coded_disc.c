@@ -10,8 +10,8 @@
 
 #include "stm32f4xx.h"
 #include "coded_disc.h"
-#include "app.h"
 #include "keyboard.h"
+#include "os.h"
 
 static uint32_t SEND_MSG_RIGH = CODE_RIGH;
 static uint32_t SEND_MSG_LEDT = CODE_LEFT;
@@ -82,24 +82,31 @@ void coded_disc_init(void)
     coded_exit_config();
     NVIC_Config();
 }
-
-void send_coded_disc_msg(uint32_t *MSG)
+static void(*send_coded_disc_msg_fun)(uint32_t *);
+void register_coded_disc_send_msg_fun(void(*fun)(uint32_t *))
 {
-    OS_ERR err;
-    
-    OSQPost(&KeyboardQSem, MSG, sizeof(uint32_t), OS_OPT_POST_FIFO, &err);
+    send_coded_disc_msg_fun = fun;
 }
+
 void EXTI9_5_IRQHandler(void)
 {
     if(EXTI_GetITStatus(EXTI_Line6) != RESET)
     {
         EXTI_ClearITPendingBit(EXTI_Line6);
-        send_coded_disc_msg(&SEND_MSG_LEDT);
+        
+        if(send_coded_disc_msg_fun != NULL)
+        {
+            send_coded_disc_msg_fun(&SEND_MSG_LEDT);
+        }
     }
     if(EXTI_GetITStatus(EXTI_Line7) != RESET)
     {
         EXTI_ClearITPendingBit(EXTI_Line7);
-        send_coded_disc_msg(&SEND_MSG_RIGH);
+        
+        if(send_coded_disc_msg_fun != NULL)
+        {
+            send_coded_disc_msg_fun(&SEND_MSG_RIGH);
+        }
     }
     if(EXTI_GetITStatus(EXTI_Line5) != RESET)
     {

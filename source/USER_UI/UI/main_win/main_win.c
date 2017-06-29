@@ -338,7 +338,7 @@ static void change_key_lock_status(int data)
   */
 static void sys_unlock_key_fun_cb(KEY_MESSAGE *key_msg)
 {
-    init_back_up_will_enter_win_inf(change_key_lock_status, g_cur_win->handle);
+    init_back_up_will_enter_win_inf(change_key_lock_status, main_windows.handle);
 }
 
 /**

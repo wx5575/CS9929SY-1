@@ -1,5 +1,4 @@
 
-#include "app.h"
 #include "CH376_USB_UI.H"
 
 

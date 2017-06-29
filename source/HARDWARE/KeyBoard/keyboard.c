@@ -13,7 +13,6 @@
 #include    "includes.h"
 #include 	"bit_banding.h"
 #include 	"keyboard.h"
-#include    "app.h"
 #include    "Key_LED.h"
 
 #define KEY_BUZZER_TIME 30
@@ -213,7 +212,11 @@ void InitKeyStr(void)
     init_key_info(&s_Key_point  , 0, KEY_POINT, 0, SINGLE_KEY, IsKeyDown_key_point);
 }
 
-
+static void(*send_key_msg_fun)(uint32_t *);
+void register_key_send_msg_fun(void(*fun)(uint32_t *))
+{
+    send_key_msg_fun = fun;
+}
 /*
  * 函数名：DetectKey
  * 描述  ：监控按键是否按下 如果按下就对响应的标志位置位
@@ -223,8 +226,6 @@ void InitKeyStr(void)
  */
 static void DetectKey(KEY_STRUCT *p)
 {
-    OS_ERR  err;
-    
 	/* 如果没有初始化按键函数，则报错*/
 	if (p->IsKeyDownFunc == NULL)
 	{
@@ -262,8 +263,12 @@ static void DetectKey(KEY_STRUCT *p)
 				if (p->KeyCodeDown > 0)
 				{
 					/* 键值放入按键FIFO */
-                    OSQPost(&KeyboardQSem, &p->KeyCodeDown, sizeof(p->KeyCodeDown),
-                                OS_OPT_POST_FIFO, &err);
+//                    OSQPost(&KeyboardQSem, &p->KeyCodeDown, sizeof(p->KeyCodeDown),
+//                                OS_OPT_POST_FIFO, &err);
+                    if(send_key_msg_fun != NULL)
+                    {
+                        send_key_msg_fun(&p->KeyCodeDown);
+                    }
 				}
 			}
 			
@@ -280,8 +285,12 @@ static void DetectKey(KEY_STRUCT *p)
 					++p->LongCount;
                     if(p->LongCount % 30 == 0)
                     {
-                        OSQPost(&KeyboardQSem, &p->KeyCodeLong, sizeof(p->KeyCodeLong),
-                                    OS_OPT_POST_FIFO, &err);
+//                        OSQPost(&KeyboardQSem, &p->KeyCodeLong, sizeof(p->KeyCodeLong),
+//                                    OS_OPT_POST_FIFO, &err);
+                        if(send_key_msg_fun != NULL)
+                        {
+                            send_key_msg_fun(&p->KeyCodeLong);
+                        }
                     }
                 }
 			}
@@ -308,8 +317,12 @@ static void DetectKey(KEY_STRUCT *p)
 				if (p->KeyCodeUp > 0)
 				{
 					/* 键值放入按键FIFO */
-                    OSQPost(&KeyboardQSem, &p->KeyCodeUp, sizeof(p->KeyCodeDown),
-                                OS_OPT_POST_FIFO, &err);
+//                    OSQPost(&KeyboardQSem, &p->KeyCodeUp, sizeof(p->KeyCodeDown),
+//                                OS_OPT_POST_FIFO, &err);
+                    if(send_key_msg_fun != NULL)
+                    {
+                        send_key_msg_fun(&p->KeyCodeUp);
+                    }
 				}
 			}
 		}
@@ -387,8 +400,12 @@ static void Det_combination(KEY_STRUCT *p)
         
         p->State = 0;
         
-        OSQPost(&KeyboardQSem, &p->KeyCodeUp, sizeof(p->KeyCodeDown),
-                    OS_OPT_POST_FIFO, &err);
+//        OSQPost(&KeyboardQSem, &p->KeyCodeUp, sizeof(p->KeyCodeDown),
+//                    OS_OPT_POST_FIFO, &err);
+        if(send_key_msg_fun != NULL)
+        {
+            send_key_msg_fun(&p->KeyCodeUp);
+        }
 	}
 }
 
@@ -494,22 +511,6 @@ void report_key_value(void)
     }
 }
 
-uint32_t get_key_value(void)
-{
-    OS_ERR err;
-    uint32_t *p_key_value = NULL;
-    uint16_t size = 0;
-    
-    p_key_value = (uint32_t*)OSQPend(&KeyboardQSem, 0, OS_OPT_PEND_NON_BLOCKING, &size,
-                    NULL, &err);
-    
-    if(err == OS_ERR_NONE && p_key_value != NULL)
-    {
-        return *p_key_value;
-    }
-    
-    return KEY_NONE;
-}
 
 
 /******************* (C) COPYRIGHT 2014 长盛仪器 *****END OF FILE****/

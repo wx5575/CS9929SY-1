@@ -406,11 +406,6 @@
           <GroupName>USER</GroupName>
           <Files>
             <File>
-              <FileName>main.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\USER\main.c</FilePath>
-            </File>
-            <File>
               <FileName>stm32f4xx_it.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\USER\stm32f4xx_it.c</FilePath>
@@ -701,9 +696,6 @@
               <FilePath>..\source\SYSTEM\usart\usart.c</FilePath>
             </File>
           </Files>
-        </Group>
-        <Group>
-          <GroupName>MALLOC</GroupName>
         </Group>
         <Group>
           <GroupName>FATFS</GroupName>
@@ -1116,22 +1108,27 @@
             <File>
               <FileName>hz_20.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\source\App\fonts\HZ\hz_20.c</FilePath>
+              <FilePath>..\source\USER_UI\UI_COM\fonts\HZ\hz_20.c</FilePath>
             </File>
             <File>
               <FileName>hz_24.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\source\App\fonts\HZ\hz_24.c</FilePath>
+              <FilePath>..\source\USER_UI\UI_COM\fonts\HZ\hz_24.c</FilePath>
             </File>
             <File>
               <FileName>hz_26.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\source\App\fonts\HZ\hz_26.c</FilePath>
+              <FilePath>..\source\USER_UI\UI_COM\fonts\HZ\hz_26.c</FilePath>
             </File>
             <File>
               <FileName>hz_29.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\source\App\fonts\HZ\hz_29.c</FilePath>
+              <FilePath>..\source\USER_UI\UI_COM\fonts\HZ\hz_29.c</FilePath>
+            </File>
+            <File>
+              <FileName>fonts.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\source\USER_UI\UI_COM\fonts\fonts.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1232,11 +1229,6 @@
               <FileName>com_ui_info.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\USER_UI\UI_COM\com_ui_info.c</FilePath>
-            </File>
-            <File>
-              <FileName>com_ui_base.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\USER_UI\UI_COM\com_ui_base.c</FilePath>
             </File>
           </Files>
         </Group>

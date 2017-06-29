@@ -16,8 +16,7 @@
 #include "GUI.H"
 #include "WM.h"
 #include "DIALOG.h"
-#include "fonts.h"
-#include "ui_com/com_ui_info.h"
+#include "com_ui_info.h"
 #include "string.h"
 #include "stdio.h"
 #include "OS.H"
@@ -155,7 +154,7 @@ void init_window_text_ele_dis_inf(MYUSER_WINDOW_T *win, TEXT_ELE_AUTO_LAYOUT_T* 
         pos->width = inf->width;
         pos->height = inf->height;
         
-        memcpy(dis->font, inf->font, sizeof(inf->font));
+        dis->font = inf->font[FONT_SIZE_BIG];
         dis->font_color = inf->font_color;
         dis->back_color = inf->back_color;
         dis->align = inf->align;
@@ -193,9 +192,6 @@ void auto_init_win_text_ele_dis_inf(MYUSER_WINDOW_T *win)
     
     auto_layout = win->auto_layout.text_ele_auto_layout_inf[SCREEM_SIZE];//根据屏幕尺寸获取编辑对象的自动布局信息
 	
-	
-    
-    
     list_for_each(t_node, list)
     {
         node = list_entry( t_node, TEXT_ELE_T, list );
@@ -210,7 +206,7 @@ void auto_init_win_text_ele_dis_inf(MYUSER_WINDOW_T *win)
         pos->width = auto_layout->width;
         pos->height = auto_layout->height;
         
-        memcpy(dis->font, auto_layout->font, sizeof(auto_layout->font));
+        dis->font = auto_layout->font[FONT_SIZE_BIG];
         dis->font_color = auto_layout->font_color;
         dis->back_color = auto_layout->back_color;
         dis->align = auto_layout->align;
@@ -687,7 +683,7 @@ static void create_text_widget(WM_HWIN hwin, TEXT_ELE_T *node)
 	Id = id_base++;
 	pText = (const char *)node->text[SYS_LANGUAGE];
 	align = node->dis_info.align;
-	pFont = SEL_FONT(node->dis_info.font);
+	pFont =  node->dis_info.font;
 	
 	_hTitle = TEXT_CreateEx(x0, y0, xSize, ySize, hParent, WinFlags, ExFlags, Id, pText);
 	TEXT_SetTextAlign(_hTitle, align);
@@ -743,7 +739,7 @@ static void _show_text_ele(TEXT_ELE_T*node, const uint8_t*str)
 	
 	handle = node->handle;
 	align = dis_info->align;
-	font = SEL_FONT(dis_info->font);
+	font = dis_info->font;
 	back_color = dis_info->back_color;
 	font_color = dis_info->font_color;
 	
@@ -899,8 +895,12 @@ void create_user_window(MYUSER_WINDOW_T* win_info, CS_LIST *list_head, WM_HWIN h
     list_init(&win_info->edit.list_head);//初始化编辑对象链表
     list_init(&win_info->com.list_head);//初始化公共文本对象链表
     
-    backup_g_cur_edit_ele();
-    backup_key_inf();//备份按键信息 当需要的时候可以用来恢复按键信息
+    if(backup_key_inf_fun != NULL)
+    {
+        backup_key_inf_fun();//备份按键信息 当需要的时候可以用来恢复按键信息
+    }
+    
+    backup_g_cur_edit_ele();//备份当前编辑对象指针
     disable_system_fun_key_fun();//失能系统功能按键
     set_cur_window(win_info);//将新建窗口设为当前窗口
     win_info->handle = WM_CreateWindowAsChild(x, y, width, height, h_parent, WM_CF_MEMDEV_ON_REDRAW | WM_CF_SHOW, cb_fun, 0);//WM_CF_SHOW
@@ -1006,7 +1006,11 @@ void create_user_dialog(MYUSER_WINDOW_T* win_info, CS_LIST *list_head, WM_HWIN h
     list_init(&win_info->edit.list_head);//初始化编辑对象链表
     list_init(&win_info->com.list_head);//初始化公共文本对象链表
     
-    backup_key_inf();//备份按键信息 当需要的时候可以用来恢复按键信息
+    if(backup_key_inf_fun != NULL)
+    {
+        backup_key_inf_fun();//备份按键信息 当需要的时候可以用来恢复按键信息
+    }
+    
     disable_system_fun_key_fun();//失能系统功能按键
     set_cur_window(win_info);
     win_info->handle = GUI_CreateDialogBox(&aDialogBox, 1, cb_fun, hWin, 0, 0);//非阻塞
@@ -1469,7 +1473,7 @@ void init_com_text_ele_dis_inf(MYUSER_WINDOW_T* win)
     dis_info.pos_size.width = 70;
     dis_info.pos_size.height = 45;
     dis_info.max_len = COM_RANGE_NAME_MAX_LON;
-    dis_info.font[CHINESE] = &GUI_Fonthz_20;
+    dis_info.font = &GUI_Fonthz_20;
     dis_info.font_color = GUI_BLACK;
     dis_info.back_color = GUI_INVALID_COLOR;
     dis_info.align = GUI_TA_LEFT;
@@ -1499,7 +1503,7 @@ void init_page_num_com_text_ele_dis_inf(MYUSER_WINDOW_T* win)
     dis_info.pos_size.x = win->pos_size.width - dis_info.pos_size.width;
     dis_info.pos_size.y = win->pos_size.height - dis_info.pos_size.height;
     dis_info.max_len = 4;
-    dis_info.font[CHINESE] = &GUI_Fonthz_20;
+    dis_info.font = &GUI_Fonthz_20;
     dis_info.font_color = GUI_BLACK;
     dis_info.back_color = GUI_INVALID_COLOR;
     dis_info.align = GUI_TA_LEFT;
@@ -1555,7 +1559,7 @@ void init_group_com_text_ele_dis_inf(MYUSER_WINDOW_T* win)
     inf.base_x = GB_X;//x基坐标 
     inf.base_y = GB_Y;//y基坐标
     
-    inf.font[CHINESE] = TF_FONT;//字体
+    inf.font = TF_FONT;//字体
     inf.max_len = 100;//最大长度
     inf.font_color = GUI_BLACK;//字体颜色
     inf.back_color = GUI_INVALID_COLOR;//背景颜色
@@ -1730,5 +1734,14 @@ void backup_g_cur_edit_ele(void)
 void recover_g_cur_edit_ele(void)
 {
     g_cur_edit_ele = g_cur_edit_ele_bk;
+}
+
+void register_recover_key_inf_fun(void(*fun)(void))
+{
+    recover_key_inf_fun = fun;
+}
+void register_backup_key_inf_fun(void(*fun)(void))
+{
+    backup_key_inf_fun = fun;
 }
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

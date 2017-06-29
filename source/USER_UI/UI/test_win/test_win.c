@@ -23,6 +23,7 @@
 #include "password_win/input_password_win.h"
 #include "result_win/result_win.h"
 #include "cs99xx_mem_api.h"
+#include "UI/KEY_MENU_WIN/key_menu_win.h"
 
 
 /* Private typedef -----------------------------------------------------------*/
@@ -1007,7 +1008,7 @@ static void init_test_win_edit_ele_pos_size(TEXT_ELE_T * text_ele, EDIT_ELE_T *e
     edit_ele->dis.unit.height = edit_ele->dis.edit.height;
     edit_ele->dis.edit.back_color = text_ele->dis_info.back_color;
     edit_ele->dis.edit.font_color = GUI_BLACK;
-    edit_ele->dis.edit.font = SEL_FONT(text_ele->dis_info.font);
+    edit_ele->dis.edit.font = text_ele->dis_info.font;
 }
 /**
   * @brief  初始化输出电压编辑控件的位置尺寸信息
@@ -2572,7 +2573,7 @@ static void init_range_com_text_ele_dis_inf(MYUSER_WINDOW_T* win)
     dis_info.pos_size.y = win->pos_size.height - dis_info.pos_size.height;
     dis_info.pos_size.width = 130;
     dis_info.max_len = 100;
-    dis_info.font[CHINESE] = &GUI_Fonthz_20;
+    dis_info.font = &GUI_Fonthz_20;
     dis_info.font_color = GUI_WHITE;
     dis_info.back_color = GUI_INVALID_COLOR;
     dis_info.align = GUI_TA_RIGHT;

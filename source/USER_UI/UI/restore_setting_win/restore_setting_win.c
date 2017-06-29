@@ -14,7 +14,6 @@
 #include "GUI.H"
 #include "WM.h"
 #include "DIALOG.h"
-#include "fonts.h"
 #include "ff.h"
 #include "OS.H"
 #include "cs99xx_struct.h"
@@ -29,7 +28,6 @@
 #include "warning_win/warning_win.h"
 #include "cs99xx_mem_api.h"
 #include "ui_com/com_edit_api.h"
-#include "app.h"
 #include "7_restore_setting_win.h"
 #include "restore_setting_win.h"
 

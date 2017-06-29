@@ -14,14 +14,13 @@ static void init_speciality(void);
 #include	<string.h>
 #include    "stm32f4xx.h"
 #include	"keyboard.h"
-#include 	"app.h"
 #include    "cs99xx_mem_api.h"
 //#include 	"serve_test.h"
 #include    "cs99xx_struct.h"
 #include	"cs99xx_type.h" 
 #include    "cs99xx_type_config.h"
 //#include	"calibration.h"
-#include "UI_COM/com_ui_info.h"
+//#include "UI_COM/com_ui_info.h"
 
 #define __TEST			1
 #define __TEST_TYPE		CS9929SY
@@ -663,18 +662,10 @@ uint32_t defined_cur_kinds(uint8_t mode, const uint8_t *gear[], uint8_t *flag, u
         temp_gear = type_spe.cc_gear;
     }
     
-    if(app_flag.calibration == 1)
-    {
-        if(type_spe.mode_en & __CC)
-        {
-            temp_gear |= type_spe.cc_gear;
-        }
-    }
     
 	switch(mode)
 	{
 		case ACW:
-        case CC:
 		{
 			if(temp_gear & _AC_200uA)
 			{

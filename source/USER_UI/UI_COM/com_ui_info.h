@@ -17,9 +17,8 @@
 #include "TEXT.h"
 #include "stm32f4xx.h"
 #include "cs99xx_struct.h"
-#include "UI/KEY_MENU_WIN/key_menu_win.h"
-#include "fonts.h"
-#include "ui_com/com_ui_base.h"
+#include "key_fun_manage.h"
+#include "fonts/fonts.h"
 #include "tools.h"
 #include "key_server.h"
 #include "type/cs99xx_type.h"
@@ -44,6 +43,11 @@ typedef struct EDIT_ELE_T_   EDIT_ELE_T;
   * @brief 用户窗口结构
   */
 typedef struct MYUSER_WINDOW    MYUSER_WINDOW_T;
+typedef enum{
+    FONT_SIZE_BIG,///<大字体
+    FONT_SIZE_SMALL,///<小字体
+    FONT_SIZE_NUM,///<字体个数
+}FONT_SIZE;
 /** 
   * @brief 控件位置尺寸结构
   */
@@ -61,7 +65,7 @@ typedef struct UI_ELE_DISPLAY_INFO{
 	uint16_t base_y;///<y基坐标
     WIDGET_POS_SIZE_T pos_size;///<窗口的位置尺寸
 	uint8_t max_len;///< 最大长度
-    const GUI_FONT * font[LANGUAGE_NUM];//不同语言可以使用不同的字体
+    const GUI_FONT * font;//字体
 	GUI_COLOR	font_color;///<字体颜色
 	GUI_COLOR	back_color;///<背景颜色
 	int align;///< 对齐方式
@@ -106,7 +110,7 @@ typedef struct{
     uint8_t columns;///<最大列数
     uint8_t row_spacing;///<行距
     uint8_t column_spacing;///<列距
-    const GUI_FONT * font[LANGUAGE_NUM];//不同语言可以使用不同的字体
+    const GUI_FONT * font[FONT_SIZE_NUM];//不同语言可以使用不同的字体
     GUI_COLOR font_color;///<字体颜色
     GUI_COLOR back_color;///<背景颜色
     int align;///对齐方式
@@ -406,6 +410,8 @@ typedef struct{
 #define  COM_UI_EXT  extern
 #endif
 
+COM_UI_EXT void (*recover_key_inf_fun)(void);///<恢复按键信息函数指针
+COM_UI_EXT void (*backup_key_inf_fun)(void);///<备份按键信息函数指针
 COM_UI_EXT CS_LIST 				windows_list;///<窗口链表
 COM_UI_EXT MYUSER_WINDOW_T      *g_cur_win;///<当前窗口指针
 COM_UI_EXT EDIT_ELE_T     *g_cur_edit_ele;///<当前编辑对象
@@ -466,6 +472,8 @@ extern void update_page_num(MYUSER_WINDOW_T* win, EDIT_ELE_T *ele);
 extern void myGUI_DrawRectEx(const GUI_RECT * pRect);
 extern void recover_g_cur_edit_ele(void);
 extern void backup_g_cur_edit_ele(void);
+extern void register_backup_key_inf_fun(void(*fun)(void));
+extern void register_recover_key_inf_fun(void(*fun)(void));
 
 #endif //__COM_UI_INFO_H__
 

@@ -14,7 +14,6 @@
 #include "GUI.H"
 #include "WM.h"
 #include "DIALOG.h"
-#include "fonts.h"
 #include "ff.h"
 #include "OS.H"
 #include "cs99xx_struct.h"
@@ -28,9 +27,7 @@
 #include "ui_com/com_edit_api.h"
 #include "step_par_win/7_step_edit_win.h"
 #include "type/cs99xx_type.h"
-
 #include "keyboard.h"
-#include "app.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /**
@@ -194,10 +191,10 @@ static EDIT_ELE_AUTO_LAYOUT_T *step_edit_win_edit_ele_auto_layout_pool[SCREEN_NU
   */
 static CS_INDEX step_par_index[]=
 {
-    STEP_EDIT_WIN_STEP,
-    STEP_EDIT_WIN_MODE,
-    STEP_EDIT_WIN_VOL,
-    STEP_EDIT_WIN_RANGE,
+    STEP_EDIT_WIN_STEP,///<测试步骤
+    STEP_EDIT_WIN_MODE,///<测试模式
+    STEP_EDIT_WIN_VOL, ///<测试电压
+    STEP_EDIT_WIN_RANGE,///<电流档位
     STEP_EDIT_WIN_UPPER,///<电流上限
     STEP_EDIT_WIN_LOWER,///<电流下限
     
@@ -217,10 +214,10 @@ static CS_INDEX step_par_index[]=
   */
 static CS_INDEX acw_par_index[]=
 {
-    STEP_EDIT_WIN_STEP,
-    STEP_EDIT_WIN_MODE,
-    STEP_EDIT_WIN_VOL,
-    STEP_EDIT_WIN_RANGE,
+    STEP_EDIT_WIN_STEP,///<测试步骤
+    STEP_EDIT_WIN_MODE,///<测试模式
+    STEP_EDIT_WIN_VOL, ///<测试电压
+    STEP_EDIT_WIN_RANGE,///<电流档位
     STEP_EDIT_WIN_UPPER,///<电流上限
     STEP_EDIT_WIN_LOWER,///<电流下限
     
@@ -241,10 +238,10 @@ static CS_INDEX acw_par_index[]=
   */
 static CS_INDEX acw_g_par_index[]=
 {
-    STEP_EDIT_WIN_STEP,
-    STEP_EDIT_WIN_MODE,
-    STEP_EDIT_WIN_VOL,
-    STEP_EDIT_WIN_RANGE,
+    STEP_EDIT_WIN_STEP,///<测试步骤
+    STEP_EDIT_WIN_MODE,///<测试模式
+    STEP_EDIT_WIN_VOL, ///<测试电压
+    STEP_EDIT_WIN_RANGE,///<电流档位
     STEP_EDIT_WIN_UPPER,///<电流上限
     STEP_EDIT_WIN_LOWER,///<电流下限
     
@@ -265,10 +262,10 @@ static CS_INDEX acw_g_par_index[]=
   */
 static CS_INDEX dcw_par_index[]=
 {
-    STEP_EDIT_WIN_STEP,
-    STEP_EDIT_WIN_MODE,
-    STEP_EDIT_WIN_VOL,
-    STEP_EDIT_WIN_RANGE,
+    STEP_EDIT_WIN_STEP,///<测试步骤
+    STEP_EDIT_WIN_MODE,///<测试模式
+    STEP_EDIT_WIN_VOL, ///<测试电压
+    STEP_EDIT_WIN_RANGE,///<电流档位
     STEP_EDIT_WIN_UPPER,///<电流上限
     STEP_EDIT_WIN_LOWER,///<电流下限
     
@@ -287,10 +284,10 @@ static CS_INDEX dcw_par_index[]=
   */
 static CS_INDEX dcw_g_par_index[]=
 {
-    STEP_EDIT_WIN_STEP,
-    STEP_EDIT_WIN_MODE,
-    STEP_EDIT_WIN_VOL,
-    STEP_EDIT_WIN_RANGE,
+    STEP_EDIT_WIN_STEP,///<测试步骤
+    STEP_EDIT_WIN_MODE,///<测试模式
+    STEP_EDIT_WIN_VOL, ///<测试电压
+    STEP_EDIT_WIN_RANGE,///<电流档位
     STEP_EDIT_WIN_UPPER,///<电流上限
     STEP_EDIT_WIN_LOWER,///<电流下限
     
@@ -309,9 +306,9 @@ static CS_INDEX dcw_g_par_index[]=
   */
 static CS_INDEX ir_par_index[]=
 {
-    STEP_EDIT_WIN_STEP,
-    STEP_EDIT_WIN_MODE,
-    STEP_EDIT_WIN_VOL,
+    STEP_EDIT_WIN_STEP,///<测试步骤
+    STEP_EDIT_WIN_MODE,///<测试模式
+    STEP_EDIT_WIN_VOL, ///<测试电压
     STEP_EDIT_WIN_UPPER_IR,///<电流上限
     STEP_EDIT_WIN_LOWER_IR,///<电流下限
     
@@ -329,9 +326,9 @@ static CS_INDEX ir_par_index[]=
   */
 static CS_INDEX gr_par_index[]=
 {
-    STEP_EDIT_WIN_STEP,
-    STEP_EDIT_WIN_MODE,
-    STEP_EDIT_WIN_CUR,
+    STEP_EDIT_WIN_STEP,///<测试步骤
+    STEP_EDIT_WIN_MODE,///<测试模式
+    STEP_EDIT_WIN_CUR, ///<测试电流
     STEP_EDIT_WIN_UPPER_GR,///<电流上限
     STEP_EDIT_WIN_LOWER_GR,///<电流下限
     

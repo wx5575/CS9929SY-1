@@ -1,10 +1,10 @@
 /**
   ******************************************************************************
   * @file    7_env_par_edit_win.c
-  * @author  ÍõöÎ
+  * @author  ç‹é‘«
   * @version V1.0.0
   * @date    2017.4.18
-  * @brief   7´çÆÁ»·¾³±äÁ¿±à¼­´°¿ÚÎ»ÖÃ³ß´ç¶¨Òå
+  * @brief   7å¯¸å±ç¯å¢ƒå˜é‡ç¼–è¾‘çª—å£ä½ç½®å°ºå¯¸å®šä¹‰
   ******************************************************************************
   */
 
@@ -14,7 +14,6 @@
 #include "GUI.H"
 #include "WM.h"
 #include "DIALOG.h"
-#include "fonts.h"
 #include "ff.h"
 #include "OS.H"
 #include "cs99xx_struct.h"
@@ -25,7 +24,7 @@
 #include "env_par_edit_win.h"
 
 /**
-  * @brief  7´çÆÁ»·¾³±äÁ¿´°¿ÚÎ»ÖÃ³ß´ç½á¹¹³õÊ¼»¯Êı¾İ
+  * @brief  7å¯¸å±ç¯å¢ƒå˜é‡çª—å£ä½ç½®å°ºå¯¸ç»“æ„åˆå§‹åŒ–æ•°æ®
   */
 WIDGET_POS_SIZE_T _7_env_par_windows=
 {
@@ -35,18 +34,18 @@ WIDGET_POS_SIZE_T _7_env_par_windows=
 
 #define FONT    &GUI_Fonthz_24
 /**
-  * @brief  »·¾³±äÁ¿´°¿Ú½çÃæ±à¼­¶ÔÏó×Ô¶¯²¼¾Ö½á¹¹
+  * @brief  ç¯å¢ƒå˜é‡çª—å£ç•Œé¢ç¼–è¾‘å¯¹è±¡è‡ªåŠ¨å¸ƒå±€ç»“æ„
   */
 EDIT_ELE_AUTO_LAYOUT_T _7_env_par_edit_ele_auto_layout_inf=
 {
     10/*base_x*/,50/*base_y*/,
-    160/*name_w*/,150/*edit_w*/,25/*uint_w*/,30/*height*/,
-    5/*rows*/,2/*column*/,45/*row_spacing*/,335/*column_spacing*/,
+    155/*name_w*/,150/*edit_w*/,25/*uint_w*/,30/*height*/,
+    5/*rows*/,2/*column*/,45/*row_spacing*/,340/*column_spacing*/,
     FONT, GUI_BLACK, GUI_INVALID_COLOR,
-    GUI_TA_RIGHT | GUI_TA_VCENTER, GUI_TA_CENTER | GUI_TA_VCENTER, GUI_TA_LEFT | GUI_TA_VCENTER,
+    GUI_TA_LEFT | GUI_TA_VCENTER, GUI_TA_CENTER | GUI_TA_VCENTER, GUI_TA_LEFT | GUI_TA_VCENTER,
     20/*max_len*/
 };
 
 
 
-/************************ (C) COPYRIGHT 2017 ³¤Ê¢ÒÇÆ÷ *****END OF FILE****/
+/************************ (C) COPYRIGHT 2017 é•¿ç››ä»ªå™¨ *****END OF FILE****/

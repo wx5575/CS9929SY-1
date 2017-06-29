@@ -16,6 +16,62 @@
 #include "stm32f4xx.h"
 #include "cs99xx_struct.h"
 
+/**
+  * @brief  标准菜单键名称的枚举索引
+  */
+typedef enum{
+	F_KEY_ENTER,
+	F_KEY_CANCLE,
+	F_KEY_NEXT,
+	F_KEY_DEL,
+	F_KEY_BACKSPACE,
+	F_KEY_HOME,
+	F_KEY_END,
+	F_KEY_SELECTED,
+	F_KEY_SELECT,
+	
+	F_KEY_FILE,
+	F_KEY_STEP,
+	F_KEY_SYS,
+	F_KEY_RESULT,
+	F_KEY_MORE,
+    F_KEY_F0,
+    F_KEY_F1,
+    F_KEY_F2,
+    F_KEY_F3,
+    F_KEY_F4,
+    F_KEY_F5,
+    F_KEY_F6,
+    
+	F_KEY_NULL,
+	F_KEY_CUSTOM,///<自定义
+	F_KEY_SAVE,
+	F_KEY_NEW,
+	F_KEY_READ,
+	F_KEY_EDIT,
+	F_KEY_BACK,
+	F_KEY_DISPLAY,
+    F_KEY_TEST,
+    F_KEY_HELP,
+    F_KEY_VOL,
+    F_KEY_CUR,
+    F_KEY_RANGE,
+    F_KEY_UPPER,
+    F_KEY_LOWER,
+    F_KEY_TIME,
+    F_KEY_MODE,
+    F_KEY_CLEAR,
+    F_KEY_DETAIL,///<详细
+    F_KEY_INSTER,///<插入
+    F_KEY_FORWARD,///<前移
+    F_KEY_BACKWARD,///<后移
+    F_KEY_ON,
+    F_KEY_OFF,
+    F_KEY_GRADE,
+    F_KEY_SETTING,
+    F_KEY_AUTO,
+}MENU_KEY_INDEX_ENUM;
+
 typedef enum{
 	MENU_KEY_EN,//菜单键使能
 	MENU_KEY_DIS,//菜单键失能
@@ -28,6 +84,15 @@ typedef struct{
 
 /** 按键回调函数指针 */
 typedef void (*KEY_CB_FUN)(KEY_MESSAGE *);
+/** 
+  * @brief 定制菜单键信息结构
+  */
+typedef struct{
+    uint8_t *name;///<模式的名称
+    int data;///<自定义菜单键的数据
+    KEY_CB_FUN fun;///<自定义菜单键的功能函数
+}CUSTOM_MENU_KEY_INF;
+
 
 typedef struct
 {
@@ -36,6 +101,21 @@ typedef struct
 	int en;///<使能按键
 }KEY_DISPOSE_FUN;
 
+/** 功能按键结构 */
+typedef struct{
+	uint32_t key_value;///<键值
+	KEY_CB_FUN key_up_dispose_fun;///<处理函数
+    KEY_MESSAGE msg;///<按键消息
+	MENU_KEY_ST_ENUM en;///<按键使能
+}FUNCTION_KEY_INFO_T;
+
+
+/** 菜单键的配置信息 */
+typedef struct{
+	uint8_t *name;///<按键名称
+	CS_INDEX index;///<标准菜单键盘索引
+    FUNCTION_KEY_INFO_T fun_key;///<功能键信息
+}MENU_KEY_INFO_T;
 typedef struct{
 	KEY_DISPOSE_FUN	coded_right;
 	KEY_DISPOSE_FUN	coded_left;

@@ -595,6 +595,33 @@ typedef struct {
 
 #define     TABLE_VALUE_NULL                ((uint16_t)0xffff)
 
+
+
+
+//单位
+extern const uint8_t *unit_pool[];
+/******************************/
+extern const uint8_t *work_mode_pool[2];
+
+#define CHINESE_STR "中文"
+#define ENGLISH_STR "English"
+extern const uint8_t *language_pool[2];
+extern const uint8_t *sw_pool[2][2];
+extern const uint8_t *arc_mode_pool[2][2];
+extern const char* status_str[][2];
+extern const char* except_buf[][3];
+
+#define ACW_STR     "ACW"
+#define DCW_STR     "DCW"
+#define IR_STR      "IR"
+#define GR_STR      "GR"
+#define BBD_STR     "BBD"
+#define CC_STR      "CC"
+extern const uint8_t *mode_pool[10];
+
+
+
+
 STRUCT_EXT uint8_t step_used_flag[MAX_STEPS/8 + 1 + 1];///<步骤已使用的标记列表
 STRUCT_EXT uint16_t cur_group_table[MAX_STEPS];///<记忆组步骤地址映射表
 STRUCT_EXT TEST_FILE *g_cur_file;///<当前文件

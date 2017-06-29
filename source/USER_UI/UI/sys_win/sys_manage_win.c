@@ -14,7 +14,6 @@
 #include "GUI.H"
 #include "WM.h"
 #include "DIALOG.h"
-#include "fonts.h"
 #include "ff.h"
 #include "OS.H"
 #include "cs99xx_struct.h"
@@ -40,8 +39,8 @@
   */
 typedef enum{
     SYS_UI_ENV_PAR,///<环境参数
-    SYS_UI_TIME,
-    SYS_UI_RIGHT,///<系统权限
+    SYS_UI_TIME,///<系统时间
+    SYS_UI_RIGHT,// 修改密码
     SYS_UI_CAL,///<系统校准
     SYS_UI_MODULE,///<终统模块管理
     SYS_UI_RE_FACT_SETTING,///<恢复出厂设置
@@ -72,18 +71,18 @@ static void sys_win_direct_key_up_cb(KEY_MESSAGE *key_msg);
   */
 static WIDGET_POS_SIZE_T* sys_win_pos_size_pool[SCREEN_NUM]=
 {
-    &_7_sys_windows,/*4.3寸屏*/
-    &_7_sys_windows,/*5.6寸屏*/
-    &_7_sys_windows,/*7寸屏*/
+    &_7_sys_windows,///< 4.3寸屏 
+    &_7_sys_windows,///< 5.6寸屏 
+    &_7_sys_windows,///< 7寸屏 
 };
 /**
   * @brief  系统窗口文本索引表
   */
 static CS_INDEX sys_win_text_index_table[]=
 {
-    SYS_UI_ENV_PAR,// 环境参数
-    SYS_UI_TIME,
-    SYS_UI_RIGHT,// 系统权限
+    SYS_UI_ENV_PAR,///< 环境参数
+    SYS_UI_TIME,///<系统时间
+    SYS_UI_RIGHT,// 修改密码
     SYS_UI_CAL,// 系统校准
     SYS_UI_MODULE,// 终统模块管理
     SYS_UI_RE_FACT_SETTING,// 恢复出厂设置
@@ -96,7 +95,7 @@ static TEXT_ELE_T sys_ui_ele_pool[]=
 {
     {{"环境参数"    ,"Env. Par."         }, SYS_UI_ENV_PAR        },
 	{{"系统时间"    ,"System Time"       }, SYS_UI_TIME           },
-    {{"系统权限"    ,"System Privileges" }, SYS_UI_RIGHT          },
+    {{"修改密码"    ,"Change Password" }, SYS_UI_RIGHT            },
     {{"校准管理"    ,"Cal. Management"   }, SYS_UI_CAL            },
     {{"模块管理"    ,"Module Management" }, SYS_UI_MODULE         },
     {{"恢复出厂设置","Rest.Fact.Settings"}, SYS_UI_RE_FACT_SETTING},

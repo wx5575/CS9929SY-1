@@ -194,7 +194,7 @@ static MYUSER_WINDOW_T key_menu_windows=
     {0},/*com*/
     /* 自动布局 */
     {
-        NULL,//文本自动布局信息池
+        key_menu_text_ele_auto_layout,//文本自动布局信息池
         NULL,//编辑对象自动布局信息池
         NULL,//文本对象调整布局信息池
         NULL,//编辑对象调整布局信息池
@@ -211,7 +211,8 @@ static MYUSER_WINDOW_T key_menu_windows=
 static void init_create_key_menu_text_ele(MYUSER_WINDOW_T* win)
 {
     init_window_text_ele_list(win);
-    init_window_text_ele_dis_inf(win, key_menu_text_ele_auto_layout[SCREEM_SIZE]);
+//    init_window_text_ele_dis_inf(win, key_menu_text_ele_auto_layout[SCREEM_SIZE]);
+    auto_init_win_text_ele_dis_inf(win);
     init_window_text_ele(win);
 }
 /**
@@ -463,6 +464,38 @@ static uint8_t get_menu_key_index_and_fun(uint32_t key_value, void(**fun)(), CS_
 }
 
 /**
+  * @brief  检查按键字符显示的字体
+  * @param  [in] win 窗口
+  * @param  [in] ele 文本控件
+  * @retval 无
+  */
+static void check_key_str_dis_font(MYUSER_WINDOW_T* win, TEXT_ELE_T *ele)
+{
+    uint8_t lon = 0;
+    uint8_t *text = NULL;
+    TEXT_ELE_AUTO_LAYOUT_T *auto_layout;
+    
+    if(win->auto_layout.text_ele_auto_layout_inf == NULL)
+    {
+        return;
+    }
+    
+    auto_layout = win->auto_layout.text_ele_auto_layout_inf[SCREEM_SIZE];
+    text = ele->text[SYS_LANGUAGE];
+    lon = strlen((const char*)text);
+    
+    /* 长度大于6选择小字体 */
+    if(lon > 6)
+    {
+        ele->dis_info.font = auto_layout->font[FONT_SIZE_SMALL];
+    }
+    /* 选择大字体 */
+    else
+    {
+        ele->dis_info.font = auto_layout->font[FONT_SIZE_BIG];
+    }
+}
+/**
   * @brief  更新菜单按键名称
   * @param  无
   * @retval 无
@@ -472,14 +505,31 @@ static void display_menu_key(void)
 	CS_LIST* t_node = NULL;
 	CS_LIST* list = &key_menu_windows.text.list_head;
 	TEXT_ELE_T *node = NULL;
+    const uint8_t *text = NULL;
 	
 	list_for_each(t_node, list)
 	{
 		node = list_entry(t_node, TEXT_ELE_T, list );
-        update_text_ele((CS_INDEX)node->index, &key_menu_windows, (const uint8_t*)node->text[SYS_LANGUAGE]);
+        text = (const uint8_t*)node->text[SYS_LANGUAGE];
+        check_key_str_dis_font(&key_menu_windows, node);
+        update_text_ele((CS_INDEX)node->index, &key_menu_windows, text);
 	}
 }
 
+static void backup_key_inf(void)
+{
+    backup_key_funcation_inf();
+    backup_g_cur_edit_ele();
+    memcpy(&key_menu_win_ele_pool_bk, &key_menu_win_ele_pool, sizeof(key_menu_win_ele_pool_bk));
+}
+static void recover_key_inf(void)
+{
+    recover_g_cur_edit_ele();
+    recover_key_funcation_inf();
+    memcpy(&key_menu_win_ele_pool, &key_menu_win_ele_pool_bk, sizeof(key_menu_win_ele_pool_bk));
+    
+	display_menu_key();//刷新菜单键显示
+}
 /* Public functions ---------------------------------------------------------*/
 /**
   * @brief  设置菜单功能键的状态
@@ -653,21 +703,9 @@ void change_menu_key_font_color(uint32_t key_value, GUI_COLOR color)
   */
 void create_key_menu_window(void)
 {
+    register_backup_key_inf_fun(backup_key_inf);
+    register_recover_key_inf_fun(recover_key_inf);
     create_user_window(&key_menu_windows, &windows_list, 0);//创建菜单界面
 }
 
-void backup_key_inf(void)
-{
-    backup_key_funcation_inf();
-    backup_g_cur_edit_ele();
-    memcpy(&key_menu_win_ele_pool_bk, &key_menu_win_ele_pool, sizeof(key_menu_win_ele_pool_bk));
-}
-void recover_key_inf(void)
-{
-    recover_g_cur_edit_ele();
-    recover_key_funcation_inf();
-    memcpy(&key_menu_win_ele_pool, &key_menu_win_ele_pool_bk, sizeof(key_menu_win_ele_pool_bk));
-    
-	display_menu_key();//刷新菜单键显示
-}
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

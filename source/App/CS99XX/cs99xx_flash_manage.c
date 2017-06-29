@@ -9,10 +9,19 @@
   */
 #include "cs99xx_flash_manage.h"
 #include "spi_flash.h"
-#include "app.h"
 #include "os.h"
 #include "string.h"
 
+static 	OS_MUTEX    MemMutex; /* 访问memory的互斥互斥访问 */
+
+void create_mutex_protect_flash(void)
+{
+	OS_ERR	  err;
+    
+    OSMutexCreate(&MemMutex, "MemMutex", &err);
+}
+
+//OSMutexCreate(&MemMutex, "MemMutex", &err);
 /**
   * @brief  串行FLASH缓冲写函数
   * @param  [in] _pBuf 数据缓冲区

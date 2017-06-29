@@ -14,7 +14,6 @@
 #include "GUI.H"
 #include "WM.h"
 #include "DIALOG.h"
-#include "fonts.h"
 #include "ff.h"
 #include "OS.H"
 #include "cs99xx_struct.h"
@@ -31,7 +30,6 @@
 #include "7_input_password_win.h"
 #include "ui_com/com_edit_api.h"
 #include "input_password_win.h"
-#include "app.h"
 
 /* Private typedef -----------------------------------------------------------*/
 
@@ -393,10 +391,6 @@ static void input_pwd_win_into_win(void)
     {
         back_up_will_enter_win_inf.into_win_fun(back_up_will_enter_win_inf.data);
     }
-    else
-    {
-        recover_key_inf();
-    }
 }
 
 static void clear_input_pwd_win_into_win_inf(void)
@@ -442,13 +436,14 @@ static void input_password_win_cb(WM_MESSAGE* pMsg)
 			break;
 		case WM_DELETE:
 		{
+            if(recover_key_inf_fun != NULL)
+            {
+                recover_key_inf_fun();
+            }
+            
             if(g_custom_msg.msg == CM_DIALOG_RETURN_OK)
             {
                 input_pwd_win_into_win();
-            }
-            else
-            {
-                recover_key_inf();
             }
             
             clear_input_pwd_win_into_win_inf();
@@ -456,6 +451,7 @@ static void input_password_win_cb(WM_MESSAGE* pMsg)
 		}
 		default:
 			WM_DefaultProc(pMsg);
+			break;
 	}
 }
 /* Public functions ---------------------------------------------------------*/
@@ -463,8 +459,8 @@ static void input_password_win_cb(WM_MESSAGE* pMsg)
 void init_back_up_will_enter_win_inf(void (*fun)(int), int data)
 {
     back_up_will_enter_win_inf.into_win_fun = fun;
-    back_up_will_enter_win_inf.data = data;
-    create_input_password_ui(g_cur_win->handle);
+    back_up_will_enter_win_inf.data = g_cur_win->handle;
+    create_input_password_ui(data);
 }
 /**
   * @brief  创建密码窗口

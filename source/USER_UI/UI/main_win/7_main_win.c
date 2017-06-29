@@ -14,8 +14,6 @@
 #include "rtc_config.h"
 #include "GUI.H"
 #include "WM.h"
-#include "fonts.h"
-#include "app.h"
 #include "IMAGE.H"
 #include "ui_com/com_ui_info.h"
 #include "7_main_win.h"

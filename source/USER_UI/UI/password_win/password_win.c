@@ -14,7 +14,6 @@
 #include "GUI.H"
 #include "WM.h"
 #include "DIALOG.h"
-#include "fonts.h"
 #include "ff.h"
 #include "OS.H"
 #include "cs99xx_struct.h"
@@ -31,7 +30,6 @@
 #include "7_password_win.h"
 #include "ui_com/com_edit_api.h"
 #include "password_win.h"
-#include "app.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /**

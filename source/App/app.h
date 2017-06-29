@@ -15,7 +15,6 @@
 #include "ff.h"
 #include "stm32f4xx.h"
 
-#define     OS_MAX_QS       10
 
 
 #ifndef NULL
@@ -35,10 +34,6 @@ typedef struct {
 
 APP_EXT		APP_FLAG	app_flag;
 
-APP_EXT     OS_Q     KeyboardQSem;	/* 消息队列 */
-APP_EXT     void     *QMsgTbl[OS_MAX_QS];/* 消息队列 */
-
-APP_EXT 	OS_MUTEX    MemMutex; /* 访问memory的互斥互斥访问 */
 
 APP_EXT     FRESULT fs_result;
 APP_EXT     FATFS fs_struct;
@@ -63,6 +58,7 @@ extern void start_task(void *p_arg);
 extern void emwindemo_task(void *p_arg);
 extern void led0_task(void *p_arg);
 extern void touch_task(void *p_arg);
+extern uint32_t get_key_value(void);
 
 
 #endif // __APP_H__
