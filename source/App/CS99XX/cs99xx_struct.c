@@ -63,6 +63,11 @@ const uint8_t *sw_pool[2][2]={
     {"关闭","开启"},
     {"OFF","ON"},
 };
+const SW_STATUS sw_status_buf[2] = 
+{
+    SW_OFF,
+    SW_ON,
+};
 /**
   * @brief  电弧侦测模式
   */

@@ -93,12 +93,12 @@ static CS_INDEX sys_win_text_index_table[]=
   */
 static TEXT_ELE_T sys_ui_ele_pool[]=
 {
-    {{"环境参数"    ,"Env. Par."         }, SYS_UI_ENV_PAR        },
-	{{"系统时间"    ,"System Time"       }, SYS_UI_TIME           },
-    {{"修改密码"    ,"Change Password" }, SYS_UI_RIGHT            },
-    {{"校准管理"    ,"Cal. Management"   }, SYS_UI_CAL            },
-    {{"模块管理"    ,"Module Management" }, SYS_UI_MODULE         },
-    {{"恢复出厂设置","Rest.Fact.Settings"}, SYS_UI_RE_FACT_SETTING},
+    {{"环境参数"    ,"Environmental Parameters" }, SYS_UI_ENV_PAR },
+	{{"系统时间"    ,"System Time"              }, SYS_UI_TIME           },
+    {{"修改密码"    ,"Change Password"          }, SYS_UI_RIGHT            },
+    {{"校准管理"    ,"Calibration Management"   }, SYS_UI_CAL            },
+    {{"模块管理"    ,"Module Management"        }, SYS_UI_MODULE         },
+    {{"恢复出厂设置","Restore factory settings" }, SYS_UI_RE_FACT_SETTING},
 };
 
 /**

@@ -456,7 +456,6 @@ extern void init_dialog(MYUSER_WINDOW_T * win);
 extern void send_msg_to_parent(WM_HWIN hwin, int id, int val);
 extern void send_no_par_msg_to_parent(WM_HWIN hwin, int id);
 extern void update_all_windows_text(void);
-extern void (*global_fun_key_dispose)(uint32_t key_value);
 extern void set_global_fun_key_dispose(void (*fun)(uint32_t));
 extern void set_com_text_ele_inf(CS_INDEX index, MYUSER_WINDOW_T* win, uint8_t *str[]);
 extern void set_group_text_ele_inf(CS_INDEX index, MYUSER_WINDOW_T* win, uint8_t *str);

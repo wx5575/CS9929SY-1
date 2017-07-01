@@ -607,6 +607,7 @@ extern const uint8_t *work_mode_pool[2];
 #define ENGLISH_STR "English"
 extern const uint8_t *language_pool[2];
 extern const uint8_t *sw_pool[2][2];
+extern const SW_STATUS sw_status_buf[2];
 extern const uint8_t *arc_mode_pool[2][2];
 extern const char* status_str[][2];
 extern const char* except_buf[][3];

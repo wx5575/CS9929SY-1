@@ -522,7 +522,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
     },
     /* ACW DCW 上限 */
     {
-        {"电流上限:","Up Limt:"}, /* 名称 */
+        {"电流上限:","Up Limit:"}, /* 名称 */
         STEP_EDIT_WIN_UPPER,/* 通过枚举索引 */
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
@@ -537,7 +537,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
     },
     /* ACW DCW 下限 */
     {
-        {"电流下限:","LowLimt:"}, /* 名称 */
+        {"电流下限:","LowLimit:"}, /* 名称 */
         STEP_EDIT_WIN_LOWER,/* 通过枚举索引 */
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
@@ -564,7 +564,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
     },
     /* IR上限 */
     {
-        {"电阻上限:","Up Limt:"}, /* 名称 */
+        {"电阻上限:","Up Limit:"}, /* 名称 */
         STEP_EDIT_WIN_UPPER_IR,/* 通过枚举索引 */
         {0},/* 默认值 */
         {NULL, 4/*数据字节数*/},/* 数据指针 */
@@ -579,7 +579,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
     },
     /* IR下限 */
     {
-        {"电阻下限:","LowLimt:"}, /* 名称 */
+        {"电阻下限:","Low Limit:"}, /* 名称 */
         STEP_EDIT_WIN_LOWER_IR,/* 通过枚举索引 */
         {0},/* 默认值 */
         {NULL, 4/*数据字节数*/},/* 数据指针 */
@@ -594,7 +594,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
     },
     /* GR上限 */
     {
-        {"电阻上限:","Up Limt:"}, /* 名称 */
+        {"电阻上限:","Up Limit:"}, /* 名称 */
         STEP_EDIT_WIN_UPPER_GR,/* 通过枚举索引 */
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
@@ -610,7 +610,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
     },
     /* GR下限 */
     {
-        {"电阻下限:","LowLimt:"}, /* 名称 */
+        {"电阻下限:","Low Limit:"}, /* 名称 */
         STEP_EDIT_WIN_LOWER_GR,/* 通过枚举索引 */
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
@@ -647,7 +647,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
     },
     {
-        {"输出频率:","Frequence:"}, /* 名称 */
+        {"输出频率:","Frequency:"}, /* 名称 */
         STEP_EDIT_WIN_FREQ,/* 通过枚举索引 */
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
@@ -658,7 +658,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
     },
     {
-        {"延时时间:","Delay:"}, /* 名称 */
+        {"延时时间:","DelayTime:"}, /* 名称 */
         STEP_EDIT_WIN_DELAY_T,/* 通过枚举索引 */
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
@@ -669,7 +669,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
     },
     {
-        {"上升时间:","Raise:"}, /* 名称 */
+        {"上升时间:","Rise Time:"}, /* 名称 */
         STEP_EDIT_WIN_RAISE_T,/* 通过枚举索引 */
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
@@ -683,7 +683,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
     },
     {
-        {"测试时间:","TestTime:"}, /* 名称 */
+        {"测试时间:","Test Time:"}, /* 名称 */
         STEP_EDIT_WIN_TEST_T,/* 通过枚举索引 */
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
@@ -697,7 +697,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
     },
     {
-        {"下降时间:","FallTime:"}, /* 名称 */
+        {"下降时间:","Fall Time:"}, /* 名称 */
         STEP_EDIT_WIN_FALL_T,/* 通过枚举索引 */
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
@@ -711,7 +711,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
     },
     {
-        {"间隔时间:","Inter.Time:"}, /* 名称 */
+        {"间隔时间:","Interval:"}, /* 名称 */
         STEP_EDIT_WIN_INTER_T,/* 通过枚举索引 */
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
@@ -722,7 +722,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
     },
     {
-        {"缓变时间:","Chang.Time:"}, /* 名称 */
+        {"缓变时间:","ChangeTime:"}, /* 名称 */
         STEP_EDIT_WIN_CHANGE_T,/* 通过枚举索引 */
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */

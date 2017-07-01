@@ -20,63 +20,71 @@
   * @brief  标准菜单键名称的枚举索引
   */
 typedef enum{
-	F_KEY_ENTER,
-	F_KEY_CANCLE,
-	F_KEY_NEXT,
-	F_KEY_DEL,
-	F_KEY_BACKSPACE,
-	F_KEY_HOME,
-	F_KEY_END,
-	F_KEY_SELECTED,
-	F_KEY_SELECT,
+	F_KEY_ENTER,///< 确认
+	F_KEY_CANCEL,///< 取消
+	F_KEY_NEXT,///< 下一个
+	F_KEY_DEL,///< 删除
+	F_KEY_BACKSPACE,///< 退格
+	F_KEY_HOME,///< hom键
+	F_KEY_END,///< end键
+	F_KEY_SELECTED,///< 已选择
+	F_KEY_SELECT,///< 选择
 	
-	F_KEY_FILE,
-	F_KEY_STEP,
-	F_KEY_SYS,
-	F_KEY_RESULT,
-	F_KEY_MORE,
-    F_KEY_F0,
-    F_KEY_F1,
-    F_KEY_F2,
-    F_KEY_F3,
-    F_KEY_F4,
-    F_KEY_F5,
-    F_KEY_F6,
+	F_KEY_FILE,///< 文件
+	F_KEY_STEP,///< 步骤
+	F_KEY_SYS,///< 系统
+	F_KEY_RESULT,///< 结果
+	F_KEY_MORE,///< 更多
+    F_KEY_F0,///< 功能键F0
+    F_KEY_F1,///< 功能键F1
+    F_KEY_F2,///< 功能键F2
+    F_KEY_F3,///< 功能键F3
+    F_KEY_F4,///< 功能键F4
+    F_KEY_F5,///< 功能键F5
+    F_KEY_F6,///< 功能键F6
     
-	F_KEY_NULL,
-	F_KEY_CUSTOM,///<自定义
-	F_KEY_SAVE,
-	F_KEY_NEW,
-	F_KEY_READ,
-	F_KEY_EDIT,
-	F_KEY_BACK,
-	F_KEY_DISPLAY,
-    F_KEY_TEST,
-    F_KEY_HELP,
-    F_KEY_VOL,
-    F_KEY_CUR,
-    F_KEY_RANGE,
-    F_KEY_UPPER,
-    F_KEY_LOWER,
-    F_KEY_TIME,
-    F_KEY_MODE,
-    F_KEY_CLEAR,
+	F_KEY_NULL,///< 功能键空
+	F_KEY_CUSTOM,///<自定义 功能键
+	F_KEY_SAVE,///< 保存
+	F_KEY_NEW,///< 新建
+	F_KEY_READ,///< 读取
+	F_KEY_EDIT,///< 编辑
+	F_KEY_BACK,///< 返回
+	F_KEY_DISPLAY,///< 显示
+    F_KEY_TEST,///< 测试
+    F_KEY_HELP,///< 帮助
+    F_KEY_VOL,///< 电压
+    F_KEY_CUR,///< 电流
+    F_KEY_RANGE,///< 档位
+    F_KEY_UPPER,///< 上限
+    F_KEY_LOWER,///< 下限
+    F_KEY_TIME,///< 时间
+    F_KEY_MODE,///< 更多
+    F_KEY_CLEAR,///< 清空
     F_KEY_DETAIL,///<详细
     F_KEY_INSTER,///<插入
     F_KEY_FORWARD,///<前移
     F_KEY_BACKWARD,///<后移
-    F_KEY_ON,
-    F_KEY_OFF,
-    F_KEY_GRADE,
-    F_KEY_SETTING,
-    F_KEY_AUTO,
+    F_KEY_ON,///<开启
+    F_KEY_OFF,///<关闭
+    F_KEY_GRADE,///<等级
+    F_KEY_SETTING,///<设置
+    F_KEY_AUTO,///<自动
+    F_KEY_GND,///<接地
+    F_KEY_FLOAT,///<浮地
 }MENU_KEY_INDEX_ENUM;
 
+/**
+  * @brief  菜单键使能状态
+  */
 typedef enum{
 	MENU_KEY_EN,//菜单键使能
 	MENU_KEY_DIS,//菜单键失能
 }MENU_KEY_ST_ENUM;
 
+/**
+  * @brief  按键消息结构定义
+  */
 typedef struct{
 	int user_data;///<传递给键盘处理函数的用户数据
     int custom_data;///<用户定制数据，用于在定制菜单信息时使用
@@ -93,7 +101,9 @@ typedef struct{
     KEY_CB_FUN fun;///<自定义菜单键的功能函数
 }CUSTOM_MENU_KEY_INF;
 
-
+/** 
+  * @brief 按键处理信息结构
+  */
 typedef struct
 {
 	KEY_CB_FUN fun;///<按键处理函数
@@ -109,41 +119,44 @@ typedef struct{
 	MENU_KEY_ST_ENUM en;///<按键使能
 }FUNCTION_KEY_INFO_T;
 
-
 /** 菜单键的配置信息 */
 typedef struct{
 	uint8_t *name;///<按键名称
 	CS_INDEX index;///<标准菜单键盘索引
     FUNCTION_KEY_INFO_T fun_key;///<功能键信息
 }MENU_KEY_INFO_T;
+
+/** 
+  * @brief 功能按键处理信息结构定义
+  */
 typedef struct{
-	KEY_DISPOSE_FUN	coded_right;
-	KEY_DISPOSE_FUN	coded_left;
+	KEY_DISPOSE_FUN	coded_right;///< 码盘右
+	KEY_DISPOSE_FUN	coded_left;///< 码盘左
     
-	KEY_DISPOSE_FUN	key_up;
-	KEY_DISPOSE_FUN	key_down;
-	KEY_DISPOSE_FUN	key_left;
-	KEY_DISPOSE_FUN	key_right;
+	KEY_DISPOSE_FUN	key_up;///< 向上键
+	KEY_DISPOSE_FUN	key_down;///< 向下键
+	KEY_DISPOSE_FUN	key_left;///< 向左键
+	KEY_DISPOSE_FUN	key_right;///< 向右键
 	
-	KEY_DISPOSE_FUN	key_enter;
-	KEY_DISPOSE_FUN	key_exit;
-	KEY_DISPOSE_FUN	key_offset;
-	KEY_DISPOSE_FUN	key_ulock;
-	KEY_DISPOSE_FUN	key_shift;
+	KEY_DISPOSE_FUN	key_enter;///< 确认键
+	KEY_DISPOSE_FUN	key_exit;///< 退出键
+	KEY_DISPOSE_FUN	key_offset;///< 偏移键
+	KEY_DISPOSE_FUN	key_ulock;///< 界面上锁键
+	KEY_DISPOSE_FUN	key_shift;///< 输入大小写SHIFT切换键
 	
-	KEY_DISPOSE_FUN	key_f0;
-	KEY_DISPOSE_FUN	key_f1;
-	KEY_DISPOSE_FUN	key_f2;
-	KEY_DISPOSE_FUN	key_f3;
-	KEY_DISPOSE_FUN	key_f4;
-	KEY_DISPOSE_FUN	key_f5;
-	KEY_DISPOSE_FUN	key_f6;
+	KEY_DISPOSE_FUN	key_f0;///< 菜单功能键F0
+	KEY_DISPOSE_FUN	key_f1;///< 菜单功能键F1
+	KEY_DISPOSE_FUN	key_f2;///< 菜单功能键F2
+	KEY_DISPOSE_FUN	key_f3;///< 菜单功能键F3
+	KEY_DISPOSE_FUN	key_f4;///< 菜单功能键F4
+	KEY_DISPOSE_FUN	key_f5;///< 菜单功能键F5
+	KEY_DISPOSE_FUN	key_f6;///< 菜单功能键F6
     
-	KEY_DISPOSE_FUN	key_clock_0;
-	KEY_DISPOSE_FUN	key_clock_1;
-	KEY_DISPOSE_FUN	key_f1_0;
-	KEY_DISPOSE_FUN	key_f1_1;
-	KEY_DISPOSE_FUN	key_f1_4;
+	KEY_DISPOSE_FUN	key_clock_0;///< 组合键 KEY_CLOCK + KEY_0
+	KEY_DISPOSE_FUN	key_clock_1;///< 组合键 KEY_CLOCK + KEY_1
+	KEY_DISPOSE_FUN	key_f1_0;///< 组合键 KEY_F1 + KEY_0
+	KEY_DISPOSE_FUN	key_f1_1;///< 组合键 KEY_F1 + KEY_1
+	KEY_DISPOSE_FUN	key_f1_4;///< 组合键 KEY_F1 + KEY_4
 	
 }KEY_FUNCATION;
 

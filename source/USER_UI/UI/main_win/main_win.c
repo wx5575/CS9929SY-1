@@ -106,7 +106,7 @@ static MENU_KEY_INFO_T 	main_ui_menu_key_inf[] =
   */
 static TEXT_ELE_T main_ui_text_ele_pool[]=
 {
-	{{"本控","UNLINK"}, MAIN_UI_COM_ST },
+	{{"本控","LOCAL"}, MAIN_UI_COM_ST },
 	{{"2017-04-07 08:59:00","2017-04-07 08:59:00"}, MAIN_UI_SYS_TIME },
 };
 /**
@@ -114,7 +114,7 @@ static TEXT_ELE_T main_ui_text_ele_pool[]=
   */
 MYUSER_WINDOW_T main_windows=
 {
-    {"主窗口", "main_window"},
+    {"主窗口", "Main Window"},
     main_win_cb, update_main_ui_menu_key_inf,
 	{
         main_ui_text_ele_pool, ARRAY_SIZE(main_ui_text_ele_pool),

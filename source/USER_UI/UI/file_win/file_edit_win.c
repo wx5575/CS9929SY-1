@@ -140,7 +140,7 @@ static MENU_KEY_INFO_T 	fname_menu_key_info[] =
     {"", F_KEY_NULL     , KEY_F3 & _KEY_UP, edit_name_f3_cb },//f3
     {"", F_KEY_NULL     , KEY_F4 & _KEY_UP, edit_name_f4_cb },//f4
     {"", F_KEY_ENTER    , KEY_F5 & _KEY_UP, edit_name_f5_cb },//f5
-    {"", F_KEY_CANCLE   , KEY_F6 & _KEY_UP, edit_name_f6_cb },//f6
+    {"", F_KEY_CANCEL   , KEY_F6 & _KEY_UP, edit_name_f6_cb },//f6
 };
 /**
   * @brief  工作模式编辑菜单键信息数组
@@ -152,7 +152,7 @@ static MENU_KEY_INFO_T 	fwmode_menu_key_info[] =
     {"" , F_KEY_NULL  , KEY_F3 & _KEY_UP, edit_work_mode_f3_cb },//f3
     {"" , F_KEY_NULL  , KEY_F4 & _KEY_UP, edit_work_mode_f4_cb },//f4
     {"", F_KEY_ENTER    , KEY_F5 & _KEY_UP, edit_name_f5_cb },//f5
-    {"", F_KEY_CANCLE   , KEY_F6 & _KEY_UP, edit_name_f6_cb },//f6
+    {"", F_KEY_CANCEL   , KEY_F6 & _KEY_UP, edit_name_f6_cb },//f6
 };
 
 /**
@@ -165,7 +165,7 @@ static MENU_KEY_INFO_T 	fbeept_menu_key_info[] =
     {"" , F_KEY_NULL    , KEY_F3 & _KEY_UP, edit_beep_time_f3_cb },//f3
     {"" , F_KEY_NULL    , KEY_F4 & _KEY_UP, edit_beep_time_f4_cb },//f4
     {"", F_KEY_ENTER    , KEY_F5 & _KEY_UP, edit_name_f5_cb },//f5
-    {"", F_KEY_CANCLE   , KEY_F6 & _KEY_UP, edit_name_f6_cb },//f6
+    {"", F_KEY_CANCEL   , KEY_F6 & _KEY_UP, edit_name_f6_cb },//f6
 };
 /**
   * @brief  PASS时间编辑菜单键信息数组
@@ -177,7 +177,7 @@ static MENU_KEY_INFO_T 	fpasst_menu_key_info[] =
     {"", F_KEY_NULL , KEY_F3 & _KEY_UP, edit_pass_time_f3_cb },//f3
     {"", F_KEY_NULL , KEY_F4 & _KEY_UP, edit_pass_time_f4_cb },//f4
     {"", F_KEY_ENTER    , KEY_F5 & _KEY_UP, edit_name_f5_cb },//f5
-    {"", F_KEY_CANCLE   , KEY_F6 & _KEY_UP, edit_name_f6_cb },//f6
+    {"", F_KEY_CANCEL   , KEY_F6 & _KEY_UP, edit_name_f6_cb },//f6
 };
 
 /**
@@ -204,7 +204,7 @@ static MENU_KEY_INFO_T 	edit_arc_menu_key_init_info[] =
     {"", F_KEY_NULL , KEY_F3 & _KEY_UP, edit_arc_f3_cb },//f3
     {"", F_KEY_NULL , KEY_F4 & _KEY_UP, edit_arc_f4_cb },//f4
     {"", F_KEY_ENTER    , KEY_F5 & _KEY_UP, edit_name_f5_cb },//f5
-    {"", F_KEY_CANCLE   , KEY_F6 & _KEY_UP, edit_name_f6_cb },//f6
+    {"", F_KEY_CANCEL   , KEY_F6 & _KEY_UP, edit_name_f6_cb },//f6
 };
 
 /**
@@ -364,7 +364,7 @@ static MYUSER_WINDOW_T new_file_window=
 /**
   * @brief  文件编辑窗口的数据结构定义
   */
-static MYUSER_WINDOW_T edit_file_windows=
+static MYUSER_WINDOW_T edit_file_window=
 {
     {"编辑文件","Edit File"},
     file_edit_win_cb, NULL,
@@ -532,7 +532,7 @@ static void pop_warning_dialog_for_change_workmode(WM_HWIN hWin)
         /* 内容 */
         {
             {"更改工作模式会丢失用户数据.\n\n确定要继续吗?\n",
-            "To change the work mode\n of user data will be lost.\n"
+            "If change the work mode,\n user data will be lost.\n"
             "Do you want to continue?"}, 2,
             0/*base_x*/,0/*base_y*/,
             {WAR_WIN_TX,WAR_WIN_TY,WAR_WIN_W - 20,WAR_WIN_H - (WAR_WIN_TY + 10)},/*pos_size*/
@@ -560,9 +560,15 @@ static void edit_work_mode_f1_cb(KEY_MESSAGE *key_msg)
 {
     if(global_file.work_mode != N_MODE)
     {
-        pop_warning_dialog_for_change_workmode(g_cur_win->handle);
-        set_fwmode_fun = set_fwmode_n;
-//        set_fwmode_n(key_msg->user_data);
+        if(g_cur_file_win == &new_file_window)
+        {
+            set_fwmode_n(key_msg->user_data);
+        }
+        else
+        {
+            pop_warning_dialog_for_change_workmode(g_cur_win->handle);
+            set_fwmode_fun = set_fwmode_n;
+        }
     }
 }
 /**
@@ -574,9 +580,15 @@ static void edit_work_mode_f2_cb(KEY_MESSAGE *key_msg)
 {
     if(global_file.work_mode != G_MODE)
     {
-        pop_warning_dialog_for_change_workmode(g_cur_win->handle);
-        set_fwmode_fun = set_fwmode_g;
-//        set_fwmode_g(key_msg->user_data);
+        if(g_cur_file_win == &new_file_window)
+        {
+            set_fwmode_g(key_msg->user_data);
+        }
+        else
+        {
+            pop_warning_dialog_for_change_workmode(g_cur_win->handle);
+            set_fwmode_fun = set_fwmode_g;
+        }
     }
 }
 /**
@@ -1094,8 +1106,8 @@ void create_new_file_dialog(int hWin)
 void create_edit_file_dialog(int hWin)
 {
     set_custom_msg_id(CM_FILE_UI_EDIT);
-    g_cur_file_win = &edit_file_windows;
-    create_user_dialog(&edit_file_windows, &windows_list, g_cur_win->handle);//创建主界面
+    g_cur_file_win = &edit_file_window;
+    create_user_dialog(&edit_file_window, &windows_list, g_cur_win->handle);//创建主界面
 }
 
 

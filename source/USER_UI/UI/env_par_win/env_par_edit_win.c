@@ -304,7 +304,7 @@ static EDIT_ELE_AUTO_LAYOUT_T *env_par_win_edit_ele_auto_layout_pool[SCREEN_NUM]
   */
 static MYUSER_WINDOW_T env_par_window=
 {
-    {"环境参数","Env.Par"},
+    {"环境参数","Environmental Parameters"},
     env_par_edit_win_cb,NULL,
     {0},/*text*/
     {

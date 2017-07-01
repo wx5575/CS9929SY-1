@@ -250,12 +250,31 @@ void keyboard_password(uint32_t key)
 void keyboard_num(uint32_t key)
 {
 	uint8_t key_index = 0xff;
+    WM_HMEM handle = 0;
+    uint8_t buf[20] = {0};
+//    uint8_t max_len;
+    uint8_t len;
+	
+    handle = get_cur_edit_handle();
     
 	key_index = get_key_value_index(key, 1);//包含小数点因此传入1
     
     if(key_index == 0xff)
     {
         return;
+    }
+    
+    if(handle == 0)
+    {
+        return;
+    }
+    
+    EDIT_GetText(handle, (char*)buf, 10);
+    len = strlen((const char*)buf);
+    
+    if(len == g_cur_edit_ele->dis.edit.max_len)
+    {
+        EDIT_SetText(handle, "");
     }
     
 	GUI_StoreKeyMsg(ASCII_NUM[key_index], 1);

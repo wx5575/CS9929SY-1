@@ -298,7 +298,7 @@ static void init_create_step_edit_win_com_ele(MYUSER_WINDOW_T* win)
     init_window_com_ele_list(win);//初始化窗口文本对象链表
     init_com_text_ele_dis_inf(win);//初始化公共文本对象的显示信息
     init_group_com_text_ele_dis_inf(win);//初始化记忆组对象的显示信息
-    update_group_inf(win);
+    update_group_inf(win);//更新记忆组信息
     init_window_com_text_ele(win);//初始化创建窗口中的公共文本对象
 }
 /**
@@ -318,22 +318,24 @@ static void new_one_step(int hwin)
         return;
     }
     
+    /* G模式 */
     if(g_cur_file->work_mode == G_MODE)
     {
         mode = get_first_step_mode();
     }
+    /* N模式 */
     else
     {
         mode = get_first_mode();
     }
     
-    insert_step(step, mode);
-    save_group_info(g_cur_file->num);
-    dis_all_steps();
-    LISTVIEW_SetSel(list_h, step);
-    update_step_cur_row_menu_key_st(hwin);
-    update_g_cur_step();
-    update_group_inf(g_cur_win);
+    insert_step(step, mode);//插入一步
+    save_group_info(g_cur_file->num);//保存当前步
+    dis_all_steps();//显示所有的步
+    LISTVIEW_SetSel(list_h, step);//选择新建的步
+    update_step_cur_row_menu_key_st(hwin);//更新当前行的菜单键信息
+    update_g_cur_step();//更新当前步
+    update_group_inf(g_cur_win);//更新记忆组显示信息
 }
 /**
   * @brief  移动测试步
@@ -348,8 +350,10 @@ static void move_step(MOVE_STEP_DIRECTION dir)
     
 	row = LISTVIEW_GetSel(list_h);
 	
+    /* 向前移动测试步 */
     if(dir == MOVE_STEP_FORWARD)
     {
+        /* 第一行是第一步它不能向前移动 */
         if(row == 0)
         {
             return;
@@ -358,8 +362,10 @@ static void move_step(MOVE_STEP_DIRECTION dir)
         one = row;
         two = row + 1;
     }
+    /* 向后移动测试步 */
     else if(dir == MOVE_STEP_BACKWARD)
     {
+        /* 最后一步不能向后移动 */
         if(row + 1 > g_cur_file->total)
         {
             return;
@@ -368,19 +374,20 @@ static void move_step(MOVE_STEP_DIRECTION dir)
         one = row + 2;
         two = row + 1;
     }
+    /* 未知操作 */
     else
     {
         return;
     }
     
-    swap_step(one, two);
-    save_group_info(g_cur_file->num);
-    dis_all_steps();
+    swap_step(one, two);//交换步骤
+    save_group_info(g_cur_file->num);//保存记忆组信息
+    dis_all_steps();//显示所有的步骤信息
     
-    LISTVIEW_SetSel(list_h, one - 1);
-    update_step_cur_row_menu_key_st(g_cur_win->handle);
-    update_g_cur_step();
-    update_group_inf(g_cur_win);
+    LISTVIEW_SetSel(list_h, one - 1);//选择移动的步骤新的位置
+    update_step_cur_row_menu_key_st(g_cur_win->handle);//更新当前步的菜单信息
+    update_g_cur_step();//更新当前步
+    update_group_inf(g_cur_win);//更新记忆组显示信息
 }
 /**
   * @brief  更新步骤表当前行的菜单显示
@@ -456,7 +463,7 @@ static void clear_step_listview(void)
     {
         for(column = 1; column < 6; column++)
         {
-            LISTVIEW_SetItemText(list_h, column, row, "");
+            LISTVIEW_SetItemText(list_h, column, row, "");//清空单元格的显示信息
         }
     }
 }
@@ -478,34 +485,37 @@ static void delete_g_cur_step(void)
         return;
     }
     
-    del_step(row + 1);
-    clear_step_listview();
-    dis_all_steps();
+    del_step(row + 1);//删除光标所在行的测试步
+    clear_step_listview();//清空列表
+    dis_all_steps();//显示所有步骤信息
     
+    /* 删除的是最后一步 */
     if(total == row + 1)
     {
         load_steps_to_list(row, 1);
+        
         if(row > 0)
         {
             LISTVIEW_SetSel(list_h, row - 1);
         }
     }
+    /* 删除的不是最后一步 */
     else
     {
         load_steps_to_list(row + 1, 1);
         LISTVIEW_SetSel(list_h, row);
     }
     
-    node = get_g_cur_step();
+    node = get_g_cur_step();//获取当前步
     
     if(NULL != node)
     {
         g_cur_step = node;
     }
     
-    update_group_inf(g_cur_win);
-    update_step_cur_row_menu_key_st(g_cur_win->handle);
-    save_group_info(g_cur_file->num);
+    update_group_inf(g_cur_win);//更新记忆组信息
+    update_step_cur_row_menu_key_st(g_cur_win->handle);//更新当前行的菜单信息
+    save_group_info(g_cur_file->num);//保存记忆组信息
 }
 /**
   * @brief  更新当前步骤
@@ -522,7 +532,7 @@ static void update_g_cur_step(void)
 	/* 步骤存在 */
     if(g_cur_file->total >= row + 1)
     {
-        load_steps_to_list(row + 1, 1);
+        load_steps_to_list(row + 1, 1);//加载新的当前步
         node = get_g_cur_step();
         
         if(NULL != node)
@@ -538,7 +548,7 @@ static void update_g_cur_step(void)
   */
 static void update_menu_key_inf(WM_HMEM hWin)
 {
-    update_step_cur_row_menu_key_st(hWin);
+    update_step_cur_row_menu_key_st(hWin);//更新当前行的菜单信息
 }
 /**
   * @brief  步骤管理窗口重绘函数
@@ -549,7 +559,7 @@ static void step_win_pain_frame(void)
 {
 	GUI_RECT r;
 	WM_GetClientRect(&r);
-	GUI_SetBkColor(GUI_LIGHTGRAY);
+	GUI_SetBkColor(GUI_LIGHTGRAY);//设置背景色
 	GUI_ClearRectEx(&r);
 }
 
@@ -624,7 +634,7 @@ static uint32_t init_step_dis_inf(uint8_t buf[5][20], NODE_STEP *node)
             break;
     }
     
-    return i;
+    return i;//返回参数个数
 }
 /**
   * @brief  在列表中的显示一步的信息
@@ -667,12 +677,12 @@ static void dis_all_steps(void)
     
     file_num = g_cur_file->num;
     total = g_cur_file->total;
-    clear_step_listview();
+    clear_step_listview();//清空列表
     
     for(i = 0; i < total; i++)
     {
-        read_one_step(&node, file_num, i + 1);
-        dis_one_step(&node, i);
+        read_one_step(&node, file_num, i + 1);//从存储器中读出一步的数据
+        dis_one_step(&node, i);//显示一步的信息到列表中
     }
 }
 
@@ -702,8 +712,8 @@ static void update_sys_key_inf(WM_HWIN hWin)
   */
 static void update_key_inf(WM_HWIN hWin)
 {
-    update_menu_key_inf(hWin);
-    update_sys_key_inf(hWin);
+    update_menu_key_inf(hWin);//更新菜单键信息
+    update_sys_key_inf(hWin);//更新系统功能按键信息
 }
 /**
   * @brief  步骤管理窗口回调函数
@@ -731,14 +741,15 @@ static void step_win_cb(WM_MESSAGE* pMsg)
             set_user_window_handle(hWin);
 			win = get_user_window_info(hWin);
 			WM_SetFocus(hWin);/* 设置聚焦 */
-			init_step_win_listview(hWin);
             
             init_create_win_all_ele(win);
             update_key_inf(hWin);
             update_g_cur_step();
             update_group_inf(g_cur_win);
+            WM_CreateTimer(hWin, 0, 1, 0);
             break;
 		case WM_TIMER:
+			init_step_win_listview(hWin);
 			break;
 		 case WM_KEY:
             break;

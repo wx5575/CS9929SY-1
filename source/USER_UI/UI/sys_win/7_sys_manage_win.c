@@ -35,7 +35,7 @@ WIDGET_POS_SIZE_T   _7_sys_windows=
 
 #define SYS_BASE_X      200
 #define SYS_BASE_Y      100
-#define SYS_ELE_W       200
+#define SYS_ELE_W       300
 
 /**
   * @brief  7寸屏系统窗口文本控件自动布局结构定义

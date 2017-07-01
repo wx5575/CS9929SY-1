@@ -643,8 +643,9 @@ void RA8875_InitHard(void)
 			1 : 当内存读取时光标位置不会自动加一。
 	*/
 	RA8875_WriteReg(0x40, 0x01);	/* 选择绘图模式 */
-
-
+//	RA8875_WriteReg(0x20, (3 << 2));
+    
+    
 	/* 	REG[41h] Memory Write Control Register1 (MWCR1)
 		写入目的位置，选择图层1
 	*/

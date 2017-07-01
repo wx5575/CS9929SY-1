@@ -1157,13 +1157,8 @@ void com_win_direct_key_right_cb(KEY_MESSAGE *key_msg)
   */
 void init_sw_type_edit_ele_resource_inf(EDIT_ELE_T* ele)
 {
-    static SW_STATUS st_buf[2] = 
-    {
-        SW_OFF,
-        SW_ON,
-    };
     init_edit_ele_resource_inf(ele, sw_pool[SYS_LANGUAGE], ARRAY_SIZE(sw_pool[SYS_LANGUAGE]));
-    init_edit_ele_resource_user_data_inf(ele, st_buf, ARRAY_SIZE(st_buf));
+    init_edit_ele_resource_user_data_inf(ele, (void*)sw_status_buf, ARRAY_SIZE(sw_status_buf));
 }
 
 /**
@@ -1233,7 +1228,7 @@ void reg_edit_ele_data_inf(CS_INDEX index, void *data, uint8_t bytes)
     ele->data.bytes = bytes;
 }
 /**
-  * @brief  注册步骤编辑对象的数据
+  * @brief  注册编辑对象的数据信息
   * @param  [in] win 窗口信息
   * @param  [in] index 编辑对象在编辑对象池中的索引
   * @param  [in] data 数据的地址
@@ -1269,8 +1264,8 @@ void reg_edit_ele_data(MYUSER_WINDOW_T* win, CS_INDEX index, void *data, uint8_t
   */
 void auto_layout_win_edit_ele(MYUSER_WINDOW_T* win)
 {
-    auto_init_win_edit_ele_dis_inf(win);
-    adjust_win_edit_ele_dis_inf(win);//调整某些对象的布局
+    auto_init_win_edit_ele_dis_inf(win);//自动布局窗口中的编辑对象
+    adjust_win_edit_ele_dis_inf(win);//调整某些编辑对象的布局
 }
 /**
   * @brief  自动布局窗口中的文本对象
@@ -1279,8 +1274,8 @@ void auto_layout_win_edit_ele(MYUSER_WINDOW_T* win)
   */
 void auto_layout_win_text_ele(MYUSER_WINDOW_T* win)
 {
-    auto_init_win_text_ele_dis_inf(win);
-    adjust_win_text_ele_dis_inf(win);//调整某些对象的布局
+    auto_init_win_text_ele_dis_inf(win);//自动布局窗口中的普通文本
+    adjust_win_text_ele_dis_inf(win);//调整某些文本对象的布局
 }
 
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

@@ -83,7 +83,7 @@ TEXT_ELE_AUTO_LAYOUT_T  *key_menu_text_ele_auto_layout[]=
 static const STAND_MENU_KEY_INFO_T all_menu_key_info_[]=
 {
 	{{"确定", "Enter"   }, F_KEY_ENTER      },
-	{{"取消", "Cancle"	}, F_KEY_CANCLE		},
+	{{"取消", "Cancel"	}, F_KEY_CANCEL		},
 	{{"下一项", "Next"	}, F_KEY_NEXT		},
 	{{"删除", "Delete"	}, F_KEY_DEL		},
 	{{"退格", "BackSp."	}, F_KEY_BACKSPACE	},
@@ -106,7 +106,7 @@ static const STAND_MENU_KEY_INFO_T all_menu_key_info_[]=
 	{{"F6"	,	"F6"	}, F_KEY_F6			},
 	{{""	,	""		}, F_KEY_NULL		},
 	
-	{{"存贮", "Save"	}, F_KEY_SAVE		},
+	{{"保存", "Save"	}, F_KEY_SAVE		},
 	{{"新建", "New"		}, F_KEY_NEW		},
 	{{"读取", "Read"	}, F_KEY_READ		},
 	{{"编辑", "Edit"	}, F_KEY_EDIT		},
