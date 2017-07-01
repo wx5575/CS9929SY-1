@@ -76,6 +76,18 @@ const uint8_t *arc_mode_pool[2][2]={
     {"Current","Grade"},
 };
 /**
+  * @brief  测试端口
+  */
+const uint8_t *test_port_pool[2][2]={
+    {"接地","浮地"},
+    {"GND","Float"},
+};
+const uint8_t test_port_flag_pool[2]=
+{
+    TEST_PORT_GND,///< 测试端口接地
+    TEST_PORT_FLOAT,///< 测试端口浮地
+};
+/**
   * @brief  测试模式
   */
 const uint8_t * mode_pool[10]=

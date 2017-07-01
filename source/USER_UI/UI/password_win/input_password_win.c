@@ -46,7 +46,7 @@ typedef struct{
 /* Private function prototypes -----------------------------------------------*/
 
 static void input_password_win_cb(WM_MESSAGE* pMsg);
-static FUNCTION_KEY_INFO_T 	sys_key_pool[];
+static CONFIG_FUNCTION_KEY_INFO_T 	sys_key_pool[];
 static void input_pwd_menu_key_ok(WM_HMEM hWin);
 
 //static void init_create_input_pwd_com_ele(MYUSER_WINDOW_T* win);
@@ -130,7 +130,7 @@ static EDIT_ELE_T input_password_ele_pool[]=
 
 //static PWD_T pdw_inf;
 
-static FUNCTION_KEY_INFO_T sys_key_pool[]={
+static CONFIG_FUNCTION_KEY_INFO_T sys_key_pool[]={
 	{KEY_UP		, input_pwd_direct_key_up_cb		 },
 	{KEY_DOWN	, input_pwd_direct_key_down_cb	 },
 	{KEY_LEFT	, input_pwd_direct_key_left_cb	 },

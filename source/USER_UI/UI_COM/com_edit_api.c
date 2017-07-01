@@ -538,6 +538,14 @@ void create_one_edit_ele(EDIT_ELE_T *ele, WM_HWIN hParent)
                     DROPDOWN_AddString(hwidget, ((const char**)ele->resource.table)[i]);
                 }
             }
+            else if(ele->resource.table_2 != NULL)
+            {
+                for(i = 0; i < ele->resource.size; i++)
+                {
+                    DROPDOWN_AddString(hwidget,
+                        ((const char**)ele->resource.table_2[SYS_LANGUAGE])[i]);
+                }
+            }
             
 			DROPDOWN_SetFont(hwidget, ele->dis.edit.font);
 			DROPDOWN_SetAutoScroll(hwidget, 1);
@@ -689,10 +697,22 @@ void update_ele_range_text(EDIT_ELE_T *ele)
         case ELE_EDIT_STR:
             break;
         case ELE_DROPDOWN:
-            for(i = 0; i < ele->resource.size; i++)
+            if(ele->resource.table != NULL)
             {
-                strcat((char*)buf, ((const char**)ele->resource.table)[i]);
-                strcat((char*)buf, " ");
+                for(i = 0; i < ele->resource.size; i++)
+                {
+                    strcat((char*)buf, ((const char**)ele->resource.table)[i]);
+                    strcat((char*)buf, " ");
+                }
+            }
+            else if(ele->resource.table_2 != NULL)
+            {
+                for(i = 0; i < ele->resource.size; i++)
+                {
+                    strcat((char*)buf,
+                        ((const char**)ele->resource.table_2[SYS_LANGUAGE])[i]);
+                    strcat((char*)buf, " ");
+                }
             }
             
             str[CHINESE] = buf;

@@ -24,15 +24,16 @@
 #include "password_win.h"
 
 
-#define _7_INPUT_PWD_WIN_X            230
-#define _7_INPUT_PWD_WIN_Y            150
 #define _7_INPUT_PWD_WIN_WIDTH        230
 #define _7_INPUT_PWD_WIN_HEIGHT       100
 #define _7_INPUT_PWD_EDIT_WIDTH       140
+#define _7_INPUT_PWD_WIN_X            (800 - 110 - _7_INPUT_PWD_WIN_WIDTH) / 2
+#define _7_INPUT_PWD_WIN_Y            150
 
 WIDGET_POS_SIZE_T _7_input_password_windows=
 {
-	_7_INPUT_PWD_WIN_X/*x*/, _7_INPUT_PWD_WIN_Y/*y*/, _7_INPUT_PWD_WIN_WIDTH/*width*/, _7_INPUT_PWD_WIN_HEIGHT/*height*/,
+	_7_INPUT_PWD_WIN_X/*x*/, _7_INPUT_PWD_WIN_Y/*y*/,
+    _7_INPUT_PWD_WIN_WIDTH/*width*/, _7_INPUT_PWD_WIN_HEIGHT/*height*/,
 };
 
 #define FONT    &GUI_Fonthz_24

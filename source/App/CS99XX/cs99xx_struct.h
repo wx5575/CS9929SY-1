@@ -496,6 +496,13 @@ typedef enum{
     SW_ON,
 }SW_STATUS;
 /**
+  * @brief  测试端口 接地 浮地
+  */
+typedef enum{
+    TEST_PORT_GND,///< 测试端口接地
+    TEST_PORT_FLOAT,///< 测试端口浮地
+}TEST_PORT_GND_FLOAT;
+/**
   * @brief  系统参数结构定义
   */
 
@@ -609,6 +616,8 @@ extern const uint8_t *language_pool[2];
 extern const uint8_t *sw_pool[2][2];
 extern const SW_STATUS sw_status_buf[2];
 extern const uint8_t *arc_mode_pool[2][2];
+extern const uint8_t *test_port_pool[2][2];
+extern const uint8_t test_port_flag_pool[2];
 extern const char* status_str[][2];
 extern const char* except_buf[][3];
 

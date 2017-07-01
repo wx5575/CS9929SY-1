@@ -14,14 +14,13 @@
 
 static 	OS_MUTEX    MemMutex; /* 访问memory的互斥互斥访问 */
 
-void create_mutex_protect_flash(void)
+static void create_mutex_protect_flash(void)
 {
 	OS_ERR	  err;
     
     OSMutexCreate(&MemMutex, "MemMutex", &err);
 }
 
-//OSMutexCreate(&MemMutex, "MemMutex", &err);
 /**
   * @brief  串行FLASH缓冲写函数
   * @param  [in] _pBuf 数据缓冲区
@@ -37,6 +36,12 @@ static void writebuffer_spi_flash(uint8_t* _pBuf, uint32_t _uiWriteAddr, uint16_
     flash_cs_set_at45db161(chip);
     
     OSMutexPend(&MemMutex, 0, OS_OPT_PEND_BLOCKING, NULL, &err);
+    
+    if(err != OS_ERR_NONE)
+    {
+        create_mutex_protect_flash();
+        OSMutexPend(&MemMutex, 0, OS_OPT_PEND_BLOCKING, NULL, &err);
+    }
     
     at45_buffer_write(_pBuf, _uiWriteAddr, _usWriteSize);
     
@@ -58,6 +63,12 @@ static void readbuffer_spi_flash(uint8_t * _pBuf, uint32_t _uiReadAddr, uint32_t
     flash_cs_set_at45db161(chip);
     
     OSMutexPend(&MemMutex, 0, OS_OPT_PEND_BLOCKING, NULL, &err);
+    
+    if(err != OS_ERR_NONE)
+    {
+        create_mutex_protect_flash();
+        OSMutexPend(&MemMutex, 0, OS_OPT_PEND_BLOCKING, NULL, &err);
+    }
     
     at45_buffer_read(_pBuf, _uiReadAddr, _uiSize);
     

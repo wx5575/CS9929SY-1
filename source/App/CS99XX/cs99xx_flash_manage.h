@@ -108,6 +108,7 @@ extern void save_step_used_flag_flash(FILE_NUM file_num);
 extern void init_group_step_used_flag_flash(void);
 extern void copy_cur_file_to_new_pos_flash(const FILE_NUM file_num);
 extern uint8_t get_first_step_mode_flash(void);
+extern void create_mutex_protect_flash(void);
 
 #endif //__CS99XX_FLASH_MANAGE_H__
 

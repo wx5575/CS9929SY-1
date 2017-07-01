@@ -75,6 +75,7 @@ static void step_edit_win_direct_key_up_cb(KEY_MESSAGE *key_msg);
 static void step_edit_win_direct_key_right_cb(KEY_MESSAGE *key_msg);
 static void step_edit_win_direct_key_left_cb(KEY_MESSAGE *key_msg);
 static void step_edit_win_sys_key_enter_cb(KEY_MESSAGE *key_msg);
+static void step_edit_win_enter_key_cb(KEY_MESSAGE *key_msg);
 
 static void edit_test_port_direct_key_left_cb(KEY_MESSAGE *key_msg);
 static void edit_test_port_direct_key_right_cb(KEY_MESSAGE *key_msg);
@@ -346,7 +347,7 @@ static MENU_KEY_INFO_T 	edit_step_num_menu_key_init_info[] =
     {"", F_KEY_CLEAR    , KEY_F2 & _KEY_UP, edit_step_num_f2_cb },//f2
     {"", F_KEY_NULL		, KEY_F3 & _KEY_UP, edit_step_num_f3_cb },//f3
     {"", F_KEY_NULL		, KEY_F4 & _KEY_UP, edit_step_num_f4_cb },//f4
-    {"", F_KEY_NULL		, KEY_F5 & _KEY_UP, edit_step_num_f5_cb },//f5
+    {"", F_KEY_ENTER    , KEY_F5 & _KEY_UP, edit_step_num_f5_cb },//f5
     {"", F_KEY_BACK		, KEY_F6 & _KEY_UP, edit_step_num_f6_cb },//f6
 };
 /**
@@ -358,7 +359,7 @@ static MENU_KEY_INFO_T 	edit_mode_menu_key_init_info[] =
     {"", F_KEY_CUSTOM   , KEY_F2 & _KEY_UP, edit_mode_f2_cb },//f2
     {"", F_KEY_CUSTOM   , KEY_F3 & _KEY_UP, edit_mode_f3_cb },//f3
     {"", F_KEY_CUSTOM   , KEY_F4 & _KEY_UP, edit_mode_f4_cb },//f4
-    {"", F_KEY_CUSTOM   , KEY_F5 & _KEY_UP, edit_mode_f5_cb },//f5
+    {"", F_KEY_ENTER    , KEY_F5 & _KEY_UP, edit_mode_f5_cb },//f5
     {"", F_KEY_BACK		, KEY_F6 & _KEY_UP, edit_mode_f6_cb },//f6
 };
 /**
@@ -370,7 +371,7 @@ static MENU_KEY_INFO_T 	edit_range_menu_key_init_info[] =
     {"", F_KEY_CUSTOM   , KEY_F2 & _KEY_UP, edit_range_f2_cb },//f2
     {"", F_KEY_CUSTOM   , KEY_F3 & _KEY_UP, edit_range_f3_cb },//f3
     {"", F_KEY_CUSTOM   , KEY_F4 & _KEY_UP, edit_range_f4_cb },//f4
-    {"", F_KEY_CUSTOM   , KEY_F5 & _KEY_UP, edit_range_f5_cb },//f5
+    {"", F_KEY_ENTER    , KEY_F5 & _KEY_UP, edit_range_f5_cb },//f5
     {"", F_KEY_BACK		, KEY_F6 & _KEY_UP, edit_range_f6_cb },//f6
 };
 /**
@@ -382,13 +383,13 @@ static MENU_KEY_INFO_T 	edit_sw_menu_key_init_info[] =
     {"", F_KEY_OFF  , KEY_F2 & _KEY_UP, edit_sw_f2_cb },//f2
     {"", F_KEY_NULL , KEY_F3 & _KEY_UP, edit_sw_f3_cb },//f3
     {"", F_KEY_NULL , KEY_F4 & _KEY_UP, edit_sw_f4_cb },//f4
-    {"", F_KEY_NULL , KEY_F5 & _KEY_UP, edit_sw_f5_cb },//f5
+    {"", F_KEY_ENTER, KEY_F5 & _KEY_UP, edit_sw_f5_cb },//f5
     {"", F_KEY_BACK , KEY_F6 & _KEY_UP, edit_sw_f6_cb },//f6
 };
 /**
   * @brief  步骤编辑窗口系统功能键初始化信息数组
   */
-static FUNCTION_KEY_INFO_T 	step_edit_win_sys_key_init_pool[]=
+static CONFIG_FUNCTION_KEY_INFO_T 	step_edit_win_sys_key_init_pool[]=
 {
 	{KEY_UP		, step_edit_win_direct_key_up_cb      },
 	{KEY_DOWN	, step_edit_win_direct_key_down_cb 	  },
@@ -396,12 +397,12 @@ static FUNCTION_KEY_INFO_T 	step_edit_win_sys_key_init_pool[]=
 	{KEY_RIGHT	, step_edit_win_direct_key_right_cb   },
 	{CODE_LEFT	, step_edit_win_direct_key_down_cb    },
 	{CODE_RIGH	, step_edit_win_direct_key_up_cb      },
-	{KEY_ENTER	, step_edit_win_sys_key_enter_cb },
+	{KEY_ENTER	, step_edit_win_sys_key_enter_cb      },
 };
 /**
   * @brief  步骤编辑窗口系统功能键初始化信息数组
   */
-static FUNCTION_KEY_INFO_T 	edit_test_port_sys_key_init_pool[]=
+static CONFIG_FUNCTION_KEY_INFO_T 	edit_test_port_sys_key_init_pool[]=
 {
 	{KEY_UP		, step_edit_win_direct_key_up_cb     },
 	{KEY_DOWN	, step_edit_win_direct_key_down_cb   },
@@ -416,7 +417,7 @@ static FUNCTION_KEY_INFO_T 	edit_test_port_sys_key_init_pool[]=
 /**
   * @brief  编辑步骤编号时使用的系统功能键初始化信息数组
   */
-static FUNCTION_KEY_INFO_T 	edit_step_num_sys_key_init_pool[]=
+static CONFIG_FUNCTION_KEY_INFO_T 	edit_step_num_sys_key_init_pool[]=
 {
 	{KEY_UP		, edit_step_num_direct_key_up_cb    },
 	{KEY_DOWN	, edit_step_num_direct_key_down_cb  },
@@ -429,7 +430,7 @@ static FUNCTION_KEY_INFO_T 	edit_step_num_sys_key_init_pool[]=
 /**
   * @brief  编辑步骤编号时使用的系统功能键初始化信息数组
   */
-static FUNCTION_KEY_INFO_T 	edit_mode_sys_key_init_pool[]=
+static CONFIG_FUNCTION_KEY_INFO_T 	edit_mode_sys_key_init_pool[]=
 {
 	{KEY_UP		, edit_mode_direct_key_up_cb    },
 	{KEY_DOWN	, edit_mode_direct_key_down_cb  },
@@ -854,6 +855,7 @@ static void edit_step_num_f4_cb(KEY_MESSAGE *key_msg)
   */
 static void edit_step_num_f5_cb(KEY_MESSAGE *key_msg)
 {
+    step_edit_win_enter_key_cb(key_msg);
 }
 /**
   * @brief  编辑步骤编号使用的功能键F6回调函数
@@ -903,6 +905,7 @@ static void edit_mode_f4_cb(KEY_MESSAGE *key_msg)
   */
 static void edit_mode_f5_cb(KEY_MESSAGE *key_msg)
 {
+    step_edit_win_enter_key_cb(key_msg);
 }
 /**
   * @brief  编辑测试模式使用的功能键F6回调函数
@@ -953,6 +956,7 @@ static void edit_range_f4_cb(KEY_MESSAGE *key_msg)
   */
 static void edit_range_f5_cb(KEY_MESSAGE *key_msg)
 {
+    step_edit_win_enter_key_cb(key_msg);
 }
 /**
   * @brief  编辑电流档位使用的功能键F6回调函数
@@ -1005,6 +1009,24 @@ static void edit_sw_f4_cb(KEY_MESSAGE *key_msg)
   */
 static void edit_sw_f5_cb(KEY_MESSAGE *key_msg)
 {
+    step_edit_win_enter_key_cb(key_msg);
+}
+/**
+  * @brief  步骤参数编辑窗口ENTER键回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void step_edit_win_enter_key_cb(KEY_MESSAGE *key_msg)
+{
+    KEY_CB_FUN fun;
+    CS_ERR err;
+    
+    fun = get_function_key_dispose_fun(KEY_ENTER, &err);
+    
+    if(err == CS_ERR_NONE && fun != NULL)
+    {
+        fun(key_msg);
+    }
 }
 /**
   * @brief  编辑开关变量使用的功能键F6回调函数
@@ -2756,7 +2778,7 @@ static void edit_test_port_direct_key_right_cb(KEY_MESSAGE *key_msg)
         GUI_SendKeyMsg(GUI_KEY_RIGHT, 1);
     }
 }
- 
+
 /**
   * @brief  更新系统按键信息
   * @param  [in] hWin窗口句柄
@@ -2764,7 +2786,7 @@ static void edit_test_port_direct_key_right_cb(KEY_MESSAGE *key_msg)
   */
 static void update_sys_key_inf(WM_HWIN hWin)
 {
-    FUNCTION_KEY_INFO_T *inf;
+    CONFIG_FUNCTION_KEY_INFO_T *inf;
     uint16_t size;
     
     inf = step_edit_win_sys_key_init_pool;

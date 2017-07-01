@@ -127,7 +127,7 @@ static MENU_KEY_INFO_T 	file_no_exist_menu_key_info[] =
 /**
   * @brief  文件不存在的按键菜单
   */
-static FUNCTION_KEY_INFO_T 	file_win_sys_key_pool[]={
+static CONFIG_FUNCTION_KEY_INFO_T 	file_win_sys_key_pool[]={
 	{KEY_UP		, file_win_direct_key_up_cb		},
 	{KEY_DOWN	, file_win_direct_key_down_cb 	},
 	{CODE_LEFT	, file_win_direct_key_down_cb   },

@@ -35,7 +35,7 @@
 /* Private function prototypes -----------------------------------------------*/
 
 static void file_edit_win_cb(WM_MESSAGE * pMsg);
-static FUNCTION_KEY_INFO_T file_edit_sys_key_pool[];
+static CONFIG_FUNCTION_KEY_INFO_T file_edit_sys_key_pool[];
 extern EDIT_ELE_T edit_file_ele_pool[];
 static void file_edit_direct_key_up_cb(KEY_MESSAGE *key_msg);
 static void file_edit_direct_key_down_cb(KEY_MESSAGE *key_msg);
@@ -183,15 +183,15 @@ static MENU_KEY_INFO_T 	fpasst_menu_key_info[] =
 /**
   * @brief  文件编辑窗口系统按键初始化数组
   */
-static FUNCTION_KEY_INFO_T file_edit_sys_key_pool[]=
+static CONFIG_FUNCTION_KEY_INFO_T file_edit_sys_key_pool[]=
 {
-	{KEY_UP		, file_edit_direct_key_up_cb		 },
-	{KEY_DOWN	, file_edit_direct_key_down_cb	 },
-	{KEY_LEFT	, file_edit_direct_key_left_cb	 },
-	{KEY_RIGHT	, file_edit_direct_key_right_cb	 },
+	{KEY_UP		, file_edit_direct_key_up_cb    },
+	{KEY_DOWN	, file_edit_direct_key_down_cb  },
+	{KEY_LEFT	, file_edit_direct_key_left_cb  },
+	{KEY_RIGHT	, file_edit_direct_key_right_cb },
     
-	{CODE_RIGH	, file_edit_direct_key_up_cb      },
-	{CODE_LEFT	, file_edit_direct_key_down_cb	 },
+	{CODE_RIGH	, file_edit_direct_key_up_cb    },
+	{CODE_LEFT	, file_edit_direct_key_down_cb  },
 };
 
 /**
@@ -235,8 +235,7 @@ static EDIT_ELE_T edit_file_ele_pool[]=
         {ELE_DROPDOWN, E_INT_T},/*类型*/
         {0/*dec*/,20/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {
-            0/*heigh*/,0/*low*/,{"WorkMode","WorkMode"}/*notice*/,
-            
+            0/*heigh*/,0/*low*/,{"",""}/*notice*/,
         },/*range*/
         {fwmode_sys_key, fwmode_menu_key, keyboard_fun_num,},/*key_inf*/
     },
@@ -248,7 +247,7 @@ static EDIT_ELE_T edit_file_ele_pool[]=
         {NULL, 0},/* 资源表 */
         {ELE_EDIT_NUM, E_INT_T},/*类型*/
         {1/*dec*/,5/*lon*/,TIM_U_s/*unit*/,},/*format*/
-        {9999/*heigh*/,0/*low*/,{"BeepTime","BeepTime"}/*notice*/},/*range*/
+        {9999/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
         {fbeeptime_sys_key, fbeeptime_menu_key, keyboard_fun_num,},/*key_inf*/
     },
     {
@@ -259,7 +258,7 @@ static EDIT_ELE_T edit_file_ele_pool[]=
         {NULL, 0},/* 资源表 */
         {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
         {1/*dec*/,5/*lon*/,TIM_U_s/*unit*/,},/*format*/
-        {9999/*heigh*/,0/*low*/,{"PassTime","PassTime"}/*notice*/},/*range*/
+        {9999/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
         {fpasstime_sys_key, fpasstime_menu_key, keyboard_fun_num,},/*key_inf*/
     },
     {
@@ -270,7 +269,7 @@ static EDIT_ELE_T edit_file_ele_pool[]=
         {NULL, 0},/* 资源表 */
         {ELE_DROPDOWN, E_INT_T},/*类型*/
         {1/*dec*/,5/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
-        {9999/*heigh*/,0/*low*/,{"PassTime","PassTime"}/*notice*/},/*range*/
+        {9999/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
         {fpasstime_sys_key, edit_arc_menu_key_init, keyboard_fun_num,},/*key_inf*/
     },
 };
@@ -279,29 +278,29 @@ static EDIT_ELE_T edit_file_ele_pool[]=
   */
 static CS_INDEX fsave_ui_ele_table[]=
 {
-    FSAVE_UI_FNAME,
+    FSAVE_UI_FNAME,///<文件名
 };
 /**
   * @brief  文件新建窗口的编辑对象索引数组
   */
 static CS_INDEX fnew_ui_ele_table[]=
 {
-    FSAVE_UI_FNAME,
-    FSAVE_UI_WMODE,
-    FSAVE_UI_BEEPT,
-    FSAVE_UI_PASST,
-    FSAVE_UI_ARC_MODE,
+    FSAVE_UI_FNAME,   ///<文件名
+    FSAVE_UI_WMODE,   ///<工作模式
+    FSAVE_UI_BEEPT,   ///<蜂鸣时间
+    FSAVE_UI_PASST,   ///<PASS保持时间
+    FSAVE_UI_ARC_MODE,///<ARC工作模式
 };
 /**
   * @brief  文件编辑窗口的编辑对象索引数组
   */
 static CS_INDEX fedit_ui_ele_table[]=
 {
-    FSAVE_UI_FNAME,
-    FSAVE_UI_WMODE,
-    FSAVE_UI_BEEPT,
-    FSAVE_UI_PASST,
-    FSAVE_UI_ARC_MODE,
+    FSAVE_UI_FNAME,   ///<文件名
+    FSAVE_UI_WMODE,   ///<工作模式
+    FSAVE_UI_BEEPT,   ///<蜂鸣时间
+    FSAVE_UI_PASST,   ///<PASS保持时间
+    FSAVE_UI_ARC_MODE,///<ARC工作模式
 };
 /**
   * @brief  文件保存窗口的数据结构定义

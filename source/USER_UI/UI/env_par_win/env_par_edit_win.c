@@ -51,7 +51,8 @@ static void env_par_direct_key_up_cb(KEY_MESSAGE *key_msg);
 static void env_par_direct_key_down_cb(KEY_MESSAGE *key_msg);
 static void env_par_direct_key_left_cb(KEY_MESSAGE *key_msg);
 static void env_par_direct_key_right_cb(KEY_MESSAGE *key_msg);
-static void env_win_menu_key_ok(WM_HMEM hWin);
+static void env_par_sys_key_enter_cb(KEY_MESSAGE *key_msg);
+static void env_win_enter_key_cb(KEY_MESSAGE *key_msg);
 static void env_win_edit_sw_menu_key_init(WM_HMEM hWin);
 
 static void edit_language_f1_cb(KEY_MESSAGE *key_msg);
@@ -75,12 +76,22 @@ static void env_win_edit_sw_f4_cb(KEY_MESSAGE *key_msg);
 static void env_win_edit_sw_f5_cb(KEY_MESSAGE *key_msg);
 static void env_win_edit_sw_f6_cb(KEY_MESSAGE *key_msg);
 
+static void env_win_edit_gnd_float_f1_cb(KEY_MESSAGE *key_msg);
+static void env_win_edit_gnd_float_f2_cb(KEY_MESSAGE *key_msg);
+static void env_win_edit_gnd_float_f3_cb(KEY_MESSAGE *key_msg);
+static void env_win_edit_gnd_float_f4_cb(KEY_MESSAGE *key_msg);
+static void env_win_edit_gnd_float_f5_cb(KEY_MESSAGE *key_msg);
+static void env_win_edit_gnd_float_f6_cb(KEY_MESSAGE *key_msg);
+
 static void init_create_env_par_win_com_ele(MYUSER_WINDOW_T* win);
 static void init_create_env_par_win_edit_ele(MYUSER_WINDOW_T* win);
 static void reg_env_language_sys_key(WM_HMEM hWin);
 static void env_win_edit_num_menu_key_init(WM_HMEM hWin);
 static void env_win_edit_language_menu_key_init(WM_HMEM hWin);
+static void env_win_edit_gnd_float_menu_key_init(WM_HMEM hWin);
 static void env_win_re_init_create_win_all_ele(void);
+static void set_env_port_float(WM_HMEM hWin);
+static void set_env_port_gnd(WM_HMEM hWin);
 /* Private variables ---------------------------------------------------------*/
 
 static uint8_t language_table[]=
@@ -115,7 +126,7 @@ static MENU_KEY_INFO_T 	env_par_language_menu_key_inf[] =
     {"", F_KEY_CUSTOM, KEY_F2 & _KEY_UP, edit_language_f2_cb },//f2
     {"", F_KEY_NULL  , KEY_F3 & _KEY_UP, edit_language_f3_cb },//f3
     {"", F_KEY_NULL  , KEY_F4 & _KEY_UP, edit_language_f4_cb },//f4
-    {"", F_KEY_NULL  , KEY_F5 & _KEY_UP, edit_language_f5_cb },//f5
+    {"", F_KEY_ENTER , KEY_F5 & _KEY_UP, edit_language_f5_cb },//f5
     {"", F_KEY_BACK  , KEY_F6 & _KEY_UP, edit_language_f6_cb },//f6
 };
 
@@ -128,7 +139,7 @@ static MENU_KEY_INFO_T 	env_win_edit_num_menu_key_init_info[] =
     {"", F_KEY_CLEAR    , KEY_F2 & _KEY_UP, env_win_edit_num_f2_cb },//f2
     {"", F_KEY_NULL		, KEY_F3 & _KEY_UP, env_win_edit_num_f3_cb },//f3
     {"", F_KEY_NULL		, KEY_F4 & _KEY_UP, env_win_edit_num_f4_cb },//f4
-    {"", F_KEY_NULL		, KEY_F5 & _KEY_UP, env_win_edit_num_f5_cb },//f5
+    {"", F_KEY_ENTER    , KEY_F5 & _KEY_UP, env_win_edit_num_f5_cb },//f5
     {"", F_KEY_BACK		, KEY_F6 & _KEY_UP, env_win_edit_num_f6_cb },//f6
 };
 /**
@@ -140,13 +151,25 @@ static MENU_KEY_INFO_T 	env_win_edit_sw_menu_key_init_info[] =
     {"", F_KEY_OFF  , KEY_F2 & _KEY_UP, env_win_edit_sw_f2_cb },//f2
     {"", F_KEY_NULL , KEY_F3 & _KEY_UP, env_win_edit_sw_f3_cb },//f3
     {"", F_KEY_NULL , KEY_F4 & _KEY_UP, env_win_edit_sw_f4_cb },//f4
-    {"", F_KEY_NULL , KEY_F5 & _KEY_UP, env_win_edit_sw_f5_cb },//f5
+    {"", F_KEY_ENTER, KEY_F5 & _KEY_UP, env_win_edit_sw_f5_cb },//f5
     {"", F_KEY_BACK , KEY_F6 & _KEY_UP, env_win_edit_sw_f6_cb },//f6
+};
+/**
+  * @brief  编辑开关变量时使用的菜单键初始化信息数组
+  */
+static MENU_KEY_INFO_T 	env_win_edit_gnd_float_menu_key_init_info[] =
+{
+    {"", F_KEY_GND  , KEY_F1 & _KEY_UP, env_win_edit_gnd_float_f1_cb },//f1
+    {"", F_KEY_FLOAT, KEY_F2 & _KEY_UP, env_win_edit_gnd_float_f2_cb },//f2
+    {"", F_KEY_NULL , KEY_F3 & _KEY_UP, env_win_edit_gnd_float_f3_cb },//f3
+    {"", F_KEY_NULL , KEY_F4 & _KEY_UP, env_win_edit_gnd_float_f4_cb },//f4
+    {"", F_KEY_ENTER, KEY_F5 & _KEY_UP, env_win_edit_gnd_float_f5_cb },//f5
+    {"", F_KEY_BACK , KEY_F6 & _KEY_UP, env_win_edit_gnd_float_f6_cb },//f6
 };
 /**
   * @brief  环境变量窗口系统按键初始化数组
   */
-static FUNCTION_KEY_INFO_T env_par_sys_key_pool[]={
+static CONFIG_FUNCTION_KEY_INFO_T env_par_sys_key_pool[]={
 	{KEY_UP		, env_par_direct_key_up_cb		 },
 	{KEY_DOWN	, env_par_direct_key_down_cb	 },
 	{KEY_LEFT	, env_par_direct_key_left_cb	 },
@@ -154,6 +177,7 @@ static FUNCTION_KEY_INFO_T env_par_sys_key_pool[]={
     
 	{CODE_LEFT	, env_par_direct_key_down_cb     },
 	{CODE_RIGH	, env_par_direct_key_up_cb	     },
+	{KEY_ENTER	, env_par_sys_key_enter_cb	     },
 };
 
 /**
@@ -166,7 +190,10 @@ static EDIT_ELE_T env_par_ele_pool[]=
         ENV_PAR_LANGUAGE,/* 通过枚举索引 */
         {0},/* 默认值 */
         {NULL, 1/*数据字节数*/},/* 数据指针 */
-        {language_pool, ARRAY_SIZE(language_pool)},/* 资源表 */
+        {
+            language_pool, ARRAY_SIZE(language_pool),
+            language_table,ARRAY_SIZE(language_table),
+        },/* 资源表 */
         {ELE_DROPDOWN, E_INT_T},/*类型*/
         {0/*dec*/,20/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {0/*heigh*/,0/*low*/,{"Language","Language"}/*notice*/},/*range*/
@@ -188,7 +215,11 @@ static EDIT_ELE_T env_par_ele_pool[]=
         ENV_PAR_RES_SAVE,/* 通过枚举索引 */
         {0},/* 默认值 */
         {NULL, 4/*数据字节数*/},/* 数据指针 */
-        {NULL, 0,NULL, 0},/* 资源表 */
+        {
+            NULL, ARRAY_SIZE(sw_pool[CHINESE]),
+            (void*)sw_status_buf, ARRAY_SIZE(sw_status_buf),
+            {sw_pool[CHINESE], sw_pool[ENGLISH]}
+        },/* 资源表 */
         {ELE_DROPDOWN, E_INT_T},/*类型*/
         {0/*dec*/,5/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
@@ -199,7 +230,11 @@ static EDIT_ELE_T env_par_ele_pool[]=
         ENV_PAR_OVER_COVER,/* 通过枚举索引 */
         {0},/* 默认值 */
         {NULL, 4/*数据字节数*/},/* 数据指针 */
-        {NULL, 0,NULL, 0},/* 资源表 */
+        {
+            NULL, ARRAY_SIZE(sw_pool[CHINESE]),
+            (void*)sw_status_buf, ARRAY_SIZE(sw_status_buf),
+            {sw_pool[CHINESE], sw_pool[ENGLISH]}
+        },/* 资源表 */
         {ELE_DROPDOWN, E_INT_T},/*类型*/
         {0/*dec*/,5/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
@@ -210,7 +245,11 @@ static EDIT_ELE_T env_par_ele_pool[]=
         ENV_PAR_LIST_DISPLAY,/* 通过枚举索引 */
         {0},/* 默认值 */
         {NULL, 4/*数据字节数*/},/* 数据指针 */
-        {NULL, 0,NULL, 0},/* 资源表 */
+        {
+            NULL, ARRAY_SIZE(sw_pool[CHINESE]),
+            (void*)sw_status_buf, ARRAY_SIZE(sw_status_buf),
+            {sw_pool[CHINESE], sw_pool[ENGLISH]}
+        },/* 资源表 */
         {ELE_DROPDOWN, E_INT_T},/*类型*/
         {0/*dec*/,5/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
@@ -221,7 +260,11 @@ static EDIT_ELE_T env_par_ele_pool[]=
         ENV_PAR_SELF_CHECK,/* 通过枚举索引 */
         {0},/* 默认值 */
         {NULL, 4/*数据字节数*/},/* 数据指针 */
-        {NULL, 0,NULL, 0},/* 资源表 */
+        {
+            NULL, ARRAY_SIZE(sw_pool[CHINESE]),
+            (void*)sw_status_buf, ARRAY_SIZE(sw_status_buf),
+            {sw_pool[CHINESE], sw_pool[ENGLISH]}
+        },/* 资源表 */
         {ELE_DROPDOWN, E_INT_T},/*类型*/
         {0/*dec*/,5/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
@@ -243,18 +286,26 @@ static EDIT_ELE_T env_par_ele_pool[]=
         ENV_PAR_TEST_PORT,/* 通过枚举索引 */
         {0},/* 默认值 */
         {NULL, 4/*数据字节数*/},/* 数据指针 */
-        {NULL, 0,NULL, 0},/* 资源表 */
+        {
+            NULL, ARRAY_SIZE(test_port_pool[CHINESE]),
+            (void*)test_port_flag_pool, ARRAY_SIZE(test_port_flag_pool),
+            {test_port_pool[CHINESE], test_port_pool[ENGLISH]}
+        },/* 资源表 */
         {ELE_DROPDOWN, E_INT_T},/*类型*/
         {0/*dec*/,5/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
-        {NULL, env_win_edit_sw_menu_key_init, keyboard_fun_num,},/*key_inf*/
+        {NULL, env_win_edit_gnd_float_menu_key_init, keyboard_fun_num,},/*key_inf*/
     },
     {
         {"蜂鸣开关:","Buzzer SW.:"}, /* 名称 */
         ENV_PAR_BUZZER_SW,/* 通过枚举索引 */
         {0},/* 默认值 */
         {NULL, 4/*数据字节数*/},/* 数据指针 */
-        {NULL, 0,NULL, 0},/* 资源表 */
+        {
+            NULL, ARRAY_SIZE(sw_pool[CHINESE]),
+            (void*)sw_status_buf, ARRAY_SIZE(sw_status_buf),
+            {sw_pool[CHINESE], sw_pool[ENGLISH]}
+        },/* 资源表 */
         {ELE_DROPDOWN, E_INT_T},/*类型*/
         {0/*dec*/,5/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
@@ -302,7 +353,7 @@ static EDIT_ELE_AUTO_LAYOUT_T *env_par_win_edit_ele_auto_layout_pool[SCREEN_NUM]
 /**
   * @brief  环境变量窗口结构定义
   */
-static MYUSER_WINDOW_T env_par_window=
+static MYUSER_WINDOW_T env_par_window =
 {
     {"环境参数","Environmental Parameters"},
     env_par_edit_win_cb,NULL,
@@ -370,6 +421,18 @@ static void env_win_edit_language_menu_key_init(WM_HMEM hWin)
     }
 }
 /**
+  * @brief  编辑电流档位时使用的菜单键初始化
+  * @param  [in] hWin 窗口句柄
+  * @retval 无
+  */
+static void env_win_edit_gnd_float_menu_key_init(WM_HMEM hWin)
+{
+    MENU_KEY_INFO_T * info = env_win_edit_gnd_float_menu_key_init_info;
+    uint32_t size = ARRAY_SIZE(env_win_edit_gnd_float_menu_key_init_info);
+    
+    init_menu_key_info(info, size, hWin);
+}
+/**
   * @brief  设置系统语言为中文
   * @param  [in] hWin 窗口句柄
   * @retval 无
@@ -406,7 +469,26 @@ static void set_env_language_english(WM_HMEM hWin)
     init_dialog(g_cur_win);//为了更新对话框名字
     env_win_re_init_create_win_all_ele();
 }
-
+static void set_env_port_gnd(WM_HMEM hWin)
+{
+    uint8_t size = g_cur_edit_ele->data.bytes;
+    uint32_t value = TEST_PORT_GND;
+    WM_HMEM handle = g_cur_edit_ele->dis.edit.handle;
+    
+    DROPDOWN_SetSel(handle, value);
+    DROPDOWN_SetUserData(handle, &value, size);
+    upload_par_to_ram(g_cur_edit_ele);//数据更新到内存
+}
+static void set_env_port_float(WM_HMEM hWin)
+{
+    uint8_t size = g_cur_edit_ele->data.bytes;
+    uint32_t value = TEST_PORT_FLOAT;
+    WM_HMEM handle = g_cur_edit_ele->dis.edit.handle;
+    
+    DROPDOWN_SetSel(handle, value);
+    DROPDOWN_SetUserData(handle, &value, size);
+    upload_par_to_ram(g_cur_edit_ele);//数据更新到内存
+}
 /**
   * @brief  重新初始化并创建窗口中的对象
   * @param  [in] step 要加载的步骤编号
@@ -418,6 +500,17 @@ static void env_win_re_init_create_win_all_ele(void)
     init_create_win_all_ele(g_cur_win);
     select_edit_ele(g_cur_edit_ele);//重新选重当前编辑控件
     update_default_range_name();//更新默认的范围显示
+}
+
+/**
+  * @brief  按下确认键后调用这个函数进行保存数据并返回上级窗口
+  * @param  [in] hWin 窗口句柄
+  * @retval 无
+  */
+static void env_win_enter_key_cb(KEY_MESSAGE *key_msg)
+{
+    upload_par_to_ram(g_cur_edit_ele);//数据更新到内存
+    save_sys_par();//保存系统参数
 }
 /**
   * @brief  编辑语言时功能键F1的回调函数
@@ -460,6 +553,8 @@ static void edit_language_f4_cb(KEY_MESSAGE *key_msg)
   */
 static void edit_language_f5_cb(KEY_MESSAGE *key_msg)
 {
+    env_win_enter_key_cb(key_msg);
+    env_par_direct_key_down_cb(key_msg);
 }
 /**
   * @brief  编辑语言时功能键F6的回调函数
@@ -468,7 +563,8 @@ static void edit_language_f5_cb(KEY_MESSAGE *key_msg)
   */
 static void edit_language_f6_cb(KEY_MESSAGE *key_msg)
 {
-    env_win_menu_key_ok(key_msg->user_data);
+    env_win_enter_key_cb(key_msg);
+    back_win(key_msg->user_data);//关闭对话框
 }
 
 static void env_win_edit_num_f1_cb(KEY_MESSAGE *key_msg)
@@ -487,10 +583,13 @@ static void env_win_edit_num_f4_cb(KEY_MESSAGE *key_msg)
 }
 static void env_win_edit_num_f5_cb(KEY_MESSAGE *key_msg)
 {
+    env_win_enter_key_cb(key_msg);
+    env_par_direct_key_down_cb(key_msg);
 }
 static void env_win_edit_num_f6_cb(KEY_MESSAGE *key_msg)
 {
-    env_win_menu_key_ok(key_msg->user_data);
+    env_win_enter_key_cb(key_msg);
+    back_win(key_msg->user_data);//关闭对话框
 }
 
 static void env_win_edit_sw_f1_cb(KEY_MESSAGE *key_msg)
@@ -509,12 +608,39 @@ static void env_win_edit_sw_f4_cb(KEY_MESSAGE *key_msg)
 }
 static void env_win_edit_sw_f5_cb(KEY_MESSAGE *key_msg)
 {
+    env_win_enter_key_cb(key_msg);
+    env_par_direct_key_down_cb(key_msg);
 }
 static void env_win_edit_sw_f6_cb(KEY_MESSAGE *key_msg)
 {
-    env_win_menu_key_ok(key_msg->user_data);
+    env_win_enter_key_cb(key_msg);
+    back_win(key_msg->user_data);//关闭对话框
 }
 
+static void env_win_edit_gnd_float_f1_cb(KEY_MESSAGE *key_msg)
+{
+    set_env_port_gnd(key_msg->user_data);
+}
+static void env_win_edit_gnd_float_f2_cb(KEY_MESSAGE *key_msg)
+{
+    set_env_port_float(key_msg->user_data);
+}
+static void env_win_edit_gnd_float_f3_cb(KEY_MESSAGE *key_msg)
+{
+}
+static void env_win_edit_gnd_float_f4_cb(KEY_MESSAGE *key_msg)
+{
+}
+static void env_win_edit_gnd_float_f5_cb(KEY_MESSAGE *key_msg)
+{
+    env_win_enter_key_cb(key_msg);
+    env_par_direct_key_down_cb(key_msg);
+}
+static void env_win_edit_gnd_float_f6_cb(KEY_MESSAGE *key_msg)
+{
+    env_win_enter_key_cb(key_msg);
+    back_win(key_msg->user_data);//关闭对话框
+}
 /**
   * @brief  编辑开关变量使用的菜单键初始化
   * @param  [in] hWin 窗口句柄
@@ -554,7 +680,6 @@ static void env_par_direct_key_down_cb(KEY_MESSAGE *key_msg)
 static void env_par_direct_key_left_cb(KEY_MESSAGE *key_msg)
 {
     com_win_direct_key_left_cb(key_msg);
-//	GUI_SendKeyMsg(GUI_KEY_LEFT, 1);
 }
 /**
   * @brief  向右键功能键的回调函数
@@ -564,7 +689,16 @@ static void env_par_direct_key_left_cb(KEY_MESSAGE *key_msg)
 static void env_par_direct_key_right_cb(KEY_MESSAGE *key_msg)
 {
     com_win_direct_key_right_cb(key_msg);
-//	GUI_SendKeyMsg(GUI_KEY_RIGHT, 1);
+}
+/**
+  * @brief  向右键功能键的回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void env_par_sys_key_enter_cb(KEY_MESSAGE *key_msg)
+{
+    env_win_enter_key_cb(key_msg);
+    env_par_direct_key_down_cb(key_msg);
 }
 
 /**
@@ -577,135 +711,41 @@ static void reg_env_language_sys_key(WM_HMEM hWin)
     register_system_key_fun(env_par_sys_key_pool, ARRAY_SIZE(env_par_sys_key_pool), hWin);
 }
 /**
-  * @brief  注册编辑语言时菜单键
-  * @param  [in] hWin 窗口句柄
-  * @retval 无
-  */
-//static void env_language_menu_key(WM_HMEM hWin)
-//{
-//    MENU_KEY_INFO_T * info = env_par_language_menu_key_inf;
-//    uint32_t size = ARRAY_SIZE(env_par_language_menu_key_inf);
-//    int32_t data = g_cur_edit_ele->dis.edit.handle;
-//    
-//	init_menu_key_info(info, size, data);
-//}
-/**
-  * @brief  按下确认键后调用这个函数进行保存数据并返回上级窗口
-  * @param  [in] hWin 窗口句柄
-  * @retval 无
-  */
-static void env_win_menu_key_ok(WM_HMEM hWin)
-{
-    upload_par_to_ram(g_cur_edit_ele);//数据更新到内存
-    save_sys_par();//保存系统参数
-    back_win(hWin);//关闭对话框
-}
-
-/**
   * @brief  设置环境变量参数的编辑对象数据
   * @param  [in] par 系统参数
   * @retval 无
   */
 static void set_env_par_window_ele_data(SYS_PAR *par)
 {
-    EDIT_ELE_T* ele = NULL;
-    CS_ERR err;
-    EDIT_ELE_T *pool;
-    uint32_t size;
-    
-    pool = g_cur_win->edit.pool;
-    size = g_cur_win->edit.pool_size;
-    
-    //系统语言
+    //语言选择
     reg_edit_ele_data(g_cur_win, ENV_PAR_LANGUAGE, &par->language,  sizeof(par->language));
-    ele = get_edit_ele_inf(pool, size, ENV_PAR_LANGUAGE, &err);
-    
-    if(err == CS_ERR_NONE)
-    {
-        ele->resource.user_data = language_table;
-        ele->resource.user_data_size = ARRAY_SIZE(language_table);
-    }
     
     /* 余量提示 */
     reg_edit_ele_data_inf(ENV_PAR_REMAIN, &par->allowance,  sizeof(par->allowance));
-    ele = get_edit_ele_inf(pool, size, ENV_PAR_REMAIN, &err);
-    
-    if(err == CS_ERR_NONE)
-    {
-        init_sw_type_edit_ele_resource_inf(ele);
-    }
     
     /* 结果保存 */
     reg_edit_ele_data_inf(ENV_PAR_RES_SAVE, &par->is_save_res,  sizeof(par->is_save_res));
-    ele = get_edit_ele_inf(pool, size, ENV_PAR_RES_SAVE, &err);
-    
-    if(err == CS_ERR_NONE)
-    {
-        init_sw_type_edit_ele_resource_inf(ele);
-    }
     
     /* 溢出覆盖 */
     reg_edit_ele_data_inf(ENV_PAR_OVER_COVER, &par->is_overflow_cover,  sizeof(par->is_overflow_cover));
-    ele = get_edit_ele_inf(pool, size, ENV_PAR_OVER_COVER, &err);
-    
-    if(err == CS_ERR_NONE)
-    {
-        init_sw_type_edit_ele_resource_inf(ele);
-    }
     
     /* 列表显示 */
     reg_edit_ele_data_inf(ENV_PAR_LIST_DISPLAY, &par->is_table_dis,  sizeof(par->is_table_dis));
-    ele = get_edit_ele_inf(pool, size, ENV_PAR_LIST_DISPLAY, &err);
-    
-    if(err == CS_ERR_NONE)
-    {
-        init_sw_type_edit_ele_resource_inf(ele);
-    }
     
     /* 自检允许 */
     reg_edit_ele_data_inf(ENV_PAR_SELF_CHECK, &par->is_self_check,  sizeof(par->is_self_check));
-    ele = get_edit_ele_inf(pool, size, ENV_PAR_SELF_CHECK, &err);
-    
-    if(err == CS_ERR_NONE)
-    {
-        init_sw_type_edit_ele_resource_inf(ele);
-    }
     
     /* 输出延时 */
     reg_edit_ele_data_inf(ENV_PAR_OUT_DELAY, &par->output_delay,  sizeof(par->output_delay));
-    ele = get_edit_ele_inf(pool, size, ENV_PAR_OUT_DELAY, &err);
-    
-    if(err == CS_ERR_NONE)
-    {
-        init_sw_type_edit_ele_resource_inf(ele);
-    }
     
     /* 测试端口 */
     reg_edit_ele_data_inf(ENV_PAR_TEST_PORT, &par->test_method,  sizeof(par->test_method));
-    ele = get_edit_ele_inf(pool, size, ENV_PAR_TEST_PORT, &err);
-    
-    if(err == CS_ERR_NONE)
-    {
-        init_sw_type_edit_ele_resource_inf(ele);
-    }
     
     /* 蜂鸣开关 */
     reg_edit_ele_data_inf(ENV_PAR_BUZZER_SW, &par->buzzer_sw,  sizeof(par->buzzer_sw));
-    ele = get_edit_ele_inf(pool, size, ENV_PAR_BUZZER_SW, &err);
-    
-    if(err == CS_ERR_NONE)
-    {
-        init_sw_type_edit_ele_resource_inf(ele);
-    }
     
     /* 编号规则 */
     reg_edit_ele_data_inf(ENV_PAR_NO_RULE, &par->num_rule,  sizeof(par->num_rule));
-    ele = get_edit_ele_inf(pool, size, ENV_PAR_NO_RULE, &err);
-    
-    if(err == CS_ERR_NONE)
-    {
-        init_sw_type_edit_ele_resource_inf(ele);
-    }
 }
 
 /**

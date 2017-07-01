@@ -288,6 +288,7 @@ struct EDIT_ELE_T_{
         uint8_t size;///< 资源表的条数
         void *user_data;///<用户数据
         uint8_t user_data_size;///<用户数据个数
+        void *table_2[LANGUAGE_NUM];///< 可包含不同语言的资源
     }resource;
     
     /* 类型 */

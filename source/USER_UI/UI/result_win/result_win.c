@@ -103,7 +103,7 @@ static MENU_KEY_INFO_T 	result_no_exist_menu_key_info[] =
     {"", F_KEY_NULL     , KEY_F5 & _KEY_UP, result_no_exist_f5_cb },//f5
     {"", F_KEY_BACK		, KEY_F6 & _KEY_UP, result_no_exist_f6_cb },//f6
 };
-static FUNCTION_KEY_INFO_T 	sys_key_pool[]={
+static CONFIG_FUNCTION_KEY_INFO_T 	sys_key_pool[]={
 	{KEY_UP		, direct_key_up_cb		},
 	{KEY_DOWN	, direct_key_down_cb 	},
 	{CODE_LEFT	, direct_key_down_cb	 },

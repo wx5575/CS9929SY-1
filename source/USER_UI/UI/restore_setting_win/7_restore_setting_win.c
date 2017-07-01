@@ -24,12 +24,15 @@
 
 #define RES_SET_WIN_W   350
 #define RES_SET_WIN_H   200
+#define RES_SET_WIN_X   (800 - 110 - RES_SET_WIN_W) / 2
+#define RES_SET_WIN_Y   100
 /**
   * @brief  7寸屏恢复出厂设置窗口的位置尺寸信息
   */
 WIDGET_POS_SIZE_T _7_restore_setting_windows=
 {
-	80/*x*/, 50/*y*/, RES_SET_WIN_W/*width*/, RES_SET_WIN_H/*height*/,
+	RES_SET_WIN_X/*x*/, RES_SET_WIN_Y/*y*/,
+    RES_SET_WIN_W/*width*/, RES_SET_WIN_H/*height*/,
 };
 
 #define FONT    &GUI_Fonthz_20

@@ -111,19 +111,19 @@ typedef struct
 	int en;///<使能按键
 }KEY_DISPOSE_FUN;
 
-/** 功能按键结构 */
+/** 配置系统功能按键结构 */
 typedef struct{
 	uint32_t key_value;///<键值
 	KEY_CB_FUN key_up_dispose_fun;///<处理函数
     KEY_MESSAGE msg;///<按键消息
 	MENU_KEY_ST_ENUM en;///<按键使能
-}FUNCTION_KEY_INFO_T;
+}CONFIG_FUNCTION_KEY_INFO_T;
 
 /** 菜单键的配置信息 */
 typedef struct{
 	uint8_t *name;///<按键名称
 	CS_INDEX index;///<标准菜单键盘索引
-    FUNCTION_KEY_INFO_T fun_key;///<功能键信息
+    CONFIG_FUNCTION_KEY_INFO_T fun_key;///<功能键信息
 }MENU_KEY_INFO_T;
 
 /** 
@@ -181,6 +181,7 @@ extern void init_funcation_key_dispose_fun(KEY_FUNCATION *info);
 extern void register_key_dispose_fun(uint32_t key, KEY_DISPOSE_FUN *fun);
 extern void enable_function_key(uint32_t key, uint8_t st);
 extern uint8_t get_function_key_st(uint32_t key, CS_ERR *err);
+extern KEY_CB_FUN get_function_key_dispose_fun(uint32_t key, CS_ERR *err);
 extern void disable_system_fun_key_fun(void);
 extern void recover_key_funcation_inf(void);
 extern void backup_key_funcation_inf(void);

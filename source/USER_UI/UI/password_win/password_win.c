@@ -49,31 +49,47 @@ typedef struct{
 /* Private function prototypes -----------------------------------------------*/
 
 static void password_win_cb(WM_MESSAGE* pMsg);
-static FUNCTION_KEY_INFO_T 	sys_key_pool[];
-static void menu_key_ok(int hWin);
+static CONFIG_FUNCTION_KEY_INFO_T 	sys_key_pool[];
+static void pwd_win_menu_key_ok(int hWin);
 
 static void init_create_pwd_com_ele(MYUSER_WINDOW_T* win);
 static void init_create_pwd_text_ele(MYUSER_WINDOW_T* win);
 static void init_create_pwd_edit_ele(MYUSER_WINDOW_T* win);
 
-static void old_new_pwd_win_f1_cb(KEY_MESSAGE *key_msg);
-static void old_new_pwd_win_f2_cb(KEY_MESSAGE *key_msg);
-static void old_new_pwd_win_f3_cb(KEY_MESSAGE *key_msg);
-static void old_new_pwd_win_f4_cb(KEY_MESSAGE *key_msg);
-static void old_new_pwd_win_f5_cb(KEY_MESSAGE *key_msg);
-static void old_new_pwd_win_f6_cb(KEY_MESSAGE *key_msg);
+static void old_pwd_win_f1_cb(KEY_MESSAGE *key_msg);
+static void old_pwd_win_f2_cb(KEY_MESSAGE *key_msg);
+static void old_pwd_win_f3_cb(KEY_MESSAGE *key_msg);
+static void old_pwd_win_f4_cb(KEY_MESSAGE *key_msg);
+static void old_pwd_win_f5_cb(KEY_MESSAGE *key_msg);
+static void old_pwd_win_f6_cb(KEY_MESSAGE *key_msg);
 
+static void new_pwd_win_f1_cb(KEY_MESSAGE *key_msg);
+static void new_pwd_win_f2_cb(KEY_MESSAGE *key_msg);
+static void new_pwd_win_f3_cb(KEY_MESSAGE *key_msg);
+static void new_pwd_win_f4_cb(KEY_MESSAGE *key_msg);
+static void new_pwd_win_f5_cb(KEY_MESSAGE *key_msg);
+static void new_pwd_win_f6_cb(KEY_MESSAGE *key_msg);
+
+static void confirm_pwd_win_f1_cb(KEY_MESSAGE *key_msg);
+static void confirm_pwd_win_f2_cb(KEY_MESSAGE *key_msg);
+static void confirm_pwd_win_f3_cb(KEY_MESSAGE *key_msg);
+static void confirm_pwd_win_f4_cb(KEY_MESSAGE *key_msg);
 static void confirm_pwd_win_f5_cb(KEY_MESSAGE *key_msg);
+static void confirm_pwd_win_f6_cb(KEY_MESSAGE *key_msg);
+
+//static void confirm_pwd_win_f5_cb(KEY_MESSAGE *key_msg);
 
 static void pwd_sys_key(WM_HMEM data);
 
-static void pwd_menu_key(WM_HMEM hWin);
-static void c_pwd_menu_key(WM_HMEM hWin);
+static void new_pwd_menu_key(WM_HMEM hWin);
+static void old_pwd_menu_key(WM_HMEM hWin);
+static void confirm_pwd_menu_key(WM_HMEM hWin);
 
-static void direct_key_down_cb(KEY_MESSAGE *key_msg);
-static void direct_key_up_cb(KEY_MESSAGE *key_msg);
-static void direct_key_left_cb(KEY_MESSAGE *key_msg);
-static void direct_key_right_cb(KEY_MESSAGE *key_msg);
+static void pwd_win_direct_key_down_cb(KEY_MESSAGE *key_msg);
+static void pwd_win_direct_key_up_cb(KEY_MESSAGE *key_msg);
+static void pwd_win_direct_key_left_cb(KEY_MESSAGE *key_msg);
+static void pwd_win_direct_key_right_cb(KEY_MESSAGE *key_msg);
+static void pwd_win_enter_key_up_cb(KEY_MESSAGE *key_msg);
 
 /* Private variables ---------------------------------------------------------*/
 /**
@@ -116,22 +132,36 @@ static EDIT_ELE_AUTO_LAYOUT_T      *pwd_edit_ele_auto_layout[]=
 /**
   * @brief  原始密码 新设密码使用的菜单键信息初始化数组
   */
-static MENU_KEY_INFO_T 	o_n_pwd_menu_key_info[] =
+static MENU_KEY_INFO_T 	old_pwd_menu_key_info[] =
 {
-    {"", F_KEY_DEL      , KEY_F1 & _KEY_UP, old_new_pwd_win_f1_cb },//f1
-    {"", F_KEY_CLEAR    , KEY_F2 & _KEY_UP, old_new_pwd_win_f2_cb },//f2
-    {"", F_KEY_NULL     , KEY_F3 & _KEY_UP, old_new_pwd_win_f3_cb },//f3
-    {"", F_KEY_NULL     , KEY_F4 & _KEY_UP, old_new_pwd_win_f4_cb },//f4
-    {"", F_KEY_ENTER       , KEY_F5 & _KEY_UP, old_new_pwd_win_f5_cb ,MENU_KEY_DIS},//f5
-    {"", F_KEY_BACK     , KEY_F6 & _KEY_UP, old_new_pwd_win_f6_cb },//f6
+    {"", F_KEY_DEL      , KEY_F1 & _KEY_UP, old_pwd_win_f1_cb },//f1
+    {"", F_KEY_CLEAR    , KEY_F2 & _KEY_UP, old_pwd_win_f2_cb },//f2
+    {"", F_KEY_NULL     , KEY_F3 & _KEY_UP, old_pwd_win_f3_cb },//f3
+    {"", F_KEY_NULL     , KEY_F4 & _KEY_UP, old_pwd_win_f4_cb },//f4
+    {"", F_KEY_ENTER    , KEY_F5 & _KEY_UP, old_pwd_win_f5_cb },//f5
+    {"", F_KEY_BACK     , KEY_F6 & _KEY_UP, old_pwd_win_f6_cb },//f6
+};
+/**
+  * @brief  原始密码 新设密码使用的菜单键信息初始化数组
+  */
+static MENU_KEY_INFO_T 	new_pwd_menu_key_info[] =
+{
+    {"", F_KEY_DEL      , KEY_F1 & _KEY_UP, new_pwd_win_f1_cb },//f1
+    {"", F_KEY_CLEAR    , KEY_F2 & _KEY_UP, new_pwd_win_f2_cb },//f2
+    {"", F_KEY_NULL     , KEY_F3 & _KEY_UP, new_pwd_win_f3_cb },//f3
+    {"", F_KEY_NULL     , KEY_F4 & _KEY_UP, new_pwd_win_f4_cb },//f4
+    {"", F_KEY_ENTER    , KEY_F5 & _KEY_UP, new_pwd_win_f5_cb },//f5
+    {"", F_KEY_BACK     , KEY_F6 & _KEY_UP, new_pwd_win_f6_cb },//f6
 };
 
-/**
-  * @brief  确认密码 新设密码使用的菜单键信息初始化数组
-  */
-static MENU_KEY_INFO_T 	c_pwd_menu_key_info[] =
+static MENU_KEY_INFO_T 	confirm_pwd_menu_key_info[] =
 {
-    {"", F_KEY_ENTER       , KEY_F5 & _KEY_UP, confirm_pwd_win_f5_cb },//f5
+    {"", F_KEY_DEL      , KEY_F1 & _KEY_UP, confirm_pwd_win_f1_cb },//f1
+    {"", F_KEY_CLEAR    , KEY_F2 & _KEY_UP, confirm_pwd_win_f2_cb },//f2
+    {"", F_KEY_NULL     , KEY_F3 & _KEY_UP, confirm_pwd_win_f3_cb },//f3
+    {"", F_KEY_NULL     , KEY_F4 & _KEY_UP, confirm_pwd_win_f4_cb },//f4
+    {"", F_KEY_ENTER    , KEY_F5 & _KEY_UP, confirm_pwd_win_f5_cb },//f5
+    {"", F_KEY_BACK     , KEY_F6 & _KEY_UP, confirm_pwd_win_f6_cb },//f6
 };
 
 /**
@@ -148,7 +178,7 @@ static EDIT_ELE_T password_ele_pool[]=
         {ELE_EDIT_STR, E_STRING_T},/*类型*/
         {0/*decs*/,20/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {0/*heigh*/,0/*low*/,{"1-8个数字","1-8 Numbers"}/*notice*/},/*range*/
-        {pwd_menu_key,pwd_sys_key,keyboard_fun_pwd,},/*key_inf*/
+        {old_pwd_menu_key,pwd_sys_key,keyboard_fun_pwd,},/*key_inf*/
         0,/*dis*/
     },
     {
@@ -160,7 +190,7 @@ static EDIT_ELE_T password_ele_pool[]=
         {ELE_EDIT_STR, E_STRING_T},/*类型*/
         {0/*decs*/,20/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {0/*heigh*/,0/*low*/,{"1-8个数字","1-8 Numbers"}/*notice*/},/*range*/
-        {pwd_menu_key,pwd_sys_key,keyboard_fun_pwd,},/*key_inf*/
+        {new_pwd_menu_key,pwd_sys_key,keyboard_fun_pwd,},/*key_inf*/
         0,/*dis*/
     },
     {
@@ -172,21 +202,22 @@ static EDIT_ELE_T password_ele_pool[]=
         {ELE_EDIT_STR, E_STRING_T},/*类型*/
         {0/*decs*/,20/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {0/*heigh*/,0/*low*/,{"1-8个数字","1-8 Numbers"}/*notice*/},/*range*/
-        {c_pwd_menu_key,pwd_sys_key,keyboard_fun_pwd,},/*key_inf*/
+        {confirm_pwd_menu_key,pwd_sys_key,keyboard_fun_pwd,},/*key_inf*/
         0,/*dis*/
     },
 };
 
 static PWD_T pdw_inf;
 
-static FUNCTION_KEY_INFO_T sys_key_pool[]={
-	{KEY_UP		, direct_key_up_cb		 },
-	{KEY_DOWN	, direct_key_down_cb	 },
-	{KEY_LEFT	, direct_key_left_cb	 },
-	{KEY_RIGHT	, direct_key_right_cb	 },
+static CONFIG_FUNCTION_KEY_INFO_T sys_key_pool[]={
+	{KEY_UP		, pwd_win_direct_key_up_cb		 },
+	{KEY_DOWN	, pwd_win_direct_key_down_cb	 },
+	{KEY_LEFT	, pwd_win_direct_key_left_cb	 },
+	{KEY_RIGHT	, pwd_win_direct_key_right_cb	 },
     
-	{CODE_LEFT	, direct_key_down_cb    },
-	{CODE_RIGH	, direct_key_up_cb	     },
+	{CODE_LEFT	, pwd_win_direct_key_down_cb    },
+	{CODE_RIGH	, pwd_win_direct_key_up_cb	     },
+	{KEY_ENTER	, pwd_win_enter_key_up_cb	     },
 };
 
 
@@ -284,66 +315,163 @@ static void backspace_pwd_edit_ele(int hWin)
     menu_key_backspace(hWin);
 }
 /**
-  * @brief  原始密码和新密码共用的功能键F1的回调函数
+  * @brief  原始密码使用功能键F1的回调函数
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
-static void old_new_pwd_win_f1_cb(KEY_MESSAGE *key_msg)
+static void old_pwd_win_f1_cb(KEY_MESSAGE *key_msg)
 {
     backspace_pwd_edit_ele(key_msg->user_data);
 }
 /**
-  * @brief  原始密码和新密码共用的功能键F2的回调函数
+  * @brief  原始密码使用功能键F2的回调函数
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
-static void old_new_pwd_win_f2_cb(KEY_MESSAGE *key_msg)
+static void old_pwd_win_f2_cb(KEY_MESSAGE *key_msg)
 {
     clear_pwd_edit_ele(key_msg->user_data);
 }
 /**
-  * @brief  原始密码和新密码共用的功能键F3的回调函数
+  * @brief  原始密码使用功能键F3的回调函数
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
-static void old_new_pwd_win_f3_cb(KEY_MESSAGE *key_msg)
+static void old_pwd_win_f3_cb(KEY_MESSAGE *key_msg)
 {
 }
 /**
-  * @brief  原始密码和新密码共用的功能键F4的回调函数
+  * @brief  原始密码使用功能键F4的回调函数
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
-static void old_new_pwd_win_f4_cb(KEY_MESSAGE *key_msg)
+static void old_pwd_win_f4_cb(KEY_MESSAGE *key_msg)
 {
 }
 /**
-  * @brief  原始密码和新密码共用的功能键F5的回调函数
+  * @brief  原始密码使用功能键F5的回调函数
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
-static void old_new_pwd_win_f5_cb(KEY_MESSAGE *key_msg)
+static void old_pwd_win_f5_cb(KEY_MESSAGE *key_msg)
 {
-    menu_key_ok(key_msg->user_data);
+    pwd_win_direct_key_down_cb(key_msg);
 }
 /**
-  * @brief  原始密码和新密码共用的功能键F6的回调函数
+  * @brief  原始密码使用功能键F6的回调函数
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
-static void old_new_pwd_win_f6_cb(KEY_MESSAGE *key_msg)
+static void old_pwd_win_f6_cb(KEY_MESSAGE *key_msg)
 {
     back_win(key_msg->user_data);
 }
 
 /**
-  * @brief  确认密码使用的功能键F5的回调函数
+  * @brief  新设密码使用功能键F1的回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void new_pwd_win_f1_cb(KEY_MESSAGE *key_msg)
+{
+    backspace_pwd_edit_ele(key_msg->user_data);
+}
+/**
+  * @brief  新设密码使用功能键F2的回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void new_pwd_win_f2_cb(KEY_MESSAGE *key_msg)
+{
+    clear_pwd_edit_ele(key_msg->user_data);
+}
+/**
+  * @brief  新设密码使用功能键F3的回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void new_pwd_win_f3_cb(KEY_MESSAGE *key_msg)
+{
+}
+/**
+  * @brief  新设密码使用功能键F4的回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void new_pwd_win_f4_cb(KEY_MESSAGE *key_msg)
+{
+}
+/**
+  * @brief  新设密码使用功能键F5的回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void new_pwd_win_f5_cb(KEY_MESSAGE *key_msg)
+{
+    pwd_win_direct_key_down_cb(key_msg);
+}
+/**
+  * @brief  新设密码使用功能键F6的回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void new_pwd_win_f6_cb(KEY_MESSAGE *key_msg)
+{
+    back_win(key_msg->user_data);
+}
+
+/**
+  * @brief  确认密码使用功能键F1的回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void confirm_pwd_win_f1_cb(KEY_MESSAGE *key_msg)
+{
+    backspace_pwd_edit_ele(key_msg->user_data);
+}
+/**
+  * @brief  确认密码使用功能键F2的回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void confirm_pwd_win_f2_cb(KEY_MESSAGE *key_msg)
+{
+    clear_pwd_edit_ele(key_msg->user_data);
+}
+/**
+  * @brief  确认密码使用功能键F3的回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void confirm_pwd_win_f3_cb(KEY_MESSAGE *key_msg)
+{
+}
+/**
+  * @brief  确认密码使用功能键F4的回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void confirm_pwd_win_f4_cb(KEY_MESSAGE *key_msg)
+{
+}
+/**
+  * @brief  确认密码使用功能键F5的回调函数
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
 static void confirm_pwd_win_f5_cb(KEY_MESSAGE *key_msg)
 {
-    menu_key_ok(key_msg->user_data);
+    pwd_win_direct_key_down_cb(key_msg);
+    pwd_win_menu_key_ok(key_msg->user_data);
+}
+/**
+  * @brief  确认密码使用功能键F6的回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void confirm_pwd_win_f6_cb(KEY_MESSAGE *key_msg)
+{
+    back_win(key_msg->user_data);
 }
 
 /**
@@ -351,10 +479,18 @@ static void confirm_pwd_win_f5_cb(KEY_MESSAGE *key_msg)
   * @param  [in] hWin 窗口句柄
   * @retval 无
   */
-static void pwd_menu_key(WM_HMEM hWin)
+static void old_pwd_menu_key(WM_HMEM hWin)
 {
-    MENU_KEY_INFO_T * info = o_n_pwd_menu_key_info;
-    uint32_t size = ARRAY_SIZE(o_n_pwd_menu_key_info);
+    MENU_KEY_INFO_T * info = old_pwd_menu_key_info;
+    uint32_t size = ARRAY_SIZE(old_pwd_menu_key_info);
+    int32_t data = g_cur_edit_ele->dis.edit.handle;
+    
+	init_menu_key_info(info, size, data);
+}
+static void new_pwd_menu_key(WM_HMEM hWin)
+{
+    MENU_KEY_INFO_T * info = new_pwd_menu_key_info;
+    uint32_t size = ARRAY_SIZE(new_pwd_menu_key_info);
     int32_t data = g_cur_edit_ele->dis.edit.handle;
     
 	init_menu_key_info(info, size, data);
@@ -364,10 +500,10 @@ static void pwd_menu_key(WM_HMEM hWin)
   * @param  [in] hWin 窗口句柄
   * @retval 无
   */
-static void c_pwd_menu_key(WM_HMEM hWin)
+static void confirm_pwd_menu_key(WM_HMEM hWin)
 {
-    MENU_KEY_INFO_T * info = c_pwd_menu_key_info;
-    uint32_t size = ARRAY_SIZE(c_pwd_menu_key_info);
+    MENU_KEY_INFO_T * info = confirm_pwd_menu_key_info;
+    uint32_t size = ARRAY_SIZE(confirm_pwd_menu_key_info);
     int32_t data = g_cur_edit_ele->dis.edit.handle;
     
 	init_menu_key_info(info, size, data);
@@ -498,7 +634,7 @@ static void clear_change_pwd_result_notice(void)
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
-static void direct_key_up_cb(KEY_MESSAGE *key_msg)
+static void pwd_win_direct_key_up_cb(KEY_MESSAGE *key_msg)
 {
     dis_select_edit_ele(g_cur_edit_ele, UNLOAD_TO_RAM);
     
@@ -529,7 +665,7 @@ static void direct_key_up_cb(KEY_MESSAGE *key_msg)
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
-static void direct_key_down_cb(KEY_MESSAGE *key_msg)
+static void pwd_win_direct_key_down_cb(KEY_MESSAGE *key_msg)
 {
     uint8_t flag = 0;
     
@@ -570,7 +706,7 @@ static void direct_key_down_cb(KEY_MESSAGE *key_msg)
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
-static void direct_key_left_cb(KEY_MESSAGE *key_msg)
+static void pwd_win_direct_key_left_cb(KEY_MESSAGE *key_msg)
 {
 	GUI_SendKeyMsg(GUI_KEY_LEFT, 1);
 }
@@ -579,9 +715,23 @@ static void direct_key_left_cb(KEY_MESSAGE *key_msg)
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
-static void direct_key_right_cb(KEY_MESSAGE *key_msg)
+static void pwd_win_direct_key_right_cb(KEY_MESSAGE *key_msg)
 {
 	GUI_SendKeyMsg(GUI_KEY_RIGHT, 1);
+}
+/**
+  * @brief  向右功能键的回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void pwd_win_enter_key_up_cb(KEY_MESSAGE *key_msg)
+{
+    pwd_win_direct_key_down_cb(key_msg);
+    
+    if(g_cur_edit_ele->index == PASSWORD_CONFIRM)
+    {
+        pwd_win_menu_key_ok(key_msg->user_data);
+    }
 }
 
 /**
@@ -611,7 +761,7 @@ static void dis_set_pwd_succeed(void)
   * @param  [in] hWin 窗口句柄
   * @retval 无
   */
-static void menu_key_ok(int hWin)
+static void pwd_win_menu_key_ok(int hWin)
 {
     if(pdw_inf.old_pwd_flag == CS_TRUE && pdw_inf.new_pwd_flag == CS_TRUE)
     {

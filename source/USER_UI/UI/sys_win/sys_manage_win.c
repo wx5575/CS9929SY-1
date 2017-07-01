@@ -52,7 +52,7 @@ typedef enum{
 /* Private function prototypes -----------------------------------------------*/
 static void sys_manage_win_cb(WM_MESSAGE* pMsg);
 static void update_sys_fun_key_inf(WM_HMEM hWin);
-static FUNCTION_KEY_INFO_T 	sys_win_sys_key_pool[];
+static CONFIG_FUNCTION_KEY_INFO_T 	sys_win_sys_key_pool[];
 static void update_sys_fun_key_inf(WM_HWIN hWin);
 static void into_sub_set_win(int hWin);
 
@@ -110,13 +110,13 @@ static MENU_KEY_INFO_T 	sys_manage_menu_key_inf[] =
     {"", F_KEY_NULL		, KEY_F2 & _KEY_UP, sys_win_f2_cb },//f2
     {"", F_KEY_NULL		, KEY_F3 & _KEY_UP, sys_win_f3_cb },//f3
     {"", F_KEY_NULL		, KEY_F4 & _KEY_UP, sys_win_f4_cb },//f4
-    {"", F_KEY_ENTER		, KEY_F5 & _KEY_UP, sys_win_f5_cb },//f5
+    {"", F_KEY_ENTER    , KEY_F5 & _KEY_UP, sys_win_f5_cb },//f5
     {"", F_KEY_BACK		, KEY_F6 & _KEY_UP, sys_win_f6_cb },//f6
 };
 /**
   * @brief  系统窗口功能键信息初始化数组
   */
-static FUNCTION_KEY_INFO_T 	sys_win_sys_key_pool[]={
+static CONFIG_FUNCTION_KEY_INFO_T 	sys_win_sys_key_pool[]={
 	{KEY_UP		, sys_win_direct_key_up_cb		},
 	{KEY_DOWN	, sys_win_direct_key_down_cb 	},
 	{CODE_LEFT	, sys_win_direct_key_down_cb   },

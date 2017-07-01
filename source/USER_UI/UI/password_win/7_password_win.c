@@ -26,10 +26,13 @@
 
 #define _7_PWD_WIN_WIDTH        400
 #define _7_PWD_WIN_HEIGHT       300
+#define _7_PWD_WIN_X            (800 - 110 - _7_PWD_WIN_WIDTH) / 2
+#define _7_PWD_WIN_Y            50
 
 WIDGET_POS_SIZE_T _7_password_windows=
 {
-	80/*x*/, 50/*y*/, _7_PWD_WIN_WIDTH/*width*/, _7_PWD_WIN_HEIGHT/*height*/,
+	_7_PWD_WIN_X/*x*/, _7_PWD_WIN_Y/*y*/,
+    _7_PWD_WIN_WIDTH/*width*/, _7_PWD_WIN_HEIGHT/*height*/,
 };
 
 #define FONT    &GUI_Fonthz_24

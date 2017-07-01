@@ -182,7 +182,7 @@ static MENU_KEY_INFO_T 	sys_time_key_info[] =
 /**
   * @brief  系统功能按键信息初始化数组
   */
-static FUNCTION_KEY_INFO_T syst_time_key_pool[]={
+static CONFIG_FUNCTION_KEY_INFO_T syst_time_key_pool[]={
 	{KEY_UP		, sys_time_direct_key_up_cb     },
 	{KEY_DOWN	, sys_time_direct_key_down_cb   },
 	{KEY_LEFT	, sys_time_direct_key_left_cb   },

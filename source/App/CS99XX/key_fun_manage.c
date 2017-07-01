@@ -137,6 +137,23 @@ uint8_t get_function_key_st(uint32_t key, CS_ERR *err)
     
 	return temp_fun->en;
 }
+KEY_CB_FUN get_function_key_dispose_fun(uint32_t key, CS_ERR *err)
+{
+	KEY_DISPOSE_FUN *temp_fun;
+	
+    *err = CS_ERR_NONE;
+    
+	temp_fun = get_key_inf(key);
+    
+    if(temp_fun == NULL)
+    {
+        *err = CS_ERR_KEY_VALUE_INVALID;
+        return 0;
+    }
+    
+	return temp_fun->fun;
+}
+
 void enable_function_key(uint32_t key, uint8_t st)
 {
 	KEY_DISPOSE_FUN *temp_fun;

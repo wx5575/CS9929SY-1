@@ -74,7 +74,7 @@ static CS_INDEX main_ui_text_ele_table[] =
 /**
   * @brief  系统按键信息
   */
-static FUNCTION_KEY_INFO_T sys_key_pool[]=
+static CONFIG_FUNCTION_KEY_INFO_T sys_key_pool[]=
 {
 	{KEY_SHIFT	        , sys_shift_key_fun_cb     },
 	{KEY_UNLOCK	        , sys_unlock_key_fun_cb    },

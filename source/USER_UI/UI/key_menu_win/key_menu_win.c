@@ -131,6 +131,8 @@ static const STAND_MENU_KEY_INFO_T all_menu_key_info_[]=
 	{{"等级", "Grade"   }, F_KEY_GRADE      },
 	{{"设置", "Setting" }, F_KEY_SETTING    },
 	{{"自动", "Auto"    }, F_KEY_AUTO       },
+	{{"接地", "GND"     }, F_KEY_GND        },
+	{{"浮地", "Float"   }, F_KEY_FLOAT      },
 };
 
 /**
@@ -636,7 +638,7 @@ void init_menu_key_info(MENU_KEY_INFO_T * info, uint32_t n, int data)
   * @param  [in] n 系统功能键数组中元素个数
   * @retval 菜单键索引
   */
-void unregister_system_key_fun(FUNCTION_KEY_INFO_T info[], uint32_t n)
+void unregister_system_key_fun(CONFIG_FUNCTION_KEY_INFO_T info[], uint32_t n)
 {
 	int32_t i = 0;
     KEY_DISPOSE_FUN fun;
@@ -656,7 +658,7 @@ void unregister_system_key_fun(FUNCTION_KEY_INFO_T info[], uint32_t n)
   * @param  [in] n 系统功能键数组中元素个数
   * @retval 菜单键索引
   */
-void register_system_key_fun(FUNCTION_KEY_INFO_T info[], uint32_t n, int data)
+void register_system_key_fun(CONFIG_FUNCTION_KEY_INFO_T info[], uint32_t n, int data)
 {
 	int32_t i = 0;
     KEY_DISPOSE_FUN fun;

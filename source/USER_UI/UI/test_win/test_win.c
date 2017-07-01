@@ -547,7 +547,7 @@ static MENU_KEY_INFO_T 	test_win_edit_upper_menu_key_init_info[] =
 /**
   * @brief  测试窗口编辑参数时使用的功能键的初始化信息数组
   */
-static FUNCTION_KEY_INFO_T 	test_win_edit_par_sys_key_init_pool[]=
+static CONFIG_FUNCTION_KEY_INFO_T 	test_win_edit_par_sys_key_init_pool[]=
 {
 	{KEY_UP		, test_win_direct_key_up_cb      },
 	{KEY_DOWN	, test_win_direct_key_down_cb    },
@@ -746,7 +746,7 @@ static void test_win_select_cur_range_key_cb(KEY_MESSAGE *key_msg)
   */
 static void test_win_win_sys_key_init(WM_HMEM hWin)
 {
-    FUNCTION_KEY_INFO_T *pool = test_win_edit_par_sys_key_init_pool;
+    CONFIG_FUNCTION_KEY_INFO_T *pool = test_win_edit_par_sys_key_init_pool;
     uint32_t size = ARRAY_SIZE(test_win_edit_par_sys_key_init_pool);
     
     register_system_key_fun(pool, size, hWin);
