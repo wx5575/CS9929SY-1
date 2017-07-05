@@ -20,6 +20,7 @@ static uint32_t SEND_MSG_LEDT = CODE_LEFT;
 #define C_DISC_RIGH_PIN     GPIO_Pin_7
 #define C_DISC_LEFT_PORT    GPIOF
 #define C_DISC_LEFT_PIN     GPIO_Pin_6
+static void(*send_coded_disc_msg_fun)(uint32_t *);
 
 void coded_exit_config(void)
 {
@@ -50,7 +51,7 @@ void NVIC_Config(void)
 {
     NVIC_InitTypeDef NVIC_InitStructure;
     
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_3);//嵌套分组为组3
+//    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_3);//嵌套分组为组3
     NVIC_InitStructure.NVIC_IRQChannel = EXTI9_5_IRQn;//中断通道为通道0
     NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;//抢断优先级为0
     NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;//响应优先级为0
@@ -82,7 +83,7 @@ void coded_disc_init(void)
     coded_exit_config();
     NVIC_Config();
 }
-static void(*send_coded_disc_msg_fun)(uint32_t *);
+
 void register_coded_disc_send_msg_fun(void(*fun)(uint32_t *))
 {
     send_coded_disc_msg_fun = fun;

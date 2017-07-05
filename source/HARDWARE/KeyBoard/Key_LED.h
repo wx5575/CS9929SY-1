@@ -26,6 +26,7 @@ extern void Set_LED_TESTLED(uint8_t state);
 extern void set_buzzer(uint8_t state);
 extern uint32_t KeyValue_Read(void);
 extern void set_buzzer_on_time(uint32_t time);
+extern void key_start_stop_gpio_init(void);
 
 uint32_t get_buzzer_time(void);
 uint32_t sub_buzzer_time(void);

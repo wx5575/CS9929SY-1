@@ -10,7 +10,6 @@
 
 #define KEY_DISPOSE_GLOBALS
 #include "key_fun_manage.h"
-#include "keyboard.h"
 #include "string.h"
 #include "tools.h"
 #include "os.h"
@@ -33,6 +32,9 @@ KEY_DISPOSE_FUN *get_key_inf(uint32_t key)
     
 	switch(key)
 	{
+        case KEY_START:  temp_fun = &key_funcation.key_start;break;
+        case KEY_STOP:   temp_fun = &key_funcation.key_stop;break;
+        
         case CODE_LEFT:  temp_fun = &key_funcation.coded_left;break;
         case CODE_RIGH:  temp_fun = &key_funcation.coded_right;break;
         
@@ -115,7 +117,7 @@ KEY_CB_FUN get_function_key_dispose_fun(uint32_t key, CS_ERR *err)
 	return temp_fun->fun;
 }
 
-void enable_function_key(uint32_t key, uint8_t st)
+void enable_function_key(uint32_t key, SYS_KEY_ST_ENUM st)
 {
 	KEY_DISPOSE_FUN *temp_fun;
     
@@ -126,7 +128,7 @@ void enable_function_key(uint32_t key, uint8_t st)
         return;
     }
 	
-	temp_fun->en = !!st;
+	temp_fun->en = st;
 }
 
 void register_key_dispose_fun(uint32_t key, KEY_DISPOSE_FUN *fun)

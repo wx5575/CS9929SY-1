@@ -21,7 +21,7 @@
 #include "fonts/fonts.h"
 #include "tools.h"
 #include "key_server.h"
-#include "type/cs99xx_type.h"
+#include "cs99xx_type.h"
 
 #pragma  diag_suppress 870 //消除870号编译警告
 

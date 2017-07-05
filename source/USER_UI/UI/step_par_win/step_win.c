@@ -28,7 +28,7 @@
 #include "WARNING_WIN/warning_win.h"
 #include "7_step_ui.h"
 #include "step_win.h"
-#include "type/cs99xx_type.h"
+#include "cs99xx_type.h"
 #include "step_edit_win.h"
 
   

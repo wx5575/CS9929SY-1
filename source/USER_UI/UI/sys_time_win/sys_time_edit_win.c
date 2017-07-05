@@ -9,29 +9,15 @@
    ******************************************************************************
    */
 
-#include "stm32f4xx.h"
-#include "keyboard.h"
+#include "stdio.h"
+#include "stdlib.h"
 #include "rtc_config.h"
-#include "GUI.H"
-#include "WM.h"
-#include "DIALOG.h"
-#include "ff.h"
-#include "OS.H"
-#include "cs99xx_struct.h"
-#include "FRAMEWIN.H"
-#include "EDIT.H"
 #include "LISTWHEEL.h"
-#include "GUI.h"
-#include "cs99xx_mem_api.h"
 #include "UI_COM/com_edit_api.h"
 #include "UI_COM/com_ui_info.h"
 #include "key_menu_win/key_menu_win.h"
 #include "7_sys_time_edit_win.h"
 #include "sys_time_edit_win.h"
-#include "string.h"
-#include "stdio.h"
-#include "math.h"
-#include "stdlib.h"
 /* Private typedef -----------------------------------------------------------*/
 /**
   * @brief  系统时间控件索引枚举定义

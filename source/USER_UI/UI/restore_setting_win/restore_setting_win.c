@@ -9,25 +9,18 @@
   */
 
 #include "stm32f4xx.h"
-#include "keyboard.h"
+//#include "keyboard.h"
 #include "rtc_config.h"
 #include "GUI.H"
 #include "WM.h"
 #include "DIALOG.h"
-#include "ff.h"
 #include "OS.H"
 #include "cs99xx_struct.h"
 #include "stdio.h"
 #include "string.h"
-#include "LISTVIEW.H"
 #include "UI_COM/com_ui_info.h"
 #include "key_menu_win/key_menu_win.h"
-#include "file_win/file_edit_win.h"
 #include "ui_com/com_ui_info.h"
-#include "ui_com/com_edit_api.h"
-#include "warning_win/warning_win.h"
-#include "cs99xx_mem_api.h"
-#include "ui_com/com_edit_api.h"
 #include "7_restore_setting_win.h"
 #include "restore_setting_win.h"
 
@@ -245,11 +238,6 @@ static void restore_setting_win_cb(WM_MESSAGE* pMsg)
             update_win_menu_key(win);
             init_create_win_all_ele(win);
             
-            g_cur_edit_ele = get_cur_win_edit_ele_list_head();
-            if(g_cur_edit_ele != NULL)
-            {
-                select_edit_ele(g_cur_edit_ele);//选中当前编辑对象
-            }
             break;
 		 case WM_KEY:
             break;

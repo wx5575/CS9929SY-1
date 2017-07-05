@@ -101,7 +101,7 @@ static void RTC_Nvic_Configuration(void)
 	NVIC_InitTypeDef NVIC_InitStructure;
 	EXTI_InitTypeDef EXTI_InitStructure;
 	
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+//	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
 	
 	EXTI_ClearITPendingBit(EXTI_Line22);
 	EXTI_InitStructure.EXTI_Line = EXTI_Line22;

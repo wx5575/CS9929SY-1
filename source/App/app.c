@@ -23,7 +23,7 @@
 #include "key_fun_manage.h"
 #include "cs99xx_mem_api.h"
 #include "cs99xx_usb_manager.h"
-#include "type/cs99xx_type.h"
+#include "cs99xx_type.h"
 #include "key_server.h"
 #include "app.h"
 

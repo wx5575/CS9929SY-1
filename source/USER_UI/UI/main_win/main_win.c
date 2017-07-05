@@ -44,6 +44,7 @@ static void main_win_cb(WM_MESSAGE * pMsg);
 static void update_main_ui_menu_key_inf(WM_HMEM hWin);
 
 static void sys_exit_key_fun_cb(KEY_MESSAGE *key_msg);
+static void sys_stop_key_fun_cb(KEY_MESSAGE *key_msg);
 static void sys_shift_key_fun_cb(KEY_MESSAGE *key_msg);
 static void sys_unlock_key_fun_cb(KEY_MESSAGE *key_msg);
 static void screen_capture_key_fun_cb(KEY_MESSAGE *key_msg);
@@ -78,6 +79,7 @@ static CONFIG_FUNCTION_KEY_INFO_T sys_key_pool[]=
 	{KEY_SHIFT	    , sys_shift_key_fun_cb      },
 	{KEY_UNLOCK	    , sys_unlock_key_fun_cb     },
 	{KEY_EXIT	    , sys_exit_key_fun_cb       },
+	{KEY_STOP	    , sys_stop_key_fun_cb       },
 	{KEY_F1 & KEY_0 , screen_capture_key_fun_cb },
 };
 /**
@@ -303,8 +305,8 @@ static void update_shift_bmp(void)
 }
 
 /**
-  * @brief  系统SHIFT按键回调函数
-  * @param  [in] data 用户数据
+  * @brief  系统EXIT按键回调函数
+  * @param  [in] key_msg 按键消息
   * @retval 无
   */
 static void sys_exit_key_fun_cb(KEY_MESSAGE *key_msg)
@@ -329,6 +331,31 @@ static void sys_exit_key_fun_cb(KEY_MESSAGE *key_msg)
     show_cur_window();
 }
 /**
+  * @brief  系统STOP按键回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void sys_stop_key_fun_cb(KEY_MESSAGE *key_msg)
+{
+	MYUSER_WINDOW_T *node;
+	CS_LIST *index = NULL;
+	CS_LIST *list = &windows_list;
+    
+	list_for_each_reverse(index, list)
+	{
+		node = list_entry(index, MYUSER_WINDOW_T, w_list);
+        
+        if(node->handle == main_windows.handle)
+        {
+            break;
+        }
+        
+        del_cur_window();
+	}
+    
+    create_test_win(main_windows.handle);//进入测试界面
+}
+/**
   * @brief  系统SHIFT按键回调函数
   * @param  [in] data 用户数据
   * @retval 无
@@ -341,6 +368,11 @@ static void sys_shift_key_fun_cb(KEY_MESSAGE *key_msg)
     update_shift_bmp();
 }
 
+/**
+  * @brief  更新键盘锁图标
+  * @param  无
+  * @retval 无
+  */
 void update_unlock_bmp(void)
 {
     uint8_t flag = get_key_lock_flag();
@@ -355,6 +387,11 @@ void update_unlock_bmp(void)
     }
 }
 
+/**
+  * @brief  改变键盘锁状态
+  * @param  [in] data 用户数据
+  * @retval 无
+  */
 static void change_key_lock_status(int data)
 {
     uint8_t flag = get_key_lock_flag();
@@ -386,15 +423,30 @@ static void screen_capture_key_fun_cb(KEY_MESSAGE *key_msg)
     //创建进度条
     progbar_handle = PROGBAR_CreateEx(100, 455, 50, 20, data, WM_CF_HIDE, 0, id_base++);
 }
+/**
+  * @brief  删除主窗口进度条
+  * @param  无
+  * @retval 无
+  */
 void delete_main_win_progbar(void)
 {
     WM_DeleteWindow(progbar_handle);//删除窗口控件
     progbar_handle = 0;//清除被删除窗口的句柄
 }
+/**
+  * @brief  设置主窗口进度条的进度
+  * @param  value 进度值
+  * @retval 无
+  */
 void set_main_win_progbar_value(int32_t value)
 {
     PROGBAR_SetValue(progbar_handle, value);
 }
+/**
+  * @brief  设置主窗口进度条从隐藏变为可见
+  * @param  无
+  * @retval 无
+  */
 void set_main_win_progbar_show(void)
 {
     WM_ShowWindow(progbar_handle);
@@ -443,10 +495,11 @@ static void update_key_inf(WM_HWIN hWin)
     update_system_key_inf(hWin);
 }
 
-void send_mes_to_main_window(int msg)
-{
-    WM_SendMessageNoPara(main_windows.handle, CM_UPDATE_USB_ST);
-}
+/**
+  * @brief  更新USB的显示状态
+  * @param  [in] hWin 窗口句柄
+  * @retval 无
+  */
 void update_usb_dis_status(void)
 {
     uint8_t st = 0;
@@ -553,7 +606,7 @@ static void init_user_window_env(void)
 /* Public functions ---------------------------------------------------------*/
 
 /**
-  * @brief  7寸屏布局1的入口
+  * @brief  主窗口的入口
   * @param  无
   * @retval 无
   */
@@ -561,7 +614,7 @@ void main_ui_enter(void)
 {
 	SCREEM_SIZE = SCREEN_7INCH;
 	id_base = GUI_ID_USER;//窗口控件ID
-    init_user_window_env();
+    init_user_window_env();//初始化用户窗口环境
     create_key_menu_window();//创建按键界面
     create_main_windows();//创建主界面
 	

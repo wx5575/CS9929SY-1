@@ -9,24 +9,14 @@
   */
   
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f4xx.h"
+
 #include "string.h"
-#include "GUI.H"
-#include "keyboard.h"
 #include "UI_COM/com_ui_info.h"
 #include "test_win.h"
 
 
 /* Private typedef -----------------------------------------------------------*/
 
-//typedef struct{
-//    TEXT_ELE_T * name;///<多路编号
-//    TEXT_ELE_T * cur_name;///<多路测试模式
-//    TEXT_ELE_T * step;///<多路测试状态
-//    TEXT_ELE_T * cur_step;///<多路电压
-//    TEXT_ELE_T * work_mode;///<多路电流
-//    TEXT_ELE_T * cur_work_mode;///<多路真实电流
-//}FILE_T;
 
 typedef struct{
     TEXT_ELE_T * num;///<多路编号

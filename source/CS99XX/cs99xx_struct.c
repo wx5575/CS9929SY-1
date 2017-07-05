@@ -13,7 +13,7 @@
 #include "string.h"
 #include "rtc_config.h"
 #include "cs99xx_mem_api.h"
-#include "type/cs99xx_type.h"
+#include "cs99xx_type.h"
 
 
 /**

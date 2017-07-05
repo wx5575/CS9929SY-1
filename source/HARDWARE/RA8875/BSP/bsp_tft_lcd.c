@@ -8,7 +8,6 @@
   ******************************************************************************
   */
 #include "bsp_tft_lcd.h"
-#include "ui_com/fonts/fonts.h"
 #include "LCD_RA8875.h"
 
 uint16_t g_LcdHeight = 480;			/* 显示屏分辨率-高度 */

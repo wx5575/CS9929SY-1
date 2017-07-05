@@ -135,12 +135,17 @@ void set_edit_ele_data(EDIT_ELE_T *ele, void *data)
     ele->data.data = data;
 }
 
+/**
+  * @brief  获取编辑对象的值
+  * @param  [in] ele 编辑对象
+  * @param  [in] buf 从编辑控件中获取到的文本
+  * @retval 将数据转为数值返回
+  */
 uint32_t get_edit_ele_value(EDIT_ELE_T* ele, uint8_t *buf)
 {
     WM_HMEM handle = ele->dis.edit.handle;
     uint32_t max_len = ele->dis.edit.max_len + 1;
     uint32_t value = 0;
-    float f_value = 0;
     uint8_t dec = ele->format.dec;
     uint32_t index = 0;
     uint8_t t_buf[20] = {0};
@@ -182,6 +187,13 @@ uint32_t get_edit_ele_value(EDIT_ELE_T* ele, uint8_t *buf)
     return value;
 }
 
+/**
+  * @brief  设置编辑对象的值
+  * @param  [in] ele 编辑对象
+  * @param  [in] value 数值型的编辑控件数据
+  * @param  [in] buf 字符型的编辑控件数据
+  * @retval 无
+  */
 void set_edit_ele_value(EDIT_ELE_T* ele, uint32_t value, uint8_t *buf)
 {
     WM_HMEM handle = ele->dis.edit.handle;
@@ -210,6 +222,11 @@ void set_edit_ele_value(EDIT_ELE_T* ele, uint32_t value, uint8_t *buf)
             break;
     }
 }
+/**
+  * @brief  更新编辑控件的单位显示
+  * @param  [in] ele 编辑对象
+  * @retval 无
+  */
 void update_unit_dis(EDIT_ELE_T* ele)
 {
 	const char * pText;//文本
@@ -241,6 +258,12 @@ void update_unit_dis(EDIT_ELE_T* ele)
 	TEXT_SetTextColor(handle, font_color);
 	TEXT_SetText(handle, pText);
 }
+/**
+  * @brief  设置数值型编辑控件的数值
+  * @param  [in] ele 编辑对象
+  * @param  [in] value 要设置的数据
+  * @retval 无
+  */
 void set_edit_num_value(EDIT_ELE_T* ele, uint32_t value)
 {
     WM_HMEM handle = ele->dis.edit.handle;
@@ -259,6 +282,12 @@ void set_edit_num_value(EDIT_ELE_T* ele, uint32_t value)
     update_unit_dis(ele);
 }
 
+/**
+  * @brief  编辑控件默认的数据检查函数
+  * @param  [in] ele 编辑对象
+  * @param  [in/out] *value 设置的数据，如果越界会对其进行修正处理
+  * @retval 无
+  */
 void default_check_value_validity(EDIT_ELE_T* ele, uint32_t *value)
 {
     uint32_t val = *value;

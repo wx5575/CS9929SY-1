@@ -137,7 +137,7 @@ void ra8875_bsp_Init(void)
 {
 	set_user_window_size(LCD_GetWidth(), LCD_GetHeight());
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_CRC, ENABLE);
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
+//	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
     RA8875_InitHard();
 }
 /*

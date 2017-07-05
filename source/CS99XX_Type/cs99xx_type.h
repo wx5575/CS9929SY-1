@@ -13,7 +13,7 @@
 #define __TYPE_SELECT__
 #include <stm32f4xx.h>
 #include "cs99xx_config.h"
-
+#include "cs99xx_struct.h"
 
 /* 仪器型号与硬件保持一致 0x00表示该型号未启用 */
 enum{

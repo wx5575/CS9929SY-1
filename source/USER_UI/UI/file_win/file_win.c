@@ -8,17 +8,9 @@
   ******************************************************************************
   */
 
-#include "stm32f4xx.h"
-#include "keyboard.h"
-#include "rtc_config.h"
-#include "GUI.H"
-#include "WM.h"
-#include "DIALOG.h"
-#include "ff.h"
-#include "OS.H"
-#include "cs99xx_struct.h"
 #include "stdio.h"
 #include "string.h"
+#include "rtc_config.h"
 #include "LISTVIEW.H"
 #include "file_edit_win.h"
 #include "cs99xx_mem_api.h"
@@ -27,7 +19,6 @@
 #include "WARNING_WIN/warning_win.h"
 #include "7_file_win.h"
 #include "file_win.h"
-#include "type/cs99xx_type.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/

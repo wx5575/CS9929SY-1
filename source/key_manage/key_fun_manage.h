@@ -15,6 +15,7 @@
 
 #include "stm32f4xx.h"
 #include "cs99xx_struct.h"
+#include "keyboard.h"
 
 /**
   * @brief  标准菜单键名称的枚举索引
@@ -138,6 +139,9 @@ typedef struct{
 	KEY_DISPOSE_FUN	key_down;///< 向下键
 	KEY_DISPOSE_FUN	key_left;///< 向左键
 	KEY_DISPOSE_FUN	key_right;///< 向右键
+    
+	KEY_DISPOSE_FUN	key_start;///< 启动键
+	KEY_DISPOSE_FUN	key_stop;///< 复位键
 	
 	KEY_DISPOSE_FUN	key_enter;///< 确认键
 	KEY_DISPOSE_FUN	key_exit;///< 退出键
@@ -193,7 +197,7 @@ KEY_DISPOSE_EXT		 KEY_DISPOSE_FUN 	golbal_key_info;
 extern void dispose_funcation_key(uint32_t key);
 extern void init_funcation_key_dispose_fun(KEY_FUNCATION *info);
 extern void register_key_dispose_fun(uint32_t key, KEY_DISPOSE_FUN *fun);
-extern void enable_function_key(uint32_t key, uint8_t st);
+extern void enable_function_key(uint32_t key, SYS_KEY_ST_ENUM st);
 extern uint8_t get_function_key_st(uint32_t key, CS_ERR *err);
 extern KEY_CB_FUN get_function_key_dispose_fun(uint32_t key, CS_ERR *err);
 extern void disable_system_fun_key_fun(void);

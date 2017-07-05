@@ -31,12 +31,11 @@
 
 void bsp_init(void)
 {
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); 	//中断分组配置
     CS99xx_Peripheral_Config();
     CS99xx_GPIO_Config();
-//	mem_init(SRAMEX);
-//	mem_init(SRAMIN);
 	Key_LED_Control_Init();
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); 	//中断分组配置
+    key_start_stop_gpio_init();
 	ra8875_bsp_Init();
 	rtc_init();
     coded_disc_init();

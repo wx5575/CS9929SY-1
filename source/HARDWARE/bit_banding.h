@@ -77,8 +77,8 @@
 
 
 
-#define START_PIN   PGin(7)
-#define STOP_PIN    PGin(8)
+#define START_PIN   PFin(11)
+#define STOP_PIN    PBin(2)
 
 #endif
 
