@@ -1141,11 +1141,12 @@ void del_cur_window(void)
 		win = NULL;
 	}
     
-    set_cur_window(win);//把新窗口设置为当前窗口
-    
     delete_win_all_ele(win_info);//删除窗口中所有控件
     set_cur_edit_ele(NULL);//将当前编辑对象置为空
     disable_system_fun_key_fun();//失能系统功能按键
+    set_cur_window(win);//把新窗口设置为当前窗口
+    show_user_window(win);
+    
 	WM_DeleteWindow(win_info->handle);//删除窗口控件
 	win_info->handle = 0;//清除被删除窗口的句柄
 }
@@ -1185,7 +1186,6 @@ void show_cur_window(void)
 void back_win(WM_HWIN hWin)
 {
     del_cur_window();
-    show_user_window(g_cur_win);
 }
 /**
   * @brief  从窗口链表中获取窗口结构地址

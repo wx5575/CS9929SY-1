@@ -420,30 +420,30 @@ static void update_step_cur_row_menu_key_st(WM_HWIN hWin)
     /* 是第一步*/
     if(row == 0)
     {
-        set_menu_key_config_st(info, size, F_KEY_FORWARD, MENU_KEY_DIS, &err);
+        set_menu_key_config_st(info, size, F_KEY_FORWARD, SYS_KEY_DIS, &err);
         
         /* 当前文件不至一步 */
         if(g_cur_file->total > 1)
         {
-            set_menu_key_config_st(info, size, F_KEY_BACKWARD, MENU_KEY_EN, &err);
+            set_menu_key_config_st(info, size, F_KEY_BACKWARD, SYS_KEY_EN, &err);
         }
     }
     /* 是最后一步 */
     if(row + 1 == g_cur_file->total)
     {
-        set_menu_key_config_st(info, size, F_KEY_BACKWARD, MENU_KEY_DIS, &err);
+        set_menu_key_config_st(info, size, F_KEY_BACKWARD, SYS_KEY_DIS, &err);
         
         /* 当前文件不至一步 */
         if(g_cur_file->total > 1)
         {
-            set_menu_key_config_st(info, size, F_KEY_FORWARD, MENU_KEY_EN, &err);
+            set_menu_key_config_st(info, size, F_KEY_FORWARD, SYS_KEY_EN, &err);
         }
     }
     /* 既不是第一步也不是最后一步 */
     if(row > 0 && (row + 1 < g_cur_file->total))
     {
-        set_menu_key_config_st(info, size, F_KEY_FORWARD, MENU_KEY_EN, &err);
-        set_menu_key_config_st(info, size, F_KEY_BACKWARD, MENU_KEY_EN, &err);
+        set_menu_key_config_st(info, size, F_KEY_FORWARD, SYS_KEY_EN, &err);
+        set_menu_key_config_st(info, size, F_KEY_BACKWARD, SYS_KEY_EN, &err);
     }
     
 	init_menu_key_info(info, size, hWin);//刷新菜单键显示

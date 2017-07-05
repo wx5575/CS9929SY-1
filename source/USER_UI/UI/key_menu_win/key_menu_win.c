@@ -24,6 +24,7 @@ typedef struct {
 	int up_key_val;/* 抬起键值 */
 	void (*down_fun)();/* 按下处理函数 */
 	void (*up_fun)();/* 抬起处理函数 */
+	SYS_KEY_ST_ENUM en;///<按键使能
 }MENU_KEY_INFO;
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -52,7 +53,7 @@ typedef struct {
 static void change_color_key_up(WM_HWIN handle);
 static void change_color_key_down(WM_HWIN handle);
 static void key_menu_win_cb(WM_MESSAGE* pMsg);
-static void scan_menu_key_dispose(uint32_t key_value);
+static void scan_SYS_KEY_DISpose(uint32_t key_value);
 static void init_create_key_menu_text_ele(MYUSER_WINDOW_T* win);
 static uint8_t get_menu_key_index_and_fun(uint32_t key_value, void(**fun)(), CS_ERR *err);
 static void display_menu_key(void);
@@ -285,13 +286,45 @@ static CS_INDEX get_key_inf_index(uint32_t key_value, CS_ERR *err)
     
     return (CS_INDEX)0;
 }
+static void set_key_enable_st(uint32_t key_value, SYS_KEY_ST_ENUM en)
+{
+    int32_t i = 0;
+    
+    for(i = 0; i < 7; i++)
+    {
+        if(key_value == menu_key_info_pool[i].down_key_val
+            || key_value == menu_key_info_pool[i].up_key_val)
+        {
+            menu_key_info_pool[i].en = en;
+            return;
+        }
+    }
+}
+static SYS_KEY_ST_ENUM get_key_enable_st(uint32_t key_value, CS_ERR *err)
+{
+    int32_t i = 0;
+    
+    for(i = 0; i < 7; i++)
+    {
+        if(key_value == menu_key_info_pool[i].down_key_val
+            || key_value == menu_key_info_pool[i].up_key_val)
+        {
+            *err = CS_ERR_NONE;
+            return menu_key_info_pool[i].en;
+        }
+    }
+    
+    *err = CS_ERR_KEY_VALUE_INVALID;
+    
+    return SYS_KEY_DIS;
+}
 /**
   * @brief  更新菜单键使能颜色
   * @param  [in] key_value 键值
   * @param  [in] st 按键状态
   * @retval 无
   */
-static void update_menu_key_enable_color(uint32_t key_value, MENU_KEY_ST_ENUM st)
+static void update_SYS_KEY_ENable_color(uint32_t key_value, SYS_KEY_ST_ENUM st)
 {
     CS_INDEX index;
     CS_ERR err;
@@ -304,7 +337,7 @@ static void update_menu_key_enable_color(uint32_t key_value, MENU_KEY_ST_ENUM st
     }
     
     //按键失能
-    if(st == MENU_KEY_DIS)
+    if(st == SYS_KEY_DIS)
     {
         key_menu_win_ele_pool[index].dis_info.back_color = KEY_DIS_BACK_COLOR;
         key_menu_win_ele_pool[index].dis_info.font_color = KEY_DIS_FONT_COLOR;
@@ -349,7 +382,7 @@ static void key_menu_win_cb(WM_MESSAGE* pMsg)
 			
             init_create_win_all_ele(win);
             
-            set_global_fun_key_dispose(scan_menu_key_dispose);
+            set_global_fun_key_dispose(scan_SYS_KEY_DISpose);
 			break;
 		}
 		case WM_TIMER:
@@ -389,7 +422,7 @@ static void change_color_key_up(WM_HWIN handle)
   * @param  [in] key_value 键值
   * @retval 无
   */
-static void scan_menu_key_dispose(uint32_t key_value)
+static void scan_SYS_KEY_DISpose(uint32_t key_value)
 {
     TEXT_ELE_T* node = NULL;
     uint8_t st = 0xff;
@@ -406,9 +439,9 @@ static void scan_menu_key_dispose(uint32_t key_value)
         return;
     }
 	
-    st = get_function_key_st(key_value, &err);//获取菜单按键的使能状态
+    st = get_key_enable_st(key_value, &err);//获取菜单按键的使能状态
     
-    if(CS_ERR_NONE != err || st == MENU_KEY_DIS)
+    if(CS_ERR_NONE != err || st == SYS_KEY_DIS)
     {
         return;
     }
@@ -539,10 +572,10 @@ static void recover_key_inf(void)
   * @param  [in] st 按键状态
   * @retval 菜单键索引
   */
-void set_menu_function_status(uint32_t key_value, MENU_KEY_ST_ENUM st)
+void set_menu_function_status(uint32_t key_value, SYS_KEY_ST_ENUM st)
 {
     enable_function_key(key_value, st);
-    update_menu_key_enable_color(key_value, st);
+    update_SYS_KEY_ENable_color(key_value, st);
 }
 /**
   * @brief  设置菜单功能键初始化信息中的按键状态
@@ -554,7 +587,7 @@ void set_menu_function_status(uint32_t key_value, MENU_KEY_ST_ENUM st)
   * @retval 无
   */
 void set_menu_key_config_st(MENU_KEY_INFO_T * inf, uint32_t size,
-                        CS_INDEX index, MENU_KEY_ST_ENUM st, CS_ERR *err)
+                        CS_INDEX index, SYS_KEY_ST_ENUM st, CS_ERR *err)
 {
 	int32_t i = 0;
 	
@@ -607,12 +640,13 @@ void init_menu_key_info(MENU_KEY_INFO_T * info, uint32_t n, int data)
         memcpy(&fun.msg, &info[i].fun_key.msg, sizeof(fun.msg));
         fun.en = info[i].fun_key.en;
         fun.msg.key_value = info[i].fun_key.key_value;
+        set_key_enable_st(fun.msg.key_value, fun.en);
         
         /* 如果配置的按键索引是空就失能按键,赋空处理函数 */
 		if(info[i].index == F_KEY_NULL)
 		{
             fun.fun = NULL;
-            fun.en = MENU_KEY_DIS;
+//            fun.en = SYS_KEY_DIS;
         }
         
         set_menu_function_status(info[i].fun_key.key_value, info[i].fun_key.en);
@@ -655,7 +689,7 @@ void unregister_system_key_fun(CONFIG_FUNCTION_KEY_INFO_T info[], uint32_t n)
 	{
         fun.fun = NULL;
         fun.msg.user_data = 0;
-        fun.en = MENU_KEY_DIS;
+        fun.en = SYS_KEY_DIS;
         
         fun.msg.key_value = info[i].key_value;
         register_key_dispose_fun(info[i].key_value, &fun);

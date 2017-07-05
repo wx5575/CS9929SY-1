@@ -40,9 +40,9 @@ extern void create_key_menu_window(void);
 extern void unregister_system_key_fun(CONFIG_FUNCTION_KEY_INFO_T info[], uint32_t n);
 extern void register_system_key_fun(CONFIG_FUNCTION_KEY_INFO_T info[], uint32_t n, int data);
 extern void init_menu_key_info(MENU_KEY_INFO_T * info, uint32_t n, int data);
-extern void set_menu_function_status(uint32_t key_value, MENU_KEY_ST_ENUM st);
+extern void set_menu_function_status(uint32_t key_value, SYS_KEY_ST_ENUM st);
 extern void set_menu_key_config_st(MENU_KEY_INFO_T * inf, uint32_t size,
-                        CS_INDEX index, MENU_KEY_ST_ENUM st, CS_ERR *err);
+                        CS_INDEX index, SYS_KEY_ST_ENUM st, CS_ERR *err);
 extern void change_menu_key_font_color(uint32_t key_value, GUI_COLOR color);
 
 #endif //__KEY_MENU_WIN_H__

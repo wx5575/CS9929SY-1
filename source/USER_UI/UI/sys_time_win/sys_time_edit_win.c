@@ -249,7 +249,6 @@ static void sys_time_f6_cb(KEY_MESSAGE *key_msg)
     back_win(key_msg->user_data);
 }
 
-
 /**
   * @brief  向上键的回调函数
   * @param  [in] key_msg 按键信息
@@ -729,70 +728,70 @@ static void unsel_cur_time_list_wheel(void)
   * @param  [in] wheel 控件结构
   * @retval 无
   */
-static void create_decoration(int xSize, int ySize, int LineHeight, WHEEL * pWheel)
-{
-    GUI_MEMDEV_Handle hMemPrev;
-    GUI_MEMDEV_Handle hMemRBorder;
-    GUI_MEMDEV_Handle hMemLBorder;
-    GUI_MEMDEV_Handle hMemOverlay;
-    
-    //
-    // Create left border
-    //
-    hMemLBorder = GUI_MEMDEV_CreateFixed(0, 0, 4, ySize, GUI_MEMDEV_NOTRANS, GUI_MEMDEV_APILIST_32, GUI_COLOR_CONV_8888);
-    hMemPrev = GUI_MEMDEV_Select(hMemLBorder);
-    GUI_SetColor(GUI_BLACK);
-    GUI_DrawVLine(0, 0, ySize - 1);
-    GUI_SetColor(0x00CCCCCC);
-    GUI_FillRect(1, 0, 3, ySize - 1);
-    //
-    // Create right border
-    //
-    hMemRBorder = GUI_MEMDEV_CreateFixed(0, 0, 4, ySize, GUI_MEMDEV_NOTRANS, GUI_MEMDEV_APILIST_32, GUI_COLOR_CONV_8888);
-    GUI_MEMDEV_Select(hMemRBorder);
-    GUI_SetColor(GUI_BLACK);
-    GUI_DrawVLine(3, 0, ySize - 1);
-    GUI_SetColor(GUI_LIGHTGRAY);
-    GUI_FillRect(0, 0, 2, ySize - 1);
-    //
-    // Create overlay device
-    //
-    hMemOverlay = GUI_MEMDEV_CreateFixed(0, 0, xSize, ySize, GUI_MEMDEV_NOTRANS, GUI_MEMDEV_APILIST_32, GUI_COLOR_CONV_8888);
-    GUI_MEMDEV_Select(hMemOverlay);
-    //
-    // Gray gradients at top
-    //
-    GUI_DrawGradientV(0, 0, xSize - 1, (ySize * 2) / 10 - 1, TRANS0, TRANS1);
-    GUI_DrawGradientV(0, (ySize * 2) / 10, xSize - 1,
-                    (ySize / 2) - (LineHeight / 2) - 1, TRANS1, TRANS2);
-    //
-    // Gray gradients at bottom
-    //
-    GUI_DrawGradientV(0, (ySize / 2) + (LineHeight / 2),
-                xSize - 1, (ySize / 2) + (LineHeight / 2) + 2, 0x88000000, TRANS2);
-    GUI_DrawGradientV(0, (ySize / 2) + (LineHeight / 2) + 3,
-                xSize - 1, ySize - (ySize * 2) / 10 - 1, TRANS2, TRANS1);
-    GUI_DrawGradientV(0, ySize - (ySize * 2) / 10, xSize - 1, ySize - 1,                          TRANS1,     TRANS0);
-    GUI_DrawGradientV(0, ySize - 1, xSize - 1, ySize - 1, 0x33000000, 0x33000000);
-    //
-    // Translucent glass effect in the middle
-    //
-    GUI_SetColor(0x80000000);
-    GUI_DrawHLine((ySize / 2) - (LineHeight / 2), 0, xSize - 1);
-    GUI_SetColor(0x44000000);
-    GUI_DrawHLine((ySize / 2) + (LineHeight / 2) - 1, 0, xSize - 1);
-    GUI_DrawGradientV(1, (ySize / 2) - (LineHeight / 2) + 1, xSize - 2, (ySize / 2) - 1,
-                        0x88FFFFFF, 0x55AAAAAA);
-    GUI_DrawGradientV(1, (ySize / 2),
-                xSize - 2, (ySize / 2) + (LineHeight / 2) - 2, 0xBB000000, 0xBB000000);
-    GUI_MEMDEV_Select(hMemPrev);
-    //
-    // Store result
-    //
-    pWheel->hMemLBorder = hMemLBorder;
-    pWheel->hMemRBorder = hMemRBorder;
-    pWheel->hMemOverlay = hMemOverlay;
-}
+//static void create_decoration(int xSize, int ySize, int LineHeight, WHEEL * pWheel)
+//{
+//    GUI_MEMDEV_Handle hMemPrev;
+//    GUI_MEMDEV_Handle hMemRBorder;
+//    GUI_MEMDEV_Handle hMemLBorder;
+//    GUI_MEMDEV_Handle hMemOverlay;
+//    
+//    //
+//    // Create left border
+//    //
+//    hMemLBorder = GUI_MEMDEV_CreateFixed(0, 0, 4, ySize, GUI_MEMDEV_NOTRANS, GUI_MEMDEV_APILIST_32, GUI_COLOR_CONV_8888);
+//    hMemPrev = GUI_MEMDEV_Select(hMemLBorder);
+//    GUI_SetColor(GUI_BLACK);
+//    GUI_DrawVLine(0, 0, ySize - 1);
+//    GUI_SetColor(0x00CCCCCC);
+//    GUI_FillRect(1, 0, 3, ySize - 1);
+//    //
+//    // Create right border
+//    //
+//    hMemRBorder = GUI_MEMDEV_CreateFixed(0, 0, 4, ySize, GUI_MEMDEV_NOTRANS, GUI_MEMDEV_APILIST_32, GUI_COLOR_CONV_8888);
+//    GUI_MEMDEV_Select(hMemRBorder);
+//    GUI_SetColor(GUI_BLACK);
+//    GUI_DrawVLine(3, 0, ySize - 1);
+//    GUI_SetColor(GUI_LIGHTGRAY);
+//    GUI_FillRect(0, 0, 2, ySize - 1);
+//    //
+//    // Create overlay device
+//    //
+//    hMemOverlay = GUI_MEMDEV_CreateFixed(0, 0, xSize, ySize, GUI_MEMDEV_NOTRANS, GUI_MEMDEV_APILIST_32, GUI_COLOR_CONV_8888);
+//    GUI_MEMDEV_Select(hMemOverlay);
+//    //
+//    // Gray gradients at top
+//    //
+//    GUI_DrawGradientV(0, 0, xSize - 1, (ySize * 2) / 10 - 1, TRANS0, TRANS1);
+//    GUI_DrawGradientV(0, (ySize * 2) / 10, xSize - 1,
+//                    (ySize / 2) - (LineHeight / 2) - 1, TRANS1, TRANS2);
+//    //
+//    // Gray gradients at bottom
+//    //
+//    GUI_DrawGradientV(0, (ySize / 2) + (LineHeight / 2),
+//                xSize - 1, (ySize / 2) + (LineHeight / 2) + 2, 0x88000000, TRANS2);
+//    GUI_DrawGradientV(0, (ySize / 2) + (LineHeight / 2) + 3,
+//                xSize - 1, ySize - (ySize * 2) / 10 - 1, TRANS2, TRANS1);
+//    GUI_DrawGradientV(0, ySize - (ySize * 2) / 10, xSize - 1, ySize - 1,                          TRANS1,     TRANS0);
+//    GUI_DrawGradientV(0, ySize - 1, xSize - 1, ySize - 1, 0x33000000, 0x33000000);
+//    //
+//    // Translucent glass effect in the middle
+//    //
+//    GUI_SetColor(0x80000000);
+//    GUI_DrawHLine((ySize / 2) - (LineHeight / 2), 0, xSize - 1);
+//    GUI_SetColor(0x44000000);
+//    GUI_DrawHLine((ySize / 2) + (LineHeight / 2) - 1, 0, xSize - 1);
+//    GUI_DrawGradientV(1, (ySize / 2) - (LineHeight / 2) + 1, xSize - 2, (ySize / 2) - 1,
+//                        0x88FFFFFF, 0x55AAAAAA);
+//    GUI_DrawGradientV(1, (ySize / 2),
+//                xSize - 2, (ySize / 2) + (LineHeight / 2) - 2, 0xBB000000, 0xBB000000);
+//    GUI_MEMDEV_Select(hMemPrev);
+//    //
+//    // Store result
+//    //
+//    pWheel->hMemLBorder = hMemLBorder;
+//    pWheel->hMemRBorder = hMemRBorder;
+//    pWheel->hMemOverlay = hMemOverlay;
+//}
 
 /**
   * @brief  给wheel控件创建蒙板
@@ -1050,74 +1049,74 @@ static void init_time_list_wheel_pos_size(void)
   * @param  vMask 上下标记 TOP BOTTOM
   * @retval 无
   */
-static void round_up_corners(GUI_MEMDEV_Handle hMem, int Side, int r, int vMask)
-{
-    GUI_MEMDEV_Handle hMemPrev;
-    I32 rr;
-    int i;
-    int y;
-    int x;
-    int xs;
-    int xe;
-    int xSize;
-    int ySize;
-    int x1;
-    int y1;
+//static void round_up_corners(GUI_MEMDEV_Handle hMem, int Side, int r, int vMask)
+//{
+//    GUI_MEMDEV_Handle hMemPrev;
+//    I32 rr;
+//    int i;
+//    int y;
+//    int x;
+//    int xs;
+//    int xe;
+//    int xSize;
+//    int ySize;
+//    int x1;
+//    int y1;
 
-    xSize    = GUI_MEMDEV_GetXSize(hMem);
-    ySize    = GUI_MEMDEV_GetYSize(hMem);
-    hMemPrev = GUI_MEMDEV_Select(hMem);
-    x1       = xSize - 1;
-    y1       = ySize - 1;
-    rr       = (I32)r * r;
-    y        = r;
-    GUI_SetColor(0xFF000000);
-    
-    for (i = 0; i <= r; i++, y--)
-    {
-        x = (int)sqrt((float)(rr - (I32)y * y));
-        
-        if (Side & LEFT)
-        {
-            xs = 0;
-            xe = r - x - 1;
-            
-            if (x != r)
-            {
-                if (vMask & TOP)
-                {
-                    GUI_DrawHLine(i, xs, xe);
-                }
-                
-                if (vMask & BOTTOM)
-                {
-                    GUI_DrawHLine(y1 - i, xs, xe);
-                }
-            }
-        }
-        
-        if (Side & RIGHT)
-        {
-            xs = x1 - r + x + 1;
-            xe = x1;
-            
-            if (x != r)
-            {
-                if (vMask & TOP)
-                {
-                    GUI_DrawHLine(i,      xs, xe);
-                }
-                
-                if (vMask & BOTTOM)
-                {
-                    GUI_DrawHLine(y1 - i, xs, xe);
-                }
-            }
-        }
-    }
-    
-    GUI_MEMDEV_Select(hMemPrev);
-}
+//    xSize    = GUI_MEMDEV_GetXSize(hMem);
+//    ySize    = GUI_MEMDEV_GetYSize(hMem);
+//    hMemPrev = GUI_MEMDEV_Select(hMem);
+//    x1       = xSize - 1;
+//    y1       = ySize - 1;
+//    rr       = (I32)r * r;
+//    y        = r;
+//    GUI_SetColor(0xFF000000);
+//    
+//    for (i = 0; i <= r; i++, y--)
+//    {
+//        x = (int)sqrt((float)(rr - (I32)y * y));
+//        
+//        if (Side & LEFT)
+//        {
+//            xs = 0;
+//            xe = r - x - 1;
+//            
+//            if (x != r)
+//            {
+//                if (vMask & TOP)
+//                {
+//                    GUI_DrawHLine(i, xs, xe);
+//                }
+//                
+//                if (vMask & BOTTOM)
+//                {
+//                    GUI_DrawHLine(y1 - i, xs, xe);
+//                }
+//            }
+//        }
+//        
+//        if (Side & RIGHT)
+//        {
+//            xs = x1 - r + x + 1;
+//            xe = x1;
+//            
+//            if (x != r)
+//            {
+//                if (vMask & TOP)
+//                {
+//                    GUI_DrawHLine(i,      xs, xe);
+//                }
+//                
+//                if (vMask & BOTTOM)
+//                {
+//                    GUI_DrawHLine(y1 - i, xs, xe);
+//                }
+//            }
+//        }
+//    }
+//    
+//    GUI_MEMDEV_Select(hMemPrev);
+//}
 /**
   * @brief  初始化创建所有的listwheel控件
   * @param  hWin 窗口句柄
@@ -1126,7 +1125,7 @@ static void round_up_corners(GUI_MEMDEV_Handle hMem, int Side, int r, int vMask)
 static void init_create_time_listwheel(WM_HWIN hWin)
 {
     uint16_t i = 0;
-    uint16_t n = ARRAY_SIZE(sys_time_t);
+//    uint16_t n = ARRAY_SIZE(sys_time_t);
     
     init_time_list_wheel_pos_size();
     

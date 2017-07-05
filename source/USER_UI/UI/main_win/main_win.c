@@ -92,13 +92,13 @@ static WIDGET_POS_SIZE_T* main_win_pos_size_pool[SCREEN_NUM]=
 /** 主界面使用的菜单键信息的配置 */
 static MENU_KEY_INFO_T 	main_ui_menu_key_inf[] = 
 {
-    {"", F_KEY_DISPLAY  , KEY_F0 & _KEY_UP, 0             , MENU_KEY_DIS},//f0
-    {"", F_KEY_FILE		, KEY_F1 & _KEY_UP, main_win_f1_cb, MENU_KEY_EN },//f1
-    {"", F_KEY_STEP		, KEY_F2 & _KEY_UP, main_win_f2_cb, MENU_KEY_EN},//f2
-    {"", F_KEY_SYS		, KEY_F3 & _KEY_UP, main_win_f3_cb, MENU_KEY_EN },//f3
-    {"", F_KEY_RESULT   , KEY_F4 & _KEY_UP, main_win_f4_cb, MENU_KEY_EN},//f4
-    {"", F_KEY_TEST		, KEY_F5 & _KEY_UP, main_win_f5_cb, MENU_KEY_EN},//f5
-    {"", F_KEY_HELP		, KEY_F6 & _KEY_UP, main_win_f6_cb, MENU_KEY_DIS },//f6
+    {"", F_KEY_DISPLAY  , KEY_F0 & _KEY_UP, 0             , SYS_KEY_DIS},//f0
+    {"", F_KEY_FILE		, KEY_F1 & _KEY_UP, main_win_f1_cb, SYS_KEY_EN },//f1
+    {"", F_KEY_STEP		, KEY_F2 & _KEY_UP, main_win_f2_cb, SYS_KEY_EN},//f2
+    {"", F_KEY_SYS		, KEY_F3 & _KEY_UP, main_win_f3_cb, SYS_KEY_EN },//f3
+    {"", F_KEY_RESULT   , KEY_F4 & _KEY_UP, main_win_f4_cb, SYS_KEY_EN},//f4
+    {"", F_KEY_TEST		, KEY_F5 & _KEY_UP, main_win_f5_cb, SYS_KEY_EN},//f5
+    {"", F_KEY_HELP		, KEY_F6 & _KEY_UP, main_win_f6_cb, SYS_KEY_DIS },//f6
 };
 /**
   * @brief  主界面的文本对象池
@@ -158,7 +158,18 @@ static void main_win_f1_cb(KEY_MESSAGE *key_msg)
   */
 static void main_win_f2_cb(KEY_MESSAGE *key_msg)
 {
-    create_step_par_win(key_msg->user_data);
+    uint8_t flag = get_key_lock_flag();
+    
+    /* 加锁 */
+    if(flag)
+    {
+        init_back_up_will_enter_win_inf(create_step_par_win, g_cur_win->handle);
+    }
+    /* 未加锁 */
+    else
+    {
+        create_step_par_win(key_msg->user_data);
+    }
 }
 /**
   * @brief  主窗口中功能键F3回调函数
@@ -167,7 +178,18 @@ static void main_win_f2_cb(KEY_MESSAGE *key_msg)
   */
 static void main_win_f3_cb(KEY_MESSAGE *key_msg)
 {
-    create_sys_manager_win(key_msg->user_data);
+    uint8_t flag = get_key_lock_flag();
+    
+    /* 加锁 */
+    if(flag)
+    {
+        init_back_up_will_enter_win_inf(create_sys_manager_win, g_cur_win->handle);
+    }
+    /* 未加锁 */
+    else
+    {
+        create_sys_manager_win(key_msg->user_data);
+    }
 }
 /**
   * @brief  主窗口中功能键F4回调函数
@@ -176,7 +198,18 @@ static void main_win_f3_cb(KEY_MESSAGE *key_msg)
   */
 static void main_win_f4_cb(KEY_MESSAGE *key_msg)
 {
-    create_result_win(key_msg->user_data);
+    uint8_t flag = get_key_lock_flag();
+    
+    /* 加锁 */
+    if(flag)
+    {
+        init_back_up_will_enter_win_inf(create_result_win, g_cur_win->handle);
+    }
+    /* 未加锁 */
+    else
+    {
+        create_result_win(key_msg->user_data);
+    }
 }
 /**
   * @brief  主窗口中功能键F5回调函数
@@ -537,7 +570,7 @@ void main_ui_enter(void)
 		GUI_Delay(1);//调用这个函数可以刷新界面
 		
 		/* 响应按键回调函数 */
-        if(golbal_key_info.fun != NULL && golbal_key_info.en == MENU_KEY_EN)
+        if(golbal_key_info.fun != NULL && golbal_key_info.en == SYS_KEY_EN)
         {
             golbal_key_info.fun(&golbal_key_info.msg);
             golbal_key_info.fun = NULL;

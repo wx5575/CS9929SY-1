@@ -1683,7 +1683,18 @@ static void test_win_f1_cb(KEY_MESSAGE *key_msg)
   */
 static void test_win_f2_cb(KEY_MESSAGE *key_msg)
 {
-    update_key_menu(key_msg->user_data);
+    uint8_t flag = get_key_lock_flag();
+    
+    /* 加锁 */
+    if(flag)
+    {
+        init_back_up_will_enter_win_inf(update_key_menu, g_cur_win->handle);
+    }
+    /* 未加锁 */
+    else
+    {
+        update_key_menu(g_cur_win->handle);
+    }
 }
 /**
   * @brief  测试窗口菜单键F3回调函数

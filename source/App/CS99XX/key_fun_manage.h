@@ -78,9 +78,9 @@ typedef enum{
   * @brief  菜单键使能状态
   */
 typedef enum{
-	MENU_KEY_EN,//菜单键使能
-	MENU_KEY_DIS,//菜单键失能
-}MENU_KEY_ST_ENUM;
+	SYS_KEY_EN,//菜单键使能
+	SYS_KEY_DIS,//菜单键失能
+}SYS_KEY_ST_ENUM;
 
 /**
   * @brief  按键消息结构定义
@@ -109,7 +109,7 @@ typedef struct
 {
 	KEY_CB_FUN fun;///<按键处理函数
 	KEY_MESSAGE msg;///<按键消息
-	int en;///<使能按键
+	SYS_KEY_ST_ENUM en;///<使能按键
 }KEY_DISPOSE_FUN;
 
 /** 配置系统功能按键结构 */
@@ -117,7 +117,7 @@ typedef struct{
 	uint32_t key_value;///<键值
 	KEY_CB_FUN key_up_dispose_fun;///<处理函数
     KEY_MESSAGE msg;///<按键消息
-	MENU_KEY_ST_ENUM en;///<按键使能
+	SYS_KEY_ST_ENUM en;///<按键使能
 }CONFIG_FUNCTION_KEY_INFO_T;
 
 /** 菜单键的配置信息 */
@@ -145,13 +145,21 @@ typedef struct{
 	KEY_DISPOSE_FUN	key_ulock;///< 界面上锁键
 	KEY_DISPOSE_FUN	key_shift;///< 输入大小写SHIFT切换键
 	
-	KEY_DISPOSE_FUN	key_f0;///< 菜单功能键F0
-	KEY_DISPOSE_FUN	key_f1;///< 菜单功能键F1
-	KEY_DISPOSE_FUN	key_f2;///< 菜单功能键F2
-	KEY_DISPOSE_FUN	key_f3;///< 菜单功能键F3
-	KEY_DISPOSE_FUN	key_f4;///< 菜单功能键F4
-	KEY_DISPOSE_FUN	key_f5;///< 菜单功能键F5
-	KEY_DISPOSE_FUN	key_f6;///< 菜单功能键F6
+	KEY_DISPOSE_FUN	key_f0_up;///< 菜单功能键F0抬起
+	KEY_DISPOSE_FUN	key_f1_up;///< 菜单功能键F1抬起
+	KEY_DISPOSE_FUN	key_f2_up;///< 菜单功能键F2抬起
+	KEY_DISPOSE_FUN	key_f3_up;///< 菜单功能键F3抬起
+	KEY_DISPOSE_FUN	key_f4_up;///< 菜单功能键F4抬起
+	KEY_DISPOSE_FUN	key_f5_up;///< 菜单功能键F5抬起
+	KEY_DISPOSE_FUN	key_f6_up;///< 菜单功能键F6抬起
+	
+	KEY_DISPOSE_FUN	key_f0_down;///< 菜单功能键F0按下
+	KEY_DISPOSE_FUN	key_f1_down;///< 菜单功能键F1按下
+	KEY_DISPOSE_FUN	key_f2_down;///< 菜单功能键F2按下
+	KEY_DISPOSE_FUN	key_f3_down;///< 菜单功能键F3按下
+	KEY_DISPOSE_FUN	key_f4_down;///< 菜单功能键F4按下
+	KEY_DISPOSE_FUN	key_f5_down;///< 菜单功能键F5按下
+	KEY_DISPOSE_FUN	key_f6_down;///< 菜单功能键F6按下
     
 	KEY_DISPOSE_FUN	key_clock_0;///< 组合键 KEY_CLOCK + KEY_0
 	KEY_DISPOSE_FUN	key_clock_1;///< 组合键 KEY_CLOCK + KEY_1
