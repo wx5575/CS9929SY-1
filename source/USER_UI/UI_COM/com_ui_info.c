@@ -1273,8 +1273,8 @@ CS_INDEX range_com_ele_table[COM_RANGE_ELE_NUM]=
 
 CS_INDEX range_group_com_ele_table[COM_RANGE_ELE_NUM + COM_GRUOP_ELE_NUM]=
 {
-	COM_RANGE_NAME,///<主界面的通信状态
-	COM_RANGE_NOTICE,///<主界面的系统时间
+	COM_RANGE_NAME      ,///<主界面的通信状态
+	COM_RANGE_NOTICE    ,///<主界面的系统时间
     COM_UI_FILE_NAME    ,///< 记忆组文件名
     COM_UI_CUR_FILE_NAME,///< 记忆组文件名内容
     COM_UI_STEP         ,///< 记忆组步骤信息
@@ -1284,9 +1284,9 @@ CS_INDEX range_group_com_ele_table[COM_RANGE_ELE_NUM + COM_GRUOP_ELE_NUM]=
 };
 CS_INDEX range_page_group_com_ele_table[COM_ELE_NUM]=
 {
-	COM_RANGE_NAME,///<主界面的通信状态
-	COM_RANGE_NOTICE,///<主界面的系统时间
-    COM_PAGE_NOTICE,///<页码提示信息 1/1 表示 第1页/共1页
+	COM_RANGE_NAME      ,///<主界面的通信状态
+	COM_RANGE_NOTICE    ,///<主界面的系统时间
+    COM_PAGE_NOTICE     ,///<页码提示信息 1/1 表示 第1页/共1页
     COM_UI_FILE_NAME    ,///< 记忆组文件名
     COM_UI_CUR_FILE_NAME,///< 记忆组文件名内容
     COM_UI_STEP         ,///< 记忆组步骤信息
@@ -1709,10 +1709,9 @@ void init_create_win_com_ele(MYUSER_WINDOW_T* win)
     init_window_com_ele_list(win);//初始化窗口文本对象链表
     init_com_text_ele_dis_inf(win);//初始化公共文本对象的显示信息
     init_group_com_text_ele_dis_inf(win);//初始化记忆组对象的显示信息
-    update_group_inf(win);
+    update_group_inf(win);//更新记忆组信息
     init_window_com_text_ele(win);//初始化创建窗口中的公共文本对象
 }
-
 
 /**
   * @brief  用画线函数实现的画矩形框函数,因为直接使用画线函数无法改变线的宽度

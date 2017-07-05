@@ -46,7 +46,7 @@ WM_HWIN _7_create_step_listview(WM_HWIN hWin)
 	HEADER_SetHeight(hHeader,28);
 	LISTVIEW_AddColumn(list_h, 60	, SELE_STR("编号","NO.")            , GUI_TA_HCENTER | GUI_TA_VCENTER);
     LISTVIEW_AddColumn(list_h, 80	, SELE_STR("模式","Mode")           , GUI_TA_HCENTER | GUI_TA_VCENTER);
-    LISTVIEW_AddColumn(list_h, 120	, SELE_STR("输出","Output")         , GUI_TA_HCENTER | GUI_TA_VCENTER);
+    LISTVIEW_AddColumn(list_h, 120	, SELE_STR("输出电压","Voltage")         , GUI_TA_HCENTER | GUI_TA_VCENTER);
     LISTVIEW_AddColumn(list_h, 120	, SELE_STR("测试时间","Test time")  , GUI_TA_HCENTER | GUI_TA_VCENTER);
     LISTVIEW_AddColumn(list_h, 120	, SELE_STR("步间连续","Step Con.")  , GUI_TA_HCENTER | GUI_TA_VCENTER);
     LISTVIEW_AddColumn(list_h, 170	, SELE_STR("测试端口","Test Port")		, GUI_TA_HCENTER | GUI_TA_VCENTER);
@@ -58,7 +58,7 @@ WM_HWIN _7_create_step_listview(WM_HWIN hWin)
 	SCROLLBAR_SetColor(hScrollbar, SCROLLBAR_CI_ARROW, GUI_GRAY);  //箭头
 	WIDGET_SetEffect(hScrollbar, &WIDGET_Effect_None);
 	
-	for(i = 0; i < 99; i++)
+	for(i = 0; i < 30; i++)
 	{
 		LISTVIEW_AddRow(list_h, 0);
 		sprintf((char *)buf, "%02d", i + 1);

@@ -60,7 +60,6 @@ typedef enum{
     STEP_EDIT_WIN_PASS,///<步间PASS
     STEP_EDIT_WIN_PORT,///<输出端口
     
-    
     STEP_EDIT_UI_END,
 }STEP_EDIT_UI_INDEX;
 /* Private define ------------------------------------------------------------*/
@@ -764,7 +763,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {ELE_EDIT_STR, E_STRING_T},/*类型*/
         {3/*dec*/,20/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {
-            2000/*heigh*/,0/*low*/,{"0-X 1-L 2-H","0-X 1-L 2-H"}/*notice*/,
+            2000/*heigh*/,0/*low*/,{"0-X 1-H","0-X 1-H"}/*notice*/,
             check_test_port_value_validity
         },/*range*/
         {edit_test_port_sys_key_init, edit_step_num_menu_key_init, keyboard_test_port},/*key_inf*/
@@ -2856,10 +2855,9 @@ static void step_edit_windows_cb(WM_MESSAGE* pMsg)
 /* Public functions ---------------------------------------------------------*/
 
 
-EDIT_ELE_T *get_mode_edit_ele_inf(UN_STRUCT *step)
+void get_mode_edit_ele_inf(UN_STRUCT *step, EDIT_ELE_T* ret_ele, CS_ERR *err)
 {
     EDIT_ELE_T* ele = NULL;
-    CS_ERR err;
     EDIT_ELE_T *pool;
     uint32_t size;
     
@@ -2867,23 +2865,19 @@ EDIT_ELE_T *get_mode_edit_ele_inf(UN_STRUCT *step)
     size = this_win->edit.pool_size;
     
     reg_edit_ele_data(&step_edit_windows, STEP_EDIT_WIN_MODE, &step->com.mode,  sizeof(step->com.mode));//测试模式
-    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_MODE, &err);
+    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_MODE, err);
     
-    if(err == CS_ERR_NONE)
+    if(*err == CS_ERR_NONE)
     {
         init_test_mode_edit_ele_resource_inf(ele, step);
-//        ele->resource.table = get_defined_mode_table();//初始化资源表为已定义的测试模式
-//        ele->resource.size = get_defined_mode_num();//初始化资源表size为已定义的测试模式个数
-//        ele->resource.user_data = get_defined_mode_flag();//初始化用户数据为测试模式对应的数值数组
-//        ele->resource.user_data_size = get_defined_mode_num();//初始化用户数据个数
+        *ret_ele = *ele;
     }
     
-    return ele;
+    return;
 }
-EDIT_ELE_T *get_range_edit_ele_inf(UN_STRUCT *step)
+void get_range_edit_ele_inf(UN_STRUCT *step, EDIT_ELE_T* ret_ele, CS_ERR *err)
 {
     EDIT_ELE_T* ele = NULL;
-    CS_ERR err;
     EDIT_ELE_T *pool;
     uint32_t size;
     uint8_t mode = 0;
@@ -2906,27 +2900,28 @@ EDIT_ELE_T *get_range_edit_ele_inf(UN_STRUCT *step)
             n = sizeof(step->dcw.range);
             break;
         default:
-            return ele;
+            *err = CS_ERR_TEST_MODE_INVALTD;
+            return;
     }
     
     reg_edit_ele_data(&step_edit_windows, STEP_EDIT_WIN_RANGE, p_data,  n);
-    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_RANGE, &err);
+    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_RANGE, err);
     
-    if(err == CS_ERR_NONE)
+    if(*err == CS_ERR_NONE)
     {
         ele->resource.table = get_defined_range_table(mode);
         ele->resource.size = get_defined_range_num(mode);
         ele->resource.user_data = get_defined_range_flag(mode);
         ele->resource.user_data_size = get_defined_range_num(mode);
+        *ret_ele = *ele;
     }
     
-    return ele;
+    return;
 }
 
-EDIT_ELE_T *get_auto_shift_edit_ele_inf(UN_STRUCT *step)
+void get_auto_shift_edit_ele_inf(UN_STRUCT *step, EDIT_ELE_T* ret_ele, CS_ERR *err)
 {
     EDIT_ELE_T* ele = NULL;
-    CS_ERR err;
     EDIT_ELE_T *pool;
     uint32_t size;
     uint8_t mode = 0;
@@ -2939,27 +2934,28 @@ EDIT_ELE_T *get_auto_shift_edit_ele_inf(UN_STRUCT *step)
     
     if(mode != IR)
     {
-        return ele;
+        *err = CS_ERR_TEST_MODE_INVALTD;
+        return;
     }
     
     p_data = &step->ir.auto_shift;
     n = sizeof(step->ir.auto_shift);
     
     reg_edit_ele_data(this_win, STEP_EDIT_WIN_AUTO_IR, p_data,  n);
-    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_AUTO_IR, &err);
+    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_AUTO_IR, err);
     
-    if(err == CS_ERR_NONE)
+    if(*err == CS_ERR_NONE)
     {
         init_sw_type_edit_ele_resource_inf(ele);
+        *ret_ele = *ele;
     }
     
-    return ele;
+    return;
 }
 
-EDIT_ELE_T *get_vol_edit_ele_inf(UN_STRUCT *step)
+void get_vol_edit_ele_inf(UN_STRUCT *step, EDIT_ELE_T* ret_ele, CS_ERR *err)
 {
     EDIT_ELE_T* ele = NULL;
-    CS_ERR err;
     EDIT_ELE_T *pool;
     uint32_t size;
     uint8_t mode = 0;
@@ -3005,21 +3001,26 @@ EDIT_ELE_T *get_vol_edit_ele_inf(UN_STRUCT *step)
             low = GR_CUR_L;
             break;
         default:
-            return ele;
+            *err = CS_ERR_TEST_MODE_INVALTD;
+            return;
     }
     
     reg_edit_ele_data(&step_edit_windows, index, p_data,  n);
-    ele = get_edit_ele_inf(pool, size, index, &err);
-    ele->dis.edit.max_len = 5;
-    ele->range.high = high;
-    ele->range.low = low;
+    ele = get_edit_ele_inf(pool, size, index, err);
     
-    return ele;
+    if(*err == CS_ERR_NONE)
+    {
+        ele->dis.edit.max_len = 5;
+        ele->range.high = high;
+        ele->range.low = low;
+        *ret_ele = *ele;
+    }
+    
+    return;
 }
-EDIT_ELE_T *get_test_time_edit_ele_inf(UN_STRUCT *step)
+void get_test_time_edit_ele_inf(UN_STRUCT *step, EDIT_ELE_T* ret_ele, CS_ERR *err)
 {
     EDIT_ELE_T* ele = NULL;
-    CS_ERR err;
     EDIT_ELE_T *pool;
     uint32_t size;
     uint8_t mode = 0;
@@ -3053,19 +3054,24 @@ EDIT_ELE_T *get_test_time_edit_ele_inf(UN_STRUCT *step)
             n = sizeof(step->gr.test_time);
             break;
         default:
-            return ele;
+            *err = CS_ERR_TEST_MODE_INVALTD;
+            return;
     }
     
     reg_edit_ele_data(&step_edit_windows, index, p_data,  n);
-    ele = get_edit_ele_inf(pool, size, index, &err);
-    ele->dis.edit.max_len = 5;
+    ele = get_edit_ele_inf(pool, size, index, err);
     
-    return ele;
+    if(*err == CS_ERR_NONE)
+    {
+        ele->dis.edit.max_len = 5;
+        *ret_ele = *ele;
+    }
+    
+    return;
 }
-EDIT_ELE_T *get_upper_edit_ele_inf(UN_STRUCT *step)
+void get_upper_edit_ele_inf(UN_STRUCT *step, EDIT_ELE_T* ret_ele, CS_ERR *err)
 {
     EDIT_ELE_T* ele = NULL;
-    CS_ERR err;
     EDIT_ELE_T *pool;
     uint32_t size;
     uint8_t mode = 0;
@@ -3125,23 +3131,28 @@ EDIT_ELE_T *get_upper_edit_ele_inf(UN_STRUCT *step)
             low = GR_RES_L;
             break;
         default:
-            return ele;
+            *err = CS_ERR_TEST_MODE_INVALTD;
+            return;
     }
     
     reg_edit_ele_data(this_win, index, p_data,  n);
-    ele = get_edit_ele_inf(pool, size, index, &err);
-    ele->dis.edit.max_len = 5;
-    ele->range.high = high;
-    ele->range.low = low;
-    ele->format.dec = dec;
-    ele->format.unit = unit;
+    ele = get_edit_ele_inf(pool, size, index, err);
     
-    return ele;
+    if(*err == CS_ERR_NONE)
+    {
+        ele->dis.edit.max_len = 5;
+        ele->range.high = high;
+        ele->range.low = low;
+        ele->format.dec = dec;
+        ele->format.unit = unit;
+        *ret_ele = *ele;
+    }
+    
+    return;
 }
-EDIT_ELE_T *get_lower_edit_ele_inf(UN_STRUCT *step)
+void get_lower_edit_ele_inf(UN_STRUCT *step, EDIT_ELE_T* ret_ele, CS_ERR *err)
 {
     EDIT_ELE_T* ele = NULL;
-    CS_ERR err;
     EDIT_ELE_T *pool;
     uint32_t size;
     uint8_t mode = 0;
@@ -3209,18 +3220,24 @@ EDIT_ELE_T *get_lower_edit_ele_inf(UN_STRUCT *step)
             low = 0;
             break;
         default:
-            return ele;
+            *err = CS_ERR_TEST_MODE_INVALTD;
+            return;
     }
     
     reg_edit_ele_data(&step_edit_windows, index, p_data,  n);
-    ele = get_edit_ele_inf(pool, size, index, &err);
-    ele->dis.edit.max_len = 5;
-    ele->range.high = high;
-    ele->range.low = low;
-    ele->format.dec = dec;
-    ele->format.unit = unit;
+    ele = get_edit_ele_inf(pool, size, index, err);
     
-    return ele;
+    if(*err == CS_ERR_NONE)
+    {
+        ele->dis.edit.max_len = 5;
+        ele->range.high = high;
+        ele->range.low = low;
+        ele->format.dec = dec;
+        ele->format.unit = unit;
+        *ret_ele = *ele;
+    }
+    
+    return;
 }
 /**
   * @brief  创建步骤编辑窗口

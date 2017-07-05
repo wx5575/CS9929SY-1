@@ -140,6 +140,7 @@ uint32_t get_edit_ele_value(EDIT_ELE_T* ele, uint8_t *buf)
     WM_HMEM handle = ele->dis.edit.handle;
     uint32_t max_len = ele->dis.edit.max_len + 1;
     uint32_t value = 0;
+    float f_value = 0;
     uint8_t dec = ele->format.dec;
     uint32_t index = 0;
     uint8_t t_buf[20] = {0};
@@ -155,7 +156,8 @@ uint32_t get_edit_ele_value(EDIT_ELE_T* ele, uint8_t *buf)
             break;
         case ELE_EDIT_NUM:
             EDIT_GetText(handle, (char*)t_buf, max_len);
-            value = atof((const char*)t_buf) * ten_power(dec);
+            value = atof((const char*)t_buf) * ten_power(dec) + 0.5;
+            
             if(buf == NULL)
             {
                 break;

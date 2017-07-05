@@ -47,7 +47,8 @@ typedef enum{
     CS_ERR_DATA_OUT_OF_RANGE,///<数据越界
     CS_ERR_INDEX_INVALID,///<索引值无效
     CS_ERR_KEY_VALUE_INVALID,///<键值无效
-    CS_ERR_ELE_INDEX_INVALID,///对象索引无效
+    CS_ERR_ELE_INDEX_INVALID,///<对象索引无效
+    CS_ERR_TEST_MODE_INVALTD,///<测试模式非法
 }CS_ERR;
 /**
   * @brief  文件编号

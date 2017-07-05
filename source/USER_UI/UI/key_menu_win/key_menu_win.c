@@ -606,6 +606,14 @@ void init_menu_key_info(MENU_KEY_INFO_T * info, uint32_t n, int data)
         fun.fun = info[i].fun_key.key_up_dispose_fun;
         memcpy(&fun.msg, &info[i].fun_key.msg, sizeof(fun.msg));
         fun.en = info[i].fun_key.en;
+        fun.msg.key_value = info[i].fun_key.key_value;
+        
+        /* 如果配置的按键索引是空就失能按键,赋空处理函数 */
+		if(info[i].index == F_KEY_NULL)
+		{
+            fun.fun = NULL;
+            fun.en = MENU_KEY_DIS;
+        }
         
         set_menu_function_status(info[i].fun_key.key_value, info[i].fun_key.en);
         register_key_dispose_fun(info[i].fun_key.key_value, &fun);
@@ -649,6 +657,7 @@ void unregister_system_key_fun(CONFIG_FUNCTION_KEY_INFO_T info[], uint32_t n)
         fun.msg.user_data = 0;
         fun.en = MENU_KEY_DIS;
         
+        fun.msg.key_value = info[i].key_value;
         register_key_dispose_fun(info[i].key_value, &fun);
 	}
 }
@@ -669,6 +678,7 @@ void register_system_key_fun(CONFIG_FUNCTION_KEY_INFO_T info[], uint32_t n, int 
         
         fun.fun = info[i].key_up_dispose_fun;
         fun.msg.user_data = info[i].msg.user_data;
+        fun.msg.key_value = info[i].key_value;
         fun.en = info[i].en;
         
         register_key_dispose_fun(info[i].key_value, &fun);

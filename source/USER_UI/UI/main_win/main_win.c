@@ -2,9 +2,9 @@
   ******************************************************************************
   * @file    main_ui_com.c
   * @author  王鑫
-  * @version V0.0.1
+  * @version V1.0.0
   * @date    2017.4.18
-  * @brief   文件保存界面
+  * @brief   主窗口文件
   ******************************************************************************
   */
 /* Includes ------------------------------------------------------------------*/
@@ -65,7 +65,6 @@ static	WM_HWIN U_FLASH_2_handle;///<U盘图标2句柄
 static	WM_HWIN KEY_LOCK_handle;///<键盘锁图标句柄
 static	WM_HWIN KEY_CAPITAL_SMALL_handle;///<大小写图标句柄
 /** 主界面显示的文本索引表 */
-
 static CS_INDEX main_ui_text_ele_table[] =
 {
 	MAIN_UI_COM_ST,
@@ -76,10 +75,10 @@ static CS_INDEX main_ui_text_ele_table[] =
   */
 static CONFIG_FUNCTION_KEY_INFO_T sys_key_pool[]=
 {
-	{KEY_SHIFT	        , sys_shift_key_fun_cb     },
-	{KEY_UNLOCK	        , sys_unlock_key_fun_cb    },
-	{KEY_EXIT	        , sys_exit_key_fun_cb    },
-	{KEY_F1 & KEY_0     , screen_capture_key_fun_cb},
+	{KEY_SHIFT	    , sys_shift_key_fun_cb      },
+	{KEY_UNLOCK	    , sys_unlock_key_fun_cb     },
+	{KEY_EXIT	    , sys_exit_key_fun_cb       },
+	{KEY_F1 & KEY_0 , screen_capture_key_fun_cb },
 };
 /**
   * @brief  根据不同屏幕尺寸填入位置尺寸信息

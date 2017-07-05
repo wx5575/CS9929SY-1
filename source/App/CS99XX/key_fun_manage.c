@@ -56,6 +56,10 @@ KEY_DISPOSE_FUN *get_key_inf(uint32_t key)
 		case KEY_F1 & KEY_0:temp_fun = &key_funcation.key_f1_0;break;
 		case KEY_F1 & KEY_1:temp_fun = &key_funcation.key_f1_1;break;
 		case KEY_F1 & KEY_4:temp_fun = &key_funcation.key_f1_4;break;
+        
+		case KEY_UNLOCK & KEY_OFFSET:temp_fun = &key_funcation.key_clock_offset;break;
+		case KEY_UNLOCK & KEY_ENTER:temp_fun = &key_funcation.key_clock_enter;break;
+		case KEY_UNLOCK & KEY_EXIT:temp_fun = &key_funcation.key_clock_exit;break;
 		
 		case KEY_F0 & _KEY_UP:   temp_fun = &key_funcation.key_f0;break;
 		case KEY_F1 & _KEY_UP:	 temp_fun = &key_funcation.key_f1;break;
@@ -107,6 +111,10 @@ KEY_DISPOSE_FUN *get_key_inf_(uint32_t key)
 		case KEY_F1 & KEY_0:temp_fun = &key_funcation.key_f1_0;break;
 		case KEY_F1 & KEY_1:temp_fun = &key_funcation.key_f1_1;break;
 		case KEY_F1 & KEY_4:temp_fun = &key_funcation.key_f1_4;break;
+        
+		case KEY_UNLOCK & KEY_OFFSET:temp_fun = &key_funcation.key_clock_offset;break;
+		case KEY_UNLOCK & KEY_ENTER:temp_fun = &key_funcation.key_clock_enter;break;
+		case KEY_UNLOCK & KEY_EXIT:temp_fun = &key_funcation.key_clock_exit;break;
 		
 		case KEY_F0 & _KEY_UP:   temp_fun = &key_funcation.key_f0;break;
 		case KEY_F1 & _KEY_UP:	 temp_fun = &key_funcation.key_f1;break;

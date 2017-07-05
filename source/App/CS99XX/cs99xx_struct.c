@@ -45,7 +45,7 @@ static uint8_t  const  cs99xx_maptbl[256] = {
   */
 const uint8_t *unit_pool[]=
 {
-	"","s","mV","V","kV","uA","mA","A","mΩ","Ω","MΩ","GΩ","pF","nF","uF","Hz","%",
+	"","s","mV","V","kV","μA","mA","A","mΩ","Ω","MΩ","GΩ","pF","nF","μF","Hz","%",
 };
 /**
   * @brief  工作模式

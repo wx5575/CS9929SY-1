@@ -65,6 +65,9 @@ static uint8_t IsKeyDown_key_06(void) {return (cur_key_value == (KEY_0 & KEY_6))
 
 static uint8_t IsKeyDown_key_lock_0(void) {return (cur_key_value == (KEY_UNLOCK & KEY_0));}
 static uint8_t IsKeyDown_key_lock_1(void) {return (cur_key_value == (KEY_UNLOCK & KEY_1));}
+static uint8_t IsKeyDown_key_lock_offset(void) {return (cur_key_value == (KEY_UNLOCK & KEY_OFFSET));}
+static uint8_t IsKeyDown_key_lock_enter(void) {return (cur_key_value == (KEY_UNLOCK & KEY_ENTER));}
+static uint8_t IsKeyDown_key_lock_exit(void) {return (cur_key_value == (KEY_UNLOCK & KEY_EXIT));}
 static uint8_t IsKeyDown_key_F1_0(void) {return (cur_key_value == (KEY_F1 & KEY_0));}
 static uint8_t IsKeyDown_key_F1_1(void) {return (cur_key_value == (KEY_F1 & KEY_1));}
 static uint8_t IsKeyDown_key_F1_4(void) {return (cur_key_value == (KEY_F1 & KEY_4));}
@@ -117,6 +120,9 @@ static KEY_STRUCT s_Key_06;		/* KEY_1 & KEY_6 */
 
 static KEY_STRUCT s_Key_lock_0;		/* KEY_UNLOCK & KEY_0 */
 static KEY_STRUCT s_Key_lock_1;		/* KEY_UNLOCK & KEY_1 */
+static KEY_STRUCT s_Key_lock_offset;/* KEY_UNLOCK & KEY_OFFSET */
+static KEY_STRUCT s_Key_lock_enter; /* KEY_UNLOCK & KEY_ENTER */
+static KEY_STRUCT s_Key_lock_exit;  /* KEY_UNLOCK & KEY_EXIT */
 static KEY_STRUCT s_Key_F4_8;		/* KEY_F4 & KEY_8 */
 static KEY_STRUCT s_Key_F4_9;		/* KEY_F4 & KEY_9 */
 static KEY_STRUCT s_Key_F4_5;		/* KEY_F4 & KEY_5 */
@@ -169,6 +175,9 @@ void InitKeyStr(void)
     
     init_key_info(&s_Key_lock_1 , 0, KEY_1 & KEY_UNLOCK, 0, COMBINATION_KEY, IsKeyDown_key_lock_1);
     init_key_info(&s_Key_lock_0 , 0, KEY_0 & KEY_UNLOCK, 0, COMBINATION_KEY, IsKeyDown_key_lock_0);
+    init_key_info(&s_Key_lock_offset , 0, KEY_UNLOCK & KEY_OFFSET, 0, COMBINATION_KEY, IsKeyDown_key_lock_offset);
+    init_key_info(&s_Key_lock_enter , 0, KEY_UNLOCK & KEY_ENTER, 0, COMBINATION_KEY, IsKeyDown_key_lock_enter);
+    init_key_info(&s_Key_lock_exit , 0, KEY_UNLOCK & KEY_EXIT, 0, COMBINATION_KEY, IsKeyDown_key_lock_exit);
 	
     init_key_info(&s_Key_06   , 0, KEY_0 & KEY_6, 0, COMBINATION_KEY, IsKeyDown_key_06);
     init_key_info(&s_Key_05   , 0, KEY_0 & KEY_5, 0, COMBINATION_KEY, IsKeyDown_key_05);

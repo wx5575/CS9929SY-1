@@ -30,6 +30,13 @@
 enum{
     TEST_WIN_EDIT_INDEX,///<测试窗口中的编辑对象索引枚举
 };
+
+typedef struct{
+    uint32_t x_n;///<n倍率
+    uint8_t x10;///<10倍率
+    uint8_t x100;///<100倍率
+    uint8_t x1000;///<1000倍率
+}DATA_MUL_POWER;///<数据设置的倍率
 /* Private define ------------------------------------------------------------*/
 #define CUR_VALUE_AT_KEY_COLOR      GUI_RED
 #define NO_CUR_VALUE_AT_KEY_COLOR   GUI_WHITE
@@ -138,6 +145,15 @@ static void test_win_direct_key_left_cb(KEY_MESSAGE *key_msg);
 static void test_win_direct_key_right_cb(KEY_MESSAGE *key_msg);
 static void test_win_sys_key_enter_cb(KEY_MESSAGE *key_msg);
 
+static void test_win_edit_num_direct_key_up_cb   (KEY_MESSAGE *key_msg);
+static void test_win_edit_num_direct_key_down_cb (KEY_MESSAGE *key_msg);
+static void test_win_edit_num_direct_key_left_cb (KEY_MESSAGE *key_msg);
+static void test_win_edit_num_direct_key_right_cb(KEY_MESSAGE *key_msg);
+static void test_win_edit_num_sys_key_enter_cb   (KEY_MESSAGE *key_msg);
+
+static void test_win_win_edit_num_sys_key_init(WM_HMEM hWin);
+
+
 static void update_test_win_text_ele_text(MYUSER_WINDOW_T* win);
 static void init_create_test_win_com_ele(MYUSER_WINDOW_T* win);
 static void init_create_test_win_text_ele(MYUSER_WINDOW_T* win);
@@ -153,13 +169,18 @@ static void change_key_set_acw_par_menu(int hWin);
 
 
 static void update_cur_range_cur_value_menu_key_color(void);
-
+static void update_data_mul_power(uint32_t key_value, uint32_t mul_power);
 /* Private variables ---------------------------------------------------------*/
+
+/**
+  * @brief  数据倍率
+  */
+static DATA_MUL_POWER data_mul_power;
 /**
   * @brief  当前所在菜单页标记
   */
 static int8_t cur_at_menu_page_flag;
-//static	WM_HWIN timer_handle;
+
 /**
   * @brief  测试界面的位置尺寸信息，根据不同屏幕进行初始化
   */
@@ -198,7 +219,7 @@ static MENU_KEY_INFO_T test_ui_acw_menu_pool[][6]=
     },
     {
         {"", F_KEY_UPPER , KEY_F1 & _KEY_UP, set_acw_par_f1_2_cb},//f1
-        {"", F_KEY_LOWER , KEY_F2 & _KEY_UP, set_acw_par_f2_2_cb},//f2
+        {"", F_KEY_NULL , KEY_F2 & _KEY_UP, set_acw_par_f2_2_cb},//f2
         {"", F_KEY_NULL  , KEY_F3 & _KEY_UP, set_acw_par_f3_2_cb},//f3
         {"", F_KEY_NULL  , KEY_F4 & _KEY_UP, set_acw_par_f4_2_cb},//f4
         {"", F_KEY_NULL  , KEY_F5 & _KEY_UP, set_acw_par_f5_2_cb},//f5
@@ -220,7 +241,7 @@ static MENU_KEY_INFO_T test_ui_ir_menu_pool[][6]=
     },
     {
         {"", F_KEY_UPPER , KEY_F1 & _KEY_UP, set_ir_par_f1_2_cb},//f1
-        {"", F_KEY_LOWER , KEY_F2 & _KEY_UP, set_ir_par_f2_2_cb},//f2
+        {"", F_KEY_NULL  , KEY_F2 & _KEY_UP, set_ir_par_f2_2_cb},//f2
         {"", F_KEY_NULL  , KEY_F3 & _KEY_UP, set_ir_par_f3_2_cb},//f3
         {"", F_KEY_NULL  , KEY_F4 & _KEY_UP, set_ir_par_f4_2_cb},//f4
         {"", F_KEY_NULL  , KEY_F5 & _KEY_UP, set_ir_par_f5_2_cb},//f5
@@ -241,7 +262,7 @@ static MENU_KEY_INFO_T test_ui_gr_menu_pool[][6]=
         {"", F_KEY_BACK  , KEY_F6 & _KEY_UP, set_gr_par_f6_1_cb},//f6
     },
     {
-        {"", F_KEY_LOWER , KEY_F1 & _KEY_UP, set_gr_par_f1_2_cb},//f1
+        {"", F_KEY_NULL , KEY_F1 & _KEY_UP, set_gr_par_f1_2_cb},//f1
         {"", F_KEY_NULL  , KEY_F2 & _KEY_UP, set_gr_par_f2_2_cb},//f2
         {"", F_KEY_NULL  , KEY_F3 & _KEY_UP, set_gr_par_f3_2_cb},//f3
         {"", F_KEY_NULL  , KEY_F4 & _KEY_UP, set_gr_par_f4_2_cb},//f4
@@ -418,7 +439,7 @@ static EDIT_ELE_T test_win_edit_ele_pool[]=
         {ELE_EDIT_NUM, E_INT_T},/*类型*/
         {0/*dec*/,2/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {99/*heigh*/,1/*low*/,{"",""}/*notice*/},/*range*/
-        {NULL, NULL, NULL,},/*key_inf*/
+        {test_win_win_edit_num_sys_key_init, NULL, NULL,},/*key_inf*/
     },
 };
 /**
@@ -523,25 +544,25 @@ static MENU_KEY_INFO_T 	edit_auto_shift_menu_key_init_info[] =
   */
 static MENU_KEY_INFO_T 	test_win_edit_vol_menu_key_init_info[] =
 {
-    {"", F_KEY_DEL		, KEY_F1 & _KEY_UP, edit_test_win_vol_f1_cb },//f1
-    {"", F_KEY_CLEAR    , KEY_F2 & _KEY_UP, edit_test_win_vol_f2_cb },//f2
-    {"", F_KEY_NULL		, KEY_F3 & _KEY_UP, edit_test_win_vol_f3_cb },//f3
-    {"", F_KEY_NULL		, KEY_F4 & _KEY_UP, edit_test_win_vol_f4_cb },//f4
-    {"", F_KEY_NULL		, KEY_F5 & _KEY_UP, edit_test_win_vol_f5_cb },//f5
-    {"", F_KEY_BACK		, KEY_F6 & _KEY_UP, edit_test_win_vol_f6_cb },//f6
+    {""     , F_KEY_DEL     , KEY_F1 & _KEY_UP, edit_test_win_vol_f1_cb },//f1
+    {""     , F_KEY_CLEAR   , KEY_F2 & _KEY_UP, edit_test_win_vol_f2_cb },//f2
+    {"X10"  , F_KEY_CUSTOM  , KEY_F3 & _KEY_UP, edit_test_win_vol_f3_cb },//f3
+    {"X100" , F_KEY_CUSTOM  , KEY_F4 & _KEY_UP, edit_test_win_vol_f4_cb },//f4
+    {"X1000", F_KEY_CUSTOM  , KEY_F5 & _KEY_UP, edit_test_win_vol_f5_cb },//f5
+    {""     , F_KEY_BACK    , KEY_F6 & _KEY_UP, edit_test_win_vol_f6_cb },//f6
 };
 
 /**
-* @brief  编辑上下限时使用的菜单键初始化信息数组
+  * @brief  编辑上下限时使用的菜单键初始化信息数组
   */
 static MENU_KEY_INFO_T 	test_win_edit_upper_menu_key_init_info[] =
 {
-    {"", F_KEY_DEL		, KEY_F1 & _KEY_UP, edit_test_win_upper_f1_cb },//f1
-    {"", F_KEY_CLEAR    , KEY_F2 & _KEY_UP, edit_test_win_upper_f2_cb },//f2
-    {"", F_KEY_NULL		, KEY_F3 & _KEY_UP, edit_test_win_upper_f3_cb },//f3
-    {"", F_KEY_NULL		, KEY_F4 & _KEY_UP, edit_test_win_upper_f4_cb },//f4
-    {"", F_KEY_NULL		, KEY_F5 & _KEY_UP, edit_test_win_upper_f5_cb },//f5
-    {"", F_KEY_BACK		, KEY_F6 & _KEY_UP, edit_test_win_upper_f6_cb },//f6
+    {"", F_KEY_DEL		    , KEY_F1 & _KEY_UP, edit_test_win_upper_f1_cb },//f1
+    {"", F_KEY_CLEAR        , KEY_F2 & _KEY_UP, edit_test_win_upper_f2_cb },//f2
+    {"X10"  , F_KEY_CUSTOM  , KEY_F3 & _KEY_UP, edit_test_win_upper_f3_cb },//f3
+    {"X100" , F_KEY_CUSTOM  , KEY_F4 & _KEY_UP, edit_test_win_upper_f4_cb },//f4
+    {"X1000", F_KEY_CUSTOM  , KEY_F5 & _KEY_UP, edit_test_win_upper_f5_cb },//f5
+    {"", F_KEY_BACK		    , KEY_F6 & _KEY_UP, edit_test_win_upper_f6_cb },//f6
 };
 
 /**
@@ -554,6 +575,23 @@ static CONFIG_FUNCTION_KEY_INFO_T 	test_win_edit_par_sys_key_init_pool[]=
 	{KEY_LEFT	, test_win_direct_key_left_cb    },
 	{KEY_RIGHT	, test_win_direct_key_right_cb   },
 	{KEY_ENTER	, test_win_sys_key_enter_cb      },
+    
+	{CODE_RIGH	, 0 },
+	{CODE_LEFT	, 0 },
+};
+/**
+  * @brief  测试窗口编辑数值时使用的功能键的初始化信息数组
+  */
+static CONFIG_FUNCTION_KEY_INFO_T 	test_win_edit_num_sys_key_init_pool[]=
+{
+	{KEY_UP		, test_win_edit_num_direct_key_up_cb      },
+	{KEY_DOWN	, test_win_edit_num_direct_key_down_cb    },
+	{KEY_LEFT	, test_win_edit_num_direct_key_left_cb    },
+	{KEY_RIGHT	, test_win_edit_num_direct_key_right_cb   },
+	{KEY_ENTER	, test_win_edit_num_sys_key_enter_cb      },
+    
+	{CODE_RIGH	, test_win_edit_num_direct_key_up_cb      },
+	{CODE_LEFT	, test_win_edit_num_direct_key_down_cb    },
 };
 /* Private functions ---------------------------------------------------------*/
 /**
@@ -566,7 +604,8 @@ static void update_cur_range_cur_value_menu_key_color(void)
     uint32_t key_value = 0;
     int32_t i = 0;
     GUI_COLOR color;
-    EDIT_ELE_T *ele;
+    EDIT_ELE_T tmp_ele;
+    CS_ERR err;
     uint32_t size = 0;
     uint8_t **p_range;
     uint8_t *cur_range;
@@ -581,9 +620,15 @@ static void update_cur_range_cur_value_menu_key_color(void)
     };
     
     mode = g_cur_step->one_step.com.mode;
-    ele = get_range_edit_ele_inf(&g_cur_step->one_step);
-    p_range = ele->resource.table;
-    size = ele->resource.size;
+    get_range_edit_ele_inf(&g_cur_step->one_step, &tmp_ele, &err);
+    
+    if(err != CS_ERR_NONE)
+    {
+        return;
+    }
+    
+    p_range = tmp_ele.resource.table;
+    size = tmp_ele.resource.size;
     
     switch(mode)
     {
@@ -623,7 +668,8 @@ static void update_test_mode_cur_value_menu_key_color(void)
     uint32_t key_value = 0;
     int32_t i = 0;
     GUI_COLOR color;
-    EDIT_ELE_T *ele;
+    EDIT_ELE_T tmp_ele;
+    CS_ERR err;
     uint32_t size = 0;
     uint8_t **p_mode;
     const uint8_t *cur_mode;
@@ -636,10 +682,16 @@ static void update_test_mode_cur_value_menu_key_color(void)
         KEY_F6 & _KEY_UP,
     };
     
-    ele = get_mode_edit_ele_inf(&g_cur_step->one_step);
+    get_mode_edit_ele_inf(&g_cur_step->one_step, &tmp_ele, &err);
+    
+    if(err != CS_ERR_NONE)
+    {
+        return;
+    }
+    
     cur_mode = mode_pool[g_cur_step->one_step.com.mode];
-    p_mode = ele->resource.table;
-    size = ele->resource.size;
+    p_mode = tmp_ele.resource.table;
+    size = tmp_ele.resource.size;
     
     for(i = 0; i < size; i++)
     {
@@ -703,7 +755,8 @@ static void test_win_select_cur_range_key_cb(KEY_MESSAGE *key_msg)
     uint8_t mode = 0;
     uint8_t *range;
     uint8_t range_bk;
-    EDIT_ELE_T *ele;
+    EDIT_ELE_T tmp_ele;
+    CS_ERR err;
     uint32_t value;
     
     
@@ -727,13 +780,15 @@ static void test_win_select_cur_range_key_cb(KEY_MESSAGE *key_msg)
     {
         *range = data;//更新当前步的电流档位
         
-        ele = get_range_edit_ele_inf(&g_cur_step->one_step);
+        get_range_edit_ele_inf(&g_cur_step->one_step, &tmp_ele, &err);
         
-        if(ele != NULL)
+        if(err != CS_ERR_NONE)
         {
-            value = data;
-            ele->range.check_value_validity(ele, &value);
+            return;
         }
+        
+        value = data;
+        tmp_ele.range.check_value_validity(&tmp_ele, &value);
         update_cur_range_cur_value_menu_key_color();
         save_setting_step();//保存正在设置的步骤参数
         update_test_win_text_ele_text(g_cur_win);
@@ -752,6 +807,18 @@ static void test_win_win_sys_key_init(WM_HMEM hWin)
     register_system_key_fun(pool, size, hWin);
 }
 /**
+  * @brief  测试窗口编辑数字使用的系统功能键信息初始化
+  * @param  [in] hWin 窗口句柄
+  * @retval 无
+  */
+static void test_win_win_edit_num_sys_key_init(WM_HMEM hWin)
+{
+    CONFIG_FUNCTION_KEY_INFO_T *pool = test_win_edit_num_sys_key_init_pool;
+    uint32_t size = ARRAY_SIZE(test_win_edit_num_sys_key_init_pool);
+    
+    register_system_key_fun(pool, size, hWin);
+}
+/**
   * @brief  编辑测试模式时使用的菜单键初始化
   * @param  [in] hWin 窗口句柄
   * @retval 无
@@ -762,17 +829,18 @@ static void test_win_edit_mode_menu_key_init(WM_HMEM hWin)
     uint32_t size = ARRAY_SIZE(test_win_edit_mode_menu_key_init_info);
     CUSTOM_MENU_KEY_INF *cus_inf = test_win_mode_inf_pool;
     uint16_t cus_size = ARRAY_SIZE(test_win_mode_inf_pool);
-    EDIT_ELE_T *ele;
+    EDIT_ELE_T tmp_ele;
+    CS_ERR err;
     
-    ele = get_mode_edit_ele_inf(&g_cur_step->one_step);
+    get_mode_edit_ele_inf(&g_cur_step->one_step, &tmp_ele, &err);
     
-    if(ele != NULL)
+    if(err == CS_ERR_NONE)
     {
-        init_menu_key_custom_inf(cus_inf, cus_size, ele, info, size);
+        init_menu_key_custom_inf(cus_inf, cus_size, &tmp_ele, info, size);
         init_menu_key_info(info, size, hWin);
         update_test_mode_cur_value_menu_key_color();
-        update_range_name(ele->name[SYS_LANGUAGE]);
-        update_ele_range_text(ele);
+        update_range_name(tmp_ele.name[SYS_LANGUAGE]);
+        update_ele_range_text(&tmp_ele);
     }
 }
 
@@ -787,17 +855,18 @@ static void test_win_edit_range_menu_key_init(WM_HMEM hWin)
     uint32_t size = ARRAY_SIZE(test_win_edit_range_menu_key_init_info);
     CUSTOM_MENU_KEY_INF *cus_inf = test_win_cur_range_inf_pool;
     uint16_t cus_size = ARRAY_SIZE(test_win_cur_range_inf_pool);
-    EDIT_ELE_T *ele;
+    EDIT_ELE_T tmp_ele;
+    CS_ERR err;
     
-    ele = get_range_edit_ele_inf(&g_cur_step->one_step);
+    get_range_edit_ele_inf(&g_cur_step->one_step, &tmp_ele, &err);
     
-    if(ele != NULL)
+    if(err == CS_ERR_NONE)
     {
-        init_menu_key_custom_inf(cus_inf, cus_size, ele, info, size);
+        init_menu_key_custom_inf(cus_inf, cus_size, &tmp_ele, info, size);
         init_menu_key_info(info, size, hWin);
         update_cur_range_cur_value_menu_key_color();
-        update_range_name(ele->name[SYS_LANGUAGE]);
-        update_ele_range_text(ele);
+        update_range_name(tmp_ele.name[SYS_LANGUAGE]);
+        update_ele_range_text(&tmp_ele);
     }
 }
 /**
@@ -810,10 +879,12 @@ static void test_win_edit_auto_shift_menu_key_init(WM_HMEM hWin)
     MENU_KEY_INFO_T * info = edit_auto_shift_menu_key_init_info;
     uint32_t size = ARRAY_SIZE(edit_auto_shift_menu_key_init_info);
     EDIT_ELE_T *ele;
+    EDIT_ELE_T tmp_ele;
+    CS_ERR err;
     uint32_t key_value = 0;
     int32_t i = 0;
     
-    ele = get_auto_shift_edit_ele_inf(&g_cur_step->one_step);
+    get_auto_shift_edit_ele_inf(&g_cur_step->one_step, &tmp_ele, &err);
     
     for(i = 0; i < size; i++)
     {
@@ -832,12 +903,13 @@ static void test_win_edit_auto_shift_menu_key_init(WM_HMEM hWin)
             }
         }
     }
-    if(ele != NULL)
+    
+    if(err == CS_ERR_NONE)
     {
         init_menu_key_info(info, size, hWin);
         change_menu_key_font_color(key_value, CUR_VALUE_AT_KEY_COLOR);
         update_range_name(ele->name[SYS_LANGUAGE]);
-        update_ele_range_text(ele);
+        update_ele_range_text(&tmp_ele);
     }
 }
 /**
@@ -849,12 +921,13 @@ static void test_win_edit_vol_menu_key_init(WM_HMEM hWin)
 {
     MENU_KEY_INFO_T * info = test_win_edit_vol_menu_key_init_info;
     uint32_t size = ARRAY_SIZE(test_win_edit_vol_menu_key_init_info);
-    EDIT_ELE_T *ele = NULL;
+    EDIT_ELE_T tmp_ele;
     EDIT_ELE_T *edit_ele = NULL;
     CS_ERR err;
     EDIT_ELE_T *pool;
     uint32_t n;
     
+    data_mul_power.x_n = 1;
     pool = g_cur_win->edit.pool;
     n = g_cur_win->edit.pool_size;
     
@@ -865,16 +938,17 @@ static void test_win_edit_vol_menu_key_init(WM_HMEM hWin)
         return;
     }
     
-    ele = get_vol_edit_ele_inf(&g_cur_step->one_step);
+    get_vol_edit_ele_inf(&g_cur_step->one_step, &tmp_ele, &err);
     
-    if(ele != NULL)
+    if(err == CS_ERR_NONE)
     {
-        memcpy(edit_ele, ele, sizeof(EDIT_ELE_T));
+        tmp_ele.key_inf.fun_sys_key = edit_ele->key_inf.fun_sys_key;
+        memcpy(edit_ele, &tmp_ele, sizeof(EDIT_ELE_T));
         edit_ele->index = TEST_WIN_EDIT_INDEX;//恢复索引值
         init_vol_edit_ele_pos_size(g_cur_win);
         init_create_test_win_edit_ele(g_cur_win);
         init_menu_key_info(info, size, hWin);
-        update_range_name(ele->name[SYS_LANGUAGE]);
+        update_range_name(tmp_ele.name[SYS_LANGUAGE]);
     }
 }
 /**
@@ -886,12 +960,13 @@ static void test_win_edit_test_time_menu_key_init(WM_HMEM hWin)
 {
     MENU_KEY_INFO_T * info = test_win_edit_vol_menu_key_init_info;
     uint32_t size = ARRAY_SIZE(test_win_edit_vol_menu_key_init_info);
-    EDIT_ELE_T *ele = NULL;
+    EDIT_ELE_T tmp_ele;
     EDIT_ELE_T *edit_ele = NULL;
     CS_ERR err;
     EDIT_ELE_T *pool;
     uint32_t n;
     
+    data_mul_power.x_n = 1;
     pool = g_cur_win->edit.pool;
     n = g_cur_win->edit.pool_size;
     
@@ -902,16 +977,17 @@ static void test_win_edit_test_time_menu_key_init(WM_HMEM hWin)
         return;
     }
     
-    ele = get_test_time_edit_ele_inf(&g_cur_step->one_step);
+    get_test_time_edit_ele_inf(&g_cur_step->one_step, &tmp_ele, &err);
     
-    if(ele != NULL)
+    if(err == CS_ERR_NONE)
     {
-        memcpy(edit_ele, ele, sizeof(EDIT_ELE_T));
+        tmp_ele.key_inf.fun_sys_key = edit_ele->key_inf.fun_sys_key;
+        memcpy(edit_ele, &tmp_ele, sizeof(EDIT_ELE_T));
         edit_ele->index = TEST_WIN_EDIT_INDEX;//恢复索引值
         init_test_time_edit_ele_pos_size(g_cur_win);
         init_create_test_win_edit_ele(g_cur_win);
         init_menu_key_info(info, size, hWin);
-        update_range_name(ele->name[SYS_LANGUAGE]);
+        update_range_name(tmp_ele.name[SYS_LANGUAGE]);
     }
 }
 /**
@@ -923,12 +999,13 @@ static void test_win_edit_cur_upper_menu_key_init(WM_HMEM hWin)
 {
     MENU_KEY_INFO_T * info = test_win_edit_upper_menu_key_init_info;
     uint32_t size = ARRAY_SIZE(test_win_edit_upper_menu_key_init_info);
-    EDIT_ELE_T *ele = NULL;
     EDIT_ELE_T *edit_ele = NULL;
+    EDIT_ELE_T tmp_ele;
     CS_ERR err;
     EDIT_ELE_T *pool;
     uint32_t n;
     
+    data_mul_power.x_n = 1;
     pool = g_cur_win->edit.pool;
     n = g_cur_win->edit.pool_size;
     
@@ -939,16 +1016,17 @@ static void test_win_edit_cur_upper_menu_key_init(WM_HMEM hWin)
         return;
     }
     
-    ele = get_upper_edit_ele_inf(&g_cur_step->one_step);
+    get_upper_edit_ele_inf(&g_cur_step->one_step, &tmp_ele, &err);
     
-    if(ele != NULL)
+    if(err == CS_ERR_NONE)
     {
-        memcpy(edit_ele, ele, sizeof(EDIT_ELE_T));
+        tmp_ele.key_inf.fun_sys_key = edit_ele->key_inf.fun_sys_key;
+        memcpy(edit_ele, &tmp_ele, sizeof(EDIT_ELE_T));
         edit_ele->index = TEST_WIN_EDIT_INDEX;//恢复索引值
         init_cur_upper_edit_ele_pos_size(g_cur_win);
         init_create_test_win_edit_ele(g_cur_win);
         init_menu_key_info(info, size, hWin);
-        update_range_name(ele->name[SYS_LANGUAGE]);
+        update_range_name(tmp_ele.name[SYS_LANGUAGE]);
     }
 }
 
@@ -961,12 +1039,13 @@ static void test_win_edit_cur_lower_menu_key_init(WM_HMEM hWin)
 {
     MENU_KEY_INFO_T * info = test_win_edit_upper_menu_key_init_info;
     uint32_t size = ARRAY_SIZE(test_win_edit_upper_menu_key_init_info);
-    EDIT_ELE_T *ele = NULL;
     EDIT_ELE_T *edit_ele = NULL;
+    EDIT_ELE_T tmp_ele;
     CS_ERR err;
     EDIT_ELE_T *pool;
     uint32_t n;
     
+    data_mul_power.x_n = 1;
     pool = g_cur_win->edit.pool;
     n = g_cur_win->edit.pool_size;
     
@@ -977,16 +1056,17 @@ static void test_win_edit_cur_lower_menu_key_init(WM_HMEM hWin)
         return;
     }
     
-    ele = get_lower_edit_ele_inf(&g_cur_step->one_step);
+    get_lower_edit_ele_inf(&g_cur_step->one_step, &tmp_ele, &err);
     
-    if(ele != NULL)
+    if(err == CS_ERR_NONE)
     {
-        memcpy(edit_ele, ele, sizeof(EDIT_ELE_T));
+        tmp_ele.key_inf.fun_sys_key = edit_ele->key_inf.fun_sys_key;
+        memcpy(edit_ele, &tmp_ele, sizeof(EDIT_ELE_T));
         edit_ele->index = TEST_WIN_EDIT_INDEX;//恢复索引值
         init_cur_lower_edit_ele_pos_size(g_cur_win);
         init_create_test_win_edit_ele(g_cur_win);
         init_menu_key_info(info, size, hWin);
-        update_range_name(ele->name[SYS_LANGUAGE]);
+        update_range_name(tmp_ele.name[SYS_LANGUAGE]);
     }
 }
 /**
@@ -1170,7 +1250,7 @@ static void init_create_test_win_edit_ele(MYUSER_WINDOW_T *win)
     
     g_cur_edit_ele = get_cur_win_edit_ele_list_head();//获取当前窗口编辑表头节点
     select_edit_ele(g_cur_edit_ele);//选中当前编辑对象
-    test_win_win_sys_key_init(g_cur_edit_ele->dis.edit.handle);
+//    test_win_win_sys_key_init(g_cur_edit_ele->dis.edit.handle);
 }
 /**
   * @brief  测试窗口向上键回调函数
@@ -1188,9 +1268,9 @@ static void test_win_direct_key_up_cb(KEY_MESSAGE *key_msg)
         
         if(NULL != node)
         {
-            g_cur_step = node;
-            update_test_win_text_ele_text(g_cur_win);
-            update_group_inf(g_cur_win);
+            g_cur_step = node;//更新当前步
+            update_test_win_text_ele_text(g_cur_win);//更新界面显示文本对象
+            update_group_inf(g_cur_win);//更新记忆组信息
         }
     }
 }
@@ -1210,9 +1290,9 @@ static void test_win_direct_key_down_cb(KEY_MESSAGE *key_msg)
         
         if(NULL != node)
         {
-            g_cur_step = node;
-            update_test_win_text_ele_text(g_cur_win);
-            update_group_inf(g_cur_win);
+            g_cur_step = node;//更新当前步
+            update_test_win_text_ele_text(g_cur_win);//更新界面显示文本对象
+            update_group_inf(g_cur_win);//更新记忆组信息
         }
     }
 }
@@ -1233,12 +1313,79 @@ static void test_win_direct_key_left_cb(KEY_MESSAGE *key_msg)
 static void test_win_direct_key_right_cb(KEY_MESSAGE *key_msg)
 {
 }
+
 /**
   * @brief  测试窗口ENTER键回调函数
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
 static void test_win_sys_key_enter_cb(KEY_MESSAGE *key_msg)
+{
+}
+
+static void test_win_edit_num_direct_key_up_cb   (KEY_MESSAGE *key_msg)
+{
+    uint32_t value = 0;
+    
+    if(data_mul_power.x_n == 0)
+    {
+        data_mul_power.x_n = 1;
+    }
+    
+    value = get_edit_ele_value(g_cur_edit_ele, NULL);
+    value += data_mul_power.x_n;
+    
+    if(value > g_cur_edit_ele->range.high)
+    {
+        value = g_cur_edit_ele->range.high;
+    }
+    else if(value < g_cur_edit_ele->range.low)
+    {
+        value = g_cur_edit_ele->range.low;
+    }
+    
+    set_edit_num_value(g_cur_edit_ele, value);
+}
+static void test_win_edit_num_direct_key_down_cb (KEY_MESSAGE *key_msg)
+{
+    uint32_t value = 0;
+    
+    if(data_mul_power.x_n == 0)
+    {
+        data_mul_power.x_n = 1;
+    }
+    
+    value = get_edit_ele_value(g_cur_edit_ele, NULL);
+    
+    if(value >= data_mul_power.x_n)
+    {
+        value -= data_mul_power.x_n;
+    }
+    else
+    {
+        value = 0;
+    }
+    
+    if(value > g_cur_edit_ele->range.high)
+    {
+        value = g_cur_edit_ele->range.high;
+    }
+    else if(value < g_cur_edit_ele->range.low)
+    {
+        value = g_cur_edit_ele->range.low;
+    }
+    
+    set_edit_num_value(g_cur_edit_ele, value);
+}
+static void test_win_edit_num_direct_key_left_cb (KEY_MESSAGE *key_msg)
+{
+	GUI_SendKeyMsg(GUI_KEY_LEFT, 1);
+}
+static void test_win_edit_num_direct_key_right_cb(KEY_MESSAGE *key_msg)
+{
+	GUI_SendKeyMsg(GUI_KEY_RIGHT, 1);
+}
+static void test_win_edit_num_sys_key_enter_cb   (KEY_MESSAGE *key_msg)
 {
     upload_par_to_ram(g_cur_edit_ele);//将数据上载到内存中
     save_setting_step();
@@ -1291,6 +1438,7 @@ static void edit_test_win_upper_f2_cb(KEY_MESSAGE *key_msg)
   */
 static void edit_test_win_upper_f3_cb(KEY_MESSAGE *key_msg)
 {
+    update_data_mul_power(key_msg->key_value, 10);
 }
 /**
   * @brief  设置测试窗口编辑上下限时使用的功能键F4回调函数
@@ -1299,6 +1447,7 @@ static void edit_test_win_upper_f3_cb(KEY_MESSAGE *key_msg)
   */
 static void edit_test_win_upper_f4_cb(KEY_MESSAGE *key_msg)
 {
+    update_data_mul_power(key_msg->key_value, 100);
 }
 /**
   * @brief  设置测试窗口编辑上下限时使用的功能键F5回调函数
@@ -1307,6 +1456,7 @@ static void edit_test_win_upper_f4_cb(KEY_MESSAGE *key_msg)
   */
 static void edit_test_win_upper_f5_cb(KEY_MESSAGE *key_msg)
 {
+    update_data_mul_power(key_msg->key_value, 1000);
 }
 /**
   * @brief  设置测试窗口编辑上下限时使用的功能键F6回调函数
@@ -1337,6 +1487,24 @@ static void edit_test_win_vol_f2_cb(KEY_MESSAGE *key_msg)
 {
     clear_edit_ele(g_cur_edit_ele->dis.edit.handle);
 }
+static void update_data_mul_power(uint32_t key_value, uint32_t mul_power)
+{
+    static uint32_t key_value_bk;
+    
+    change_menu_key_font_color(key_value_bk, NO_CUR_VALUE_AT_KEY_COLOR);
+    key_value_bk = key_value;
+    
+    if(data_mul_power.x_n != mul_power)
+    {
+        data_mul_power.x_n = mul_power;
+        change_menu_key_font_color(key_value, CUR_VALUE_AT_KEY_COLOR);
+    }
+    else
+    {
+        change_menu_key_font_color(key_value, NO_CUR_VALUE_AT_KEY_COLOR);
+        data_mul_power.x_n = 1;
+    }
+}
 /**
   * @brief  设置测试窗口编辑输出电压时使用的功能键F3回调函数
   * @param  [in] key_msg 按键消息
@@ -1344,6 +1512,7 @@ static void edit_test_win_vol_f2_cb(KEY_MESSAGE *key_msg)
   */
 static void edit_test_win_vol_f3_cb(KEY_MESSAGE *key_msg)
 {
+    update_data_mul_power(key_msg->key_value, 10);
 }
 /**
   * @brief  设置测试窗口编辑输出电压时使用的功能键F4回调函数
@@ -1352,6 +1521,7 @@ static void edit_test_win_vol_f3_cb(KEY_MESSAGE *key_msg)
   */
 static void edit_test_win_vol_f4_cb(KEY_MESSAGE *key_msg)
 {
+    update_data_mul_power(key_msg->key_value, 100);
 }
 /**
   * @brief  设置测试窗口编辑输出电压时使用的功能键F5回调函数
@@ -1360,6 +1530,7 @@ static void edit_test_win_vol_f4_cb(KEY_MESSAGE *key_msg)
   */
 static void edit_test_win_vol_f5_cb(KEY_MESSAGE *key_msg)
 {
+    update_data_mul_power(key_msg->key_value, 1000);
 }
 /**
   * @brief  设置测试窗口编辑输出电压时使用的功能键F6回调函数

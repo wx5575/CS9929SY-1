@@ -742,12 +742,12 @@ static void step_win_cb(WM_MESSAGE* pMsg)
 			win = get_user_window_info(hWin);
 			WM_SetFocus(hWin);/* 设置聚焦 */
             
+			init_step_win_listview(hWin);
             init_create_win_all_ele(win);
             update_key_inf(hWin);
             update_g_cur_step();
             update_group_inf(g_cur_win);
-            GUI_Delay(1);
-			init_step_win_listview(hWin);
+//            GUI_Delay(1);
 //            WM_CreateTimer(hWin, 0, 1, 0);
             break;
 		case WM_TIMER:

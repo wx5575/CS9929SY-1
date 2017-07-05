@@ -305,7 +305,7 @@ uint8_t get_key_lock_flag(void)
 void keyboard_test_port(uint32_t key)
 {
 	uint8_t key_index = 0xff;
-    uint8_t buf[] = "XLH";
+    uint8_t buf[] = "XH";
     
 	key_index = get_key_value_index(key, 1);//包含小数点因此传入1
     
@@ -314,7 +314,7 @@ void keyboard_test_port(uint32_t key)
         return;
     }
     
-    if(key_index > 2)
+    if(key_index > 1)
     {
         return;
     }

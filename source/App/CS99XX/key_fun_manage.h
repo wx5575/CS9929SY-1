@@ -86,6 +86,7 @@ typedef enum{
   * @brief  按键消息结构定义
   */
 typedef struct{
+	uint32_t key_value;///<键值
 	int user_data;///<传递给键盘处理函数的用户数据
     int custom_data;///<用户定制数据，用于在定制菜单信息时使用
 }KEY_MESSAGE;
@@ -154,6 +155,11 @@ typedef struct{
     
 	KEY_DISPOSE_FUN	key_clock_0;///< 组合键 KEY_CLOCK + KEY_0
 	KEY_DISPOSE_FUN	key_clock_1;///< 组合键 KEY_CLOCK + KEY_1
+    
+	KEY_DISPOSE_FUN	key_clock_offset;///< 组合键 KEY_CLOCK + KEY_OFFSET
+	KEY_DISPOSE_FUN	key_clock_enter;///< 组合键 KEY_CLOCK + KEY_ENTER
+	KEY_DISPOSE_FUN	key_clock_exit;///< 组合键 KEY_CLOCK + KEY_EXIT
+    
 	KEY_DISPOSE_FUN	key_f1_0;///< 组合键 KEY_F1 + KEY_0
 	KEY_DISPOSE_FUN	key_f1_1;///< 组合键 KEY_F1 + KEY_1
 	KEY_DISPOSE_FUN	key_f1_4;///< 组合键 KEY_F1 + KEY_4
