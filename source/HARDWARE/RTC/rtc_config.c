@@ -1,5 +1,4 @@
 
-#include "stm32f4xx.h"
 #include "rtc_config.h"
 #include "stdio.h"
 #include "string.h"

@@ -305,47 +305,6 @@ void read_one_step_flash(NODE_STEP *node, const FILE_NUM file_num, const STEP_NU
                   F_GROUP_BASE + F_GROUP_OFFSET * file_num + F_STEP_OFFSET * offset_addr,
                   F_UN_SIZE, SPI_FLASH_CHIP1);
 }
-/**
-  * @brief  拷贝当前文件到新的位置
-  * @param  [in] file_num 文件编号
-  * @retval 无
-  */
-void copy_cur_file_to_new_pos_flash(const FILE_NUM file_num)
-{
-	NODE_STEP node;
-	int8_t i = 0;
-	char temp_buf[NAME_LON];
-    uint32_t offset_addr = TABLE_VALUE_NULL;
-    
-	if(CS_TRUE != is_file_exist(file_num))
-	{
-		return;
-	}
-	
-	strcpy((char*)temp_buf, (const char*)file_pool[file_num].name);/* 备份文件名 */
-	/* 更新文件信息 */
-	file_pool[file_num] = *g_cur_file;
-	strcpy((char*)file_pool[file_num].name, (const char*)temp_buf);/* 恢复文件名 */
-	file_pool[file_num].num = file_num;
-    
-	save_file_flash(file_num);
-    save_group_table_flash(file_num);
-    save_step_used_flag_flash(file_num);
-	
-    for(i = 0; i < g_cur_file->total; i++)
-    {
-        offset_addr = cur_group_table[i];
-        
-        if(offset_addr == TABLE_VALUE_NULL)
-        {
-            return;
-        }
-        
-        read_one_step_flash(&node, g_cur_file->num, i + 1);
-        
-        save_one_step_flash(&node, file_num, i + 1);
-    }
-}
 
 uint8_t get_first_step_mode_flash(void)
 {

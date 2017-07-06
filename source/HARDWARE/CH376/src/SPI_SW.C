@@ -1,7 +1,7 @@
 /* CH376芯片 软件模拟SPI串行连接的硬件抽象层 V1.0 */
 /* 提供I/O接口子程序 */
 
-#include "stm32f4xx.h"
+#include "sys_level.h"
 #include "HAL.H"
 
 

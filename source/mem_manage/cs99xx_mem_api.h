@@ -10,7 +10,7 @@
 #ifndef __CS99XX_MEM_API_H__
 #define __CS99XX_MEM_API_H__
 
-#include    "stm32f4xx.h"
+#include    "sys_level.h"
 #include    "cs99xx_flash_manage.h"
 #include    "cs99xx_struct.h"
 
@@ -41,7 +41,6 @@ extern void save_one_step(NODE_STEP *node, const FILE_NUM file_num, const STEP_N
 extern void read_one_step(NODE_STEP *node, const FILE_NUM file_num, const STEP_NUM step);
 extern void save_group_info(const FILE_NUM file_num);
 extern void read_group_info(const FILE_NUM file_num);
-extern void copy_cur_file_to_new_pos(const FILE_NUM file_num);
 extern uint8_t get_first_step_mode(void);
 
 #endif //__CS99XX_MEM_API_H__

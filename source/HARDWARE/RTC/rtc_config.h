@@ -2,7 +2,7 @@
 #ifndef __RTC_CONFIG_H__
 #define __RTC_CONFIG_H__
 
-#include "stm32f4xx.h"
+#include "sys_level.h"
 #ifndef NULL
 #define NULL 	0
 #endif

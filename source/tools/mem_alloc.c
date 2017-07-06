@@ -6,8 +6,6 @@
 #define NULL  0
 #endif
 
-#define MEM1_BLOCK_SIZE		    32 //内存块大小为32字节
-
 typedef struct{
     uint32_t start;///<起始块
     uint32_t end;///<结束块

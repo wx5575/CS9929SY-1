@@ -8,7 +8,6 @@
   ******************************************************************************
   */
 
-#include "stm32f4xx.h"
 #include "keyboard.h"
 #include "rtc_config.h"
 #include "GUI.H"

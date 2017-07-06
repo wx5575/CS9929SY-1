@@ -15,8 +15,8 @@
 #include "GUI.H"
 #include "WM.h"
 #include "TEXT.h"
-#include "stm32f4xx.h"
-#include "cs99xx_struct.h"
+#include "sys_level.h"
+#include "parameter_manage.h"
 #include "key_fun_manage.h"
 #include "fonts/fonts.h"
 #include "tools.h"
@@ -138,11 +138,13 @@ typedef struct{
     int unit_align;///<对齐方式
     uint32_t max_len;///<最大长度
 }EDIT_ELE_AUTO_LAYOUT_T;
-
+/** 
+  * @brief 调整项结构定义
+  */
 typedef struct{
     uint32_t value;///<调整值
     CS_BOOL en;///<调整使能 CS_TRUE 表示调整使能 CS_FALSE 表示调整无效
-}ADJUST_OPT;///<调整项
+}ADJUST_OPT;
 /**
   * @brief  调整编辑对象布局结构定义 目前实际 使用中只需要调整控件的长度，
   * @brief  如编辑文件名时编辑框的长度要增加
@@ -426,7 +428,7 @@ extern void init_window_text_ele(MYUSER_WINDOW_T* win);
 extern void update_text_ele(CS_INDEX index, MYUSER_WINDOW_T* win, const uint8_t *str);
 extern void set_text_ele_font_color(CS_INDEX index, MYUSER_WINDOW_T* win, GUI_COLOR color);
 extern void create_user_window(MYUSER_WINDOW_T* win_info, CS_LIST *list_head, WM_HWIN h_parent);
-extern void init_window_size(MYUSER_WINDOW_T* win_inf, WIDGET_POS_SIZE_T *pos_size_inf);
+extern void init_window_pos_size(MYUSER_WINDOW_T* win_inf, WIDGET_POS_SIZE_T *pos_size_inf);
 extern void init_create_win_all_ele(MYUSER_WINDOW_T* win);
 extern void create_user_dialog(MYUSER_WINDOW_T* win_info, CS_LIST *list_head, WM_HWIN hWin);
 extern void set_user_window_handle(WM_HWIN hWin);

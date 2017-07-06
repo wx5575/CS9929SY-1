@@ -2,7 +2,7 @@
 #ifndef __CS99XX_USB_MANAGER_H__
 #define __CS99XX_USB_MANAGER_H__
 
-#include "stm32f4xx.h"
+#include "sys_level.h"
 
 
 enum{
@@ -17,16 +17,16 @@ enum{
 
 enum{
 	USB_TASK_NULL,
-	USB_LEADING_OUT_RESULT,//µ¼³ö½á¹û
-	USB_LEADING_OUT_SYS_DATA,//µ¼³öÏµÍ³Êý¾Ý
-	USB_LEADING_IN_SYS_DATA,//µ¼ÈëÏµÍ³Êý¾Ý
-	USB_SAVE_ONE_RESULT,//±£´æÒ»Ìõ½á¹û,²âÊÔÒ»Ìõ±£´æÒ»Ìõ
+	USB_LEADING_OUT_RESULT,//å¯¼å‡ºç»“æžœ
+	USB_LEADING_OUT_SYS_DATA,//å¯¼å‡ºç³»ç»Ÿæ•°æ®
+	USB_LEADING_IN_SYS_DATA,//å¯¼å…¥ç³»ç»Ÿæ•°æ®
+	USB_SAVE_ONE_RESULT,//ä¿å­˜ä¸€æ¡ç»“æžœ,æµ‹è¯•ä¸€æ¡ä¿å­˜ä¸€æ¡
     
-    USB_SCREEN_CAPTURE,///<½ØÆÁ
+    USB_SCREEN_CAPTURE,///<æˆªå±
 };
 
 typedef struct{
-	uint8_t usb_status;//usbÉè±¸µÄÁ¬½Ó×´Ì¬
+	uint8_t usb_status;//usbè®¾å¤‡çš„è¿žæŽ¥çŠ¶æ€
 }USB_MANAGER_T;
 
 

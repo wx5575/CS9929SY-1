@@ -10,7 +10,7 @@
 #ifndef __TOOLS_H__
 #define __TOOLS_H__
 
-#include "stm32f4xx.h"
+#include "sys_level.h"
 
 #define COUNT_ARRAY_SIZE(array) sizeof(array)/sizeof(array[0])
 #define ARRAY_SIZE(array) sizeof(array)/sizeof(array[0])

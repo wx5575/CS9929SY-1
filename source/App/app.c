@@ -26,6 +26,7 @@
 #include "cs99xx_type.h"
 #include "key_server.h"
 #include "app.h"
+#include "parameter_manage.h"
 
 
 int main(void)

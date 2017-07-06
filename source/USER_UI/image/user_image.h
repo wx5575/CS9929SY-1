@@ -4,7 +4,7 @@
 
 #include "GUI.H"
 #include "IMAGE.H"
-#include "stm32f4xx.h"
+#include "sys_level.h"
 
 extern WM_HWIN create_u_ok_image(WM_HWIN hWin, uint16_t x, uint16_t y);
 extern WM_HWIN create_u_ng_image(WM_HWIN hWin, uint16_t x, uint16_t y);

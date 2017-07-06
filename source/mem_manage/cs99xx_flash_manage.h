@@ -13,7 +13,7 @@
 #define __CS99XX_FLASH_MANAGE_H__
 
 
-#include "stm32f4xx.h"
+#include "sys_level.h"
 #include "cs99xx_struct.h"
 
 #pragma once

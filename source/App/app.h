@@ -20,7 +20,9 @@
 #ifndef NULL
 #define NULL 0
 #endif
-
+/** 
+  * @brief 应用程序使用的标记定义
+  */
 typedef struct {
 	uint8_t stop_scan_key;///< 停止扫描键盘
     uint8_t calibration;///<校准标记

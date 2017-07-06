@@ -11,7 +11,7 @@
 #ifndef __CS99XX_STRUCT_H__
 #define __CS99XX_STRUCT_H__
 
-#include "stm32f4xx.h"
+#include "sys_level.h"
 #include "cs_list.h"
 
 #define MAX_STEPS           (99)            ///<单个文件容纳最大步数
@@ -232,19 +232,19 @@ typedef struct {
 typedef struct {
 	STEP_NUM step; ///< 设置步
 	uint8_t mode; ///< 模式
-}COMMON;
+}STEP_COM_INF;
 
 /**
   * @brief  将每一步都定义为一个联合体实现统一操作
   */
 typedef union{
-	COMMON      com;///<公共参数
-	ACW_STRUCT 	acw;///<ACW参数
-	DCW_STRUCT 	dcw;///<DCW参数
-	IR_STRUCT 	ir;///<IR参数
-	GR_STRUCT 	gr;///<GR参数
-	BBD_STRUCT  bbd;///<BBD参数
-    CC_STRUCT   cc;///<CC参数
+	STEP_COM_INF com;///<公共参数
+	ACW_STRUCT 	 acw;///<ACW参数
+	DCW_STRUCT 	 dcw;///<DCW参数
+	IR_STRUCT 	 ir;///<IR参数
+	GR_STRUCT 	 gr;///<GR参数
+	BBD_STRUCT   bbd;///<BBD参数
+    CC_STRUCT    cc;///<CC参数
 }UN_STRUCT,*PUN_STRUCT,**PPUN_STRUCT;
 
 /**
@@ -647,36 +647,8 @@ STRUCT_EXT CS_LIST list_head_99xx;///<测试步链表头
 extern GEAR_STR ac_gear[];
 extern GEAR_STR dc_gear[];
 extern GEAR_STR ir_gear[];
+extern TEST_FILE default_file;
 
-
-extern CS_ERR check_step_data(NODE_STEP*step);
-extern CS_BOOL is_file_exist(FILE_NUM file_num);
-extern CS_ERR check_file_data(TEST_FILE*file);
-extern void init_file_data(TEST_FILE *file, FILE_NUM file_num);
-extern void clear_file_data(TEST_FILE *file, FILE_NUM file_num);
-extern void clear_all_file_data(void);
-extern void init_all_file(void);
-extern void del_all_file(void);
-extern TEST_FILE* get_file_inf(FILE_NUM file_num, CS_ERR* err);
-extern void init_sys_par(void);
-extern void check_sys_par(CS_ERR *err);
-extern uint8_t pwd_max_len(void);
-extern void set_cur_file(FILE_NUM file_num);
-extern void init_instrument_data(void);
-extern void swap_step(const STEP_NUM one, const STEP_NUM two);
-extern void insert_step(uint16_t pos, uint8_t mode);
-extern void del_step(STEP_NUM step);
-extern void load_steps_to_list(const int16_t step, uint8_t step_num);
-extern NODE_STEP *get_g_cur_step(void);
-extern void init_mode(NODE_STEP *p);
-extern void transform_test_port_to_str(TEST_PORT *port, uint8_t *buf);
-extern void transform_str_to_test_port(TEST_PORT *port, uint8_t *buf);
-extern uint16_t transform_arc_cur_to_grade(uint16_t arc_cur_val);
-extern uint16_t transform_arc_grade_to_cur(uint16_t gear);
-extern void init_new_group_inf(TEST_FILE *file);
-extern void del_one_group_inf(FILE_NUM file_num);
-extern void clear_cur_group_all_test_step(void);
-extern void save_setting_step(void);
 
 #endif //__CS99XX_STRUCT_H__
 

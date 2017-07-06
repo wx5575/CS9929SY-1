@@ -30,7 +30,9 @@ typedef enum{
 #define MENU_KEY_NUM			7 /* 按键个数 */
 
 
-/** 系统标准菜单键初始化信息结构 */
+/**
+  * @brief  系统标准菜单键初始化信息结构
+  */
 typedef struct{
 	uint8_t *text[2];///<初始化菜单键文本，包含中英文
 	CS_INDEX index;///<对初始化信息结构数组的索引

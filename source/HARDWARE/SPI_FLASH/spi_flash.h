@@ -15,7 +15,7 @@
 #define __SPI_FLASH_H
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f4xx.h"
+#include "sys_level.h"
 
 #define SPI_FLASH_PAGE_SIZE         528	//每页字节数
 #define PAGE_ADDR_OFFSET_BITS		10	//页地址偏移位数

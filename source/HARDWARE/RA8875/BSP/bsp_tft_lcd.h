@@ -15,7 +15,7 @@
 #ifndef _BSP_TFT_LCD_H
 #define _BSP_TFT_LCD_H
 
-#include "stm32f4xx.h"
+#include "sys_level.h"
 
 
 #define BUTTON_BEEP()	BEEP_KeyTone();	/* ∞¥º¸Ã· æ“Ù */

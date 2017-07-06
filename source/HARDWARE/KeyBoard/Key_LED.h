@@ -4,7 +4,7 @@
 
 /*包含的头文件*/
 #include <stdint.h>
-#include "stm32f4xx.h"
+#include "sys_level.h"
 
 typedef struct{
 	uint32_t buzzer_time;/* 蜂鸣器定时 */

@@ -11,7 +11,7 @@
 
 #ifndef __TYPE_SELECT__
 #define __TYPE_SELECT__
-#include <stm32f4xx.h>
+#include "sys_level.h"
 #include "cs99xx_config.h"
 #include "cs99xx_struct.h"
 
@@ -304,14 +304,16 @@ typedef struct{
 	UI_LAYOUT_T     ui_composition;///<界面布局
     uint32_t        instrument_type;///<仪器型号
 }CUSTOM_SYS_PAR;//定制系统参数
-
+/**
+  * @brief  定制机型信息
+  */
 typedef struct{
-    uint16_t type_num;/* 定制机编号 */
-    uint16_t custom_en;//定制机使能标志
-    uint8_t name[20];/* 定制机名称 */
-    TYPE_STR    type;/* 定制机 */
-    CUSTOM_SYS_PAR custom_sys_par;/* 菜单化定制参数 */
-}CUSTOM_TYPE_INFO;//定制机型信息
+    uint16_t type_num;///< 定制机编号 */
+    uint16_t custom_en;///< 定制机使能标志
+    uint8_t name[20];///< 定制机名称 */
+    TYPE_STR    type;///< 定制机 */
+    CUSTOM_SYS_PAR custom_sys_par;///< 菜单化定制参数 */
+}CUSTOM_TYPE_INFO;
 
 typedef enum{
     __STOP     = 0x1,/* stop键 start键 再次启动从第一步开始 */

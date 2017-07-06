@@ -12,7 +12,6 @@
 #define COM_UI_GLOBALS
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f4xx.h"
 #include "GUI.H"
 #include "WM.h"
 #include "DIALOG.h"
@@ -881,7 +880,7 @@ void create_user_window(MYUSER_WINDOW_T* win_info, CS_LIST *list_head, WM_HWIN h
     
     if(win_info->pos_size_pool != NULL)
     {
-        init_window_size(win_info, win_info->pos_size_pool[SCREEM_SIZE]);
+        init_window_pos_size(win_info, win_info->pos_size_pool[SCREEM_SIZE]);
     }
     
     x = win_info->pos_size.x;
@@ -911,7 +910,7 @@ void create_user_window(MYUSER_WINDOW_T* win_info, CS_LIST *list_head, WM_HWIN h
   * @param  [in] pos_size_inf 尺寸结构指针
   * @retval 无
   */
-void init_window_size(MYUSER_WINDOW_T* win_inf, WIDGET_POS_SIZE_T *pos_size_inf)
+void init_window_pos_size(MYUSER_WINDOW_T* win_inf, WIDGET_POS_SIZE_T *pos_size_inf)
 {
     memcpy(&win_inf->pos_size, pos_size_inf, sizeof(WIDGET_POS_SIZE_T));
 }
@@ -986,7 +985,7 @@ void create_user_dialog(MYUSER_WINDOW_T* win_info, CS_LIST *list_head, WM_HWIN h
 	
     if(win_info->pos_size_pool != NULL)
     {
-        init_window_size(win_info, win_info->pos_size_pool[SCREEM_SIZE]);
+        init_window_pos_size(win_info, win_info->pos_size_pool[SCREEM_SIZE]);
     }
     
     x = win_info->pos_size.x;

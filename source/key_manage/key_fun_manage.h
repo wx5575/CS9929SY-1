@@ -13,7 +13,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 
-#include "stm32f4xx.h"
+#include "sys_level.h"
 #include "cs99xx_struct.h"
 #include "keyboard.h"
 
@@ -112,8 +112,9 @@ typedef struct
 	KEY_MESSAGE msg;///<按键消息
 	SYS_KEY_ST_ENUM en;///<使能按键
 }KEY_DISPOSE_FUN;
-
-/** 配置系统功能按键结构 */
+/** 
+  * @brief 配置系统功能按键结构
+  */
 typedef struct{
 	uint32_t key_value;///<键值
 	KEY_CB_FUN key_up_dispose_fun;///<处理函数
@@ -121,7 +122,9 @@ typedef struct{
 	SYS_KEY_ST_ENUM en;///<按键使能
 }CONFIG_FUNCTION_KEY_INFO_T;
 
-/** 菜单键的配置信息 */
+/** 
+  * @brief 菜单键的配置信息
+  */
 typedef struct{
 	uint8_t *name;///<按键名称
 	CS_INDEX index;///<标准菜单键盘索引

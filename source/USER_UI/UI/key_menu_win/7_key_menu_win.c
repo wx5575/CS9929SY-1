@@ -8,7 +8,6 @@
   ******************************************************************************
   */
 
-#include "stm32f4xx.h"
 #include "GUI.H"
 #include "7_key_menu_win.h"
 #include "key_menu_win.h"

@@ -9,7 +9,6 @@
   ******************************************************************************
   */
 
-#include "stm32f4xx.h"
 #include "string.h"
 #include "keyboard.h"
 #include "rtc_config.h"

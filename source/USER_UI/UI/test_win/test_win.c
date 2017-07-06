@@ -10,7 +10,6 @@
   
 /* Includes ------------------------------------------------------------------*/
 
-#include "stm32f4xx.h"
 #include "string.h"
 #include "keyboard.h"
 #include "UI_COM/com_ui_info.h"

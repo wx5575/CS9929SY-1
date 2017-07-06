@@ -9,7 +9,6 @@
   */
 
 
-#include "stm32f4xx.h"
 #include "GUI.H"
 #include "UI_COM/com_ui_info.h"
 #include "string.h"
