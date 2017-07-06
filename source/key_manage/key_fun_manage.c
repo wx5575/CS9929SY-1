@@ -11,7 +11,6 @@
 #define KEY_DISPOSE_GLOBALS
 #include "key_fun_manage.h"
 #include "string.h"
-#include "tools.h"
 #include "os.h"
 #include "GUI.H"
 #include "EDIT.h"

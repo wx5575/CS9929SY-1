@@ -134,7 +134,6 @@ typedef enum {
 }TEST_UI_INDEX;
 
 
-extern void create_test_win(int hWin);
 
 
 #endif //__TEST_UI_COM_H__

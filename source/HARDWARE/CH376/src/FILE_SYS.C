@@ -339,10 +339,14 @@ UINT8	CH376DirCreatePath( PUINT8 PathName )  /* 新建多级目录下的目录(文件夹)并打
 		s = CH376ByteLocate( 0 );  /* 移动文件指针,恢复到目录头位置 */
 		if ( s != USB_INT_SUCCESS ) return( s );
 	}
-	else {  /* 不是多级目录 */
-		if ( PathName[0] == DEF_SEPAR_CHAR1 || PathName[0] == DEF_SEPAR_CHAR2 ) return( CH376DirCreate( PathName ) );  /* 在根目录下新建目录 */
+	else
+    {  /* 不是多级目录 */
+		if ( PathName[0] == DEF_SEPAR_CHAR1 || PathName[0] == DEF_SEPAR_CHAR2 )
+            return( CH376DirCreate( PathName ) );  /* 在根目录下新建目录 */
 		else return( ERR_MISS_DIR );  /* 必须提供完整路径才能实现在当前目录下新建目录 */
 	}
+    
+    return ERR_MISS_DIR;
 }
 #endif
 

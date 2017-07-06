@@ -11,7 +11,6 @@
 #define __RESTORE_SETTING_WIN_H__
 
 
-void create_restor_factory_setting_dialog(int hWin);
 
 #endif //__RESTORE_SETTING_WIN_H__
 

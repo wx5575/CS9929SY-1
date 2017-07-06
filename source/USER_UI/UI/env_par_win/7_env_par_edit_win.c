@@ -8,19 +8,7 @@
   ******************************************************************************
   */
 
-#include "keyboard.h"
-#include "rtc_config.h"
-#include "GUI.H"
-#include "WM.h"
-#include "DIALOG.h"
-#include "ff.h"
-#include "OS.H"
-#include "cs99xx_struct.h"
-#include "stdio.h"
-#include "string.h"
-#include "LISTVIEW.H"
 #include "UI_COM/com_ui_info.h"
-#include "env_par_edit_win.h"
 
 /**
   * @brief  7寸屏环境变量窗口位置尺寸结构初始化数据

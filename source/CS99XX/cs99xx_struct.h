@@ -11,7 +11,7 @@
 #ifndef __CS99XX_STRUCT_H__
 #define __CS99XX_STRUCT_H__
 
-#include "sys_level.h"
+#include "tools.h"
 #include "cs_list.h"
 
 #define MAX_STEPS           (99)            ///<单个文件容纳最大步数

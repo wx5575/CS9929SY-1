@@ -11,7 +11,6 @@
 #ifndef __FILE_WIN_H__
 #define __FILE_WIN_H__
 
-extern void create_file_win(int hWin);
 
 #endif //__FILE_WIN_H__
 

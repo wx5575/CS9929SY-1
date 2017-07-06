@@ -8,20 +8,11 @@
   ******************************************************************************
   */
 
-#include "keyboard.h"
-#include "rtc_config.h"
-#include "GUI.H"
-#include "WM.h"
-#include "DIALOG.h"
-#include "ff.h"
-#include "OS.H"
-#include "cs99xx_struct.h"
 #include "FRAMEWIN.H"
 #include "EDIT.H"
 #include "UI_COM/com_ui_info.h"
 #include "7_file_edit_win.h"
 #include "file_edit_win.h"
-#include "string.h"
 
 /**
   * @brief  7寸屏文件编辑窗口尺寸

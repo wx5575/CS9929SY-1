@@ -412,58 +412,9 @@ static void Det_combination(KEY_STRUCT *p)
 	}
 }
 
-/*
- * 函数名：bsp_keyboard_init
- * 描述  ：键盘硬件初始化
- * 输入  ：无
- * 输出  ：无
- * 返回  ：无
- */
-void bsp_keyboard_init(void)
-{
-	/*************************    定义初始化结构变量    *************************/
-// 	GPIO_InitTypeDef  GPIO_InitStructure;
-// 	
-// 	/*************************    开启外设时钟    *************************/
-// 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB | RCC_APB2Periph_GPIOD 
-// 							| RCC_APB2Periph_GPIOE, ENABLE);  //允许GPIOB、GPIOE时钟
-//     
-// 	/*************************    配置矩阵键盘    *************************/
-// 	/************** 8列 **************/
-// 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-// 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU; 			 //上拉输入
-// 	
-// 	//配置PD8、PD9、PD10为输入(3列)
-// 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10;
-// 	GPIO_Init(GPIOD, &GPIO_InitStructure);
-// 	
-// 	//配置PE11、PE12、PE13、PE14、PE15 (5列)
-// 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11 | GPIO_Pin_12 | GPIO_Pin_13 | GPIO_Pin_14 | GPIO_Pin_15;
-// 	GPIO_Init(GPIOE, &GPIO_InitStructure);
-// 	
-// 	/************** 2行 **************/
-// 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-// 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;//推挽输出
-// 	
-// 	//PA7第0行 (C0)
-// 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;
-// 	GPIO_Init(GPIOA, &GPIO_InitStructure);
-// 	//PB2第1行 (C1)
-// 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
-// 	GPIO_Init(GPIOB, &GPIO_InitStructure);
-// 	
-// 	/************************* 配置启动按键 *************************/
-// 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-// 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;//上拉输入
-// 	
-// 	/************* 配置PA6为输入，START按键 **************/
-// 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
-// 	GPIO_Init(GPIOA, &GPIO_InitStructure);
-}
 
 void init_keyboard(void)
 {
-    bsp_keyboard_init();
     InitKeyStr();
 }
 /*

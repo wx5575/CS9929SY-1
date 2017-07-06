@@ -19,8 +19,6 @@ typedef enum {
 	WARNING_UI_CONTENT,///<ÄÚÈÝ
 }MAIN_UI_INDEX;
 
-extern void create_warning_dialog(int hWin);
-extern void set_warning_ui_inf(WARNING_INF *warning);
 
 #endif //__WARNING_WIN_H__
 

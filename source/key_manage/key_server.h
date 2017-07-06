@@ -11,7 +11,7 @@
 #define __KEY_SERVER_H__
 
 
-#include "stm32f4xx.h"
+#include "key_fun_manage.h"
 
 extern void scan_key_task(void);
 

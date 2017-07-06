@@ -1,4 +1,4 @@
-// Header	:
+ï»¿// Header	:
 // File Name:bit_banding.h
 // Author	:***
 // Date		:2014/04/04
@@ -7,9 +7,9 @@
 #define __BIT_BANDING_H__
 
 
-//M4ÄÚºËµÄGPIO¼Ä´æÆ÷»ùµØÖ·µÈ
+//M4å†…æ ¸çš„GPIOå¯„å­˜å™¨åŸºåœ°å€ç­‰
 #if defined (STM32F40_41xxx) || defined (STM32F427_437xx) || defined (STM32F429_439xx) || defined (STM32F401xx) || defined (STM32F40XX) || defined (STM32F427X)
-//ÕâĞ©ºê¶¨ÒåÔÚÊ¹ÓÃ×îĞÂ¿âº¯ÊıÊ±£¬¶¼»áÓĞ¶¨Òå
+//è¿™äº›å®å®šä¹‰åœ¨ä½¿ç”¨æœ€æ–°åº“å‡½æ•°æ—¶ï¼Œéƒ½ä¼šæœ‰å®šä¹‰
 
 #include "stm32f4xx.h"
 
@@ -21,7 +21,7 @@
 
 #endif
 
-//M3ÄÚºËµÄGPIO¼Ä´æÆ÷»ùµØÖ·
+//M3å†…æ ¸çš„GPIOå¯„å­˜å™¨åŸºåœ°å€
 #if defined (STM32F10X_LD) || defined (STM32F10X_LD_VL) || defined (STM32F10X_MD) || defined (STM32F10X_MD_VL) || defined (STM32F10X_HD) || defined (STM32F10X_HD_VL) || defined (STM32F10X_XL) || defined (STM32F10X_CL) 
 
 #include "stm32f10x.h"
@@ -35,28 +35,28 @@
 #endif
 
 
-//±ğÃûÇøµÄ»ùµØÖ·µÄÄ©µØÖ·£¬ÔÚM3ºÍM4ÖĞÊÇÒ»ÑùµÄ£¬Î»µØÖ·µÄ¼ÆËã¹«Ê½Ò²ÊÇÒ»ÑùµÄ
+//åˆ«ååŒºçš„åŸºåœ°å€çš„æœ«åœ°å€ï¼Œåœ¨M3å’ŒM4ä¸­æ˜¯ä¸€æ ·çš„ï¼Œä½åœ°å€çš„è®¡ç®—å…¬å¼ä¹Ÿæ˜¯ä¸€æ ·çš„
 
-//ÍâÉè±ğÃûÇøµÄ»ùµØÖ·
+//å¤–è®¾åˆ«ååŒºçš„åŸºåœ°å€
 #define BIT_BAND_ALIAS_PERIPHERAL_BASE	0x42000000ul
 
 #define BIT_BAND_ALIAS_PERIPHERAL_END	0x43FFFFFFul
 
-//SRAM±ğÃûÇø»ùµØÖ·
+//SRAMåˆ«ååŒºåŸºåœ°å€
 #define BIT_BAND_ALIAS_SRAM_BASE		0x22000000ul
 //
 #define BIT_BAND_ALIAS_SRAM_END			0x23FFFFFFul
 
 
-//ÔÚbitbandÇøÖĞ Î»µØÖ·µÄ¼ÆËã¹«Ê½
+//åœ¨bitbandåŒºä¸­ ä½åœ°å€çš„è®¡ç®—å…¬å¼
 #define BIT_WORD_ADDR(ByteAddr, BitNumber)	((ByteAddr&0xF0000000) + 0x2000000 + (ByteAddr&0x000FFFFF)*32 + (BitNumber&0x0000000F)*4)
 
 
-//½«µØÖ·×ª»»³ÉÖ¸Õë£¬ÕâÑù²ÅÄÜ¶ÁĞ´µØÖ·ÖĞµÄÖµ
+//å°†åœ°å€è½¬æ¢æˆæŒ‡é’ˆï¼Œè¿™æ ·æ‰èƒ½è¯»å†™åœ°å€ä¸­çš„å€¼
 #define CONVERT_TO_PTR(BitWordAddr)		( *( (volatile unsigned long *)BitWordAddr ) )
 
 //BitNumber<16
-//Êä³ö
+//è¾“å‡º
 #define PAout(BitNumber)	CONVERT_TO_PTR( BIT_WORD_ADDR(GPIOA_BASE + GPIO_ODR_OFFSET, BitNumber) )
 #define PBout(BitNumber)	CONVERT_TO_PTR( BIT_WORD_ADDR(GPIOB_BASE + GPIO_ODR_OFFSET, BitNumber) )
 #define PCout(BitNumber)	CONVERT_TO_PTR( BIT_WORD_ADDR(GPIOC_BASE + GPIO_ODR_OFFSET, BitNumber) )
@@ -65,7 +65,7 @@
 #define PFout(BitNumber)	CONVERT_TO_PTR( BIT_WORD_ADDR(GPIOF_BASE + GPIO_ODR_OFFSET, BitNumber) )
 #define PGout(BitNumber)	CONVERT_TO_PTR( BIT_WORD_ADDR(GPIOG_BASE + GPIO_ODR_OFFSET, BitNumber) )
 #define PHout(BitNumber)	CONVERT_TO_PTR( BIT_WORD_ADDR(GPIOH_BASE + GPIO_ODR_OFFSET, BitNumber) )
-//¶ÁÊäÈë
+//è¯»è¾“å…¥
 #define PAin(BitNumber)		CONVERT_TO_PTR( BIT_WORD_ADDR(GPIOA_BASE + GPIO_IDR_OFFSET, BitNumber) )
 #define PBin(BitNumber)		CONVERT_TO_PTR( BIT_WORD_ADDR(GPIOB_BASE + GPIO_IDR_OFFSET, BitNumber) )
 #define PCin(BitNumber)		CONVERT_TO_PTR( BIT_WORD_ADDR(GPIOC_BASE + GPIO_IDR_OFFSET, BitNumber) )

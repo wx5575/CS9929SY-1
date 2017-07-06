@@ -8,25 +8,11 @@
   ******************************************************************************
   */
 
-#include "keyboard.h"
-#include "rtc_config.h"
-#include "GUI.H"
-#include "WM.h"
 #include "DIALOG.h"
-#include "ff.h"
-#include "OS.H"
-#include "cs99xx_struct.h"
 #include "stdio.h"
 #include "string.h"
-#include "LISTVIEW.H"
-#include "UI_COM/com_ui_info.h"
-#include "key_menu_win/key_menu_win.h"
-#include "ui_com/com_ui_info.h"
 #include "ui_com/com_edit_api.h"
-#include "warning_win/warning_win.h"
-#include "cs99xx_mem_api.h"
 #include "7_password_win.h"
-#include "ui_com/com_edit_api.h"
 #include "password_win.h"
 
 /* Private typedef -----------------------------------------------------------*/

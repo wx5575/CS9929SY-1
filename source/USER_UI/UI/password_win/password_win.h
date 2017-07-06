@@ -26,7 +26,6 @@ typedef enum{
     PWD_UI_CHANGE_RESULT,///<密码修改的结果 "密码修改成功"
 }PWD_TEXT_INDEX;
 
-void create_password_ui(int hWin);
 
 #endif //__PASSWORD_WIN_H__
 

@@ -11,7 +11,6 @@
 #define __COM_UI_INFO_H__
 
 /* Includes ------------------------------------------------------------------*/
-#include "cs_list.h"
 #include "GUI.H"
 #include "WM.h"
 #include "TEXT.h"
@@ -19,9 +18,11 @@
 #include "parameter_manage.h"
 #include "key_fun_manage.h"
 #include "fonts/fonts.h"
-#include "tools.h"
+#include "cs99xx_struct.h"
 #include "key_server.h"
 #include "cs99xx_type.h"
+#include "cs99xx_mem_api.h"
+#include "cs99xx_usb_manager.h"
 
 #pragma  diag_suppress 870 //消除870号编译警告
 
@@ -476,6 +477,37 @@ extern void recover_g_cur_edit_ele(void);
 extern void backup_g_cur_edit_ele(void);
 extern void register_backup_key_inf_fun(void(*fun)(void));
 extern void register_recover_key_inf_fun(void(*fun)(void));
+
+/* 各个窗口的创建接口.放在这里方便窗口间相互创建 */
+extern void create_file_win(int hWin);
+extern void create_sys_manager_win(int hWin);
+extern void create_key_menu_window(void);
+extern void create_test_win(int hWin);
+extern void create_warning_dialog(int hWin);
+extern void set_warning_ui_inf(WARNING_INF *warning);
+extern void create_step_par_win(int id);
+extern void create_password_ui(int hWin);
+extern void init_back_up_will_enter_win_inf(void (*fun)(int), int data);
+extern void create_input_password_ui(int hWin);
+extern void create_result_win(int id);
+extern void init_menu_key_info(MENU_KEY_INFO_T * info, uint32_t n, int data);
+extern void unregister_system_key_fun(CONFIG_FUNCTION_KEY_INFO_T info[], uint32_t n);
+extern void register_system_key_fun(CONFIG_FUNCTION_KEY_INFO_T info[], uint32_t n, int data);
+extern void set_menu_function_status(uint32_t key_value, SYS_KEY_ST_ENUM st);
+extern void set_menu_key_config_st(MENU_KEY_INFO_T * inf, uint32_t size,
+                        CS_INDEX index, SYS_KEY_ST_ENUM st, CS_ERR *err);
+extern void change_menu_key_font_color(uint32_t key_value, GUI_COLOR color);
+
+extern void get_mode_edit_ele_inf(UN_STRUCT *step, EDIT_ELE_T* ret_ele, CS_ERR *err);
+extern void get_range_edit_ele_inf(UN_STRUCT *step, EDIT_ELE_T* ret_ele, CS_ERR *err);
+extern void get_vol_edit_ele_inf(UN_STRUCT *step, EDIT_ELE_T* ret_ele, CS_ERR *err);
+extern void get_test_time_edit_ele_inf(UN_STRUCT *step, EDIT_ELE_T* ret_ele, CS_ERR *err);
+extern void get_lower_edit_ele_inf(UN_STRUCT *step, EDIT_ELE_T* ret_ele, CS_ERR *err);
+extern void get_upper_edit_ele_inf(UN_STRUCT *step, EDIT_ELE_T* ret_ele, CS_ERR *err);
+extern void get_auto_shift_edit_ele_inf(UN_STRUCT *step, EDIT_ELE_T* ret_ele, CS_ERR *err);
+extern void create_env_par_dialog(int hWin);
+extern void create_sys_time_dialog(int hWin);
+void create_restor_factory_setting_dialog(int hWin);
 
 #endif //__COM_UI_INFO_H__
 

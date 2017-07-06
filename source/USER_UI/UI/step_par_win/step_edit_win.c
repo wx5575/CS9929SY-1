@@ -12,11 +12,9 @@
 #include "stdio.h"
 #include "string.h"
 #include "cs99xx_type.h"
-#include "cs99xx_mem_api.h"
-#include "ui_com/com_ui_info.h"
 #include "ui_com/com_edit_api.h"
-#include "key_menu_win/key_menu_win.h"
-#include "step_par_win/7_step_edit_win.h"
+#include "7_step_edit_win.h"
+#include "step_edit_win.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /**

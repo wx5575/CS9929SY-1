@@ -1,10 +1,10 @@
-/**
+ï»¿/**
   ******************************************************************************
   * @file    board_support_package.c
-  * @author  ÍõöÎ
+  * @author  ç‹é‘«
   * @version V1.0.0
   * @date    2017.5.12
-  * @brief   °å¼¶Ö§³Ö
+  * @brief   æ¿çº§æ”¯æŒ
   ******************************************************************************
   */
   
@@ -31,7 +31,7 @@
 
 void bsp_init(void)
 {
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); 	//ÖĞ¶Ï·Ö×éÅäÖÃ
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); 	//ä¸­æ–­åˆ†ç»„é…ç½®
     CS99xx_Peripheral_Config();
     CS99xx_GPIO_Config();
 	Key_LED_Control_Init();
@@ -43,20 +43,20 @@ void bsp_init(void)
 }
 
 /*
- * º¯ÊıÃû£ºCS99xx_GPIO_Config
- * ÃèÊö  £ºÕû»úIOÅäÖÃ
- * ÊäÈë  £º¿Õ
- * Êä³ö  £º¿Õ
+ * å‡½æ•°åï¼šCS99xx_GPIO_Config
+ * æè¿°  ï¼šæ•´æœºIOé…ç½®
+ * è¾“å…¥  ï¼šç©º
+ * è¾“å‡º  ï¼šç©º
  */
 void CS99xx_GPIO_Config(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
 
-	/* Ê¹ÄÜ GPIOÊ±ÖÓ */
+	/* ä½¿èƒ½ GPIOæ—¶é’Ÿ */
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA | RCC_AHB1Periph_GPIOB | RCC_AHB1Periph_GPIOC | RCC_AHB1Periph_GPIOD
 						 | RCC_AHB1Periph_GPIOE | RCC_AHB1Periph_GPIOF | RCC_AHB1Periph_GPIOG | RCC_AHB1Periph_GPIOH
 						 | RCC_AHB1Periph_GPIOI, ENABLE);
-	/* Ê¹ÄÜSYSCFGÊ±ÖÓ */
+	/* ä½¿èƒ½SYSCFGæ—¶é’Ÿ */
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
 	
 	/* A0,A1,A2,A3,A4,A5,A6,A7,A8,A9 */
@@ -160,7 +160,7 @@ void CS99xx_GPIO_Config(void)
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4 | GPIO_Pin_5;
 	GPIO_Init(GPIOD, &GPIO_InitStructure);
 	
-	/***************** °å×Ó»­´íÁË *******************/
+	/***************** æ¿å­ç”»é”™äº† *******************/
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
@@ -168,22 +168,22 @@ void CS99xx_GPIO_Config(void)
 	GPIO_Init(GPIOD, &GPIO_InitStructure);
 	
 	
-	//Ğ£×¼¿ª¹Ø
+	//æ ¡å‡†å¼€å…³
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
 	GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_NOPULL;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
 	
 	/******************************************************************************************/
-	/*	½Ó°´¼ü¼°×´Ì¬µÆµÄ MC4094 Òı½ÅÅäÖÃ */
+	/*	æ¥æŒ‰é”®åŠçŠ¶æ€ç¯çš„ MC4094 å¼•è„šé…ç½® */
 	/* KEY_IN1 C3
 	   KEY_IN2 C2
 	   KEY_IN3 C1
 	   KEY_IN4 C0 */
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;		/* ÉèÎªÊäÈë¿Ú */
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;		/* è®¾ä¸ºè¾“å…¥å£ */
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;		
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;	/* ÎŞĞèÉÏÏÂÀ­µç×è */
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_25MHz;	/* IO¿Ú×î´óËÙ¶È */
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;	/* æ— éœ€ä¸Šä¸‹æ‹‰ç”µé˜» */
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_25MHz;	/* IOå£æœ€å¤§é€Ÿåº¦ */
 	
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3;
 	GPIO_Init(GPIOC, &GPIO_InitStructure);
@@ -192,8 +192,8 @@ void CS99xx_GPIO_Config(void)
 	   4094-ST  KEY_EXT2 A5
 	   4094-DATA KEY_EXT3 A4 */
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;		/* ÉèÎªÍÆÍìÄ£Ê½ */
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;	/* ÎŞĞèÉÏÏÂÀ­µç×è */
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;		/* è®¾ä¸ºæ¨æŒ½æ¨¡å¼ */
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;	/* æ— éœ€ä¸Šä¸‹æ‹‰ç”µé˜» */
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4 | GPIO_Pin_5 | GPIO_Pin_6;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
 	
@@ -202,11 +202,11 @@ void CS99xx_GPIO_Config(void)
 	/*******************************************************************************************/
 	
 	
-	/* ÂëÅÌÖĞ¶ÏÒı½Å */
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;		/* ÉèÎªÊäÈë¿Ú */
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;		/* ÉèÎªÍÆÍìÄ£Ê½ */
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;	/* ÎŞĞèÉÏÏÂÀ­µç×è */
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;	/* IO¿Ú×î´óËÙ¶È */
+	/* ç ç›˜ä¸­æ–­å¼•è„š */
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;		/* è®¾ä¸ºè¾“å…¥å£ */
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;		/* è®¾ä¸ºæ¨æŒ½æ¨¡å¼ */
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;	/* æ— éœ€ä¸Šä¸‹æ‹‰ç”µé˜» */
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;	/* IOå£æœ€å¤§é€Ÿåº¦ */
 
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;//L
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
@@ -215,7 +215,7 @@ void CS99xx_GPIO_Config(void)
 	SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOA, EXTI_PinSource15);
 	SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOI, EXTI_PinSource3);
 	
-	/*¶ÌÂ·ÖĞ¶Ï*/
+	/*çŸ­è·¯ä¸­æ–­*/
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;//short_int
 	GPIO_Init(GPIOG, &GPIO_InitStructure);
 //	SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOG, EXTI_PinSource15);
@@ -236,18 +236,18 @@ void CS99xx_GPIO_Config(void)
 	GPIO_Init(GPIOI, &GPIO_InitStructure);
 	SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOI, EXTI_PinSource8);
 	
-	/* Æô¶¯¼üºÍÍ£Ö¹¼üÒı½Å */
+	/* å¯åŠ¨é”®å’Œåœæ­¢é”®å¼•è„š */
 	
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7 | GPIO_Pin_8;//S , E
 	GPIO_Init(GPIOG, &GPIO_InitStructure);
 	SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOG, EXTI_PinSource8);
 	
 	/******************************************************************************************/
-	/* Ö÷°å¼ÌµçÆ÷µÄ MC4094 Òı½ÅÅäÖÃ */
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;		/* ÉèÎªÊäÈë¿Ú */
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;		/* ÉèÎªÍÆÍìÄ£Ê½ */
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;	/* ÎŞĞèÉÏÏÂÀ­µç×è */
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_25MHz;	/* IO¿Ú×î´óËÙ¶È */
+	/* ä¸»æ¿ç»§ç”µå™¨çš„ MC4094 å¼•è„šé…ç½® */
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;		/* è®¾ä¸ºè¾“å…¥å£ */
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;		/* è®¾ä¸ºæ¨æŒ½æ¨¡å¼ */
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;	/* æ— éœ€ä¸Šä¸‹æ‹‰ç”µé˜» */
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_25MHz;	/* IOå£æœ€å¤§é€Ÿåº¦ */
 
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_11 | GPIO_Pin_12;
 	GPIO_Init(GPIOG, &GPIO_InitStructure);
@@ -262,7 +262,7 @@ void CS99xx_GPIO_Config(void)
 	GPIO_Init(GPIOH, &GPIO_InitStructure);
 	
 	/******************************************************************************************/
-	/* SD ¿¨ Òı½ÅÅäÖÃ */
+	/* SD å¡ å¼•è„šé…ç½® */
 	GPIO_PinAFConfig(GPIOC, GPIO_PinSource8, GPIO_AF_SDIO);
 	GPIO_PinAFConfig(GPIOC, GPIO_PinSource9, GPIO_AF_SDIO);
 	GPIO_PinAFConfig(GPIOC, GPIO_PinSource10, GPIO_AF_SDIO);
@@ -294,11 +294,11 @@ void CS99xx_GPIO_Config(void)
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
 
 	/*****************************************************************************************/
-	/* SPI FLASH Òı½ÅÅäÖÃ */
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;		/* ÉèÎªÊä³ö¿Ú */
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;		/* ÉèÎªÍÆÍìÄ£Ê½ */
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;	/* ÉÏÏÂÀ­µç×è²»Ê¹ÄÜ */
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_25MHz;	/* IO¿Ú×î´óËÙ¶È */
+	/* SPI FLASH å¼•è„šé…ç½® */
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;		/* è®¾ä¸ºè¾“å‡ºå£ */
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;		/* è®¾ä¸ºæ¨æŒ½æ¨¡å¼ */
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;	/* ä¸Šä¸‹æ‹‰ç”µé˜»ä¸ä½¿èƒ½ */
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_25MHz;	/* IOå£æœ€å¤§é€Ÿåº¦ */
 	/* SPI CS1 */
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
@@ -315,12 +315,12 @@ void CS99xx_GPIO_Config(void)
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11;
 	GPIO_Init(GPIOF, &GPIO_InitStructure);
 	/* SPI DI */
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;		/* ÉèÎªÊäÈë¿Ú */
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;		/* è®¾ä¸ºè¾“å…¥å£ */
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
 	GPIO_Init(GPIOB, &GPIO_InitStructure);
 	
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;	  /* ÉÏÀ­µç×èÊ¹ÄÜ */
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;		/* ÉèÎªÊäÈë¿Ú */
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;	  /* ä¸Šæ‹‰ç”µé˜»ä½¿èƒ½ */
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;		/* è®¾ä¸ºè¾“å…¥å£ */
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
 	GPIO_Init(GPIOC, &GPIO_InitStructure);
 	
@@ -332,10 +332,10 @@ void CS99xx_GPIO_Config(void)
 
 
 /*
- * º¯ÊıÃû£ºCS99xx_Peripheral_Config
- * ÃèÊö  £ºÕû»úÍâÉèÅäÖÃ
- * ÊäÈë  £º¿Õ
- * Êä³ö  £º¿Õ
+ * å‡½æ•°åï¼šCS99xx_Peripheral_Config
+ * æè¿°  ï¼šæ•´æœºå¤–è®¾é…ç½®
+ * è¾“å…¥  ï¼šç©º
+ * è¾“å‡º  ï¼šç©º
  */
 void CS99xx_Peripheral_Config(void)
 {
@@ -344,8 +344,8 @@ void CS99xx_Peripheral_Config(void)
 	FSMC_NORSRAMTimingInitTypeDef  timingRead;
 
 	/******************************************************************************************/
-	/* LCD FSMC ÍâÉèÅäÖÃ */
-	/* Ê¹ÄÜFSMCÊ±ÖÓ */
+	/* LCD FSMC å¤–è®¾é…ç½® */
+	/* ä½¿èƒ½FSMCæ—¶é’Ÿ */
 	RCC_AHB3PeriphClockCmd(RCC_AHB3Periph_FSMC, ENABLE);
 	
 	timingWrite.FSMC_AddressSetupTime = 4;
@@ -378,7 +378,7 @@ void CS99xx_Peripheral_Config(void)
 	init.FSMC_MemoryType = FSMC_MemoryType_SRAM;
 	init.FSMC_MemoryDataWidth = FSMC_MemoryDataWidth_16b;
 	init.FSMC_BurstAccessMode = FSMC_BurstAccessMode_Disable;
-	init.FSMC_AsynchronousWait = FSMC_AsynchronousWait_Disable;	/* ×¢Òâ¾É¿âÎŞÕâ¸ö³ÉÔ± */
+	init.FSMC_AsynchronousWait = FSMC_AsynchronousWait_Disable;	/* æ³¨æ„æ—§åº“æ— è¿™ä¸ªæˆå‘˜ */
 	init.FSMC_WaitSignalPolarity = FSMC_WaitSignalPolarity_Low;
 	init.FSMC_WrapMode = FSMC_WrapMode_Disable;
 	init.FSMC_WaitSignalActive = FSMC_WaitSignalActive_BeforeWaitState;
@@ -397,10 +397,10 @@ void CS99xx_Peripheral_Config(void)
 	
 	
 	/******************************************************************************************/
-	/* Íâ²¿ SRAM FSMC ÍâÉèÅäÖÃ */
-	timingWrite.FSMC_AddressSetupTime = 3;		/* ÉèÖÃÎª2»á³ö´í; 3Õı³£ */
+	/* å¤–éƒ¨ SRAM FSMC å¤–è®¾é…ç½® */
+	timingWrite.FSMC_AddressSetupTime = 3;		/* è®¾ç½®ä¸º2ä¼šå‡ºé”™; 3æ­£å¸¸ */
 	timingWrite.FSMC_AddressHoldTime = 0;
-	timingWrite.FSMC_DataSetupTime = 2;			/* ÉèÖÃÎª1³ö´í£¬2Õı³£ */
+	timingWrite.FSMC_DataSetupTime = 2;			/* è®¾ç½®ä¸º1å‡ºé”™ï¼Œ2æ­£å¸¸ */
 	timingWrite.FSMC_BusTurnAroundDuration = 1;
 	timingWrite.FSMC_CLKDivision = 0;
 	timingWrite.FSMC_DataLatency = 0;
@@ -411,7 +411,7 @@ void CS99xx_Peripheral_Config(void)
 	init.FSMC_MemoryType = FSMC_MemoryType_SRAM;
 	init.FSMC_MemoryDataWidth = FSMC_MemoryDataWidth_8b;
 	init.FSMC_BurstAccessMode = FSMC_BurstAccessMode_Disable;
-	init.FSMC_AsynchronousWait = FSMC_AsynchronousWait_Disable;	/* ×¢Òâ¾É¿âÎŞÕâ¸ö³ÉÔ± */
+	init.FSMC_AsynchronousWait = FSMC_AsynchronousWait_Disable;	/* æ³¨æ„æ—§åº“æ— è¿™ä¸ªæˆå‘˜ */
 	init.FSMC_WaitSignalPolarity = FSMC_WaitSignalPolarity_Low;
 	init.FSMC_WrapMode = FSMC_WrapMode_Disable;
 	init.FSMC_WaitSignalActive = FSMC_WaitSignalActive_BeforeWaitState;

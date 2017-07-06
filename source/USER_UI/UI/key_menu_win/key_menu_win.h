@@ -10,8 +10,7 @@
 #ifndef __KEY_MENU_WIN_H__
 #define __KEY_MENU_WIN_H__
 
-#include "key_fun_manage.h"
-#include "cs99xx_struct.h"
+#include "UI_COM/com_ui_info.h"
 
 /**
   * @brief  菜单键项枚举索引
@@ -38,14 +37,6 @@ typedef struct{
 	CS_INDEX index;///<对初始化信息结构数组的索引
 }STAND_MENU_KEY_INFO_T;
 
-extern void create_key_menu_window(void);
-extern void unregister_system_key_fun(CONFIG_FUNCTION_KEY_INFO_T info[], uint32_t n);
-extern void register_system_key_fun(CONFIG_FUNCTION_KEY_INFO_T info[], uint32_t n, int data);
-extern void init_menu_key_info(MENU_KEY_INFO_T * info, uint32_t n, int data);
-extern void set_menu_function_status(uint32_t key_value, SYS_KEY_ST_ENUM st);
-extern void set_menu_key_config_st(MENU_KEY_INFO_T * inf, uint32_t size,
-                        CS_INDEX index, SYS_KEY_ST_ENUM st, CS_ERR *err);
-extern void change_menu_key_font_color(uint32_t key_value, GUI_COLOR color);
 
 #endif //__KEY_MENU_WIN_H__
 

@@ -10,11 +10,8 @@
 /* Includes ------------------------------------------------------------------*/
 #include "string.h"
 #include "os.h"
-#include "GUI.H"
 #include "EDIT.h"
-#include "tools.h"
 #include "ui_com/com_edit_api.h"
-#include "keyboard.h"
 #include "key_fun_manage.h"
 #include "CODED_DISC/coded_disc.h"
 

@@ -10,25 +10,13 @@
 
 /* Includes ------------------------------------------------------------------*/
 
-#include "keyboard.h"
-#include "rtc_config.h"
-#include "GUI.H"
-#include "WM.h"
-#include "DIALOG.h"
-#include "ff.h"
-#include "OS.H"
-#include "cs99xx_struct.h"
 #include "stdio.h"
 #include "string.h"
 #include "LISTVIEW.H"
-#include "cs99xx_mem_api.h"
 #include "UI_COM/com_ui_info.h"
-#include "KEY_MENU_WIN/key_menu_win.h"
-#include "WARNING_WIN/warning_win.h"
+#include "step_edit_win.h"
 #include "7_step_ui.h"
 #include "step_win.h"
-#include "cs99xx_type.h"
-#include "step_edit_win.h"
 
   
 /* Private typedef -----------------------------------------------------------*/

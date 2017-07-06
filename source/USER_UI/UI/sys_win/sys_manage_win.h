@@ -10,7 +10,6 @@
 #ifndef __SYS_MANAGE_WIN_H__
 #define __SYS_MANAGE_WIN_H__
 
-void create_sys_manager_win(int hWin);
 
 
 #endif //__SYS_MANAGE_WIN_H__

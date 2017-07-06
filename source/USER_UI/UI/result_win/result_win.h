@@ -11,7 +11,6 @@
 #ifndef __RESULT_WIN_H__
 #define __RESULT_WIN_H__
 
-extern void create_result_win(int id);
 
 #endif //__RESULT_WIN_H__
 

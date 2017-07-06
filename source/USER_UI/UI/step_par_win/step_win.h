@@ -11,7 +11,6 @@
 #ifndef __STEP_WIN_H__
 #define __STEP_WIN_H__
 
-extern void create_step_par_win(int id);
 
 #endif //__STEP_WIN_H__
 

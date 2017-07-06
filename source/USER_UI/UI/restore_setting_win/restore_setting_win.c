@@ -8,16 +8,6 @@
   ******************************************************************************
   */
 
-#include "rtc_config.h"
-#include "GUI.H"
-#include "WM.h"
-#include "DIALOG.h"
-#include "OS.H"
-#include "cs99xx_struct.h"
-#include "stdio.h"
-#include "string.h"
-#include "UI_COM/com_ui_info.h"
-#include "key_menu_win/key_menu_win.h"
 #include "ui_com/com_ui_info.h"
 #include "7_restore_setting_win.h"
 #include "restore_setting_win.h"

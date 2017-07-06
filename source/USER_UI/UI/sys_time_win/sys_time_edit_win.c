@@ -14,8 +14,6 @@
 #include "rtc_config.h"
 #include "LISTWHEEL.h"
 #include "UI_COM/com_edit_api.h"
-#include "UI_COM/com_ui_info.h"
-#include "key_menu_win/key_menu_win.h"
 #include "7_sys_time_edit_win.h"
 #include "sys_time_edit_win.h"
 /* Private typedef -----------------------------------------------------------*/

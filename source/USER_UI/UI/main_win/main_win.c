@@ -16,22 +16,11 @@
 #include "image/user_image.h"
 #include "image/logo.h"
 #include "UI_COM/com_ui_info.h"
-#include "key_menu_win/key_menu_win.h"
-#include "sys_win/sys_manage_win.h"
-#include "file_win/file_win.h"
-#include "test_win/test_win.h"
-#include "cs99xx_usb_manager.h"
-#include "step_par_win/step_win.h"
-#include "result_win/result_win.h"
-#include "password_win/input_password_win.h"
-#include "key_server.h"
-#include "keyboard.h"
 #include "rtc_config.h"
 #include "7_main_win.h"
 #include "main_win.h"
 #include "PROGBAR.h"
-#include "cs99xx_mem_api.h"
-  
+
 /* Private typedef -----------------------------------------------------------*/
 
 /* Private define ------------------------------------------------------------*/

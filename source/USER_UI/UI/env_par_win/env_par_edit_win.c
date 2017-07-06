@@ -9,21 +9,8 @@
   ******************************************************************************
   */
 
-#include "keyboard.h"
-#include "rtc_config.h"
-#include "GUI.H"
-#include "WM.h"
 #include "DIALOG.h"
-#include "ff.h"
-#include "OS.H"
-#include "cs99xx_struct.h"
-#include "FRAMEWIN.H"
-#include "EDIT.H"
-#include "cs99xx_mem_api.h"
 #include "UI_COM/com_edit_api.h"
-#include "UI_COM/com_ui_info.h"
-#include "file_win/file_edit_win.h"
-#include "key_menu_win/key_menu_win.h"
 #include "7_env_par_edit_win.h"
 #include "env_par_edit_win.h"
 

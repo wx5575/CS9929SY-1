@@ -4,7 +4,7 @@
   * @author  王鑫
   * @version V1.0.0
   * @date    2017.7.5
-  * @brief   参数管理模块
+  * @brief   参数管理模块，这个模块是用来管理系统中所使用的主要测试数据的结构体数据
   ******************************************************************************
   */
 
@@ -43,20 +43,20 @@ static uint8_t  const  cs99xx_maptbl[256] = {
   */
 CS_BOOL is_file_exist(FILE_NUM file_num)
 {
-	if(file_num >= MAX_FILES)
-	{
-		return CS_FALSE;
-	}
-	
-	if(file_pool[file_num].name[0] == 0)
-	{
-		return CS_FALSE;
-	}
-    
-	if(file_pool[file_num].name[0] > 0X80)
-	{
-		return CS_FALSE;
-    }
+  if(file_num >= MAX_FILES)
+  {
+    return CS_FALSE;
+  }
+
+  if(file_pool[file_num].name[0] == 0)
+  {
+    return CS_FALSE;
+  }
+
+  if(file_pool[file_num].name[0] > 0X80)
+  {
+    return CS_FALSE;
+  }
 	
 	return CS_TRUE;
 }
@@ -1150,14 +1150,14 @@ void copy_cur_file_to_new_pos(const FILE_NUM file_num)
 	{
 		return;
 	}
-	
+  
 	strcpy((char*)temp_buf, (const char*)file_pool[file_num].name);/* 备份文件名 */
 	/* 更新文件信息 */
 	file_pool[file_num] = *g_cur_file;
 	strcpy((char*)file_pool[file_num].name, (const char*)temp_buf);/* 恢复文件名 */
-	file_pool[file_num].num = file_num;
+  file_pool[file_num].num = file_num;
     
-	save_file(file_num);
+  save_file(file_num);
     save_group_table(file_num);
     save_step_used_flag(file_num);
 	

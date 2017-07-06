@@ -10,22 +10,15 @@
   */
 
 #include "string.h"
-#include "keyboard.h"
 #include "rtc_config.h"
 #include "GUI.H"
 #include "WM.h"
 #include "DIALOG.h"
-#include "ff.h"
-#include "OS.H"
-#include "cs99xx_struct.h"
 #include "FRAMEWIN.H"
 #include "EDIT.H"
-#include "UI_COM/com_ui_info.h"
-#include "file_edit_win.h"
-#include "7_file_edit_win.h"
 #include "ui_com/com_edit_api.h"
-#include "key_menu_win/key_menu_win.h"
-#include "WARNING_WIN/warning_win.h"
+#include "7_file_edit_win.h"
+#include "file_edit_win.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/

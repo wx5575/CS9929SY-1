@@ -1,13 +1,13 @@
-/*
- * Copyright(c) 2014,南京长盛仪器
- * All rights reserved
- * 文件名称：cs99xx_type.c
- * 摘  要  ：管理仪器的型号，直接定义了仪器应该有的属性
- * 当前版本：V1.0，编写者：王鑫
- * 历史版本：
- * 修改记录：
- *
- */
+/**
+  ******************************************************************************
+  * @file    cs99xx_type.c
+  * @author  王鑫
+  * @version V1.0.0
+  * @date    2017.4.18
+  * @brief   管理仪器的型号，直接定义了仪器应该有的属性
+  ******************************************************************************
+  */
+
 #define _CS99xx_TYPE
 
 static void init_speciality(void);
@@ -253,23 +253,20 @@ uint16_t read_type(void)
     return g_custom_sys_par.instrument_type;
 }
 
-/*
- * 函数名：check_gr_mode
- * 描述  ：检查当前机型是否支持GR
- * 输入  ：无
- * 输出  ：无
- * 返回  ：0 不支持GR 非0 支持GR
+/**
+ * @brief      检查当前机型是否支持GR
+ *
+ * @return     0 不支持GR 非0 支持GR
  */
 int32_t check_gr_mode(void)
 {
 	return ( MODEL_EN & __GR);
 }
-/*
- * 函数名：get_first_mode
- * 描述  ：找到当前机型下的首个模式 优先顺序：ACW DCW IR GR BBD
- * 输入  ：无
- * 输出  ：无
- * 返回  ：首个模式
+
+/**
+ * @brief      找到当前机型下的首个模式 优先顺序：ACW DCW IR GR BBD
+ *
+ * @return     首个模式
  */
 uint8_t get_first_mode(void)
 {
@@ -305,12 +302,10 @@ uint8_t get_first_mode(void)
 	}
 	return mode;
 }
-/*
- * 函数名： get_first_g_mode
- * 描述  ：找到当前机型下的首个支持G模式的测试模式 优先顺序：ACW DCW
- * 输入  ：无
- * 输出  ：无
- * 返回  ：首个模式
+/**
+ * @brief      找到当前机型下的首个支持G模式的测试模式 优先顺序：ACW DCW
+ *
+ * @return     首个G模式
  */
 uint8_t get_first_g_mode(void)
 {
@@ -327,12 +322,13 @@ uint8_t get_first_g_mode(void)
     
 	return mode;
 }
-/*
- * 函数名：judge_support_g_mode
- * 描述  ：判断是否支持G模式
- * 输入  ：无
- * 输出  ：无
- * 返回  ：无
+
+/**
+ * 判断是否支持G模式
+ * @Author   wangxin
+ * @DateTime 2017-07-06
+ * @param    {[in/out]}
+ * @return   {[type]}
  */
 void judge_support_g_mode(void)
 {
@@ -347,12 +343,12 @@ void judge_support_g_mode(void)
         type_spe.support_g_mode = 1;
 	}
 }
-/*
- * 函数名：init_default_type
- * 描述  ：初始化默认机型
- * 输入  ：无
- * 输出  ：无
- * 返回  ：无
+/**
+ * 初始化默认机型
+ * @Author   wangxin
+ * @DateTime 2017-07-06
+ * @param    无
+ * @return   无
  */
 void init_default_type(void)
 {
@@ -364,12 +360,13 @@ void init_default_type(void)
         g_cur_type->config_fun();
     }
 }
-/*
- * 函数名：init_speciality
- * 描述  ：初始化机型的特性参数
- * 输入  ：无
- * 输出  ：无
- * 返回  ：无
+
+/**
+ * 初始化机型的特性参数
+ * @Author   wangxin
+ * @DateTime 2017-07-06
+ * @param    {[in/out]}
+ * @return   {[type]}
  */
 static void init_speciality(void)
 {
@@ -462,12 +459,14 @@ static void init_speciality(void)
 	}
 }
 
-/*
- * 函数名：get_arc_h
- * 描述  ：获取电弧侦测上限值
- * 输入  ：无
- * 输出  ：无
- * 返回  ：无
+/**
+ * 获取电弧侦测上限值
+ * @Author   wangxin
+ * @DateTime 2017-07-06
+ * @param    {[in/out]}
+ * @return   {[type]}
+ * @param    mode       [description]
+ * @return              [description]
  */
 uint16_t get_arc_h(uint8_t mode)
 {

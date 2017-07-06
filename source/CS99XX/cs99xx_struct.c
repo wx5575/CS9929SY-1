@@ -4,7 +4,7 @@
   * @author  王鑫
   * @version V1.0.0
   * @date    2017.4.18
-  * @brief   仪器相关结构体定义
+  * @brief   仪器相关结构体定义初始化
   ******************************************************************************
   */
 
@@ -70,7 +70,9 @@ const uint8_t test_port_flag_pool[2]=
   */
 const uint8_t * mode_pool[10]=
 {"", ACW_STR, DCW_STR, IR_STR, GR_STR, BBD_STR, CC_STR};
-
+/**
+  * @brief  测试状态
+  */
 const char* status_str[][2] = 
 {
 	{"等待测试", "TestWait"},
@@ -87,6 +89,9 @@ const char* status_str[][2] =
 	{"放电结束", "Disch.OK"},
 	{"输出延时", "Out.Dly"},
 };
+/**
+  * @brief  测试异常状态
+  */
 const char* except_buf[][3]=
 {
 	{"","",""},
@@ -159,7 +164,7 @@ TEST_FILE default_file =
 	10,///<蜂鸣时间
 	0,///<PASS时间
 	ARC_CUR_MODE,///<电弧侦测模式
-    0,///<存放日期时间 xxxx.xx.xx xx:xx:xx
+  0,///<存放日期时间 xxxx.xx.xx xx:xx:xx
 };
 
 /************************ (C) COPYRIGHT Nanjing Changsheng 2017 *****END OF FILE****/

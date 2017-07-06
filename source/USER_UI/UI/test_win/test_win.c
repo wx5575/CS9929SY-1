@@ -11,18 +11,10 @@
 /* Includes ------------------------------------------------------------------*/
 
 #include "string.h"
-#include "keyboard.h"
-#include "UI_COM/com_ui_info.h"
-#include "test_win.h"
-#include "7_test_ui_layout_1.h"
-#include "step_par_win/step_edit_win.h"
-#include "ui_com/com_edit_api.h"
 #include "running_test.h"
-#include "file_win/file_win.h"
-#include "password_win/input_password_win.h"
-#include "result_win/result_win.h"
-#include "cs99xx_mem_api.h"
-#include "UI/KEY_MENU_WIN/key_menu_win.h"
+#include "ui_com/com_edit_api.h"
+#include "7_test_ui_layout_1.h"
+#include "test_win.h"
 
 
 /* Private typedef -----------------------------------------------------------*/

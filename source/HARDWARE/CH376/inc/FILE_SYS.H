@@ -27,7 +27,7 @@
 
 #define     EN_LONG_NAME    //使能长文件名支持
 
-#define	STRUCT_OFFSET( s, m )	( (UINT8)( & ((s *)0) -> m ) )	/* 定义获取结构成员相对偏移地址的宏 */
+#define	STRUCT_OFFSET( s, m )	((UINT32)& ((s *)0) -> m )	/* 定义获取结构成员相对偏移地址的宏 */
 
 #ifdef	EN_LONG_NAME
 #ifndef	LONG_NAME_BUF_LEN

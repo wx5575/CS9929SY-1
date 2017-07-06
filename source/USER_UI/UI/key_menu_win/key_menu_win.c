@@ -8,8 +8,6 @@
   ******************************************************************************
   */
 #include "string.h"
-#include "keyboard.h"
-#include "UI_COM/com_ui_info.h"
 #include "7_key_menu_win.h"
 #include "key_menu_win.h"
 

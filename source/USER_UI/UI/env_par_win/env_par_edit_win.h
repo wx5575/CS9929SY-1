@@ -11,8 +11,6 @@
 #define __ENV_PAR_EDIT_WIN_H__
 
 
-extern void create_env_par_dialog(int hWin);
-
 #endif //__ENV_PAR_EDIT_WIN_H__
 
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/
