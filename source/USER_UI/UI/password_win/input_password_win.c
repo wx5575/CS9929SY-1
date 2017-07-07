@@ -1,10 +1,10 @@
 /**
   ******************************************************************************
-  * @file    file_ui_com.c
+  * @file    input_password_win.c
   * @author  王鑫
   * @version V1.0.0
   * @date    2017.4.18
-  * @brief   文件管理界面
+  * @brief   密码验证界面
   ******************************************************************************
   */
 
@@ -32,8 +32,6 @@ static void input_password_win_cb(WM_MESSAGE* pMsg);
 static CONFIG_FUNCTION_KEY_INFO_T 	sys_key_pool[];
 static void input_pwd_menu_key_ok(WM_HMEM hWin);
 
-//static void init_create_input_pwd_com_ele(MYUSER_WINDOW_T* win);
-//static void init_create_input_pwd_text_ele(MYUSER_WINDOW_T* win);
 static void init_create_pwd_edit_ele(MYUSER_WINDOW_T* win);
 
 static void input_pwd_win_f1_cb(KEY_MESSAGE *key_msg);
@@ -46,7 +44,6 @@ static void input_pwd_win_f6_cb(KEY_MESSAGE *key_msg);
 static void reg_input_pwd_sys_key(WM_HMEM data);
 
 static void reg_input_pwd_menu_key(WM_HMEM hWin);
-//static void c_reg_input_pwd_menu_key(WM_HMEM hWin);
 
 static void input_pwd_direct_key_down_cb(KEY_MESSAGE *key_msg);
 static void input_pwd_direct_key_up_cb(KEY_MESSAGE *key_msg);
@@ -263,20 +260,6 @@ static void reg_input_pwd_menu_key(WM_HMEM hWin)
 	init_menu_key_info(info, size, data);
 }
 /**
-  * @brief  确认密码使用的菜单键初始化
-  * @param  [in] hWin 窗口句柄
-  * @retval 无
-  */
-//static void c_reg_input_pwd_menu_key(WM_HMEM hWin)
-//{
-//    MENU_KEY_INFO_T * info = c_reg_input_pwd_menu_key_info;
-//    uint32_t size = ARRAY_SIZE(c_reg_input_pwd_menu_key_info);
-//    int32_t data = g_cur_edit_ele->dis.edit.handle;
-//    
-//	init_menu_key_info(info, size, data);
-//}
-
-/**
   * @brief  向上功能键的回调函数
   * @param  [in] key_msg 按键消息
   * @retval 无
@@ -419,11 +402,13 @@ static void input_password_win_cb(WM_MESSAGE* pMsg)
 			break;
 		case WM_DELETE:
 		{
+            /* 恢复按键信息 */
             if(recover_key_inf_fun != NULL)
             {
                 recover_key_inf_fun();
             }
             
+            /* 如果按下ENTER键就进入要进入的窗口 */
             if(g_custom_msg.msg == CM_DIALOG_RETURN_OK)
             {
                 input_pwd_win_into_win();

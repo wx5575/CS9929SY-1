@@ -287,23 +287,25 @@ typedef struct{
     uint16_t num;
     void (*config_fun)(void);
 }TYPE_STR;
-
+/**
+  * @brief  定制系统参数
+  */
 typedef struct{
-    uint8_t amp_select;/* 功放类型 老功放 和 8833功放 */
-    uint8_t par_medium;/* 参数存储介质 eep 或 flash */
-    uint8_t res_medium;/* 结果存储介质 eep 或 flash */
-    uint8_t cal_medium;/* 校准存储介质 eep 或 flash */
-    uint8_t buzzer_en;/* 蜂鸣器硬开关 */
-    uint8_t mute_sw;/* 系统静音模式开关 静音时测试报警不会一直响 */
-    uint8_t amp_type;/* 功放类型 LINE PWM */
-    uint8_t leading_sw;/* 数据导入导出到U盘开关 */
-	uint8_t ir_gear_hold;/* IR换挡保持时间开关 */
-	uint8_t ir_speed_sw;/* IR测试速度定制开关 打开后系统参数中有相应的设置项 快 中 慢 */
-	uint8_t offset_set_en;/* 偏移手动设置使能 */
+    uint8_t amp_select;///< 功放类型 老功放 和 8833功放 */
+    uint8_t par_medium;///< 参数存储介质 eep 或 flash */
+    uint8_t res_medium;///< 结果存储介质 eep 或 flash */
+    uint8_t cal_medium;///< 校准存储介质 eep 或 flash */
+    uint8_t buzzer_en;///< 蜂鸣器硬开关 */
+    uint8_t mute_sw;///< 系统静音模式开关 静音时测试报警不会一直响 */
+    uint8_t amp_type;///< 功放类型 LINE PWM */
+    uint8_t leading_sw;///< 数据导入导出到U盘开关 */
+	uint8_t ir_gear_hold;///< IR换挡保持时间开关 */
+	uint8_t ir_speed_sw;///< IR测试速度定制开关 打开后系统参数中有相应的设置项 快 中 慢 */
+	uint8_t offset_set_en;///< 偏移手动设置使能 */
 	SCREEM_SIZE_T   screem_size;///< 屏幕尺寸 7inch 5.6inch 4.3inch
 	UI_LAYOUT_T     ui_composition;///<界面布局
     uint32_t        instrument_type;///<仪器型号
-}CUSTOM_SYS_PAR;//定制系统参数
+}CUSTOM_SYS_PAR;
 /**
   * @brief  定制机型信息
   */

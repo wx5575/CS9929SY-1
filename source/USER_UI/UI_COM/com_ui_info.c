@@ -1,9 +1,9 @@
 /**
   ******************************************************************************
-  * @file    com_ui_info.h
+  * @file    com_ui_info.c
   * @author  王鑫
   * @version V1.0.0
-  * @date    2017.4.18
+  * @date    2017.6.18
   * @brief   提供公共界面服务接口
   ******************************************************************************
   */
@@ -50,7 +50,14 @@ CS_INDEX get_text_ele_index_in_pool(CS_INDEX index, ELE_POOL_INF *pool, CS_ERR *
     
     return (CS_INDEX)0;
 }
-
+/**
+  * @brief  获取文本对象在控件池中的索引
+  * @param  [in] text_pool 文本对象池指针
+  * @param  [in] pool_size 文本对象池的大小
+  * @param  [in] index 文本对象的索引值
+  * @param  [out] err 成功返回 CS_ERR_NONE, 失败返回 CS_ERR_ELE_INDEX_INVALID
+  * @retval 索引的文本对象在文本对象数组中的下标索引
+  */
 CS_INDEX get_text_ele_index(TEXT_ELE_T *text_pool, uint32_t pool_size, CS_INDEX index, CS_ERR*err)
 {
     uint32_t size = pool_size;
@@ -763,6 +770,13 @@ static void _show_text_ele(TEXT_ELE_T*node, const uint8_t*str)
 	TEXT_SetTextColor(handle, font_color);
 	TEXT_SetText(handle, pText);
 }
+/**
+  * @brief  设置文本对象的字体颜色
+  * @param  [in] index 文本对象的索引值
+  * @param  [in] win 文本对象所在的窗口指针
+  * @param  [in] color 要设置的文本颜色
+  * @retval 无
+  */
 void set_text_ele_font_color(CS_INDEX index, MYUSER_WINDOW_T* win, GUI_COLOR color)
 {
 	TEXT_ELE_T *node = NULL;
@@ -1010,10 +1024,10 @@ void create_user_dialog(MYUSER_WINDOW_T* win_info, CS_LIST *list_head, WM_HWIN h
         backup_key_inf_fun();//备份按键信息 当需要的时候可以用来恢复按键信息
     }
     
+    backup_g_cur_edit_ele();//备份当前编辑对象指针
     disable_system_fun_key_fun();//失能系统功能按键
     set_cur_window(win_info);
     win_info->handle = GUI_CreateDialogBox(&aDialogBox, 1, cb_fun, hWin, 0, 0);//非阻塞
-    WM_ShowWindow(win_info->handle);
 }
 /**
   * @brief  删除文本对象链表中的所有节点
@@ -1236,7 +1250,11 @@ void init_dialog(MYUSER_WINDOW_T * win)
 //    FRAMEWIN_SetClientColor(hWin, GUI_DARKGREEN);
     FRAMEWIN_SetActive(hWin, 1);
 }
-
+/**
+  * @brief  7寸屏画出记忆组信息
+  * @param  无
+  * @retval 无
+  */
 static void _7_draw_group_inf_area(void)
 {
     /** 记忆组信息 */
@@ -1248,6 +1266,11 @@ static void _7_draw_group_inf_area(void)
     GUI_SetColor(GUI_GRAY);//GUI_LIGHTGRAY
     GUI_FillRectEx(&group_info_area);
 }
+/**
+  * @brief  画出记忆组信息
+  * @param  无
+  * @retval 无
+  */
 void draw_group_inf_area(void)
 {
     switch(SCREEM_SIZE)
@@ -1263,13 +1286,17 @@ void draw_group_inf_area(void)
     }
 }
 /*******范围信息是很多界面者会用到的公共文本控件**********************/
-
+/**
+  * @brief  范围公共文本对象索引表
+  */
 CS_INDEX range_com_ele_table[COM_RANGE_ELE_NUM]=
 {
 	COM_RANGE_NAME,///<主界面的通信状态
 	COM_RANGE_NOTICE,///<主界面的系统时间
 };
-
+/**
+  * @brief  范围公共文本对象+记忆组文本对象的索引表
+  */
 CS_INDEX range_group_com_ele_table[COM_RANGE_ELE_NUM + COM_GRUOP_ELE_NUM]=
 {
 	COM_RANGE_NAME      ,///<主界面的通信状态
@@ -1281,6 +1308,9 @@ CS_INDEX range_group_com_ele_table[COM_RANGE_ELE_NUM + COM_GRUOP_ELE_NUM]=
     COM_UI_WORK_MODE    ,///< 记忆组工作模式
     COM_UI_CUR_WORK_MODE,///< 记忆组工作模式内容
 };
+/**
+  * @brief  范围公共文本对象+页码公共文本对象+记忆组文本对象的索引表
+  */
 CS_INDEX range_page_group_com_ele_table[COM_ELE_NUM]=
 {
 	COM_RANGE_NAME      ,///<主界面的通信状态
@@ -1293,6 +1323,9 @@ CS_INDEX range_page_group_com_ele_table[COM_ELE_NUM]=
     COM_UI_WORK_MODE    ,///< 记忆组工作模式
     COM_UI_CUR_WORK_MODE,///< 记忆组工作模式内容
 };
+/**
+  * @brief  记忆组文本对象的索引表
+  */
 CS_INDEX group_com_ele_table[COM_GRUOP_ELE_NUM]=
 {
     COM_UI_FILE_NAME    ,///< 记忆组文件名
@@ -1302,27 +1335,37 @@ CS_INDEX group_com_ele_table[COM_GRUOP_ELE_NUM]=
     COM_UI_WORK_MODE    ,///< 记忆组工作模式
     COM_UI_CUR_WORK_MODE,///< 记忆组工作模式内容
 };
+
+#define COM_RANGE_NAME_MAX_LON      20      ///<范围名称文本对象的最大长度
+#define COM_RANGE_NOTICE_MAX_LON    100     ///<范围提示信息文本对象最大长度
+/**
+  * @brief  范围名称公共文本对象初始化定义
+  */
+static uint8_t range_name_buf[2][COM_RANGE_NAME_MAX_LON + 1]    = {"范 围:","Range:"};
+/**
+  * @brief  范围提示公共文本对象初始化定义
+  */
+static uint8_t range_notice_buf[2][COM_RANGE_NOTICE_MAX_LON + 1]= {"提示"  ,"Notice"};
+/**
+  * @brief  页码公共文本对象初始化定义
+  */
+static uint8_t page_num_buf[2][3 + 1]= {"1/1"  ,"1/1"};
 /**
   * @brief  公共文本对象池
   */
-#define COM_RANGE_NAME_MAX_LON      20
-#define COM_RANGE_NOTICE_MAX_LON    100
-static uint8_t range_name_buf[2][COM_RANGE_NAME_MAX_LON + 1]    = {"范 围:","Range:"};
-static uint8_t range_notice_buf[2][COM_RANGE_NOTICE_MAX_LON + 1]= {"提示"  ,"Notice"};
-static uint8_t page_num_buf[2][3 + 1]= {"1/1"  ,"1/1"};
 TEXT_ELE_T com_text_ele_pool[COM_ELE_NUM]=
 {
-	{{range_name_buf[0]   , range_name_buf[1] }, COM_RANGE_NAME   },
-	{{range_notice_buf[0] ,range_notice_buf[1]}, COM_RANGE_NOTICE },
+	{{range_name_buf[0]   , range_name_buf[1] }, COM_RANGE_NAME   },///<范围名称文本对象
+	{{range_notice_buf[0] ,range_notice_buf[1]}, COM_RANGE_NOTICE },///<范围提示文本对象
     
-	{{page_num_buf[0]    ,page_num_buf[1] }, COM_PAGE_NOTICE },
+	{{page_num_buf[0]    ,page_num_buf[1] }, COM_PAGE_NOTICE },///<页码文本对象
     
-	{{"文件名:", "FileName:" }, COM_UI_FILE_NAME    },
-	{{"DEFAULT", "DEFAULT"   }, COM_UI_CUR_FILE_NAME},
-	{{"步骤:"  , "Step:"     }, COM_UI_STEP         },
-	{{"01/01"  , "01/01"     }, COM_UI_CUR_STEP     },
-	{{"工作模式:","WorkMode:"}, COM_UI_WORK_MODE    },
-	{{"N"      , "N"         }, COM_UI_CUR_WORK_MODE},
+	{{"文件名:", "FileName:" }, COM_UI_FILE_NAME    },///<记忆组文本名文本对象
+	{{"DEFAULT", "DEFAULT"   }, COM_UI_CUR_FILE_NAME},///<记忆组文件名文本对象
+	{{"步骤:"  , "Step:"     }, COM_UI_STEP         },///<记忆组步骤名称文本对象
+	{{"01/01"  , "01/01"     }, COM_UI_CUR_STEP     },///<记忆组步骤文本对象
+	{{"工作模式:","WorkMode:"}, COM_UI_WORK_MODE    },///<记忆组模式名称文本对象
+	{{"N"      , "N"         }, COM_UI_CUR_WORK_MODE},///<记忆组模式文本对象
 };
 
 /**
@@ -1375,7 +1418,12 @@ void update_range_name(uint8_t *str)
 {
     update_com_text_ele(COM_RANGE_NAME, g_cur_win, str);
 }
-
+/**
+  * @brief  更新页码公共文本显示
+  * @param  [in] win 窗口指针
+  * @param  [in] win 编辑对象指针
+  * @retval 无
+  */
 void update_page_num(MYUSER_WINDOW_T* win, EDIT_ELE_T *ele)
 {
     uint8_t buf[LANGUAGE_NUM][10] = {0};
@@ -1724,20 +1772,38 @@ void myGUI_DrawRectEx(const GUI_RECT * pRect)
 	GUI_DrawLine(pRect->x0, pRect->y0, pRect->x0, pRect->y1);
 	GUI_DrawLine(pRect->x1, pRect->y0, pRect->x1, pRect->y1);
 }
-
+/**
+  * @brief  备份当前编辑对象指针
+  * @param  无
+  * @retval 无
+  */
 void backup_g_cur_edit_ele(void)
 {
     g_cur_edit_ele_bk = g_cur_edit_ele;
 }
+/**
+  * @brief  恢复当前编辑对象指针
+  * @param  无
+  * @retval 无
+  */
 void recover_g_cur_edit_ele(void)
 {
     g_cur_edit_ele = g_cur_edit_ele_bk;
 }
-
+/**
+  * @brief  注册恢复按键信息函数的指针
+  * @param  [in] fun 函数指针
+  * @retval 无
+  */
 void register_recover_key_inf_fun(void(*fun)(void))
 {
     recover_key_inf_fun = fun;
 }
+/**
+  * @brief  备份恢复按键信息函数的指针
+  * @param  [in] fun 函数指针
+  * @retval 无
+  */
 void register_backup_key_inf_fun(void(*fun)(void))
 {
     backup_key_inf_fun = fun;

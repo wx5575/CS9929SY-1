@@ -1,12 +1,13 @@
 /**
   ******************************************************************************
-  * @file    7_file_ui_save.h
-  * @author  王鑫
+  * @file    7_file_win.h
+  * @author  鐜嬮懌
   * @version V1.0.0
-  * @date    2017.5.12
-  * @brief   文件保存界面
+  * @date    2017.6.18
+  * @brief   7瀵稿睆鏂囦欢绠＄悊绐楀彛閰嶇疆鏁版嵁鎺ュ彛
   ******************************************************************************
   */
+  
 #ifndef __7_FILE_UI_H__
 #define __7_FILE_UI_H__
 
@@ -18,4 +19,4 @@ extern WM_HWIN _7_create_file_listview(WM_HWIN hWin);
 #endif //__7_FILE_UI_SAVE_H__
 
 
-/************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/
+/************************ (C) COPYRIGHT 2017 闀跨洓浠櫒 *****END OF FILE****/

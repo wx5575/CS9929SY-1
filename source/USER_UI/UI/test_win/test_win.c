@@ -1,10 +1,10 @@
 /**
   ******************************************************************************
-  * @file    test_ui_com.c
+  * @file    test_win.c
   * @author  王鑫
-  * @version V0.0.1
+  * @version V1.0.0
   * @date    2017.4.18
-  * @brief   文件保存界面
+  * @brief   测试窗口
   ******************************************************************************
   */
   
@@ -18,19 +18,21 @@
 
 
 /* Private typedef -----------------------------------------------------------*/
+/**
+  * @brief  测试窗口编辑控件索引枚举
+  */
 enum{
     TEST_WIN_EDIT_INDEX,///<测试窗口中的编辑对象索引枚举
 };
-
+/**
+  * @brief  数据设置的倍率
+  */
 typedef struct{
     uint32_t x_n;///<n倍率
-    uint8_t x10;///<10倍率
-    uint8_t x100;///<100倍率
-    uint8_t x1000;///<1000倍率
-}DATA_MUL_POWER;///<数据设置的倍率
+}DATA_MUL_POWER;
 /* Private define ------------------------------------------------------------*/
-#define CUR_VALUE_AT_KEY_COLOR      GUI_RED
-#define NO_CUR_VALUE_AT_KEY_COLOR   GUI_WHITE
+#define CUR_VALUE_AT_KEY_COLOR      GUI_RED     ///<当前值所在的菜单键字体颜色
+#define NO_CUR_VALUE_AT_KEY_COLOR   GUI_WHITE   ///<当前值不在的菜单键字体颜色
 /* Private macro -------------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 
@@ -177,9 +179,9 @@ static int8_t cur_at_menu_page_flag;
   */
 static WIDGET_POS_SIZE_T* test_win_pos_size_pool[SCREEN_NUM]=
 {
-    &_7_test_windows,/*4.3寸屏*/
-    &_7_test_windows,/*5.6寸屏*/
-    &_7_test_windows,/*7寸屏*/
+    &_7_test_windows,///<4.3寸屏
+    &_7_test_windows,///<5.6寸屏
+    &_7_test_windows,///<7寸屏
 };
 
 /**
@@ -210,7 +212,7 @@ static MENU_KEY_INFO_T test_ui_acw_menu_pool[][6]=
     },
     {
         {"", F_KEY_UPPER , KEY_F1 & _KEY_UP, set_acw_par_f1_2_cb},//f1
-        {"", F_KEY_NULL , KEY_F2 & _KEY_UP, set_acw_par_f2_2_cb},//f2
+        {"", F_KEY_NULL  , KEY_F2 & _KEY_UP, set_acw_par_f2_2_cb},//f2
         {"", F_KEY_NULL  , KEY_F3 & _KEY_UP, set_acw_par_f3_2_cb},//f3
         {"", F_KEY_NULL  , KEY_F4 & _KEY_UP, set_acw_par_f4_2_cb},//f4
         {"", F_KEY_NULL  , KEY_F5 & _KEY_UP, set_acw_par_f5_2_cb},//f5
@@ -253,7 +255,7 @@ static MENU_KEY_INFO_T test_ui_gr_menu_pool[][6]=
         {"", F_KEY_BACK  , KEY_F6 & _KEY_UP, set_gr_par_f6_1_cb},//f6
     },
     {
-        {"", F_KEY_NULL , KEY_F1 & _KEY_UP, set_gr_par_f1_2_cb},//f1
+        {"", F_KEY_NULL  , KEY_F1 & _KEY_UP, set_gr_par_f1_2_cb},//f1
         {"", F_KEY_NULL  , KEY_F2 & _KEY_UP, set_gr_par_f2_2_cb},//f2
         {"", F_KEY_NULL  , KEY_F3 & _KEY_UP, set_gr_par_f3_2_cb},//f3
         {"", F_KEY_NULL  , KEY_F4 & _KEY_UP, set_gr_par_f4_2_cb},//f4
@@ -268,34 +270,34 @@ static MENU_KEY_INFO_T test_ui_gr_menu_pool[][6]=
   */
 static CS_INDEX test_ui_ele_buf[] =
 {
-	TEST_UI_ROAD01_NUM,
-	TEST_UI_ROAD01_MODE,
-	TEST_UI_ROAD01_STATUS,
-	TEST_UI_ROAD01_VOLTAGE,
-	TEST_UI_ROAD01_UPPER,
-	TEST_UI_ROAD01_REAL,
-	TEST_UI_ROAD01_TIME,
-	TEST_UI_ROAD02_NUM,
-	TEST_UI_ROAD02_MODE,
-	TEST_UI_ROAD02_STATUS,
-	TEST_UI_ROAD02_VOLTAGE,
-	TEST_UI_ROAD02_UPPER,
-	TEST_UI_ROAD02_REAL,
-	TEST_UI_ROAD02_TIME,
-	TEST_UI_ROAD03_NUM,
-	TEST_UI_ROAD03_MODE,
-	TEST_UI_ROAD03_STATUS,
-	TEST_UI_ROAD03_VOLTAGE,
-	TEST_UI_ROAD03_UPPER,
-	TEST_UI_ROAD03_REAL,
-	TEST_UI_ROAD03_TIME,
-	TEST_UI_ROAD04_NUM,
-	TEST_UI_ROAD04_MODE,
-	TEST_UI_ROAD04_STATUS,
-	TEST_UI_ROAD04_VOLTAGE,
-	TEST_UI_ROAD04_UPPER,
-	TEST_UI_ROAD04_REAL,
-	TEST_UI_ROAD04_TIME,
+	TEST_UI_ROAD01_NUM,     ///<第一路编号
+	TEST_UI_ROAD01_MODE,    ///<第一路模式
+	TEST_UI_ROAD01_STATUS,  ///<第一路状态
+	TEST_UI_ROAD01_VOLTAGE, ///<第一路电压
+	TEST_UI_ROAD01_UPPER,   ///<第一路上限
+	TEST_UI_ROAD01_REAL,    ///<第一路真实电流
+	TEST_UI_ROAD01_TIME,    ///<第一路测试时间
+	TEST_UI_ROAD02_NUM,     ///<第二路编号
+	TEST_UI_ROAD02_MODE,    ///<第二路模式
+	TEST_UI_ROAD02_STATUS,  ///<第二路状态
+	TEST_UI_ROAD02_VOLTAGE, ///<第二路电压
+	TEST_UI_ROAD02_UPPER,   ///<第二路上限
+	TEST_UI_ROAD02_REAL,    ///<第二路真实电流
+	TEST_UI_ROAD02_TIME,    ///<第二路测试时间
+	TEST_UI_ROAD03_NUM,     ///<第三路编号
+	TEST_UI_ROAD03_MODE,    ///<第三路模式
+	TEST_UI_ROAD03_STATUS,  ///<第三路状态
+	TEST_UI_ROAD03_VOLTAGE, ///<第三路电压
+	TEST_UI_ROAD03_UPPER,   ///<第三路上限
+	TEST_UI_ROAD03_REAL,    ///<第三路真实电流
+	TEST_UI_ROAD03_TIME,    ///<第三路测试时间
+	TEST_UI_ROAD04_NUM,     ///<第四路编号
+	TEST_UI_ROAD04_MODE,    ///<第四路模式
+	TEST_UI_ROAD04_STATUS,  ///<第四路状态
+	TEST_UI_ROAD04_VOLTAGE, ///<第四路电压
+	TEST_UI_ROAD04_UPPER,   ///<第四路上限
+	TEST_UI_ROAD04_REAL,    ///<第四路真实电流
+	TEST_UI_ROAD04_TIME,    ///<第四路测试时间
 };
 
 /**

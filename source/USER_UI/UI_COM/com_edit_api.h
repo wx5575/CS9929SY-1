@@ -1,4 +1,12 @@
-
+ï»¿/**
+  ******************************************************************************
+  * @file    com_edit_api.h
+  * @author  ç‹é‘«
+  * @version V1.0.0
+  * @date    2017.6.18
+  * @brief   ä¸ºç¼–è¾‘å¯¹è±¡æä¾›å…¬å…±çš„æ“ä½œæ¥å£
+  ******************************************************************************
+  */
 #ifndef __COM_EDIT_API_H__
 #define __COM_EDIT_API_H__
 
@@ -7,11 +15,11 @@
 
 
 /**
-  * @brief  Êı¾İÊÇ·ñÉÏÔØµ½ÄÚ´æµÄ±ê¼ÇÃ¶¾Ù¶¨Òå
+  * @brief  æ•°æ®æ˜¯å¦ä¸Šè½½åˆ°å†…å­˜çš„æ ‡è®°æšä¸¾å®šä¹‰
   */
 typedef enum{
-    UNLOAD_TO_RAM,///<²»ÉÏÔØÊı¾İµ½RAM
-    LOAD_TO_RAM,///<ÉÏÔØÊı¾İµ½RAM
+    UNLOAD_TO_RAM,///<ä¸ä¸Šè½½æ•°æ®åˆ°RAM
+    LOAD_TO_RAM,///<ä¸Šè½½æ•°æ®åˆ°RAM
 }LOAD_DATA_FLAG;
 
 extern void init_save_file_ui(MYUSER_WINDOW_T* win, EDIT_ELE_T *ele_pool, TEST_FILE *file);

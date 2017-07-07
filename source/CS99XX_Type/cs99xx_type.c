@@ -988,6 +988,9 @@ uint16_t define_modes(const uint8_t **mode_buf, uint8_t *flag, uint16_t *kinds)
 	
 	return k;
 }
+/**
+  * @brief  提供给仪器的配置参数使用的结构，如测试模式是可配置的，电流档位是可配置的
+  */
 typedef struct{
     const uint8_t *buf[MODE_END];///<模式对应的字符串
     uint8_t flag[MODE_END];///<模式对应的宏索引
