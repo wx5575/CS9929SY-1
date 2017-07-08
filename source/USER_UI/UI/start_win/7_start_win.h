@@ -1,17 +1,18 @@
-﻿/**
+/**
   ******************************************************************************
-  * @file    sys_manage_win.h
+  * @file    7_start_win.h
   * @author  王鑫
   * @version V1.0.0
-  * @date    2017.5.18
-  * @brief   系统管理界面
+  * @date    2017.4.18
+  * @brief   7寸屏启动窗口的布局
   ******************************************************************************
   */
-  
-#ifndef __SYS_MANAGE_WIN_H__
-#define __SYS_MANAGE_WIN_H__
 
+#ifndef __7_START_WIN_H__
+#define __7_START_WIN_H__
 
-#endif //__SYS_MANAGE_WIN_H__
+extern WIDGET_POS_SIZE_T _7_start_windows;
+
+#endif //__7_START_WIN_H__
 
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

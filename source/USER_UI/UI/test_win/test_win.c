@@ -233,7 +233,7 @@ static MENU_KEY_INFO_T test_ui_ir_menu_pool[][6]=
         {"", F_KEY_BACK  , KEY_F6 & _KEY_UP, set_ir_par_f6_1_cb},//f6
     },
     {
-        {"", F_KEY_UPPER , KEY_F1 & _KEY_UP, set_ir_par_f1_2_cb},//f1
+        {"", F_KEY_LOWER , KEY_F1 & _KEY_UP, set_ir_par_f1_2_cb},//f1
         {"", F_KEY_NULL  , KEY_F2 & _KEY_UP, set_ir_par_f2_2_cb},//f2
         {"", F_KEY_NULL  , KEY_F3 & _KEY_UP, set_ir_par_f3_2_cb},//f3
         {"", F_KEY_NULL  , KEY_F4 & _KEY_UP, set_ir_par_f4_2_cb},//f4
@@ -1907,7 +1907,7 @@ static void set_ir_par_f6_1_cb(KEY_MESSAGE *key_msg)
   */
 static void set_ir_par_f1_2_cb(KEY_MESSAGE *key_msg)
 {
-    test_win_edit_cur_upper_menu_key_init(key_msg->user_data);
+    test_win_edit_cur_lower_menu_key_init(key_msg->user_data);
 }
 /**
   * @brief  测试窗口编辑IR参数时使用的第2页菜单键F2回调函数
@@ -1916,7 +1916,7 @@ static void set_ir_par_f1_2_cb(KEY_MESSAGE *key_msg)
   */
 static void set_ir_par_f2_2_cb(KEY_MESSAGE *key_msg)
 {
-    test_win_edit_cur_lower_menu_key_init(key_msg->user_data);
+    test_win_edit_cur_upper_menu_key_init(key_msg->user_data);
 }
 /**
   * @brief  测试窗口编辑IR参数时使用的第2页菜单键F3回调函数
@@ -2803,7 +2803,6 @@ static void test_win_cb(WM_MESSAGE* pMsg)
             win = get_user_window_info(hWin);
             
 			WM_SetFocus(hWin);/* 设置聚焦 */
-			update_test_win_menu_key_inf(hWin);
 			WM_SetCreateFlags(WM_CF_MEMDEV);//如果不开启显示效果非常差, 开启后刷屏很慢
 			
 			if(win != NULL)
@@ -2818,29 +2817,16 @@ static void test_win_cb(WM_MESSAGE* pMsg)
                     g_cur_step = node;
                 }
                 
+                init_sys_function_key_inf(win);//初始化系统功能按键信息（包括菜单键和其他功能键）
                 init_create_win_all_ele(win);//创建窗口人所有的对象
                 
                 update_group_inf(g_cur_win);
                 clear_range_text_ele(g_cur_win);
 			}
-//			timer_handle = WM_CreateTimer(hWin, id_base++, 100, 0);
 			break;
 		}
 		case WM_TIMER:
 		{
-//            static int time = 0;
-//            uint8_t buf[10];
-//            if(++time > 9999)
-//            {
-//                time = 0;
-//            }
-//            mysprintf(buf, unit_pool[TIM_U_s], 151, time);
-//			win = get_user_window_info(hWin);
-//			update_text_ele((CS_INDEX)TEST_UI_ROAD01_TIME, win, buf);
-//			update_text_ele((CS_INDEX)TEST_UI_ROAD02_TIME, win, buf);
-//			update_text_ele((CS_INDEX)TEST_UI_ROAD03_TIME, win, buf);
-//			update_text_ele((CS_INDEX)TEST_UI_ROAD04_TIME, win, buf);
-//			WM_RestartTimer(timer_handle, 100);
 			break;
         }
         case WM_KEY:

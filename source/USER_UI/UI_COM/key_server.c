@@ -11,7 +11,7 @@
 #include "string.h"
 #include "os.h"
 #include "EDIT.h"
-#include "ui_com/com_edit_api.h"
+#include "com_edit_api.h"
 #include "key_fun_manage.h"
 #include "CODED_DISC/coded_disc.h"
 

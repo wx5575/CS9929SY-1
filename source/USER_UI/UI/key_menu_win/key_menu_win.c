@@ -643,7 +643,6 @@ void init_menu_key_info(MENU_KEY_INFO_T * info, uint32_t n, int data)
 		if(info[i].index == F_KEY_NULL)
 		{
             fun.fun = NULL;
-//            fun.en = SYS_KEY_DIS;
         }
         
         set_menu_function_status(info[i].fun_key.key_value, info[i].fun_key.en);

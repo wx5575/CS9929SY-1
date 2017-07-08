@@ -1,4 +1,4 @@
-﻿/**
+/**
   ******************************************************************************
   * @file    warning_win.c
   * @author  王鑫
@@ -57,13 +57,13 @@ static CS_INDEX warning_ui_ele_buf[] =
 	WARNING_UI_CONTENT,//内容
 };
 /** 当前使用界面对应的菜单键信息与响应函数 */
-MENU_KEY_INFO_T 	cur_menu_key_info_[] =
+MENU_KEY_INFO_T 	warning_win_menu_key_inf[] =
 {
     {"", F_KEY_NULL     , KEY_F1 & _KEY_UP, warning_win_f1_cb },//f3
     {"", F_KEY_NULL     , KEY_F2 & _KEY_UP, warning_win_f2_cb },//f3
     {"", F_KEY_NULL     , KEY_F3 & _KEY_UP, warning_win_f3_cb },//f3
     {"", F_KEY_NULL     , KEY_F4 & _KEY_UP, warning_win_f4_cb },//f4
-    {"", F_KEY_ENTER       , KEY_F5 & _KEY_UP, warning_win_f5_cb },//f5
+    {"", F_KEY_ENTER    , KEY_F5 & _KEY_UP, warning_win_f5_cb },//f5
     {"", F_KEY_CANCEL   , KEY_F6 & _KEY_UP, warning_win_f6_cb },//f6
 };
 /**
@@ -139,7 +139,7 @@ static void warning_win_f6_cb(KEY_MESSAGE *key_msg)
   */
 static void update_warning_ui_menu_key_inf(WM_HMEM hWin)
 {
-	init_menu_key_info(cur_menu_key_info_, ARRAY_SIZE(cur_menu_key_info_), hWin);
+	init_menu_key_info(warning_win_menu_key_inf, ARRAY_SIZE(warning_win_menu_key_inf), hWin);
 }
 
 /**

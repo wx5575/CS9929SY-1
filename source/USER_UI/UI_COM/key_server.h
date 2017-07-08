@@ -13,7 +13,6 @@
 
 #include "key_fun_manage.h"
 
-extern void scan_key_task(void);
 
 extern void set_shift_status(uint8_t st);
 extern uint8_t get_shift_status(void);

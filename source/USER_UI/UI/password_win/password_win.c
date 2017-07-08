@@ -846,6 +846,7 @@ static void password_win_cb(WM_MESSAGE* pMsg)
             {
                 select_edit_ele(g_cur_edit_ele);//选中当前编辑对象
             }
+            update_default_range_name();//更新默认的范围显示
             break;
 		case WM_TIMER:
 			break;

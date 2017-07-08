@@ -44,6 +44,10 @@ typedef struct EDIT_ELE_T_   EDIT_ELE_T;
   * @brief 用户窗口结构
   */
 typedef struct MYUSER_WINDOW    MYUSER_WINDOW_T;
+
+/** 
+  * @brief 窗口作用的字体的大小号字体索引
+  */
 typedef enum{
     FONT_SIZE_BIG,///<大字体
     FONT_SIZE_SMALL,///<小字体
@@ -430,6 +434,7 @@ extern void update_text_ele(CS_INDEX index, MYUSER_WINDOW_T* win, const uint8_t 
 extern void set_text_ele_font_color(CS_INDEX index, MYUSER_WINDOW_T* win, GUI_COLOR color);
 extern void create_user_window(MYUSER_WINDOW_T* win_info, CS_LIST *list_head, WM_HWIN h_parent);
 extern void init_window_pos_size(MYUSER_WINDOW_T* win_inf, WIDGET_POS_SIZE_T *pos_size_inf);
+extern void init_sys_function_key_inf(MYUSER_WINDOW_T* win);
 extern void init_create_win_all_ele(MYUSER_WINDOW_T* win);
 extern void create_user_dialog(MYUSER_WINDOW_T* win_info, CS_LIST *list_head, WM_HWIN hWin);
 extern void set_user_window_handle(WM_HWIN hWin);
@@ -507,7 +512,10 @@ extern void get_upper_edit_ele_inf(UN_STRUCT *step, EDIT_ELE_T* ret_ele, CS_ERR 
 extern void get_auto_shift_edit_ele_inf(UN_STRUCT *step, EDIT_ELE_T* ret_ele, CS_ERR *err);
 extern void create_env_par_dialog(int hWin);
 extern void create_sys_time_dialog(int hWin);
-void create_restor_factory_setting_dialog(int hWin);
+extern void create_restor_factory_setting_dialog(int hWin);
+
+extern void create_self_check_win(int hWin);
+extern void create_start_win(int hWin);
 
 #endif //__COM_UI_INFO_H__
 

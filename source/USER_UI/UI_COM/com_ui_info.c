@@ -877,6 +877,7 @@ void init_window_com_text_ele(MYUSER_WINDOW_T* win)
   * @brief  创建用户窗口，创建用户窗口的同时要对用户窗口中的所有链表头进行初始化，创建后就设置为当前窗口
   * @param  [in] win_info 窗口对象指针
   * @param  [in] list_head 窗口链表头，所有创建的窗口都放入这个链表
+  * @param  [in] h_parent 父窗口句柄
   * @retval 无
   */
 void create_user_window(MYUSER_WINDOW_T* win_info, CS_LIST *list_head, WM_HWIN h_parent)
@@ -887,11 +888,18 @@ void create_user_window(MYUSER_WINDOW_T* win_info, CS_LIST *list_head, WM_HWIN h
 	uint16_t height = 0;
 	USER_CALLBACK cb_fun = NULL;
     
+    /* 判断不允许当前窗口重复创建自身 */
+    if(g_cur_win == win_info)
+    {
+        return;
+    }
+    
     if(h_parent == 0)
     {
         h_parent = WM_HBKWIN;
     }
     
+    /* 从位置尺寸信息池中取出对应的屏幕尺寸的数据对窗口的位置尺寸进行设置 */
     if(win_info->pos_size_pool != NULL)
     {
         init_window_pos_size(win_info, win_info->pos_size_pool[SCREEM_SIZE]);
@@ -927,6 +935,22 @@ void create_user_window(MYUSER_WINDOW_T* win_info, CS_LIST *list_head, WM_HWIN h
 void init_window_pos_size(MYUSER_WINDOW_T* win_inf, WIDGET_POS_SIZE_T *pos_size_inf)
 {
     memcpy(&win_inf->pos_size, pos_size_inf, sizeof(WIDGET_POS_SIZE_T));
+}
+
+/**
+  * @brief  初始化系统功能键信息,调用由窗口配置信息提供的按键初始化函数
+  * @param  [in] win 窗口结构指针
+  * @retval 无
+  */
+void init_sys_function_key_inf(MYUSER_WINDOW_T* win)
+{
+    if(win != NULL)
+    {
+        if(win->init_key_fun != NULL)
+        {
+            win->init_key_fun(win->handle);
+        }
+    }
 }
 
 /**
@@ -997,6 +1021,13 @@ void create_user_dialog(MYUSER_WINDOW_T* win_info, CS_LIST *list_head, WM_HWIN h
         FRAMEWIN_CreateIndirect, "", 0, 0, 0, 0, 0, 0, 0, 0
     };
 	
+    /* 判断不允许当前窗口重复创建自身 */
+    if(g_cur_win == win_info)
+    {
+        return;
+    }
+    
+    /* 从位置尺寸信息池中取出对应的屏幕尺寸的数据对窗口的位置尺寸进行设置 */
     if(win_info->pos_size_pool != NULL)
     {
         init_window_pos_size(win_info, win_info->pos_size_pool[SCREEM_SIZE]);
@@ -1071,17 +1102,17 @@ static void delete_edit_list_node(CS_LIST *list_head)
 		if(node->dis.name.handle != 0)
 		{
             WM_DeleteWindow(node->dis.name.handle);//删除窗口控件
-            node->dis.name.handle = 0;//清除被删除窗口的句柄
+            node->dis.name.handle = 0;//清除被删除控件的句柄
 		}
 		if(node->dis.edit.handle != 0)
 		{
             WM_DeleteWindow(node->dis.edit.handle);//删除窗口控件
-            node->dis.edit.handle = 0;//清除被删除窗口的句柄
+            node->dis.edit.handle = 0;//清除被删除控件的句柄
 		}
 		if(node->dis.unit.handle != 0)
 		{
             WM_DeleteWindow(node->dis.unit.handle);//删除窗口控件
-            node->dis.unit.handle = 0;//清除被删除窗口的句柄
+            node->dis.unit.handle = 0;//清除被删除控件的句柄
 		}
 	}
 }
@@ -1092,9 +1123,9 @@ static void delete_edit_list_node(CS_LIST *list_head)
   */
 void delete_win_all_ele(MYUSER_WINDOW_T* win)
 {
-    delete_text_list_node(&win->com.list_head);
-    delete_text_list_node(&win->text.list_head);
-    delete_edit_list_node(&win->edit.list_head);
+    delete_text_list_node(&win->com.list_head);//删除公共文本链表中的控件
+    delete_text_list_node(&win->text.list_head);//删除文本链表中的控件
+    delete_edit_list_node(&win->edit.list_head);//删除编辑对象链表中的控件
 }
 /**
   * @brief  删除窗口中所有的编辑对象
@@ -1158,7 +1189,7 @@ void del_cur_window(void)
     set_cur_edit_ele(NULL);//将当前编辑对象置为空
     disable_system_fun_key_fun();//失能系统功能按键
     set_cur_window(win);//把新窗口设置为当前窗口
-    show_user_window(win);
+    show_user_window(win);//显示出用户当前窗口
     
 	WM_DeleteWindow(win_info->handle);//删除窗口控件
 	win_info->handle = 0;//清除被删除窗口的句柄

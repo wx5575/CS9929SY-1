@@ -44,7 +44,9 @@ EDIT_ELE_AUTO_LAYOUT_T _7_file_edit_ele_auto_layout_inf=
     GUI_TA_RIGHT | GUI_TA_VCENTER, GUI_TA_CENTER | GUI_TA_VCENTER, GUI_TA_LEFT | GUI_TA_VCENTER,
     20/*max_len*/
 };
-
+/**
+  * @brief  7寸屏文件编辑窗口编辑对象调整布局信息池
+  */
 static ADJUST_EDIT_ELE_LAYOUT  _7_file_edit_win_edit_ele_adjust_layout_pool[]=
 {
     /* 调整文件名的布局信息，因为自动布局时的编辑框的宽度不够 */
@@ -61,7 +63,9 @@ static ADJUST_EDIT_ELE_LAYOUT  _7_file_edit_win_edit_ele_adjust_layout_pool[]=
         }/*width*/,
     },
 };
-
+/**
+  * @brief  7寸屏文件编辑窗口编辑对象调整布局信息的结构
+  */
 ADJUST_EDIT_ELE_LAYOUT_INF _7_file_edit_win_edit_ele_adjust_layout_inf =
 {
     _7_file_edit_win_edit_ele_adjust_layout_pool,

@@ -7,7 +7,7 @@
   * @brief   用户应用程序
   ******************************************************************************
   */
- 
+
 /* Includes ------------------------------------------------------------------*/
 
 #define APP_GLOBALS
@@ -25,7 +25,6 @@
 #include "cs99xx_mem_api.h"
 #include "cs99xx_usb_manager.h"
 #include "cs99xx_type.h"
-#include "key_server.h"
 #include "app.h"
 #include "parameter_manage.h"
 

@@ -590,6 +590,32 @@ static void init_user_window_env(void)
 {
 	list_init(&windows_list);//初始化窗口链表
 }
+/**
+  * @brief  进入启动窗口
+  * @param  无
+  * @retval 无
+  */
+static void into_start_win(void)//进入启动窗口
+{
+    create_start_win(0);//创建启动窗口
+    
+    //等待窗口关闭
+    while(g_cur_win != NULL)
+		GUI_Delay(1);//调用这个函数可以刷新界面
+}
+/**
+  * @brief  进入自检窗口
+  * @param  无
+  * @retval 无
+  */
+static void into_self_check_win(void)//进入自检窗口
+{
+    create_self_check_win(0);//创建自检窗口
+    
+    //等待窗口关闭
+    while(g_cur_win != NULL)
+		GUI_Delay(1);//调用这个函数可以刷新界面
+}
 /* Public functions ---------------------------------------------------------*/
 
 /**
@@ -602,6 +628,8 @@ void main_ui_enter(void)
 	SCREEM_SIZE = SCREEN_7INCH;
 	id_base = GUI_ID_USER;//窗口控件ID
     init_user_window_env();//初始化用户窗口环境
+    into_start_win();//进入启动窗口
+    into_self_check_win();//进入自检窗口
     create_key_menu_window();//创建按键界面
     create_main_windows();//创建主界面
 	
