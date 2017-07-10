@@ -57,17 +57,17 @@ typedef enum{
   * @brief 控件位置尺寸结构
   */
 typedef struct{
-	uint16_t x;///<x坐标
-	uint16_t y;///<y坐标
-	uint16_t width;///<宽
-	uint16_t height;///<高
+	uint16_t x;///<x坐标(像素)
+	uint16_t y;///<y坐标(像素)
+	uint16_t width;///<宽(像素)
+	uint16_t height;///<高(像素)
 }WIDGET_POS_SIZE_T;
 /** 
   * @brief 控件显示信息结构
   */
 typedef struct UI_ELE_DISPLAY_INFO{
-	uint16_t base_x;///< x基坐标
-	uint16_t base_y;///<y基坐标
+	uint16_t base_x;///< x基坐标(像素)
+	uint16_t base_y;///<y基坐标(像素)
     WIDGET_POS_SIZE_T pos_size;///<窗口的位置尺寸
 	uint8_t max_len;///< 最大长度
     const GUI_FONT * font;//字体
@@ -107,14 +107,14 @@ typedef struct{
   * @brief 界面文本对象自动布局结构
   */
 typedef struct{
-    uint16_t base_x;///<x基坐标
-    uint16_t base_y;///<y基坐标
-    uint16_t width;///<文本控件的宽度
-    uint16_t height;///<文本控件的高度
+    uint16_t base_x;///<x基坐标(像素)
+    uint16_t base_y;///<y基坐标(像素)
+    uint16_t width;///<文本控件的宽度(像素)
+    uint16_t height;///<文本控件的高度(像素)
     uint8_t rows;///<最大行数
     uint8_t columns;///<最大列数
-    uint8_t row_spacing;///<行距
-    uint8_t column_spacing;///<列距
+    uint8_t row_spacing;///<行距(像素)
+    uint8_t column_spacing;///<列距(像素)
     const GUI_FONT * font[FONT_SIZE_NUM];//不同语言可以使用不同的字体
     GUI_COLOR font_color;///<字体颜色
     GUI_COLOR back_color;///<背景颜色
@@ -232,12 +232,12 @@ typedef enum{
 /** 
   * @brief 数据类型
   */
-typedef enum{
-	E_INT_T,///< 整数
-	E_FLOAT_T,///< 浮点数
-	E_STRING_T,///< 字符串数据
-	E_STRUCT_T,///< 结构体数据
-}DATA_TYPE;
+//typedef enum{
+//	E_INT_T,///< 整数
+//	E_FLOAT_T,///< 浮点数
+//	E_STRING_T,///< 字符串数据
+//	E_STRUCT_T,///< 结构体数据
+//}DATA_TYPE;
 
 /** 
   * @brief 数据所占的空间size 
@@ -254,8 +254,8 @@ typedef enum{
   * @brief 编辑控件可配置属性
   */
 typedef struct{
-    uint16_t width;///<宽
-    uint16_t height;///<高
+    uint16_t width;///<宽(像素)
+    uint16_t height;///<高(像素)
     const GUI_FONT *font;///<字体
     GUI_COLOR font_color;///<字体颜色
     GUI_COLOR back_color;///<背景颜色
@@ -271,8 +271,8 @@ typedef struct{
     CONFIGURABLE_PROPERTY name;///< 名称
     CONFIGURABLE_PROPERTY edit;///< 编辑
     CONFIGURABLE_PROPERTY unit;///< 单位
-    uint16_t x;///< 所在窗口的 x 坐标
-    uint16_t y;///< 所在窗口的 x 坐标
+    uint16_t x;///< 所在窗口的 x 坐标(像素)
+    uint16_t y;///< 所在窗口的 x 坐标(像素)
 }EDIT_ELE_DISPLAY_INF;
 
 /** 
@@ -301,7 +301,6 @@ struct EDIT_ELE_T_{
     /* 类型 */
     struct{
         ELE_TYPE type;///< 对象类型
-        DATA_TYPE data_type;///< 数据类型
     }type;
     
     /* 格式 */

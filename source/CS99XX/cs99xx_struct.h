@@ -617,6 +617,7 @@ extern const uint8_t *language_pool[2];
 extern const uint8_t *sw_pool[2][2];
 extern const SW_STATUS sw_status_buf[2];
 extern const uint8_t *arc_mode_pool[2][2];
+extern const uint8_t arc_mode_buf[2];
 extern const uint8_t *test_port_pool[2][2];
 extern const uint8_t test_port_flag_pool[2];
 extern const char* status_str[][2];

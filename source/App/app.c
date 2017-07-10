@@ -269,15 +269,7 @@ void set_framewin_skin(void)
     FRAMEWIN_SetSkinFlexProps(&FRAMEWIN_pProps, FRAMEWIN_SKINFLEX_PI_INACTIVE);
 }
 //EMWINDEMO任务
-void my123(void);
-void task_txt(void);
-void main_ui(void);
-void task_234(void);
-void task_auto(void);
-void EditTask(void);
-void main_in7_ui(void);
 void main_ui_enter(void);
-void MainTask(void);
 void emwindemo_task(void *p_arg)
 {
 	/* 开启所有窗口使用内存设备 */
@@ -302,7 +294,6 @@ void emwindemo_task(void *p_arg)
 	set_framewin_skin();
     
 	main_ui_enter();//主界面入口
-//    MainTask();
 	
 	while(1)
 	{

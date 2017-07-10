@@ -53,6 +53,10 @@ const uint8_t *arc_mode_pool[2][2]={
     {"电流","等级"},
     {"Current","Grade"},
 };
+const uint8_t arc_mode_buf[2]={
+	ARC_CUR_MODE,   ///<电弧侦测电流模式
+	ARC_GRADE_MODE, ///<电弧侦测档位模式
+};
 /**
   * @brief  测试端口
   */

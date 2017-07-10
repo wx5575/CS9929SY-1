@@ -100,7 +100,7 @@ static EDIT_ELE_T input_password_ele_pool[]=
         {"",""},/* 默认值 */
         {NULL, D_N_BYTES},/* 数据指针 */
         {NULL,0},/* 资源表 */
-        {ELE_EDIT_STR, E_STRING_T},/*类型*/
+        {ELE_EDIT_STR,},/*类型*/
         {0/*dec*/,20/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {0/*heigh*/,0/*low*/,{"1-8个数字","1-8 Numbers"}/*notice*/},/*range*/
         {reg_input_pwd_menu_key,reg_input_pwd_sys_key,keyboard_fun_pwd,},/*key_inf*/

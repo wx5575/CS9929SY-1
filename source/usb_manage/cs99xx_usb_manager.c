@@ -1,4 +1,4 @@
-﻿
+
 #define USB_MANAGER_GLOBALS
 #include "cs99xx_usb_manager.h"
 #include "CH376_USB_UI.H"
@@ -64,7 +64,6 @@ int32_t check_usb_flash(void)
     }
 }
 
-
 uint8_t check_connect_usb(uint8_t strong_brush)
 {
 	if(1 == Query376Interrupt() || strong_brush)
@@ -87,9 +86,6 @@ uint8_t check_connect_usb(uint8_t strong_brush)
 	
 	return get_cur_ch376_status();
 }
-
-
-
 
 unsigned int Creat_LongFile_Name(unsigned char *file_Shortname,unsigned char *ModelName)
 {
@@ -238,24 +234,7 @@ uint8_t create_file_usb_flash(uint8_t *file_name, uint8_t *path, uint8_t *tar_na
 	{
 		res = SetFileCreateTime((uint8_t*)tar_name);
 	}
-	
-// 	res = CH376FileOpenPath((uint8_t*)tar_name);/* 打开文件 */
-// 	
-// 	if(0x14 != res)
-// 	{
-// 		return 0xff;
-// 	}
     
-// 	/* 写入标题 */
-//     strcpy((char*)buf, Test_File_TITLE);
-//     res = CH376ByteWrite((uint8_t *)buf, strlen((const char*)buf), NULL );
-// 	
-// 	if(res == 0x14)
-// 	{
-// 	}
-	
-//     CH376FileClose(TRUE);
-	
 	return res;
 }
 

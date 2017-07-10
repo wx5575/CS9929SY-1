@@ -99,7 +99,7 @@ static uint8_t get_key_value_index(uint32_t key, uint8_t flag)
   * @param  [in] key 键值
   * @retval 无
   */
-void keyboard_str(uint32_t key)
+static void keyboard_str(uint32_t key)
 {
     
 	uint8_t bufx[]={
@@ -244,12 +244,11 @@ void keyboard_password(uint32_t key)
   * @param  [in] key 键值
   * @retval 无
   */
-void keyboard_num(uint32_t key)
+static void keyboard_num(uint32_t key)
 {
 	uint8_t key_index = 0xff;
     WM_HMEM handle = 0;
     uint8_t buf[20] = {0};
-//    uint8_t max_len;
     uint8_t len;
 	
     handle = get_cur_edit_handle();

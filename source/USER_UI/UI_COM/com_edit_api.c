@@ -1199,41 +1199,6 @@ void com_win_direct_key_right_cb(KEY_MESSAGE *key_msg)
         }
 	}
 }
-/**
-  * @brief  初始化开关类型编辑对象的资源信息
-  * @param  [in] ele 编辑对象
-  * @retval 无
-  */
-void init_sw_type_edit_ele_resource_inf(EDIT_ELE_T* ele)
-{
-    init_edit_ele_resource_inf(ele, sw_pool[SYS_LANGUAGE], ARRAY_SIZE(sw_pool[SYS_LANGUAGE]));
-    init_edit_ele_resource_user_data_inf(ele, (void*)sw_status_buf, ARRAY_SIZE(sw_status_buf));
-}
-
-/**
-  * @brief  初始化编辑对象的资源信息
-  * @param  [in] ele 编辑对象
-  * @param  [in] res_table 资源表
-  * @param  [in] size 资源表中元素个数
-  * @retval 无
-  */
-void init_edit_ele_resource_inf(EDIT_ELE_T* ele, void *res_table, uint32_t size)
-{
-    ele->resource.table = res_table;
-    ele->resource.size = size;
-}
-/**
-  * @brief  初始化编辑对象的资源用户数据
-  * @param  [in] ele 编辑对象
-  * @param  [in] res_table 资源表
-  * @param  [in] size 资源表中元素个数
-  * @retval 无
-  */
-void init_edit_ele_resource_user_data_inf(EDIT_ELE_T* ele, void *res_table, uint32_t size)
-{
-    ele->resource.user_data = res_table;
-    ele->resource.user_data_size = size;
-}
 
 /**
   * @brief  设置当前窗口编辑控件的索引表信息

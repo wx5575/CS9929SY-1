@@ -429,7 +429,7 @@ static EDIT_ELE_T test_win_edit_ele_pool[]=
         {0},/* 默认值 */
         {NULL, 0/*数据字节数*/},/* 数据指针 */
         {NULL, 0},/* 资源表 */
-        {ELE_EDIT_NUM, E_INT_T},/*类型*/
+        {ELE_EDIT_NUM, },/*类型*/
         {0/*dec*/,2/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {99/*heigh*/,1/*low*/,{"",""}/*notice*/},/*range*/
         {test_win_win_edit_num_sys_key_init, NULL, NULL,},/*key_inf*/
@@ -2820,8 +2820,8 @@ static void test_win_cb(WM_MESSAGE* pMsg)
                 init_sys_function_key_inf(win);//初始化系统功能按键信息（包括菜单键和其他功能键）
                 init_create_win_all_ele(win);//创建窗口人所有的对象
                 
-                update_group_inf(g_cur_win);
-                clear_range_text_ele(g_cur_win);
+                update_group_inf(g_cur_win);//更新记忆组信息
+                clear_range_text_ele(g_cur_win);//清空范围显示信息
 			}
 			break;
 		}
@@ -2840,6 +2840,7 @@ static void test_win_cb(WM_MESSAGE* pMsg)
 			break;
 		default:
 			WM_DefaultProc(pMsg);
+            break;
 	}
 }
 /* Public functions ---------------------------------------------------------*/
@@ -2853,6 +2854,5 @@ void create_test_win(int hWin)
 {
 	create_user_window(&test_windows, &windows_list, hWin);//创建测试界面
 }
-
 
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/
