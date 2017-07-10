@@ -264,7 +264,6 @@ static void update_cur_row_menu_key_st(WM_HWIN hWin)
         info = result_no_exist_menu_key_info;
 	}
     
-    
 	init_menu_key_info(info, size, hWin);//刷新菜单键显示
 }
 /**

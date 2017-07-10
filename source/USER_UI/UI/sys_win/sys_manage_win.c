@@ -1,4 +1,4 @@
-﻿/**
+/**
   ******************************************************************************
   * @file    sys_manage_win.c
   * @author  王鑫
@@ -230,8 +230,10 @@ static void into_sub_set_win(int hWin)
             create_password_ui(hWin);
             break;
         case SYS_UI_CAL:
+            create_calibration_win(hWin);
             break;
         case SYS_UI_MODULE:
+            create_module_win(hWin);
             break;
         case SYS_UI_RE_FACT_SETTING:
             create_restor_factory_setting_dialog(hWin);

@@ -230,16 +230,6 @@ typedef enum{
 }ELE_TYPE;
 
 /** 
-  * @brief 数据类型
-  */
-//typedef enum{
-//	E_INT_T,///< 整数
-//	E_FLOAT_T,///< 浮点数
-//	E_STRING_T,///< 字符串数据
-//	E_STRUCT_T,///< 结构体数据
-//}DATA_TYPE;
-
-/** 
   * @brief 数据所占的空间size 
   */
 typedef enum{
@@ -515,6 +505,8 @@ extern void create_restor_factory_setting_dialog(int hWin);
 
 extern void create_self_check_win(int hWin);
 extern void create_start_win(int hWin);
+extern void create_calibration_win(int hWin);
+extern void create_module_win(int hWin);
 
 #endif //__COM_UI_INFO_H__
 

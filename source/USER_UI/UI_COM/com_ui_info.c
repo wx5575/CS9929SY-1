@@ -925,6 +925,11 @@ void create_user_window(MYUSER_WINDOW_T* win_info, CS_LIST *list_head, WM_HWIN h
     disable_system_fun_key_fun();//失能系统功能按键
     set_cur_window(win_info);//将新建窗口设为当前窗口
     win_info->handle = WM_CreateWindowAsChild(x, y, width, height, h_parent, WM_CF_MEMDEV_ON_REDRAW | WM_CF_SHOW, cb_fun, 0);//WM_CF_SHOW
+    
+    if(win_info->init_key_fun != NULL)
+    {
+        win_info->init_key_fun(win_info->handle);
+    }
 }
 /**
   * @brief  设置当前用户窗口尺寸
@@ -1059,6 +1064,11 @@ void create_user_dialog(MYUSER_WINDOW_T* win_info, CS_LIST *list_head, WM_HWIN h
     disable_system_fun_key_fun();//失能系统功能按键
     set_cur_window(win_info);
     win_info->handle = GUI_CreateDialogBox(&aDialogBox, 1, cb_fun, hWin, 0, 0);//非阻塞
+    
+    if(win_info->init_key_fun != NULL)
+    {
+        win_info->init_key_fun(win_info->handle);
+    }
 }
 /**
   * @brief  删除文本对象链表中的所有节点

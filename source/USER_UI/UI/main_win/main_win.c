@@ -43,7 +43,7 @@ static void main_win_f4_cb(KEY_MESSAGE *key_msg);
 static void main_win_f5_cb(KEY_MESSAGE *key_msg);
 static void main_win_f6_cb(KEY_MESSAGE *key_msg);
 
-static void update_key_inf(WM_HWIN hWin);
+static void main_win_update_key_inf(WM_HWIN hWin);
 /* Private variables ---------------------------------------------------------*/
 
 static	WM_HWIN progbar_handle;///<进度条
@@ -103,7 +103,7 @@ static TEXT_ELE_T main_ui_text_ele_pool[]=
 MYUSER_WINDOW_T main_windows=
 {
     {"主窗口", "Main Window"},
-    main_win_cb, update_main_ui_menu_key_inf,
+    main_win_cb, main_win_update_key_inf,
 	{
         main_ui_text_ele_pool, ARRAY_SIZE(main_ui_text_ele_pool),
         (CS_INDEX*)main_ui_text_ele_table, ARRAY_SIZE(main_ui_text_ele_table)
@@ -314,7 +314,7 @@ static void sys_exit_key_fun_cb(KEY_MESSAGE *key_msg)
         del_cur_window();
 	}
     
-    update_key_inf(main_windows.handle);
+    main_win_update_key_inf(main_windows.handle);
     show_cur_window();
 }
 /**
@@ -476,7 +476,7 @@ static void _PaintFrame(void)
   * @param  [in] hWin 窗口句柄
   * @retval 无
   */
-static void update_key_inf(WM_HWIN hWin)
+static void main_win_update_key_inf(WM_HWIN hWin)
 {
     update_main_ui_menu_key_inf(hWin);
     update_system_key_inf(hWin);
@@ -534,7 +534,7 @@ static void main_win_cb(WM_MESSAGE * pMsg)
 			win = get_user_window_info(hWin);
             
 			WM_SetFocus(hWin);/* 设置聚焦 */
-            update_key_inf(hWin);
+            main_win_update_key_inf(hWin);
             
             init_main_ui_text_ele_pos_inf();//初始化文本对象的位置信息
             init_window_text_ele_list(win);//初始化窗口文本对象链表
