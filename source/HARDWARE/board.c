@@ -29,6 +29,10 @@
 #include "GUI.h"
 #include "ff.h"
 #include "Key_LED.h"
+#include "usart1.h"
+#include "usart2.h"
+#include "usart3.h"
+#include "uart4.h"
 
 RCC_ClocksTypeDef clock;
 void bsp_init(void)
@@ -44,6 +48,10 @@ void bsp_init(void)
     init_flash();
     tim3_init(10, 8400 - 1);//10 * 0.1ms = 1ms
     RCC_GetClocksFreq(&clock);
+    usart1_config(115200);
+    usart2_config(115200);
+    usart3_config(115200);
+    uart4_config(115200);
 }
 
 /*

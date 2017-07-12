@@ -49,6 +49,12 @@ typedef enum{
     CS_ERR_KEY_VALUE_INVALID,///<键值无效
     CS_ERR_ELE_INDEX_INVALID,///<对象索引无效
     CS_ERR_TEST_MODE_INVALTD,///<测试模式非法
+    
+    CS_ERR_COM_BUSY,///<串口忙
+    CS_ERR_SEND_SUCCESS,///<发送成功
+    CS_ERR_SEND_FAIL,///<发送失败
+    CS_ERR_COMM_TROUBLE,///<通信故障或从机不存在
+    CS_ERR_COMM_ADDR_INVALTD,///<通信地址无效
 }CS_ERR;
 /**
   * @brief  文件编号

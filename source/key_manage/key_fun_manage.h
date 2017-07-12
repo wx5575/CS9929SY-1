@@ -73,6 +73,8 @@ typedef enum{
     F_KEY_AUTO,///<自动
     F_KEY_GND,///<接地
     F_KEY_FLOAT,///<浮地
+    F_KEY_START,///<启动
+    F_KEY_STOP,///<停止
 }MENU_KEY_INDEX_ENUM;
 
 /**

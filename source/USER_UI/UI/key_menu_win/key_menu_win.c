@@ -131,6 +131,8 @@ static const STAND_MENU_KEY_INFO_T all_menu_key_info_[]=
 	{{"自动", "Auto"    }, F_KEY_AUTO       },
 	{{"接地", "GND"     }, F_KEY_GND        },
 	{{"浮地", "Float"   }, F_KEY_FLOAT      },
+	{{"启动", "START"   }, F_KEY_START      },
+	{{"停止", "STOP"    }, F_KEY_STOP       },
 };
 
 /**

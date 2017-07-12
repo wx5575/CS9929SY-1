@@ -58,6 +58,7 @@ int main(void)
 }
 
 void AppTaskScanKey(void *p_arg);
+void AppTaskModuleComm(void *p_arg);
 
 extern WM_HWIN hDlg;
 static void File_Init(void)
@@ -251,7 +252,21 @@ void start_task(void *p_arg)
                  (OS_TICK	  )0,
                  (void*       )0,
                  (OS_OPT      )OS_OPT_TASK_STK_CHK|OS_OPT_TASK_STK_CLR,
-                 (OS_ERR*     )&err);				 
+                 (OS_ERR*     )&err);
+	//模块通信任务
+	OSTaskCreate((OS_TCB*     )&ModuleCommTaskTCB,
+				 (CPU_CHAR*   )"ModuleComm task",
+                 (OS_TASK_PTR )AppTaskModuleComm,
+                 (void*       )0,
+                 (OS_PRIO	  )MODULE_COMM_TASK_PRIO,
+                 (CPU_STK*    )&MODULE_COMM_TASK_STK[0],
+                 (CPU_STK_SIZE)MODULE_COMM_STK_SIZE/10,
+                 (CPU_STK_SIZE)MODULE_COMM_STK_SIZE,
+                 (OS_MSG_QTY  )0,
+                 (OS_TICK	  )0,
+                 (void*       )0,
+                 (OS_OPT      )OS_OPT_TASK_STK_CHK|OS_OPT_TASK_STK_CLR,
+                 (OS_ERR*     )&err);
 // 	OS_TaskSuspend((OS_TCB*)&StartTaskTCB,&err);		//挂起开始任务
     
 	OS_CRITICAL_EXIT();	//退出临界区
@@ -305,6 +320,16 @@ void emwindemo_task(void *p_arg)
 }
 
 
+void AppTaskModuleComm(void *p_arg)
+{
+	OS_ERR err;
+    
+    while(1)
+    {
+        OSTimeDlyHMSM(0,0,0,10,OS_OPT_TIME_PERIODIC,&err);
+        module_comm_task();
+    }
+}
 void AppTaskScanKey(void *p_arg)
 {
 	OS_ERR err;

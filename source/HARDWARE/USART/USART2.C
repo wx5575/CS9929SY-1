@@ -2,22 +2,22 @@
 Copyright (C), 2012-2022, yin.
 FileName: main.c
 Author: ycw Version :  1.0 Date: 2012.04.26
-Description: USART1 SendData  
+Description: USART2 SendData  
 Version: V2.0                 
-Function List:USART1 SendData 
+Function List:USART2 SendData 
 History: V1.0                     
 <author> <time> <version > <desc>
 YCW 12/04/26 1.0 build this moudle
 ***********************************************************/
 
-#include "USART1.H"
+#include "USART2.H"
 #include "os.h"
 
 #define     BUFFER_SIZE         (512)
 //#define     MAX_485_EN
 #define     UART_TIMEOUT   (30)    //30ms
 
-#define UART_PORT   USART1
+#define UART_PORT   USART2
 
 static uint8_t uart_send_buf[BUFFER_SIZE];
 static uint8_t uart_receive_data[BUFFER_SIZE];
@@ -33,21 +33,21 @@ static uint32_t receive_count;/* 接收字节计数 */
 
 
 /**
-  * @brief  USART1 配置
+  * @brief  USART2 配置
   * @param  无
   * @retval 无
   */
-void usart1_config(uint32_t baud_rate)
+void usart2_config(uint32_t baud_rate)
 {
     GPIO_InitTypeDef GPIO_InitStructure;
     USART_InitTypeDef USART_InitStructure;
     USART_ClockInitTypeDef USART_ClockInitStruct;
     NVIC_InitTypeDef NVIC_InitStructure;
     
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE); //开启USART1时钟
+    RCC_APB2PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE); //开启USART2时钟
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);  //开启GPIOC时钟
-    GPIO_PinAFConfig(GPIOC, GPIO_PinSource6, GPIO_AF_USART1);//这相当于M3的开启复用时钟？只配置复用的引脚，
-    GPIO_PinAFConfig(GPIOC, GPIO_PinSource7, GPIO_AF_USART1);//               
+    GPIO_PinAFConfig(GPIOC, GPIO_PinSource6, GPIO_AF_USART2);//这相当于M3的开启复用时钟？只配置复用的引脚，
+    GPIO_PinAFConfig(GPIOC, GPIO_PinSource7, GPIO_AF_USART2);//               
     
     /*配置GPIOC*/
     GPIO_StructInit(&GPIO_InitStructure);      //缺省值填入
@@ -65,7 +65,7 @@ void usart1_config(uint32_t baud_rate)
     GPIO_Init(GPIOB,&GPIO_InitStructure);
     
     /*IO引脚复用功能设置，与之前版本不同*/
-    /*配置USART1*/
+    /*配置USART2*/
     USART_StructInit(&USART_InitStructure);
     USART_InitStructure.USART_BaudRate =baud_rate;
     USART_InitStructure.USART_WordLength = USART_WordLength_8b;
@@ -73,14 +73,14 @@ void usart1_config(uint32_t baud_rate)
     USART_InitStructure.USART_Parity = USART_Parity_No;
     USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
     USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
-    USART_Init(USART1, &USART_InitStructure);
+    USART_Init(UART_PORT, &USART_InitStructure);
     USART_ClockStructInit(&USART_ClockInitStruct);
-    USART_ClockInit(USART1, &USART_ClockInitStruct);
+    USART_ClockInit(UART_PORT, &USART_ClockInitStruct);
     
-    USART_ITConfig(USART1, USART_IT_RXNE, ENABLE); //使能 USART1中断
-    USART_Cmd(USART1, ENABLE); //使能 USART1
+    USART_ITConfig(UART_PORT, USART_IT_RXNE, ENABLE); //使能 USART2中断
+    USART_Cmd(UART_PORT, ENABLE); //使能 USART2
     
-    NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn; //嵌套通道为USART1_IRQn
+    NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn; //嵌套通道为USART2_IRQn
     NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0; //抢占优先级为 0
     NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;    //响应优先级为 0
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;     //通道中断使能
@@ -88,11 +88,11 @@ void usart1_config(uint32_t baud_rate)
 }
 
 /**
-  * @brief  USART1发送数据
+  * @brief  USART2发送数据
   * @param  无
   * @retval 无
   */
-void usart1_send_data(uint8_t *data, uint32_t len)
+void usart2_send_data(uint8_t *data, uint32_t len)
 {
     send_buf = data;
     send_count = len;
@@ -102,11 +102,11 @@ void usart1_send_data(uint8_t *data, uint32_t len)
     USART_ITConfig(UART_PORT, USART_IT_TC, ENABLE);
 }
 /**
-  * @brief  USART1发送数据
+  * @brief  USART2发送数据
   * @param  无
   * @retval 无
   */
-void usart1_resend_data(void)
+void usart2_resend_data(void)
 {
     send_buf = send_buf_bak;
     send_count = send_count_bak;
@@ -120,7 +120,7 @@ void usart1_resend_data(void)
   * @param  无
   * @retval 发送状态
   */
-uint8_t usart1_get_send_status(void)
+uint8_t usart2_get_send_status(void)
 {
     uint8_t res = uart_send_st;
     
@@ -133,7 +133,7 @@ uint8_t usart1_get_send_status(void)
   * @param  无
   * @retval 接收数据缓冲区地址
   */
-uint8_t* usart1_get_receive_data(void)
+uint8_t* usart2_get_receive_data(void)
 {
     return uart_receive_data;
 }
@@ -142,7 +142,7 @@ uint8_t* usart1_get_receive_data(void)
   * @param  无
   * @retval 无
   */
-uint32_t usart1_get_receive_data_count(void)
+uint32_t usart2_get_receive_data_count(void)
 {
     return receive_count;
 }
@@ -151,7 +151,7 @@ uint32_t usart1_get_receive_data_count(void)
   * @param  无
   * @retval 无
   */
-void usart1_clear_receive_data_count(void)
+void usart2_clear_receive_data_count(void)
 {
     receive_count = 0;
 }
@@ -160,7 +160,7 @@ void usart1_clear_receive_data_count(void)
   * @param  无
   * @retval 发送数据缓冲区地址
   */
-uint8_t * usart1_get_send_buf(void)
+uint8_t * usart2_get_send_buf(void)
 {
     return uart_send_buf;
 }
@@ -169,7 +169,7 @@ uint8_t * usart1_get_send_buf(void)
   * @param  无
   * @retval 无
   */
-void usart1_reset_timeout(void)
+void usart2_reset_timeout(void)
 {
     usart_timeout = UART_TIMEOUT;
 }
@@ -178,7 +178,7 @@ void usart1_reset_timeout(void)
   * @param  无
   * @retval 超时计数器值
   */
-uint32_t usart1_get_timeout(void)
+uint32_t usart2_get_timeout(void)
 {
     return usart_timeout;
 }
@@ -187,7 +187,7 @@ uint32_t usart1_get_timeout(void)
   * @param  无
   * @retval 无
   */
-uint32_t usart1_sub_timeout(void)
+uint32_t usart2_sub_timeout(void)
 {
     usart_timeout--;
     
@@ -199,7 +199,7 @@ uint32_t usart1_sub_timeout(void)
   * @param  无
   * @retval 无
   */
-void usart1_judge_timout(void)
+void usart2_judge_timout(void)
 {
     if(usart_timeout > 0)
     {
@@ -216,7 +216,7 @@ void usart1_judge_timout(void)
   * @param  无
   * @retval 接收完成标志
   */
-uint8_t get_usart1_receive_over_flag(void)
+uint8_t get_usart2_receive_over_flag(void)
 {
     return usart_receive_over;
 }
@@ -225,7 +225,7 @@ uint8_t get_usart1_receive_over_flag(void)
   * @param  无
   * @retval 无
   */
-void clear_usart1_receive_over_flag(void)
+void clear_usart2_receive_over_flag(void)
 {
     usart_receive_over = 0;
 }
@@ -234,16 +234,16 @@ void clear_usart1_receive_over_flag(void)
   * @param  无
   * @retval 无
   */
-void usart1_clear_receive_count(void)
+void usart2_clear_receive_count(void)
 {
     receive_count = 0;
 }
 /**
-  * @brief  USART1中断服务程序
+  * @brief  USART2中断服务程序
   * @param  无
   * @retval 无
   */
-void usart1_close(void)
+void usart2_close(void)
 {
 	USART_Cmd(UART_PORT, DISABLE);
     USART_ITConfig(UART_PORT, USART_IT_TC, DISABLE);
@@ -251,17 +251,17 @@ void usart1_close(void)
 }
 
 /**
-  * @brief  USART1中断服务程序
+  * @brief  USART2中断服务程序
   * @param  无
   * @retval 无
   */
-void USART1_IRQHandler(void)
+void USART2_IRQHandler(void)
 {
 	OSIntEnter();
     
     if(USART_GetITStatus(UART_PORT, USART_IT_RXNE) == SET)
     {
-        usart1_reset_timeout();//复位超时计时器
+        usart2_reset_timeout();//复位超时计时器
         uart_receive_data[receive_count] = USART_ReceiveData(UART_PORT);
         receive_count = (receive_count + 1) % BUFFER_SIZE;
 	}

@@ -476,6 +476,16 @@
               <FilePath>..\source\HARDWARE\USART\USART1.C</FilePath>
             </File>
             <File>
+              <FileName>USART2.C</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\HARDWARE\USART\USART2.C</FilePath>
+            </File>
+            <File>
+              <FileName>USART3.C</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\HARDWARE\USART\USART3.C</FilePath>
+            </File>
+            <File>
               <FileName>USART6.C</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\HARDWARE\USART\USART6.C</FilePath>
@@ -489,6 +499,11 @@
               <FileName>tim4.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\HARDWARE\TIMER\tim4.c</FilePath>
+            </File>
+            <File>
+              <FileName>UART4.C</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\HARDWARE\USART\UART4.C</FilePath>
             </File>
           </Files>
         </Group>
@@ -1549,6 +1564,26 @@
               <FileName>module_manage.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\module_manage\module_manage.c</FilePath>
+            </File>
+            <File>
+              <FileName>com1_comm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\module_manage\com1_comm.c</FilePath>
+            </File>
+            <File>
+              <FileName>com2_comm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\module_manage\com2_comm.c</FilePath>
+            </File>
+            <File>
+              <FileName>com3_comm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\module_manage\com3_comm.c</FilePath>
+            </File>
+            <File>
+              <FileName>com4_comm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\module_manage\com4_comm.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -220,7 +220,7 @@ void auto_init_win_text_ele_dis_inf(MYUSER_WINDOW_T *win)
         
         ++row;
         
-        if(row > auto_layout->rows)
+        if(row >= auto_layout->rows)
         {
             row = 0;
             column++;
@@ -959,15 +959,33 @@ void init_sys_function_key_inf(MYUSER_WINDOW_T* win)
 }
 
 /**
+  * @brief  初始化并创建窗口中的文本对象
+  * @param  [in] win 窗口结构信息
+  * @retval 无
+  */
+void init_create_win_text_ele(MYUSER_WINDOW_T* win)
+{
+    init_window_text_ele_list(win);
+    auto_layout_win_text_ele(win);
+    init_window_text_ele(win);
+}
+
+/**
   * @brief  初始化并创建窗口内所有控件 只包含文本控件和编辑控件(编辑框、下拉框)
   * @param  [in] win 窗口结构指针
   * @retval 无
   */
 void init_create_win_all_ele(MYUSER_WINDOW_T* win)
 {
+    /* 使用提供的初始化函数 */
     if(NULL != win->text.init_create_fun)
     {
         win->text.init_create_fun(win);//创建文本对象
+    }
+    /* 如果没有提供初始化函数就使用默认的初始化函数 */
+    else
+    {
+        init_create_win_text_ele(win);
     }
     
     if(NULL != win->edit.init_create_fun)

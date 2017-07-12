@@ -32,7 +32,7 @@ void tim3_init(uint16_t arr,uint16_t psc)
 	NVIC_Init(&NVIC_InitStructure);
 }
 typedef void (*TIM_SERVER_FUN)(void);
-#define TIM3_MAX_SERVER_FUN     10 //tim3最大的服务函数的个数
+#define TIM3_MAX_SERVER_FUN     20 //tim3最大的服务函数的个数
 TIM_SERVER_FUN  tim_server_fun[TIM3_MAX_SERVER_FUN];
 
 uint8_t register_tim3_server_fun(TIM_SERVER_FUN fun)
