@@ -27,13 +27,14 @@
 #include "cs99xx_type.h"
 #include "app.h"
 #include "parameter_manage.h"
+#include "module_manage.h"
 
 
 int main(void)
 {
 	OS_ERR err;
 	CPU_SR_ALLOC();
-	
+    
 	OSInit(&err); //初始化UCOSIII
 	OS_CRITICAL_ENTER(); //进入临界区
 	//创建开始任务
@@ -135,6 +136,8 @@ void soft_init(void)
         init_file_data(&file_pool[0], 0);
         save_file(0);
     }
+    
+    init_module_manage_env();
 }
 
 void ch376_task(void *p_arg)

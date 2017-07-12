@@ -1213,6 +1213,36 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>START_WIN</GroupName>
+          <Files>
+            <File>
+              <FileName>7_start_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\start_win\7_start_win.c</FilePath>
+            </File>
+            <File>
+              <FileName>start_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\start_win\start_win.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>SELF_CHECK_WIN</GroupName>
+          <Files>
+            <File>
+              <FileName>7_self_check_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\self_check_win\7_self_check_win.c</FilePath>
+            </File>
+            <File>
+              <FileName>self_check_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\self_check_win\self_check_win.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>MAIN_WIN</GroupName>
           <Files>
             <File>
@@ -1408,6 +1438,36 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>MODULE_WIN</GroupName>
+          <Files>
+            <File>
+              <FileName>7_module_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\module_win\7_module_win.c</FilePath>
+            </File>
+            <File>
+              <FileName>module_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\module_win\module_win.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>CALIBRATION_WIN</GroupName>
+          <Files>
+            <File>
+              <FileName>7_calibration_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\calibration_win\7_calibration_win.c</FilePath>
+            </File>
+            <File>
+              <FileName>calibration_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\calibration_win\calibration_win.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>RESULT_WIN</GroupName>
           <Files>
             <File>
@@ -1419,16 +1479,6 @@
               <FileName>result_win.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\USER_UI\UI\result_win\result_win.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>DOCUMENT</GroupName>
-          <Files>
-            <File>
-              <FileName>templet.c.txt</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\source\Document\templet.c.txt</FilePath>
             </File>
           </Files>
         </Group>
@@ -1488,32 +1538,22 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>START_WIN</GroupName>
+          <GroupName>MODULE_MANAGE</GroupName>
           <Files>
             <File>
-              <FileName>7_start_win.c</FileName>
+              <FileName>module_manage.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\source\USER_UI\UI\start_win\7_start_win.c</FilePath>
-            </File>
-            <File>
-              <FileName>start_win.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\USER_UI\UI\start_win\start_win.c</FilePath>
+              <FilePath>..\source\module_manage\module_manage.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>SELF_CHECK_WIN</GroupName>
+          <GroupName>DOCUMENT</GroupName>
           <Files>
             <File>
-              <FileName>7_self_check_win.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\USER_UI\UI\self_check_win\7_self_check_win.c</FilePath>
-            </File>
-            <File>
-              <FileName>self_check_win.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\USER_UI\UI\self_check_win\self_check_win.c</FilePath>
+              <FileName>templet.c.txt</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\source\Document\templet.c.txt</FilePath>
             </File>
           </Files>
         </Group>

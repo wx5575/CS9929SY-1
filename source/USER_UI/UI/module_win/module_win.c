@@ -319,14 +319,12 @@ static void module_win_cb(WM_MESSAGE * pMsg)
 			set_module_windows_handle(hWin);
 			win = get_user_window_info(hWin);
             
-//            WM_CreateTimer(hWin, 0, 1000, 0);
 			break;
 		case WM_PAINT:
 			_PaintFrame();
 			break;
 		case WM_TIMER:
 		{
-//            back_win(hWin);
 			break;
 		}
 		case WM_KEY:

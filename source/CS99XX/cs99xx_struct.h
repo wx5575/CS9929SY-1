@@ -503,23 +503,6 @@ typedef enum{
     TEST_PORT_GND,///< 测试端口接地
     TEST_PORT_FLOAT,///< 测试端口浮地
 }TEST_PORT_GND_FLOAT;
-/**
-  * @brief  系统参数结构定义
-  */
-
-//typedef struct{
-//    uint8_t amp_select;/* 功放类型 老功放 和 8833功放 */
-//    uint8_t par_medium;/* 参数存储介质 eep 或 flash */
-//    uint8_t res_medium;/* 结果存储介质 eep 或 flash */
-//    uint8_t cal_medium;/* 校准存储介质 eep 或 flash */
-//    uint8_t buzzer_en;/* 蜂鸣器硬开关 */
-//    uint8_t mute_sw;/* 系统静音模式开关 静音时测试报警不会一直响 */
-//    uint8_t amp_type;/* 功放类型 LINE PWM */
-//    uint8_t leading_sw;/* 数据导入导出到U盘开关 */
-//	uint8_t ir_gear_hold;/* IR换挡保持时间开关 */
-//	uint8_t ir_speed_sw;/* IR测试速度定制开关 打开后系统参数中有相应的设置项 快 中 慢 */
-//	uint8_t offset_set_en;/* 偏移手动设置使能 */
-//}CUSTOM_SYS_PAR;//定制系统参数
 
 typedef struct{
     uint8_t addr[16];/* 地址缓存 */

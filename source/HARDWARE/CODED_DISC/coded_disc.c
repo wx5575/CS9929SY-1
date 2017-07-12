@@ -91,6 +91,7 @@ void register_coded_disc_send_msg_fun(void(*fun)(uint32_t *))
 
 void EXTI9_5_IRQHandler(void)
 {
+	OSIntEnter();    
     if(EXTI_GetITStatus(EXTI_Line6) != RESET)
     {
         EXTI_ClearITPendingBit(EXTI_Line6);
@@ -123,6 +124,7 @@ void EXTI9_5_IRQHandler(void)
     {
         EXTI_ClearITPendingBit(EXTI_Line9);
     }
+	OSIntExit();
 }
 
 

@@ -1,4 +1,4 @@
-﻿/**
+/**
   ******************************************************************************
   * @file    board_support_package.c
   * @author  王鑫
@@ -24,11 +24,13 @@
 #include "cs99xx_mem_api.h"
 #include "mem_alloc.h"
 #include "led.h"
-#include "timer.h"
+#include "tim3.h"
+#include "tim4.h"
 #include "GUI.h"
 #include "ff.h"
 #include "Key_LED.h"
 
+RCC_ClocksTypeDef clock;
 void bsp_init(void)
 {
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); 	//中断分组配置
@@ -40,6 +42,8 @@ void bsp_init(void)
 	rtc_init();
     coded_disc_init();
     init_flash();
+    tim3_init(10, 8400 - 1);//10 * 0.1ms = 1ms
+    RCC_GetClocksFreq(&clock);
 }
 
 /*
