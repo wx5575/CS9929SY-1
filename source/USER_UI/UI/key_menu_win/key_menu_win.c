@@ -109,7 +109,7 @@ static const STAND_MENU_KEY_INFO_T all_menu_key_info_[]=
 	{{"读取", "Read"	}, F_KEY_READ		},
 	{{"编辑", "Edit"	}, F_KEY_EDIT		},
 	{{"返回", "Back"	}, F_KEY_BACK		},
-	{{"显示", "Dis."	}, F_KEY_DISPLAY	},
+	{{"显示", "Display"	}, F_KEY_DISPLAY	},
 	{{"测试", "Test"	}, F_KEY_TEST   	},
 	{{"帮助", "Help"	}, F_KEY_HELP   	},
 	{{"电压", "Voltage"	}, F_KEY_VOL    	},

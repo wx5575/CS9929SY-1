@@ -69,6 +69,11 @@ void TIM3_IRQHandler(void)
         {
             tim_server_fun[i]();
         }
+        /* 遇到第一个NULL后面全为NULL所以退出 */
+        else
+        {
+            break;
+        }
     }
     
 	if(TIM_GetITStatus(TIM3,TIM_IT_Update)==SET) //溢出中断

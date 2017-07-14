@@ -120,7 +120,7 @@ void com_receive_dispose(COM_NUM com_num, uint8_t *data, uint32_t len)
     index = addr_offset[com_num] + frame->addr;
     
     /* 指令解析 */
-    switch(frame->fun_num)
+    switch(frame->fun_code)
     {
         case GET_MODULE_INF:
             set_module_inf(com_num, index, frame->data);
@@ -128,19 +128,12 @@ void com_receive_dispose(COM_NUM com_num, uint8_t *data, uint32_t len)
     }
 }
 
-ROAD_INF* get_road_inf(uint8_t road)
-{
-    uint8_t addr;
-    
-    if(road > roads_flag.count)
-    {
-        return NULL;
-    }
-    
-    addr = roads_flag.road_buf[road-1];
-    
-    return &road_inf_pool[addr];
-}
+/**
+  * @brief  向发送数据添加CRC校验
+  * @param  [in] data 数据
+  * @param  [in] len 数据帧长度
+  * @retval 无
+  */
 void add_crc_to_send_data(uint8_t *data, uint32_t len)
 {
     uint16_t crc_val;
@@ -151,28 +144,43 @@ void add_crc_to_send_data(uint8_t *data, uint32_t len)
     *p_u16 = crc_val;
 }
 
-COM_NUM get_com_num(uint8_t addr, CS_ERR *err)
+/**
+  * @brief  根据提供的地址来计算出串串口编辑
+  * @param  [in] addr 通信地址
+  * @param  [out] err 错误码
+  * @retval 串口编号
+  */
+COM_NUM get_com_num(uint8_t *addr, CS_ERR *err)
 {
     COM_NUM com_num;
     
     *err = CS_ERR_NONE;
     
-    if(addr > 0 && addr < 16)
+    /* 0-15是第1路串口的地址范围 */
+    if(*addr > 0 && *addr < 16)
     {
         com_num = ROAD1_COM;
+        *addr -= (16 * 0);
     }
-    else if(addr > 16 && addr < 32)
+    /* 16-31是第2路串口的地址范围 */
+    else if(*addr >= 16 && *addr < 32)
     {
         com_num = ROAD2_COM;
+        *addr -= (16 * 1);
     }
-    else if(addr > 32 && addr < 48)
+    /* 32-47是第3路串口的地址范围 */
+    else if(*addr >= 32 && *addr < 48)
     {
         com_num = ROAD3_COM;
+        *addr -= (16 * 2);
     }
-    else if(addr > 48 && addr < 64)
+    /* 48-63是第4路串口的地址范围 */
+    else if(*addr >= 48 && *addr < 64)
     {
         com_num = ROAD4_COM;
+        *addr -= (16 * 3);
     }
+    /* 地址非法 */
     else
     {
         *err = CS_ERR_COMM_ADDR_INVALTD;
@@ -180,11 +188,26 @@ COM_NUM get_com_num(uint8_t addr, CS_ERR *err)
     
     return com_num;
 }
-
+/**
+  * @brief  发送通信模块的连接指令
+  * @param  [in] addr 通信地址
+  * @retval 发送结果
+  */
 CS_ERR com_module_connect(uint8_t addr)
 {
     return com_send_cmd_data(addr, GET_MODULE_INF, NULL, 0);
 }
+/**
+  * @brief  发送命令给从机
+  * @param  [in] addr 通信地址
+  * @param  [in] cmd 功能码
+  * @param  [in] data 数据
+  * @param  [in] len 数据长度
+  * @retval 发送结果
+  *     CS_ERR_SEND_FAIL 通信地址非法
+  *     CS_ERR_COM_BUSY 串口发送的上一条指令还没完成——发送后要有返回数据才能发送下一条命令
+  *     CS_ERR_SEND_SUCCESS  发送成功
+  */
 CS_ERR com_send_cmd_data(uint8_t addr, uint8_t cmd, uint8_t *data, uint32_t len)
 {
     FRAME_T *frame;
@@ -194,7 +217,7 @@ CS_ERR com_send_cmd_data(uint8_t addr, uint8_t cmd, uint8_t *data, uint32_t len)
     CS_ERR err;
     COM_NUM com_num;
     
-    com_num = get_com_num(addr, &err);//获取串口号
+    com_num = get_com_num(&addr, &err);//获取串口号
     
     if(err != CS_ERR_NONE)
     {
@@ -212,38 +235,47 @@ CS_ERR com_send_cmd_data(uint8_t addr, uint8_t cmd, uint8_t *data, uint32_t len)
     
     frame = (void*)inf->buf;
     
-    frame->addr = inf->module_inf.id;
-    frame->fun_num = cmd;
+    frame->addr = addr;
+    frame->fun_code = cmd;
     frame->st = 0;
     memcpy(frame->data, data, len);
-    frame_len = len + sizeof(FRAME_T) - 4;//减4是去掉数据指针的长度4字节
+    frame_len = len + FRAME_HEAD_SIZE;
     add_crc_to_send_data((uint8_t*)frame, frame_len);
     frame_len += 2;
     
-    com_inf->send_fun((uint8_t *)frame, frame_len);
-    com_inf->set_wait_ack_timeout();
+    com_inf->send_fun(com_inf, (uint8_t *)frame, frame_len);
+    com_inf->set_wait_ack_timeout(com_inf);
     com_inf->status = MODULE_COMM_SEND;
     
     return CS_ERR_SEND_SUCCESS;
 }
+/**
+  * @brief  初始化模块管理的环境
+  * @param  无
+  * @retval 无
+  */
 void init_module_manage_env(void)
 {
-    register_tim3_server_fun(usart1_judge_timout);
-    register_tim3_server_fun(usart2_judge_timout);
-    register_tim3_server_fun(usart3_judge_timout);
-    register_tim3_server_fun(uart4_judge_timout);
-    register_tim3_server_fun(com1_wait_ack_timeout);
-    register_tim3_server_fun(com2_wait_ack_timeout);
-    register_tim3_server_fun(com3_wait_ack_timeout);
-    register_tim3_server_fun(com4_wait_ack_timeout);
-    road_inf_pool = malloc_ex_mem(sizeof(ROAD_INF) * 64);
+    register_tim3_server_fun(usart1_judge_timout);//注册串口接收完成超时定时器
+    register_tim3_server_fun(usart2_judge_timout);//注册串口接收完成超时定时器
+    register_tim3_server_fun(usart3_judge_timout);//注册串口接收完成超时定时器
+    register_tim3_server_fun(uart4_judge_timout); //注册串口接收完成超时定时器
+    register_tim3_server_fun(com1.wait_ack_timeout_fun);//注册串口等待从机响应超时定时器
+    register_tim3_server_fun(com2.wait_ack_timeout_fun);//注册串口等待从机响应超时定时器
+    register_tim3_server_fun(com3.wait_ack_timeout_fun);//注册串口等待从机响应超时定时器
+    register_tim3_server_fun(com4.wait_ack_timeout_fun);//注册串口等待从机响应超时定时器
+    road_inf_pool = malloc_ex_mem(sizeof(ROAD_INF) * 64);//分配内存，不会再释放了
 }
-
+/**
+  * @brief  初始化模块管理的环境
+  * @param  无
+  * @retval 无
+  */
 void module_comm_task(void)
 {
-    com1_comm_status_machine();
-    com2_comm_status_machine();
-    com3_comm_status_machine();
-    com4_comm_status_machine();
+    com_comm_status_machine(&com1);
+    com_comm_status_machine(&com2);
+    com_comm_status_machine(&com3);
+    com_comm_status_machine(&com4);
 }
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

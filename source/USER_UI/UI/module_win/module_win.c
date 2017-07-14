@@ -160,11 +160,11 @@ static TEXT_ELE_T module_win_text_ele_pool[]=
 	{{"串口1:" ,"COM1:"}, MODULE_WIN_COM1_NAME },
 	{{"01"     ,"01"   }, MODULE_WIN_COM1_ADDR },
 	{{"串口2:" ,"COM2:"}, MODULE_WIN_COM2_NAME  },
-	{{"17"     ,"17"   }, MODULE_WIN_COM2_ADDR  },
+	{{"01"     ,"01"   }, MODULE_WIN_COM2_ADDR  },
 	{{"串口3:" ,"COM3:"}, MODULE_WIN_COM3_NAME  },
-	{{"33"     ,"33"   }, MODULE_WIN_COM3_ADDR  },
+	{{"01"     ,"01"   }, MODULE_WIN_COM3_ADDR  },
 	{{"串口4:" ,"COM4:"}, MODULE_WIN_COM4_NAME  },
-	{{"49"     ,"49"   }, MODULE_WIN_COM4_ADDR  },
+	{{"01"     ,"01"   }, MODULE_WIN_COM4_ADDR  },
 };
 /**
   * @brief  模块管理窗口结构体初始化
@@ -234,10 +234,10 @@ static void module_win_start_f5_cb(KEY_MESSAGE *key_msg)
     com2_scan_addr = 17;
     com3_scan_addr = 33;
     com4_scan_addr = 49;
-    com1_scan_status = SCAN_INIT;
-    com2_scan_status = SCAN_INIT;
-    com3_scan_status = SCAN_INIT;
-    com4_scan_status = SCAN_INIT;
+    com1_scan_status = SCAN_START;
+    com2_scan_status = SCAN_START;
+    com3_scan_status = SCAN_START;
+    com4_scan_status = SCAN_START;
 }
 /**
   * @brief  模块管理窗口中功能键F1回调函数
@@ -422,6 +422,48 @@ static void module_win_update_key_inf(WM_HWIN hWin)
     update_system_key_inf(hWin);
 }
 
+typedef struct{
+    uint8_t status;///<扫描状态
+    uint8_t addr;///<当前的扫描地址
+    uint8_t start_addr;///<起始地址
+    uint8_t end_addr;///<结束地址
+    uint8_t offset_addr;///<偏移地址 串口1的偏移地址是0 串口2的偏移地址是16 串口3是32 串口4是48
+    CS_INDEX text_index;///<界面对应地址的文本对象索引，用来刷新界面显示
+}SCAN_MODULE_T;
+
+SCAN_MODULE_T com1_scan_module=
+{
+    SCAN_INIT,///<扫描状态
+    1,///<起始地址
+    15,///<结束地址
+    0,///<偏移地址
+    MODULE_WIN_COM1_ADDR///<界面对应地址的文本对象索引
+};
+
+void scan_module(SCAN_MODULE_T *inf, MYUSER_WINDOW_T* win)
+{
+    CS_ERR err;
+    uint8_t buf[5]= {0};
+    uint8_t addr = 0;
+    
+    if(inf->status == SCAN_START)
+    {
+        err = com_module_connect(inf->addr);
+        
+        if(err == CS_ERR_SEND_SUCCESS)
+        {
+            sprintf((char*)buf, "%02d", inf->addr - inf->offset_addr);
+            update_text_ele((CS_INDEX)inf->text_index, win, buf);//更新界面显示
+            inf->addr++;
+            111
+            if(inf->addr > inf->end_addr)
+            {
+                inf->status = SCAN_OVER;
+            }
+        }
+    }
+}
+
 static module_scan_manage(WM_HWIN hWin, MYUSER_WINDOW_T* win)
 {
     CS_ERR err;
@@ -429,59 +471,71 @@ static module_scan_manage(WM_HWIN hWin, MYUSER_WINDOW_T* win)
     
     if(scan_status == SCAN_START)
     {
-        err = com_module_connect(com1_scan_addr);
-        
-        if(err == CS_ERR_SEND_SUCCESS)
+        if(com1_scan_status == SCAN_START)
         {
-            sprintf((char*)buf, "%02d", com1_scan_addr);
-			update_text_ele((CS_INDEX)MODULE_WIN_COM1_ADDR, win, buf);
-            com1_scan_addr++;
+            err = com_module_connect(com1_scan_addr);
             
-            if(com1_scan_addr >= 16)
+            if(err == CS_ERR_SEND_SUCCESS)
             {
-                com1_scan_status = SCAN_OVER;
+                sprintf((char*)buf, "%02d", com1_scan_addr - 16 * 0);
+                update_text_ele((CS_INDEX)MODULE_WIN_COM1_ADDR, win, buf);
+                com1_scan_addr++;
+                
+                if(com1_scan_addr >= 16)
+                {
+                    com1_scan_status = SCAN_OVER;
+                }
             }
         }
         
-        err = com_module_connect(com2_scan_addr);
-        
-        if(err == CS_ERR_SEND_SUCCESS)
+        if(com2_scan_status == SCAN_START)
         {
-            sprintf((char*)buf, "%02d", com2_scan_addr);
-			update_text_ele((CS_INDEX)MODULE_WIN_COM2_ADDR, win, buf);
-            com2_scan_addr++;
+            err = com_module_connect(com2_scan_addr);
             
-            if(com2_scan_addr >= 32)
+            if(err == CS_ERR_SEND_SUCCESS)
             {
-                com2_scan_status = SCAN_OVER;
+                sprintf((char*)buf, "%02d", com2_scan_addr - 16 * 1);
+                update_text_ele((CS_INDEX)MODULE_WIN_COM2_ADDR, win, buf);
+                com2_scan_addr++;
+                
+                if(com2_scan_addr >= 32)
+                {
+                    com2_scan_status = SCAN_OVER;
+                }
             }
         }
         
-        err = com_module_connect(com3_scan_addr);
-        
-        if(err == CS_ERR_SEND_SUCCESS)
+        if(com3_scan_status == SCAN_START)
         {
-            sprintf((char*)buf, "%02d", com3_scan_addr);
-			update_text_ele((CS_INDEX)MODULE_WIN_COM3_ADDR, win, buf);
-            com3_scan_addr++;
+            err = com_module_connect(com3_scan_addr);
             
-            if(com3_scan_addr >= 48)
+            if(err == CS_ERR_SEND_SUCCESS)
             {
-                com3_scan_status = SCAN_OVER;
+                sprintf((char*)buf, "%02d", com3_scan_addr - 16 * 2);
+                update_text_ele((CS_INDEX)MODULE_WIN_COM3_ADDR, win, buf);
+                com3_scan_addr++;
+                
+                if(com3_scan_addr >= 48)
+                {
+                    com3_scan_status = SCAN_OVER;
+                }
             }
         }
         
-        err = com_module_connect(com4_scan_addr);
-        
-        if(err == CS_ERR_SEND_SUCCESS)
+        if(com4_scan_status == SCAN_START)
         {
-            sprintf((char*)buf, "%02d", com4_scan_addr);
-			update_text_ele((CS_INDEX)MODULE_WIN_COM4_ADDR, win, buf);
-            com4_scan_addr++;
+            err = com_module_connect(com4_scan_addr);
             
-            if(com4_scan_addr >= 64)
+            if(err == CS_ERR_SEND_SUCCESS)
             {
-                com4_scan_status = SCAN_OVER;
+                sprintf((char*)buf, "%02d", com4_scan_addr - 16 * 3);
+                update_text_ele((CS_INDEX)MODULE_WIN_COM4_ADDR, win, buf);
+                com4_scan_addr++;
+                
+                if(com4_scan_addr >= 64)
+                {
+                    com4_scan_status = SCAN_OVER;
+                }
             }
         }
         

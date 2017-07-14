@@ -10,6 +10,7 @@ History: V1.0
 YCW 12/04/26 1.0 build this moudle
 ***********************************************************/
 #include "sys_level.h"
+#include "os.h"
 
 /*定义USART6接受的数据存储变量*/
 uint16_t usart6_get_data;
@@ -98,16 +99,6 @@ void USART6_Puts(uint8_t *data, uint32_t len)
         /* Loop until the end of transmission */
         while (USART_GetFlagStatus(USART6, USART_FLAG_TXE) == RESET);
     }
-}
-
- /**
-  * @brief  延时函数
-  * @param  无
-  * @retval 无
-  */
-static void Delay(uint32_t nCount)
-{
-    while (nCount--);
 }
 
 /**

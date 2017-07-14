@@ -1585,6 +1585,11 @@
               <FileType>1</FileType>
               <FilePath>..\source\module_manage\com4_comm.c</FilePath>
             </File>
+            <File>
+              <FileName>com_comm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\module_manage\com_comm.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

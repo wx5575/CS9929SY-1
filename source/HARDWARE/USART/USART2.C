@@ -45,24 +45,24 @@ void usart2_config(uint32_t baud_rate)
     NVIC_InitTypeDef NVIC_InitStructure;
     
     RCC_APB2PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE); //开启USART2时钟
-    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);  //开启GPIOC时钟
-    GPIO_PinAFConfig(GPIOC, GPIO_PinSource6, GPIO_AF_USART2);//这相当于M3的开启复用时钟？只配置复用的引脚，
-    GPIO_PinAFConfig(GPIOC, GPIO_PinSource7, GPIO_AF_USART2);//               
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);  //开启GPIOC时钟
+    GPIO_PinAFConfig(GPIOA, GPIO_PinSource2, GPIO_AF_USART2);//这相当于M3的开启复用时钟？只配置复用的引脚，
+    GPIO_PinAFConfig(GPIOA, GPIO_PinSource3, GPIO_AF_USART2);//               
     
     /*配置GPIOC*/
     GPIO_StructInit(&GPIO_InitStructure);      //缺省值填入
     
     /*配置GPIOB_Pin6为TX输出*/
-    GPIO_InitStructure.GPIO_Pin=GPIO_Pin_6;
+    GPIO_InitStructure.GPIO_Pin=GPIO_Pin_2;
     GPIO_InitStructure.GPIO_Mode=GPIO_Mode_AF;     //设置为复用，必须为AF，OUT不行
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(GPIOB,&GPIO_InitStructure);
+    GPIO_Init(GPIOA,&GPIO_InitStructure);
     
     /*配置GPIOB_Pin7为RX输入*/
-    GPIO_InitStructure.GPIO_Pin=GPIO_Pin_7;
+    GPIO_InitStructure.GPIO_Pin=GPIO_Pin_3;
     GPIO_InitStructure.GPIO_Mode=GPIO_Mode_AF;     //这也必须为复用，与M3不同！
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(GPIOB,&GPIO_InitStructure);
+    GPIO_Init(GPIOA,&GPIO_InitStructure);
     
     /*IO引脚复用功能设置，与之前版本不同*/
     /*配置USART2*/

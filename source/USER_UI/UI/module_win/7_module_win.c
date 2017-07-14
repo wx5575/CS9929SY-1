@@ -46,7 +46,7 @@ WIDGET_POS_SIZE_T _7_module_windows=
 TEXT_ELE_AUTO_LAYOUT_T _7_module_text_ele_auto_layout_inf=
 {
    MODULE_BASE_T_X/*base_x*/,MODULE_BASE_T_Y/*base_y*/,MODULE_BASE_T_W/*width*/,30/*height*/,
-    1/*rows*/,8/*column*/,50/*row_spacing*/,65/*column_spacing*/,
+    1/*rows*/,8/*column*/,50/*row_spacing*/,85/*column_spacing*/,
     {&GUI_Fonthz_24}, GUI_BLACK, GUI_INVALID_COLOR, GUI_TA_LEFT | GUI_TA_VCENTER,20
 };
 

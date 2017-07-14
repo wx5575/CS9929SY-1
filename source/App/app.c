@@ -138,7 +138,6 @@ void soft_init(void)
         save_file(0);
     }
     
-    init_module_manage_env();
 }
 
 void ch376_task(void *p_arg)
@@ -323,6 +322,8 @@ void emwindemo_task(void *p_arg)
 void AppTaskModuleComm(void *p_arg)
 {
 	OS_ERR err;
+    
+    init_module_manage_env();
     
     while(1)
     {

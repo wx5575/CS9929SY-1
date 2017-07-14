@@ -45,9 +45,9 @@ void usart1_config(uint32_t baud_rate)
     NVIC_InitTypeDef NVIC_InitStructure;
     
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE); //开启USART1时钟
-    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);  //开启GPIOC时钟
-    GPIO_PinAFConfig(GPIOC, GPIO_PinSource6, GPIO_AF_USART1);//这相当于M3的开启复用时钟？只配置复用的引脚，
-    GPIO_PinAFConfig(GPIOC, GPIO_PinSource7, GPIO_AF_USART1);//               
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);  //开启GPIOB时钟
+    GPIO_PinAFConfig(GPIOB, GPIO_PinSource6, GPIO_AF_USART1);//这相当于M3的开启复用时钟？只配置复用的引脚，
+    GPIO_PinAFConfig(GPIOB, GPIO_PinSource7, GPIO_AF_USART1);//               
     
     /*配置GPIOC*/
     GPIO_StructInit(&GPIO_InitStructure);      //缺省值填入

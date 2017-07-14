@@ -47,26 +47,41 @@ typedef enum{
 typedef void (*COM_SEND_FUN)(uint8_t *, uint32_t);
 typedef void (*COM_RESEND_FUN)(void);
 typedef void (*COM_SET_ACK_TIMEOUT_FUN)(void);
+typedef void (*COM_EX_FUN)(void);
 
 #define RESEND_NUM          3 ///<最大重发次数
 #define WAIT_TIMEOUT_MS     500 ///<等待从机响应的超时时间 ms
+typedef struct COM_STRUCT_ COM_STRUCT;
+typedef void (*COM_SERVE_FUN)(COM_STRUCT *);
+typedef uint8_t (*COM_SERVE_R_U8_FUN)(COM_STRUCT *);
+typedef uint32_t (*COM_SERVE_R_U32_FUN)(COM_STRUCT *);
+typedef uint8_t* (*COM_SERVE_R_PU8_FUN)(COM_STRUCT *);
 
-typedef struct{
+struct COM_STRUCT_{
     COM_NUM com_num;///<串口编号
     MODULE_COMM_STATUS status;///<串口状态 空闲状态 发送状态 接收状态
-    COM_SEND_FUN send_fun;///<发送函数
-    COM_RESEND_FUN resend_fun;///<重发函数
-    COM_SET_ACK_TIMEOUT_FUN set_wait_ack_timeout;///<设置等待指令返回的超时时间
+    void (*send_fun)(COM_STRUCT *,uint8_t*,uint32_t);///<发送函数
+    COM_SERVE_FUN resend_fun;///<重发函数
+    COM_SERVE_FUN set_wait_ack_timeout;///<设置等待指令返回的超时时间
+    COM_EX_FUN wait_ack_timeout_fun;///<等待从机应答超时函数
+    
+    COM_SERVE_FUN receive_dispose_fun;///<接收完成后的处理函数
+    COM_SERVE_R_U8_FUN get_receive_over_flag;///<获取接收完成标志
+    
+    COM_SERVE_R_PU8_FUN get_com_frame;///<获取串口数据帧
+    COM_SERVE_R_U32_FUN get_com_frame_len;///<获取串口数据帧长度
+    COM_SERVE_R_U8_FUN get_com_send_status;///<获取串口通信的发送状态
+    
     uint8_t resend_count;///<重发计数
     uint32_t ack_timeout;///<通信应答超时计时器
     CS_ERR comm_cannot_connect;///<通信无法连接标记。可能是从机不存在或通信硬件故障
-}COM_STRUCT;
+};
 
 typedef struct{
-    uint8_t id;//ID号
-    uint8_t name[20];//最长19个字符的名字
-    uint8_t ver[15];//版本号
-}MODULE_INF; 
+    char name[20]; ///< 模块名称
+    char version[10];///< 模块版本
+    uint32_t id;///< 模块ID
+}MODULE_INF;
 
 typedef struct{
     COM_NUM com_num;///<串口编号
@@ -88,12 +103,14 @@ typedef struct{
     COM_STRUCT *com;
 }SYN_TEST_PORT_INF;
 
+#define FRAME_HEAD_SIZE    4  ///<帧头的字节个数
+
 #pragma pack(1)
 typedef struct{
     uint8_t addr;
-    uint16_t fun_num;
+    uint16_t fun_code;
     uint8_t st;
-    void *data;
+    uint8_t data[512];
 }FRAME_T;
 #pragma pack()
 
@@ -112,30 +129,13 @@ extern COM_STRUCT com2;
 extern COM_STRUCT com3;
 extern COM_STRUCT com4;
 
-extern void init_module_manage_env(void);
-extern void module_comm_task(void);
-extern void com1_comm_status_machine(void);
-extern uint8_t get_com1_comm_cannot_connect_flag(void);
-extern void com1_set_wait_ack_timeout(void);
-extern void com1_wait_ack_timeout(void);
-
-extern void com2_comm_status_machine(void);
-extern uint8_t get_com2_comm_cannot_connect_flag(void);
-extern void com2_set_wait_ack_timeout(void);
-extern void com2_wait_ack_timeout(void);
-
-extern void com3_comm_status_machine(void);
-extern uint8_t get_com3_comm_cannot_connect_flag(void);
-extern void com3_set_wait_ack_timeout(void);
-extern void com3_wait_ack_timeout(void);
-
-extern void com4_comm_status_machine(void);
-extern uint8_t get_com4_comm_cannot_connect_flag(void);
-extern void com4_set_wait_ack_timeout(void);
-extern void com4_wait_ack_timeout(void);
+extern void com_comm_status_machine(COM_STRUCT *com);
 
 extern void com_receive_dispose(uint8_t com_num, uint8_t *frame, uint32_t len);
 extern CS_ERR com_module_connect(uint8_t addr);
+
+extern void init_module_manage_env(void);
+extern void module_comm_task(void);
 
 #endif //__MODULE_MANAGE_H__
 
