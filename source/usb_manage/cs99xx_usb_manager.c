@@ -321,7 +321,7 @@ void usb2_server_task(void)
 {
     uint8_t res = 0;
     int32_t i = 0;
-    uint8_t buf[50]={"a12345678936.bmp"};
+    uint8_t buf[50]={"中华人民共和国678936.bmp"};
     uint32_t c = 0;
     
 	switch(usb_exe_task)

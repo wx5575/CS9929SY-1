@@ -89,14 +89,6 @@ typedef struct{
     uint8_t buf[512];///<通信缓冲区
 }ROAD_INF;
 /**
-  * @brief  管理所有路的信息为了加快通过路号对各模块地址的查找将所有的有效地址依次存入
-  *         这个结构中
-  */
-typedef struct{
-    uint8_t road_buf[64];///< road地址缓冲 第0个元素放第1路的地址1-15 17-31 33-47 49-63
-    uint8_t count;///< 当前的总路数
-}ROADS_FLAG;
-/**
   * @brief  同步测试端口信息
   */
 typedef struct{
@@ -121,7 +113,6 @@ typedef struct{
 #endif
 
 MODULE_EXT ROAD_INF    *road_inf_pool;
-MODULE_EXT ROADS_FLAG  roads_flag;
 MODULE_EXT SYN_TEST_PORT_INF   syn_test_port[8];///最多8路同步测试
 
 extern COM_STRUCT com1;
@@ -136,6 +127,7 @@ extern CS_ERR com_module_connect(uint8_t addr);
 
 extern void init_module_manage_env(void);
 extern void module_comm_task(void);
+extern void clear_module_inf(void);
 
 #endif //__MODULE_MANAGE_H__
 

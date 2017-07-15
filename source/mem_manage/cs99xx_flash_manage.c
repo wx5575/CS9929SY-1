@@ -334,4 +334,25 @@ uint8_t get_first_step_mode_flash(void)
     
     return 0;
 }
+
+/**
+  * @brief  保存系统标记到FLASH
+  * @param  无
+  * @retval 无
+  */
+void save_roads_flag_flash(void)
+{
+    writebuffer_spi_flash((uint8_t*)&roads_flag,
+            F_MODULE_INF_BASE, F_MODULE_INF_SIZE, SPI_FLASH_CHIP1);
+}
+/**
+  * @brief  读系统标记从FLASH
+  * @param  无
+  * @retval 无
+  */
+void read_roads_flag_flash(void)
+{
+    readbuffer_spi_flash((uint8_t*)&roads_flag,
+            F_MODULE_INF_BASE, F_MODULE_INF_SIZE, SPI_FLASH_CHIP1);
+}
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

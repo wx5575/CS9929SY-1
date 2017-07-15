@@ -46,11 +46,11 @@ static void calibration_win_f6_cb(KEY_MESSAGE *key_msg);
 static void calibration_win_update_key_inf(WM_HWIN hWin);
 /* Private variables ---------------------------------------------------------*/
 
-static	WM_HWIN timer_handle;///<定时器句柄
-static	WM_HWIN U_FLASH_1_handle;///<U盘图标1句柄
-static	WM_HWIN U_FLASH_2_handle;///<U盘图标2句柄
-static	WM_HWIN KEY_LOCK_handle;///<键盘锁图标句柄
-static	WM_HWIN KEY_CAPITAL_SMALL_handle;///<大小写图标句柄
+//static	WM_HWIN timer_handle;///<定时器句柄
+//static	WM_HWIN U_FLASH_1_handle;///<U盘图标1句柄
+//static	WM_HWIN U_FLASH_2_handle;///<U盘图标2句柄
+//static	WM_HWIN KEY_LOCK_handle;///<键盘锁图标句柄
+//static	WM_HWIN KEY_CAPITAL_SMALL_handle;///<大小写图标句柄
 /** 主界面显示的文本索引表 */
 //static CS_INDEX main_ui_text_ele_table[] =
 //{
@@ -302,7 +302,6 @@ static void calibration_win_update_key_inf(WM_HWIN hWin)
     update_calibration_win_menu_key_inf(hWin);
     calibration_win_update_system_key_inf(hWin);
 }
-
 
 /**
   * @brief  主测试界面回调函数

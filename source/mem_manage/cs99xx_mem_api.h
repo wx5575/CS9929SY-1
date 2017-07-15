@@ -11,7 +11,6 @@
 #define __CS99XX_MEM_API_H__
 
 #include    "sys_level.h"
-#include    "cs99xx_flash_manage.h"
 #include    "cs99xx_struct.h"
 
 /******************* 全局变量声明 *********************/
@@ -42,6 +41,9 @@ extern void read_one_step(NODE_STEP *node, const FILE_NUM file_num, const STEP_N
 extern void save_group_info(const FILE_NUM file_num);
 extern void read_group_info(const FILE_NUM file_num);
 extern uint8_t get_first_step_mode(void);
+
+extern void save_roads_flag(void);
+extern void read_roads_flag(void);
 
 #endif //__CS99XX_MEM_API_H__
 

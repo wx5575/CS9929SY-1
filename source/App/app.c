@@ -28,6 +28,7 @@
 #include "app.h"
 #include "parameter_manage.h"
 #include "module_manage.h"
+#include "scan_module.h"
 
 
 int main(void)
@@ -289,6 +290,8 @@ void set_framewin_skin(void)
 void main_ui_enter(void);
 void emwindemo_task(void *p_arg)
 {
+	OS_ERR os_err;
+    
 	/* 开启所有窗口使用内存设备 */
     WM_SetCreateFlags(WM_CF_MEMDEV);
 	GUI_Init();
@@ -310,6 +313,31 @@ void emwindemo_task(void *p_arg)
     SPINBOX_SetDefaultSkin(SPINBOX_SKIN_FLEX);
 	set_framewin_skin();
     
+    
+    OSTimeDlyHMSM(0, 0, 0, 500, OS_OPT_TIME_PERIODIC, &os_err);
+    
+    read_roads_flag();
+    {
+        CS_ERR err;
+        uint8_t addr = 0;
+        int32_t i = 0;
+        
+        /* 数据错误不用再发送通信了 */
+        if(roads_flag.count > 60)
+        {
+            return;
+        }
+        
+        for(i = 0; i < roads_flag.count; i++)
+        {
+            addr = roads_flag.road_buf[i];
+            err = connect_module(addr);
+            
+            if(err == CS_ERR_SEND_SUCCESS)
+            {
+            }
+        }
+    }
 	main_ui_enter();//主界面入口
 	
 	while(1)

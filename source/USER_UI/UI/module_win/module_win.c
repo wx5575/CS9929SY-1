@@ -13,6 +13,7 @@
 #include "GUI.H"
 #include "WM.h"
 #include "IMAGE.H"
+#include "LISTVIEW.H"
 #include "FILE_SYS.H"
 #include "image/user_image.h"
 #include "image/logo.h"
@@ -22,17 +23,10 @@
 #include "module_win.h"
 #include "PROGBAR.h"
 #include "module_manage.h"
+#include "scan_module.h"
 
 
 /* Private typedef -----------------------------------------------------------*/
-
-typedef enum{
-
-    SCAN_STOP,///<停止扫描
-    SCAN_START,///<启动扫描
-    SCAN_OVER,///<启动扫描
-    SCAN_INIT,///<扫描初始化值
-}SCAN_MODULE_ST;
 
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -64,22 +58,24 @@ static void module_win_stop_f5_cb(KEY_MESSAGE *key_msg);
 static void module_win_stop_f6_cb(KEY_MESSAGE *key_msg);
 
 static void module_win_update_key_inf(WM_HWIN hWin);
+static void init_module_listview(void);
 /* Private variables ---------------------------------------------------------*/
 
+static	LISTVIEW_Handle list_handle;
 static	WM_HWIN timer_handle;///<定时器句柄
 //static	WM_HWIN U_FLASH_1_handle;///<U盘图标1句柄
 //static	WM_HWIN U_FLASH_2_handle;///<U盘图标2句柄
 //static	WM_HWIN KEY_LOCK_handle;///<键盘锁图标句柄
 //static	WM_HWIN KEY_CAPITAL_SMALL_handle;///<大小写图标句柄
-static SCAN_MODULE_ST scan_status;///<扫描模块运行状态
-static SCAN_MODULE_ST com1_scan_status;///<扫描模块运行状态
-static SCAN_MODULE_ST com2_scan_status;///<扫描模块运行状态
-static SCAN_MODULE_ST com3_scan_status;///<扫描模块运行状态
-static SCAN_MODULE_ST com4_scan_status;///<扫描模块运行状态
-static int8_t com1_scan_addr = 1;///<第1路串口扫描地址
-static int8_t com2_scan_addr = 1;///<第2路串口扫描地址
-static int8_t com3_scan_addr = 1;///<第3路串口扫描地址
-static int8_t com4_scan_addr = 1;///<第4路串口扫描地址
+//static SCAN_MODULE_ST scan_status;///<扫描模块运行状态
+//static SCAN_MODULE_ST com1_scan_status;///<扫描模块运行状态
+//static SCAN_MODULE_ST com2_scan_status;///<扫描模块运行状态
+//static SCAN_MODULE_ST com3_scan_status;///<扫描模块运行状态
+//static SCAN_MODULE_ST com4_scan_status;///<扫描模块运行状态
+//static int8_t com1_scan_addr = 1;///<第1路串口扫描地址
+//static int8_t com2_scan_addr = 1;///<第2路串口扫描地址
+//static int8_t com3_scan_addr = 1;///<第3路串口扫描地址
+//static int8_t com4_scan_addr = 1;///<第4路串口扫描地址
 
 
 /**
@@ -188,7 +184,27 @@ MYUSER_WINDOW_T module_windows=
     },/* auto_layout */
     module_win_pos_size_pool,/*pos_size_pool */
 };
+
 /* Private functions ---------------------------------------------------------*/
+
+/**
+  * @brief  初始化四路串口的扫描模块状态
+  * @param  [in] inf 扫描模块信息
+  * @retval 无
+  */
+void init_all_scan_mode_st(void)
+{
+    stop_scan_all_module();
+}
+/**
+  * @brief  启动四路串口的扫描模块状态
+  * @param  [in] inf 扫描模块信息
+  * @retval 无
+  */
+void start_all_scan_mode_st(void)
+{
+    start_scan_all_module();
+}
 /**
   * @brief  模块管理窗口功能键F1回调函数
   * @param  [in] key_msg 按键消息
@@ -229,15 +245,8 @@ static void module_win_start_f4_cb(KEY_MESSAGE *key_msg)
 static void module_win_start_f5_cb(KEY_MESSAGE *key_msg)
 {
     update_module_win_stop_menu_key_inf(key_msg->user_data);
-    scan_status = SCAN_START;
-    com1_scan_addr = 1;
-    com2_scan_addr = 17;
-    com3_scan_addr = 33;
-    com4_scan_addr = 49;
-    com1_scan_status = SCAN_START;
-    com2_scan_status = SCAN_START;
-    com3_scan_status = SCAN_START;
-    com4_scan_status = SCAN_START;
+    start_all_scan_mode_st();
+    clear_module_inf();
 }
 /**
   * @brief  模块管理窗口中功能键F1回调函数
@@ -289,11 +298,8 @@ static void module_win_stop_f4_cb(KEY_MESSAGE *key_msg)
 static void module_win_stop_f5_cb(KEY_MESSAGE *key_msg)
 {
     update_module_win_start_menu_key_inf(key_msg->user_data);
-    scan_status = SCAN_STOP;
-    com1_scan_status = SCAN_STOP;
-    com2_scan_status = SCAN_STOP;
-    com3_scan_status = SCAN_STOP;
-    com4_scan_status = SCAN_STOP;
+    init_all_scan_mode_st();
+    save_roads_flag();
 }
 /**
   * @brief  模块管理窗口中功能键F1回调函数
@@ -358,8 +364,6 @@ static void sys_shift_key_fun_cb(KEY_MESSAGE *key_msg)
 {
 }
 
-
-
 /**
   * @brief  系统键盘锁按键回调函数
   * @param  [in] data 用户数据
@@ -422,134 +426,93 @@ static void module_win_update_key_inf(WM_HWIN hWin)
     update_system_key_inf(hWin);
 }
 
-typedef struct{
-    uint8_t status;///<扫描状态
-    uint8_t addr;///<当前的扫描地址
-    uint8_t start_addr;///<起始地址
-    uint8_t end_addr;///<结束地址
-    uint8_t offset_addr;///<偏移地址 串口1的偏移地址是0 串口2的偏移地址是16 串口3是32 串口4是48
-    CS_INDEX text_index;///<界面对应地址的文本对象索引，用来刷新界面显示
-}SCAN_MODULE_T;
-
-SCAN_MODULE_T com1_scan_module=
-{
-    SCAN_INIT,///<扫描状态
-    1,///<起始地址
-    15,///<结束地址
-    0,///<偏移地址
-    MODULE_WIN_COM1_ADDR///<界面对应地址的文本对象索引
-};
-
-void scan_module(SCAN_MODULE_T *inf, MYUSER_WINDOW_T* win)
-{
-    CS_ERR err;
-    uint8_t buf[5]= {0};
-    uint8_t addr = 0;
-    
-    if(inf->status == SCAN_START)
-    {
-        err = com_module_connect(inf->addr);
-        
-        if(err == CS_ERR_SEND_SUCCESS)
-        {
-            sprintf((char*)buf, "%02d", inf->addr - inf->offset_addr);
-            update_text_ele((CS_INDEX)inf->text_index, win, buf);//更新界面显示
-            inf->addr++;
-            111
-            if(inf->addr > inf->end_addr)
-            {
-                inf->status = SCAN_OVER;
-            }
-        }
-    }
-}
-
 static module_scan_manage(WM_HWIN hWin, MYUSER_WINDOW_T* win)
 {
-    CS_ERR err;
-    uint8_t buf[5]= {0};
+    uint8_t addr = 0;
+    uint8_t buf[10];
+    uint8_t com1_scan_over = 0;
+    uint8_t com2_scan_over = 0;
+    uint8_t com3_scan_over = 0;
+    uint8_t com4_scan_over = 0;
     
-    if(scan_status == SCAN_START)
+    scan_all_module();
+    init_module_listview();//刷新扫到的模块信息
+    
+    /* 刷新扫描地址 */
+    addr = get_com1_scan_addr();
+    sprintf((char*)buf, "%02d", addr);
+    update_text_ele((CS_INDEX)MODULE_WIN_COM1_ADDR, win, buf);
+    
+    /* 刷新扫描地址 */
+    addr = get_com2_scan_addr();
+    sprintf((char*)buf, "%02d", addr);
+    update_text_ele((CS_INDEX)MODULE_WIN_COM2_ADDR, win, buf);
+    
+    addr = get_com3_scan_addr();
+    sprintf((char*)buf, "%02d", addr);
+    update_text_ele((CS_INDEX)MODULE_WIN_COM3_ADDR, win, buf);
+    
+    /* 刷新扫描地址 */
+    addr = get_com4_scan_addr();
+    sprintf((char*)buf, "%02d", addr);
+    update_text_ele((CS_INDEX)MODULE_WIN_COM4_ADDR, win, buf);
+    
+    com1_scan_over = com1_scan_is_over();
+    com2_scan_over = com2_scan_is_over();
+    com3_scan_over = com3_scan_is_over();
+    com4_scan_over = com4_scan_is_over();
+    
+    /* 四路串口扫描全部结束 */
+    if(com1_scan_over == 1 && com2_scan_over == 1 
+        && com3_scan_over == 1 && com4_scan_over == 1)
     {
-        if(com1_scan_status == SCAN_START)
-        {
-            err = com_module_connect(com1_scan_addr);
-            
-            if(err == CS_ERR_SEND_SUCCESS)
-            {
-                sprintf((char*)buf, "%02d", com1_scan_addr - 16 * 0);
-                update_text_ele((CS_INDEX)MODULE_WIN_COM1_ADDR, win, buf);
-                com1_scan_addr++;
-                
-                if(com1_scan_addr >= 16)
-                {
-                    com1_scan_status = SCAN_OVER;
-                }
-            }
-        }
-        
-        if(com2_scan_status == SCAN_START)
-        {
-            err = com_module_connect(com2_scan_addr);
-            
-            if(err == CS_ERR_SEND_SUCCESS)
-            {
-                sprintf((char*)buf, "%02d", com2_scan_addr - 16 * 1);
-                update_text_ele((CS_INDEX)MODULE_WIN_COM2_ADDR, win, buf);
-                com2_scan_addr++;
-                
-                if(com2_scan_addr >= 32)
-                {
-                    com2_scan_status = SCAN_OVER;
-                }
-            }
-        }
-        
-        if(com3_scan_status == SCAN_START)
-        {
-            err = com_module_connect(com3_scan_addr);
-            
-            if(err == CS_ERR_SEND_SUCCESS)
-            {
-                sprintf((char*)buf, "%02d", com3_scan_addr - 16 * 2);
-                update_text_ele((CS_INDEX)MODULE_WIN_COM3_ADDR, win, buf);
-                com3_scan_addr++;
-                
-                if(com3_scan_addr >= 48)
-                {
-                    com3_scan_status = SCAN_OVER;
-                }
-            }
-        }
-        
-        if(com4_scan_status == SCAN_START)
-        {
-            err = com_module_connect(com4_scan_addr);
-            
-            if(err == CS_ERR_SEND_SUCCESS)
-            {
-                sprintf((char*)buf, "%02d", com4_scan_addr - 16 * 3);
-                update_text_ele((CS_INDEX)MODULE_WIN_COM4_ADDR, win, buf);
-                com4_scan_addr++;
-                
-                if(com4_scan_addr >= 64)
-                {
-                    com4_scan_status = SCAN_OVER;
-                }
-            }
-        }
-        
-        if(com1_scan_status == SCAN_OVER
-            && com2_scan_status == SCAN_OVER
-            && com3_scan_status == SCAN_OVER
-            && com4_scan_status == SCAN_OVER)
-        {
-            scan_status = SCAN_OVER;
-            update_module_win_start_menu_key_inf(hWin);
-        }
+        update_module_win_start_menu_key_inf(hWin);
+        save_roads_flag();
+    }
+}
+void create_module_win_listview(WM_HWIN hWin)
+{
+    
+    switch(SCREEM_SIZE)
+    {
+        case SCREEN_4_3INCH:
+            break;
+        case SCREEN_6_5INCH:
+            break;
+        default:
+        case SCREEN_7INCH:
+            list_handle = _7_create_module_listview(hWin);
+            break;
     }
 }
 
+static void init_module_listview(void)
+{
+    uint8_t addr = 0;
+    uint8_t buf[5][100];
+    int32_t i = 0;
+    uint8_t k = 0;
+    uint8_t colum = 4;
+    uint8_t row = 0;
+    
+    for(i = 0; i < roads_flag.count; i++)
+    {
+        addr = roads_flag.road_buf[i];
+        
+        sprintf((char*)buf[0], "COM%d", road_inf_pool[addr].com_num + 1);
+        sprintf((char*)buf[1], "%d", road_inf_pool[addr].module_inf.id);
+        sprintf((char*)buf[2], "%s", road_inf_pool[addr].module_inf.name);
+        sprintf((char*)buf[3], "%s", road_inf_pool[addr].module_inf.version);
+        
+        for(k = 0; k < colum; k++)
+        {
+            LISTVIEW_SetItemText(list_handle, k + 1, row, (const char*)buf[k]);
+        }
+        
+        row++;
+    }
+    
+}
 /**
   * @brief  模块管理测试界面回调函数
   * @param  [in] pMsg 回调函数指针
@@ -565,22 +528,16 @@ static void module_win_cb(WM_MESSAGE * pMsg)
 		case WM_CREATE:
 			set_module_windows_handle(hWin);
 			win = get_user_window_info(hWin);
-            
+            create_module_win_listview(hWin);
+            init_module_listview();
             init_create_win_all_ele(win);
             
-            com1_scan_addr = 1;
-            com2_scan_addr = 17;
-            com3_scan_addr = 33;
-            com4_scan_addr = 49;
-            scan_status = SCAN_INIT;
-            com1_scan_status = SCAN_INIT;
-            com2_scan_status = SCAN_INIT;
-            com3_scan_status = SCAN_INIT;
-            com4_scan_status = SCAN_INIT;
+            init_all_scan_mode_st();
             timer_handle = WM_CreateTimer(hWin, 0, 10, 0);
 			break;
 		case WM_PAINT:
 			_PaintFrame();
+            draw_group_inf_area();
 			break;
 		case WM_TIMER:
 		{

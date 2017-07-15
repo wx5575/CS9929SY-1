@@ -219,6 +219,7 @@ CS_ERR com_send_cmd_data(uint8_t addr, uint8_t cmd, uint8_t *data, uint32_t len)
     
     com_num = get_com_num(&addr, &err);//获取串口号
     
+    /* 如果地址非法就返回 */
     if(err != CS_ERR_NONE)
     {
         return CS_ERR_SEND_FAIL;
@@ -265,6 +266,22 @@ void init_module_manage_env(void)
     register_tim3_server_fun(com3.wait_ack_timeout_fun);//注册串口等待从机响应超时定时器
     register_tim3_server_fun(com4.wait_ack_timeout_fun);//注册串口等待从机响应超时定时器
     road_inf_pool = malloc_ex_mem(sizeof(ROAD_INF) * 64);//分配内存，不会再释放了
+    
+    if(road_inf_pool != NULL)
+    {
+        memset(road_inf_pool, 0, sizeof(ROAD_INF) * 64);
+    }
+}
+
+/**
+  * @brief  清空模块信息
+  * @param  无
+  * @retval 无
+  */
+void clear_module_inf(void)
+{
+    memset(&roads_flag, 0 , sizeof(roads_flag));
+    memset(road_inf_pool, 0, sizeof(ROAD_INF) * 64);
 }
 /**
   * @brief  初始化模块管理的环境

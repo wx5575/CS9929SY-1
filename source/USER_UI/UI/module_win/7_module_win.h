@@ -14,6 +14,7 @@
 extern WIDGET_POS_SIZE_T _7_module_windows;
 extern TEXT_ELE_AUTO_LAYOUT_T _7_module_text_ele_auto_layout_inf;
 extern ADJUST_TEXT_ELE_LAYOUT_INF _7_module_win_adjust_text_ele_layout_inf;
+extern WM_HWIN _7_create_module_listview(WM_HWIN hWin);
 
 #endif //__7_MODULE_WIN_H__
 

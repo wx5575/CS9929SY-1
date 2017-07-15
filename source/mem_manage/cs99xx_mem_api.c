@@ -12,6 +12,7 @@
 #include	<string.h>
 #include    <stdio.h>
 #include    "cs99xx_mem_api.h"
+#include    "cs99xx_flash_manage.h"
 
 /**
   * @brief  保存文件
@@ -195,4 +196,23 @@ uint8_t get_first_step_mode(void)
     return get_first_step_mode_flash();
 }
 
+/**
+  * @brief  获取第一步的测试模式
+  * @param  无
+  * @retval 测试模式
+  */
+void read_roads_flag(void)
+{
+    read_roads_flag_flash();
+}
+
+/**
+  * @brief  获取第一步的测试模式
+  * @param  无
+  * @retval 测试模式
+  */
+void save_roads_flag(void)
+{
+    save_roads_flag_flash();
+}
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

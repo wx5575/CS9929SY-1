@@ -563,6 +563,14 @@ typedef struct Sys_Parameter{
 }SYS_PAR;
 
 /**
+  * @brief  管理所有路的信息为了加快通过路号对各模块地址的查找将所有的有效地址依次存入
+  *         这个结构中
+  */
+typedef struct{
+    uint8_t road_buf[64];///< road地址缓冲 第0个元素放第1路的地址1-15 17-31 33-47 49-63
+    uint8_t count;///< 当前的总路数
+}ROADS_FLAG;
+/**
   * @brief  系统标志结构定义
   */
 typedef struct{
@@ -622,6 +630,7 @@ extern const uint8_t *mode_pool[10];
 
 
 
+STRUCT_EXT ROADS_FLAG  roads_flag;
 
 STRUCT_EXT uint8_t step_used_flag[MAX_STEPS/8 + 1 + 1];///<步骤已使用的标记列表
 STRUCT_EXT uint16_t cur_group_table[MAX_STEPS];///<记忆组步骤地址映射表
