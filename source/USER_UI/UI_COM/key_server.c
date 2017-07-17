@@ -34,7 +34,7 @@ typedef struct{
 /* Private variables ---------------------------------------------------------*/
 
 static volatile UI_FLAG ui_flag;///<界面使用全局标记
-static OS_Q KeyboardQSem;	/* 消息队列 */
+static OS_Q     KeyboardQSem;	/* 消息队列 */
 
 /* Private function prototypes -----------------------------------------------*/
 
@@ -275,20 +275,65 @@ static void keyboard_num(uint32_t key)
     
 	GUI_StoreKeyMsg(ASCII_NUM[key_index], 1);
 }
+
+/**
+  * @brief  发送按键消息
+  * @param  [in] MSG 消息指针
+  * @retval 无
+  */
+static void send_key_msg(uint32_t *MSG)
+{
+    OS_ERR err;
+    
+    OSQPost(&KeyboardQSem, MSG, sizeof(uint32_t), OS_OPT_POST_FIFO, &err);
+}
+
+/**
+  * @brief  创建按键消息队列
+  * @param  [in] MSG 消息指针
+  * @retval 无
+  */
+static void create_key_fifo_queue(void)
+{
+	OS_ERR	  err;
+    
+	/* 创建消息队列为键盘服务 */
+	OSQCreate(&KeyboardQSem, "keyboard_queue", OS_MAX_QS, &err);
+}
 /* Public functions ---------------------------------------------------------*/
 
+/**
+  * @brief  设置系统按键大小写状态
+  * @param  [in] flag 0 小写 1 大写
+  * @retval 无
+  */
 void set_shift_status(uint8_t st)
 {
     ui_flag.shift_flag = st;
 }
+/**
+  * @brief  获取系统输入字符大小写状态
+  * @param  无
+  * @retval 系统输入大小写状态 0小写 1大写
+  */
 uint8_t get_shift_status(void)
 {
     return ui_flag.shift_flag;
 }
+/**
+  * @brief  设置系统按键锁状态
+  * @param  [in] flag 0 未上锁 1 上锁
+  * @retval 无
+  */
 void set_key_lock_flag(uint8_t flag)
 {
     sys_par.key_lock = flag;
 }
+/**
+  * @brief  获取系统按键锁状态
+  * @param  无
+  * @retval 0 未上锁 1 上锁
+  */
 uint8_t get_key_lock_flag(void)
 {
     return sys_par.key_lock;
@@ -358,18 +403,11 @@ void keyboard_fun_pwd(uint32_t key_value)
     keyboard_password(key_value);
 }
 
-void create_key_fifo_queue(void)
-{
-	OS_ERR	  err;
-	/* 创建消息队列为键盘服务 */
-	OSQCreate(&KeyboardQSem, "keyboard_queue", OS_MAX_QS, &err);
-}
-void send_coded_disc_msg(uint32_t *MSG)
-{
-    OS_ERR err;
-    
-    OSQPost(&KeyboardQSem, MSG, sizeof(uint32_t), OS_OPT_POST_FIFO, &err);
-}
+/**
+  * @brief  获取键值
+  * @param  无
+  * @retval 键值
+  */
 uint32_t get_key_value(void)
 {
     OS_ERR err;
@@ -399,19 +437,19 @@ void scan_key_task(void)
 	init_keyboard();
     create_key_fifo_queue();
 	set_scan_key_custom_fun(NULL);
-    register_key_send_msg_fun(send_coded_disc_msg);
-    register_coded_disc_send_msg_fun(send_coded_disc_msg);
+    register_key_send_msg_fun(send_key_msg);
+    register_coded_disc_send_msg_fun(send_key_msg);
 	
 	while(1)
 	{
 		OSTimeDlyHMSM(0, 0, 0, 10, 0, &err);
-		report_key_value();
-		key_value =  get_key_value();
+		report_key_value();//记录键值
+		key_value =  get_key_value();//获取键值
 		
 		//系统功能按键处理
 		dispose_funcation_key(key_value);
 		
-		/* 根据不同界面定制按键扫描函数 */
+		/* 根据不同界面定制数字按键扫描函数 */
 		if(NULL != scan_key_custom_fun)
 		{
 			scan_key_custom_fun(key_value);

@@ -2,12 +2,11 @@
   ******************************************************************************
   * @file    keyboard.h
   * @author  王鑫
-  * @version V0.0.1
+  * @version V1.0.0
   * @date    2017.4.18
-  * @brief   7寸屏的布局1
+  * @brief   键盘管理模块
   ******************************************************************************
   */
-
 #ifndef __KEYBOARD_H__
 #define __KEYBOARD_H__
 
@@ -84,7 +83,7 @@ enum{
 typedef struct
 {
 	/* 下面是一个函数指针，指向判断按键手否按下的函数 */
-	uint8_t (*IsKeyDownFunc)(void); /* 按键按下的判断函数,1表示按下 */
+	uint8_t (*IsKeyDownFunc)(uint32_t); /* 按键按下的判断函数,1表示按下 */
 
 	uint8_t Count;			/* 滤波器计数器 */
 	uint8_t FilterTime;		/* 滤波时间(最大255,表示2550ms) */

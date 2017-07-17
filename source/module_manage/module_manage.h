@@ -33,6 +33,7 @@ typedef enum{
     MODULE_COMM_RECEIVE,///<模块通信处于接收状态
     MODULE_COMM_SEND,///<模块通信处于发送状态
     MODULE_COMM_TIMEOUT,///<模块通信处于超时状态
+    MODULE_COMM_ANOMALY,///<模块通信处于异常状态,通信进入解析时出现了异常
 }MODULE_COMM_STATUS;
 
 /**
@@ -119,7 +120,7 @@ extern COM_STRUCT com1;
 extern COM_STRUCT com2;
 extern COM_STRUCT com3;
 extern COM_STRUCT com4;
-
+extern void com_wait_ack_timeout(COM_STRUCT *com);
 extern void com_comm_status_machine(COM_STRUCT *com);
 
 extern void com_receive_dispose(uint8_t com_num, uint8_t *frame, uint32_t len);

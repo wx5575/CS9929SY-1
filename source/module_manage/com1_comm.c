@@ -7,14 +7,16 @@
   * @brief   第1路串口的结构信息初始化定义
   ******************************************************************************
   */
-  
 
+
+/* Includes ------------------------------------------------------------------*/
 
 #include "module_manage.h"
 #include "USART1.H"
 #include "com_comm.h"
 
 
+/* Private function prototypes -----------------------------------------------*/
 static uint8_t *get_com1_frame(COM_STRUCT *com);
 static uint32_t get_com1_frame_len(COM_STRUCT *com);
 static void get_com1_send_frame(COM_STRUCT *com, uint8_t *data, uint32_t len);
@@ -22,6 +24,8 @@ static void get_com1_resend_frame(COM_STRUCT *com);
 static uint8_t get_com1_send_status(COM_STRUCT *com);
 static void com1_wait_ack_timeout(void);
 static uint8_t get_com1_receive_over_flag(COM_STRUCT *com);
+
+/* Public variables ---------------------------------------------------------*/
 
 /**
   * @brief  第1路串口结构信息
@@ -39,6 +43,8 @@ COM_STRUCT com1={
     get_com1_frame_len,///<获取串口数据帧长度
     get_com1_send_status,///<获取串口通信的发送状态
 };
+
+/* Private functions ---------------------------------------------------------*/
 /**
   * @brief  第1路串口发送数据函数,直接调用串口驱动层的发送函数
   * @param  [in] com 串口类指针
@@ -111,19 +117,13 @@ static uint8_t get_com1_send_status(COM_STRUCT *com)
     return usart1_get_send_status();
 }
 /**
-  * @brief  提供给外部定时器调用的超时计时器
+  * @brief  提供给外部定时器调用的等待从机响应超时计时器
   * @param  无
   * @retval 无
   */
 static void com1_wait_ack_timeout(void)
 {
-    if(com1.ack_timeout != 0)
-    {
-        if(--com1.ack_timeout == 0)
-        {
-            com1.status = MODULE_COMM_TIMEOUT;
-        }
-    }
+    com_wait_ack_timeout(&com1);
 }
 
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

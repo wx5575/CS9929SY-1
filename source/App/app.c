@@ -2,7 +2,7 @@
   ******************************************************************************
   * @file    app.c
   * @author  王鑫
-  * @version V0.0.1
+  * @version V1.0.0
   * @date    2017.4.18
   * @brief   用户应用程序
   ******************************************************************************
@@ -29,8 +29,16 @@
 #include "parameter_manage.h"
 #include "module_manage.h"
 #include "scan_module.h"
+#include "ui/main_win/main_win.h"
 
+static void AppTaskScanKey(void *p_arg);
+static void AppTaskModuleComm(void *p_arg);
 
+/**
+  * @brief  程序入口
+  * @param  无
+  * @retval 退出码
+  */
 int main(void)
 {
 	OS_ERR err;
@@ -58,10 +66,11 @@ int main(void)
 	while(1);
 }
 
-void AppTaskScanKey(void *p_arg);
-void AppTaskModuleComm(void *p_arg);
-
-extern WM_HWIN hDlg;
+/**
+  * @brief  SD卡初始化
+  * @param  无
+  * @retval 无
+  */
 static void File_Init(void)
 {	
 	fs_result = f_mount(&fs_struct, "0:/", 0);
@@ -99,45 +108,8 @@ static  void  AppObjCreate (void)
 
 void soft_init(void)
 {
-    CS_ERR err;
-    TEST_FILE *f;
-    
 	File_Init();
     check_type();
-    read_sys_flag();
-    
-    if(sys_flag.mem_init)
-    {
-        sys_flag.mem_init = 0;
-        save_sys_flag();
-        init_all_file();
-        
-        f = get_file_inf(0, &err);
-        
-        if(err == CS_ERR_NONE)
-        {
-            g_cur_file = f;
-        }
-    }
-    
-    read_sys_par();
-    check_sys_par(&err);
-    
-    if(err != CS_ERR_NONE)
-    {
-        init_sys_par();
-    }
-    
-    read_all_file();
-    
-    set_cur_file(sys_flag.last_file_num);//将最近使用的文件设为当前文件
-    read_group_info(sys_flag.last_file_num);
-    
-    if(CS_ERR_NONE != check_file_data(&file_pool[0]))
-    {
-        init_file_data(&file_pool[0], 0);
-        save_file(0);
-    }
     
 }
 
@@ -212,12 +184,12 @@ void start_task(void *p_arg)
 	
 	OS_CRITICAL_ENTER();	//进入临界区
 	//STemWin Demo任务
-	OSTaskCreate((OS_TCB*     )&EmwindemoTaskTCB,
-				 (CPU_CHAR*   )"Emwindemo task",
-                 (OS_TASK_PTR )emwindemo_task,
+	OSTaskCreate((OS_TCB*     )&MainTaskTCB,
+				 (CPU_CHAR*   )"Main task",
+                 (OS_TASK_PTR )main_task,
                  (void*       )0,
-                 (OS_PRIO	  )EMWINDEMO_TASK_PRIO,
-                 (CPU_STK*    )&EMWINDEMO_TASK_STK[0],
+                 (OS_PRIO	  )MAIN_TASK_PRIO,
+                 (CPU_STK*    )&MAIN_TASK_STK[0],
                  (CPU_STK_SIZE)EMWINDEMO_STK_SIZE/10,
                  (CPU_STK_SIZE)EMWINDEMO_STK_SIZE,
                  (OS_MSG_QTY  )0,
@@ -286,20 +258,22 @@ void set_framewin_skin(void)
     FRAMEWIN_SetSkinFlexProps(&FRAMEWIN_pProps, FRAMEWIN_SKINFLEX_PI_ACTIVE);
     FRAMEWIN_SetSkinFlexProps(&FRAMEWIN_pProps, FRAMEWIN_SKINFLEX_PI_INACTIVE);
 }
-//EMWINDEMO任务
-void main_ui_enter(void);
-void emwindemo_task(void *p_arg)
+
+/**
+  * @brief  初始化界面环境
+  * @param  无
+  * @retval 无
+  */
+void init_gui_environment(void)
 {
-	OS_ERR os_err;
-    
-	/* 开启所有窗口使用内存设备 */
+    /* 开启所有窗口使用内存设备 */
     WM_SetCreateFlags(WM_CF_MEMDEV);
-	GUI_Init();
-	
-	GUI_UC_SetEncodeUTF8();/* 使能UTF8解码 */
-	
-	/* 使能控件的皮肤色 */
-	BUTTON_SetDefaultSkin(BUTTON_SKIN_FLEX); 
+    GUI_Init();
+    
+    GUI_UC_SetEncodeUTF8();/* 使能UTF8解码 */
+    
+    /* 使能控件的皮肤色 */
+    BUTTON_SetDefaultSkin(BUTTON_SKIN_FLEX); 
     CHECKBOX_SetDefaultSkin(CHECKBOX_SKIN_FLEX);
     DROPDOWN_SetDefaultSkin(DROPDOWN_SKIN_FLEX);
     FRAMEWIN_SetDefaultSkin(FRAMEWIN_SKIN_FLEX);
@@ -311,11 +285,15 @@ void emwindemo_task(void *p_arg)
     SCROLLBAR_SetDefaultSkin(SCROLLBAR_SKIN_FLEX);
     SLIDER_SetDefaultSkin(SLIDER_SKIN_FLEX);
     SPINBOX_SetDefaultSkin(SPINBOX_SKIN_FLEX);
-	set_framewin_skin();
-    
-    
-    OSTimeDlyHMSM(0, 0, 0, 500, OS_OPT_TIME_PERIODIC, &os_err);
-    
+    set_framewin_skin();
+}
+/**
+  * @brief  读取模块信息
+  * @param  无
+  * @retval 无
+  */
+void read_module_inf(void)
+{
     read_roads_flag();
     {
         CS_ERR err;
@@ -338,6 +316,73 @@ void emwindemo_task(void *p_arg)
             }
         }
     }
+}
+
+/**
+  * @brief  读取参数信息
+  * @param  无
+  * @retval 无
+  */
+void read_par_inf(void)
+{
+    CS_ERR err;
+    TEST_FILE *f;
+    
+    read_sys_flag();//读取系统标志
+    
+    if(sys_flag.mem_init)
+    {
+        sys_flag.mem_init = 0;
+        save_sys_flag();
+        init_all_file();
+        
+        f = get_file_inf(0, &err);
+        
+        if(err == CS_ERR_NONE)
+        {
+            g_cur_file = f;
+        }
+    }
+    
+    read_sys_par();
+    check_sys_par(&err);
+    
+    if(err != CS_ERR_NONE)
+    {
+        init_sys_par();
+    }
+    
+    read_all_file();
+    
+    set_cur_file(sys_flag.last_file_num);//将最近使用的文件设为当前文件
+    read_group_info(sys_flag.last_file_num);
+    
+    if(CS_ERR_NONE != check_file_data(&file_pool[0]))
+    {
+        init_file_data(&file_pool[0], 0);
+        save_file(0);
+    }
+}
+/**
+  * @brief  从存储器中读取参数
+  * @param  无
+  * @retval 无
+  */
+void read_par_from_memory(void)
+{
+    read_module_inf();//读取模块信息
+    read_par_inf();//读取参数信息
+}
+
+/**
+  * @brief  主任务入口
+  * @param  无
+  * @retval 无
+  */
+void main_task(void *p_arg)
+{
+    init_gui_environment();//初始化GUI运行环境
+    read_par_from_memory();//从存储器读取参数
 	main_ui_enter();//主界面入口
 	
 	while(1)
@@ -346,8 +391,12 @@ void emwindemo_task(void *p_arg)
 	}
 }
 
-
-void AppTaskModuleComm(void *p_arg)
+/**
+  * @brief  模块通信任务入口
+  * @param  无
+  * @retval 无
+  */
+static void AppTaskModuleComm(void *p_arg)
 {
 	OS_ERR err;
     
@@ -359,12 +408,17 @@ void AppTaskModuleComm(void *p_arg)
         module_comm_task();
     }
 }
-void AppTaskScanKey(void *p_arg)
+/**
+  * @brief  按键扫描任务入口
+  * @param  无
+  * @retval 无
+  */
+static void AppTaskScanKey(void *p_arg)
 {
 	OS_ERR err;
     
     OSTimeDlyHMSM(0,0,1,0,OS_OPT_TIME_PERIODIC,&err);
-    scan_key_task();
+    scan_key_task();//扫描按键任务
     while(1);
 }
 

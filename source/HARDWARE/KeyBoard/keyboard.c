@@ -1,13 +1,12 @@
-/*
- * Copyright(c) 2014,南京长盛仪器
- * All rights reserved
- * 文件名称：keyboard.c
- * 摘  要  ：键盘管理模块
- * 当前版本：V0.0，编写者：王鑫
- * 历史版本：
- * 修改记录：
- *
- */
+/**
+  ******************************************************************************
+  * @file    keyboard.c
+  * @author  王鑫
+  * @version V1.0.0
+  * @date    2017.4.18
+  * @brief   键盘管理模块
+  ******************************************************************************
+  */
 #define KEY_GLOBALS
 
 #include    "includes.h"
@@ -17,63 +16,65 @@
 
 #define KEY_BUZZER_TIME 30
 
+typedef uint8_t (*IS_FUN)(uint32_t);
+
 int16_t key_buzzer_time = KEY_DELAY_NORMAL;
 static uint32_t cur_key_value;
 
-static uint8_t IsKeyDown_key_start(void)   {return START_PIN==RESET;}
-static uint8_t IsKeyDown_key_stop(void)    {return STOP_PIN==RESET; }
+static uint8_t IsKeyDown_key_start(uint32_t key_value)   {return START_PIN==RESET;}
+static uint8_t IsKeyDown_key_stop(uint32_t key_value)    {return STOP_PIN==RESET; }
 
-static uint8_t IsKeyDown_key_DF(void)   {return (cur_key_value == KEY_DIS_FORMAT);	}
+static uint8_t IsKeyDown_key_DF(uint32_t key_value)   {return (key_value == KEY_DIS_FORMAT);	}
 
-static uint8_t IsKeyDown_key_F1(void)   {return (cur_key_value == KEY_F1);	}
-static uint8_t IsKeyDown_key_F2(void)   {return (cur_key_value == KEY_F2);	}
-static uint8_t IsKeyDown_key_F3(void)   {return (cur_key_value == KEY_F3);	}
-static uint8_t IsKeyDown_key_F4(void)   {return (cur_key_value == KEY_F4);	}
-static uint8_t IsKeyDown_key_F5(void)   {return (cur_key_value == KEY_F5);	}
-static uint8_t IsKeyDown_key_F6(void)   {return (cur_key_value == KEY_F6);	}
+static uint8_t IsKeyDown_key_F1(uint32_t key_value)   {return (key_value == KEY_F1);	}
+static uint8_t IsKeyDown_key_F2(uint32_t key_value)   {return (key_value == KEY_F2);	}
+static uint8_t IsKeyDown_key_F3(uint32_t key_value)   {return (key_value == KEY_F3);	}
+static uint8_t IsKeyDown_key_F4(uint32_t key_value)   {return (key_value == KEY_F4);	}
+static uint8_t IsKeyDown_key_F5(uint32_t key_value)   {return (key_value == KEY_F5);	}
+static uint8_t IsKeyDown_key_F6(uint32_t key_value)   {return (key_value == KEY_F6);	}
 
-static uint8_t IsKeyDown_key_up(void) 	{return (cur_key_value == KEY_UP);	}
-static uint8_t IsKeyDown_key_down(void)	{return (cur_key_value == KEY_DOWN);	}
-static uint8_t IsKeyDown_key_left(void) {return (cur_key_value == KEY_LEFT);	}
-static uint8_t IsKeyDown_key_right(void){return (cur_key_value == KEY_RIGHT);	}
+static uint8_t IsKeyDown_key_up(uint32_t key_value) 	{return (key_value == KEY_UP);	}
+static uint8_t IsKeyDown_key_down(uint32_t key_value)	{return (key_value == KEY_DOWN);	}
+static uint8_t IsKeyDown_key_left(uint32_t key_value) {return (key_value == KEY_LEFT);	}
+static uint8_t IsKeyDown_key_right(uint32_t key_value){return (key_value == KEY_RIGHT);	}
 
-static uint8_t IsKeyDown_key_exit(void) {return (cur_key_value == KEY_EXIT);	}
-static uint8_t IsKeyDown_key_enter(void){return (cur_key_value == KEY_ENTER);	}
-static uint8_t IsKeyDown_key_offset(void) {return (cur_key_value == KEY_OFFSET);	}
-static uint8_t IsKeyDown_key_unlock(void){return (cur_key_value == KEY_UNLOCK);	}
+static uint8_t IsKeyDown_key_exit(uint32_t key_value) {return (key_value == KEY_EXIT);	}
+static uint8_t IsKeyDown_key_enter(uint32_t key_value){return (key_value == KEY_ENTER);	}
+static uint8_t IsKeyDown_key_offset(uint32_t key_value) {return (key_value == KEY_OFFSET);	}
+static uint8_t IsKeyDown_key_unlock(uint32_t key_value){return (key_value == KEY_UNLOCK);	}
 
-static uint8_t IsKeyDown_key_shift(void){return (cur_key_value == KEY_SHIFT);	}
+static uint8_t IsKeyDown_key_shift(uint32_t key_value){return (key_value == KEY_SHIFT);	}
 
-static uint8_t IsKeyDown_key_0(void) {return (cur_key_value == KEY_0);	}
-static uint8_t IsKeyDown_key_1(void) {return (cur_key_value == KEY_1);	}
-static uint8_t IsKeyDown_key_2(void) {return (cur_key_value == KEY_2);	}
-static uint8_t IsKeyDown_key_3(void) {return (cur_key_value == KEY_3);	}
-static uint8_t IsKeyDown_key_4(void) {return (cur_key_value == KEY_4);	}
-static uint8_t IsKeyDown_key_5(void) {return (cur_key_value == KEY_5);	}
-static uint8_t IsKeyDown_key_6(void) {return (cur_key_value == KEY_6);	}
-static uint8_t IsKeyDown_key_7(void) {return (cur_key_value == KEY_7);	}
-static uint8_t IsKeyDown_key_8(void) {return (cur_key_value == KEY_8);	}
-static uint8_t IsKeyDown_key_9(void) {return (cur_key_value == KEY_9);	}
-static uint8_t IsKeyDown_key_point(void) {return (cur_key_value == KEY_POINT);	}
+static uint8_t IsKeyDown_key_0(uint32_t key_value) {return (key_value == KEY_0);	}
+static uint8_t IsKeyDown_key_1(uint32_t key_value) {return (key_value == KEY_1);	}
+static uint8_t IsKeyDown_key_2(uint32_t key_value) {return (key_value == KEY_2);	}
+static uint8_t IsKeyDown_key_3(uint32_t key_value) {return (key_value == KEY_3);	}
+static uint8_t IsKeyDown_key_4(uint32_t key_value) {return (key_value == KEY_4);	}
+static uint8_t IsKeyDown_key_5(uint32_t key_value) {return (key_value == KEY_5);	}
+static uint8_t IsKeyDown_key_6(uint32_t key_value) {return (key_value == KEY_6);	}
+static uint8_t IsKeyDown_key_7(uint32_t key_value) {return (key_value == KEY_7);	}
+static uint8_t IsKeyDown_key_8(uint32_t key_value) {return (key_value == KEY_8);	}
+static uint8_t IsKeyDown_key_9(uint32_t key_value) {return (key_value == KEY_9);	}
+static uint8_t IsKeyDown_key_point(uint32_t key_value) {return (key_value == KEY_POINT);	}
 
-static uint8_t IsKeyDown_key_01(void) {return (cur_key_value == (KEY_0 & KEY_1));}
-static uint8_t IsKeyDown_key_02(void) {return (cur_key_value == (KEY_0 & KEY_2));}//注意！(KEY_0 & KEY_2)必须加括号否则就会有只跟第一个键值比较的错误情况出现
-static uint8_t IsKeyDown_key_03(void) {return (cur_key_value == (KEY_0 & KEY_3));}
-static uint8_t IsKeyDown_key_04(void) {return (cur_key_value == (KEY_0 & KEY_4));}
-static uint8_t IsKeyDown_key_05(void) {return (cur_key_value == (KEY_0 & KEY_5));}
-static uint8_t IsKeyDown_key_06(void) {return (cur_key_value == (KEY_0 & KEY_6));}
+static uint8_t IsKeyDown_key_01(uint32_t key_value) {return (key_value == (KEY_0 & KEY_1));}
+static uint8_t IsKeyDown_key_02(uint32_t key_value) {return (key_value == (KEY_0 & KEY_2));}//注意！(KEY_0 & KEY_2)必须加括号否则就会有只跟第一个键值比较的错误情况出现
+static uint8_t IsKeyDown_key_03(uint32_t key_value) {return (key_value == (KEY_0 & KEY_3));}
+static uint8_t IsKeyDown_key_04(uint32_t key_value) {return (key_value == (KEY_0 & KEY_4));}
+static uint8_t IsKeyDown_key_05(uint32_t key_value) {return (key_value == (KEY_0 & KEY_5));}
+static uint8_t IsKeyDown_key_06(uint32_t key_value) {return (key_value == (KEY_0 & KEY_6));}
 
-static uint8_t IsKeyDown_key_lock_0(void) {return (cur_key_value == (KEY_UNLOCK & KEY_0));}
-static uint8_t IsKeyDown_key_lock_1(void) {return (cur_key_value == (KEY_UNLOCK & KEY_1));}
-static uint8_t IsKeyDown_key_lock_offset(void) {return (cur_key_value == (KEY_UNLOCK & KEY_OFFSET));}
-static uint8_t IsKeyDown_key_lock_enter(void) {return (cur_key_value == (KEY_UNLOCK & KEY_ENTER));}
-static uint8_t IsKeyDown_key_lock_exit(void) {return (cur_key_value == (KEY_UNLOCK & KEY_EXIT));}
-static uint8_t IsKeyDown_key_F1_0(void) {return (cur_key_value == (KEY_F1 & KEY_0));}
-static uint8_t IsKeyDown_key_F1_1(void) {return (cur_key_value == (KEY_F1 & KEY_1));}
-static uint8_t IsKeyDown_key_F1_4(void) {return (cur_key_value == (KEY_F1 & KEY_4));}
-static uint8_t IsKeyDown_key_F4_8(void) {return (cur_key_value == (KEY_F4 & KEY_8));}
-static uint8_t IsKeyDown_key_F4_9(void) {return (cur_key_value == (KEY_F4 & KEY_9));}
-static uint8_t IsKeyDown_key_F4_5(void) {return (cur_key_value == (KEY_F4 & KEY_5));}
+static uint8_t IsKeyDown_key_lock_0(uint32_t key_value) {return (key_value == (KEY_UNLOCK & KEY_0));}
+static uint8_t IsKeyDown_key_lock_1(uint32_t key_value) {return (key_value == (KEY_UNLOCK & KEY_1));}
+static uint8_t IsKeyDown_key_lock_offset(uint32_t key_value) {return (key_value == (KEY_UNLOCK & KEY_OFFSET));}
+static uint8_t IsKeyDown_key_lock_enter(uint32_t key_value) {return (key_value == (KEY_UNLOCK & KEY_ENTER));}
+static uint8_t IsKeyDown_key_lock_exit(uint32_t key_value) {return (key_value == (KEY_UNLOCK & KEY_EXIT));}
+static uint8_t IsKeyDown_key_F1_0(uint32_t key_value) {return (key_value == (KEY_F1 & KEY_0));}
+static uint8_t IsKeyDown_key_F1_1(uint32_t key_value) {return (key_value == (KEY_F1 & KEY_1));}
+static uint8_t IsKeyDown_key_F1_4(uint32_t key_value) {return (key_value == (KEY_F1 & KEY_4));}
+static uint8_t IsKeyDown_key_F4_8(uint32_t key_value) {return (key_value == (KEY_F4 & KEY_8));}
+static uint8_t IsKeyDown_key_F4_9(uint32_t key_value) {return (key_value == (KEY_F4 & KEY_9));}
+static uint8_t IsKeyDown_key_F4_5(uint32_t key_value) {return (key_value == (KEY_F4 & KEY_5));}
 
 static KEY_STRUCT s_Key_start;		/* KEY_START */
 static KEY_STRUCT s_Key_stop;		/* KEY_STOP */
@@ -142,8 +143,6 @@ static void(*send_key_msg_fun)(uint32_t *);
  * 输出  ：无
  * 返回  ：无
  */
-typedef uint8_t (*IS_FUN)(void);
-
 void init_key_info(KEY_STRUCT * key_t, uint32_t k_down, uint32_t k_up, uint32_t k_long, uint8_t type, IS_FUN fun)
 {
 	key_t->IsKeyDownFunc = fun;	/* 判断按键按下的函数 */
@@ -234,7 +233,7 @@ void register_key_send_msg_fun(void(*fun)(uint32_t *))
  * 输出  ：无
  * 返回  ：无
  */
-static void DetectKey(KEY_STRUCT *p)
+static void DetectKey(KEY_STRUCT *p, uint32_t key_value)
 {
 	/* 如果没有初始化按键函数，则报错*/
 	if (p->IsKeyDownFunc == NULL)
@@ -242,7 +241,7 @@ static void DetectKey(KEY_STRUCT *p)
 		return;
 	}
     
-	if (p->IsKeyDownFunc())
+	if (p->IsKeyDownFunc(key_value))
 	{
 		if (p->Count < p->FilterTime)
 		{
@@ -342,7 +341,7 @@ static void DetectKey(KEY_STRUCT *p)
  * 输出  ：无
  * 返回  ：无
  */
-static void Det_combination(KEY_STRUCT *p)
+static void Det_combination(KEY_STRUCT *p, uint32_t key_value)
 {
     OS_ERR  err;
     int32_t i = 0;
@@ -354,7 +353,7 @@ static void Det_combination(KEY_STRUCT *p)
 	}
 	
 	/* 检测按键按下 */
-	if (p->IsKeyDownFunc())
+	if (p->IsKeyDownFunc(key_value))
 	{
 		/* 滤波 */
 		if (p->Count < p->FilterTime)
@@ -433,15 +432,15 @@ uint32_t scan_keyboard(void)
 	return data;
 }
 
-void check_key_st(KEY_STRUCT *p)
+void check_key_st(KEY_STRUCT *p, uint32_t key_value)
 {
     if(p->type == COMBINATION_KEY)
     {
-        Det_combination(p);
+        Det_combination(p, key_value);
     }
     else
     {
-        DetectKey(p);
+        DetectKey(p, key_value);
     }
 }
 /*
@@ -461,7 +460,8 @@ void report_key_value(void)
 		{
 			cur_key_value = scan_keyboard();
 		}
-        check_key_st(p_key_pool[i]);
+        
+        check_key_st(p_key_pool[i], cur_key_value);
     }
 }
 

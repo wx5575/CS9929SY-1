@@ -894,6 +894,7 @@ void create_user_window(MYUSER_WINDOW_T* win_info, CS_LIST *list_head, WM_HWIN h
         return;
     }
     
+    /* 如果父窗口句柄为0就创建桌面窗口 */
     if(h_parent == 0)
     {
         h_parent = WM_HBKWIN;

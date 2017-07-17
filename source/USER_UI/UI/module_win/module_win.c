@@ -37,11 +37,11 @@ static void update_module_win_menu_key_inf(WM_HMEM hWin);
 static void update_module_win_stop_menu_key_inf(WM_HMEM hWin);
 static void update_module_win_start_menu_key_inf(WM_HMEM hWin);
 
-static void sys_exit_key_fun_cb(KEY_MESSAGE *key_msg);
-static void sys_stop_key_fun_cb(KEY_MESSAGE *key_msg);
-static void sys_shift_key_fun_cb(KEY_MESSAGE *key_msg);
-static void sys_unlock_key_fun_cb(KEY_MESSAGE *key_msg);
-static void screen_capture_key_fun_cb(KEY_MESSAGE *key_msg);
+static void module_win_direct_key_up_cb(KEY_MESSAGE *key_msg);
+static void module_win_direct_key_down_cb(KEY_MESSAGE *key_msg);
+static void module_win_direct_key_left_cb(KEY_MESSAGE *key_msg);
+static void module_win_direct_key_right_cb(KEY_MESSAGE *key_msg);
+static void module_win_sys_key_enter_cb(KEY_MESSAGE *key_msg);
 
 static void module_win_start_f1_cb(KEY_MESSAGE *key_msg);
 static void module_win_start_f2_cb(KEY_MESSAGE *key_msg);
@@ -61,23 +61,8 @@ static void module_win_update_key_inf(WM_HWIN hWin);
 static void init_module_listview(void);
 /* Private variables ---------------------------------------------------------*/
 
-static	LISTVIEW_Handle list_handle;
+static	LISTVIEW_Handle module_list_handle;///<模块管理列表句柄
 static	WM_HWIN timer_handle;///<定时器句柄
-//static	WM_HWIN U_FLASH_1_handle;///<U盘图标1句柄
-//static	WM_HWIN U_FLASH_2_handle;///<U盘图标2句柄
-//static	WM_HWIN KEY_LOCK_handle;///<键盘锁图标句柄
-//static	WM_HWIN KEY_CAPITAL_SMALL_handle;///<大小写图标句柄
-//static SCAN_MODULE_ST scan_status;///<扫描模块运行状态
-//static SCAN_MODULE_ST com1_scan_status;///<扫描模块运行状态
-//static SCAN_MODULE_ST com2_scan_status;///<扫描模块运行状态
-//static SCAN_MODULE_ST com3_scan_status;///<扫描模块运行状态
-//static SCAN_MODULE_ST com4_scan_status;///<扫描模块运行状态
-//static int8_t com1_scan_addr = 1;///<第1路串口扫描地址
-//static int8_t com2_scan_addr = 1;///<第2路串口扫描地址
-//static int8_t com3_scan_addr = 1;///<第3路串口扫描地址
-//static int8_t com4_scan_addr = 1;///<第4路串口扫描地址
-
-
 /**
   * @brief  模块管理窗口文本控件自动布局信息数组，根据不同的屏幕尺寸进行初始化
   */
@@ -111,13 +96,15 @@ static CS_INDEX module_win_text_ele_table[] =
 /**
   * @brief  系统按键信息
   */
-static CONFIG_FUNCTION_KEY_INFO_T sys_key_pool[]=
+static CONFIG_FUNCTION_KEY_INFO_T module_win_sys_key_pool[]=
 {
-	{KEY_SHIFT	    , sys_shift_key_fun_cb      },
-	{KEY_UNLOCK	    , sys_unlock_key_fun_cb     },
-	{KEY_EXIT	    , sys_exit_key_fun_cb       },
-	{KEY_STOP	    , sys_stop_key_fun_cb       },
-	{KEY_F1 & KEY_0 , screen_capture_key_fun_cb },
+	{KEY_UP		, module_win_direct_key_up_cb      },
+	{KEY_DOWN	, module_win_direct_key_down_cb    },
+	{KEY_LEFT	, module_win_direct_key_left_cb    },
+	{KEY_RIGHT	, module_win_direct_key_right_cb   },
+	{KEY_ENTER	, module_win_sys_key_enter_cb      },
+	{CODE_LEFT	, module_win_direct_key_down_cb    },
+	{CODE_RIGH	, module_win_direct_key_up_cb      },
 };
 /**
   * @brief  根据不同屏幕尺寸填入位置尺寸信息
@@ -338,47 +325,46 @@ static void update_module_win_stop_menu_key_inf(WM_HMEM hWin)
 {
 	init_menu_key_info(module_win_stop_menu_key_inf, ARRAY_SIZE(module_win_stop_menu_key_inf), hWin);
 }
-
 /**
-  * @brief  系统EXIT按键回调函数
-  * @param  [in] key_msg 按键消息
+  * @brief  模块管理窗口向上键回调函数
+  * @param  [in] key_msg 按键信息
   * @retval 无
   */
-static void sys_exit_key_fun_cb(KEY_MESSAGE *key_msg)
+static void module_win_direct_key_up_cb(KEY_MESSAGE *key_msg)
+{
+	LISTVIEW_DecSel(module_list_handle);
+}
+/**
+  * @brief  模块管理窗口向下键回调函数
+  * @param  [in] key_msg 按键信息
+  * @retval 无
+  */
+static void module_win_direct_key_down_cb(KEY_MESSAGE *key_msg)
+{
+	LISTVIEW_IncSel(module_list_handle);
+}
+/**
+  * @brief  模块管理窗口向左键回调函数
+  * @param  [in] key_msg 按键信息
+  * @retval 无
+  */
+static void module_win_direct_key_left_cb(KEY_MESSAGE *key_msg)
 {
 }
 /**
-  * @brief  系统STOP按键回调函数
-  * @param  [in] key_msg 按键消息
+  * @brief  模块管理窗口向右键回调函数
+  * @param  [in] key_msg 按键信息
   * @retval 无
   */
-static void sys_stop_key_fun_cb(KEY_MESSAGE *key_msg)
+static void module_win_direct_key_right_cb(KEY_MESSAGE *key_msg)
 {
 }
 /**
-  * @brief  系统SHIFT按键回调函数
-  * @param  [in] data 用户数据
+  * @brief  模块管理窗口确认键回调函数
+  * @param  [in] key_msg 按键信息
   * @retval 无
   */
-static void sys_shift_key_fun_cb(KEY_MESSAGE *key_msg)
-{
-}
-
-/**
-  * @brief  系统键盘锁按键回调函数
-  * @param  [in] data 用户数据
-  * @retval 无
-  */
-static void sys_unlock_key_fun_cb(KEY_MESSAGE *key_msg)
-{
-}
-
-/**
-  * @brief  截屏按键的
-  * @param  [in] data 用户数据
-  * @retval 无
-  */
-static void screen_capture_key_fun_cb(KEY_MESSAGE *key_msg)
+static void module_win_sys_key_enter_cb(KEY_MESSAGE *key_msg)
 {
 }
 
@@ -389,7 +375,7 @@ static void screen_capture_key_fun_cb(KEY_MESSAGE *key_msg)
   */
 static void update_system_key_inf(WM_HMEM hWin)
 {
-    register_system_key_fun(sys_key_pool, ARRAY_SIZE(sys_key_pool), hWin);
+    register_system_key_fun(module_win_sys_key_pool, ARRAY_SIZE(module_win_sys_key_pool), hWin);
 }
 
 /**
@@ -481,7 +467,7 @@ void create_module_win_listview(WM_HWIN hWin)
             break;
         default:
         case SCREEN_7INCH:
-            list_handle = _7_create_module_listview(hWin);
+            module_list_handle = _7_create_module_listview(hWin);
             break;
     }
 }
@@ -506,7 +492,7 @@ static void init_module_listview(void)
         
         for(k = 0; k < colum; k++)
         {
-            LISTVIEW_SetItemText(list_handle, k + 1, row, (const char*)buf[k]);
+            LISTVIEW_SetItemText(module_list_handle, k + 1, row, (const char*)buf[k]);
         }
         
         row++;

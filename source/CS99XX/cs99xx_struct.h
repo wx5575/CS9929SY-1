@@ -55,6 +55,8 @@ typedef enum{
     CS_ERR_SEND_FAIL,///<发送失败
     CS_ERR_COMM_TROUBLE,///<通信故障或从机不存在
     CS_ERR_COMM_ADDR_INVALTD,///<通信地址无效
+    CS_ERR_COMM_NORMAL,///<通信正常
+    CS_ERR_COMM_CRC_ERR,///<通信CRC校验错误
 }CS_ERR;
 /**
   * @brief  文件编号

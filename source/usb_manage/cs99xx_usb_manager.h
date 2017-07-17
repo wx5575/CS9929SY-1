@@ -4,6 +4,7 @@
 
 #include "sys_level.h"
 
+#pragma  diag_suppress 870 //消除870号编译警告
 
 enum{
     CH376_USB_1 = 1,
@@ -17,10 +18,10 @@ enum{
 
 enum{
 	USB_TASK_NULL,
-	USB_LEADING_OUT_RESULT,//导出结果
-	USB_LEADING_OUT_SYS_DATA,//导出系统数据
-	USB_LEADING_IN_SYS_DATA,//导入系统数据
-	USB_SAVE_ONE_RESULT,//保存一条结果,测试一条保存一条
+	USB_LEADING_OUT_RESULT,///<导出结果
+	USB_LEADING_OUT_SYS_DATA,///<导出系统数据
+	USB_LEADING_IN_SYS_DATA,///<导入系统数据
+	USB_SAVE_ONE_RESULT,///<保存一条结果,测试一条保存一条
     
     USB_SCREEN_CAPTURE,///<截屏
 };

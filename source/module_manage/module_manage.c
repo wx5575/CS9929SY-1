@@ -105,15 +105,18 @@ void com_receive_dispose(COM_NUM com_num, uint8_t *data, uint32_t len)
     FRAME_T *frame = (void*)data;
     uint8_t index = 0;
     uint8_t addr_offset[4] = {0, 16, 32, 48};//地址偏移，第一路0，第二路16，第三路32，第四路48
-    
+    COM_STRUCT *com_inf;
     
     /* CRC校验 */
     p_crc = (uint16_t *)&data[len - 2];
     crc_val = get_crc16(data, len - 2);
     
+    com_inf = get_com_inf(com_num);
+    
     /* 校验失败放弃解析 */
     if(*p_crc != crc_val)
     {
+        com_inf->comm_cannot_connect = CS_ERR_COMM_CRC_ERR;
         return;
     }
     
@@ -246,7 +249,7 @@ CS_ERR com_send_cmd_data(uint8_t addr, uint8_t cmd, uint8_t *data, uint32_t len)
     
     com_inf->send_fun(com_inf, (uint8_t *)frame, frame_len);
     com_inf->set_wait_ack_timeout(com_inf);
-    com_inf->status = MODULE_COMM_SEND;
+    com_inf->status = MODULE_COMM_SEND;//状态机进入发送状态
     
     return CS_ERR_SEND_SUCCESS;
 }
@@ -265,8 +268,10 @@ void init_module_manage_env(void)
     register_tim3_server_fun(com2.wait_ack_timeout_fun);//注册串口等待从机响应超时定时器
     register_tim3_server_fun(com3.wait_ack_timeout_fun);//注册串口等待从机响应超时定时器
     register_tim3_server_fun(com4.wait_ack_timeout_fun);//注册串口等待从机响应超时定时器
-    road_inf_pool = malloc_ex_mem(sizeof(ROAD_INF) * 64);//分配内存，不会再释放了
     
+    /* 为模块信息分配内存 */
+    road_inf_pool = malloc_ex_mem(sizeof(ROAD_INF) * 64);//分配内存，不会再释放了
+    /* 初始化分配到的内存 */
     if(road_inf_pool != NULL)
     {
         memset(road_inf_pool, 0, sizeof(ROAD_INF) * 64);

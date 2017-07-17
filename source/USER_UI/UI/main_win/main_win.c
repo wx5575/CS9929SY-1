@@ -625,7 +625,7 @@ static void into_self_check_win(void)//进入自检窗口
   */
 void main_ui_enter(void)
 {
-	SCREEM_SIZE = SCREEN_7INCH;
+	SCREEM_SIZE = SCREEN_7INCH;//设置为7寸屏
 	id_base = GUI_ID_USER;//窗口控件ID
     init_user_window_env();//初始化用户窗口环境
     into_start_win();//进入启动窗口
