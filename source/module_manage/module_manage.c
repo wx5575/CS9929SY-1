@@ -7,6 +7,9 @@
   * @brief   模块管理
   ******************************************************************************
   */
+
+/* Includes ------------------------------------------------------------------*/
+
 #define MODULE_GLOBALS
 #include "module_manage.h"
 #include "string.h"
@@ -16,16 +19,28 @@
 #include "USART3.H"
 #include "UART4.H"
 #include "mem_alloc.h"
-#include "tim3.h"
 
 
+/* Private typedef -----------------------------------------------------------*/
+
+enum{
+    GET_MODULE_INF = 1,
+};
+uint8_t addr_offset[] =
+{
+    COM1_BROADCAST_ADDR,///<第1路串口的广播地址
+    COM2_BROADCAST_ADDR,///<第2路串口的广播地址
+    COM3_BROADCAST_ADDR,///<第3路串口的广播地址
+    COM4_BROADCAST_ADDR ///<第4路串口的广播地址
+};//地址偏移，第一路0，第二路16，第三路32，第四路48
+
+/* Private function prototypes -----------------------------------------------*/
 CS_ERR com_send_cmd_data(uint8_t addr, uint8_t cmd, uint8_t *data, uint32_t len);
+static COM_NUM get_com_num(uint8_t *addr, CS_ERR *err);
 
 
 uint8_t get_com_offset_add(COM_NUM com_num)
 {
-    uint8_t addr_offset[4] = {0, 16, 32, 48};//地址偏移，第一路0，第二路16，第三路32，第四路48
-    
     return addr_offset[com_num];
 }
 COM_STRUCT* get_com_inf(COM_NUM com_num)
@@ -50,6 +65,7 @@ COM_STRUCT* get_com_inf(COM_NUM com_num)
     
     return p_com;
 }
+
 void update_module_addr_flag(void)
 {
     int32_t i = 0;
@@ -59,16 +75,19 @@ void update_module_addr_flag(void)
     COM_STRUCT* com_inf = NULL;
     uint8_t id = 0;
     
-    for(i = 0; i < 64; i++)
+    for(i = 0; i < MASTER_ADDR_RANGE; i++)
     {
-        if(i == 0 || i == 16 || i == 32 || i == 48 || i > 64)
+        if(i == COM1_BROADCAST_ADDR
+            || i == COM2_BROADCAST_ADDR
+            || i == COM3_BROADCAST_ADDR
+            || i == COM4_BROADCAST_ADDR)
         {
             continue;
         }
         
         id = road_inf_pool[i].module_inf.id;//id范围是1-15
         
-        if(id != 0 && id < 16)
+        if(id != SLAVE_BROADCAST_ADDR && id <= SLAVE_ADDR_MAX)
         {
             com_inf = get_com_inf(road_inf_pool[i].com_num);
             offset_addr = get_com_offset_add(road_inf_pool[i].com_num);
@@ -88,9 +107,7 @@ void set_module_inf(COM_NUM com_num, uint8_t index, uint8_t *data)
     update_module_addr_flag();
 }
 
-enum{
-    GET_MODULE_INF = 1,
-};
+/* Public functions ---------------------------------------------------------*/
 /**
   * @brief  串口1的接收处理函数
   * @param  [in] com_num 串口号
@@ -104,12 +121,11 @@ void com_receive_dispose(COM_NUM com_num, uint8_t *data, uint32_t len)
     uint16_t crc_val;
     FRAME_T *frame = (void*)data;
     uint8_t index = 0;
-    uint8_t addr_offset[4] = {0, 16, 32, 48};//地址偏移，第一路0，第二路16，第三路32，第四路48
     COM_STRUCT *com_inf;
     
     /* CRC校验 */
-    p_crc = (uint16_t *)&data[len - 2];
-    crc_val = get_crc16(data, len - 2);
+    p_crc = (uint16_t *)&data[len - CRC_LEN];
+    crc_val = get_crc16(data, len - CRC_LEN);
     
     com_inf = get_com_inf(com_num);
     
@@ -117,6 +133,13 @@ void com_receive_dispose(COM_NUM com_num, uint8_t *data, uint32_t len)
     if(*p_crc != crc_val)
     {
         com_inf->comm_cannot_connect = CS_ERR_COMM_CRC_ERR;
+        return;
+    }
+    
+    /* 从机通信状态错误 */
+    if(frame->st != COMM_ST_NO_ERROR)
+    {
+        com_inf->comm_cannot_connect = CS_ERR_COMM_SLAVE_ERR;
         return;
     }
     
@@ -148,40 +171,74 @@ void add_crc_to_send_data(uint8_t *data, uint32_t len)
 }
 
 /**
+  * @brief  获取串口状态
+  * @param  [in] addr 通信地址
+  * @retval 串口状态
+  */
+MODULE_COMM_STATUS get_com_st(uint8_t addr)
+{
+    COM_STRUCT *com_inf;
+    CS_ERR err;
+    COM_NUM com_num;
+    
+    com_num = get_com_num(&addr, &err);//获取串口号
+    com_inf = get_com_inf(com_num);
+    
+    return com_inf->status;
+}
+
+/**
+  * @brief  获取串口是否在空闲状态
+  * @param  [in] addr 通信地址
+  * @retval 0 不在空闲状态 1 在空闲状态
+  */
+uint8_t com_comm_is_idle(uint8_t addr)
+{
+    MODULE_COMM_STATUS st;
+    
+    st = get_com_st(addr);
+    
+    return st == MODULE_COMM_IDLE;
+}
+/**
   * @brief  根据提供的地址来计算出串串口编辑
   * @param  [in] addr 通信地址
   * @param  [out] err 错误码
   * @retval 串口编号
   */
-COM_NUM get_com_num(uint8_t *addr, CS_ERR *err)
+static COM_NUM get_com_num(uint8_t *addr, CS_ERR *err)
 {
     COM_NUM com_num;
     
     *err = CS_ERR_NONE;
     
     /* 0-15是第1路串口的地址范围 */
-    if(*addr > 0 && *addr < 16)
+    if(*addr > COM1_BROADCAST_ADDR
+        && *addr <= (COM1_BROADCAST_ADDR + SLAVE_ADDR_MAX))
     {
         com_num = ROAD1_COM;
-        *addr -= (16 * 0);
+        *addr -= COM1_BROADCAST_ADDR;
     }
     /* 16-31是第2路串口的地址范围 */
-    else if(*addr >= 16 && *addr < 32)
+    else if(*addr >= COM2_BROADCAST_ADDR
+        && *addr <= (COM2_BROADCAST_ADDR + SLAVE_ADDR_MAX))
     {
         com_num = ROAD2_COM;
-        *addr -= (16 * 1);
+        *addr -= COM2_BROADCAST_ADDR;
     }
     /* 32-47是第3路串口的地址范围 */
-    else if(*addr >= 32 && *addr < 48)
+    else if(*addr >= COM3_BROADCAST_ADDR
+            && *addr <= (COM3_BROADCAST_ADDR + SLAVE_ADDR_MAX))
     {
         com_num = ROAD3_COM;
-        *addr -= (16 * 2);
+        *addr -= COM3_BROADCAST_ADDR;
     }
     /* 48-63是第4路串口的地址范围 */
-    else if(*addr >= 48 && *addr < 64)
+    else if(*addr >= COM4_BROADCAST_ADDR
+        && *addr <= (COM4_BROADCAST_ADDR + SLAVE_ADDR_MAX))
     {
         com_num = ROAD4_COM;
-        *addr -= (16 * 3);
+        *addr -= COM4_BROADCAST_ADDR;
     }
     /* 地址非法 */
     else
@@ -245,7 +302,7 @@ CS_ERR com_send_cmd_data(uint8_t addr, uint8_t cmd, uint8_t *data, uint32_t len)
     memcpy(frame->data, data, len);
     frame_len = len + FRAME_HEAD_SIZE;
     add_crc_to_send_data((uint8_t*)frame, frame_len);
-    frame_len += 2;
+    frame_len += CRC_LEN;
     
     com_inf->send_fun(com_inf, (uint8_t *)frame, frame_len);
     com_inf->set_wait_ack_timeout(com_inf);
@@ -260,21 +317,19 @@ CS_ERR com_send_cmd_data(uint8_t addr, uint8_t cmd, uint8_t *data, uint32_t len)
   */
 void init_module_manage_env(void)
 {
-    register_tim3_server_fun(usart1_judge_timout);//注册串口接收完成超时定时器
-    register_tim3_server_fun(usart2_judge_timout);//注册串口接收完成超时定时器
-    register_tim3_server_fun(usart3_judge_timout);//注册串口接收完成超时定时器
-    register_tim3_server_fun(uart4_judge_timout); //注册串口接收完成超时定时器
-    register_tim3_server_fun(com1.wait_ack_timeout_fun);//注册串口等待从机响应超时定时器
-    register_tim3_server_fun(com2.wait_ack_timeout_fun);//注册串口等待从机响应超时定时器
-    register_tim3_server_fun(com3.wait_ack_timeout_fun);//注册串口等待从机响应超时定时器
-    register_tim3_server_fun(com4.wait_ack_timeout_fun);//注册串口等待从机响应超时定时器
+    /* 初始化各路串口的运行环境 */
+    com1.init_com_env(&com1);
+    com2.init_com_env(&com2);
+    com3.init_com_env(&com3);
+    com4.init_com_env(&com4);
     
     /* 为模块信息分配内存 */
-    road_inf_pool = malloc_ex_mem(sizeof(ROAD_INF) * 64);//分配内存，不会再释放了
+    road_inf_pool = malloc_ex_mem(sizeof(ROAD_INF) * MASTER_ADDR_RANGE);//分配内存，不会再释放了
+    
     /* 初始化分配到的内存 */
     if(road_inf_pool != NULL)
     {
-        memset(road_inf_pool, 0, sizeof(ROAD_INF) * 64);
+        memset(road_inf_pool, 0, sizeof(ROAD_INF) * MASTER_ADDR_RANGE);
     }
 }
 
@@ -286,7 +341,7 @@ void init_module_manage_env(void)
 void clear_module_inf(void)
 {
     memset(&roads_flag, 0 , sizeof(roads_flag));
-    memset(road_inf_pool, 0, sizeof(ROAD_INF) * 64);
+    memset(road_inf_pool, 0, sizeof(ROAD_INF) * MASTER_ADDR_RANGE);
 }
 /**
   * @brief  初始化模块管理的环境

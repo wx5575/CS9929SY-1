@@ -10,12 +10,12 @@
 
 /* Includes ------------------------------------------------------------------*/
 
-#include "module_manage.h"
 #include "string.h"
 #include "crc.h"
 #include "USART1.H"
 #include "mem_alloc.h"
 #include "tim3.h"
+#include "com_comm.h"
 
 /* Public functions ---------------------------------------------------------*/
 /**

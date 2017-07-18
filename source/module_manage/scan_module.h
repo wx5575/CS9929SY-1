@@ -1,7 +1,17 @@
-
+/**
+  ******************************************************************************
+  * @file    scan_module.h
+  * @author  ÍõöÎ
+  * @version V1.0.0
+  * @date    2017.7.13
+  * @brief   É¨ÃèÄ£¿é
+  ******************************************************************************
+  */
 #ifndef __SCAN_MODULE_H__
 #define __SCAN_MODULE_H__
 
+
+/* Includes ------------------------------------------------------------------*/
 
 #include "module_manage.h"
 
@@ -24,3 +34,5 @@ extern void start_scan_all_module(void);
 extern CS_ERR connect_module(uint8_t addr);
 
 #endif //__SCAN_MODULE_H__
+
+/************************ (C) COPYRIGHT 2017 ³¤Ê¢ÒÇÆ÷ *****END OF FILE****/
