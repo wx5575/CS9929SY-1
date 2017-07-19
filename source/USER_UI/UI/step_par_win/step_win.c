@@ -595,21 +595,21 @@ static uint32_t init_step_dis_inf(uint8_t buf[5][20], NODE_STEP *node)
             mysprintf(buf[i++], unit_pool[VOL_U_kV] , 53, un->acw.output_vol);
             mysprintf(buf[i++], unit_pool[TIM_U_s]  , 51, un->acw.test_time);
             strcpy((char*)buf[i++], (const char*)sw_pool[SYS_LANGUAGE][!!un->acw.step_con]);
-            transform_test_port_to_str(&un->acw.port, buf[i++]);
+            transform_test_port_to_str(&un->acw.work_port, buf[i++]);
             
             break;
         case DCW:
             mysprintf(buf[i++], unit_pool[VOL_U_kV] , 53, un->dcw.output_vol);
             mysprintf(buf[i++], unit_pool[TIM_U_s]  , 51, un->dcw.test_time);
             strcpy((char*)buf[i++], (const char*)sw_pool[SYS_LANGUAGE][!!un->dcw.step_con]);
-            transform_test_port_to_str(&un->dcw.port, buf[i++]);
+            transform_test_port_to_str(&un->dcw.work_port, buf[i++]);
             
             break;
         case IR:
             mysprintf(buf[i++], unit_pool[VOL_U_kV] , 53, un->ir.output_vol);
             mysprintf(buf[i++], unit_pool[TIM_U_s]  , 51, un->ir.test_time);
             strcpy((char*)buf[i++], (const char*)sw_pool[SYS_LANGUAGE][!!un->ir.step_con]);
-            transform_test_port_to_str(&un->ir.port, buf[i++]);
+            transform_test_port_to_str(&un->ir.work_port, buf[i++]);
             
             break;
         case GR:

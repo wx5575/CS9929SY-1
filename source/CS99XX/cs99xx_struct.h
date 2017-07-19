@@ -25,8 +25,15 @@
 /** 
   * @brief 用户数组对象索引,只提供类型，用来将用户的索引统一
   */
-#define CS_INDEX    int32_t
-
+typedef   int32_t  CS_INDEX;
+/**
+  * @brief  模块地址
+  */
+typedef uint8_t MODULE_ADDR_T;
+/**
+  * @brief  多路端口的编号
+  */
+typedef uint8_t ROAD_NUM_T;
 /**
   * @brief  bool常量定义
   */
@@ -91,6 +98,14 @@ typedef struct{
 }TEST_PORT;
 
 /**
+  * @brief  工作端口结构定义，针对多路同步测试设计，用来指定模块是否参与工作
+  */
+typedef struct{
+    _TEST_PORT ports[TEST_PORTS_MAX / 8];
+    uint8_t num;
+    uint8_t mode;/* 通信时使用 */
+}WORK_PORT;
+/**
   * @brief  ACW数据结构定义
   */
 typedef struct {
@@ -110,6 +125,7 @@ typedef struct {
 	uint8_t 	step_pass;					///< 步间pass */
 	uint8_t 	step_con;					///< 步间连续 */
 	TEST_PORT	port;                       ///< 端口 */
+    WORK_PORT   work_port;                  ///< 工作端口，标示出参与工作的端口
 	
 	uint16_t	offset_cur;                 ///< 偏移电流 */
 	uint16_t 	offset_real;                ///< 偏移真实电流 */
@@ -136,6 +152,7 @@ typedef struct {
 	uint8_t 	step_pass;         		///< 步间pass */
 	uint8_t 	step_con; 				///< 步间连续 */
 	TEST_PORT	port;                       ///< 端口 */
+    WORK_PORT   work_port;                  ///< 工作端口，标示出参与工作的端口
 	
 	uint16_t	offset_cur;                 ///< 偏移电流 */
 	uint16_t 	offset_real;                ///< 偏移真实电流 */
@@ -164,6 +181,7 @@ typedef struct {
 	uint8_t 	step_pass;         		///< 步间pass */
 	uint8_t		step_con; 				///< 步间连续 */
 	TEST_PORT	port;                       ///< 端口 */
+    WORK_PORT   work_port;                  ///< 工作端口，标示出参与工作的端口
 	
 	uint16_t	offset_cur;                 ///< 偏移电流 */
 	uint8_t 	offset_result;              ///< 偏移电流测量结果 OFFSET_PASS OFFSET_FAIL OFFSET_NONE */
@@ -186,6 +204,7 @@ typedef struct {
 	uint8_t 	step_pass;	        		///< 步间pass */
 	uint8_t 	step_con;					///< 步间连续 */
 	TEST_PORT	port;	                    ///< 端口 */
+    WORK_PORT   work_port;                  ///< 工作端口，标示出参与工作的端口
 }IR_STRUCT;
 
 /**
@@ -204,7 +223,8 @@ typedef struct {
 	uint8_t 	step_con; 				///< 步间连续 */
 	uint16_t	output_freq;				///< 输出频率 */
 	uint16_t	test_method;                ///< 当脉冲测试模式使能了以后 0表示脉冲测试 1表示连续测试 */
-	
+	WORK_PORT   work_port;                  ///< 工作端口，标示出参与工作的端口
+    
 	uint16_t	offset_res;                 ///< 偏移电阻 */
 	uint8_t	    offset_result;              ///< 偏移电流测量结果 OFFSET_PASS OFFSET_FAIL OFFSET_NONE */
 }GR_STRUCT;
@@ -228,7 +248,8 @@ typedef struct {
 	float		cap_value; ///< 电容值 */
 	uint8_t 	gear; ///< 保存获取电容值时的电流档位 默认 20mA */
 	TEST_PORT	port; ///< 端口 */
-	
+	WORK_PORT   work_port;                  ///< 工作端口，标示出参与工作的端口
+    
 	uint8_t 	get_cs_ok; ///< 标记获取电容已经OK */
     
 	float   	offset_cap; ///<偏移电阻 */
@@ -569,9 +590,14 @@ typedef struct Sys_Parameter{
   * @brief  管理所有路的信息为了加快通过路号对各模块地址的查找将所有的有效地址依次存入
   *         这个结构中
   */
+#define SYN_MAX_COM_NUM   8 ///<同步测试最大的串口个数
+typedef struct
+{
+    uint8_t road_buf[16];///<串口上挂的模块的地址
+    uint8_t count;///<串口挂的模块总个数
+}_ROADS_FLAG;
 typedef struct{
-    uint8_t road_buf[64];///< road地址缓冲 第0个元素放第1路的地址1-15 17-31 33-47 49-63
-    uint8_t count;///< 当前的总路数
+    _ROADS_FLAG     flag[SYN_MAX_COM_NUM];
 }ROADS_FLAG;
 /**
   * @brief  系统标志结构定义

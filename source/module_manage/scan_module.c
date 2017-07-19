@@ -230,23 +230,6 @@ uint8_t get_com4_scan_addr(void)
 }
 
 /**
-  * @brief  等待串口进入空闲状态
-  * @param  [in] addr 指定的模块地址
-  * @retval 无
-  */
-void wait_com_comm_idle(uint8_t addr)
-{
-	OS_ERR os_err;
-    uint8_t flag = 0;
-    
-    while(!flag)
-    {
-        flag = com_comm_is_idle(addr);
-        OSTimeDlyHMSM(0,0,0,50,OS_OPT_TIME_PERIODIC,&os_err);
-    }
-}
-
-/**
   * @brief  用户层调用针对指定地址连接模块. 在开机时使用，来连接历史记录中的模块
   * @param  [in] addr 指定的连接地址
   * @retval 发送连接命令的状态 

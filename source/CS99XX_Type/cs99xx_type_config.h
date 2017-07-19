@@ -2042,6 +2042,7 @@ void config_CS9929A(void)
     type_spe.mode_en = /* */__ACW | __DCW | __IR | __GR/* | __BBD*/;
     
     type_spe.port_num = PORT_NUM4;/* 测试端口数 0 4 8 */
+    type_spe.work_port_num = PORT_NUM4;// 工作端口的个数(PORT_NUM4表示4路同步测试) 针对多路同步测试仪 
     
     type_spe.acw_vol_range = ACW_5kV;// ACW_10kV;// ACW_20kV;// 
     type_spe.acw_hz = _AC_50HZ | _AC_60HZ /*| _AC_100HZ | _AC_150HZ | _AC_200HZ| _AC_250HZ |_AC_300HZ |  _AC_350HZ | _AC_400HZ */;

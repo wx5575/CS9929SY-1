@@ -59,6 +59,7 @@ static void module_win_stop_f6_cb(KEY_MESSAGE *key_msg);
 
 static void module_win_update_key_inf(WM_HWIN hWin);
 static void init_module_listview(void);
+static void clear_module_listview(void);
 /* Private variables ---------------------------------------------------------*/
 
 static	LISTVIEW_Handle module_list_handle;///<模块管理列表句柄
@@ -233,7 +234,8 @@ static void module_win_start_f5_cb(KEY_MESSAGE *key_msg)
 {
     update_module_win_stop_menu_key_inf(key_msg->user_data);
     start_all_scan_mode_st();
-    clear_module_inf();
+    clear_module_inf();//清空模块信息
+    clear_module_listview();//清空模块表
 }
 /**
   * @brief  模块管理窗口中功能键F1回调函数
@@ -412,6 +414,25 @@ static void module_win_update_key_inf(WM_HWIN hWin)
     update_system_key_inf(hWin);
 }
 
+/**
+  * @brief  清空模块表
+  * @param  无
+  * @retval 无
+  */
+static void clear_module_listview(void)
+{
+    int32_t row = 0;
+    int32_t column = 0;
+    uint32_t n = MAX_MODULE_NUM;
+    
+    for(row = 0; row < n; row++)
+    {
+        for(column = 1; column < 5; column++)
+        {
+            LISTVIEW_SetItemText(module_list_handle, column, row, "");//清空单元格的显示信息
+        }
+    }
+}
 static module_scan_manage(WM_HWIN hWin, MYUSER_WINDOW_T* win)
 {
     uint8_t addr = 0;
@@ -472,30 +493,43 @@ void create_module_win_listview(WM_HWIN hWin)
     }
 }
 
-static void init_module_listview(void)
+void draw_one_module_inf(uint8_t addr)
 {
-    uint8_t addr = 0;
     uint8_t buf[5][100];
     int32_t i = 0;
     uint8_t k = 0;
     uint8_t colum = 4;
     uint8_t row = 0;
     
-    for(i = 0; i < roads_flag.count; i++)
+    sprintf((char*)buf[i++], "COM%d", module_inf_pool[addr].com_num + 1);
+    sprintf((char*)buf[i++], "%d", module_inf_pool[addr].module_inf.id);
+    sprintf((char*)buf[i++], "%s", module_inf_pool[addr].module_inf.name);
+    sprintf((char*)buf[i++], "%s", module_inf_pool[addr].module_inf.version);
+    
+    for(k = 0; k < colum; k++)
     {
-        addr = roads_flag.road_buf[i];
-        
-        sprintf((char*)buf[0], "COM%d", road_inf_pool[addr].com_num + 1);
-        sprintf((char*)buf[1], "%d", road_inf_pool[addr].module_inf.id);
-        sprintf((char*)buf[2], "%s", road_inf_pool[addr].module_inf.name);
-        sprintf((char*)buf[3], "%s", road_inf_pool[addr].module_inf.version);
-        
-        for(k = 0; k < colum; k++)
+        LISTVIEW_SetItemText(module_list_handle, k + 1, row, (const char*)buf[k]);
+    }
+    
+    row++;
+}
+static void init_module_listview(void)
+{
+    uint8_t addr = 0;
+    int32_t i = 0;
+    int32_t j = 0;
+    
+    for(j = 0; j < SYN_MAX_COM_NUM; j++)
+    {
+        for(i = 0; i <= SLAVE_ADDR_MAX; i++)
         {
-            LISTVIEW_SetItemText(module_list_handle, k + 1, row, (const char*)buf[k]);
+            addr = roads_flag.flag[j].road_buf[i];
+            
+            if(addr > 0 && addr < MASTER_ADDR_RANGE)
+            {
+                draw_one_module_inf(addr);
+            }
         }
-        
-        row++;
     }
     
 }

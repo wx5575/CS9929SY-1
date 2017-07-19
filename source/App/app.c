@@ -29,6 +29,7 @@
 #include "parameter_manage.h"
 #include "module_manage.h"
 #include "scan_module.h"
+#include "send_cmd.h"
 #include "ui/main_win/main_win.h"
 
 static void AppTaskScanKey(void *p_arg);
@@ -294,27 +295,24 @@ void init_gui_environment(void)
   */
 void read_module_inf(void)
 {
+    CS_BOOL flag;
+    
     read_roads_flag();
+
+    init_send_module_connect();
+    start_send_all_module();
+    
+    while(1)
     {
-        CS_ERR err;
-        uint8_t addr = 0;
-        int32_t i = 0;
+        send_all_module(NULL, 0);
+        flag = all_com_send_is_over();
         
-        /* 数据错误不用再发送通信了 */
-        if(roads_flag.count > 60)
+        if(flag == CS_TRUE)
         {
-            return;
+            break;
         }
         
-        for(i = 0; i < roads_flag.count; i++)
-        {
-            addr = roads_flag.road_buf[i];
-            err = connect_module(addr);
-            
-            if(err == CS_ERR_SEND_SUCCESS)
-            {
-            }
-        }
+        OS_DELAY_ms(10);
     }
 }
 
@@ -363,6 +361,50 @@ void read_par_inf(void)
         save_file(0);
     }
 }
+
+/**
+  * @brief  读出第一步参数来初始化当前步
+  * @param  无
+  * @retval 无
+  */
+void read_first_step_init_cur_step(void)
+{
+    NODE_STEP *node;
+    
+    load_steps_to_list(1, 1);//加载新的当前步
+    node = get_g_cur_step();
+    
+    if(NULL != node)
+    {
+        g_cur_step = node;
+    }
+}
+/**
+  * @brief  设置模块的路编号
+  * @param  无
+  * @retval 无
+  */
+void set_module_road_num(void)
+{
+    CS_BOOL flag;
+    
+    init_send_set_road_num();
+    start_send_all_module();
+    
+    while(1)
+    {
+        send_all_module(NULL, 0);
+        flag = all_com_send_is_over();
+        
+        if(flag == CS_TRUE)
+        {
+            break;
+        }
+        
+        OS_DELAY_ms(10);
+    }
+}
+
 /**
   * @brief  从存储器中读取参数
   * @param  无
@@ -371,7 +413,9 @@ void read_par_inf(void)
 void read_par_from_memory(void)
 {
     read_module_inf();//读取模块信息
+    set_module_road_num();//设置模块的路编号
     read_par_inf();//读取参数信息
+    read_first_step_init_cur_step();
 }
 
 /**

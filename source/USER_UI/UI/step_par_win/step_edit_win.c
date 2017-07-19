@@ -141,7 +141,7 @@ static void check_test_port_value_validity(EDIT_ELE_T* ele, uint32_t *value);
 static void check_gr_output_cur_value_validity(EDIT_ELE_T* ele, uint32_t *value);
 
 static uint8_t get_cur_step_mode(void);
-static TEST_PORT *get_cur_step_test_port(void);
+static WORK_PORT *get_cur_step_work_port(void);
 static void update_arc_mode_deit_inf(EDIT_ELE_T* ele);
 /* Private variables ---------------------------------------------------------*/
 /**
@@ -1093,7 +1093,7 @@ static void check_test_time_value_validity(EDIT_ELE_T* ele, uint32_t *value)
     }
 }
 
-static TEST_PORT *get_cur_step_test_port(void)
+static WORK_PORT *get_cur_step_work_port(void)
 {
     void *p = NULL;
     uint8_t mode = get_cur_step_mode();
@@ -1101,13 +1101,16 @@ static TEST_PORT *get_cur_step_test_port(void)
     switch(mode)
     {
         case ACW:
-            p = &g_cur_step->one_step.acw.port;
+            p = &g_cur_step->one_step.acw.work_port;
             break;
         case DCW:
-            p = &g_cur_step->one_step.dcw.port;
+            p = &g_cur_step->one_step.dcw.work_port;
             break;
         case IR:
-            p = &g_cur_step->one_step.ir.port;
+            p = &g_cur_step->one_step.ir.work_port;
+            break;
+        case GR:
+            p = &g_cur_step->one_step.gr.work_port;
             break;
         default:
             break;
@@ -1124,9 +1127,9 @@ static TEST_PORT *get_cur_step_test_port(void)
 static void check_test_port_value_validity(EDIT_ELE_T* ele, uint32_t *value)
 {
     uint8_t* str = (void*)value;
-    TEST_PORT * port;
+    WORK_PORT * port;
     
-    port = get_cur_step_test_port();
+    port = get_cur_step_work_port();
     
     if(port !=  NULL)
     {
@@ -2084,7 +2087,7 @@ static void set_acw_par_win_ele_data(UN_STRUCT *step)
     reg_edit_ele_data_inf(STEP_EDIT_WIN_PASS, &acw->step_pass,  sizeof(acw->step_pass));//步间PASS
     
     /* 输出端口 */
-    transform_test_port_to_str(&acw->port, set_port_buf);
+    transform_test_port_to_str(&acw->work_port, set_port_buf);
     reg_edit_ele_data_inf(STEP_EDIT_WIN_PORT, set_port_buf, sizeof(set_port_buf));
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_PORT, &err);
     
@@ -2228,7 +2231,7 @@ static void set_dcw_par_win_ele_data(UN_STRUCT *step)
     reg_edit_ele_data_inf(STEP_EDIT_WIN_PASS, &dcw->step_pass,  sizeof(dcw->step_pass));
     
     /* 输出端口 */
-    transform_test_port_to_str(&dcw->port, set_port_buf);
+    transform_test_port_to_str(&dcw->work_port, set_port_buf);
     reg_edit_ele_data_inf(STEP_EDIT_WIN_PORT, set_port_buf, sizeof(set_port_buf));
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_PORT, &err);
     
@@ -2424,7 +2427,7 @@ static void set_ir_par_win_ele_data(UN_STRUCT *step)
     reg_edit_ele_data_inf(STEP_EDIT_WIN_PASS, &ir->step_pass,  sizeof(ir->step_pass));//步间PASS
     
     /* 输出端口 */
-    transform_test_port_to_str(&ir->port, set_port_buf);
+    transform_test_port_to_str(&ir->work_port, set_port_buf);
     reg_edit_ele_data_inf(STEP_EDIT_WIN_PORT, set_port_buf, sizeof(set_port_buf));
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_PORT, &err);
     
@@ -2699,7 +2702,7 @@ static void edit_test_port_direct_key_right_cb(KEY_MESSAGE *key_msg)
 {
     uint8_t cursor;
     WM_HWIN handle;
-    TEST_PORT *port;
+    WORK_PORT *port;
     
     handle = get_cur_edit_handle();
     
@@ -2710,7 +2713,7 @@ static void edit_test_port_direct_key_right_cb(KEY_MESSAGE *key_msg)
     
     cursor = EDIT_GetCursorCharPos(handle);//获取光标位置
     
-    port = get_cur_step_test_port();
+    port = get_cur_step_work_port();
     
     if(cursor == port->num)
     {

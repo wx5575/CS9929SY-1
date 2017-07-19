@@ -1595,6 +1595,11 @@
               <FileType>1</FileType>
               <FilePath>..\source\module_manage\scan_module.c</FilePath>
             </File>
+            <File>
+              <FileName>send_cmd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\module_manage\send_cmd.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

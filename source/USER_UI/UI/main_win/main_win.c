@@ -35,6 +35,7 @@ static void sys_stop_key_fun_cb(KEY_MESSAGE *key_msg);
 static void sys_shift_key_fun_cb(KEY_MESSAGE *key_msg);
 static void sys_unlock_key_fun_cb(KEY_MESSAGE *key_msg);
 static void screen_capture_key_fun_cb(KEY_MESSAGE *key_msg);
+static void reset_cpu_key_fun_cb(KEY_MESSAGE *key_msg);
 
 static void main_win_f1_cb(KEY_MESSAGE *key_msg);
 static void main_win_f2_cb(KEY_MESSAGE *key_msg);
@@ -68,6 +69,7 @@ static CONFIG_FUNCTION_KEY_INFO_T sys_key_pool[]=
 	{KEY_EXIT	    , sys_exit_key_fun_cb       },
 	{KEY_STOP	    , sys_stop_key_fun_cb       },
 	{KEY_F1 & KEY_0 , screen_capture_key_fun_cb },
+	{KEY_UNLOCK & KEY_OFFSET , reset_cpu_key_fun_cb },
 };
 /**
   * @brief  根据不同屏幕尺寸填入位置尺寸信息
@@ -344,7 +346,7 @@ static void sys_stop_key_fun_cb(KEY_MESSAGE *key_msg)
 }
 /**
   * @brief  系统SHIFT按键回调函数
-  * @param  [in] data 用户数据
+  * @param  [in] key_msg 按键消息
   * @retval 无
   */
 static void sys_shift_key_fun_cb(KEY_MESSAGE *key_msg)
@@ -376,7 +378,7 @@ void update_unlock_bmp(void)
 
 /**
   * @brief  改变键盘锁状态
-  * @param  [in] data 用户数据
+  * @param  [in] key_msg 按键消息
   * @retval 无
   */
 static void change_key_lock_status(int data)
@@ -389,7 +391,7 @@ static void change_key_lock_status(int data)
 }
 /**
   * @brief  系统键盘锁按键回调函数
-  * @param  [in] data 用户数据
+  * @param  [in] key_msg 按键消息
   * @retval 无
   */
 static void sys_unlock_key_fun_cb(KEY_MESSAGE *key_msg)
@@ -399,7 +401,7 @@ static void sys_unlock_key_fun_cb(KEY_MESSAGE *key_msg)
 
 /**
   * @brief  截屏按键的
-  * @param  [in] data 用户数据
+  * @param  [in] key_msg 按键消息
   * @retval 无
   */
 static void screen_capture_key_fun_cb(KEY_MESSAGE *key_msg)
@@ -409,6 +411,15 @@ static void screen_capture_key_fun_cb(KEY_MESSAGE *key_msg)
     set_usb_disk_task(USB_SCREEN_CAPTURE);
     //创建进度条
     progbar_handle = PROGBAR_CreateEx(100, 455, 50, 20, data, WM_CF_HIDE, 0, id_base++);
+}
+/**
+  * @brief  重启仪器
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void reset_cpu_key_fun_cb(KEY_MESSAGE *key_msg)
+{
+    NVIC_SystemReset();
 }
 /**
   * @brief  删除主窗口进度条
