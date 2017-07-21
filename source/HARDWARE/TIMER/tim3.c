@@ -1,13 +1,36 @@
-
+/**
+  ******************************************************************************
+  * @file    tim3.c
+  * @author  王鑫
+  * @version V1.0.0
+  * @date    2017.4.18
+  * @brief   定时器3驱动层定义
+  ******************************************************************************
+  */
 #include "os.h"
 #include "tim3.h"
 
-//通用定时器3中断初始化
-//arr：自动重装值。
-//psc：时钟预分频数
-//定时器溢出时间计算方法:Tout=((arr+1)*(psc+1))/Ft us.
-//Ft=定时器工作频率,单位:Mhz
-//这里使用的是定时器3!
+
+#define TIM3_MAX_SERVER_FUN     20 ///< tim3最大的服务函数的个数
+
+/**
+  * @brief  定时器服务函数指针
+  */
+typedef void (*TIM_SERVER_FUN)(void);
+
+/**
+  * @brief  定时器3服务函数指针池
+  */
+static TIM_SERVER_FUN  tim_server_fun_pool[TIM3_MAX_SERVER_FUN];
+
+
+/**
+  * @brief  通用定时器3中断初始化 定时器溢出时间计算方法:Tout=((arr+1)*(psc+1))/Ft us.
+  *         Ft=定时器工作频率,单位:Mhz
+  * @param  [in] arr 自动重装值。
+  * @param  [in] psc 时钟预分频数
+  * @retval 无
+  */
 void tim3_init(uint16_t arr,uint16_t psc)
 {
 	TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStructure;
@@ -31,19 +54,21 @@ void tim3_init(uint16_t arr,uint16_t psc)
 	NVIC_InitStructure.NVIC_IRQChannelCmd=ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
 }
-typedef void (*TIM_SERVER_FUN)(void);
-#define TIM3_MAX_SERVER_FUN     20 //tim3最大的服务函数的个数
-TIM_SERVER_FUN  tim_server_fun[TIM3_MAX_SERVER_FUN];
 
+/**
+  * @brief  注册定时器3的服务函数
+  * @param  [in] fun 定时器服务函数
+  * @retval 0 成功 1表示失败定时器服务函数池已满
+  */
 uint8_t register_tim3_server_fun(TIM_SERVER_FUN fun)
 {
     int32_t i = 0;
     
     for(i = 0; i < TIM3_MAX_SERVER_FUN; i++)
     {
-        if(tim_server_fun[i] == NULL)
+        if(tim_server_fun_pool[i] == NULL)
         {
-            tim_server_fun[i] = fun;
+            tim_server_fun_pool[i] = fun;
             break;
         }
     }
@@ -56,7 +81,11 @@ uint8_t register_tim3_server_fun(TIM_SERVER_FUN fun)
     return 0;
 }
 
-//定时器3中断服务函数
+/**
+  * @brief  定时器3中断服务函数
+  * @param  无
+  * @retval 无
+  */
 void TIM3_IRQHandler(void)
 {
     int32_t i = 0;
@@ -65,9 +94,10 @@ void TIM3_IRQHandler(void)
     
     for(i = 0; i < TIM3_MAX_SERVER_FUN; i++)
     {
-        if(tim_server_fun[i] != NULL)
+        /* 执行服务函数 */
+        if(tim_server_fun_pool[i] != NULL)
         {
-            tim_server_fun[i]();
+            tim_server_fun_pool[i]();
         }
         /* 遇到第一个NULL后面全为NULL所以退出 */
         else
@@ -76,11 +106,6 @@ void TIM3_IRQHandler(void)
         }
     }
     
-	if(TIM_GetITStatus(TIM3,TIM_IT_Update)==SET) //溢出中断
-	{
-        
-	}
-    
 	TIM_ClearITPendingBit(TIM3,TIM_IT_Update);  //清除中断标志位
     
 	OSIntExit();
@@ -88,3 +113,5 @@ void TIM3_IRQHandler(void)
 
 
     
+
+/************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

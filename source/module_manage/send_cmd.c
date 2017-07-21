@@ -246,6 +246,7 @@ CS_BOOL all_com_send_is_over(void)
         && com4_send_cmd.status == SEND_OVER)
     {
         flag = CS_TRUE;
+        register_send_cmd_fun(NULL);//注销发送函数
     }
     
     return flag;

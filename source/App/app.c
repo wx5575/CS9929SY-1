@@ -19,7 +19,7 @@
 #include "mem_alloc.h"
 #include "bsp.h"
 #include "board.h"
-#include "Key_LED.h"
+#include "key_led_buzzer.h"
 #include "CH376_USB_UI.H"
 #include "key_fun_manage.h"
 #include "cs99xx_mem_api.h"
@@ -116,16 +116,15 @@ void soft_init(void)
 
 void ch376_task(void *p_arg)
 {
-	OS_ERR err;
     uint8_t strong_brush_time = 0;//强刷计时
     uint8_t strong_brush_flag = 0;//强刷标记
     
     init_ch376();
-	OSTimeDlyHMSM(0,0,2,0,OS_OPT_TIME_PERIODIC,&err);//延时5s
+    OS_DELAY_ms(2000);
 	
 	while(1)
 	{
-		OSTimeDlyHMSM(0,0,0,200,OS_OPT_TIME_PERIODIC,&err);//延时5ms
+        OS_DELAY_ms(200);
         
         if(++strong_brush_time > 5)
         {
@@ -442,13 +441,11 @@ void main_task(void *p_arg)
   */
 static void AppTaskModuleComm(void *p_arg)
 {
-	OS_ERR err;
-    
     init_module_manage_env();
     
     while(1)
     {
-        OSTimeDlyHMSM(0,0,0,10,OS_OPT_TIME_PERIODIC,&err);
+        OS_DELAY_ms(10);
         module_comm_task();
     }
 }
@@ -459,9 +456,7 @@ static void AppTaskModuleComm(void *p_arg)
   */
 static void AppTaskScanKey(void *p_arg)
 {
-	OS_ERR err;
-    
-    OSTimeDlyHMSM(0,0,1,0,OS_OPT_TIME_PERIODIC,&err);
+	OS_DELAY_ms(1000);
     scan_key_task();//扫描按键任务
     while(1);
 }

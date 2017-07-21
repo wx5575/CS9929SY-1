@@ -1,8 +1,19 @@
-#ifndef __KEY_LED__H__
-#define __KEY_LED__H__
+/**
+  ******************************************************************************
+  * @file    key_led_buzzer.c
+  * @author  王鑫
+  * @version V1.0.0
+  * @date    2017.4.18
+  * @brief   按键、LED、蜂鸣器驱动层
+  ******************************************************************************
+  */
+  
+#ifndef __KEY_LED_BUZZER__H__
+#define __KEY_LED_BUZZER__H__
 
 
-/*包含的头文件*/
+/* Includes ------------------------------------------------------------------*/
+
 #include <stdint.h>
 #include "sys_level.h"
 
@@ -19,7 +30,7 @@ typedef struct{
 #define BUZZER_ON_T(T)	{set_buzzer_on_time(T);} //蜂鸣器开启明时间
 
 
-void Key_LED_Control_Init(void);
+extern void key_led_buzzer_init(void);
 extern void Set_LED_PASSLED(uint8_t state);
 extern void Set_LED_FAILLED(uint8_t state);
 extern void Set_LED_TESTLED(uint8_t state);
@@ -31,7 +42,7 @@ extern void key_start_stop_gpio_init(void);
 uint32_t get_buzzer_time(void);
 uint32_t sub_buzzer_time(void);
 
-#endif
+#endif //__KEY_LED_BUZZER__H__
 
 
 

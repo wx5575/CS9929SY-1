@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    board_support_package.c
+  * @file    board.c
   * @author  王鑫
   * @version V1.0.0
   * @date    2017.5.12
@@ -28,7 +28,7 @@
 #include "tim4.h"
 #include "GUI.h"
 #include "ff.h"
-#include "Key_LED.h"
+#include "key_led_buzzer.h"
 #include "usart1.h"
 #include "usart2.h"
 #include "usart3.h"
@@ -37,21 +37,24 @@
 RCC_ClocksTypeDef clock;
 void bsp_init(void)
 {
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); 	//中断分组配置
-    CS99xx_Peripheral_Config();
-    CS99xx_GPIO_Config();
-	Key_LED_Control_Init();
-    key_start_stop_gpio_init();
-	ra8875_bsp_Init();
-	rtc_init();
-    coded_disc_init();
-    init_flash();
-    tim3_init(10, 8400 - 1);//10 * 0.1ms = 1ms
-    RCC_GetClocksFreq(&clock);
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);//中断分组配置
+    CS99xx_Peripheral_Config();//FSMC配置
+    CS99xx_GPIO_Config();//FSMC GPIO配置
+	key_led_buzzer_init();//按键LED蜂鸣器
+    key_start_stop_gpio_init();//启动复位按键GPIO初始化
+	ra8875_bsp_Init();//RA8875硬件初始化
+	rtc_init();//RTC初始化
+    coded_disc_init();//码盘初始化
+    init_flash();//外扩FLASH初始化
+    tim3_init(10 - 1, 8400 - 1);//10 * 0.1ms = 1ms //定时器3初始化
+    RCC_GetClocksFreq(&clock);//获取时钟频率
+    
+    /* 串口配置 */
     usart1_config(115200);
     usart2_config(115200);
     usart3_config(115200);
     uart4_config(115200);
+    
 }
 
 /*
@@ -260,7 +263,7 @@ void CS99xx_GPIO_Config(void)
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;		/* 设为推挽模式 */
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;	/* 无需上下拉电阻 */
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_25MHz;	/* IO口最大速度 */
-
+    
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_11 | GPIO_Pin_12;
 	GPIO_Init(GPIOG, &GPIO_InitStructure);
 	
@@ -281,7 +284,7 @@ void CS99xx_GPIO_Config(void)
 	GPIO_PinAFConfig(GPIOC, GPIO_PinSource11, GPIO_AF_SDIO);
 	GPIO_PinAFConfig(GPIOC, GPIO_PinSource12, GPIO_AF_SDIO);
 	GPIO_PinAFConfig(GPIOD, GPIO_PinSource2, GPIO_AF_SDIO);
-
+    
 	/* Configure PC.08, PC.09, PC.10, PC.11 pins: D0, D1, D2, D3 pins */
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10 | GPIO_Pin_11;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_25MHz;
@@ -289,22 +292,22 @@ void CS99xx_GPIO_Config(void)
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
 	GPIO_Init(GPIOC, &GPIO_InitStructure);
-
+    
 	/* Configure PD.02 CMD line */
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
 	GPIO_Init(GPIOD, &GPIO_InitStructure);
-
+    
 	/* Configure PC.12 pin: CLK pin */
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
 	GPIO_Init(GPIOC, &GPIO_InitStructure);
-
+    
 	/*!< Configure SD_SPI_DETECT_PIN pin: SD Card detect pin */
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
-
+    
 	/*****************************************************************************************/
 	/* SPI FLASH 引脚配置 */
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;		/* 设为输出口 */
@@ -342,7 +345,6 @@ void CS99xx_GPIO_Config(void)
 	GPIO_SetBits(GPIOH,GPIO_Pin_5);
 }
 
-
 /*
  * 函数名：CS99xx_Peripheral_Config
  * 描述  ：整机外设配置
@@ -354,7 +356,7 @@ void CS99xx_Peripheral_Config(void)
 	FSMC_NORSRAMInitTypeDef  init;
 	FSMC_NORSRAMTimingInitTypeDef  timingWrite;
 	FSMC_NORSRAMTimingInitTypeDef  timingRead;
-
+    
 	/******************************************************************************************/
 	/* LCD FSMC 外设配置 */
 	/* 使能FSMC时钟 */
@@ -441,3 +443,5 @@ void CS99xx_Peripheral_Config(void)
 	FSMC_NORSRAMCmd(FSMC_Bank1_NORSRAM1, ENABLE);
 }
 
+
+/************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

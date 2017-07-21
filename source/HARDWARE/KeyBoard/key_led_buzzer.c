@@ -1,5 +1,13 @@
-
-#include "Key_LED.h"
+/**
+  ******************************************************************************
+  * @file    key_led_buzzer.c
+  * @author  王鑫
+  * @version V1.0.0
+  * @date    2017.4.18
+  * @brief   按键、LED、蜂鸣器驱动层
+  ******************************************************************************
+  */
+#include "key_led_buzzer.h"
 
 
 #define   NUM_OF_4094            (2)                 //4094级联的数量
@@ -290,7 +298,7 @@ static void C4094_CTRLine_Init(void)
 }
 
 
-void Key_LED_Control_Init(void)
+void key_led_buzzer_init(void)
 {
 	C4094_CTRLine_Init();
 	C4094_data_pool[0] = 0;
@@ -391,12 +399,7 @@ void EXTI2_IRQHandler(void)
         
         if(GPIO_ReadInputDataBit(GPIO_PORT_STOP, GPIO_PIN_STOP) == 0)
         {
-            int a = 100;
             
-            a += 1;
-            a = 100;
-            
-            a = a + 100;
         }
     }
 }
@@ -435,3 +438,5 @@ void EXTI15_10_IRQHandler(void)
         EXTI_ClearITPendingBit(EXTI_Line15);
     }
 }
+
+/************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

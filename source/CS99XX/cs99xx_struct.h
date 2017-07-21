@@ -534,11 +534,6 @@ typedef enum{
     TEST_PORT_FLOAT,///< 测试端口浮地
 }TEST_PORT_GND_FLOAT;
 
-typedef struct{
-    uint8_t addr[16];/* 地址缓存 */
-    uint8_t count;/* 模块个数计数 */
-}DC_MODULE_USING_INFO;
-
 /**
   * @brief  系统参数结构定义
   */
@@ -583,19 +578,22 @@ typedef struct Sys_Parameter{
     uint16_t ir_gear_hold;		///< IR切换档位延时 
 	uint8_t ir_speed_sw;		///< IR测试速度 快 中 慢 通过设置滤波深度实现 
     uint8_t start_way;			///< 仪器的启动方式 组合启动与通信和PLC都发出信号才会启动仪器 
-    DC_MODULE_USING_INFO    dc_module_using_info;///< 正在使用的DC模块地址信息 
 }SYS_PAR;
+
+#define SYN_MAX_COM_NUM   4 ///<同步测试使用的串口个数
 
 /**
   * @brief  管理所有路的信息为了加快通过路号对各模块地址的查找将所有的有效地址依次存入
   *         这个结构中
   */
-#define SYN_MAX_COM_NUM   8 ///<同步测试最大的串口个数
 typedef struct
 {
     uint8_t road_buf[16];///<串口上挂的模块的地址
     uint8_t count;///<串口挂的模块总个数
 }_ROADS_FLAG;
+/**
+  * @brief  所有串口上挂接的模块的信息结构定义
+  */
 typedef struct{
     _ROADS_FLAG     flag[SYN_MAX_COM_NUM];
 }ROADS_FLAG;
