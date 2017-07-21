@@ -1,13 +1,19 @@
-﻿// Header	:
-// File Name:bit_banding.h
-// Author	:***
-// Date		:2014/04/04
-// Explain	:	
+/**
+  ******************************************************************************
+  * @file    bit_banding.h
+  * @author  王鑫
+  * @version V1.0.0
+  * @date    2017.4.18
+  * @brief   提供位绑定服务的宏定义
+  ******************************************************************************
+  */
 #ifndef __BIT_BANDING_H__
 #define __BIT_BANDING_H__
 
 
-//M4内核的GPIO寄存器基地址等
+/**
+  * @brief  M4内核的GPIO寄存器基地址等
+  */
 #if defined (STM32F40_41xxx) || defined (STM32F427_437xx) || defined (STM32F429_439xx) || defined (STM32F401xx) || defined (STM32F40XX) || defined (STM32F427X)
 //这些宏定义在使用最新库函数时，都会有定义
 
@@ -21,7 +27,9 @@
 
 #endif
 
-//M3内核的GPIO寄存器基地址
+/**
+  * @brief  M3内核的GPIO寄存器基地址
+  */
 #if defined (STM32F10X_LD) || defined (STM32F10X_LD_VL) || defined (STM32F10X_MD) || defined (STM32F10X_MD_VL) || defined (STM32F10X_HD) || defined (STM32F10X_HD_VL) || defined (STM32F10X_XL) || defined (STM32F10X_CL) 
 
 #include "stm32f10x.h"
@@ -75,10 +83,7 @@
 #define PGin(BitNumber)		CONVERT_TO_PTR( BIT_WORD_ADDR(GPIOG_BASE + GPIO_IDR_OFFSET, BitNumber) )
 #define PHin(BitNumber)		CONVERT_TO_PTR( BIT_WORD_ADDR(GPIOH_BASE + GPIO_IDR_OFFSET, BitNumber) )
 
-
-
-#define START_PIN   PFin(11)
-#define STOP_PIN    PBin(2)
-
 #endif
 
+
+/************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

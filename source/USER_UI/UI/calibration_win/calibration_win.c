@@ -213,8 +213,6 @@ static void update_calibration_win_menu_key_inf(WM_HMEM hWin)
 	init_menu_key_info(calibration_win_menu_key_inf, ARRAY_SIZE(calibration_win_menu_key_inf), hWin);
 }
 
-
-
 /**
   * @brief  系统EXIT按键回调函数
   * @param  [in] key_msg 按键消息
@@ -223,6 +221,7 @@ static void update_calibration_win_menu_key_inf(WM_HMEM hWin)
 static void sys_exit_key_fun_cb(KEY_MESSAGE *key_msg)
 {
 }
+
 /**
   * @brief  系统STOP按键回调函数
   * @param  [in] key_msg 按键消息
@@ -239,8 +238,6 @@ static void sys_stop_key_fun_cb(KEY_MESSAGE *key_msg)
 static void sys_shift_key_fun_cb(KEY_MESSAGE *key_msg)
 {
 }
-
-
 
 /**
   * @brief  系统键盘锁按键回调函数

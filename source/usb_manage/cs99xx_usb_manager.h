@@ -1,4 +1,12 @@
-
+/**
+  ******************************************************************************
+  * @file    cs99xx_usb_manage.h
+  * @author  王鑫
+  * @version V1.0.0
+  * @date    2017.4.18
+  * @brief   USB管理
+  ******************************************************************************
+  */
 #ifndef __CS99XX_USB_MANAGER_H__
 #define __CS99XX_USB_MANAGER_H__
 
@@ -62,3 +70,5 @@ extern uint8_t new_file_in_usb_flash(uint8_t *file_name, uint8_t *path);
 extern void set_usb_disk_task(uint8_t cmd);
 
 #endif //__CS99XX_USB_MANAGER_H__
+
+/************************ (C) COPYRIGHT Nanjing Changsheng *****END OF FILE****/

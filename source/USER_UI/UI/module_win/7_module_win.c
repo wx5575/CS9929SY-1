@@ -83,7 +83,9 @@ ADJUST_TEXT_ELE_LAYOUT_INF _7_module_win_adjust_text_ele_layout_inf=
     ARRAY_SIZE(_7_module_win_text_ele_adjust_layout)
 };
 
-
+/** 
+  * @brief 7寸屏创建模块管理列表
+  */
 WM_HWIN _7_create_module_listview(WM_HWIN hWin)
 {
     LISTVIEW_Handle list_h;

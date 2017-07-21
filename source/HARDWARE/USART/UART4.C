@@ -1,14 +1,12 @@
-/************************************************************
-Copyright (C), 2012-2022, yin.
-FileName: main.c
-Author: ycw Version :  1.0 Date: 2012.04.26
-Description: UART4 SendData  
-Version: V2.0                 
-Function List:UART4 SendData 
-History: V1.0                     
-<author> <time> <version > <desc>
-YCW 12/04/26 1.0 build this moudle
-***********************************************************/
+/**
+  ******************************************************************************
+  * @file    UART4.c
+  * @author  王鑫
+  * @version V1.0.0
+  * @date    2017.4.18
+  * @brief   串口4的驱动程序
+  ******************************************************************************
+  */
 
 #include "UART4.H"
 #include "os.h"
@@ -286,3 +284,5 @@ void UART4_IRQHandler(void)
     
 	OSIntExit();
 }
+
+/************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

@@ -27,6 +27,9 @@ typedef struct{
 #define BUZZER_ON	1
 #define BUZZER_OFF	0
 
+#define LED_ON	    1
+#define LED_OFF	    0
+
 #define BUZZER_ON_T(T)	{set_buzzer_on_time(T);} //蜂鸣器开启明时间
 
 
@@ -35,14 +38,16 @@ extern void Set_LED_PASSLED(uint8_t state);
 extern void Set_LED_FAILLED(uint8_t state);
 extern void Set_LED_TESTLED(uint8_t state);
 extern void set_buzzer(uint8_t state);
-extern uint32_t KeyValue_Read(void);
+extern uint32_t read_key_value(void);
 extern void set_buzzer_on_time(uint32_t time);
 extern void key_start_stop_gpio_init(void);
 
 uint32_t get_buzzer_time(void);
-uint32_t sub_buzzer_time(void);
+void sub_buzzer_time(void);
 
 #endif //__KEY_LED_BUZZER__H__
 
 
 
+
+/************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

@@ -64,7 +64,7 @@ int main(void)
 	OS_CRITICAL_EXIT();	//退出临界区
 	OSStart(&err);  //开启UCOSIII
 	
-	while(1);
+    return 0;
 }
 
 /**
@@ -80,40 +80,22 @@ static void File_Init(void)
 		return;
 	}
 }
-
-static timer_for_app_callback(void)
-{
-	/* 服务蜂鸣器 */
-	sub_buzzer_time();
-	
-	
-}
-static  void  AppObjCreate (void)
-{
-	OS_ERR	  err;
-	
-	/* 创建同步信号量 */ 
-//    	BSP_OS_SemCreate(&SEM_SYNCH, 0,	(CPU_CHAR *)"SEM_SYNCH");
-	
-	/* 创建定时器 */
-	OSTmrCreate((OS_TMR		*)&timer_for_app,		//定时器对象
-                (CPU_CHAR	*)"tmr1",		//定时器名称
-                (OS_TICK	 )1,			//1*10=10ms
-                (OS_TICK	 )1,          //1*10=10ms
-                (OS_OPT		 )OS_OPT_TMR_PERIODIC, //周期定时器模式
-                (OS_TMR_CALLBACK_PTR)timer_for_app_callback,//回调函数
-                (void	    *)0,			//参数
-                (OS_ERR	    *)&err);		//错误码
-	OSTmrStart(&timer_for_app, &err);	//启动定时器
-}
-
+/**
+  * @brief  软件环境初始化
+  * @param  无
+  * @retval 无
+  */
 void soft_init(void)
 {
 	File_Init();
     check_type();
-    
 }
 
+/**
+  * @brief  CH376任务
+  * @param  [in] p_arg 任务自己的参数
+  * @retval 无
+  */
 void ch376_task(void *p_arg)
 {
     uint8_t strong_brush_time = 0;//强刷计时
@@ -150,7 +132,11 @@ void ch376_task(void *p_arg)
 	}
 }
 
-//开始任务函数
+/**
+  * @brief  启动任务
+  * @param  [in] p_arg 任务自己的参数
+  * @retval 无
+  */
 void start_task(void *p_arg)
 {
 	OS_ERR err;
@@ -164,7 +150,6 @@ void start_task(void *p_arg)
 	bsp_init();//硬件初始化
     
     soft_init();
-    
 	
 #if OS_CFG_STAT_TASK_EN > 0u
    OSStatTaskCPUUsageInit(&err);  	//统计任务
@@ -179,7 +164,6 @@ void start_task(void *p_arg)
 	OSSchedRoundRobinCfg(DEF_ENABLED,1,&err);
 #endif
 	
-	AppObjCreate();
 	BUZZER_ON_T(1000);//蜂鸣器启动1000ms
 	
 	OS_CRITICAL_ENTER();	//进入临界区
@@ -244,6 +228,11 @@ void start_task(void *p_arg)
 	OS_CRITICAL_EXIT();	//退出临界区
 	OSTaskDel(&StartTaskTCB, (OS_ERR*)&err);//删除启动任务
 }
+/**
+  * @brief  EMWIN皮肤设置
+  * @param  无
+  * @retval 无
+  */
 void set_framewin_skin(void)
 {    
     FRAMEWIN_SKINFLEX_PROPS FRAMEWIN_pProps;

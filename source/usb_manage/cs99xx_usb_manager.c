@@ -1,4 +1,12 @@
-
+﻿/**
+  ******************************************************************************
+  * @file    cs99xx_usb_manage.c
+  * @author  王鑫
+  * @version V1.0.0
+  * @date    2017.4.18
+  * @brief   USB管理
+  ******************************************************************************
+  */
 #define USB_MANAGER_GLOBALS
 #include "cs99xx_usb_manager.h"
 #include "CH376_USB_UI.H"
@@ -536,5 +544,4 @@ uint8_t mFlushBufferToDisk(uint8_t force)
 	return s;
 }
 
-
-
+/************************ (C) COPYRIGHT Nanjing Changsheng *****END OF FILE****/

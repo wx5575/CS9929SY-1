@@ -9,10 +9,9 @@
   */
 #define KEY_GLOBALS
 
-#include    "includes.h"
-#include 	"bit_banding.h"
 #include 	"keyboard.h"
 #include    "key_led_buzzer.h"
+#include    "start_stop_key.h"
 
 #define KEY_BUZZER_TIME 30
 
@@ -137,7 +136,7 @@ static uint16_t key_count;
 static void(*send_key_msg_fun)(uint32_t *);
 
 /*
- * 函数名：InitKeyStr
+ * 函数名：init_key_manage_inf
  * 描述  ：初始化按键
  * 输入  ：无
  * 输出  ：无
@@ -158,7 +157,7 @@ void init_key_info(KEY_STRUCT * key_t, uint32_t k_down, uint32_t k_up, uint32_t 
     p_key_pool[key_count++] = key_t;/* 将按键信息记录到按键池中 */
 }
 
-void InitKeyStr(void)
+void init_key_manage_inf(void)
 {
 	/************************启动按键******************************/
     init_key_info(&s_Key_start  , KEY_START , 0, 0, SINGLE_KEY, IsKeyDown_key_start);
@@ -343,7 +342,7 @@ static void DetectKey(KEY_STRUCT *p, uint32_t key_value)
  */
 static void Det_combination(KEY_STRUCT *p, uint32_t key_value)
 {
-    OS_ERR  err;
+//    OS_ERR  err;
     int32_t i = 0;
     
 	/* 如果没有初始化按键函数，则不处理 */
@@ -397,9 +396,10 @@ static void Det_combination(KEY_STRUCT *p, uint32_t key_value)
             }
         }
         
+        /* 等待按键释放 */
 		while(scan_keyboard() != KEY_NONE)
 		{
-            OSTimeDlyHMSM(0,0,0,10,OS_OPT_TIME_DLY,&err);
+//            OSTimeDlyHMSM(0,0,0,10,OS_OPT_TIME_DLY,&err);
 		}
         
         p->State = 0;
@@ -414,7 +414,7 @@ static void Det_combination(KEY_STRUCT *p, uint32_t key_value)
 
 void init_keyboard(void)
 {
-    InitKeyStr();
+    init_key_manage_inf();
 }
 /*
  * 函数名：scan_keyboard
@@ -427,7 +427,7 @@ uint32_t scan_keyboard(void)
 {
 	uint32_t data;
     
-    data = ~KeyValue_Read();
+    data = read_key_value();
     
 	return data;
 }

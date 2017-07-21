@@ -41,6 +41,7 @@ void bsp_init(void)
     CS99xx_Peripheral_Config();//FSMC配置
     CS99xx_GPIO_Config();//FSMC GPIO配置
 	key_led_buzzer_init();//按键LED蜂鸣器
+    register_tim3_server_fun(sub_buzzer_time);//注册定时器服务函数
     key_start_stop_gpio_init();//启动复位按键GPIO初始化
 	ra8875_bsp_Init();//RA8875硬件初始化
 	rtc_init();//RTC初始化

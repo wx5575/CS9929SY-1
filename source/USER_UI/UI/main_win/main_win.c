@@ -410,7 +410,7 @@ static void screen_capture_key_fun_cb(KEY_MESSAGE *key_msg)
     
     set_usb_disk_task(USB_SCREEN_CAPTURE);
     //创建进度条
-    progbar_handle = PROGBAR_CreateEx(100, 455, 50, 20, data, WM_CF_HIDE, 0, id_base++);
+    progbar_handle = PROGBAR_CreateEx(105, 455, 50, 20, data, WM_CF_HIDE, 0, id_base++);
 }
 /**
   * @brief  重启仪器

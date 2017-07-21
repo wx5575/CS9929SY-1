@@ -1086,14 +1086,14 @@
           <GroupName>Keyboard</GroupName>
           <Files>
             <File>
-              <FileName>Key_LED.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\HARDWARE\KeyBoard\Key_LED.c</FilePath>
-            </File>
-            <File>
               <FileName>keyboard.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\HARDWARE\KeyBoard\keyboard.c</FilePath>
+            </File>
+            <File>
+              <FileName>key_led_buzzer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\HARDWARE\KeyBoard\key_led_buzzer.c</FilePath>
             </File>
           </Files>
         </Group>

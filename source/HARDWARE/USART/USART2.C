@@ -1,14 +1,12 @@
-/************************************************************
-Copyright (C), 2012-2022, yin.
-FileName: main.c
-Author: ycw Version :  1.0 Date: 2012.04.26
-Description: USART2 SendData  
-Version: V2.0                 
-Function List:USART2 SendData 
-History: V1.0                     
-<author> <time> <version > <desc>
-YCW 12/04/26 1.0 build this moudle
-***********************************************************/
+/**
+  ******************************************************************************
+  * @file    USART2.c
+  * @author  王鑫
+  * @version V1.0.0
+  * @date    2017.4.18
+  * @brief   串口2的驱动程序
+  ******************************************************************************
+  */
 
 #include "USART2.H"
 #include "os.h"
@@ -286,3 +284,5 @@ void USART2_IRQHandler(void)
     
 	OSIntExit();
 }
+
+/************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

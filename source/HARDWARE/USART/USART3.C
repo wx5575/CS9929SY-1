@@ -1,14 +1,12 @@
-/************************************************************
-Copyright (C), 2012-2022, yin.
-FileName: main.c
-Author: ycw Version :  1.0 Date: 2012.04.26
-Description: USART3 SendData  
-Version: V2.0                 
-Function List:USART3 SendData 
-History: V1.0                     
-<author> <time> <version > <desc>
-YCW 12/04/26 1.0 build this moudle
-***********************************************************/
+/**
+  ******************************************************************************
+  * @file    USART3.c
+  * @author  王鑫
+  * @version V1.0.0
+  * @date    2017.4.18
+  * @brief   串口3的驱动程序
+  ******************************************************************************
+  */
 
 #include "USART3.H"
 #include "os.h"
@@ -286,3 +284,5 @@ void USART3_IRQHandler(void)
     
 	OSIntExit();
 }
+
+/************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

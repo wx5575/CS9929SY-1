@@ -7,61 +7,42 @@
   * @brief   按键、LED、蜂鸣器驱动层
   ******************************************************************************
   */
+  
 #include "key_led_buzzer.h"
+#include "panel_4094.h"
 
-
-#define   NUM_OF_4094            (2)                 //4094级联的数量
-#define		C4094_DLY			(10)
-
-#define  GPIO_PORT_IN1			GPIOC
-#define  GPIO_PIN_IN1			GPIO_Pin_3
-
-#define  GPIO_PORT_IN2			GPIOC
-#define  GPIO_PIN_IN2			GPIO_Pin_2
-
-#define  GPIO_PORT_IN3			GPIOC
-#define  GPIO_PIN_IN3			GPIO_Pin_1
-
-#define  GPIO_PORT_IN4			GPIOC
-#define  GPIO_PIN_IN4			GPIO_Pin_0
-
-
-#define  C4094_ST_PORT           GPIOA
-#define  C4094_ST_PIN            GPIO_Pin_5
-#define  C4094_ST_SET()          ((GPIO_TypeDef *)C4094_ST_PORT)->BSRRL = C4094_ST_PIN
-#define  C4094_ST_CLR()          ((GPIO_TypeDef *)C4094_ST_PORT)->BSRRH = C4094_ST_PIN
-
-#define  C4094_CLK_PORT          GPIOA
-#define  C4094_CLK_PIN           GPIO_Pin_6
-#define  C4094_CLK_SET()         ((GPIO_TypeDef *)C4094_CLK_PORT)->BSRRL = C4094_CLK_PIN
-#define  C4094_CLK_CLR()         ((GPIO_TypeDef *)C4094_CLK_PORT)->BSRRH = C4094_CLK_PIN
-
-#define  C4094_DATA_PORT         GPIOA 
-#define  C4094_DATA_PIN          GPIO_Pin_4
-#define  C4094_DATA_SET()        ((GPIO_TypeDef *)C4094_DATA_PORT)->BSRRL = C4094_DATA_PIN  
-#define  C4094_DATA_CLR()        ((GPIO_TypeDef *)C4094_DATA_PORT)->BSRRH = C4094_DATA_PIN  
-
-#define  PASSLED_POS             (1<<0)   
-#define  FAILLED_POS             (1<<1)   
-#define  FMQ_POS                 (1<<2) 
-
-#define  TESTLED_PORT            GPIOI
-#define  TESTLED_PIN             GPIO_Pin_2
-
+/**
+  * @brief  设备控件信息结构
+  */
 static DEVICE_CTRL_INFO	device_ctrl_info;
 
+/**
+  * @brief  开蜂鸣器并设置延时关闭时间
+  * @param  [in] 延时关闭时间
+  * @retval 无
+  */
 void set_buzzer_on_time(uint32_t time)
 {
 	device_ctrl_info.buzzer_time = time;
 	set_buzzer(BUZZER_ON);
 }
 
+/**
+  * @brief  获取蜂鸣器的剩余延时关闭时间
+  * @param  无
+  * @retval 剩余的延时时间
+  */
 uint32_t get_buzzer_time(void)
 {
 	return device_ctrl_info.buzzer_time;
 }
 
-uint32_t sub_buzzer_time(void)
+/**
+  * @brief  给外部定时器提供的定时服务函数，定时时间到就关闭蜂鸣器
+  * @param  无
+  * @retval 无
+  */
+void sub_buzzer_time(void)
 {
 	if(device_ctrl_info.buzzer_time > 0)
 	{
@@ -70,373 +51,140 @@ uint32_t sub_buzzer_time(void)
 			set_buzzer(BUZZER_OFF);
 		}
 	}
-	
-	return 0;
 }
 
-static void C4094_Delay(uint32_t t)
+/**
+  * @brief  PASS灯控制函数
+  * @param  [in] state：目标状态  ON or OFF
+  * @retval 无
+  */
+void Set_LED_PASSLED(uint8_t state)
+{
+    uint8_t tmp = 0;
+    
+    tmp = panel_4094_read(PANEL_4094_CHIP_2);
+    
+	if(state == LED_ON)
+	{
+        tmp |= PASS_LED_CHIP_2_POS;
+    }
+    else
+    {
+        tmp &= ~PASS_LED_CHIP_2_POS;
+    }
+    
+    panel_4094_write(PANEL_4094_CHIP_2, tmp);
+    update_panel_4094();
+}
+
+/**
+  * @brief  FAIL灯控制函数
+  * @param  [in] state：目标状态  ON or OFF
+  * @retval 无
+  */
+void Set_LED_FAILLED(uint8_t state)
+{
+    uint8_t tmp = 0;
+    
+    tmp = panel_4094_read(PANEL_4094_CHIP_2);
+    
+	if(state == LED_ON)
+	{
+        tmp |= FAIL_LED_CHIP_2_POS;
+    }
+    else
+    {
+        tmp &= ~FAIL_LED_CHIP_2_POS;
+    }
+    
+    panel_4094_write(PANEL_4094_CHIP_2, tmp);
+    update_panel_4094();
+}
+
+/**
+  * @brief  TEST灯控制函数
+  * @param  [in] state：目标状态  ON or OFF
+  * @retval 无
+  */
+void Set_LED_TESTLED(uint8_t state)
+{
+}
+
+/**
+  * @brief  蜂鸣器控制函数
+  * @param  [in] state：目标状态  ON or OFF
+  * @retval 无
+  */
+void set_buzzer(uint8_t state)
+{
+    uint8_t tmp = 0;
+    
+    tmp = panel_4094_read(PANEL_4094_CHIP_2);
+    
+	if(state == BUZZER_ON)
+	{
+        tmp |= BUZZER_CHIP_2_POS;
+    }
+    else
+    {
+        tmp &= ~BUZZER_CHIP_2_POS;
+    }
+    
+    panel_4094_write(PANEL_4094_CHIP_2, tmp);
+    update_panel_4094();
+}
+
+/**
+  * @brief  延时函数
+  * @param  t 延时值
+  * @retval 无
+  */
+static void key_led_buzzer_delay(uint32_t t)
 {
 	while(t--);
 }
 
-static  uint8_t   C4094_data_pool[NUM_OF_4094];   //串行输出缓冲池
-static  void  C4094_Output(void)
+/**
+  * @brief  键值读取函数
+  * @param  无
+  * @retval 键值32位数据，8行4列矩阵键盘
+  */
+uint32_t read_key_value(void)
 {
-	uint8_t i;
+	uint8_t read_temp = 0;
+    int32_t i = 0;
+	uint32_t key_value = 0;
+    uint8_t colum = 4;//4列
+    uint8_t row = 8;//8行
     
-	C4094_ST_CLR();
-    
-	for(i=0;i<(NUM_OF_4094*8);i++)
-	{	
-		C4094_CLK_CLR();
+	for(i = 0; i < row; i++)
+	{
+		panel_4094_write(PANEL_4094_CHIP_1, ~(1<<i));//设置行状态
+        update_panel_4094();//更新到4094
+        key_led_buzzer_delay(10);//延时
         
-		if(C4094_data_pool[NUM_OF_4094-1-(i/8)] & (0x80>>(i%8)))
-		{
-			C4094_DATA_SET();
-		}
-		else
-		{
-			C4094_DATA_CLR();
-		}
-        
-		C4094_Delay(C4094_DLY);
-		C4094_CLK_SET();
-		C4094_Delay(C4094_DLY);
+		read_temp = 0;
+        read_temp = read_row_gpio();//读列引脚值
+		key_value <<= colum;
+		key_value |= read_temp;
+		read_temp = 0;
 	}
-    
-	C4094_ST_SET();
+	
+	return key_value;
 }
 
-//C4094输出函数
-/*******************************
-函数名：  C4094_Write
-参  数：  Index：芯片索引号
-          data： 要输出的数据
-
-返回值：  无
-********************************/
-static void C4094_Write(uint8_t Index,uint8_t data)
-{
-	if(Index >= NUM_OF_4094)
-	{
-		return;
-	}
-	
-	C4094_data_pool[Index] = data;
-	C4094_Output();
-}
-
-
-
-//PASS灯控制函数
-/*******************************
-函数名：  Set_LED_PASSLED
-参  数：  state：目标状态  ON or OFF
-返回值：  无
-********************************/
-void Set_LED_PASSLED(uint8_t state)
-{
-	if(state)
-	{
-		C4094_data_pool[1] |= PASSLED_POS;
-	}
-	else
-	{
-		C4094_data_pool[1] &= ~PASSLED_POS;
-	}
-	
-	C4094_Output();
-}
-
-//FAIL灯控制函数
-/*******************************
-函数名：  Set_LED_FAILLED
-参  数：  state：目标状态  ON or OFF
-返回值：  无
-********************************/
-void Set_LED_FAILLED(uint8_t state)
-{
-	if(state)
-	{
-		C4094_data_pool[1] |= FAILLED_POS;
-	}
-	else
-	{
-		C4094_data_pool[1] &= ~FAILLED_POS;
-	}
-	
-	C4094_Output();
-}
-
-//TEST灯控制函数
-/*******************************
-函数名：  Set_LED_TESTLED
-参  数：  state：目标状态  ON or OFF
-返回值：  无
-********************************/
-void Set_LED_TESTLED(uint8_t state)
-{
-	if(state)
-	{
-		((GPIO_TypeDef *)TESTLED_PORT)->BSRRL = TESTLED_PIN ;
-	}
-	else
-	{
-		((GPIO_TypeDef *)TESTLED_PORT)->BSRRH = TESTLED_PIN ;
-	}
-}
-
-//蜂鸣器控制函数
-/*******************************
-函数名：  Set_BUZZER
-参  数：  state：目标状态  ON or OFF
-返回值：  无
-********************************/
-void set_buzzer(uint8_t state)
-{
-	if(state == BUZZER_ON)
-	{
-		C4094_data_pool[1] |= FMQ_POS;
-	}
-	else
-	{
-		C4094_data_pool[1] &= ~FMQ_POS;
-	}
-	
-	C4094_Output();
-}
-
-//键值读取函数
-/*******************************
-函数名：  KeyValue_Read
-参  数：  无
-返回值：  32位的键值
-********************************/
-uint32_t KeyValue_Read(void)
-{
-	uint8_t readtemp,i;
-	uint32_t KeyValue = 0;
-	for(i = 0; i < 8; i++)
-	{
-		C4094_Write(0, ~(1<<i));
-        C4094_Delay(10);
-		readtemp = 0;
-		readtemp|=(GPIO_ReadInputDataBit(GPIO_PORT_IN1,GPIO_PIN_IN1)?0:0x01);
-		readtemp|=(GPIO_ReadInputDataBit(GPIO_PORT_IN2,GPIO_PIN_IN2)?0:0x02);
-		readtemp|=(GPIO_ReadInputDataBit(GPIO_PORT_IN3,GPIO_PIN_IN3)?0:0x04);
-		readtemp|=(GPIO_ReadInputDataBit(GPIO_PORT_IN4,GPIO_PIN_IN4)?0:0x08);	
-		KeyValue <<= 4;
-		KeyValue |= readtemp;
-	}
-	
-// 	KeyValue |= (GPIO_ReadInputDataBit(GPIO_PORT_START,GPIO_PIN_START)?0:0x10000000);
-// 	KeyValue |= (GPIO_ReadInputDataBit(GPIO_PORT_STOP,GPIO_PIN_STOP)  ?0:0x00000001);
-	return KeyValue;
-}
-
-
-/*
-*********************************************************************************************************
-*	函 数 名: C4094_CTRLine_Init
-*	功能说明: C4094初始化硬件
-*	形    参：无
-*	返 回 值: 无
-*********************************************************************************************************
-*/
-static void C4094_CTRLine_Init(void)
-{
-	GPIO_InitTypeDef GPIO_InitStructure;
-	EXTI_InitTypeDef   EXTI_InitStructure;
-	
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA | RCC_AHB1Periph_GPIOH | RCC_AHB1Periph_GPIOI | RCC_AHB1Periph_GPIOG, ENABLE);
-	/* 第2步：配置所有的按键GPIO为浮动输入模式(实际上CPU复位后就是输入状态) */
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;		/* 设为输入口 */
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;		/* 设为推挽模式 */
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;	/* 无需上下拉电阻 */
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;	/* IO口最大速度 */
-
-	GPIO_InitStructure.GPIO_Pin = GPIO_PIN_IN1;
-	GPIO_Init(GPIO_PORT_IN1, &GPIO_InitStructure);
-	
-	GPIO_InitStructure.GPIO_Pin = GPIO_PIN_IN2;
-	GPIO_Init(GPIO_PORT_IN2, &GPIO_InitStructure);
-	
-	GPIO_InitStructure.GPIO_Pin = GPIO_PIN_IN3;
-	GPIO_Init(GPIO_PORT_IN3, &GPIO_InitStructure);
-	
-	GPIO_InitStructure.GPIO_Pin = GPIO_PIN_IN4;
-	GPIO_Init(GPIO_PORT_IN4, &GPIO_InitStructure);
-	
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;		/* 设为推挽模式 */
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;	/* 无需上下拉电阻 */
-	GPIO_InitStructure.GPIO_Pin = C4094_ST_PIN;
-	GPIO_Init(C4094_ST_PORT, &GPIO_InitStructure);
-    
-	GPIO_InitStructure.GPIO_Pin = C4094_CLK_PIN;
-	GPIO_Init(C4094_CLK_PORT, &GPIO_InitStructure);
-	
-	GPIO_InitStructure.GPIO_Pin = C4094_DATA_PIN;
-	GPIO_Init(C4094_DATA_PORT, &GPIO_InitStructure);
-	
-	GPIO_InitStructure.GPIO_Pin = TESTLED_PIN;
-	GPIO_Init(TESTLED_PORT, &GPIO_InitStructure);
-	
-	/* 使能SYSCFG时钟 */
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
-	
-	/* 连接 EXTI Line8 到 PG8 引脚 */
-	SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOG, EXTI_PinSource8);
-	
-	/* 配置 EXTI LineXXX */
-	EXTI_InitStructure.EXTI_Line    = EXTI_Line8;
-	EXTI_InitStructure.EXTI_Mode    = EXTI_Mode_Interrupt;
-	EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;
-	EXTI_InitStructure.EXTI_LineCmd = ENABLE;
-	EXTI_Init(&EXTI_InitStructure);
-
-}
-
-
+/**
+  * @brief  键盘、LED、蜂鸣器驱动初始化
+  * @param  无
+  * @retval 无
+  */
 void key_led_buzzer_init(void)
 {
-	C4094_CTRLine_Init();
-	C4094_data_pool[0] = 0;
-	C4094_data_pool[1] = 0;
-	C4094_Output();
+	panel_4094_init();
+    panel_4094_write(PANEL_4094_CHIP_1, 0);
+    panel_4094_write(PANEL_4094_CHIP_2, 0);
+    update_panel_4094();
 }
 
-extern void Key_Stop_Dispose(void);
-void Key_Stop_Irq(void)
-{
-//	Key_Stop_Dispose();
-}
-
-
-
-#define  GPIO_PORT_START		GPIOF
-#define  GPIO_PIN_START			GPIO_Pin_11
-
-#define  GPIO_PORT_STOP			GPIOB
-#define  GPIO_PIN_STOP			GPIO_Pin_2
-
-//static void(*send_coded_disc_msg_fun)(uint32_t *);
-
-void key_start_stop_exit_config(void)
-{
-    EXTI_InitTypeDef EXTI_InitStructure;
-    
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);/*使能外部中断复用时钟*/
-    
-    /*映射GPIOF的Pin6至EXTILine2*/
-    SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOB, GPIO_PinSource2);  
-    EXTI_ClearITPendingBit(EXTI_Line2);        //清外部线路0中断
-    EXTI_InitStructure.EXTI_Line = EXTI_Line2;      //线路0
-    EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;    //触发模式为中断
-    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;   //下降沿触发
-    EXTI_InitStructure.EXTI_LineCmd = ENABLE;      //开外部中断
-    EXTI_Init(&EXTI_InitStructure);
-    
-    /*映射GPIOF的Pin11至EXTILine11*/
-    SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOF,GPIO_PinSource11);
-    EXTI_ClearITPendingBit(EXTI_Line11);//清外部线路0中断
-    EXTI_InitStructure.EXTI_Line = EXTI_Line11;//线路0
-    EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;//触发模式为中断
-    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;//下降沿触发
-    EXTI_InitStructure.EXTI_LineCmd = ENABLE;//开外部中断
-    EXTI_Init(&EXTI_InitStructure);
-}
-
-void key_start_stop_nvic_config(void)
-{
-    NVIC_InitTypeDef NVIC_InitStructure;
-    
-//    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_3);//嵌套分组为组3
-    NVIC_InitStructure.NVIC_IRQChannel = EXTI2_IRQn;//中断通道为通道0
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;//抢断优先级为0
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;//响应优先级为0
-    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;//开中断
-    NVIC_Init(&NVIC_InitStructure);
-    
-    NVIC_InitStructure.NVIC_IRQChannel = EXTI15_10_IRQn;//中断通道为通道0
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;//抢断优先级为0
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;//响应优先级为0
-    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;//开中断
-    NVIC_Init(&NVIC_InitStructure);
-}
-
-void key_start_stop_gpio_init(void)
-{	 
-    GPIO_InitTypeDef  GPIO_InitStructure;
-    
-    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB | RCC_AHB1Periph_GPIOF, ENABLE);//使能GPIOA时钟
-    
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;//100MHz
-    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//上拉
-    GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;//推挽
-    
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
-    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//上拉
-    
-    /* 启动键 */
-    GPIO_InitStructure.GPIO_Pin = GPIO_PIN_START;
-    GPIO_Init(GPIO_PORT_START, &GPIO_InitStructure);//初始化
-    
-    /* 复位键 */
-    GPIO_InitStructure.GPIO_Pin = GPIO_PIN_STOP;
-    GPIO_Init(GPIO_PORT_STOP, &GPIO_InitStructure);//初始化
-    
-    key_start_stop_exit_config();
-    key_start_stop_nvic_config();
-}
-
-void EXTI2_IRQHandler(void)
-{
-    /* 复位键 */
-    if(EXTI_GetITStatus(EXTI_Line2) != RESET)
-    {
-        EXTI_ClearITPendingBit(EXTI_Line2);
-        
-        if(GPIO_ReadInputDataBit(GPIO_PORT_STOP, GPIO_PIN_STOP) == 0)
-        {
-            
-        }
-    }
-}
-
-void EXTI15_10_IRQHandler(void)
-{
-    /* 启动键 */
-    if(EXTI_GetITStatus(EXTI_Line11) != RESET)
-    {
-        EXTI_ClearITPendingBit(EXTI_Line11);
-        
-        if(GPIO_ReadInputDataBit(GPIO_PORT_START, GPIO_PIN_START) == 0)
-        {
-        }
-    }
-    if(EXTI_GetITStatus(EXTI_Line10) != RESET)
-    {
-        EXTI_ClearITPendingBit(EXTI_Line10);
-    }
-    if(EXTI_GetITStatus(EXTI_Line12) != RESET)
-    {
-        EXTI_ClearITPendingBit(EXTI_Line12);
-    }
-    
-    if(EXTI_GetITStatus(EXTI_Line13) != RESET)
-    {
-        EXTI_ClearITPendingBit(EXTI_Line13);
-    }
-    
-    if(EXTI_GetITStatus(EXTI_Line14) != RESET)
-    {
-        EXTI_ClearITPendingBit(EXTI_Line14);
-    }
-    if(EXTI_GetITStatus(EXTI_Line15) != RESET)
-    {
-        EXTI_ClearITPendingBit(EXTI_Line15);
-    }
-}
 
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/
