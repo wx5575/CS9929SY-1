@@ -15,10 +15,10 @@
 
 #include "module_manage.h"
 
-extern CS_BOOL com4_send_is_over(void);
-extern CS_BOOL com3_send_is_over(void);
-extern CS_BOOL com2_send_is_over(void);
 extern CS_BOOL com1_send_is_over(void);
+extern CS_BOOL com2_send_is_over(void);
+extern CS_BOOL com3_send_is_over(void);
+extern CS_BOOL com4_send_is_over(void);
 
 extern CS_BOOL all_com_send_is_over(void);
 

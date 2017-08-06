@@ -155,40 +155,40 @@ void stop_scan_all_module(void)
 /**
   * @brief  查询第1路串口扫描是是否结束
   * @param  无
-  * @retval 0 未结束 1 结束
+  * @retval CS_FALSE 未结束 CS_TRUE 结束
   */
-uint8_t com1_scan_is_over(void)
+CS_BOOL com1_scan_is_over(void)
 {
-    return com1_scan_module.status == SCAN_OVER;
+    return (CS_BOOL)(com1_scan_module.status == SCAN_OVER);
 }
 /**
   * @brief  查询第2路串口扫描是是否结束
   * @param  无
-  * @retval 0 未结束 1 结束
+  * @retval CS_FALSE 未结束 CS_TRUE 结束
   */
-uint8_t com2_scan_is_over(void)
+CS_BOOL com2_scan_is_over(void)
 {
-    return com2_scan_module.status == SCAN_OVER;
+    return (CS_BOOL)(com2_scan_module.status == SCAN_OVER);
 }
 
 /**
   * @brief  查询第3路串口扫描是是否结束
   * @param  无
-  * @retval 0 未结束 1 结束
+  * @retval CS_FALSE 未结束 CS_TRUE 结束
   */
-uint8_t com3_scan_is_over(void)
+CS_BOOL com3_scan_is_over(void)
 {
-    return com3_scan_module.status == SCAN_OVER;
+    return (CS_BOOL)(com3_scan_module.status == SCAN_OVER);
 }
 
 /**
   * @brief  查询第4路串口扫描是是否结束
   * @param  无
-  * @retval 0 未结束 1 结束
+  * @retval CS_FALSE 未结束 CS_TRUE 结束
   */
-uint8_t com4_scan_is_over(void)
+CS_BOOL com4_scan_is_over(void)
 {
-    return com4_scan_module.status == SCAN_OVER;
+    return (CS_BOOL)(com4_scan_module.status == SCAN_OVER);
 }
 
 /**
@@ -196,7 +196,7 @@ uint8_t com4_scan_is_over(void)
   * @param  无
   * @retval 当前扫描地址
   */
-uint8_t get_com1_scan_addr(void)
+MODULE_ADDR_T get_com1_scan_addr(void)
 {
     return com1_scan_module.cur_addr;
 }
@@ -205,7 +205,7 @@ uint8_t get_com1_scan_addr(void)
   * @param  无
   * @retval 当前扫描地址
   */
-uint8_t get_com2_scan_addr(void)
+MODULE_ADDR_T get_com2_scan_addr(void)
 {
     return com2_scan_module.cur_addr;
 }
@@ -215,7 +215,7 @@ uint8_t get_com2_scan_addr(void)
   * @param  无
   * @retval 当前扫描地址
   */
-uint8_t get_com3_scan_addr(void)
+MODULE_ADDR_T get_com3_scan_addr(void)
 {
     return com3_scan_module.cur_addr;
 }
@@ -224,7 +224,7 @@ uint8_t get_com3_scan_addr(void)
   * @param  无
   * @retval 当前扫描地址
   */
-uint8_t get_com4_scan_addr(void)
+MODULE_ADDR_T get_com4_scan_addr(void)
 {
     return com4_scan_module.cur_addr;
 }

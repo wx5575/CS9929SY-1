@@ -1,4 +1,4 @@
-﻿/**
+/**
   ******************************************************************************
   * @file    cs99xx_usb_manage.c
   * @author  王鑫
@@ -22,18 +22,16 @@
 uint8_t g_long_file_name[100];//长文件名
 uint8_t g_tar_name[50];//短文件名
 
-/*
- * 函数名：check_usb_flash
- * 描述  ：u盘检查
- * 输入  ：void
- * 输出  ：无
- * 返回  ：无
- */
-int32_t check_usb_flash(void)
+
+/**
+  * @brief  监测U盘
+  * @param  无
+  * @retval 无
+  */
+int32_t check_usb_disk(void)
 {
     int32_t i = 0;
     int32_t s = 0;
-    
     
     /* 对于检测到USB设备的,最多等待100*50mS,主要针对有些MP3太慢,对于检测到USB设备并且连接DISK_MOUNTED的,最多等待5*50mS,主要针对DiskReady不过的 */
     while(1)
@@ -71,7 +69,11 @@ int32_t check_usb_flash(void)
         return 0;
     }
 }
-
+/**
+  * @brief  检查U盘是否连接成功
+  * @param  [in] strong_brush 强制刷新
+  * @retval 获取当前376状态
+  */
 uint8_t check_connect_usb(uint8_t strong_brush)
 {
 	if(1 == Query376Interrupt() || strong_brush)
@@ -79,7 +81,7 @@ uint8_t check_connect_usb(uint8_t strong_brush)
 		if(CH376DiskConnect() == USB_INT_SUCCESS)
 		{
 			//u盘连接成功
-			if(check_usb_flash() == 0)
+			if(check_usb_disk() == 0)
 			{
                 set_cur_ch376_status(1);
                 update_usb_dis_status();

@@ -15,16 +15,16 @@
 
 #include "module_manage.h"
 
-extern uint8_t com4_scan_is_over(void);
-extern uint8_t com3_scan_is_over(void);
-extern uint8_t com2_scan_is_over(void);
-extern uint8_t com1_scan_is_over(void);
+extern CS_BOOL com1_scan_is_over(void);
+extern CS_BOOL com2_scan_is_over(void);
+extern CS_BOOL com3_scan_is_over(void);
+extern CS_BOOL com4_scan_is_over(void);
 
 
-extern uint8_t get_com1_scan_addr(void);
-extern uint8_t get_com2_scan_addr(void);
-extern uint8_t get_com3_scan_addr(void);
-extern uint8_t get_com4_scan_addr(void);
+extern MODULE_ADDR_T get_com1_scan_addr(void);
+extern MODULE_ADDR_T get_com2_scan_addr(void);
+extern MODULE_ADDR_T get_com3_scan_addr(void);
+extern MODULE_ADDR_T get_com4_scan_addr(void);
 
 extern void scan_all_module(void);
 extern void stop_scan_all_module(void);

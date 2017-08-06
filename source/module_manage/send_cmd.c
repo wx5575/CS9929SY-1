@@ -196,7 +196,7 @@ void stop_send_all_module(void)
 /**
   * @brief  查询第1路串口扫描是是否结束
   * @param  无
-  * @retval 0 未结束 1 结束
+  * @retval CS_FALSE 未结束 CS_TRUE 结束
   */
 CS_BOOL com1_send_is_over(void)
 {
@@ -205,7 +205,7 @@ CS_BOOL com1_send_is_over(void)
 /**
   * @brief  查询第2路串口扫描是是否结束
   * @param  无
-  * @retval 0 未结束 1 结束
+  * @retval CS_FALSE 未结束 CS_TRUE 结束
   */
 CS_BOOL com2_send_is_over(void)
 {
@@ -215,7 +215,7 @@ CS_BOOL com2_send_is_over(void)
 /**
   * @brief  查询第3路串口扫描是是否结束
   * @param  无
-  * @retval 0 未结束 1 结束
+  * @retval CS_FALSE 未结束 CS_TRUE 结束
   */
 CS_BOOL com3_send_is_over(void)
 {
@@ -225,7 +225,7 @@ CS_BOOL com3_send_is_over(void)
 /**
   * @brief  查询第4路串口扫描是是否结束
   * @param  无
-  * @retval 0 未结束 1 结束
+  * @retval CS_FALSE 未结束 CS_TRUE 结束
   */
 CS_BOOL com4_send_is_over(void)
 {
