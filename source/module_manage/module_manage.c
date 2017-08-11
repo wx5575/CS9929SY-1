@@ -474,6 +474,26 @@ void clear_module_inf(void)
 {
     memset(&roads_flag, 0 , sizeof(roads_flag));
     memset(module_inf_pool, 0, sizeof(ROAD_INF) * MASTER_ADDR_RANGE);
+    memset(syn_test_port, 0, sizeof(syn_test_port));
+}
+/**
+  * @brief  获取总的路数
+  * @param  无
+  * @retval 总的路数
+  */
+uint8_t get_total_roads_num(void)
+{
+    int32_t i =  0;
+    
+    for(i = 0; i < SYN_MAX_ROADS; i++)
+    {
+        if(syn_test_port[i].road_num == 0)
+        {
+            break;
+        }
+    }
+    
+    return i;
 }
 /**
   * @brief  初始化模块管理的环境

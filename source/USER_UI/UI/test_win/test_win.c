@@ -102,14 +102,14 @@ static void edit_test_win_vol_f3_cb(KEY_MESSAGE *key_msg);
 static void edit_test_win_vol_f4_cb(KEY_MESSAGE *key_msg);
 static void edit_test_win_vol_f5_cb(KEY_MESSAGE *key_msg);
 static void edit_test_win_vol_f6_cb(KEY_MESSAGE *key_msg);
-    
+
 static void edit_test_win_upper_f1_cb(KEY_MESSAGE *key_msg);
 static void edit_test_win_upper_f2_cb(KEY_MESSAGE *key_msg);
 static void edit_test_win_upper_f3_cb(KEY_MESSAGE *key_msg);
 static void edit_test_win_upper_f4_cb(KEY_MESSAGE *key_msg);
 static void edit_test_win_upper_f5_cb(KEY_MESSAGE *key_msg);
 static void edit_test_win_upper_f6_cb(KEY_MESSAGE *key_msg);
-    
+
 static void edit_auto_shift_f1_cb(KEY_MESSAGE *key_msg);
 static void edit_auto_shift_f2_cb(KEY_MESSAGE *key_msg);
 static void edit_auto_shift_f3_cb(KEY_MESSAGE *key_msg);
@@ -263,7 +263,6 @@ static MENU_KEY_INFO_T test_ui_gr_menu_pool[][6]=
         {"", F_KEY_BACK  , KEY_F6 & _KEY_UP, set_gr_par_f6_2_cb},//f6
     },
 };
-
 
 /**
   * @brief  测试界面显示的文本索引表
@@ -1243,7 +1242,6 @@ static void init_create_test_win_edit_ele(MYUSER_WINDOW_T *win)
     
     g_cur_edit_ele = get_cur_win_edit_ele_list_head();//获取当前窗口编辑表头节点
     select_edit_ele(g_cur_edit_ele);//选中当前编辑对象
-//    test_win_win_sys_key_init(g_cur_edit_ele->dis.edit.handle);
 }
 /**
   * @brief  测试窗口向上键回调函数
@@ -2818,7 +2816,7 @@ static void test_win_cb(WM_MESSAGE* pMsg)
                 }
                 
                 init_sys_function_key_inf(win);//初始化系统功能按键信息（包括菜单键和其他功能键）
-                init_create_win_all_ele(win);//创建窗口人所有的对象
+                init_create_win_all_ele(win);//创建窗口内所有的对象
                 
                 update_group_inf(g_cur_win);//更新记忆组信息
                 clear_range_text_ele(g_cur_win);//清空范围显示信息

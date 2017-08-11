@@ -26,6 +26,8 @@
 /* Private macro -------------------------------------------------------------*/
 #define SIZE_7INCH_WIDTH	300
 #define SIZE_7INCH_HEIGH	200
+#define SIZE_7INCH_X	    ((690 - SIZE_7INCH_WIDTH) / 2)
+#define SIZE_7INCH_Y	    100
 /* Private variables ---------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
@@ -35,7 +37,7 @@
   */
 WIDGET_POS_SIZE_T _7_sel_cal_module_windows=
 {
-	100/*x*/, 50/*y*/, SIZE_7INCH_WIDTH/*width*/, SIZE_7INCH_HEIGH/*height*/,
+	SIZE_7INCH_X/*x*/, SIZE_7INCH_Y/*y*/, SIZE_7INCH_WIDTH/*width*/, SIZE_7INCH_HEIGH/*height*/,
 };
 
 #define FONT    &GUI_Fonthz_24

@@ -7,9 +7,9 @@
   * @brief   启动窗口
   ******************************************************************************
   */
-#ifndef __START_WIN_H__
-#define __START_WIN_H__
+#ifndef __SEL_CAL_MODULE_WIN_H__
+#define __SEL_CAL_MODULE_WIN_H__
 
 extern void create_sel_cal_module_win(int hWin);
 
-#endif //__START_WIN_H__
+#endif //__SEL_CAL_MODULE_WIN_H__

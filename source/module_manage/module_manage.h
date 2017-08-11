@@ -93,6 +93,7 @@ extern CS_ERR com_module_connect(MODULE_ADDR_T addr);
 extern CS_ERR com_module_set_road_num(MODULE_ADDR_T addr, uint8_t *data, uint32_t len);
 extern CS_ERR send_module_connect(MODULE_ADDR_T addr, uint8_t *data, uint32_t len);
 extern MODULE_ADDR_T get_module_addr(ROAD_INDEX road, CS_ERR *err);
+extern uint8_t get_total_roads_num(void);
 
 #endif //__MODULE_MANAGE_H__
 

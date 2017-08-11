@@ -21,6 +21,7 @@
 #include "sel_cal_module_win.h"
 #include "PROGBAR.h"
 #include "LISTVIEW.H"
+#include "module_manage.h"
 
 /* Private typedef -----------------------------------------------------------*/
 
@@ -30,12 +31,6 @@
 /* Private function prototypes -----------------------------------------------*/
 static void sel_cal_module_win_cb(WM_MESSAGE * pMsg);
 static void update_sel_cal_module_win_menu_key_inf(WM_HMEM hWin);
-
-//static void sys_exit_key_fun_cb(KEY_MESSAGE *key_msg);
-//static void sys_stop_key_fun_cb(KEY_MESSAGE *key_msg);
-//static void sys_shift_key_fun_cb(KEY_MESSAGE *key_msg);
-//static void sys_unlock_key_fun_cb(KEY_MESSAGE *key_msg);
-//static void screen_capture_key_fun_cb(KEY_MESSAGE *key_msg);
 
 static void sel_cal_module_win_f1_cb(KEY_MESSAGE *key_msg);
 static void sel_cal_module_win_f2_cb(KEY_MESSAGE *key_msg);
@@ -165,7 +160,7 @@ static EDIT_ELE_T sel_cal_module_ele_pool[]=
   */
 MYUSER_WINDOW_T sel_cal_module_windows=
 {
-    {"选择校准模块", "select cal. module"},
+    {"选择校准模块", "select module"},
     sel_cal_module_win_cb, sel_cal_module_win_update_key_inf,
 	{0},/*text*/
     {
@@ -285,7 +280,6 @@ static void reg_sel_cal_module_menu_key(WM_HMEM hWin)
     
 	init_menu_key_info(info, size, data);
 }
-LISTVIEW_GetItemRect         (LISTVIEW_Handle hObj, U32 Col, U32 Row, GUI_RECT * pRect);
 static void reg_sel_cal_module_sys_key(WM_HMEM hWin)
 {
     register_system_key_fun(sel_cal_module_sys_key_pool, ARRAY_SIZE(sel_cal_module_sys_key_pool), hWin);
@@ -293,7 +287,23 @@ static void reg_sel_cal_module_sys_key(WM_HMEM hWin)
 uint8_t cur_cal_module_index = 1;
 static void set_sel_cal_module_par_win_ele_data(void)
 {
+    EDIT_ELE_T *edit_ele = NULL;
+    CS_ERR err;
+    EDIT_ELE_T *pool;
+    uint32_t n;
+    
+    pool = g_cur_win->edit.pool;
+    n = g_cur_win->edit.pool_size;
+    
+    edit_ele = get_edit_ele_inf(pool, n, SEL_CAL_MODULE, &err);
+    
+    if(err != CS_ERR_NONE)
+    {
+        return;
+    }
+    
     reg_edit_ele_data_inf(SEL_CAL_MODULE, &cur_cal_module_index, sizeof(cur_cal_module_index));
+    edit_ele->range.high = get_total_roads_num();
 }
 /**
   * @brief  初始化并创建密码编辑对象
@@ -326,20 +336,6 @@ static void sel_cal_module_win_update_system_key_inf(WM_HMEM hWin)
 {
     register_system_key_fun(sel_cal_module_sys_key_pool, ARRAY_SIZE(sel_cal_module_sys_key_pool), hWin);
 }
-
-
-/**
-  * @brief  重绘背景
-  * @param  无
-  * @retval 无
-  */
-//static void _PaintFrame(void) 
-//{
-//	GUI_RECT r;
-//	WM_GetClientRect(&r);
-//	GUI_SetBkColor(WINDOWS_BAK_COLOR);
-//	GUI_ClearRectEx(&r);
-//}
 
 /**
   * @brief  更新按键信息

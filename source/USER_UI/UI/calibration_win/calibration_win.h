@@ -7,8 +7,8 @@
   * @brief   启动窗口
   ******************************************************************************
   */
-#ifndef __START_WIN_H__
-#define __START_WIN_H__
+#ifndef __CALIBRATION_WIN_H__
+#define __CALIBRATION_WIN_H__
 
 typedef enum{
     CAL_WIN_MODULE_ADDR,///<校准模块地址
@@ -17,6 +17,8 @@ typedef enum{
     CAL_WIN_MODULE_NUM_V,///<校准模块编号值
     CAL_WIN_MODULE_PORT,///<校准模块串口号
     CAL_WIN_MODULE_PORT_V,///<校准模块串口号值
+    CAL_WIN_MODULE_TOTAL,///<校准模块校准点总数
+    CAL_WIN_MODULE_TOTAL_V,///<校准模块校准点总数值
 }MODULE_TEXT_INDEX;
 
-#endif //__START_WIN_H__
+#endif //__CALIBRATION_WIN_H__

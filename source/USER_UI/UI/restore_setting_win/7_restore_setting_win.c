@@ -26,7 +26,7 @@ WIDGET_POS_SIZE_T _7_restore_setting_windows=
 #define FONT    &GUI_Fonthz_20
 
 #define RES_SET_BASE_T_X      10
-#define RES_SET_BASE_T_Y      50
+#define RES_SET_BASE_T_Y      30
 #define RES_SET_ELE_T_W       RES_SET_WIN_W - RES_SET_BASE_T_X * 2
 #define RES_SET_ELE_T_H       RES_SET_WIN_H - RES_SET_BASE_T_Y - 10
 

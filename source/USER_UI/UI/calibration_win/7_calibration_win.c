@@ -50,30 +50,14 @@ TEXT_ELE_AUTO_LAYOUT_T _7_calibration_text_ele_auto_layout_inf=
     1/*rows*/,8/*column*/,50/*row_spacing*/,MODULE_BASE_T_W/*column_spacing*/,
     {&GUI_Fonthz_24}, GUI_BLACK, GUI_INVALID_COLOR, GUI_TA_LEFT | GUI_TA_VCENTER,20
 };
-
+#define X_OFFSET   -100
 static ADJUST_TEXT_ELE_LAYOUT _7_calibration_win_text_ele_adjust_layout[]=
 {
-    {
-        CAL_WIN_MODULE_ADDR, {GUI_TA_RIGHT | GUI_TA_VCENTER, CS_TRUE},
-        {
-            {0, CS_FALSE},/*base_x*/
-            {40, CS_FALSE},/*offset_x*/
-            {80, CS_FALSE},/*width*/
-        },
-    },
-    {
-        CAL_WIN_MODULE_ADDR_V, {GUI_TA_RIGHT | GUI_TA_VCENTER, CS_FALSE},
-        {
-            {0, CS_FALSE},/*base_x*/
-            {40, CS_FALSE},/*offset_x*/
-            {80, CS_TRUE},/*width*/
-        },
-    },
     {
         CAL_WIN_MODULE_NUM, {GUI_TA_RIGHT | GUI_TA_VCENTER, CS_TRUE},
         {
             {0, CS_FALSE},/*base_x*/
-            {40, CS_FALSE},/*offset_x*/
+            {X_OFFSET, CS_FALSE},/*offset_x*/
             {80, CS_FALSE},/*width*/
         },
     },
@@ -81,7 +65,23 @@ static ADJUST_TEXT_ELE_LAYOUT _7_calibration_win_text_ele_adjust_layout[]=
         CAL_WIN_MODULE_NUM_V, {GUI_TA_RIGHT | GUI_TA_VCENTER, CS_FALSE},
         {
             {0, CS_FALSE},/*base_x*/
-            {40, CS_FALSE},/*offset_x*/
+            {X_OFFSET, CS_FALSE},/*offset_x*/
+            {80, CS_TRUE},/*width*/
+        },
+    },
+    {
+        CAL_WIN_MODULE_ADDR, {GUI_TA_RIGHT | GUI_TA_VCENTER, CS_TRUE},
+        {
+            {0, CS_FALSE},/*base_x*/
+            {X_OFFSET, CS_TRUE},/*offset_x*/
+            {80, CS_FALSE},/*width*/
+        },
+    },
+    {
+        CAL_WIN_MODULE_ADDR_V, {GUI_TA_RIGHT | GUI_TA_VCENTER, CS_FALSE},
+        {
+            {0, CS_FALSE},/*base_x*/
+            {X_OFFSET, CS_TRUE},/*offset_x*/
             {80, CS_TRUE},/*width*/
         },
     },
@@ -89,7 +89,31 @@ static ADJUST_TEXT_ELE_LAYOUT _7_calibration_win_text_ele_adjust_layout[]=
         CAL_WIN_MODULE_PORT, {GUI_TA_RIGHT | GUI_TA_VCENTER, CS_TRUE},
         {
             {0, CS_FALSE},/*base_x*/
-            {5, CS_FALSE},/*offset_x*/
+            {X_OFFSET * 2, CS_TRUE},/*offset_x*/
+            {0, CS_FALSE},/*width*/
+        },
+    },
+    {
+        CAL_WIN_MODULE_PORT_V, {GUI_TA_RIGHT | GUI_TA_VCENTER, CS_FALSE},
+        {
+            {0, CS_FALSE},/*base_x*/
+            {X_OFFSET * 2, CS_TRUE},/*offset_x*/
+            {0, CS_FALSE},/*width*/
+        },
+    },
+    {
+        CAL_WIN_MODULE_TOTAL, {GUI_TA_RIGHT | GUI_TA_VCENTER, CS_TRUE},
+        {
+            {0, CS_FALSE},/*base_x*/
+            {X_OFFSET * 3 + 20, CS_TRUE},/*offset_x*/
+            {0, CS_FALSE},/*width*/
+        },
+    },
+    {
+        CAL_WIN_MODULE_TOTAL_V, {GUI_TA_RIGHT | GUI_TA_VCENTER, CS_FALSE},
+        {
+            {0, CS_FALSE},/*base_x*/
+            {X_OFFSET * 3 + 20, CS_TRUE},/*offset_x*/
             {0, CS_FALSE},/*width*/
         },
     },
@@ -122,7 +146,7 @@ WM_HWIN _7_create_calibration_listview(WM_HWIN hWin)
 	HEADER_SetFont(hHeader,&GUI_Fonthz_24);
 	HEADER_SetHeight(hHeader,28);
 	LISTVIEW_AddColumn(list_h, 60	, SELE_STR("编号","NO.") , GUI_TA_HCENTER | GUI_TA_VCENTER);
-    LISTVIEW_AddColumn(list_h, 130	, SELE_STR("校准模式","mode") , GUI_TA_HCENTER | GUI_TA_VCENTER);
+    LISTVIEW_AddColumn(list_h, 130	, SELE_STR("校准模式","Mode") , GUI_TA_HCENTER | GUI_TA_VCENTER);
     LISTVIEW_AddColumn(list_h, 120	, SELE_STR("校准点","Cal.Point") , GUI_TA_HCENTER | GUI_TA_VCENTER);
     LISTVIEW_AddColumn(list_h, 100	, SELE_STR("DA值","DA") , GUI_TA_HCENTER | GUI_TA_VCENTER);
     LISTVIEW_AddColumn(list_h, 100	, SELE_STR("AD值","AD") , GUI_TA_HCENTER | GUI_TA_VCENTER);

@@ -15,7 +15,7 @@
 #include "FILE_SYS.H"
 #include "image/user_image.h"
 #include "image/logo.h"
-#include "UI_COM/com_ui_info.h"
+#include "ui_com/com_edit_api.h"
 #include "rtc_config.h"
 #include "7_calibration_win.h"
 #include "calibration_win.h"
@@ -32,11 +32,6 @@
 static void calibration_win_cb(WM_MESSAGE * pMsg);
 static void update_calibration_win_menu_key_inf(WM_HMEM hWin);
 
-static void sys_exit_key_fun_cb(KEY_MESSAGE *key_msg);
-static void sys_stop_key_fun_cb(KEY_MESSAGE *key_msg);
-static void sys_shift_key_fun_cb(KEY_MESSAGE *key_msg);
-static void sys_unlock_key_fun_cb(KEY_MESSAGE *key_msg);
-static void screen_capture_key_fun_cb(KEY_MESSAGE *key_msg);
 
 static void calibration_win_f1_cb(KEY_MESSAGE *key_msg);
 static void calibration_win_f2_cb(KEY_MESSAGE *key_msg);
@@ -46,6 +41,36 @@ static void calibration_win_f5_cb(KEY_MESSAGE *key_msg);
 static void calibration_win_f6_cb(KEY_MESSAGE *key_msg);
 
 static void calibration_win_update_key_inf(WM_HWIN hWin);
+static void init_create_calibration_win_edit_ele(MYUSER_WINDOW_T *win);
+static void init_calibration_win_edit_ele_inf(void);
+static void set_calibration_win_ele_data(void);
+
+
+static void cal_measured_value_f1_cb(KEY_MESSAGE *key_msg);
+static void cal_measured_value_f2_cb(KEY_MESSAGE *key_msg);
+static void cal_measured_value_f3_cb(KEY_MESSAGE *key_msg);
+static void cal_measured_value_f4_cb(KEY_MESSAGE *key_msg);
+static void cal_measured_value_f5_cb(KEY_MESSAGE *key_msg);
+static void cal_measured_value_f6_cb(KEY_MESSAGE *key_msg);
+
+
+static void cal_measured_value_direct_key_up_cb	  (KEY_MESSAGE *key_msg);
+static void cal_measured_value_direct_key_down_cb (KEY_MESSAGE *key_msg);
+static void cal_measured_value_direct_key_left_cb (KEY_MESSAGE *key_msg);
+static void cal_measured_value_direct_key_right_cb(KEY_MESSAGE *key_msg);
+static void cal_measured_value_enter_key_up_cb	  (KEY_MESSAGE *key_msg);
+
+
+static void calibration_win_direct_key_up_cb   (KEY_MESSAGE *key_msg);
+static void calibration_win_direct_key_down_cb (KEY_MESSAGE *key_msg);
+static void calibration_win_direct_key_left_cb (KEY_MESSAGE *key_msg);
+static void calibration_win_direct_key_right_cb(KEY_MESSAGE *key_msg);
+static void calibration_win_enter_key_up_cb	   (KEY_MESSAGE *key_msg);
+
+
+static void cal_measured_value_sys_key(WM_HMEM hWin);
+static void cal_measured_value_menu_key(WM_HMEM hWin);
+static void cal_measured_value_press_enter(WM_HMEM hWin);
 /* Private variables ---------------------------------------------------------*/
 
 //static	WM_HWIN timer_handle;///<定时器句柄
@@ -65,11 +90,14 @@ static	LISTVIEW_Handle calibration_list_handle;///<校准管理列表句柄
   */
 static CONFIG_FUNCTION_KEY_INFO_T calibration_win_sys_key_pool[]=
 {
-	{KEY_SHIFT	    , sys_shift_key_fun_cb      },
-	{KEY_UNLOCK	    , sys_unlock_key_fun_cb     },
-	{KEY_EXIT	    , sys_exit_key_fun_cb       },
-	{KEY_STOP	    , sys_stop_key_fun_cb       },
-	{KEY_F1 & KEY_0 , screen_capture_key_fun_cb },
+	{KEY_UP		, calibration_win_direct_key_up_cb		 },
+	{KEY_DOWN	, calibration_win_direct_key_down_cb	 },
+	{KEY_LEFT	, calibration_win_direct_key_left_cb	 },
+	{KEY_RIGHT	, calibration_win_direct_key_right_cb	 },
+	{KEY_ENTER	, calibration_win_enter_key_up_cb	     },
+    
+	{CODE_LEFT	, calibration_win_direct_key_down_cb    },
+	{CODE_RIGH	, calibration_win_direct_key_up_cb	     },
 };
 /**
   * @brief  根据不同屏幕尺寸填入位置尺寸信息
@@ -85,7 +113,7 @@ static MENU_KEY_INFO_T 	calibration_win_menu_key_inf[] =
 {
     {"", F_KEY_NULL		, KEY_F1 & _KEY_UP, calibration_win_f1_cb },//f1
     {"", F_KEY_NULL		, KEY_F2 & _KEY_UP, calibration_win_f2_cb },//f2
-    {"", F_KEY_NULL		, KEY_F3 & _KEY_UP, calibration_win_f3_cb },//f3
+    {"", F_KEY_F3		, KEY_F3 & _KEY_UP, calibration_win_f3_cb },//f3
     {"", F_KEY_MODULE   , KEY_F4 & _KEY_UP, calibration_win_f4_cb },//f4
     {"", F_KEY_ENTER    , KEY_F5 & _KEY_UP, calibration_win_f5_cb },//f5
     {"", F_KEY_BACK		, KEY_F6 & _KEY_UP, calibration_win_f6_cb },//f6
@@ -117,18 +145,71 @@ static CS_INDEX calibration_win_text_index_pool[]=
     CAL_WIN_MODULE_ADDR_V,///<校准模块地址值
     CAL_WIN_MODULE_PORT,///<校准模块串口号
     CAL_WIN_MODULE_PORT_V,///<校准模块串口号值
+    CAL_WIN_MODULE_TOTAL,///<校准模块校准点总数
+    CAL_WIN_MODULE_TOTAL_V,///<校准模块校准点总数值
 };
 /**
   * @brief  校准管理界面的文本对象池
   */
 static TEXT_ELE_T calibration_win_text_ele_pool[]=
 {
-	{{"模块编号:" ,"NO.:"}   , CAL_WIN_MODULE_NUM },
+	{{"编号:" ,"MODULE:"}   , CAL_WIN_MODULE_NUM },
 	{{"01"     ,"01"     }    , CAL_WIN_MODULE_NUM_V },
-	{{"模块地址:" ,"ADDR:"}  , CAL_WIN_MODULE_ADDR },
+	{{"地址:" ,"ADDR:"}  , CAL_WIN_MODULE_ADDR },
 	{{"01"     ,"01"   }            , CAL_WIN_MODULE_ADDR_V  },
 	{{"串口号:" ,"PORT:"}           , CAL_WIN_MODULE_PORT  },
 	{{"COM1"     ,"COM1"   }        , CAL_WIN_MODULE_PORT_V  },
+	{{"总数:" ,"TOTAL:"}           , CAL_WIN_MODULE_TOTAL  },
+	{{"10"     ,"10"   }        , CAL_WIN_MODULE_TOTAL_V  },
+};
+
+enum{
+    CAL_WIN_EDIT_INDEX,///<校准窗口中的编辑对象索引
+};
+CS_INDEX calibration_win_edit_index_table[]=
+{
+    CAL_WIN_EDIT_INDEX,///<校准窗口中的编辑对象索引
+};
+
+/**
+  * @brief  原始密码 新设密码使用的菜单键信息初始化数组
+  */
+static MENU_KEY_INFO_T 	cal_measured_menu_key_info[] =
+{
+    {"", F_KEY_DEL      , KEY_F1 & _KEY_UP, cal_measured_value_f1_cb },//f1
+    {"", F_KEY_CLEAR    , KEY_F2 & _KEY_UP, cal_measured_value_f2_cb },//f2
+    {"", F_KEY_NULL     , KEY_F3 & _KEY_UP, cal_measured_value_f3_cb },//f3
+    {"", F_KEY_NULL     , KEY_F4 & _KEY_UP, cal_measured_value_f4_cb },//f4
+    {"", F_KEY_NULL     , KEY_F5 & _KEY_UP, cal_measured_value_f5_cb },//f5
+    {"", F_KEY_ENTER    , KEY_F6 & _KEY_UP, cal_measured_value_f6_cb },//f6
+};
+
+static CONFIG_FUNCTION_KEY_INFO_T cal_measured_value_sys_key_pool[]={
+	{KEY_UP		, cal_measured_value_direct_key_up_cb		 },
+	{KEY_DOWN	, cal_measured_value_direct_key_down_cb	 },
+	{KEY_LEFT	, cal_measured_value_direct_key_left_cb	 },
+	{KEY_RIGHT	, cal_measured_value_direct_key_right_cb	 },
+	{KEY_ENTER	, cal_measured_value_enter_key_up_cb	     },
+    
+	{CODE_LEFT	, cal_measured_value_direct_key_down_cb    },
+	{CODE_RIGH	, cal_measured_value_direct_key_up_cb	     },
+};
+/**
+  * @brief 界面编辑对象池数组
+  */
+static EDIT_ELE_T calibration_win_edit_ele_pool[]=
+{
+    {
+        {"",""}, /* 名称 */
+        CAL_WIN_EDIT_INDEX,/* 通过枚举索引 */
+        {0},/* 默认值 */
+        {NULL, 0/*数据字节数*/},/* 数据指针 */
+        {NULL, 0},/* 资源表 */
+        {ELE_EDIT_NUM, },/*类型*/
+        {3/*dec*/,5/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
+        {9999/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
+        {cal_measured_value_sys_key, cal_measured_value_menu_key, keyboard_fun_num,},/*key_inf*/
+    },
 };
 /**
   * @brief  启动窗口结构体初始化
@@ -141,7 +222,11 @@ MYUSER_WINDOW_T calibration_windows=
         calibration_win_text_ele_pool, ARRAY_SIZE(calibration_win_text_ele_pool),
         (CS_INDEX*)calibration_win_text_index_pool,ARRAY_SIZE(calibration_win_text_index_pool)
     },/*text*/
-    {0},
+    {
+        calibration_win_edit_ele_pool, ARRAY_SIZE(calibration_win_edit_ele_pool),
+        calibration_win_edit_index_table, ARRAY_SIZE(calibration_win_edit_index_table),
+        NULL,
+    },
     {0},
     /* 自动布局 */
     {
@@ -153,6 +238,96 @@ MYUSER_WINDOW_T calibration_windows=
     calibration_win_pos_size_pool,/*pos_size_pool */
 };
 /* Private functions ---------------------------------------------------------*/
+
+static void init_create_calibration_win_edit_ele(MYUSER_WINDOW_T *win)
+{
+    init_window_edit_ele_list(win);//初始化窗口编辑对象链表
+    init_calibration_win_edit_ele_inf();
+    set_calibration_win_ele_data();
+    init_window_edit_ele(win);//初始化创建编辑对象
+    
+    g_cur_edit_ele = get_cur_win_edit_ele_list_head();//获取当前窗口编辑表头节点
+    select_edit_ele(g_cur_edit_ele);//选中当前编辑对象
+}
+
+static void calibration_win_direct_key_up_cb   (KEY_MESSAGE *key_msg)
+{
+}
+static void calibration_win_direct_key_down_cb (KEY_MESSAGE *key_msg)
+{
+}
+static void calibration_win_direct_key_left_cb (KEY_MESSAGE *key_msg)
+{
+}
+static void calibration_win_direct_key_right_cb(KEY_MESSAGE *key_msg)
+{
+}
+static void calibration_win_enter_key_up_cb	   (KEY_MESSAGE *key_msg)
+{
+}
+
+
+
+
+
+static void cal_measured_value_f1_cb(KEY_MESSAGE *key_msg)
+{
+    menu_key_backspace(key_msg->user_data);
+}
+static void cal_measured_value_f2_cb(KEY_MESSAGE *key_msg)
+{
+    clear_edit_ele(key_msg->user_data);
+}
+static void cal_measured_value_f3_cb(KEY_MESSAGE *key_msg)
+{
+}
+static void cal_measured_value_f4_cb(KEY_MESSAGE *key_msg)
+{
+}
+static void cal_measured_value_f5_cb(KEY_MESSAGE *key_msg)
+{
+}
+static void cal_measured_value_f6_cb(KEY_MESSAGE *key_msg)
+{
+    cal_measured_value_press_enter(key_msg->user_data);
+}
+
+static void cal_measured_value_direct_key_up_cb	  (KEY_MESSAGE *key_msg)
+{
+}
+static void cal_measured_value_direct_key_down_cb (KEY_MESSAGE *key_msg)
+{
+}
+static void cal_measured_value_direct_key_left_cb (KEY_MESSAGE *key_msg)
+{
+}
+static void cal_measured_value_direct_key_right_cb(KEY_MESSAGE *key_msg)
+{
+}
+static void cal_measured_value_enter_key_up_cb	  (KEY_MESSAGE *key_msg)
+{
+    cal_measured_value_press_enter(key_msg->user_data);
+}
+static void cal_measured_value_press_enter(WM_HMEM hWin)
+{
+    upload_par_to_ram(g_cur_edit_ele);//将数据上载到内存中
+    delete_win_edit_ele(g_cur_win);
+    set_cur_edit_ele(NULL);//将当前编辑对象置为空
+    g_cur_win->init_key_fun(g_cur_win->handle);
+}
+static void cal_measured_value_menu_key(WM_HMEM hWin)
+{
+    MENU_KEY_INFO_T * info = cal_measured_menu_key_info;
+    uint32_t size = ARRAY_SIZE(cal_measured_menu_key_info);
+    int32_t data = g_cur_edit_ele->dis.edit.handle;
+    
+	init_menu_key_info(info, size, data);
+}
+static void cal_measured_value_sys_key(WM_HMEM hWin)
+{
+    register_system_key_fun(cal_measured_value_sys_key_pool, ARRAY_SIZE(cal_measured_value_sys_key_pool), hWin);
+}
+
 /**
   * @brief  主窗口中功能键F1回调函数
   * @param  [in] key_msg 按键消息
@@ -169,6 +344,65 @@ static void calibration_win_f1_cb(KEY_MESSAGE *key_msg)
 static void calibration_win_f2_cb(KEY_MESSAGE *key_msg)
 {
 }
+uint32_t cur_measured_value;
+static void set_calibration_win_ele_data(void)
+{
+    reg_edit_ele_data_inf(CAL_WIN_EDIT_INDEX, &cur_measured_value, sizeof(cur_measured_value));
+}
+static void init_calibration_win_edit_ele_inf(void)
+{
+    GUI_RECT rect;
+    uint32_t row = 0;
+    uint32_t col = 0;
+    uint32_t x = 0;
+    uint32_t y = 0;
+    uint32_t width = 0;
+    uint32_t height = 0;
+    
+	row = LISTVIEW_GetSel(calibration_list_handle);
+    col = 5;
+    
+    LISTVIEW_GetItemRect(calibration_list_handle, col, row, &rect);
+    x = rect.x0;
+    y = rect.y0;
+    width = rect.x1 - rect.x0;
+    height = rect.y1 - rect.y0;
+    
+    {
+        EDIT_ELE_T *edit_ele = NULL;
+        CS_ERR err;
+        EDIT_ELE_T *pool;
+        uint32_t n;
+        
+        pool = g_cur_win->edit.pool;
+        n = g_cur_win->edit.pool_size;
+        
+        edit_ele = get_edit_ele_inf(pool, n, CAL_WIN_EDIT_INDEX, &err);
+        
+        if(err != CS_ERR_NONE)
+        {
+            return;
+        }
+        
+        edit_ele->dis.name.width = 1;
+        edit_ele->dis.name.height = 1;
+        edit_ele->dis.x = x;
+        edit_ele->dis.y = y + 30;
+        edit_ele->dis.edit.font = &GUI_Fonthz_24;
+        edit_ele->dis.edit.back_color = GUI_INVALID_COLOR;
+        edit_ele->dis.edit.font_color = GUI_BLACK;
+        edit_ele->dis.edit.height = height;
+        edit_ele->dis.edit.width = width - 40;
+        edit_ele->dis.edit.align = GUI_TA_LEFT | GUI_TA_VCENTER;
+        edit_ele->dis.edit.max_len = edit_ele->format.lon;
+        edit_ele->format.unit = VOL_U_kV;
+        edit_ele->dis.unit.width = 30;
+        edit_ele->dis.unit.height = height;
+        edit_ele->dis.unit.font = &GUI_Fonthz_24;
+        edit_ele->dis.unit.back_color = GUI_INVALID_COLOR;
+        edit_ele->dis.unit.font_color = GUI_BLACK;
+    }
+}
 /**
   * @brief  主窗口中功能键F3回调函数
   * @param  [in] key_msg 按键消息
@@ -176,6 +410,7 @@ static void calibration_win_f2_cb(KEY_MESSAGE *key_msg)
   */
 static void calibration_win_f3_cb(KEY_MESSAGE *key_msg)
 {
+    init_create_calibration_win_edit_ele(g_cur_win);
 }
 /**
   * @brief  主窗口中功能键F4回调函数
@@ -213,50 +448,6 @@ static void calibration_win_f6_cb(KEY_MESSAGE *key_msg)
 static void update_calibration_win_menu_key_inf(WM_HMEM hWin)
 {
 	init_menu_key_info(calibration_win_menu_key_inf, ARRAY_SIZE(calibration_win_menu_key_inf), hWin);
-}
-
-/**
-  * @brief  系统EXIT按键回调函数
-  * @param  [in] key_msg 按键消息
-  * @retval 无
-  */
-static void sys_exit_key_fun_cb(KEY_MESSAGE *key_msg)
-{
-}
-
-/**
-  * @brief  系统STOP按键回调函数
-  * @param  [in] key_msg 按键消息
-  * @retval 无
-  */
-static void sys_stop_key_fun_cb(KEY_MESSAGE *key_msg)
-{
-}
-/**
-  * @brief  系统SHIFT按键回调函数
-  * @param  [in] data 用户数据
-  * @retval 无
-  */
-static void sys_shift_key_fun_cb(KEY_MESSAGE *key_msg)
-{
-}
-
-/**
-  * @brief  系统键盘锁按键回调函数
-  * @param  [in] data 用户数据
-  * @retval 无
-  */
-static void sys_unlock_key_fun_cb(KEY_MESSAGE *key_msg)
-{
-}
-
-/**
-  * @brief  截屏按键的
-  * @param  [in] data 用户数据
-  * @retval 无
-  */
-static void screen_capture_key_fun_cb(KEY_MESSAGE *key_msg)
-{
 }
 
 /**
