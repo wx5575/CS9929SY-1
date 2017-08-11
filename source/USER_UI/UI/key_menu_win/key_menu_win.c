@@ -133,6 +133,7 @@ static const STAND_MENU_KEY_INFO_T all_menu_key_info_[]=
 	{{"浮地", "Float"   }, F_KEY_FLOAT      },
 	{{"启动", "START"   }, F_KEY_START      },
 	{{"停止", "STOP"    }, F_KEY_STOP       },
+	{{"模块", "MODULE"  }, F_KEY_MODULE     },
 };
 
 /**

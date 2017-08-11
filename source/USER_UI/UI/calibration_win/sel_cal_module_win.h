@@ -10,13 +10,6 @@
 #ifndef __START_WIN_H__
 #define __START_WIN_H__
 
-typedef enum{
-    CAL_WIN_MODULE_ADDR,///<校准模块地址
-    CAL_WIN_MODULE_ADDR_V,///<校准模块地址值
-    CAL_WIN_MODULE_NUM,///<校准模块编号
-    CAL_WIN_MODULE_NUM_V,///<校准模块编号值
-    CAL_WIN_MODULE_PORT,///<校准模块串口号
-    CAL_WIN_MODULE_PORT_V,///<校准模块串口号值
-}MODULE_TEXT_INDEX;
+extern void create_sel_cal_module_win(int hWin);
 
 #endif //__START_WIN_H__

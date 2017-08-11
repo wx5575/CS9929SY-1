@@ -13,7 +13,7 @@
 #include "app_cfg.h"
 #include "os.h"
 #include "ff.h"
-#include "stm32f4xx.h"
+#include "sys_level.h"
 
 
 
@@ -47,6 +47,7 @@ APP_EXT	OS_TCB MainTaskTCB;
 APP_EXT	OS_TCB TouchTaskTCB;
 APP_EXT	OS_TCB Ch376TaskTCB;
 APP_EXT	OS_TCB ModuleCommTaskTCB;
+APP_EXT	OS_TCB ExceptionHandlingTaskTCB;
 
 APP_EXT	OS_TMR 	timer_for_app;//服务应用程序的定时器
 
@@ -56,6 +57,7 @@ APP_EXT	CPU_STK		SCAN_KEY_TASK_STK[SCAN_KEY_STK_SIZE];
 APP_EXT	CPU_STK		MAIN_TASK_STK[EMWINDEMO_STK_SIZE];
 APP_EXT	CPU_STK		CH376_TASK_STK[CH376_STK_SIZE];
 APP_EXT	CPU_STK		MODULE_COMM_TASK_STK[MODULE_COMM_STK_SIZE];
+APP_EXT	CPU_STK		EXCEPTION_HANDLING_TASK_STK[MODULE_COMM_STK_SIZE];
 
 //任务函数
 extern void start_task(void *p_arg);

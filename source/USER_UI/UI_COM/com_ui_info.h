@@ -147,7 +147,7 @@ typedef struct{
   * @brief 调整项结构定义
   */
 typedef struct{
-    uint32_t value;///<调整值
+    int32_t value;///<调整值
     CS_BOOL en;///<调整使能 CS_TRUE 表示调整使能 CS_FALSE 表示调整无效
 }ADJUST_OPT;
 /**
@@ -171,7 +171,7 @@ typedef struct{
     ADJUST_OPT align;///<文本对齐方式
     struct{
         ADJUST_OPT base_x;///<x基坐标
-        ADJUST_OPT x;///<x坐标
+        ADJUST_OPT offset_x;///<x坐标偏移值 >0 向右偏 <0向左偏
         ADJUST_OPT width;///<宽度
     }pos_size;
 }ADJUST_TEXT_ELE_LAYOUT;

@@ -11,10 +11,8 @@
 #ifndef __7_CALIBRATION_WIN_H__
 #define __7_CALIBRATION_WIN_H__
 
-extern WIDGET_POS_SIZE_T _7_calibration_windows;
-extern WM_HWIN _7_create_calibration_listview(WM_HWIN hWin);
-extern TEXT_ELE_AUTO_LAYOUT_T _7_calibration_text_ele_auto_layout_inf;
-extern ADJUST_TEXT_ELE_LAYOUT_INF _7_calibration_win_adjust_text_ele_layout_inf;
+extern WIDGET_POS_SIZE_T _7_sel_cal_module_windows;
+extern EDIT_ELE_AUTO_LAYOUT_T _7_sel_cal_module_edit_ele_auto_layout_inf;
 
 #endif //__7_CALIBRATION_WIN_H__
 

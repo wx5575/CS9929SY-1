@@ -15,6 +15,8 @@
 
 #include "module_manage.h"
 
+typedef CS_ERR (*SEND_CMD_FUN)(uint8_t addr, uint8_t*data, uint32_t len);
+
 extern CS_BOOL com1_send_is_over(void);
 extern CS_BOOL com2_send_is_over(void);
 extern CS_BOOL com3_send_is_over(void);
@@ -22,19 +24,13 @@ extern CS_BOOL com4_send_is_over(void);
 
 extern CS_BOOL all_com_send_is_over(void);
 
-extern uint8_t get_com1_send_addr(void);
-extern uint8_t get_com2_send_addr(void);
-extern uint8_t get_com3_send_addr(void);
-extern uint8_t get_com4_send_addr(void);
+extern MODULE_ADDR_T get_com1_send_addr(void);
+extern MODULE_ADDR_T get_com2_send_addr(void);
+extern MODULE_ADDR_T get_com3_send_addr(void);
+extern MODULE_ADDR_T get_com4_send_addr(void);
 
-extern void send_all_module(uint8_t *data, uint32_t len);
-extern void stop_send_all_module(void);
-extern void start_send_all_module(void);
-extern void init_send_module_connect(void);
-
-extern void init_send_set_road_num(void);
-extern void init_send_module_connect(void);
-extern CS_ERR connect_module(uint8_t addr);
+extern void send_cmd_to_all_module(uint8_t *data, uint32_t len, SEND_CMD_FUN fun);
+extern void send_cmd_to_one_module(ROAD_INDEX road, uint8_t *data, uint32_t len, SEND_CMD_FUN fun);
 
 #endif //__SEND_CMD_H__
 

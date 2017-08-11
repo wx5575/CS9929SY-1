@@ -84,7 +84,7 @@ struct COM_STRUCT_{
     COM_SERVE_R_PU8_FUN get_com_frame;///<获取串口数据帧
     COM_SERVE_R_U32_FUN get_com_frame_len;///<获取串口数据帧长度
     COM_SERVE_R_U8_FUN get_com_send_status;///<获取串口通信的发送状态
-    COM_SERVE_FUN init_com_env;///<初始化各路串口运行环境
+    COM_SERVE_FUN init_com_env;///<初始化串口运行环境
     
     uint8_t resend_count;///<重发计数
     uint32_t ack_timeout;///<通信应答超时计时器

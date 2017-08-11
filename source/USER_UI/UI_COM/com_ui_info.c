@@ -289,9 +289,9 @@ void adjust_win_text_ele_dis_inf(MYUSER_WINDOW_T *win)
                 }
                 
                 /* 调整文本的x坐标 */
-                if(adjust_inf->pos_size.x.en == CS_TRUE)
+                if(adjust_inf->pos_size.offset_x.en == CS_TRUE)
                 {
-                    pos->x = adjust_inf->pos_size.x.value;
+                    pos->x += adjust_inf->pos_size.offset_x.value;
                 }
                 
                 /* 调整文本控件的宽度 */

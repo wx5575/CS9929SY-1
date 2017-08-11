@@ -78,6 +78,8 @@ extern COM_STRUCT com1;
 extern COM_STRUCT com2;
 extern COM_STRUCT com3;
 extern COM_STRUCT com4;
+
+
 extern void com_wait_ack_timeout(COM_STRUCT *com);
 extern void com_comm_status_machine(COM_STRUCT *com);
 
@@ -90,6 +92,7 @@ extern void wait_com_comm_idle(MODULE_ADDR_T addr);
 extern CS_ERR com_module_connect(MODULE_ADDR_T addr);
 extern CS_ERR com_module_set_road_num(MODULE_ADDR_T addr, uint8_t *data, uint32_t len);
 extern CS_ERR send_module_connect(MODULE_ADDR_T addr, uint8_t *data, uint32_t len);
+extern MODULE_ADDR_T get_module_addr(ROAD_INDEX road, CS_ERR *err);
 
 #endif //__MODULE_MANAGE_H__
 

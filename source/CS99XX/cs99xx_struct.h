@@ -35,6 +35,19 @@ typedef uint8_t MODULE_ADDR_T;
   */
 typedef uint8_t ROAD_NUM_T;
 /**
+  * @brief  多路端口的索引
+  */
+typedef enum{
+    INDEX_ROAD_1 = 1,///<第1路索引
+    INDEX_ROAD_2,///<第2路索引
+    INDEX_ROAD_3,///<第3路索引
+    INDEX_ROAD_4,///<第4路索引
+    INDEX_ROAD_5,///<第5路索引
+    INDEX_ROAD_6,///<第6路索引
+    INDEX_ROAD_7,///<第7路索引
+    INDEX_ROAD_8,///<第8路索引
+}ROAD_INDEX;
+/**
   * @brief  bool常量定义
   */
 typedef enum{
@@ -65,6 +78,7 @@ typedef enum{
     CS_ERR_COMM_NORMAL,///<通信正常
     CS_ERR_COMM_CRC_ERR,///<通信CRC校验错误
     CS_ERR_COMM_SLAVE_ERR,///<从机通信错误
+    CS_ERR_ROAD_INVALTD,///<路号不存在
 }CS_ERR;
 /**
   * @brief  文件编号

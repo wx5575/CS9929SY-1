@@ -75,6 +75,7 @@ typedef enum{
     F_KEY_FLOAT,///<浮地
     F_KEY_START,///<启动
     F_KEY_STOP,///<停止
+    F_KEY_MODULE,///<模块
 }MENU_KEY_INDEX_ENUM;
 
 /**

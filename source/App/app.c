@@ -34,6 +34,7 @@
 
 static void AppTaskScanKey(void *p_arg);
 static void AppTaskModuleComm(void *p_arg);
+static void AppTaskExceptionHandling(void *p_arg);
 
 /**
   * @brief  程序入口
@@ -223,6 +224,20 @@ void start_task(void *p_arg)
                  (void*       )0,
                  (OS_OPT      )OS_OPT_TASK_STK_CHK|OS_OPT_TASK_STK_CLR,
                  (OS_ERR*     )&err);
+	//异常处理任务
+	OSTaskCreate((OS_TCB*     )&ExceptionHandlingTaskTCB,
+				 (CPU_CHAR*   )"ExceptionHandling task",
+                 (OS_TASK_PTR )AppTaskExceptionHandling,
+                 (void*       )0,
+                 (OS_PRIO	  )EXCEPTION_HANDLING_TASK_PRIO,
+                 (CPU_STK*    )&EXCEPTION_HANDLING_TASK_STK[0],
+                 (CPU_STK_SIZE)EXCEPTION_HANDLING_STK_SIZE/10,
+                 (CPU_STK_SIZE)EXCEPTION_HANDLING_STK_SIZE,
+                 (OS_MSG_QTY  )0,
+                 (OS_TICK	  )0,
+                 (void*       )0,
+                 (OS_OPT      )OS_OPT_TASK_STK_CHK|OS_OPT_TASK_STK_CLR,
+                 (OS_ERR*     )&err);
 // 	OS_TaskSuspend((OS_TCB*)&StartTaskTCB,&err);		//挂起开始任务
     
 	OS_CRITICAL_EXIT();	//退出临界区
@@ -283,25 +298,8 @@ void init_gui_environment(void)
   */
 void read_module_inf(void)
 {
-    CS_BOOL flag;
-    
     read_roads_flag();
-
-    init_send_module_connect();
-    start_send_all_module();
-    
-    while(1)
-    {
-        send_all_module(NULL, 0);
-        flag = all_com_send_is_over();
-        
-        if(flag == CS_TRUE)
-        {
-            break;
-        }
-        
-        OS_DELAY_ms(10);
-    }
+    send_cmd_to_all_module(NULL, 0, send_module_connect);
 }
 
 /**
@@ -374,23 +372,7 @@ void read_first_step_init_cur_step(void)
   */
 void set_module_road_num(void)
 {
-    CS_BOOL flag;
-    
-    init_send_set_road_num();
-    start_send_all_module();
-    
-    while(1)
-    {
-        send_all_module(NULL, 0);
-        flag = all_com_send_is_over();
-        
-        if(flag == CS_TRUE)
-        {
-            break;
-        }
-        
-        OS_DELAY_ms(10);
-    }
+    send_cmd_to_all_module(NULL, 0, com_module_set_road_num);
 }
 
 /**
@@ -405,6 +387,7 @@ void read_par_from_memory(void)
     read_par_inf();//读取参数信息
     read_first_step_init_cur_step();
 }
+
 
 /**
   * @brief  主任务入口
@@ -423,6 +406,18 @@ void main_task(void *p_arg)
 	}
 }
 
+/**
+  * @brief  异常处理任务入口
+  * @param  无
+  * @retval 无
+  */
+static void AppTaskExceptionHandling(void *p_arg)
+{
+    while(1)
+    {
+        OS_DELAY_ms(10);
+    }
+}
 /**
   * @brief  模块通信任务入口
   * @param  无

@@ -140,6 +140,31 @@ void set_module_inf(COM_NUM com_num, uint8_t index, uint8_t *data)
 
 /* Public functions ---------------------------------------------------------*/
 /**
+  * @brief  根据路号获取模块地址
+  * @param  [in] road 路号
+  * @param  [in] err 错误码 
+  *         @arg CS_ERR_NONE 成功获取到模块地址
+  *         @arg CS_ERR_ROAD_INVALTD 传入的路号非法，系统中没有对应的模块地址
+  * @retval 获取到的模块地址
+  */
+MODULE_ADDR_T get_module_addr(ROAD_INDEX road, CS_ERR *err)
+{
+    int32_t i = 0;
+    
+    for(i = 0; i < SYN_MAX_ROADS; i++)
+    {
+        if(syn_test_port[i].road_num == road)
+        {
+            *err = CS_ERR_NONE;
+            return syn_test_port[i].addr;
+        }
+    }
+    
+    *err = CS_ERR_ROAD_INVALTD;
+    
+    return 0;
+}
+/**
   * @brief  串口1的接收处理函数
   * @param  [in] com_num 串口号
   * @param  [in] frame 数据帧
@@ -385,8 +410,9 @@ CS_ERR com_send_cmd_data(MODULE_ADDR_T addr, uint8_t cmd, uint8_t *data, uint32_
         return CS_ERR_COMM_ADDR_INVALTD;
     }
     
-    com_inf = get_com_inf(com_num);
+    com_inf = get_com_inf(com_num);//根据串口号来获取串口信息
     
+    /* 通信状态机只有在空闲状态时才允许发送下一条指令 */
     if(com_inf->status != MODULE_COMM_IDLE)
     {
         return CS_ERR_COM_BUSY;
@@ -417,6 +443,12 @@ CS_ERR com_send_cmd_data(MODULE_ADDR_T addr, uint8_t cmd, uint8_t *data, uint32_
   */
 void init_module_manage_env(void)
 {
+    /* 为了避免函数多次调用 */
+    if(module_inf_pool != NULL)
+    {
+        return;
+    }
+    
     /* 初始化各路串口的运行环境 */
     com1.init_com_env(&com1);
     com2.init_com_env(&com2);

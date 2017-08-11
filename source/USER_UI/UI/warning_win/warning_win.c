@@ -299,10 +299,4 @@ void create_warning_dialog(int hWin)
     create_user_dialog(&warning_windows, &windows_list, hWin);//创建主界面
 }
 
-
-
-
-
-
-
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

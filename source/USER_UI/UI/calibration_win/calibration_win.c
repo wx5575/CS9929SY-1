@@ -20,6 +20,8 @@
 #include "7_calibration_win.h"
 #include "calibration_win.h"
 #include "PROGBAR.h"
+#include "LISTVIEW.H"
+#include "sel_cal_module_win.h"
 
 /* Private typedef -----------------------------------------------------------*/
 
@@ -57,6 +59,7 @@ static void calibration_win_update_key_inf(WM_HWIN hWin);
 //	MAIN_UI_COM_ST,
 //	MAIN_UI_SYS_TIME,
 //};
+static	LISTVIEW_Handle calibration_list_handle;///<校准管理列表句柄
 /**
   * @brief  系统按键信息
   */
@@ -83,18 +86,50 @@ static MENU_KEY_INFO_T 	calibration_win_menu_key_inf[] =
     {"", F_KEY_NULL		, KEY_F1 & _KEY_UP, calibration_win_f1_cb },//f1
     {"", F_KEY_NULL		, KEY_F2 & _KEY_UP, calibration_win_f2_cb },//f2
     {"", F_KEY_NULL		, KEY_F3 & _KEY_UP, calibration_win_f3_cb },//f3
-    {"", F_KEY_NULL		, KEY_F4 & _KEY_UP, calibration_win_f4_cb },//f4
+    {"", F_KEY_MODULE   , KEY_F4 & _KEY_UP, calibration_win_f4_cb },//f4
     {"", F_KEY_ENTER    , KEY_F5 & _KEY_UP, calibration_win_f5_cb },//f5
     {"", F_KEY_BACK		, KEY_F6 & _KEY_UP, calibration_win_f6_cb },//f6
 };
 /**
-  * @brief  主界面的文本对象池
+  * @brief  校准管理窗口文本控件自动布局信息数组，根据不同的屏幕尺寸进行初始化
   */
-//static TEXT_ELE_T main_ui_text_ele_pool[]=
-//{
-//	{{"本控","LOCAL"}, MAIN_UI_COM_ST },
-//	{{"2017-04-07 08:59:00","2017-04-07 08:59:00"}, MAIN_UI_SYS_TIME },
-//};
+static TEXT_ELE_AUTO_LAYOUT_T  *calibration_win_text_ele_auto_layout[]=
+{
+    &_7_calibration_text_ele_auto_layout_inf,//4.3寸屏
+    &_7_calibration_text_ele_auto_layout_inf,//5.6寸屏
+    &_7_calibration_text_ele_auto_layout_inf,//7寸屏
+};
+
+/**
+  * @brief  校准管理窗口文本控件自动布局信息数组，根据不同的屏幕尺寸进行初始化
+  */
+static ADJUST_TEXT_ELE_LAYOUT_INF  *calibration_win_adjust_text_ele_layout_inf[]=
+{
+    &_7_calibration_win_adjust_text_ele_layout_inf,//4.3寸屏
+    &_7_calibration_win_adjust_text_ele_layout_inf,//5.6寸屏
+    &_7_calibration_win_adjust_text_ele_layout_inf,//7寸屏
+};
+static CS_INDEX calibration_win_text_index_pool[]=
+{
+    CAL_WIN_MODULE_NUM,///<校准模块编号
+    CAL_WIN_MODULE_NUM_V,///<校准模块编号值
+    CAL_WIN_MODULE_ADDR,///<校准模块地址
+    CAL_WIN_MODULE_ADDR_V,///<校准模块地址值
+    CAL_WIN_MODULE_PORT,///<校准模块串口号
+    CAL_WIN_MODULE_PORT_V,///<校准模块串口号值
+};
+/**
+  * @brief  校准管理界面的文本对象池
+  */
+static TEXT_ELE_T calibration_win_text_ele_pool[]=
+{
+	{{"模块编号:" ,"NO.:"}   , CAL_WIN_MODULE_NUM },
+	{{"01"     ,"01"     }    , CAL_WIN_MODULE_NUM_V },
+	{{"模块地址:" ,"ADDR:"}  , CAL_WIN_MODULE_ADDR },
+	{{"01"     ,"01"   }            , CAL_WIN_MODULE_ADDR_V  },
+	{{"串口号:" ,"PORT:"}           , CAL_WIN_MODULE_PORT  },
+	{{"COM1"     ,"COM1"   }        , CAL_WIN_MODULE_PORT_V  },
+};
 /**
   * @brief  启动窗口结构体初始化
   */
@@ -102,14 +137,17 @@ MYUSER_WINDOW_T calibration_windows=
 {
     {"校准管理窗口", "Calibration Window"},
     calibration_win_cb, calibration_win_update_key_inf,
-	{0},
+	{
+        calibration_win_text_ele_pool, ARRAY_SIZE(calibration_win_text_ele_pool),
+        (CS_INDEX*)calibration_win_text_index_pool,ARRAY_SIZE(calibration_win_text_index_pool)
+    },/*text*/
     {0},
     {0},
     /* 自动布局 */
     {
-        NULL,//文本自动布局信息池
+        calibration_win_text_ele_auto_layout,//文本自动布局信息池
         NULL,///<编辑对象自动布局信息池
-        NULL,//文本对象调整布局信息池
+        calibration_win_adjust_text_ele_layout_inf,//文本对象调整布局信息池
         NULL,//编辑对象调整布局信息池
     },/* auto_layout */
     calibration_win_pos_size_pool,/*pos_size_pool */
@@ -146,6 +184,7 @@ static void calibration_win_f3_cb(KEY_MESSAGE *key_msg)
   */
 static void calibration_win_f4_cb(KEY_MESSAGE *key_msg)
 {
+    create_sel_cal_module_win(key_msg->user_data);
 }
 /**
   * @brief  主窗口中功能键F5回调函数
@@ -164,44 +203,7 @@ static void calibration_win_f6_cb(KEY_MESSAGE *key_msg)
 {
     back_win(key_msg->user_data);
 }
-/**
-  * @brief  根据屏幕尺寸初始化主界面的文本对象位置尺寸信息
-  * @param  无
-  * @retval 无
-  */
-static void init_main_ui_text_ele_pos_inf(void)
-{
-    switch(SCREEM_SIZE)
-    {
-    case SCREEN_4_3INCH:
-        break;
-    case SCREEN_6_5INCH:
-        break;
-    default:
-    case SCREEN_7INCH:
-        break;
-    }
-}
-/**
-  * @brief  绘制主界面状态栏
-  * @param  无
-  * @retval 无
-  */
-static void draw_calibration_win_status_bar(void)
-{
-    GUI_SetColor(GUI_LIGHTGRAY);
-    
-    switch(SCREEM_SIZE)
-    {
-        case SCREEN_4_3INCH:
-            break;
-        case SCREEN_6_5INCH:
-            break;
-        default:
-        case SCREEN_7INCH:
-            break;
-    }
-}
+
 
 /**
   * @brief  更新主界面的菜单键信息
@@ -274,6 +276,7 @@ static void calibration_win_update_system_key_inf(WM_HMEM hWin)
   */
 static void set_calibration_windows_handle(WM_HWIN hWin)
 {
+    calibration_windows.handle = hWin;
 }
 
 /**
@@ -300,6 +303,21 @@ static void calibration_win_update_key_inf(WM_HWIN hWin)
     calibration_win_update_system_key_inf(hWin);
 }
 
+void create_calibration_win_listview(WM_HWIN hWin)
+{
+    
+    switch(SCREEM_SIZE)
+    {
+        case SCREEN_4_3INCH:
+            break;
+        case SCREEN_6_5INCH:
+            break;
+        default:
+        case SCREEN_7INCH:
+            calibration_list_handle = _7_create_calibration_listview(hWin);
+            break;
+    }
+}
 /**
   * @brief  主测试界面回调函数
   * @param  [in] pMsg 回调函数指针
@@ -315,10 +333,13 @@ static void calibration_win_cb(WM_MESSAGE * pMsg)
 		case WM_CREATE:
 			set_calibration_windows_handle(hWin);
 			win = get_user_window_info(hWin);
+            create_calibration_win_listview(hWin);
+            init_create_win_all_ele(win);
             
 			break;
 		case WM_PAINT:
 			_PaintFrame();
+            draw_group_inf_area();
 			break;
 		case WM_TIMER:
 		{

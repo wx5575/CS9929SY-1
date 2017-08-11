@@ -20,6 +20,7 @@ typedef enum{
 	MODULE_COMM_TASK_PRIO,//MODULE_COMM任务
 	MAIN_TASK_PRIO,//主任务
 	CH376_TASK_PRIO,//CH376任务
+    EXCEPTION_HANDLING_TASK_PRIO,//异常处理任务
 }TASK_PRIO;
 
 /**
@@ -31,9 +32,12 @@ typedef enum{
 	CH376_STK_SIZE = 2048,///<CH376任务
 	EMWINDEMO_STK_SIZE = 1024*5,///<EMWINDEMO任务
 	MODULE_COMM_STK_SIZE = 1024,///<MODULE_COMM任务
+	EXCEPTION_HANDLING_STK_SIZE = 1024,///<异常处理任务
 }TASK_STK_SIZE;
 
 
 
 
 #endif //__APP_CFG_H__
+
+/************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/
