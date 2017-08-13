@@ -32,7 +32,10 @@ enum{
     SET_MODULE_NUM,///<设置模块的编号，对于多路同步测试仪要告诉每个模块在系统中的编号,用这个编号来判断 \
                     是否参与测试工作
     
-                    
+    SLAVE_ENTER_CAL_ST = 50,///<从机进入校准状态
+    GET_MODULE_CAL_POINTS = 58,///<获取模块的校准总个数
+    QUERY_CAL_POINT_INF = 60,///<查询校准点信息
+    
 };
 /**
   * @brief  地址偏移，第一路0，第二路16，第三路32，第四路48
@@ -131,11 +134,22 @@ void update_module_addr_flag(void)
         }
     }
 }
+
 void set_module_inf(COM_NUM com_num, uint8_t index, uint8_t *data)
 {
     module_inf_pool[index].com_num = com_num;
     memcpy(&module_inf_pool[index].module_inf, data, sizeof(MODULE_INF));
     update_module_addr_flag();
+}
+void set_module_cal_points(COM_NUM com_num, uint8_t index, uint8_t *data)
+{
+    memcpy(&cur_module_cal_points, data, sizeof(cur_module_cal_points));
+}
+void query_cal_point_inf(COM_NUM com_num, uint8_t index, uint8_t *data)
+{
+    CAL_POINT_INF *inf = (void*)data;
+    
+    memcpy(&cal_point_inf_pool[inf->index], inf, sizeof(CAL_POINT_INF));
 }
 
 /* Public functions ---------------------------------------------------------*/
@@ -208,6 +222,14 @@ void com_receive_dispose(COM_NUM com_num, uint8_t *data, uint32_t len)
             set_module_inf(com_num, index, frame->data);
             break;
         case SET_MODULE_NUM:
+            break;
+        case GET_MODULE_CAL_POINTS:
+            set_module_cal_points(com_num, index, frame->data);
+            break;
+        case SLAVE_ENTER_CAL_ST:
+            break;
+        case QUERY_CAL_POINT_INF:
+            query_cal_point_inf(com_num, index, frame->data);
             break;
     }
 }
@@ -365,6 +387,32 @@ CS_ERR send_module_connect(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
     return com_send_cmd_data(addr, GET_MODULE_INF, NULL, 0);
 }
 /**
+  * @brief  发送查询校准点总个数指令
+  * @param  [in] addr 通信地址
+  * @param  [in] data 数据
+  * @param  [in] len 数据长度
+  * @retval 发送结果
+  */
+CS_ERR send_query_cal_points(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
+{
+    return com_send_cmd_data(addr, GET_MODULE_CAL_POINTS, NULL, 0);
+}
+CS_ERR send_query_cal_point_inf(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
+{
+    return com_send_cmd_data(addr, QUERY_CAL_POINT_INF, data, len);
+}
+/**
+  * @brief  发送从机进入校准状态指令
+  * @param  [in] addr 通信地址
+  * @param  [in] data 数据
+  * @param  [in] len 数据长度
+  * @retval 发送结果
+  */
+CS_ERR send_slave_enter_cal_st(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
+{
+    return com_send_cmd_data(addr, SLAVE_ENTER_CAL_ST, NULL, 0);
+}
+/**
   * @brief  发送设置模块编号指令
   * @param  [in] addr 通信地址
   * @retval 发送结果
@@ -461,7 +509,7 @@ void init_module_manage_env(void)
     /* 初始化分配到的内存 */
     if(module_inf_pool != NULL)
     {
-        memset(module_inf_pool, 0, sizeof(ROAD_INF) * MASTER_ADDR_RANGE);
+        clear_module_inf();
     }
 }
 

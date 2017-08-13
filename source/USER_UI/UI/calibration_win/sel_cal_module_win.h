@@ -11,5 +11,6 @@
 #define __SEL_CAL_MODULE_WIN_H__
 
 extern void create_sel_cal_module_win(int hWin);
+extern uint8_t get_cur_cal_road(void);
 
 #endif //__SEL_CAL_MODULE_WIN_H__

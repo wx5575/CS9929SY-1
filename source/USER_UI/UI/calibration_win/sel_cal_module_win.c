@@ -285,6 +285,10 @@ static void reg_sel_cal_module_sys_key(WM_HMEM hWin)
     register_system_key_fun(sel_cal_module_sys_key_pool, ARRAY_SIZE(sel_cal_module_sys_key_pool), hWin);
 }
 uint8_t cur_cal_module_index = 1;
+uint8_t get_cur_cal_road(void)
+{
+    return cur_cal_module_index;
+}
 static void set_sel_cal_module_par_win_ele_data(void)
 {
     EDIT_ELE_T *edit_ele = NULL;
@@ -304,6 +308,15 @@ static void set_sel_cal_module_par_win_ele_data(void)
     
     reg_edit_ele_data_inf(SEL_CAL_MODULE, &cur_cal_module_index, sizeof(cur_cal_module_index));
     edit_ele->range.high = get_total_roads_num();
+    
+    if(edit_ele->range.high < 1)
+    {
+        edit_ele->range.low = 0;
+    }
+    else
+    {
+        edit_ele->range.low = 1;
+    }
 }
 /**
   * @brief  初始化并创建密码编辑对象

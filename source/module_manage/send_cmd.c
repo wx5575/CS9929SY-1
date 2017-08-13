@@ -295,7 +295,7 @@ MODULE_ADDR_T get_com4_send_addr(void)
     return com4_send_cmd.cur_addr;
 }
 
-void send_cmd_to_one_module(ROAD_INDEX road, uint8_t *data, uint32_t len, SEND_CMD_FUN fun)
+CS_ERR send_cmd_to_one_module(ROAD_INDEX road, uint8_t *data, uint32_t len, SEND_CMD_FUN fun)
 {
     MODULE_ADDR_T addr;
     CS_ERR err;
@@ -304,9 +304,11 @@ void send_cmd_to_one_module(ROAD_INDEX road, uint8_t *data, uint32_t len, SEND_C
     
     if(err != CS_ERR_NONE)
     {
-        return;
+        return err;
     }
     
-    fun(addr, data, len);
+    err = fun(addr, data, len);
+    
+    return err;
 }
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

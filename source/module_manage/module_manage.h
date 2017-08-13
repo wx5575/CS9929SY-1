@@ -64,6 +64,12 @@ typedef struct{
 }FRAME_T;
 #pragma pack()
 
+typedef struct{
+    uint8_t index;///<索引值
+    uint8_t mode[10];///<校准点的模式
+    uint8_t point[10];///<校准点
+}CAL_POINT_INF;
+
 #ifdef   MODULE_GLOBALS
 #define  MODULE_EXT
 #else
@@ -73,6 +79,9 @@ typedef struct{
 #define SYN_MAX_ROADS   8 ///<同步测试的最大路数
 MODULE_EXT ROAD_INF    *module_inf_pool;
 MODULE_EXT SYN_TEST_PORT_INF   syn_test_port[SYN_MAX_ROADS];///最多8路同步测试
+MODULE_EXT uint8_t cur_module_cal_points;
+MODULE_EXT uint8_t cur_module_cal_points_bk;
+MODULE_EXT CAL_POINT_INF cal_point_inf_pool[60];
 
 extern COM_STRUCT com1;
 extern COM_STRUCT com2;
@@ -89,11 +98,15 @@ extern void module_comm_task(void);
 extern void clear_module_inf(void);
 extern CS_BOOL com_comm_is_idle(MODULE_ADDR_T addr);
 extern void wait_com_comm_idle(MODULE_ADDR_T addr);
+extern MODULE_ADDR_T get_module_addr(ROAD_INDEX road, CS_ERR *err);
+extern uint8_t get_total_roads_num(void);
+
 extern CS_ERR com_module_connect(MODULE_ADDR_T addr);
 extern CS_ERR com_module_set_road_num(MODULE_ADDR_T addr, uint8_t *data, uint32_t len);
 extern CS_ERR send_module_connect(MODULE_ADDR_T addr, uint8_t *data, uint32_t len);
-extern MODULE_ADDR_T get_module_addr(ROAD_INDEX road, CS_ERR *err);
-extern uint8_t get_total_roads_num(void);
+extern CS_ERR send_query_cal_points(MODULE_ADDR_T addr, uint8_t *data, uint32_t len);
+extern CS_ERR send_slave_enter_cal_st(MODULE_ADDR_T addr, uint8_t *data, uint32_t len);
+extern CS_ERR send_query_cal_point_inf(MODULE_ADDR_T addr, uint8_t *data, uint32_t len);
 
 #endif //__MODULE_MANAGE_H__
 
