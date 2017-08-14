@@ -32,9 +32,18 @@ enum{
     SET_MODULE_NUM,///<设置模块的编号，对于多路同步测试仪要告诉每个模块在系统中的编号,用这个编号来判断 \
                     是否参与测试工作
     
-    SLAVE_ENTER_CAL_ST = 50,///<从机进入校准状态
-    GET_MODULE_CAL_POINTS = 58,///<获取模块的校准总个数
-    QUERY_CAL_POINT_INF = 60,///<查询校准点信息
+    SLAVE_ENTER_CAL_ST      = 50,///<从机进入校准状态
+    SLAVE_EXIT_CAL_ST       = 51,///<退出校准状态
+    SLAVE_CAL_ST            = 52,///<校准状态查询
+    SLAVE_CAL_MODE          = 53,///<校准模式查询
+    SLAVE_CAL_POINT_RANGE   = 54,///<当前校准点量程查询
+    SLAVE_CAL_START         = 55,///<启动校准输出
+    SLAVE_CAL_STOP          = 56,///<停止校准输出
+    SLAVE_CAL_MEASURE_VALUE = 57,///<设置校准测量值
+    GET_MODULE_CAL_POINTS   = 58,///<获取模块的校准总个数
+    LOAD_CAL_POINT          = 59,///<加载校准点作为当前校准点
+    QUERY_CAL_POINT_INF     = 60,///<查询校准点信息
+    
     
 };
 /**
@@ -231,6 +240,20 @@ void com_receive_dispose(COM_NUM com_num, uint8_t *data, uint32_t len)
         case QUERY_CAL_POINT_INF:
             query_cal_point_inf(com_num, index, frame->data);
             break;
+        case SLAVE_EXIT_CAL_ST:
+            break;
+        case SLAVE_CAL_ST:
+            break;
+        case SLAVE_CAL_MODE:
+            break;
+        case SLAVE_CAL_POINT_RANGE:
+            break;
+        case SLAVE_CAL_START:
+            break;
+        case SLAVE_CAL_STOP:
+            break;
+        case SLAVE_CAL_MEASURE_VALUE:
+            break;
     }
 }
 
@@ -411,6 +434,34 @@ CS_ERR send_query_cal_point_inf(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
 CS_ERR send_slave_enter_cal_st(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
 {
     return com_send_cmd_data(addr, SLAVE_ENTER_CAL_ST, NULL, 0);
+}
+
+CS_ERR send_slave_start_cal(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
+{
+    return com_send_cmd_data(addr, SLAVE_CAL_START, NULL, 0);
+}
+CS_ERR send_slave_stop_cal(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
+{
+    return com_send_cmd_data(addr, SLAVE_CAL_STOP, NULL, 0);
+}
+CS_ERR send_slave_set_measure_value(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
+{
+    return com_send_cmd_data(addr, SLAVE_CAL_MEASURE_VALUE, data, len);
+}
+CS_ERR send_slave_load_cur_point(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
+{
+    return com_send_cmd_data(addr, LOAD_CAL_POINT, data, len);
+}
+/**
+  * @brief  发送从机退出校准状态指令
+  * @param  [in] addr 通信地址
+  * @param  [in] data 数据
+  * @param  [in] len 数据长度
+  * @retval 发送结果
+  */
+CS_ERR send_slave_exit_cal_st(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
+{
+    return com_send_cmd_data(addr, SLAVE_EXIT_CAL_ST, NULL, 0);
 }
 /**
   * @brief  发送设置模块编号指令

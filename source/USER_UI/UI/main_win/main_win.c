@@ -641,6 +641,7 @@ void main_ui_enter(void)
     init_user_window_env();//初始化用户窗口环境
     into_start_win();//进入启动窗口
     into_self_check_win();//进入自检窗口
+    read_par_from_memory();//从存储器读取参数
     create_key_menu_window();//创建按键界面
     create_main_windows();//创建主界面
 	

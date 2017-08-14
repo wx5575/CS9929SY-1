@@ -9,6 +9,7 @@
   */
 /* Includes ------------------------------------------------------------------*/
 #include "string.h"
+#include "stdio.h"
 #include "GUI.H"
 #include "WM.h"
 #include "IMAGE.H"
@@ -31,7 +32,14 @@ enum{
     CAL_ST_IDLE,///<校准空闲状态
     GET_CAL_POINTS,///<获取校准点总个数
     SLAVE_INTO_CAL,///<从机进入校准状态
+    SLAVE_EXIT_CAL,///<从机退出校准状态
     GET_ALL_CAL_POINTS_INF,///<获取所有校准点的信息
+    AUTO_INIT_SLAVE_CAL_ENV,///<自动初始化从机校准环境
+    EXIT_CAL_WIN,///<退出校准窗口
+    CAL_START,///<启动校准
+    CAL_STOP,///<停止校准
+    SET_MEASURE_VALUE,///<设置测试值
+    LOAD_CAL_POINT,///<加载校准点作为当前校准点
 };
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -93,7 +101,9 @@ static void cal_measured_value_press_enter(WM_HMEM hWin);
 //	MAIN_UI_SYS_TIME,
 //};
 
+static uint8_t cur_cal_point_num;///<当前校准点的编号
 static uint8_t cal_status = CAL_ST_IDLE;
+static uint8_t auto_init_flag = CAL_ST_IDLE;
 static	WM_HWIN cal_win_timer_handle;///<定时器句柄
 static	LISTVIEW_Handle calibration_list_handle;///<校准管理列表句柄
 /**
@@ -123,7 +133,7 @@ static WIDGET_POS_SIZE_T* calibration_win_pos_size_pool[SCREEN_NUM]=
 /** 主界面使用的菜单键信息的配置 */
 static MENU_KEY_INFO_T 	calibration_win_menu_key_inf[] = 
 {
-    {"", F_KEY_F1		, KEY_F1 & _KEY_UP, calibration_win_f1_cb },//f1
+    {"", F_KEY_START    , KEY_F1 & _KEY_UP, calibration_win_f1_cb },//f1
     {"", F_KEY_F2		, KEY_F2 & _KEY_UP, calibration_win_f2_cb },//f2
     {"", F_KEY_F3		, KEY_F3 & _KEY_UP, calibration_win_f3_cb },//f3
     {"", F_KEY_MODULE   , KEY_F4 & _KEY_UP, calibration_win_f4_cb },//f4
@@ -262,14 +272,33 @@ static void init_create_calibration_win_edit_ele(MYUSER_WINDOW_T *win)
     select_edit_ele(g_cur_edit_ele);//选中当前编辑对象
 }
 
+static void update_cal_win_title_point_inf(void)
+{
+    uint8_t buf[20] = {0};
+    uint32_t row = 0;
+    uint32_t col = 0;
+    
+	row = LISTVIEW_GetSel(calibration_list_handle);
+    
+    cur_cal_point_num = row + 1;
+    
+    sprintf((char*)buf, "%d/%d", cur_cal_point_num, cur_module_cal_points);
+//    sprintf((char*)buf, "%d/%d", 1, num);
+    update_text_ele((CS_INDEX)CAL_WIN_MODULE_TOTAL_V, g_cur_win, buf);
+    
+    cal_status = LOAD_CAL_POINT;
+}
+
 static void calibration_win_direct_key_up_cb   (KEY_MESSAGE *key_msg)
 {
 	LISTVIEW_DecSel(calibration_list_handle);
+    update_cal_win_title_point_inf();
 }
 
 static void calibration_win_direct_key_down_cb (KEY_MESSAGE *key_msg)
 {
 	LISTVIEW_IncSel(calibration_list_handle);
+    update_cal_win_title_point_inf();
 }
 static void calibration_win_direct_key_left_cb (KEY_MESSAGE *key_msg)
 {
@@ -325,6 +354,7 @@ static void cal_measured_value_press_enter(WM_HMEM hWin)
     delete_win_edit_ele(g_cur_win);
     set_cur_edit_ele(NULL);//将当前编辑对象置为空
     g_cur_win->init_key_fun(g_cur_win->handle);
+    cal_status = SET_MEASURE_VALUE;
 }
 static void cal_measured_value_menu_key(WM_HMEM hWin)
 {
@@ -346,7 +376,8 @@ static void cal_measured_value_sys_key(WM_HMEM hWin)
   */
 static void calibration_win_f1_cb(KEY_MESSAGE *key_msg)
 {
-    cal_status = SLAVE_INTO_CAL;
+    cal_status = CAL_START;
+    init_create_calibration_win_edit_ele(g_cur_win);
 }
 /**
   * @brief  主窗口中功能键F2回调函数
@@ -355,9 +386,9 @@ static void calibration_win_f1_cb(KEY_MESSAGE *key_msg)
   */
 static void calibration_win_f2_cb(KEY_MESSAGE *key_msg)
 {
-    cal_status = GET_CAL_POINTS;
+    cal_status = CAL_STOP;
 }
-uint32_t cur_measured_value;
+uint64_t cur_measured_value;
 static void set_calibration_win_ele_data(void)
 {
     reg_edit_ele_data_inf(CAL_WIN_EDIT_INDEX, &cur_measured_value, sizeof(cur_measured_value));
@@ -525,7 +556,7 @@ void create_calibration_win_listview(WM_HWIN hWin)
 void update_cal_point_dis_inf(uint8_t num)
 {
     uint8_t *str = NULL;
-    uint8_t index = 0;
+//    uint8_t index = 0;
     uint8_t row = 0;
     uint8_t col = 0;
     int32_t i = 0;
@@ -535,14 +566,14 @@ void update_cal_point_dis_inf(uint8_t num)
         row = i;
         col = 1;
         str = cal_point_inf_pool[i].mode;
-        if(strlen(str) > 8)
+        if(strlen((const char*)str) > 8)
         {
             str = "";
         }
 		LISTVIEW_SetItemText(calibration_list_handle, col, row, (const char*)str);
         col = 2;
         str = cal_point_inf_pool[i].point;
-        if(strlen(str) > 8)
+        if(strlen((const char*)str) > 8)
         {
             str = "";
         }
@@ -550,11 +581,12 @@ void update_cal_point_dis_inf(uint8_t num)
     }
 }
 
-void update_cal_win_title_inf(uint8_t num)
+static void update_cal_win_title_inf(uint8_t num)
 {
     uint8_t buf[20] = {0};
     
-    sprintf((char*)buf, "%d/%d", num, cur_module_cal_points);
+//    sprintf((char*)buf, "%d/%d", num, cur_module_cal_points);
+    sprintf((char*)buf, "%d/%d", 1, num);
     update_text_ele((CS_INDEX)CAL_WIN_MODULE_TOTAL_V, g_cur_win, buf);
 }
 static void clear_cal_listview(void)
@@ -581,12 +613,49 @@ static void cal_status_machine(void)
     switch(cal_status)
     {
         case CAL_ST_IDLE:
-            if(cur_module_cal_points_bk != cur_module_cal_points)
-            {
-                cur_module_cal_points_bk = cur_module_cal_points;
-                cal_status = GET_ALL_CAL_POINTS_INF;
-            }
             break;
+        case LOAD_CAL_POINT:
+        {
+            road = (ROAD_INDEX)get_cur_cal_road();
+            
+            send_cmd_to_one_module(road, &cur_cal_point_num, sizeof(cur_cal_point_num),
+                                    send_slave_load_cur_point);
+            cal_status = CAL_ST_IDLE;
+            
+            break;
+        }
+        case CAL_START:
+        {
+            road = (ROAD_INDEX)get_cur_cal_road();
+            
+            send_cmd_to_one_module(road, NULL, 0, send_slave_start_cal);
+            cal_status = CAL_ST_IDLE;
+            
+            break;
+        }
+        case CAL_STOP:
+        {
+            road = (ROAD_INDEX)get_cur_cal_road();
+            
+            send_cmd_to_one_module(road, NULL, 0, send_slave_stop_cal);
+            cal_status = CAL_ST_IDLE;
+            
+            break;
+        }
+        case SET_MEASURE_VALUE:
+        {
+            road = (ROAD_INDEX)get_cur_cal_road();
+            
+            err = send_cmd_to_one_module(road, (void*)&cur_measured_value, sizeof(cur_measured_value),
+                                        send_slave_set_measure_value);
+            
+            if(err == CS_ERR_SEND_SUCCESS)
+            {
+                cal_status = CAL_STOP;
+            }
+            
+            break;
+        }
         case GET_CAL_POINTS:
         {
             road = (ROAD_INDEX)get_cur_cal_road();
@@ -630,6 +699,49 @@ static void cal_status_machine(void)
             
             break;
         }
+        case EXIT_CAL_WIN:
+        {
+            road = (ROAD_INDEX)get_cur_cal_road();
+            
+            send_cmd_to_one_module(road, NULL, 0, send_slave_exit_cal_st);
+            cal_status = CAL_ST_IDLE;
+            
+            break;
+        }
+        case AUTO_INIT_SLAVE_CAL_ENV:
+        {
+            switch(auto_init_flag)
+            {
+                case SLAVE_INTO_CAL:
+                {
+                    road = (ROAD_INDEX)get_cur_cal_road();
+                    
+                    err = send_cmd_to_one_module(road, NULL, 0, send_slave_enter_cal_st);
+                    
+                    if(err == CS_ERR_SEND_SUCCESS)
+                    {
+                        auto_init_flag = GET_CAL_POINTS;
+                    }
+                    break;
+                }
+                case GET_CAL_POINTS:
+                {
+                    road = (ROAD_INDEX)get_cur_cal_road();
+                    cur_module_cal_points = 0;
+                    cur_module_cal_points_bk = 0;
+                    cur_point = 0;
+                    clear_cal_listview();
+                    err = send_cmd_to_one_module(road, NULL, 0, send_query_cal_points);
+                    
+                    if(err == CS_ERR_SEND_SUCCESS)
+                    {
+                        cal_status = GET_ALL_CAL_POINTS_INF;
+                    }
+                    break;
+                }
+            }
+            break;
+        }
     }
 }
 /**
@@ -650,7 +762,9 @@ static void calibration_win_cb(WM_MESSAGE * pMsg)
             create_calibration_win_listview(hWin);
             init_create_win_all_ele(win);
 			cal_win_timer_handle = WM_CreateTimer(hWin, 0, 100, 0);
-            
+            set_cur_cal_road(1);
+            cal_status = AUTO_INIT_SLAVE_CAL_ENV;
+            auto_init_flag = SLAVE_INTO_CAL;
 			break;
 		case WM_PAINT:
 			_PaintFrame();
@@ -663,6 +777,11 @@ static void calibration_win_cb(WM_MESSAGE * pMsg)
 			break;
 		}
 		case WM_KEY:
+			break;
+		case WM_DELETE:
+            WM_DeleteTimer(cal_win_timer_handle);
+            cal_status = EXIT_CAL_WIN;
+            cal_status_machine();
 			break;
 		default:
 			WM_DefaultProc(pMsg);

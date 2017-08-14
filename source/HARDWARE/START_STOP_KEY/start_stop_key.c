@@ -20,6 +20,12 @@
 
 #define  GPIO_PORT_STOP			GPIOB
 #define  GPIO_PIN_STOP			GPIO_Pin_2
+
+#define  GPIO_PORT_SYN_START		GPIOE
+#define  GPIO_PIN_SYN_START			GPIO_Pin_6
+
+#define  GPIO_PORT_SYN_STOP		GPIOE
+#define  GPIO_PIN_SYN_STOP      GPIO_Pin_5
 /**
   * @brief  启动复位键外部中断配置
   * @param  无
@@ -99,6 +105,18 @@ void key_start_stop_gpio_init(void)
     
     key_start_stop_exit_config();
     key_start_stop_nvic_config();
+    
+    /* 同步启动，复位引脚 PE5 PE6 */
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//上拉
+    
+    /* 同步启动引脚 */
+    GPIO_InitStructure.GPIO_Pin = GPIO_PIN_SYN_START;
+    GPIO_Init(GPIO_PORT_SYN_START, &GPIO_InitStructure);
+    
+    /* 同步复位引脚 */
+    GPIO_InitStructure.GPIO_Pin = GPIO_PIN_SYN_STOP;
+    GPIO_Init(GPIO_PORT_SYN_STOP, &GPIO_InitStructure);
 }
 
 /**

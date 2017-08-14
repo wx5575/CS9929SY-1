@@ -284,10 +284,16 @@ static void reg_sel_cal_module_sys_key(WM_HMEM hWin)
 {
     register_system_key_fun(sel_cal_module_sys_key_pool, ARRAY_SIZE(sel_cal_module_sys_key_pool), hWin);
 }
-uint8_t cur_cal_module_index = 1;
+uint8_t cur_cal_module_index = 1;///<当前校准路索引
+uint8_t prev_cal_module_index = 1;///<上一路校准索引
 uint8_t get_cur_cal_road(void)
 {
     return cur_cal_module_index;
+}
+
+void set_cur_cal_road(uint8_t road)
+{
+    cur_cal_module_index = road;
 }
 static void set_sel_cal_module_par_win_ele_data(void)
 {

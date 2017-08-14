@@ -106,7 +106,13 @@ extern CS_ERR com_module_set_road_num(MODULE_ADDR_T addr, uint8_t *data, uint32_
 extern CS_ERR send_module_connect(MODULE_ADDR_T addr, uint8_t *data, uint32_t len);
 extern CS_ERR send_query_cal_points(MODULE_ADDR_T addr, uint8_t *data, uint32_t len);
 extern CS_ERR send_slave_enter_cal_st(MODULE_ADDR_T addr, uint8_t *data, uint32_t len);
+extern CS_ERR send_slave_exit_cal_st(MODULE_ADDR_T addr, uint8_t *data, uint32_t len);
 extern CS_ERR send_query_cal_point_inf(MODULE_ADDR_T addr, uint8_t *data, uint32_t len);
+
+extern CS_ERR send_slave_start_cal(MODULE_ADDR_T addr, uint8_t *data, uint32_t len);
+extern CS_ERR send_slave_stop_cal(MODULE_ADDR_T addr, uint8_t *data, uint32_t len);
+extern CS_ERR send_slave_set_measure_value(MODULE_ADDR_T addr, uint8_t *data, uint32_t len);
+extern CS_ERR send_slave_load_cur_point(MODULE_ADDR_T addr, uint8_t *data, uint32_t len);
 
 #endif //__MODULE_MANAGE_H__
 

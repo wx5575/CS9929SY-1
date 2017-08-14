@@ -397,7 +397,7 @@ void read_par_from_memory(void)
 void main_task(void *p_arg)
 {
     init_gui_environment();//初始化GUI运行环境
-    read_par_from_memory();//从存储器读取参数
+//    read_par_from_memory();//从存储器读取参数
 	main_ui_enter();//主界面入口
 	
 	while(1)
