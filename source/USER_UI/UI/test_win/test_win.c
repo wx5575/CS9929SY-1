@@ -15,6 +15,10 @@
 #include "ui_com/com_edit_api.h"
 #include "7_test_ui_layout_1.h"
 #include "test_win.h"
+#include "module_manage.h"
+#include "send_cmd.h"
+#include "start_stop_key.h"
+#include "tim3.h"
 
 
 /* Private typedef -----------------------------------------------------------*/
@@ -24,6 +28,17 @@
 enum{
     TEST_WIN_EDIT_INDEX,///<测试窗口中的编辑对象索引枚举
 };
+/**
+* @brief  测试状态机的状态枚举定义
+  */
+typedef enum{
+    TEST_IDLE,///<空闲状态
+    TEST_START,///<启动测试
+    TEST_REST,///<复位测试
+    TEST_TESTING,///<正在测试
+    CHECK_TEST_OVER_SIGN,///<检查从机测试完成信号
+}TEST_STATUS_ENUM;
+
 /**
   * @brief  数据设置的倍率
   */
@@ -137,6 +152,7 @@ static void test_win_direct_key_down_cb(KEY_MESSAGE *key_msg);
 static void test_win_direct_key_left_cb(KEY_MESSAGE *key_msg);
 static void test_win_direct_key_right_cb(KEY_MESSAGE *key_msg);
 static void test_win_sys_key_enter_cb(KEY_MESSAGE *key_msg);
+static void test_win_sys_start_key_fun_cb(KEY_MESSAGE *key_msg);
 
 static void test_win_edit_num_direct_key_up_cb   (KEY_MESSAGE *key_msg);
 static void test_win_edit_num_direct_key_down_cb (KEY_MESSAGE *key_msg);
@@ -164,7 +180,14 @@ static void change_key_set_acw_par_menu(int hWin);
 static void update_cur_range_cur_value_menu_key_color(void);
 static void update_data_mul_power(uint32_t key_value, uint32_t mul_power);
 /* Private variables ---------------------------------------------------------*/
-
+/**
+  * @brief  测试状态机的状态
+  */
+TEST_STATUS_ENUM test_status;
+/**
+  * @brief  定时器句柄
+  */
+static	WM_HWIN test_win_timer_handle;
 /**
   * @brief  数据倍率
   */
@@ -193,7 +216,7 @@ static MENU_KEY_INFO_T test_ui_menu_key_pool[]=
     {"", F_KEY_FILE		, KEY_F1 & _KEY_UP,	test_win_f1_cb },//f1
     {"", F_KEY_SETTING  , KEY_F2 & _KEY_UP,	test_win_f2_cb },//f2
     {"", F_KEY_RESULT   , KEY_F3 & _KEY_UP,	test_win_f3_cb },//f3
-    {"", F_KEY_NULL	    , KEY_F4 & _KEY_UP,	test_win_f4_cb },//f4
+    {"", F_KEY_START    , KEY_F4 & _KEY_UP,	test_win_f4_cb },//f4
     {"", F_KEY_NULL     , KEY_F5 & _KEY_UP,	test_win_f5_cb },//f5
     {"", F_KEY_BACK		, KEY_F6 & _KEY_UP,	test_win_f6_cb },//f6
 };
@@ -465,7 +488,10 @@ static MYUSER_WINDOW_T test_windows=
     },/* auto_layout */
     test_win_pos_size_pool,/*pos_size_pool */
 };
-
+/**
+  * @brief  用this_win来代指向测试窗口
+  */
+static MYUSER_WINDOW_T *this_win = &test_windows;
 /**
   * @brief  编辑测试模式时使用的定制菜单键信息初始化数组
   */
@@ -570,6 +596,7 @@ static CONFIG_FUNCTION_KEY_INFO_T 	test_win_edit_par_sys_key_init_pool[]=
     
 	{CODE_RIGH	, 0 },
 	{CODE_LEFT	, 0 },
+	{KEY_START	    , test_win_sys_start_key_fun_cb       },
 };
 /**
   * @brief  测试窗口编辑数值时使用的功能键的初始化信息数组
@@ -1313,6 +1340,15 @@ static void test_win_direct_key_right_cb(KEY_MESSAGE *key_msg)
 static void test_win_sys_key_enter_cb(KEY_MESSAGE *key_msg)
 {
 }
+/**
+  * @brief  测试窗口ENTER键回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void test_win_sys_start_key_fun_cb(KEY_MESSAGE *key_msg)
+{
+    test_status = TEST_START;
+}
 
 static void test_win_edit_num_direct_key_up_cb   (KEY_MESSAGE *key_msg)
 {
@@ -1714,6 +1750,7 @@ static void test_win_f3_cb(KEY_MESSAGE *key_msg)
   */
 static void test_win_f4_cb(KEY_MESSAGE *key_msg)
 {
+    test_status = TEST_START;
 }
 /**
   * @brief  测试窗口菜单键F5回调函数
@@ -2783,6 +2820,221 @@ static void init_create_test_win_com_ele(MYUSER_WINDOW_T* win)
     update_group_inf(win);//更新记忆组信息
 }
 
+char* div_str_pre_zero(char *str)
+{
+    uint8_t len = strlen(str);
+    uint32_t i = 0;
+    char *p = str;
+    
+    for(i = 1; i < len - 1; i++)
+    {
+        if(p[i - 1] == '0' && p[i] != '.')
+        {
+            p[i - 1] = ' ';
+        }
+        else
+        {
+            break;
+        }
+    }
+    
+    return p;
+}
+
+const uint8_t* get_test_status_str(uint8_t status)
+{
+    const uint8_t *str = NULL;
+    
+    switch(status)
+    {
+        case ST_WAIT:
+            str = status_str[TEST_WAIT_INDEX][SYS_LANGUAGE];
+            break;
+        case ST_TESTING:
+            str = status_str[TEST_TEST_INDEX][SYS_LANGUAGE];
+            break;
+        case ST_PASS:
+            str = status_str[TEST_PASS_INDEX][SYS_LANGUAGE];
+            break;
+        default:
+            str = status_str[TEST_WAIT_INDEX][SYS_LANGUAGE];
+            break;
+    }
+    
+    return str;
+}
+typedef struct
+{
+    uint8_t road_num;
+    CS_INDEX num;///<路编号
+    CS_INDEX mode;///<测试模块
+    CS_INDEX status;///<测试状态
+    CS_INDEX vol;///<测试电压
+    CS_INDEX cur;///<测试电流
+    CS_INDEX real;///<真实电流
+    CS_INDEX time;///<测试时间
+}ROAD_DIS_ELE_INF;
+
+ROAD_DIS_ELE_INF road_test_dis_inf[]=
+{
+    {
+        1,
+        TEST_UI_ROAD01_NUM,///<第一路的编号
+        TEST_UI_ROAD01_MODE,///<第一路的模式
+        TEST_UI_ROAD01_STATUS,///<第一路的状态
+        TEST_UI_ROAD01_VOLTAGE,///<第一路的输出电压
+        TEST_UI_ROAD01_UPPER,///<第一路的测试电流 在等待测试时显示的是电流上限
+        TEST_UI_ROAD01_REAL,///<第一路的真实电流
+        TEST_UI_ROAD01_TIME,///<第一路的测试时间
+    },
+    {
+        2,
+        TEST_UI_ROAD02_NUM,///<第一路的编号
+        TEST_UI_ROAD02_MODE,///<第一路的模式
+        TEST_UI_ROAD02_STATUS,///<第一路的状态
+        TEST_UI_ROAD02_VOLTAGE,///<第一路的输出电压
+        TEST_UI_ROAD02_UPPER,///<第一路的测试电流 在等待测试时显示的是电流上限
+        TEST_UI_ROAD02_REAL,///<第一路的真实电流
+        TEST_UI_ROAD02_TIME,///<第一路的测试时间
+    },
+};
+
+void dis_one_road_test_inf(COMM_TEST_DATA *inf, ROAD_DIS_ELE_INF* road_ele_inf)
+{
+    const uint8_t *str = NULL;
+    
+    strcat((char*)inf->vol, (const char*)unit_pool[inf->vol_unit]);
+    div_str_pre_zero((char*)inf->vol);
+    strcat((char*)inf->cur, (const char*)unit_pool[inf->cur_unit]);
+    div_str_pre_zero((char*)inf->cur);
+    strcat((char*)inf->time, (const char*)unit_pool[TIM_U_s]);
+    div_str_pre_zero((char*)inf->time);
+    update_text_ele(road_ele_inf->vol, this_win, inf->vol);
+    update_text_ele(road_ele_inf->cur, this_win, inf->cur);
+    update_text_ele(road_ele_inf->time, this_win, inf->time);
+    update_text_ele(road_ele_inf->mode, this_win, inf->mode);
+    str = get_test_status_str(inf->status);
+    update_text_ele(road_ele_inf->status, this_win, str);
+}
+
+void dis_roads_inf(void)
+{
+    COMM_TEST_DATA test_data;
+    const uint8_t *str = NULL;
+    uint32_t num = 0;
+    uint8_t road_num;
+    int32_t i = 0;
+    
+    
+    num = ARRAY_SIZE(road_test_dis_inf);
+    
+    for(i = 0; i < num; i++)
+    {
+        road_num = road_test_dis_inf[i].road_num;
+        get_road_test_data(road_num, &test_data);
+        
+//        if(test_data.work_st == 1)
+        {
+            dis_one_road_test_inf(&test_data, &road_test_dis_inf[i]);
+            update_com_text_ele((CS_INDEX)COM_UI_CUR_STEP, this_win, test_data.step);
+        }
+    }
+}
+uint8_t all_road_test_over(void)
+{
+    CS_BOOL b;
+    
+    b = road1_test_over();
+    
+    return b;
+}
+uint32_t hold_start_sign_time;
+
+void run_start_sign(void)
+{
+    if(hold_start_sign_time > 0)
+    {
+        if(--hold_start_sign_time == 0)
+        {
+            SYN_START_PIN = 1;
+        }
+    }
+}
+
+void hold_start_sign(uint32_t ms)
+{
+    hold_start_sign_time = ms;
+}
+
+void send_start_sign(void)
+{
+    SYN_START_PIN = 0;
+    hold_start_sign(100);
+}
+
+/**
+  * @brief  测试状态机
+  * @param  无
+  * @retval 无
+  */
+static void test_status_machine(void)
+{
+    static uint32_t count_dly;
+    CS_ERR err;
+    static uint16_t test_step = 1;
+    NODE_STEP *node;
+    uint8_t total_roads;
+    static uint8_t cur_road;
+    
+    switch(test_status)
+    {
+        case TEST_IDLE:
+            if(++count_dly > 30)
+            {
+                count_dly = 0;
+//                test_status = TEST_START;
+            }
+            break;
+        case CHECK_TEST_OVER_SIGN:
+            total_roads = get_total_roads_num();
+//            
+//            if(comm_syn_sign == 0)
+//            {
+//                send_cmd_to_one_module(cur_road, &cur_road, sizeof(cur_road), send_test_over_sign_h);
+//            }
+            break;
+        case TEST_START:
+//            send_cmd_to_all_module(NULL, 0, send_start_test);
+            send_cmd_to_all_module((uint8_t*)&test_step,
+                                    2, send_load_step);
+            
+            test_step = ((test_step) % (g_cur_file->total)) + 1;
+            
+            
+            load_steps_to_list(test_step, 1);//加载新的当前步
+            node = get_g_cur_step();
+            load_data();
+            send_start_sign();
+            
+            test_status = TEST_TESTING;
+            break;
+        case TEST_REST:
+            break;
+        case TEST_TESTING:
+            send_cmd_to_all_module(NULL, 0, send_get_test_data);
+            dis_roads_inf();
+            
+            if(1 == all_road_test_over())
+            {
+                if(++count_dly > 30)
+                {
+                    count_dly = 0;
+                    test_status = TEST_IDLE;
+                }
+            }
+            break;
+    }
+}
 /**
   * @brief  测试界面回调函数
   * @param  [in] pMsg 回调函数指针
@@ -2799,9 +3051,11 @@ static void test_win_cb(WM_MESSAGE* pMsg)
 		{
             set_test_windows_handle(hWin);
             win = get_user_window_info(hWin);
+            register_tim3_server_fun(run_start_sign);
             
 			WM_SetFocus(hWin);/* 设置聚焦 */
 			WM_SetCreateFlags(WM_CF_MEMDEV);//如果不开启显示效果非常差, 开启后刷屏很慢
+			test_win_timer_handle = WM_CreateTimer(hWin, 0, 200, 0);
 			
 			if(win != NULL)
 			{
@@ -2825,6 +3079,8 @@ static void test_win_cb(WM_MESSAGE* pMsg)
 		}
 		case WM_TIMER:
 		{
+            test_status_machine();
+			WM_RestartTimer(test_win_timer_handle, 10);
 			break;
         }
         case WM_KEY:

@@ -28,7 +28,7 @@ const uint8_t *unit_pool[]=
 /**
   * @brief  工作模式
   */
-const uint8_t *work_mode_pool[2]={"N","G"};
+const uint8_t *work_mode_pool[2]={"G","N"};
 /**
   * @brief  语言
   */
@@ -77,7 +77,7 @@ const uint8_t * mode_pool[10]=
 /**
   * @brief  测试状态
   */
-const char* status_str[][2] = 
+const uint8_t* status_str[][2] = 
 {
 	{"等待测试", "TestWait"},
 	{"电压上升", "  Rise  "},
@@ -91,12 +91,12 @@ const char* status_str[][2] =
 	{"稳压时间", "Sta.Time"},
 	{"正在放电", "Discharg"},
 	{"放电结束", "Disch.OK"},
-	{"输出延时", "Out.Dly"},
+	{"输出延时", "Out.Dly" },
 };
 /**
   * @brief  测试异常状态
   */
-const char* except_buf[][3]=
+const uint8_t* except_buf[][3]=
 {
 	{"","",""},
 	{"上限报警", "High Fail", "High"   },

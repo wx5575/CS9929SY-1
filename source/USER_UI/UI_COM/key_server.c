@@ -14,6 +14,7 @@
 #include "com_edit_api.h"
 #include "key_fun_manage.h"
 #include "CODED_DISC/coded_disc.h"
+#include "start_stop_key.h"
 
 
 /* Private typedef -----------------------------------------------------------*/
@@ -424,6 +425,16 @@ uint32_t get_key_value(void)
     
     return KEY_NONE;
 }
+
+static void run_syn_stop_pin_irq(void)
+{
+    SYN_STOP_PIN = STOP_PIN;
+//    SYN_START_PIN = START_PIN;
+}
+//CS_BOOL start_key_press(void)
+//{
+//    return SYN_START_PIN == 0? CS_TRUE:CS_FALSE;
+//}
 /**
   * @brief  按键扫描任务
   * @param  无
@@ -434,6 +445,7 @@ void scan_key_task(void)
 	uint32_t key_value = KEY_NONE;
 	OS_ERR	err;
 	
+    register_tim3_server_fun(run_syn_stop_pin_irq);
 	init_keyboard();
     create_key_fifo_queue();
 	set_scan_key_custom_fun(NULL);

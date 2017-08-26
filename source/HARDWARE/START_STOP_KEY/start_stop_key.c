@@ -22,10 +22,10 @@
 #define  GPIO_PIN_STOP			GPIO_Pin_2
 
 #define  GPIO_PORT_SYN_START		GPIOE
-#define  GPIO_PIN_SYN_START			GPIO_Pin_6
+#define  GPIO_PIN_SYN_START			GPIO_Pin_5
 
 #define  GPIO_PORT_SYN_STOP		GPIOE
-#define  GPIO_PIN_SYN_STOP      GPIO_Pin_5
+#define  GPIO_PIN_SYN_STOP      GPIO_Pin_6
 /**
   * @brief  启动复位键外部中断配置
   * @param  无
@@ -42,7 +42,7 @@ static void key_start_stop_exit_config(void)
     EXTI_ClearITPendingBit(EXTI_Line2);        //清外部线路0中断
     EXTI_InitStructure.EXTI_Line = EXTI_Line2;      //线路0
     EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;    //触发模式为中断
-    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;   //下降沿触发
+    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising_Falling;   //下降沿触发
     EXTI_InitStructure.EXTI_LineCmd = ENABLE;      //开外部中断
     EXTI_Init(&EXTI_InitStructure);
     
@@ -87,6 +87,7 @@ void key_start_stop_gpio_init(void)
     GPIO_InitTypeDef  GPIO_InitStructure;
     
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB | RCC_AHB1Periph_GPIOF, ENABLE);//使能GPIOA时钟
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOE, ENABLE);
     
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;//100MHz
     GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//上拉
@@ -103,6 +104,22 @@ void key_start_stop_gpio_init(void)
     GPIO_InitStructure.GPIO_Pin = GPIO_PIN_STOP;
     GPIO_Init(GPIO_PORT_STOP, &GPIO_InitStructure);//初始化
     
+    /* 第一路测试完成 */
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
+    GPIO_Init(GPIOB, &GPIO_InitStructure);//初始化
+    
+    /* 第二路测试完成 */
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
+    GPIO_Init(GPIOB, &GPIO_InitStructure);//初始化
+    
+    /* 第三路测试完成 */
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;
+    GPIO_Init(GPIOG, &GPIO_InitStructure);//初始化
+    
+    /* 第四路测试完成 */
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;
+    GPIO_Init(GPIOG, &GPIO_InitStructure);//初始化
+    
     key_start_stop_exit_config();
     key_start_stop_nvic_config();
     
@@ -113,10 +130,12 @@ void key_start_stop_gpio_init(void)
     /* 同步启动引脚 */
     GPIO_InitStructure.GPIO_Pin = GPIO_PIN_SYN_START;
     GPIO_Init(GPIO_PORT_SYN_START, &GPIO_InitStructure);
+    GPIO_SetBits(GPIO_PORT_SYN_START, GPIO_PIN_SYN_START);
     
     /* 同步复位引脚 */
     GPIO_InitStructure.GPIO_Pin = GPIO_PIN_SYN_STOP;
     GPIO_Init(GPIO_PORT_SYN_STOP, &GPIO_InitStructure);
+    GPIO_SetBits(GPIO_PORT_SYN_STOP, GPIO_PIN_SYN_STOP);
 }
 
 /**
@@ -133,7 +152,7 @@ void EXTI2_IRQHandler(void)
         
         if(GPIO_ReadInputDataBit(GPIO_PORT_STOP, GPIO_PIN_STOP) == 0)
         {
-            
+//            SYN_STOP_PIN = PIN_L;
         }
     }
 }

@@ -21,4 +21,6 @@ typedef enum{
     CAL_WIN_MODULE_TOTAL_V,///<校准模块校准点总数值
 }MODULE_TEXT_INDEX;
 
+void update_cur_cal_point_inf(void);
+
 #endif //__CALIBRATION_WIN_H__

@@ -291,6 +291,15 @@ uint8_t get_cur_cal_road(void)
     return cur_cal_module_index;
 }
 
+uint8_t get_prev_cal_road(void)
+{
+    return prev_cal_module_index;
+}
+void set_prev_cal_road(uint8_t road)
+{
+    prev_cal_module_index = road;
+}
+
 void set_cur_cal_road(uint8_t road)
 {
     cur_cal_module_index = road;
@@ -404,6 +413,7 @@ static void sel_cal_module_win_cb(WM_MESSAGE * pMsg)
 			break;
 		case WM_DELETE:
 		{
+            update_cur_cal_point_inf();
 			break;
 		}
 		default:

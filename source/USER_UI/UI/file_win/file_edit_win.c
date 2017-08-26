@@ -977,8 +977,8 @@ static void set_file_par_window_ele_data(TEST_FILE *f)
     uint32_t size;
     static uint8_t work_mode_flag[]=
     {
-        N_MODE,// N模式
         G_MODE,// G模式
+        N_MODE,// N模式
     };
     
     pool = g_cur_win->edit.pool;

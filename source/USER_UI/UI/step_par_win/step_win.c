@@ -17,6 +17,8 @@
 #include "step_edit_win.h"
 #include "7_step_ui.h"
 #include "step_win.h"
+#include "module_manage.h"
+#include "send_cmd.h"
 
   
 /* Private typedef -----------------------------------------------------------*/
@@ -323,6 +325,8 @@ static void new_one_step(int hwin)
     update_step_cur_row_menu_key_st(hwin);//更新当前行的菜单键信息
     update_g_cur_step();//更新当前步
     update_group_inf(g_cur_win);//更新记忆组显示信息
+    
+    send_cmd_to_all_module((void*)&mode, sizeof(mode), send_insert_step);
 }
 /**
   * @brief  移动测试步
@@ -368,6 +372,7 @@ static void move_step(MOVE_STEP_DIRECTION dir)
     }
     
     swap_step(one, two);//交换步骤
+    send_cmd_to_all_module((void*)&one, sizeof(one), send_swap_step);
     save_group_info(g_cur_file->num);//保存记忆组信息
     dis_all_steps();//显示所有的步骤信息
     
@@ -464,15 +469,18 @@ static void delete_g_cur_step(void)
     int row = 0;
     NODE_STEP *node;
     uint32_t total = g_cur_file->total;
+    STEP_NUM step_num;
     
 	row = LISTVIEW_GetSel(list_h);
+    step_num = row + 1;
 	
-    if(total < row + 1)
+    if(total < step_num)
     {
         return;
     }
     
-    del_step(row + 1);//删除光标所在行的测试步
+    del_step(step_num);//删除光标所在行的测试步
+    send_cmd_to_all_module((void*)&step_num, sizeof(step_num), send_del_step);
     clear_step_listview();//清空列表
     dis_all_steps();//显示所有步骤信息
     
@@ -503,6 +511,9 @@ static void delete_g_cur_step(void)
     update_group_inf(g_cur_win);//更新记忆组信息
     update_step_cur_row_menu_key_st(g_cur_win->handle);//更新当前行的菜单信息
     save_group_info(g_cur_file->num);//保存记忆组信息
+    
+    step_num = g_cur_step->one_step.com.step;
+    send_cmd_to_all_module((void*)&step_num, sizeof(step_num), send_load_step);
 }
 /**
   * @brief  更新当前步骤
@@ -513,19 +524,23 @@ static void update_g_cur_step(void)
 {
     int row = 0;
     NODE_STEP *node;
+    STEP_NUM step_num;
     
 	row = LISTVIEW_GetSel(list_h);
+    step_num = row + 1;
 	
 	/* 步骤存在 */
-    if(g_cur_file->total >= row + 1)
+    if(g_cur_file->total >= step_num)
     {
-        load_steps_to_list(row + 1, 1);//加载新的当前步
+        load_steps_to_list(step_num, 1);//加载新的当前步
         node = get_g_cur_step();
         
         if(NULL != node)
         {
             g_cur_step = node;
         }
+        
+        send_cmd_to_all_module((void*)&step_num, sizeof(step_num), send_load_step);
     }
 }
 /**

@@ -276,14 +276,12 @@ static void update_cal_win_title_point_inf(void)
 {
     uint8_t buf[20] = {0};
     uint32_t row = 0;
-    uint32_t col = 0;
     
 	row = LISTVIEW_GetSel(calibration_list_handle);
     
     cur_cal_point_num = row + 1;
     
     sprintf((char*)buf, "%d/%d", cur_cal_point_num, cur_module_cal_points);
-//    sprintf((char*)buf, "%d/%d", 1, num);
     update_text_ele((CS_INDEX)CAL_WIN_MODULE_TOTAL_V, g_cur_win, buf);
     
     cal_status = LOAD_CAL_POINT;
@@ -389,6 +387,7 @@ static void calibration_win_f2_cb(KEY_MESSAGE *key_msg)
     cal_status = CAL_STOP;
 }
 uint64_t cur_measured_value;
+uint32_t cur_mul_power = 1;///<当前校准点的倍率
 static void set_calibration_win_ele_data(void)
 {
     reg_edit_ele_data_inf(CAL_WIN_EDIT_INDEX, &cur_measured_value, sizeof(cur_measured_value));
@@ -402,9 +401,12 @@ static void init_calibration_win_edit_ele_inf(void)
     uint32_t y = 0;
     uint32_t width = 0;
     uint32_t height = 0;
+    CAL_POINT_INF *point_inf;
     
 	row = LISTVIEW_GetSel(calibration_list_handle);
     col = 5;
+    
+    point_inf = &cal_point_inf_pool[row];
     
     LISTVIEW_GetItemRect(calibration_list_handle, col, row, &rect);
     x = rect.x0;
@@ -439,12 +441,16 @@ static void init_calibration_win_edit_ele_inf(void)
         edit_ele->dis.edit.width = width - 40;
         edit_ele->dis.edit.align = GUI_TA_LEFT | GUI_TA_VCENTER;
         edit_ele->dis.edit.max_len = edit_ele->format.lon;
-        edit_ele->format.unit = VOL_U_kV;
         edit_ele->dis.unit.width = 30;
         edit_ele->dis.unit.height = height;
         edit_ele->dis.unit.font = &GUI_Fonthz_24;
         edit_ele->dis.unit.back_color = GUI_INVALID_COLOR;
         edit_ele->dis.unit.font_color = GUI_BLACK;
+        
+        edit_ele->format.unit = point_inf->unit;
+        edit_ele->format.lon = point_inf->lon;
+        edit_ele->format.dec = point_inf->decs;
+        cur_mul_power = point_inf->mul_power;
     }
 }
 /**
@@ -584,8 +590,19 @@ void update_cal_point_dis_inf(uint8_t num)
 static void update_cal_win_title_inf(uint8_t num)
 {
     uint8_t buf[20] = {0};
+    ROAD_INDEX road;
     
-//    sprintf((char*)buf, "%d/%d", num, cur_module_cal_points);
+    road = (ROAD_INDEX)get_cur_cal_road();
+    
+    sprintf((char*)buf, "COM%d", syn_test_port[road - 1].com->com_num + 1);
+    update_text_ele((CS_INDEX)CAL_WIN_MODULE_PORT_V, g_cur_win, buf);
+    
+    sprintf((char*)buf, "%d", syn_test_port[road - 1].addr - syn_test_port[road - 1].offset_addr);
+    update_text_ele((CS_INDEX)CAL_WIN_MODULE_ADDR_V, g_cur_win, buf);
+    
+    sprintf((char*)buf, "%d", road);
+    update_text_ele((CS_INDEX)CAL_WIN_MODULE_NUM_V, g_cur_win, buf);
+    
     sprintf((char*)buf, "%d/%d", 1, num);
     update_text_ele((CS_INDEX)CAL_WIN_MODULE_TOTAL_V, g_cur_win, buf);
 }
@@ -603,6 +620,21 @@ static void clear_cal_listview(void)
         }
     }
 }
+
+void update_cur_cal_point_inf(void)
+{
+    uint8_t cur_road;
+    uint8_t pre_road;
+    
+    cur_road = get_cur_cal_road();
+    pre_road = get_prev_cal_road();
+    
+    if(pre_road != cur_road)
+    {
+        cal_status = AUTO_INIT_SLAVE_CAL_ENV;
+        auto_init_flag = EXIT_CAL_WIN;
+    }
+}
 static void cal_status_machine(void)
 {
     ROAD_INDEX road;
@@ -618,9 +650,12 @@ static void cal_status_machine(void)
         {
             road = (ROAD_INDEX)get_cur_cal_road();
             
-            send_cmd_to_one_module(road, &cur_cal_point_num, sizeof(cur_cal_point_num),
+            err = send_cmd_to_one_module(road, &cur_cal_point_num, sizeof(cur_cal_point_num),
                                     send_slave_load_cur_point);
-            cal_status = CAL_ST_IDLE;
+            if(err == CS_ERR_SEND_SUCCESS)
+            {
+                cal_status = CAL_ST_IDLE;
+            }
             
             break;
         }
@@ -628,8 +663,12 @@ static void cal_status_machine(void)
         {
             road = (ROAD_INDEX)get_cur_cal_road();
             
-            send_cmd_to_one_module(road, NULL, 0, send_slave_start_cal);
-            cal_status = CAL_ST_IDLE;
+            err = send_cmd_to_one_module(road, NULL, 0, send_slave_start_cal);
+            
+            if(err == CS_ERR_SEND_SUCCESS)
+            {
+                cal_status = CAL_ST_IDLE;
+            }
             
             break;
         }
@@ -637,15 +676,22 @@ static void cal_status_machine(void)
         {
             road = (ROAD_INDEX)get_cur_cal_road();
             
-            send_cmd_to_one_module(road, NULL, 0, send_slave_stop_cal);
-            cal_status = CAL_ST_IDLE;
+            err = send_cmd_to_one_module(road, NULL, 0, send_slave_stop_cal);
+            
+            if(err == CS_ERR_SEND_SUCCESS)
+            {
+                if(ROAD_STOPPING ==  read_road_test_status(road))
+                {
+                    cal_status = CAL_ST_IDLE;
+                }
+            }
             
             break;
         }
         case SET_MEASURE_VALUE:
         {
             road = (ROAD_INDEX)get_cur_cal_road();
-            
+            cur_measured_value *= cur_mul_power;
             err = send_cmd_to_one_module(road, (void*)&cur_measured_value, sizeof(cur_measured_value),
                                         send_slave_set_measure_value);
             
@@ -663,8 +709,12 @@ static void cal_status_machine(void)
             cur_module_cal_points_bk = 0;
             cur_point = 0;
             clear_cal_listview();
-            send_cmd_to_one_module(road, NULL, 0, send_query_cal_points);
-            cal_status = CAL_ST_IDLE;
+            err = send_cmd_to_one_module(road, NULL, 0, send_query_cal_points);
+            
+            if(err == CS_ERR_SEND_SUCCESS)
+            {
+                cal_status = CAL_ST_IDLE;
+            }
             
             break;
         }
@@ -712,6 +762,20 @@ static void cal_status_machine(void)
         {
             switch(auto_init_flag)
             {
+                case EXIT_CAL_WIN:
+                {
+                    road = (ROAD_INDEX)get_prev_cal_road();
+                    
+                    err = send_cmd_to_one_module(road, NULL, 0, send_slave_exit_cal_st);
+                    
+                    if(err == CS_ERR_SEND_SUCCESS)
+                    {
+                        auto_init_flag = SLAVE_INTO_CAL;
+                        road = (ROAD_INDEX)get_cur_cal_road();
+                        set_prev_cal_road(road);
+                    }
+                    break;
+                }
                 case SLAVE_INTO_CAL:
                 {
                     road = (ROAD_INDEX)get_cur_cal_road();

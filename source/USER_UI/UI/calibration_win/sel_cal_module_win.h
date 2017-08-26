@@ -12,6 +12,8 @@
 
 extern void create_sel_cal_module_win(int hWin);
 extern uint8_t get_cur_cal_road(void);
+extern uint8_t get_prev_cal_road(void);
 extern void set_cur_cal_road(uint8_t road);
+extern void set_prev_cal_road(uint8_t road);
 
 #endif //__SEL_CAL_MODULE_WIN_H__

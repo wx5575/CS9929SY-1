@@ -493,13 +493,13 @@ void create_module_win_listview(WM_HWIN hWin)
     }
 }
 
-void draw_one_module_inf(uint8_t addr)
+void draw_one_module_inf(uint8_t addr, uint8_t row)
 {
     uint8_t buf[5][100];
     int32_t i = 0;
     uint8_t k = 0;
     uint8_t colum = 4;
-    uint8_t row = 0;
+//    uint8_t row = 0;
     
     sprintf((char*)buf[i++], "COM%d", module_inf_pool[addr].com_num + 1);
     sprintf((char*)buf[i++], "%d", module_inf_pool[addr].module_inf.id);
@@ -518,6 +518,7 @@ static void init_module_listview(void)
     uint8_t addr = 0;
     int32_t i = 0;
     int32_t j = 0;
+    uint8_t row = 0;
     
     for(j = 0; j < SYN_MAX_COM_NUM; j++)
     {
@@ -527,7 +528,7 @@ static void init_module_listview(void)
             
             if(addr > 0 && addr < MASTER_ADDR_RANGE)
             {
-                draw_one_module_inf(addr);
+                draw_one_module_inf(addr, row++);
             }
         }
     }

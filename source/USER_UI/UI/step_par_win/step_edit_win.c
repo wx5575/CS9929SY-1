@@ -15,6 +15,9 @@
 #include "ui_com/com_edit_api.h"
 #include "7_step_edit_win.h"
 #include "step_edit_win.h"
+#include "module_manage.h"
+#include "send_cmd.h"
+#include "crc.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /**
@@ -143,6 +146,8 @@ static void check_gr_output_cur_value_validity(EDIT_ELE_T* ele, uint32_t *value)
 static uint8_t get_cur_step_mode(void);
 static WORK_PORT *get_cur_step_work_port(void);
 static void update_arc_mode_deit_inf(EDIT_ELE_T* ele);
+static void check_cur_step_changed_send_to_slave(void);
+static void update_cur_step_crc(void);
 /* Private variables ---------------------------------------------------------*/
 /**
   * @brief  为设置而定义的中间的步骤变量
@@ -480,7 +485,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {ELE_DROPDOWN, },/*类型*/
         {0/*dec*/,20/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {MODE_END/*heigh*/,ACW/*low*/,{"",""}/*notice*/},/*range*/
-        {edit_mode_win_sys_key_init, edit_mode_menu_key_init, keyboard_fun_num,},/*key_inf*/
+        {edit_mode_win_sys_key_init, edit_mode_menu_key_init, NULL,},/*key_inf*/
     },
     {
         {"输出电压:","Voltage:"}, /* 名称 */
@@ -505,7 +510,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
             MODE_END/*heigh*/,ACW/*low*/,{"",""}/*notice*/,
             check_range_value_validity
         },/*range*/
-        {step_edit_win_sys_key_init, edit_range_menu_key_init, keyboard_fun_num,},/*key_inf*/
+        {step_edit_win_sys_key_init, edit_range_menu_key_init, NULL,},/*key_inf*/
     },
     /* ACW DCW 上限 */
     {
@@ -551,7 +556,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {ELE_DROPDOWN, },/*类型*/
         {0/*dec*/,5/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
-        {step_edit_win_sys_key_init, edit_sw_menu_key_init, keyboard_fun_num,},/*key_inf*/
+        {step_edit_win_sys_key_init, edit_sw_menu_key_init, NULL,},/*key_inf*/
     },
     /* IR上限 */
     {
@@ -751,7 +756,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {ELE_DROPDOWN, },/*类型*/
         {3/*dec*/,5/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
-        {step_edit_win_sys_key_init, edit_sw_menu_key_init, keyboard_fun_num,},/*key_inf*/
+        {step_edit_win_sys_key_init, edit_sw_menu_key_init, NULL,},/*key_inf*/
     },
     {
         {"输出端口:","Port:"}, /* 名称 */
@@ -1009,6 +1014,32 @@ static void edit_sw_f5_cb(KEY_MESSAGE *key_msg)
 {
     step_edit_win_enter_key_cb(key_msg);
 }
+
+/**
+  * @brief  更新当前步CRC值
+  * @param  无
+  * @retval 无
+  */
+static void update_cur_step_crc(void)
+{
+    g_cur_step_crc =  stm32_crc32_byte((uint8_t*)&tmp_step_par, sizeof(tmp_step_par));
+    g_cur_step_crc_bk = g_cur_step_crc;
+}
+/**
+  * @brief  检查当前的编辑步的参数是否发改变，如果改变就把当前步发送给从机模块
+  * @param  无
+  * @retval 无
+  */
+static void check_cur_step_changed_send_to_slave(void)
+{
+    g_cur_step_crc =  stm32_crc32_byte((uint8_t*)&tmp_step_par, sizeof(tmp_step_par));
+    
+    if(g_cur_step_crc != g_cur_step_crc_bk)
+    {
+        g_cur_step_crc_bk = g_cur_step_crc;
+        send_cmd_to_all_module((void*)&tmp_step_par, sizeof(tmp_step_par), send_edit_step);
+    }
+}
 /**
   * @brief  步骤参数编辑窗口ENTER键回调函数
   * @param  [in] key_msg 按键消息
@@ -1025,6 +1056,8 @@ static void step_edit_win_enter_key_cb(KEY_MESSAGE *key_msg)
     {
         fun(key_msg);
     }
+    
+    check_cur_step_changed_send_to_slave();//检查步骤参数是否已经改变
 }
 /**
   * @brief  编辑开关变量使用的功能键F6回调函数
@@ -1247,10 +1280,15 @@ static void edit_step_num_direct_key_enter_cb(KEY_MESSAGE *key_msg)
 {
     uint32_t new_step = get_edit_ele_value(g_cur_edit_ele,NULL);
     uint32_t old_step = get_cur_step();
+    STEP_NUM step_num;
     
     if(new_step != old_step && new_step != 0 && new_step <= g_cur_file->total)
     {
+        save_setting_step();//保存正在设置的步骤参数
         re_init_create_win_all_ele(new_step);
+        update_cur_step_crc();
+        step_num = new_step;
+        send_cmd_to_all_module((void*)&step_num, sizeof(step_num), send_load_step);
     }
     else
     {
@@ -1354,6 +1392,8 @@ static void update_and_init_mode(void)
         save_setting_step();//保存正在设置的步骤参数
         re_init_create_win_all_ele(g_cur_step->one_step.com.step);//重新初始化并创建所有的对象
     }
+    
+    check_cur_step_changed_send_to_slave();//检查步骤参数是否已经改变
 }
 /**
   * @brief  编辑测试模式使用的向上键回调函数
@@ -2623,6 +2663,7 @@ static void step_edit_win_direct_key_up_cb(KEY_MESSAGE *key_msg)
 {
     com_edit_win_direct_key_up_cb(key_msg);//调用通用的向上键回调
     save_setting_step();//保存数据
+    check_cur_step_changed_send_to_slave();//检查步骤参数是否已经改变
 }
 /**
   * @brief  向上键的回调函数
@@ -2633,6 +2674,7 @@ static void step_edit_win_sys_key_enter_cb(KEY_MESSAGE *key_msg)
 {
     com_edit_win_direct_key_down_cb(key_msg);//调用通用的向下键回调
     save_setting_step();//保存数据
+    check_cur_step_changed_send_to_slave();//检查步骤参数是否已经改变
 }
 /**
   * @brief  向下键的回调函数
@@ -2643,6 +2685,7 @@ static void step_edit_win_direct_key_down_cb(KEY_MESSAGE *key_msg)
 {
     com_edit_win_direct_key_down_cb(key_msg);//调用通用的向下键回调
     save_setting_step();//保存数据
+    check_cur_step_changed_send_to_slave();//检查步骤参数是否已经改变
 }
 
 /**

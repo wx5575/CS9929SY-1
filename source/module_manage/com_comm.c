@@ -82,6 +82,7 @@ void com_comm_status_machine(COM_STRUCT *com)
         case MODULE_COMM_RECEIVE:
             if(com->get_receive_over_flag(com))
             {
+                com->ack_timeout = 0;//停止超时计数
                 com->comm_cannot_connect = CS_ERR_COMM_NORMAL;//标记通信正常
                 com->receive_dispose_fun(com);//数据解析
                 

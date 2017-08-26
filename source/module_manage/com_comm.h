@@ -24,7 +24,7 @@
 #define MASTER_ADDR_RANGE       (16 * SYN_MAX_COM_NUM)  ///<主机端地址范围 串口个数 * 每个串口的地址个数
 
 #define RESEND_NUM              3 ///<最大重发次数
-#define WAIT_TIMEOUT_MS         500 ///<等待从机响应的超时时间 ms
+#define WAIT_TIMEOUT_MS         1000 ///<等待从机响应的超时时间 ms
 
 /**
   * @brief  通信状态机的状态定义

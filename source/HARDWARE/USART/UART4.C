@@ -42,7 +42,7 @@ void uart4_config(uint32_t baud_rate)
     USART_ClockInitTypeDef USART_ClockInitStruct;
     NVIC_InitTypeDef NVIC_InitStructure;
     
-    RCC_APB2PeriphClockCmd(RCC_APB1Periph_UART4, ENABLE); //开启UART4时钟
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART4, ENABLE); //开启UART4时钟
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);  //开启GPIOC时钟
     GPIO_PinAFConfig(GPIOA, GPIO_PinSource0, GPIO_AF_UART4);//这相当于M3的开启复用时钟？只配置复用的引脚，
     GPIO_PinAFConfig(GPIOA, GPIO_PinSource1, GPIO_AF_UART4);//               

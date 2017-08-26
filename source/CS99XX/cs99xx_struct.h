@@ -324,8 +324,8 @@ typedef enum{
   * @brief  工件模式的枚举定义
   */
 typedef enum{
-	N_MODE,///<N模式
 	G_MODE,///<G模式
+	N_MODE,///<N模式
 }WORK_MODE_T;
 
 /**
@@ -493,7 +493,7 @@ typedef enum{
     CAP_U_uF,///< uF
     FREQ_U_Hz,///< Hz
     U_PER_CENT,///< (%) 
-}UNIT_T;
+}UNIT_T, CS_UNIT_ENUM;
 
 /**
   * @brief  文件结构定义
@@ -658,8 +658,48 @@ extern const uint8_t *arc_mode_pool[2][2];
 extern const uint8_t arc_mode_buf[2];
 extern const uint8_t *test_port_pool[2][2];
 extern const uint8_t test_port_flag_pool[2];
-extern const char* status_str[][2];
-extern const char* except_buf[][3];
+
+
+enum{
+	TEST_WAIT_INDEX,
+	TEST_RISE_INDEX,
+	TEST_TEST_INDEX,
+	TEST_FALL_INDEX,
+	TEST_CHANGE_INDEX,
+	TEST_INTER_INDEX,
+	TEST_PASS_INDEX,
+	TEST_FAIL_INDEX,
+	TEST_CHARGE_INDEX,
+	TEST_STAB_INDEX,
+	TEST_DISCHARGE_INDEX,
+	TEST_DISCHARGE_OVER_INDEX,
+    TEST_OUTPUT_DELAY,
+};
+
+typedef enum {
+	ST_VOL_RISE     = 0,
+	ST_TESTING      = 1,
+	ST_VOL_FALL     = 2,
+	ST_INTER_WAIT   = 3,
+	ST_WAIT         = 4,
+	ST_PASS         = 5,
+	ST_STOP         = 6,            /* 复位状态 */
+	ST_ERR_H        = 7,
+	ST_ERR_L        = 8,
+	ST_ERR_SHORT    = 9,
+	ST_ERR_VOL_ABNORMAL = 10,       /* 电压异常 */
+	ST_ERR_ARC      = 11,
+	ST_ERR_GFI      = 12,
+	ST_ERR_FAIL     = 13,
+	ST_ERR_REAL     = 14,           /* 真实电流报警 */
+	ST_ERR_CHAR     = 15,           /* 充电报警 */
+	ST_ERR_GEAR     = 16,           /* 量程报警 / 档位报警 */
+	ST_ERR_AMP      = 17,
+	ST_OUTPUT_DELAY = 18,
+	ST_ERR_OPEN     = 19,           /* 开路报警 */
+}TestingStatusTypedef;  /*运行时状态*/
+extern const uint8_t* status_str[][2];
+extern const uint8_t* except_buf[][3];
 
 #define ACW_STR     "ACW"
 #define DCW_STR     "DCW"
@@ -681,6 +721,8 @@ STRUCT_EXT TEST_FILE global_file;///< 全局文件实体用于界面通信
 STRUCT_EXT SYS_PAR sys_par;///<系统参数
 STRUCT_EXT SYS_FLAG sys_flag;///<系统参数
 STRUCT_EXT NODE_STEP * g_cur_step;///<当前步指针
+STRUCT_EXT uint32_t g_cur_step_crc;///<当前步的CRC校验数据
+STRUCT_EXT uint32_t g_cur_step_crc_bk;///<当前步CRC校验数据备份
 STRUCT_EXT TESTGROUP test_step_buf;///<测试步缓冲区
 STRUCT_EXT CS_LIST list_head_99xx;///<测试步链表头
 

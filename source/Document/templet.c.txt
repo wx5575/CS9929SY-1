@@ -16,7 +16,7 @@
 
 /*****************************************************/
 //对字库中的部分字模进行修正
-/* Ω */
+/* Ω 03A9 */
 /* 29号 */
 /* Start of unicode area <Basic Greek> */
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_29_03A9[232] = { /* code 03A9, GREEK CAPITAL LETTER OMEGA */
@@ -77,7 +77,7 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_29_03A9[232] = { /* code 03A9, GREE
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
  /***********************************************************/
 /* 24号 */
-/* μ */
+/* μ 03BC */
 /* Start of unicode area <Basic Greek> */
 GUI_CONST_STORAGE unsigned char acGUI_Font24_03BC[168] = { /* code 03BC, GREEK SMALL LETTER MU */
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 

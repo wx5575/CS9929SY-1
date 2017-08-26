@@ -13,6 +13,8 @@
 #include "cs99xx_type.h"
 #include "cs99xx_mem_api.h"
 #include "parameter_manage.h"
+#include "module_manage.h"
+#include "send_cmd.h"
 
 /**
   * @brief  定义位图表用来查询步存储空间未使用位置
@@ -136,7 +138,7 @@ CS_ERR check_file_data(TEST_FILE*file)
   */
 void init_file_data(TEST_FILE *file, FILE_NUM file_num)
 {
-    TEST_FILE f = {0,"DEFAULT", N_MODE, 0, 0, 0,ARC_CUR_MODE,"2017-5-10 17:59:59"};
+    TEST_FILE f = {0,"DEFAULT", N_MODE, 0, 10, 0,ARC_CUR_MODE,"2017-5-10 17:59:59"};
     
     f.num = file_num;
     
@@ -1016,6 +1018,8 @@ void init_instrument_data(void)
     insert_step(0, mode);
     save_group_info(sys_flag.last_file_num);
     init_sys_par();//初始化系统参数
+    
+    send_cmd_to_all_module(NULL, 0, send_format_data);
 }
 
 /**

@@ -16,6 +16,8 @@
 #include "UI_COM/com_ui_info.h"
 #include "7_file_win.h"
 #include "file_win.h"
+#include "module_manage.h"
+#include "send_cmd.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -728,7 +730,7 @@ static void dispose_child_win_msg(CUSTOM_MSG_T * msg, WM_HWIN hWin)
             
             break;
         }
-		case CM_FILE_UI_SAVE://存贮文件界面
+		case CM_FILE_UI_SAVE://保存文件界面
         {
 			if(msg->msg == CM_DIALOG_RETURN_OK)
 			{
@@ -746,6 +748,8 @@ static void dispose_child_win_msg(CUSTOM_MSG_T * msg, WM_HWIN hWin)
 					strcpy((char *)f->date, (const char*)get_time_str(0));
 					file_pool[f->num] = *f;
                     copy_cur_file_to_new_pos(f->num);//拷贝当前文件到指定位置
+                    send_cmd_to_all_module((void*)&file_pool[f->num], sizeof(TEST_FILE),
+                                send_slave_save_file);
 				}
                 
                 update_file_dis();
@@ -770,6 +774,8 @@ static void dispose_child_win_msg(CUSTOM_MSG_T * msg, WM_HWIN hWin)
                     init_new_group_inf(f);//初始化记忆组
 					file_pool[f->num] = *f;
                     save_file(f->num);
+                    send_cmd_to_all_module((void*)f, sizeof(TEST_FILE),
+                                send_slave_new_file);
 				}
                 
                 update_file_dis();
@@ -797,7 +803,9 @@ static void dispose_child_win_msg(CUSTOM_MSG_T * msg, WM_HWIN hWin)
                     sys_flag.last_file_num = g_cur_file->num;//更新最近使用的文件编号
                     save_sys_flag();//保存系统标记
                     read_group_info(g_cur_file->num);//恢复最近使用的记忆组信息
-                }
+                    send_cmd_to_all_module((void*)&g_cur_file->num,
+                        sizeof(g_cur_file->num), send_slave_load_file);
+				}
 			}
 			break;
         }
@@ -826,6 +834,8 @@ static void dispose_child_win_msg(CUSTOM_MSG_T * msg, WM_HWIN hWin)
                 strcpy((char *)fn->date, (const char*)get_time_str(0));
                 file_pool[fn->num] = *fn;
                 save_file(fn->num);
+                send_cmd_to_all_module((void*)fn,
+                    sizeof(TEST_FILE), send_slave_edit_file);
                 
                 update_file_dis();
 			}
@@ -838,10 +848,15 @@ static void dispose_child_win_msg(CUSTOM_MSG_T * msg, WM_HWIN hWin)
 				int row = 0;
 				TEST_FILE *f;
                 CS_ERR err;
+                FILE_NUM   file_num;
                 
 				row = LISTVIEW_GetSel(file_list_handle);
 				
-                del_one_group_inf(row + 1);//删除一个记组信息
+                file_num = row + 1;
+                send_cmd_to_all_module((void*)&file_num,
+                    sizeof(file_num), send_slave_del_file);
+                
+                del_one_group_inf(file_num);//删除一个记组信息
                 update_file_dis();
                 
                 if(row + 1 == g_cur_file->num)
@@ -866,6 +881,7 @@ static void dispose_child_win_msg(CUSTOM_MSG_T * msg, WM_HWIN hWin)
 			{
                 del_all_file();
                 update_file_dis();
+                send_cmd_to_all_module(NULL, 0, send_slave_clear_all_files);
 			}
 			break;
         }

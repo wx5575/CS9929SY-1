@@ -96,7 +96,7 @@ void usart1_send_data(uint8_t *data, uint32_t len)
     send_count = len;
 	send_buf_bak = send_buf;/* 发送缓冲区备份 以备重发使用 */
 	send_count_bak = send_count;/* 发送数据计数 以备重发使用 */
-    USART_ITConfig(UART_PORT, USART_IT_RXNE, DISABLE);
+//    USART_ITConfig(UART_PORT, USART_IT_RXNE, DISABLE);
     USART_ITConfig(UART_PORT, USART_IT_TC, ENABLE);
 }
 /**
@@ -109,7 +109,7 @@ void usart1_resend_data(void)
     send_buf = send_buf_bak;
     send_count = send_count_bak;
     
-    USART_ITConfig(UART_PORT, USART_IT_RXNE, DISABLE);
+//    USART_ITConfig(UART_PORT, USART_IT_RXNE, DISABLE);
     USART_ITConfig(UART_PORT, USART_IT_TC, ENABLE);
 }
 

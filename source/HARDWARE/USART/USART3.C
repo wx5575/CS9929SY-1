@@ -42,7 +42,7 @@ void usart3_config(uint32_t baud_rate)
     USART_ClockInitTypeDef USART_ClockInitStruct;
     NVIC_InitTypeDef NVIC_InitStructure;
     
-    RCC_APB2PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE); //开启USART3时钟
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE); //开启USART3时钟
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);  //开启GPIOC时钟
     GPIO_PinAFConfig(GPIOB, GPIO_PinSource10, GPIO_AF_USART3);//这相当于M3的开启复用时钟？只配置复用的引脚，
     GPIO_PinAFConfig(GPIOB, GPIO_PinSource11, GPIO_AF_USART3);//               

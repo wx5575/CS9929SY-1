@@ -375,6 +375,60 @@ void set_module_road_num(void)
     send_cmd_to_all_module(NULL, 0, com_module_set_road_num);
 }
 
+void send_one_road_test_over_sign_h(uint8_t road_index)
+{
+    comm_syn_sign = 0;
+    
+    send_cmd_to_one_module(road_index, NULL, 0, send_test_over_sign_h);
+    
+    while(1)
+    {
+        GUI_Delay(10);
+        
+        if(comm_syn_sign == 1)
+        {
+            comm_syn_sign = 0;
+            break;
+        }
+    }
+}
+void send_one_road_test_over_sign_l(uint8_t road_index)
+{
+    comm_syn_sign = 0;
+    
+    send_cmd_to_one_module(road_index, NULL, 0, send_test_over_sign_l);
+    
+    while(1)
+    {
+        GUI_Delay(10);
+        
+        if(comm_syn_sign == 1)
+        {
+            comm_syn_sign = 0;
+            break;
+        }
+    }
+}
+void syn_module_num(void)
+{
+    uint8_t total_roads;
+    uint8_t cur_road;
+    int32_t i = 0;
+    
+    total_roads = get_total_roads_num();
+    cur_road = 1;
+    
+    for(i = 0; i < total_roads; i++)
+    {
+        send_one_road_test_over_sign_h(cur_road + i);
+        send_one_road_test_over_sign_l(cur_road + i);
+    }
+}
+void set_module_config_parameter(void)
+{
+    send_cmd_to_all_module((uint8_t*)&type_spe, sizeof(type_spe), send_set_config_parameter);
+}
+
 /**
   * @brief  从存储器中读取参数
   * @param  无
@@ -383,8 +437,12 @@ void set_module_road_num(void)
 void read_par_from_memory(void)
 {
     read_module_inf();//读取模块信息
+    GUI_Delay(500);
+    syn_module_num();//同步模块的编辑
     set_module_road_num();//设置模块的路编号
+    GUI_Delay(500);
     read_par_inf();//读取参数信息
+    set_module_config_parameter();//设置配置参数
     read_first_step_init_cur_step();
 }
 

@@ -20,6 +20,7 @@
 #include "UART4.H"
 #include "mem_alloc.h"
 #include "os.h"
+#include "start_stop_key.h"
 
 
 /* Private typedef -----------------------------------------------------------*/
@@ -29,23 +30,54 @@
   */
 enum{
     GET_MODULE_INF = 1,///<获取模块信息用来联机用
-    SET_MODULE_NUM,///<设置模块的编号，对于多路同步测试仪要告诉每个模块在系统中的编号,用这个编号来判断 \
+    SET_MODULE_NUM = 2,///<设置模块的编号，对于多路同步测试仪要告诉每个模块在系统中的编号,用这个编号来判断 \
                     是否参与测试工作
+    FORMAT_DATA     = 3,///<格式化数据
+    SET_CONFIG_PARAMETER    = 4,///<设置配置参数
     
-    SLAVE_ENTER_CAL_ST      = 50,///<从机进入校准状态
-    SLAVE_EXIT_CAL_ST       = 51,///<退出校准状态
-    SLAVE_CAL_ST            = 52,///<校准状态查询
-    SLAVE_CAL_MODE          = 53,///<校准模式查询
-    SLAVE_CAL_POINT_RANGE   = 54,///<当前校准点量程查询
-    SLAVE_CAL_START         = 55,///<启动校准输出
-    SLAVE_CAL_STOP          = 56,///<停止校准输出
-    SLAVE_CAL_MEASURE_VALUE = 57,///<设置校准测量值
-    GET_MODULE_CAL_POINTS   = 58,///<获取模块的校准总个数
-    LOAD_CAL_POINT          = 59,///<加载校准点作为当前校准点
-    QUERY_CAL_POINT_INF     = 60,///<查询校准点信息
+    START_SLAVE_TEST        = 10,///<启动从机测试
+    STOP_SLVAE_TEST         = 11,///<停止从机测试
+    GET_SLAVE_TEST_DATA     = 12,///<获取测试数据
+    TEST_OVER_SIGN_H        = 13,///<控制从机测试完成信息输出高电平
+    TEST_OVER_SIGN_L        = 14,///<控制从机测试完成信号输出低电平
     
+    SLAVE_NEW_FILE          = 30,///<新建文件
+    SLAVE_EDIT_FILE         = 31,///<设置文件
+    SLAVE_READ_FILE         = 32,///<读取文件
+    SLAVE_DEL_FILE          = 33,///<删除文件
+    SLAVE_SAVE_FILE         = 34,///<保存文件
+    SLAVE_LOAD_FILE         = 35,///<加载文件作为当前文件
+    SLAVE_CLEAR_ALL_FILES   = 36,///<清空所有文件
+    
+    SLAVE_INSERT_STEP       = 40,///<插入步骤
+    SLAVE_LOAD_STEP         = 41,///<加载步骤作为当前步骤
+    SLAVE_EDIT_STEP         = 42,///<设置步骤
+    SLAVE_READ_STEP         = 43,///<读取步骤
+    SLAVE_DEL_STEP          = 44,///<删除步骤
+    SLAVE_PRE_STEP          = 45,///<前移步骤
+    SLAVE_BACK_STEP         = 46,///<后移步骤
+    SLAVE_SWAP_STEP         = 47,///<交换步骤
+    
+    SLAVE_READ_RES          = 50,///<读取一条结果
+    SLAVE_CLEAR_RES         = 51,///<清空结果
+    SLAVE_READ_LAST         = 52,///<读取最近一次测试的结果
+    
+    SLAVE_ENTER_CAL_ST      = 60,///<从机进入校准状态
+    SLAVE_EXIT_CAL_ST       = 61,///<退出校准状态
+    SLAVE_CAL_ST            = 62,///<校准状态查询
+    SLAVE_CAL_MODE          = 63,///<校准模式查询
+    SLAVE_CAL_POINT_RANGE   = 64,///<当前校准点量程查询
+    SLAVE_CAL_START         = 65,///<启动校准输出
+    SLAVE_CAL_STOP          = 66,///<停止校准输出
+    SLAVE_CAL_MEASURE_VALUE = 67,///<设置校准测量值
+    GET_MODULE_CAL_POINTS   = 68,///<获取模块的校准总个数
+    LOAD_CAL_POINT          = 69,///<加载校准点作为当前校准点
+    QUERY_CAL_POINT_INF     = 70,///<查询校准点信息
     
 };
+
+ROAD_NUM_T get_road_num(MODULE_ADDR_T addr);
+
 /**
   * @brief  地址偏移，第一路0，第二路16，第三路32，第四路48
   */
@@ -137,8 +169,11 @@ void update_module_addr_flag(void)
             roads_flag.flag[com_num].road_buf[n] = addr;
             roads_flag.flag[com_num].count++;
             syn_test_port[j].com = com_inf;//初始化串口信息
-            syn_test_port[j].road_num = j + 1;//初始化路号
+            syn_test_port[j].road_index = j + 1;//初始化路号
             syn_test_port[j].addr = addr;
+            syn_test_port[j].offset_addr = offset_addr;
+            
+            module_inf_pool[i].road_num = j + 1;
             j++;
         }
     }
@@ -160,7 +195,161 @@ void query_cal_point_inf(COM_NUM com_num, uint8_t index, uint8_t *data)
     
     memcpy(&cal_point_inf_pool[inf->index], inf, sizeof(CAL_POINT_INF));
 }
+void slave_cal_start(COM_NUM com_num, uint8_t index, uint8_t *data)
+{
+    ROAD_NUM_T road;
+    
+    road = get_road_num(index);
+    
+    syn_test_port[road - 1].test_st = ROAD_TESTING;
+}
+void slave_cal_stop(COM_NUM com_num, uint8_t index, uint8_t *data)
+{
+    ROAD_NUM_T road;
+    
+    road = get_road_num(index);
+    syn_test_port[road - 1].test_st = ROAD_STOPPING;
+}
 
+
+void slave_new_file(COM_NUM com_num, uint8_t index, uint8_t *data)
+{
+}
+void slave_edit_file(COM_NUM com_num, uint8_t index, uint8_t *data)
+{
+}
+void slave_read_file(COM_NUM com_num, uint8_t index, uint8_t *data)
+{
+}
+void slave_del_file(COM_NUM com_num, uint8_t index, uint8_t *data)
+{
+}
+void slave_save_file(COM_NUM com_num, uint8_t index, uint8_t *data)
+{
+}
+void slave_load_file(COM_NUM com_num, uint8_t index, uint8_t *data)
+{
+}
+void slave_clear_all_files(COM_NUM com_num, uint8_t index, uint8_t *data)
+{
+}
+
+
+
+
+void slave_insert_step(COM_NUM com_num, uint8_t index, uint8_t *data)
+{
+}
+
+void slave_load_step(COM_NUM com_num, uint8_t index, uint8_t *data)
+{
+}
+
+void slave_del_step(COM_NUM com_num, uint8_t index, uint8_t *data)
+{
+}
+
+
+void slave_read_step(COM_NUM com_num, uint8_t index, uint8_t *data)
+{
+}
+void slave_pre_step(COM_NUM com_num, uint8_t index, uint8_t *data)
+{
+}
+void slave_back_step(COM_NUM com_num, uint8_t index, uint8_t *data)
+{
+}
+
+void slave_swap_step(COM_NUM com_num, uint8_t index, uint8_t *data)
+{
+}
+
+
+
+
+
+
+
+
+
+
+void get_slave_test_data(COM_NUM com_num, uint8_t index, uint8_t *data)
+{
+    ROAD_NUM_T road;
+    
+    road = get_road_num(index);
+    memcpy(&syn_test_port[road - 1].test_data, data, sizeof(COMM_TEST_DATA));
+}
+
+void test_over_sign_l(COM_NUM com_num, uint8_t index, uint8_t *data)
+{
+    comm_syn_sign = 1;
+}
+void test_over_sign_h(COM_NUM com_num, uint8_t index, uint8_t *data)
+{
+    CS_BOOL res = CS_FALSE;
+    SYN_TEST_PORT_INF *inf;
+    CS_ERR err;
+    uint8_t flag = 0;
+    
+    inf = get_road_inf(index, &err);
+    
+    if(err != CS_ERR_NONE)
+    {
+        return;
+    }
+    
+    if(res == CS_FALSE)
+    {
+        res = road1_test_over();
+        
+        if(res == CS_TRUE)
+        {
+            inf->road_num = 1;
+        }
+    }
+    
+    if(res == CS_FALSE)
+    {
+        res = road2_test_over();
+        
+        if(res == CS_TRUE)
+        {
+            inf->road_num = 2;
+        }
+    }
+    
+    if(res == CS_FALSE)
+    {
+        res = road3_test_over();
+        
+        if(res == CS_TRUE)
+        {
+            inf->road_num = 3;
+        }
+    }
+    
+    if(res == CS_FALSE)
+    {
+        res = road4_test_over();
+        
+        if(res == CS_TRUE)
+        {
+            inf->road_num = 4;
+        }
+    }
+    
+    comm_syn_sign = 1;
+}
+
+void get_road_test_data(ROAD_NUM_T road, COMM_TEST_DATA *test_data)
+{
+    memcpy(test_data, &syn_test_port[road - 1].test_data, sizeof(COMM_TEST_DATA));
+}
+ROAD_TEST_ST read_road_test_status(ROAD_NUM_T road)
+{
+    return syn_test_port[road - 1].test_st;
+}
 /* Public functions ---------------------------------------------------------*/
 /**
   * @brief  根据路号获取模块地址
@@ -176,7 +365,7 @@ MODULE_ADDR_T get_module_addr(ROAD_INDEX road, CS_ERR *err)
     
     for(i = 0; i < SYN_MAX_ROADS; i++)
     {
-        if(syn_test_port[i].road_num == road)
+        if(syn_test_port[i].road_index == road)
         {
             *err = CS_ERR_NONE;
             return syn_test_port[i].addr;
@@ -186,6 +375,230 @@ MODULE_ADDR_T get_module_addr(ROAD_INDEX road, CS_ERR *err)
     *err = CS_ERR_ROAD_INVALTD;
     
     return 0;
+}
+
+SYN_TEST_PORT_INF* get_road_inf(MODULE_ADDR_T addr, CS_ERR *err)
+{
+    CS_INDEX i = 0;
+    MODULE_ADDR_T module_addr;
+    
+    for(i = 0; i < SYN_MAX_ROADS; i++)
+    {
+        module_addr = syn_test_port[i].addr;
+        
+        if(module_addr == addr)
+        {
+            *err = CS_ERR_NONE;
+            return &syn_test_port[i];
+        }
+    }
+    
+    *err = CS_ERR_ROAD_INVALTD;
+    
+    return NULL;
+}
+
+CS_BOOL road1_test_over(void)
+{
+    return ROAD1_TEST_OVER_PIN == TEST_OVER_Y? CS_TRUE : CS_FALSE;
+}
+
+CS_BOOL road2_test_over(void)
+{
+    return ROAD2_TEST_OVER_PIN == TEST_OVER_Y? CS_TRUE : CS_FALSE;
+}
+CS_BOOL road3_test_over(void)
+{
+    return ROAD3_TEST_OVER_PIN == TEST_OVER_Y? CS_TRUE : CS_FALSE;
+}
+CS_BOOL road4_test_over(void)
+{
+    return ROAD4_TEST_OVER_PIN == TEST_OVER_Y? CS_TRUE : CS_FALSE;
+}
+
+
+
+CS_BOOL com_cmd_dispose(COM_NUM com_num, uint8_t index, FRAME_T *frame)
+{
+    CS_BOOL res = CS_TRUE;
+    
+    /* 指令解析 */
+    switch(frame->fun_code)
+    {
+        case GET_MODULE_INF:
+            set_module_inf(com_num, index, frame->data);
+            break;
+        case SET_MODULE_NUM:
+            break;
+        case FORMAT_DATA:
+            break;
+        case SET_CONFIG_PARAMETER:
+            break;
+        default:
+            res = CS_FALSE;
+            break;
+    }
+    
+    return res;
+}
+
+CS_BOOL source_cmd_dispose(COM_NUM com_num, uint8_t index, FRAME_T *frame)
+{
+    CS_BOOL res = CS_TRUE;
+    
+    /* 指令解析 */
+    switch(frame->fun_code)
+    {
+        case START_SLAVE_TEST:
+            break;
+        case STOP_SLVAE_TEST:
+            break;
+        case GET_SLAVE_TEST_DATA:
+            get_slave_test_data(com_num, index, frame->data);
+            break;
+        case TEST_OVER_SIGN_H:
+            test_over_sign_h(com_num, index, frame->data);
+            break;
+        case TEST_OVER_SIGN_L:
+            test_over_sign_l(com_num, index, frame->data);
+            break;
+        default:
+            res = CS_FALSE;
+            break;
+    }
+    
+    return res;
+}
+
+CS_BOOL file_cmd_dispose(COM_NUM com_num, uint8_t index, FRAME_T *frame)
+{
+    CS_BOOL res = CS_TRUE;
+    
+    /* 指令解析 */
+    switch(frame->fun_code)
+    {
+        case SLAVE_NEW_FILE:
+            slave_new_file(com_num, index, frame->data);
+            break;
+        case SLAVE_EDIT_FILE:
+            slave_edit_file(com_num, index, frame->data);
+            break;
+        case SLAVE_READ_FILE:
+            slave_read_file(com_num, index, frame->data);
+            break;
+        case SLAVE_DEL_FILE:
+            slave_del_file(com_num, index, frame->data);
+            break;
+        case SLAVE_SAVE_FILE:
+            slave_save_file(com_num, index, frame->data);
+            break;
+        case SLAVE_LOAD_FILE:
+            slave_load_file(com_num, index, frame->data);
+            break;
+        case SLAVE_CLEAR_ALL_FILES:
+            slave_clear_all_files(com_num, index, frame->data);
+            break;
+        default:
+            res = CS_FALSE;
+            break;
+    }
+    
+    return res;
+}
+
+CS_BOOL step_cmd_dispose(COM_NUM com_num, uint8_t index, FRAME_T *frame)
+{
+    CS_BOOL res = CS_TRUE;
+    
+    /* 指令解析 */
+    switch(frame->fun_code)
+    {
+        case SLAVE_INSERT_STEP:
+            slave_insert_step(com_num, index, frame->data);
+            break;
+        case SLAVE_LOAD_STEP:
+            slave_load_step(com_num, index, frame->data);
+            break;
+        case SLAVE_READ_STEP:
+            slave_read_step(com_num, index, frame->data);
+            break;
+        case SLAVE_DEL_STEP:
+            slave_del_step(com_num, index, frame->data);
+            break;
+        case SLAVE_PRE_STEP:
+            slave_pre_step(com_num, index, frame->data);
+            break;
+        case SLAVE_BACK_STEP:
+            slave_back_step(com_num, index, frame->data);
+            break;
+        case SLAVE_SWAP_STEP:
+            slave_swap_step(com_num, index, frame->data);
+            break;
+        default:
+            res = CS_FALSE;
+            break;
+    }
+    
+    return res;
+}
+
+CS_BOOL res_cmd_dispose(COM_NUM com_num, uint8_t index, FRAME_T *frame)
+{
+    CS_BOOL res = CS_TRUE;
+    
+    /* 指令解析 */
+    switch(frame->fun_code)
+    {
+        case GET_MODULE_INF:
+            set_module_inf(com_num, index, frame->data);
+            break;
+        case SET_MODULE_NUM:
+            break;
+        default:
+            res = CS_FALSE;
+            break;
+    }
+    
+    return res;
+}
+
+CS_BOOL cal_cmd_dispose(COM_NUM com_num, uint8_t index, FRAME_T *frame)
+{
+    CS_BOOL res = CS_TRUE;
+    
+    /* 指令解析 */
+    switch(frame->fun_code)
+    {
+        case GET_MODULE_CAL_POINTS:
+            set_module_cal_points(com_num, index, frame->data);
+            break;
+        case SLAVE_ENTER_CAL_ST:
+            break;
+        case QUERY_CAL_POINT_INF:
+            query_cal_point_inf(com_num, index, frame->data);
+            break;
+        case SLAVE_EXIT_CAL_ST:
+            break;
+        case SLAVE_CAL_ST:
+            break;
+        case SLAVE_CAL_MODE:
+            break;
+        case SLAVE_CAL_POINT_RANGE:
+            break;
+        case SLAVE_CAL_START:
+            slave_cal_start(com_num, index, frame->data);
+            break;
+        case SLAVE_CAL_STOP:
+            slave_cal_stop(com_num, index, frame->data);
+            break;
+        case SLAVE_CAL_MEASURE_VALUE:
+            break;
+        default:
+            res = CS_FALSE;
+            break;
+    }
+    
+    return res;
 }
 /**
   * @brief  串口1的接收处理函数
@@ -201,6 +614,13 @@ void com_receive_dispose(COM_NUM com_num, uint8_t *data, uint32_t len)
     FRAME_T *frame = (void*)data;
     uint8_t index = 0;
     COM_STRUCT *com_inf;
+    CS_BOOL res;
+    
+    
+    if(len <= CRC_LEN)
+    {
+        return;
+    }
     
     /* CRC校验 */
     p_crc = (uint16_t *)&data[len - CRC_LEN];
@@ -224,36 +644,37 @@ void com_receive_dispose(COM_NUM com_num, uint8_t *data, uint32_t len)
     
     index = addr_offset[com_num] + frame->addr;
     
-    /* 指令解析 */
-    switch(frame->fun_code)
+    /* 公共指令处理 */
+    res = com_cmd_dispose(com_num, index, frame);
+    
+    /* 源指令处理 */
+    if(res == CS_FALSE)
     {
-        case GET_MODULE_INF:
-            set_module_inf(com_num, index, frame->data);
-            break;
-        case SET_MODULE_NUM:
-            break;
-        case GET_MODULE_CAL_POINTS:
-            set_module_cal_points(com_num, index, frame->data);
-            break;
-        case SLAVE_ENTER_CAL_ST:
-            break;
-        case QUERY_CAL_POINT_INF:
-            query_cal_point_inf(com_num, index, frame->data);
-            break;
-        case SLAVE_EXIT_CAL_ST:
-            break;
-        case SLAVE_CAL_ST:
-            break;
-        case SLAVE_CAL_MODE:
-            break;
-        case SLAVE_CAL_POINT_RANGE:
-            break;
-        case SLAVE_CAL_START:
-            break;
-        case SLAVE_CAL_STOP:
-            break;
-        case SLAVE_CAL_MEASURE_VALUE:
-            break;
+        res = source_cmd_dispose(com_num, index, frame);
+    }
+    
+    /* 文件指令处理 */
+    if(res == CS_FALSE)
+    {
+        res = file_cmd_dispose(com_num, index, frame);
+    }
+    
+    /* 步骤指令处理 */
+    if(res == CS_FALSE)
+    {
+        res = step_cmd_dispose(com_num, index, frame);
+    }
+    
+    /* 结果指令处理 */
+    if(res == CS_FALSE)
+    {
+        res = res_cmd_dispose(com_num, index, frame);
+    }
+    
+    /* 校准指令处理 */
+    if(res == CS_FALSE)
+    {
+        res = cal_cmd_dispose(com_num, index, frame);
     }
 }
 
@@ -384,7 +805,7 @@ ROAD_NUM_T get_road_num(MODULE_ADDR_T addr)
     {
         if(addr == syn_test_port[i].addr)
         {
-            road_num = syn_test_port[i].road_num;
+            road_num = syn_test_port[i].road_index;
         }
     }
     
@@ -408,6 +829,14 @@ CS_ERR com_module_connect(MODULE_ADDR_T addr)
 CS_ERR send_module_connect(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
 {
     return com_send_cmd_data(addr, GET_MODULE_INF, NULL, 0);
+}
+CS_ERR send_format_data(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
+{
+    return com_send_cmd_data(addr, FORMAT_DATA, data, len);
+}
+CS_ERR send_set_config_parameter(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
+{
+    return com_send_cmd_data(addr, SET_CONFIG_PARAMETER, data, len);
 }
 /**
   * @brief  发送查询校准点总个数指令
@@ -464,6 +893,139 @@ CS_ERR send_slave_exit_cal_st(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
     return com_send_cmd_data(addr, SLAVE_EXIT_CAL_ST, NULL, 0);
 }
 /**
+  * @brief  发送获取从机测试数据指令
+  * @param  [in] addr 通信地址
+  * @param  [in] data 数据
+  * @param  [in] len 数据长度
+  * @retval 发送结果
+  */
+CS_ERR send_get_test_data(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
+{
+    return com_send_cmd_data(addr, GET_SLAVE_TEST_DATA, NULL, 0);
+}
+/**
+  * @brief  发送控制从机测试完成信号输出高电平
+  * @param  [in] addr 通信地址
+  * @param  [in] data 数据
+  * @param  [in] len 数据长度
+  * @retval 发送结果
+  */
+CS_ERR send_test_over_sign_h(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
+{
+    return com_send_cmd_data(addr, TEST_OVER_SIGN_H, NULL, 0);
+}
+/**
+  * @brief  发送控制从机测试完成信号输出低电平
+  * @param  [in] addr 通信地址
+  * @param  [in] data 数据
+  * @param  [in] len 数据长度
+  * @retval 发送结果
+  */
+CS_ERR send_test_over_sign_l(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
+{
+    return com_send_cmd_data(addr, TEST_OVER_SIGN_L, NULL, 0);
+}
+/**
+  * @brief  发送启动从机进行测试指令
+  * @param  [in] addr 通信地址
+  * @param  [in] data 数据
+  * @param  [in] len 数据长度
+  * @retval 发送结果
+  */
+CS_ERR send_start_test(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
+{
+    return com_send_cmd_data(addr, START_SLAVE_TEST, NULL, 0);
+}
+/**
+  * @brief  发送从机新建文件指令
+  * @param  [in] addr 通信地址
+  * @param  [in] data 数据
+  * @param  [in] len 数据长度
+  * @retval 发送结果
+  */
+CS_ERR send_slave_new_file(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
+{
+    return com_send_cmd_data(addr, SLAVE_NEW_FILE, data, len);
+}
+/**
+  * @brief  发送从机读取文件指令
+  * @param  [in] addr 通信地址
+  * @param  [in] data 数据
+  * @param  [in] len 数据长度
+  * @retval 发送结果
+  */
+CS_ERR send_slave_read_file(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
+{
+    return com_send_cmd_data(addr, SLAVE_READ_FILE, data, len);
+}
+/**
+  * @brief  发送从机编辑文件指令
+  * @param  [in] addr 通信地址
+  * @param  [in] data 数据
+  * @param  [in] len 数据长度
+  * @retval 发送结果
+  */
+CS_ERR send_slave_edit_file(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
+{
+    return com_send_cmd_data(addr, SLAVE_EDIT_FILE, data, len);
+}
+/**
+  * @brief  发送从机清空所有文件指令
+  * @param  [in] addr 通信地址
+  * @param  [in] data 数据
+  * @param  [in] len 数据长度
+  * @retval 发送结果
+  */
+CS_ERR send_slave_clear_all_file(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
+{
+    return com_send_cmd_data(addr, SLAVE_EDIT_FILE, data, len);
+}
+/**
+  * @brief  发送从机删除文件指令
+  * @param  [in] addr 通信地址
+  * @param  [in] data 数据
+  * @param  [in] len 数据长度
+  * @retval 发送结果
+  */
+CS_ERR send_slave_del_file(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
+{
+    return com_send_cmd_data(addr, SLAVE_DEL_FILE, data, len);
+}
+CS_ERR send_slave_save_file(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
+{
+    return com_send_cmd_data(addr, SLAVE_SAVE_FILE, data, len);
+}
+CS_ERR send_slave_load_file(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
+{
+    return com_send_cmd_data(addr, SLAVE_LOAD_FILE, data, len);
+}
+CS_ERR send_slave_clear_all_files(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
+{
+    return com_send_cmd_data(addr, SLAVE_CLEAR_ALL_FILES, data, len);
+}
+
+CS_ERR send_insert_step(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
+{
+    return com_send_cmd_data(addr, SLAVE_INSERT_STEP, data, len);
+}
+CS_ERR send_edit_step(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
+{
+    return com_send_cmd_data(addr, SLAVE_EDIT_STEP, data, len);
+}
+
+CS_ERR send_load_step(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
+{
+    return com_send_cmd_data(addr, SLAVE_LOAD_STEP, data, len);
+}
+CS_ERR send_del_step(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
+{
+    return com_send_cmd_data(addr, SLAVE_DEL_STEP, data, len);
+}
+CS_ERR send_swap_step(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
+{
+    return com_send_cmd_data(addr, SLAVE_SWAP_STEP, data, len);
+}
+/**
   * @brief  发送设置模块编号指令
   * @param  [in] addr 通信地址
   * @retval 发送结果
@@ -501,6 +1063,8 @@ CS_ERR com_send_cmd_data(MODULE_ADDR_T addr, uint8_t cmd, uint8_t *data, uint32_
     CS_ERR err;
     COM_NUM com_num;
     
+    inf = &module_inf_pool[addr];
+    
     com_num = get_com_num(&addr, &err);//获取串口号
     
     /* 如果地址非法就返回 */
@@ -516,8 +1080,6 @@ CS_ERR com_send_cmd_data(MODULE_ADDR_T addr, uint8_t cmd, uint8_t *data, uint32_
     {
         return CS_ERR_COM_BUSY;
     }
-    
-    inf = &module_inf_pool[addr];
     
     frame = (void*)inf->buf;
     
@@ -586,7 +1148,7 @@ uint8_t get_total_roads_num(void)
     
     for(i = 0; i < SYN_MAX_ROADS; i++)
     {
-        if(syn_test_port[i].road_num == 0)
+        if(syn_test_port[i].road_index == 0)
         {
             break;
         }
