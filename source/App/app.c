@@ -241,7 +241,9 @@ void start_task(void *p_arg)
 // 	OS_TaskSuspend((OS_TCB*)&StartTaskTCB,&err);		//挂起开始任务
     
 	OS_CRITICAL_EXIT();	//退出临界区
-	OSTaskDel(&StartTaskTCB, (OS_ERR*)&err);//删除启动任务
+//	OSTaskDel(&StartTaskTCB, (OS_ERR*)&err);//删除启动任务
+    
+    other_task_test();
 }
 /**
   * @brief  EMWIN皮肤设置
@@ -271,7 +273,7 @@ void set_framewin_skin(void)
 void init_gui_environment(void)
 {
     /* 开启所有窗口使用内存设备 */
-    WM_SetCreateFlags(WM_CF_MEMDEV);
+//    WM_SetCreateFlags(WM_CF_MEMDEV);
     GUI_Init();
     
     GUI_UC_SetEncodeUTF8();/* 使能UTF8解码 */
@@ -379,7 +381,7 @@ void send_one_road_test_over_sign_h(uint8_t road_index)
 {
     comm_syn_sign = 0;
     
-    send_cmd_to_one_module(road_index, NULL, 0, send_test_over_sign_h);
+    send_cmd_to_index_one_module(road_index, NULL, 0, send_test_over_sign_h);
     
     while(1)
     {
@@ -396,7 +398,7 @@ void send_one_road_test_over_sign_l(uint8_t road_index)
 {
     comm_syn_sign = 0;
     
-    send_cmd_to_one_module(road_index, NULL, 0, send_test_over_sign_l);
+    send_cmd_to_index_one_module(road_index, NULL, 0, send_test_over_sign_l);
     
     while(1)
     {
@@ -487,7 +489,7 @@ static void AppTaskModuleComm(void *p_arg)
     
     while(1)
     {
-        OS_DELAY_ms(10);
+        OS_DELAY_ms(2);
         module_comm_task();
     }
 }

@@ -476,6 +476,12 @@ extern void register_recover_key_inf_fun(void(*fun)(void));
 extern void create_file_win(int hWin);
 extern void create_sys_manager_win(int hWin);
 extern void create_key_menu_window(void);
+
+extern void show_key_menu_win(void);
+extern void hide_key_menu_win(void);
+extern void show_main_win(void);
+extern void hide_main_win(void);
+
 extern void create_test_win(int hWin);
 extern void create_warning_dialog(int hWin);
 extern void set_warning_ui_inf(WARNING_INF *warning);
@@ -492,6 +498,9 @@ extern void set_menu_key_config_st(MENU_KEY_INFO_T * inf, uint32_t size,
                         CS_INDEX index, SYS_KEY_ST_ENUM st, CS_ERR *err);
 extern void change_menu_key_font_color(uint32_t key_value, GUI_COLOR color);
 
+
+extern void update_cur_step_crc(void);
+extern void check_cur_step_changed_send_to_slave(void);
 extern void get_mode_edit_ele_inf(UN_STRUCT *step, EDIT_ELE_T* ret_ele, CS_ERR *err);
 extern void get_range_edit_ele_inf(UN_STRUCT *step, EDIT_ELE_T* ret_ele, CS_ERR *err);
 extern void get_vol_edit_ele_inf(UN_STRUCT *step, EDIT_ELE_T* ret_ele, CS_ERR *err);

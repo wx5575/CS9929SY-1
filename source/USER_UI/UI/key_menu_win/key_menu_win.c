@@ -740,7 +740,14 @@ void change_menu_key_font_color(uint32_t key_value, GUI_COLOR color)
     
 	display_menu_key();//刷新菜单键显示
 }
-
+void hide_key_menu_win(void)
+{
+    WM_HideWindow(key_menu_windows.handle);
+}
+void show_key_menu_win(void)
+{
+    WM_ShowWindow(key_menu_windows.handle);
+}
 /**
   * @brief  创建菜单按键窗口
   * @param  无

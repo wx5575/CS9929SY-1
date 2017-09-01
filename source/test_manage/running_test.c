@@ -24,20 +24,39 @@
 //#include "UI_COM/com_ui_info.h"
 #include "running_test.h"
 
-
-uint8_t get_cur_port_work_st(WORK_PORT *work_port)
+CS_BOOL judge_road_work(ROAD_NUM_T road)
 {
     uint16_t work_port_16;
     
-    work_port_16 = *((uint16_t*)&work_port->ports[0]);
+    work_port_16 = *((uint16_t*)&cur_work_port);
     
-//    /* 判断是否参与测试 */
-//    if(((work_port_16 >> ((g_module_num - 1) * 2)) & 3) != 2)
-//    {
-//        return 0;
-//    }
+    /* 判断是否参与测试 */
+    if(((work_port_16 >> ((road - 1) * 2)) & 3) == 2)
+    {
+        return CS_TRUE;
+    }
     
-    return 1;
+    return CS_FALSE;
+}
+
+uint8_t get_work_roads(void)
+{
+    uint16_t work_port_16;
+    uint8_t work_count = 0;
+    int32_t i = 0;
+    
+    work_port_16 = *((uint16_t*)&cur_work_port);
+    
+    for(i = 0; i < MAX_SYN_ROADS_NUM; i++)
+    {
+        /* 判断是否参与测试 */
+        if(((work_port_16 >> (i * 2)) & 3) == 2)
+        {
+            work_count++;
+        }
+    }
+    
+    return work_count;
 }
 
 void load_data(void)
@@ -132,8 +151,6 @@ void load_data(void)
 			break;
 		}
 	}
-	
-    cur_work_st = get_cur_port_work_st(&cur_work_port);
 }
 
 

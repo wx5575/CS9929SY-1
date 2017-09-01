@@ -146,8 +146,6 @@ static void check_gr_output_cur_value_validity(EDIT_ELE_T* ele, uint32_t *value)
 static uint8_t get_cur_step_mode(void);
 static WORK_PORT *get_cur_step_work_port(void);
 static void update_arc_mode_deit_inf(EDIT_ELE_T* ele);
-static void check_cur_step_changed_send_to_slave(void);
-static void update_cur_step_crc(void);
 /* Private variables ---------------------------------------------------------*/
 /**
   * @brief  为设置而定义的中间的步骤变量
@@ -1015,31 +1013,6 @@ static void edit_sw_f5_cb(KEY_MESSAGE *key_msg)
     step_edit_win_enter_key_cb(key_msg);
 }
 
-/**
-  * @brief  更新当前步CRC值
-  * @param  无
-  * @retval 无
-  */
-static void update_cur_step_crc(void)
-{
-    g_cur_step_crc =  stm32_crc32_byte((uint8_t*)&tmp_step_par, sizeof(tmp_step_par));
-    g_cur_step_crc_bk = g_cur_step_crc;
-}
-/**
-  * @brief  检查当前的编辑步的参数是否发改变，如果改变就把当前步发送给从机模块
-  * @param  无
-  * @retval 无
-  */
-static void check_cur_step_changed_send_to_slave(void)
-{
-    g_cur_step_crc =  stm32_crc32_byte((uint8_t*)&tmp_step_par, sizeof(tmp_step_par));
-    
-    if(g_cur_step_crc != g_cur_step_crc_bk)
-    {
-        g_cur_step_crc_bk = g_cur_step_crc;
-        send_cmd_to_all_module((void*)&tmp_step_par, sizeof(tmp_step_par), send_edit_step);
-    }
-}
 /**
   * @brief  步骤参数编辑窗口ENTER键回调函数
   * @param  [in] key_msg 按键消息
@@ -2844,6 +2817,31 @@ static void step_edit_windows_cb(WM_MESSAGE* pMsg)
 
 /* Public functions ---------------------------------------------------------*/
 
+/**
+  * @brief  更新当前步CRC值
+  * @param  无
+  * @retval 无
+  */
+void update_cur_step_crc(void)
+{
+    g_cur_step_crc =  stm32_crc32_byte((uint8_t*)&tmp_step_par, sizeof(tmp_step_par));
+    g_cur_step_crc_bk = g_cur_step_crc;
+}
+/**
+  * @brief  检查当前的编辑步的参数是否发改变，如果改变就把当前步发送给从机模块
+  * @param  无
+  * @retval 无
+  */
+void check_cur_step_changed_send_to_slave(void)
+{
+    g_cur_step_crc =  stm32_crc32_byte((uint8_t*)&tmp_step_par, sizeof(tmp_step_par));
+    
+    if(g_cur_step_crc != g_cur_step_crc_bk)
+    {
+        g_cur_step_crc_bk = g_cur_step_crc;
+        send_cmd_to_all_module((void*)&tmp_step_par, sizeof(tmp_step_par), send_edit_step);
+    }
+}
 
 void get_mode_edit_ele_inf(UN_STRUCT *step, EDIT_ELE_T* ret_ele, CS_ERR *err)
 {

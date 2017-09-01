@@ -1143,6 +1143,51 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>OTHER_FONT</GroupName>
+          <Files>
+            <File>
+              <FileName>asc12.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\fonts\other\asc12.c</FilePath>
+            </File>
+            <File>
+              <FileName>asc16.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\fonts\other\asc16.c</FilePath>
+            </File>
+            <File>
+              <FileName>o_hz12.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\fonts\other\o_hz12.c</FilePath>
+            </File>
+            <File>
+              <FileName>o_hz16.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\fonts\other\o_hz16.c</FilePath>
+            </File>
+            <File>
+              <FileName>asc29.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\fonts\other\asc29.c</FilePath>
+            </File>
+            <File>
+              <FileName>o_hz29.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\fonts\other\o_hz29.c</FilePath>
+            </File>
+            <File>
+              <FileName>asc24.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\fonts\other\asc24.c</FilePath>
+            </File>
+            <File>
+              <FileName>o_hz24.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\fonts\other\o_hz24.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>TYPE</GroupName>
           <Files>
             <File>
@@ -1489,6 +1534,16 @@
               <FileName>calibration_win.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\USER_UI\UI\calibration_win\calibration_win.c</FilePath>
+            </File>
+            <File>
+              <FileName>sel_cal_module_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\calibration_win\sel_cal_module_win.c</FilePath>
+            </File>
+            <File>
+              <FileName>7_sel_cal_module_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\calibration_win\7_sel_cal_module_win.c</FilePath>
             </File>
           </Files>
         </Group>

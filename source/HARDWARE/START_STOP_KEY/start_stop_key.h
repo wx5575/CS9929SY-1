@@ -24,8 +24,8 @@
 #define PIN_L           0///<引脚输出低电平
 
 
-#define TEST_OVER_N     0   //测试未结束
-#define TEST_OVER_Y     1   //测试结束
+#define TEST_OVER_N     1   //测试未结束
+#define TEST_OVER_Y     0   //测试结束
 
 #define ROAD1_TEST_OVER_PIN     PBin(5) ///<第一路测试结束
 #define ROAD2_TEST_OVER_PIN     PBin(4) ///<第二路测试结束

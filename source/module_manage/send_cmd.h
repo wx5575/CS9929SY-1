@@ -31,6 +31,7 @@ extern MODULE_ADDR_T get_com4_send_addr(void);
 
 extern void send_cmd_to_all_module(uint8_t *data, uint32_t len, SEND_CMD_FUN fun);
 extern CS_ERR send_cmd_to_one_module(ROAD_INDEX road, uint8_t *data, uint32_t len, SEND_CMD_FUN fun);
+extern CS_ERR send_cmd_to_index_one_module(ROAD_INDEX road, uint8_t *data, uint32_t len, SEND_CMD_FUN fun);
 
 #endif //__SEND_CMD_H__
 

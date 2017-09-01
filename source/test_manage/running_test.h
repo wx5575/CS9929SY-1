@@ -159,4 +159,8 @@ RUNNING_EXT  float vol_ch_step;	/* 电压缓变步进值 */
 RUNNING_EXT  float vol_ch_base;	/* 电压变化的起始值 */
 RUNNING_EXT  float vol_ch_target;	/* 电压变化的目标 */
 
+
+extern CS_BOOL judge_road_work(ROAD_NUM_T road);
+extern uint8_t get_work_roads(void);
+
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

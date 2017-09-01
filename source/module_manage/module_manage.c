@@ -40,6 +40,7 @@ enum{
     GET_SLAVE_TEST_DATA     = 12,///<获取测试数据
     TEST_OVER_SIGN_H        = 13,///<控制从机测试完成信息输出高电平
     TEST_OVER_SIGN_L        = 14,///<控制从机测试完成信号输出低电平
+    GET_SLAVE_TEST_TIME     = 15,///<获取从机测试时间
     
     SLAVE_NEW_FILE          = 30,///<新建文件
     SLAVE_EDIT_FILE         = 31,///<设置文件
@@ -280,6 +281,13 @@ void get_slave_test_data(COM_NUM com_num, uint8_t index, uint8_t *data)
     road = get_road_num(index);
     memcpy(&syn_test_port[road - 1].test_data, data, sizeof(COMM_TEST_DATA));
 }
+void get_slave_test_time(COM_NUM com_num, uint8_t index, uint8_t *data)
+{
+    ROAD_NUM_T road;
+    
+    road = get_road_num(index);
+//    memcpy(&syn_test_port[road - 1].test_data.g_dis_time, data, 2);
+}
 
 void test_over_sign_l(COM_NUM com_num, uint8_t index, uint8_t *data)
 {
@@ -301,11 +309,20 @@ void test_over_sign_h(COM_NUM com_num, uint8_t index, uint8_t *data)
     
     if(res == CS_FALSE)
     {
-        res = road1_test_over();
+        res = road4_test_over();
         
         if(res == CS_TRUE)
         {
-            inf->road_num = 1;
+            inf->road_num = 4;
+        }
+    }
+    if(res == CS_FALSE)
+    {
+        res = road3_test_over();
+        
+        if(res == CS_TRUE)
+        {
+            inf->road_num = 3;
         }
     }
     
@@ -321,30 +338,23 @@ void test_over_sign_h(COM_NUM com_num, uint8_t index, uint8_t *data)
     
     if(res == CS_FALSE)
     {
-        res = road3_test_over();
+        res = road1_test_over();
         
         if(res == CS_TRUE)
         {
-            inf->road_num = 3;
+            inf->road_num = 1;
         }
     }
     
-    if(res == CS_FALSE)
-    {
-        res = road4_test_over();
-        
-        if(res == CS_TRUE)
-        {
-            inf->road_num = 4;
-        }
-    }
     
     comm_syn_sign = 1;
 }
 
-void get_road_test_data(ROAD_NUM_T road, COMM_TEST_DATA *test_data)
+COMM_TEST_DATA* get_road_test_data(ROAD_NUM_T road, COMM_TEST_DATA *test_data)
 {
     memcpy(test_data, &syn_test_port[road - 1].test_data, sizeof(COMM_TEST_DATA));
+    
+    return &syn_test_port[road - 1].test_data;
 }
 ROAD_TEST_ST read_road_test_status(ROAD_NUM_T road)
 {
@@ -365,6 +375,31 @@ MODULE_ADDR_T get_module_addr(ROAD_INDEX road, CS_ERR *err)
     
     for(i = 0; i < SYN_MAX_ROADS; i++)
     {
+        if(syn_test_port[i].road_num == road)
+        {
+            *err = CS_ERR_NONE;
+            return syn_test_port[i].addr;
+        }
+    }
+    
+    *err = CS_ERR_ROAD_INVALTD;
+    
+    return 0;
+}
+/**
+  * @brief  根据路号获取模块地址
+  * @param  [in] road 路号
+  * @param  [in] err 错误码 
+  *         @arg CS_ERR_NONE 成功获取到模块地址
+  *         @arg CS_ERR_ROAD_INVALTD 传入的路号非法，系统中没有对应的模块地址
+  * @retval 获取到的模块地址
+  */
+MODULE_ADDR_T get_module_index_addr(ROAD_INDEX road, CS_ERR *err)
+{
+    int32_t i = 0;
+    
+    for(i = 0; i < SYN_MAX_ROADS; i++)
+    {
         if(syn_test_port[i].road_index == road)
         {
             *err = CS_ERR_NONE;
@@ -376,7 +411,6 @@ MODULE_ADDR_T get_module_addr(ROAD_INDEX road, CS_ERR *err)
     
     return 0;
 }
-
 SYN_TEST_PORT_INF* get_road_inf(MODULE_ADDR_T addr, CS_ERR *err)
 {
     CS_INDEX i = 0;
@@ -461,6 +495,9 @@ CS_BOOL source_cmd_dispose(COM_NUM com_num, uint8_t index, FRAME_T *frame)
             break;
         case TEST_OVER_SIGN_L:
             test_over_sign_l(com_num, index, frame->data);
+            break;
+        case GET_SLAVE_TEST_TIME:
+            get_slave_test_time(com_num, index, frame->data);
             break;
         default:
             res = CS_FALSE;
@@ -924,6 +961,17 @@ CS_ERR send_test_over_sign_h(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
 CS_ERR send_test_over_sign_l(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
 {
     return com_send_cmd_data(addr, TEST_OVER_SIGN_L, NULL, 0);
+}
+/**
+  * @brief  发送控制从机测试完成信号输出低电平
+  * @param  [in] addr 通信地址
+  * @param  [in] data 数据
+  * @param  [in] len 数据长度
+  * @retval 发送结果
+  */
+CS_ERR send_get_slave_test_time(MODULE_ADDR_T addr, uint8_t *data, uint32_t len)
+{
+    return com_send_cmd_data(addr, GET_SLAVE_TEST_TIME, data, len);
 }
 /**
   * @brief  发送启动从机进行测试指令

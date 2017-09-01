@@ -47,6 +47,7 @@ typedef enum{
     INDEX_ROAD_7,///<第7路索引
     INDEX_ROAD_8,///<第8路索引
 }ROAD_INDEX;
+#define MAX_SYN_ROADS_NUM   8 ///<最大的同步测试路数
 /**
   * @brief  bool常量定义
   */

@@ -61,6 +61,8 @@ typedef struct{
     CS_UNIT_ENUM vol_unit;///<电压单位
     CS_UNIT_ENUM cur_unit;///<电流/电阻单位
     CS_UNIT_ENUM real_unit;///<真实电流等单位
+    uint8_t usable;///<数据可以使用标记
+//    uint16_t g_dis_time;///<测试时间
 }COMM_TEST_DATA;
 
 /**
@@ -68,7 +70,7 @@ typedef struct{
   */
 typedef struct{
     COM_STRUCT *com;///<串口信息
-    ROAD_NUM_T road_index;///<路号索引
+    CS_INDEX road_index;///<路号索引
     ROAD_NUM_T road_num;///<路号
     MODULE_ADDR_T addr;///<模块地址，方便查找使用
     MODULE_ADDR_T offset_addr;///<偏移地址
@@ -128,6 +130,7 @@ extern void clear_module_inf(void);
 extern CS_BOOL com_comm_is_idle(MODULE_ADDR_T addr);
 extern void wait_com_comm_idle(MODULE_ADDR_T addr);
 extern MODULE_ADDR_T get_module_addr(ROAD_INDEX road, CS_ERR *err);
+extern MODULE_ADDR_T get_module_index_addr(ROAD_INDEX road, CS_ERR *err);
 extern uint8_t get_total_roads_num(void);
 
 extern CS_ERR com_module_connect(MODULE_ADDR_T addr);
@@ -150,6 +153,7 @@ extern CS_ERR send_get_test_data(MODULE_ADDR_T addr, uint8_t *data, uint32_t len
 extern CS_ERR send_start_test(MODULE_ADDR_T addr, uint8_t *data, uint32_t len);
 extern CS_ERR send_test_over_sign_h(MODULE_ADDR_T addr, uint8_t *data, uint32_t len);
 extern CS_ERR send_test_over_sign_l(MODULE_ADDR_T addr, uint8_t *data, uint32_t len);
+extern CS_ERR send_get_slave_test_time(MODULE_ADDR_T addr, uint8_t *data, uint32_t len);
 
 extern CS_ERR send_slave_new_file(MODULE_ADDR_T addr, uint8_t *data, uint32_t len);
 extern CS_ERR send_slave_read_file(MODULE_ADDR_T addr, uint8_t *data, uint32_t len);
@@ -168,7 +172,7 @@ extern CS_ERR send_swap_step(MODULE_ADDR_T addr, uint8_t *data, uint32_t len);
 
 
 extern ROAD_TEST_ST read_road_test_status(ROAD_NUM_T road);
-extern void get_road_test_data(ROAD_NUM_T road, COMM_TEST_DATA *test_data);
+extern COMM_TEST_DATA*  get_road_test_data(ROAD_NUM_T road, COMM_TEST_DATA *test_data);
 extern SYN_TEST_PORT_INF* get_road_inf(MODULE_ADDR_T addr, CS_ERR *err);
 
 extern CS_BOOL road1_test_over(void);

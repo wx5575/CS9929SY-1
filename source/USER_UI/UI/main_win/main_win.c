@@ -583,6 +583,15 @@ static void main_win_cb(WM_MESSAGE * pMsg)
 			break;
 	}
 }
+
+void hide_main_win(void)
+{
+    WM_HideWindow(main_windows.handle);
+}
+void show_main_win(void)
+{
+    WM_ShowWindow(main_windows.handle);
+}
 /**
   * @brief  创建主界面
   * @param  无
