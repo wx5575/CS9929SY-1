@@ -356,6 +356,7 @@
   */
 
 #include "stm32f4xx.h"
+#include "cs99xx_update.h"
 
 /**
   * @}
@@ -550,7 +551,9 @@ void SystemInit(void)
 #ifdef VECT_TAB_SRAM
   SCB->VTOR = SRAM_BASE | VECT_TAB_OFFSET; /* Vector Table Relocation in Internal SRAM */
 #else
+#ifndef CS_BOOT
   SCB->VTOR = FLASH_BASE | VECT_TAB_OFFSET; /* Vector Table Relocation in Internal FLASH */
+#endif
 #endif
 }
 

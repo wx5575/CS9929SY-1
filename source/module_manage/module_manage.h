@@ -175,10 +175,17 @@ extern ROAD_TEST_ST read_road_test_status(ROAD_NUM_T road);
 extern COMM_TEST_DATA*  get_road_test_data(ROAD_NUM_T road, COMM_TEST_DATA *test_data);
 extern SYN_TEST_PORT_INF* get_road_inf(MODULE_ADDR_T addr, CS_ERR *err);
 
+extern ROAD_INDEX_NUM_T get_road_index_num(MODULE_ADDR_T addr);
+
 extern CS_BOOL road1_test_over(void);
 extern CS_BOOL road2_test_over(void);
 extern CS_BOOL road3_test_over(void);
 extern CS_BOOL road4_test_over(void);
+
+extern CS_BOOL road1_test_alarm(void);
+extern CS_BOOL road2_test_alarm(void);
+extern CS_BOOL road3_test_alarm(void);
+extern CS_BOOL road4_test_alarm(void);
 
 #endif //__MODULE_MANAGE_H__
 

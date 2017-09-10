@@ -22,6 +22,7 @@ typedef enum{
     SEND_START,///<启动发送
     SEND_OVER,///<发送完成
     SEND_INIT,///<发送状态初始化值
+    WAIT_IDLE,///<等待空闲
 }SEND_MODULE_ST;
 
 
@@ -140,6 +141,18 @@ static void send_cmd_to_known_module(SEND_MODULE_T *inf, uint8_t *data, uint32_t
             }
         }
     }
+//    /* 等待空闲 */
+//    else if(inf->status == WAIT_IDLE)
+//    {
+//        CS_BOOL res = CS_FALSE;
+//        
+//        res =  com_comm_is_idle(inf->offset_addr);
+//        
+//        if(res == CS_TRUE)
+//        {
+//            inf->status = SEND_OVER;
+//        }
+//    }
 }
 
 /**

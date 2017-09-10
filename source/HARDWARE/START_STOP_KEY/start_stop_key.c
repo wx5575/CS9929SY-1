@@ -26,6 +26,7 @@
 
 #define  GPIO_PORT_SYN_STOP		GPIOE
 #define  GPIO_PIN_SYN_STOP      GPIO_Pin_6
+
 /**
   * @brief  启动复位键外部中断配置
   * @param  无
@@ -118,6 +119,22 @@ void key_start_stop_gpio_init(void)
     
     /* 第四路测试完成 */
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;
+    GPIO_Init(GPIOG, &GPIO_InitStructure);//初始化
+    
+    /* 第一路报警信号 */
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;
+    GPIO_Init(GPIOB, &GPIO_InitStructure);//初始化
+    
+    /* 第二路报警信号 */
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
+    GPIO_Init(GPIOB, &GPIO_InitStructure);//初始化
+    
+    /* 第三路报警信号 */
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_14;
+    GPIO_Init(GPIOG, &GPIO_InitStructure);//初始化
+    
+    /* 第四路报警信号 */
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;
     GPIO_Init(GPIOG, &GPIO_InitStructure);//初始化
     
     key_start_stop_exit_config();

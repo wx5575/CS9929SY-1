@@ -22,6 +22,7 @@
 #include "PROGBAR.h"
 #include "LISTVIEW.H"
 #include "module_manage.h"
+#include "calibration_win.h"
 
 /* Private typedef -----------------------------------------------------------*/
 

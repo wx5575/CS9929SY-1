@@ -31,6 +31,10 @@ typedef   int32_t  CS_INDEX;
   */
 typedef uint8_t MODULE_ADDR_T;
 /**
+  * @brief  多路端口的索引编号
+  */
+typedef uint8_t ROAD_INDEX_NUM_T;
+/**
   * @brief  多路端口的编号
   */
 typedef uint8_t ROAD_NUM_T;

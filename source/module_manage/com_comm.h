@@ -33,6 +33,7 @@ typedef enum{
     MODULE_COMM_IDLE,///<模块通信空闲
     MODULE_COMM_RECEIVE,///<模块通信处于接收状态
     MODULE_COMM_SEND,///<模块通信处于发送状态
+    MODULE_COMM_SEND_BROADCAST,///<模块通信处于广播发送状态
     MODULE_COMM_TIMEOUT,///<模块通信处于超时状态
     MODULE_COMM_ANOMALY,///<模块通信处于异常状态,通信进入解析时出现了异常
 }MODULE_COMM_STATUS;

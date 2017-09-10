@@ -79,14 +79,9 @@ struct exception_stack_frame_fpu
     uint32_t psr;
     uint32_t buf[10];
 };
-void rt_hw_hard_fault_exception(struct exception_stack_frame *exception_stack)
+void rt_hw_hard_fault_exception(void)
 {
-    int x = 0;
-    
-    x++;
-    x = x + 1;
-    
-    while (1);
+    while (1); 
 }
 /**
   * @brief  This function handles Memory Manage exception.

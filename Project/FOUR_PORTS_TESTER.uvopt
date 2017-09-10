@@ -21,7 +21,367 @@
   </DaveTm>
 
   <Target>
-    <TargetName>Target 1</TargetName>
+    <TargetName>不支持bootloader</TargetName>
+    <ToolsetNumber>0x4</ToolsetNumber>
+    <ToolsetName>ARM-ADS</ToolsetName>
+    <TargetOption>
+      <CLKADS>25000000</CLKADS>
+      <OPTTT>
+        <gFlags>1</gFlags>
+        <BeepAtEnd>1</BeepAtEnd>
+        <RunSim>1</RunSim>
+        <RunTarget>0</RunTarget>
+      </OPTTT>
+      <OPTHX>
+        <HexSelection>1</HexSelection>
+        <FlashByte>65535</FlashByte>
+        <HexRangeLowAddress>0</HexRangeLowAddress>
+        <HexRangeHighAddress>0</HexRangeHighAddress>
+        <HexOffset>0</HexOffset>
+      </OPTHX>
+      <OPTLEX>
+        <PageWidth>79</PageWidth>
+        <PageLength>66</PageLength>
+        <TabStop>8</TabStop>
+        <ListingPath>..\..\output\outlist\</ListingPath>
+      </OPTLEX>
+      <ListingPage>
+        <CreateCListing>1</CreateCListing>
+        <CreateAListing>1</CreateAListing>
+        <CreateLListing>1</CreateLListing>
+        <CreateIListing>0</CreateIListing>
+        <AsmCond>1</AsmCond>
+        <AsmSymb>1</AsmSymb>
+        <AsmXref>0</AsmXref>
+        <CCond>1</CCond>
+        <CCode>0</CCode>
+        <CListInc>0</CListInc>
+        <CSymb>0</CSymb>
+        <LinkerCodeListing>0</LinkerCodeListing>
+      </ListingPage>
+      <OPTXL>
+        <LMap>1</LMap>
+        <LComments>1</LComments>
+        <LGenerateSymbols>1</LGenerateSymbols>
+        <LLibSym>1</LLibSym>
+        <LLines>1</LLines>
+        <LLocSym>1</LLocSym>
+        <LPubSym>1</LPubSym>
+        <LXref>0</LXref>
+        <LExpSel>0</LExpSel>
+      </OPTXL>
+      <OPTFL>
+        <tvExp>1</tvExp>
+        <tvExpOptDlg>0</tvExpOptDlg>
+        <IsCurrentTarget>0</IsCurrentTarget>
+      </OPTFL>
+      <CpuCode>255</CpuCode>
+      <Books>
+        <Book>
+          <Number>0</Number>
+          <Title>Reference Manual</Title>
+          <Path>DATASHTS\ST\STM32F4xx.PDF</Path>
+        </Book>
+      </Books>
+      <DebugOpt>
+        <uSim>0</uSim>
+        <uTrg>1</uTrg>
+        <sLdApp>1</sLdApp>
+        <sGomain>1</sGomain>
+        <sRbreak>1</sRbreak>
+        <sRwatch>1</sRwatch>
+        <sRmem>1</sRmem>
+        <sRfunc>1</sRfunc>
+        <sRbox>1</sRbox>
+        <tLdApp>1</tLdApp>
+        <tGomain>0</tGomain>
+        <tRbreak>1</tRbreak>
+        <tRwatch>1</tRwatch>
+        <tRmem>1</tRmem>
+        <tRfunc>0</tRfunc>
+        <tRbox>1</tRbox>
+        <tRtrace>0</tRtrace>
+        <sRSysVw>1</sRSysVw>
+        <tRSysVw>1</tRSysVw>
+        <tPdscDbg>0</tPdscDbg>
+        <sRunDeb>0</sRunDeb>
+        <sLrtime>0</sLrtime>
+        <nTsel>7</nTsel>
+        <sDll></sDll>
+        <sDllPa></sDllPa>
+        <sDlgDll></sDlgDll>
+        <sDlgPa></sDlgPa>
+        <sIfile></sIfile>
+        <tDll></tDll>
+        <tDllPa></tDllPa>
+        <tDlgDll></tDlgDll>
+        <tDlgPa></tDlgPa>
+        <tIfile></tIfile>
+        <pMon>Segger\JL2CM3.dll</pMon>
+      </DebugOpt>
+      <TargetDriverDllRegistry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>DLGDARM</Key>
+          <Name>(1010=-1,-1,-1,-1,0)(1007=-1,-1,-1,-1,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(1012=-1,-1,-1,-1,0)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>UL2CM3</Key>
+          <Name>-O207 -S0 -C0 -FO7 -FD20000000 -FC800 -FN1 -FF0STM32F4xx_1024 -FS08000000 -FL0100000)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>DLGTARM</Key>
+          <Name>(1010=-1,-1,-1,-1,0)(1007=-1,-1,-1,-1,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(1012=-1,-1,-1,-1,0)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>ARMDBGFLAGS</Key>
+          <Name>-T0</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>DLGUARM</Key>
+          <Name>/</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>JL2CM3</Key>
+          <Name>-U20080643 -O207 -S8 -A0 -C0 -JU1 -JI127.0.0.1 -JP0 -RST0 -N00("ARM CoreSight SW-DP") -D00(2BA01477) -L00(0) -TO18 -TC10000000 -TP21 -TDS8004 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -TB1 -TFE0 -FO15 -FD20000000 -FC800 -FN1 -FF0STM32F4xx_1024 -FS08000000 -FL0100000</Name>
+        </SetRegEntry>
+      </TargetDriverDllRegistry>
+      <Breakpoint>
+        <Bp>
+          <Number>0</Number>
+          <Type>0</Type>
+          <LineNumber>45</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>..\source\App\app.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
+          <LineNumber>182</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>..\source\CORE\startup_stm32f40_41xxx.s</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>555</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>..\source\CORE\stm32f4xx\system_stm32f4xx.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>3</Number>
+          <Type>0</Type>
+          <LineNumber>3266</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>..\source\USER_UI\UI\test_win\test_win.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>4</Number>
+          <Type>0</Type>
+          <LineNumber>3260</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>..\source\USER_UI\UI\test_win\test_win.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>5</Number>
+          <Type>0</Type>
+          <LineNumber>3268</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>..\source\USER_UI\UI\test_win\test_win.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>6</Number>
+          <Type>0</Type>
+          <LineNumber>3258</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>..\source\USER_UI\UI\test_win\test_win.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+      </Breakpoint>
+      <WatchWindow1>
+        <Ww>
+          <count>0</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>font_bytes,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>1</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>buf</ItemText>
+        </Ww>
+        <Ww>
+          <count>2</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>font_height,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>3</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>width,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>4</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>m</ItemText>
+        </Ww>
+        <Ww>
+          <count>5</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>test_status</ItemText>
+        </Ww>
+        <Ww>
+          <count>6</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>work_port_16,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>7</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>g_cur_step</ItemText>
+        </Ww>
+        <Ww>
+          <count>8</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>cur_work_port</ItemText>
+        </Ww>
+        <Ww>
+          <count>9</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>test_step</ItemText>
+        </Ww>
+      </WatchWindow1>
+      <WatchWindow2>
+        <Ww>
+          <count>0</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>value,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>1</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>g_cur_edit_ele-&gt;range.high</ItemText>
+        </Ww>
+        <Ww>
+          <count>2</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>t_buf</ItemText>
+        </Ww>
+        <Ww>
+          <count>3</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>value,0x0A</ItemText>
+        </Ww>
+      </WatchWindow2>
+      <MemoryWindow1>
+        <Mm>
+          <WinNumber>1</WinNumber>
+          <SubType>1</SubType>
+          <ItemText>ex_addr</ItemText>
+        </Mm>
+      </MemoryWindow1>
+      <Tracepoint>
+        <THDelay>0</THDelay>
+      </Tracepoint>
+      <DebugFlag>
+        <trace>0</trace>
+        <periodic>1</periodic>
+        <aLwin>0</aLwin>
+        <aCover>0</aCover>
+        <aSer1>0</aSer1>
+        <aSer2>0</aSer2>
+        <aPa>0</aPa>
+        <viewmode>1</viewmode>
+        <vrSel>0</vrSel>
+        <aSym>0</aSym>
+        <aTbox>0</aTbox>
+        <AscS1>0</AscS1>
+        <AscS2>0</AscS2>
+        <AscS3>0</AscS3>
+        <aSer3>0</aSer3>
+        <eProf>0</eProf>
+        <aLa>0</aLa>
+        <aPa1>0</aPa1>
+        <AscS4>0</AscS4>
+        <aSer4>0</aSer4>
+        <StkLoc>0</StkLoc>
+        <TrcWin>0</TrcWin>
+        <newCpu>0</newCpu>
+        <uProt>0</uProt>
+      </DebugFlag>
+      <LintExecutable></LintExecutable>
+      <LintConfigFile></LintConfigFile>
+    </TargetOption>
+  </Target>
+
+  <Target>
+    <TargetName>支持bootloader</TargetName>
     <ToolsetNumber>0x4</ToolsetNumber>
     <ToolsetName>ARM-ADS</ToolsetName>
     <TargetOption>
@@ -143,7 +503,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGUARM</Key>
-          <Name>/</Name>
+          <Name></Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -151,7 +511,72 @@
           <Name>-U20080643 -O207 -S8 -A0 -C0 -JU1 -JI127.0.0.1 -JP0 -RST0 -N00("ARM CoreSight SW-DP") -D00(2BA01477) -L00(0) -TO18 -TC10000000 -TP21 -TDS8004 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -TB1 -TFE0 -FO15 -FD20000000 -FC800 -FN1 -FF0STM32F4xx_1024 -FS08000000 -FL0100000</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint/>
+      <Breakpoint>
+        <Bp>
+          <Number>0</Number>
+          <Type>0</Type>
+          <LineNumber>3258</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134493390</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>..\source\USER_UI\UI\test_win\test_win.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\FOUR_PORTS_TESTER\../source/USER_UI/UI/test_win/test_win.c\3258</Expression>
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
+          <LineNumber>3266</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>..\source\USER_UI\UI\test_win\test_win.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>3260</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>..\source\USER_UI\UI\test_win\test_win.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>3</Number>
+          <Type>0</Type>
+          <LineNumber>3268</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>..\source\USER_UI\UI\test_win\test_win.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+      </Breakpoint>
       <WatchWindow1>
         <Ww>
           <count>0</count>
@@ -202,6 +627,26 @@
           <count>9</count>
           <WinNumber>1</WinNumber>
           <ItemText>test_step</ItemText>
+        </Ww>
+        <Ww>
+          <count>10</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>com1</ItemText>
+        </Ww>
+        <Ww>
+          <count>11</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>com2</ItemText>
+        </Ww>
+        <Ww>
+          <count>12</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>com3</ItemText>
+        </Ww>
+        <Ww>
+          <count>13</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>com4</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>
@@ -279,10 +724,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>15</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>68</TopLine>
+      <CurrentLine>84</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\SYS_LEVEL\stm32f4xx_it.c</PathWithFileName>
       <FilenameWithoutPath>stm32f4xx_it.c</FilenameWithoutPath>
@@ -463,10 +908,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>4</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>123</TopLine>
-      <CurrentLine>130</CurrentLine>
+      <TopLine>33</TopLine>
+      <CurrentLine>38</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\HARDWARE\board.c</PathWithFileName>
       <FilenameWithoutPath>board.c</FilenameWithoutPath>
@@ -479,10 +924,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>4</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>35</TopLine>
-      <CurrentLine>37</CurrentLine>
+      <TopLine>9</TopLine>
+      <CurrentLine>13</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\HARDWARE\USART\USART1.C</PathWithFileName>
       <FilenameWithoutPath>USART1.C</FilenameWithoutPath>
@@ -545,8 +990,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>18</TopLine>
-      <CurrentLine>20</CurrentLine>
+      <TopLine>1</TopLine>
+      <CurrentLine>1</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\HARDWARE\TIMER\tim3.c</PathWithFileName>
       <FilenameWithoutPath>tim3.c</FilenameWithoutPath>
@@ -559,10 +1004,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>4</ColumnNumber>
+      <ColumnNumber>34</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>91</TopLine>
-      <CurrentLine>92</CurrentLine>
+      <TopLine>44</TopLine>
+      <CurrentLine>45</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\HARDWARE\USART\UART4.C</PathWithFileName>
       <FilenameWithoutPath>UART4.C</FilenameWithoutPath>
@@ -577,8 +1022,8 @@
       <Focus>0</Focus>
       <ColumnNumber>4</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>127</TopLine>
-      <CurrentLine>134</CurrentLine>
+      <TopLine>125</TopLine>
+      <CurrentLine>131</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\HARDWARE\START_STOP_KEY\start_stop_key.c</PathWithFileName>
       <FilenameWithoutPath>start_stop_key.c</FilenameWithoutPath>
@@ -593,8 +1038,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>69</TopLine>
-      <CurrentLine>70</CurrentLine>
+      <TopLine>1</TopLine>
+      <CurrentLine>1</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\HARDWARE\KeyBoard\panel_4094.c</PathWithFileName>
       <FilenameWithoutPath>panel_4094.c</FilenameWithoutPath>
@@ -649,7 +1094,7 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>172</TopLine>
+      <TopLine>177</TopLine>
       <CurrentLine>182</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\CORE\startup_stm32f40_41xxx.s</PathWithFileName>
@@ -663,10 +1108,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>4</ColumnNumber>
+      <ColumnNumber>16</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>352</TopLine>
+      <CurrentLine>359</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\CORE\stm32f4xx\system_stm32f4xx.c</PathWithFileName>
       <FilenameWithoutPath>system_stm32f4xx.c</FilenameWithoutPath>
@@ -689,8 +1134,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>185</TopLine>
+      <CurrentLine>186</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\FWLIB\STM32F4xx_StdPeriph_Driver\src\misc.c</PathWithFileName>
       <FilenameWithoutPath>misc.c</FilenameWithoutPath>
@@ -1737,7 +2182,7 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>788</TopLine>
+      <TopLine>790</TopLine>
       <CurrentLine>791</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\UCOSIII\uCOS-III\Source\os_core.c</PathWithFileName>
@@ -2033,8 +2478,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>180</TopLine>
+      <CurrentLine>184</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView\os_cpu_a.asm</PathWithFileName>
       <FilenameWithoutPath>os_cpu_a.asm</FilenameWithoutPath>
@@ -2207,10 +2652,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>30</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>197</TopLine>
-      <CurrentLine>211</CurrentLine>
+      <TopLine>76</TopLine>
+      <CurrentLine>96</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\HARDWARE\RA8875\BSP\bsp_tft_lcd.c</PathWithFileName>
       <FilenameWithoutPath>bsp_tft_lcd.c</FilenameWithoutPath>
@@ -2223,10 +2668,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>16</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1762</TopLine>
-      <CurrentLine>1781</CurrentLine>
+      <TopLine>49</TopLine>
+      <CurrentLine>50</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\HARDWARE\RA8875\RA8875\LCD_RA8875.c</PathWithFileName>
       <FilenameWithoutPath>LCD_RA8875.c</FilenameWithoutPath>
@@ -2239,10 +2684,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>4</ColumnNumber>
+      <ColumnNumber>19</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>195</TopLine>
-      <CurrentLine>209</CurrentLine>
+      <TopLine>209</TopLine>
+      <CurrentLine>210</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\HARDWARE\RA8875\RA8875\bsp_ra8875_port.c</PathWithFileName>
       <FilenameWithoutPath>bsp_ra8875_port.c</FilenameWithoutPath>
@@ -2253,7 +2698,7 @@
 
   <Group>
     <GroupName>CH376</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -2261,7 +2706,7 @@
       <GroupNumber>17</GroupNumber>
       <FileNumber>117</FileNumber>
       <FileType>1</FileType>
-      <tvExp>1</tvExp>
+      <tvExp>0</tvExp>
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -2337,8 +2782,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>41</TopLine>
-      <CurrentLine>43</CurrentLine>
+      <TopLine>18</TopLine>
+      <CurrentLine>19</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\HARDWARE\KeyBoard\keyboard.c</PathWithFileName>
       <FilenameWithoutPath>keyboard.c</FilenameWithoutPath>
@@ -2351,10 +2796,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>7</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>160</TopLine>
-      <CurrentLine>168</CurrentLine>
+      <TopLine>169</TopLine>
+      <CurrentLine>173</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\HARDWARE\KeyBoard\key_led_buzzer.c</PathWithFileName>
       <FilenameWithoutPath>key_led_buzzer.c</FilenameWithoutPath>
@@ -2375,10 +2820,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>4</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>353</TopLine>
-      <CurrentLine>364</CurrentLine>
+      <TopLine>489</TopLine>
+      <CurrentLine>492</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\App\app.c</PathWithFileName>
       <FilenameWithoutPath>app.c</FilenameWithoutPath>
@@ -2415,10 +2860,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>28</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1</TopLine>
-      <CurrentLine>1</CurrentLine>
+      <TopLine>9124</TopLine>
+      <CurrentLine>26</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\USER_UI\fonts\HZ\hz_20.c</PathWithFileName>
       <FilenameWithoutPath>hz_20.c</FilenameWithoutPath>
@@ -2449,7 +2894,7 @@
       <Focus>0</Focus>
       <ColumnNumber>52</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>2416</TopLine>
+      <TopLine>2419</TopLine>
       <CurrentLine>2420</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\USER_UI\fonts\HZ\hz_26.c</PathWithFileName>
@@ -2465,163 +2910,11 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>8448</TopLine>
+      <TopLine>10148</TopLine>
       <CurrentLine>8455</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\USER_UI\fonts\HZ\hz_29.c</PathWithFileName>
       <FilenameWithoutPath>hz_29.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-  </Group>
-
-  <Group>
-    <GroupName>OTHER_FONT</GroupName>
-    <tvExp>0</tvExp>
-    <tvExpOptDlg>0</tvExpOptDlg>
-    <cbSel>0</cbSel>
-    <RteFlg>0</RteFlg>
-    <File>
-      <GroupNumber>21</GroupNumber>
-      <FileNumber>129</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1</TopLine>
-      <CurrentLine>16</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\source\USER_UI\fonts\other\asc12.c</PathWithFileName>
-      <FilenameWithoutPath>asc12.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>21</GroupNumber>
-      <FileNumber>130</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>4</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>62</TopLine>
-      <CurrentLine>67</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\source\USER_UI\fonts\other\asc16.c</PathWithFileName>
-      <FilenameWithoutPath>asc16.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>21</GroupNumber>
-      <FileNumber>131</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\source\USER_UI\fonts\other\o_hz12.c</PathWithFileName>
-      <FilenameWithoutPath>o_hz12.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>21</GroupNumber>
-      <FileNumber>132</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1</TopLine>
-      <CurrentLine>1</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\source\USER_UI\fonts\other\o_hz16.c</PathWithFileName>
-      <FilenameWithoutPath>o_hz16.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>21</GroupNumber>
-      <FileNumber>133</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>53</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>124</TopLine>
-      <CurrentLine>125</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\source\USER_UI\fonts\other\asc29.c</PathWithFileName>
-      <FilenameWithoutPath>asc29.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>21</GroupNumber>
-      <FileNumber>134</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>16</TopLine>
-      <CurrentLine>26</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\source\USER_UI\fonts\other\o_hz29.c</PathWithFileName>
-      <FilenameWithoutPath>o_hz29.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>21</GroupNumber>
-      <FileNumber>135</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>80</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>97</TopLine>
-      <CurrentLine>98</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\source\USER_UI\fonts\other\asc24.c</PathWithFileName>
-      <FilenameWithoutPath>asc24.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>21</GroupNumber>
-      <FileNumber>136</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>18</TopLine>
-      <CurrentLine>22</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\source\USER_UI\fonts\other\o_hz24.c</PathWithFileName>
-      <FilenameWithoutPath>o_hz24.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>21</GroupNumber>
-      <FileNumber>137</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>80</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>14</TopLine>
-      <CurrentLine>21</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\source\USER_UI\fonts\other\asc32.c</PathWithFileName>
-      <FilenameWithoutPath>asc32.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2634,8 +2927,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>138</FileNumber>
+      <GroupNumber>21</GroupNumber>
+      <FileNumber>129</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2650,8 +2943,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>139</FileNumber>
+      <GroupNumber>21</GroupNumber>
+      <FileNumber>130</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2666,8 +2959,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>140</FileNumber>
+      <GroupNumber>21</GroupNumber>
+      <FileNumber>131</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2682,8 +2975,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>22</GroupNumber>
-      <FileNumber>141</FileNumber>
+      <GroupNumber>21</GroupNumber>
+      <FileNumber>132</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2706,8 +2999,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>23</GroupNumber>
-      <FileNumber>142</FileNumber>
+      <GroupNumber>22</GroupNumber>
+      <FileNumber>133</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2730,8 +3023,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>24</GroupNumber>
-      <FileNumber>143</FileNumber>
+      <GroupNumber>23</GroupNumber>
+      <FileNumber>134</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2746,8 +3039,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>24</GroupNumber>
-      <FileNumber>144</FileNumber>
+      <GroupNumber>23</GroupNumber>
+      <FileNumber>135</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2762,15 +3055,15 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>24</GroupNumber>
-      <FileNumber>145</FileNumber>
+      <GroupNumber>23</GroupNumber>
+      <FileNumber>136</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>19</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>10</TopLine>
-      <CurrentLine>11</CurrentLine>
+      <TopLine>7</TopLine>
+      <CurrentLine>13</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\tools\tools.c</PathWithFileName>
       <FilenameWithoutPath>tools.c</FilenameWithoutPath>
@@ -2778,15 +3071,15 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>24</GroupNumber>
-      <FileNumber>146</FileNumber>
+      <GroupNumber>23</GroupNumber>
+      <FileNumber>137</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>4</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>20</TopLine>
-      <CurrentLine>21</CurrentLine>
+      <TopLine>16</TopLine>
+      <CurrentLine>19</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\tools\crc.c</PathWithFileName>
       <FilenameWithoutPath>crc.c</FilenameWithoutPath>
@@ -2802,8 +3095,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>25</GroupNumber>
-      <FileNumber>147</FileNumber>
+      <GroupNumber>24</GroupNumber>
+      <FileNumber>138</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2818,8 +3111,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>25</GroupNumber>
-      <FileNumber>148</FileNumber>
+      <GroupNumber>24</GroupNumber>
+      <FileNumber>139</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2842,8 +3135,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>26</GroupNumber>
-      <FileNumber>149</FileNumber>
+      <GroupNumber>25</GroupNumber>
+      <FileNumber>140</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2858,15 +3151,15 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>26</GroupNumber>
-      <FileNumber>150</FileNumber>
+      <GroupNumber>25</GroupNumber>
+      <FileNumber>141</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>3</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>719</TopLine>
-      <CurrentLine>730</CurrentLine>
+      <TopLine>4</TopLine>
+      <CurrentLine>10</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\USER_UI\UI_COM\com_ui_info.c</PathWithFileName>
       <FilenameWithoutPath>com_ui_info.c</FilenameWithoutPath>
@@ -2874,8 +3167,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>26</GroupNumber>
-      <FileNumber>151</FileNumber>
+      <GroupNumber>25</GroupNumber>
+      <FileNumber>142</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2898,8 +3191,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>27</GroupNumber>
-      <FileNumber>152</FileNumber>
+      <GroupNumber>26</GroupNumber>
+      <FileNumber>143</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2914,8 +3207,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>27</GroupNumber>
-      <FileNumber>153</FileNumber>
+      <GroupNumber>26</GroupNumber>
+      <FileNumber>144</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2938,8 +3231,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>28</GroupNumber>
-      <FileNumber>154</FileNumber>
+      <GroupNumber>27</GroupNumber>
+      <FileNumber>145</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2954,8 +3247,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>28</GroupNumber>
-      <FileNumber>155</FileNumber>
+      <GroupNumber>27</GroupNumber>
+      <FileNumber>146</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2978,8 +3271,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>29</GroupNumber>
-      <FileNumber>156</FileNumber>
+      <GroupNumber>28</GroupNumber>
+      <FileNumber>147</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -2994,15 +3287,15 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>29</GroupNumber>
-      <FileNumber>157</FileNumber>
+      <GroupNumber>28</GroupNumber>
+      <FileNumber>148</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>4</ColumnNumber>
+      <ColumnNumber>7</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>585</TopLine>
-      <CurrentLine>599</CurrentLine>
+      <TopLine>652</TopLine>
+      <CurrentLine>657</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\USER_UI\UI\main_win\main_win.c</PathWithFileName>
       <FilenameWithoutPath>main_win.c</FilenameWithoutPath>
@@ -3018,8 +3311,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>30</GroupNumber>
-      <FileNumber>158</FileNumber>
+      <GroupNumber>29</GroupNumber>
+      <FileNumber>149</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3034,8 +3327,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>30</GroupNumber>
-      <FileNumber>159</FileNumber>
+      <GroupNumber>29</GroupNumber>
+      <FileNumber>150</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3050,8 +3343,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>30</GroupNumber>
-      <FileNumber>160</FileNumber>
+      <GroupNumber>29</GroupNumber>
+      <FileNumber>151</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3066,8 +3359,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>30</GroupNumber>
-      <FileNumber>161</FileNumber>
+      <GroupNumber>29</GroupNumber>
+      <FileNumber>152</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3090,8 +3383,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>31</GroupNumber>
-      <FileNumber>162</FileNumber>
+      <GroupNumber>30</GroupNumber>
+      <FileNumber>153</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3106,8 +3399,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>31</GroupNumber>
-      <FileNumber>163</FileNumber>
+      <GroupNumber>30</GroupNumber>
+      <FileNumber>154</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3130,8 +3423,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>32</GroupNumber>
-      <FileNumber>164</FileNumber>
+      <GroupNumber>31</GroupNumber>
+      <FileNumber>155</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3146,8 +3439,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>32</GroupNumber>
-      <FileNumber>165</FileNumber>
+      <GroupNumber>31</GroupNumber>
+      <FileNumber>156</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3170,8 +3463,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>33</GroupNumber>
-      <FileNumber>166</FileNumber>
+      <GroupNumber>32</GroupNumber>
+      <FileNumber>157</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3186,8 +3479,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>33</GroupNumber>
-      <FileNumber>167</FileNumber>
+      <GroupNumber>32</GroupNumber>
+      <FileNumber>158</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3210,14 +3503,14 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>34</GroupNumber>
-      <FileNumber>168</FileNumber>
+      <GroupNumber>33</GroupNumber>
+      <FileNumber>159</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
       <ColumnNumber>4</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>234</TopLine>
+      <TopLine>207</TopLine>
       <CurrentLine>208</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\USER_UI\UI\test_win\7_test_ui_layout_1.c</PathWithFileName>
@@ -3226,15 +3519,15 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>34</GroupNumber>
-      <FileNumber>169</FileNumber>
+      <GroupNumber>33</GroupNumber>
+      <FileNumber>160</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
       <ColumnNumber>18</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>3257</TopLine>
-      <CurrentLine>3275</CurrentLine>
+      <TopLine>3211</TopLine>
+      <CurrentLine>3217</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\USER_UI\UI\test_win\test_win.c</PathWithFileName>
       <FilenameWithoutPath>test_win.c</FilenameWithoutPath>
@@ -3250,8 +3543,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>35</GroupNumber>
-      <FileNumber>170</FileNumber>
+      <GroupNumber>34</GroupNumber>
+      <FileNumber>161</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3266,8 +3559,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>35</GroupNumber>
-      <FileNumber>171</FileNumber>
+      <GroupNumber>34</GroupNumber>
+      <FileNumber>162</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3290,8 +3583,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>36</GroupNumber>
-      <FileNumber>172</FileNumber>
+      <GroupNumber>35</GroupNumber>
+      <FileNumber>163</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3306,8 +3599,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>36</GroupNumber>
-      <FileNumber>173</FileNumber>
+      <GroupNumber>35</GroupNumber>
+      <FileNumber>164</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3330,8 +3623,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>37</GroupNumber>
-      <FileNumber>174</FileNumber>
+      <GroupNumber>36</GroupNumber>
+      <FileNumber>165</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3346,14 +3639,14 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>37</GroupNumber>
-      <FileNumber>175</FileNumber>
+      <GroupNumber>36</GroupNumber>
+      <FileNumber>166</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
       <ColumnNumber>17</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>812</TopLine>
+      <TopLine>815</TopLine>
       <CurrentLine>816</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\USER_UI\UI\step_par_win\step_edit_win.c</PathWithFileName>
@@ -3362,8 +3655,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>37</GroupNumber>
-      <FileNumber>176</FileNumber>
+      <GroupNumber>36</GroupNumber>
+      <FileNumber>167</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3378,8 +3671,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>37</GroupNumber>
-      <FileNumber>177</FileNumber>
+      <GroupNumber>36</GroupNumber>
+      <FileNumber>168</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3402,8 +3695,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>38</GroupNumber>
-      <FileNumber>178</FileNumber>
+      <GroupNumber>37</GroupNumber>
+      <FileNumber>169</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3418,8 +3711,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>38</GroupNumber>
-      <FileNumber>179</FileNumber>
+      <GroupNumber>37</GroupNumber>
+      <FileNumber>170</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3434,8 +3727,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>38</GroupNumber>
-      <FileNumber>180</FileNumber>
+      <GroupNumber>37</GroupNumber>
+      <FileNumber>171</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3450,8 +3743,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>38</GroupNumber>
-      <FileNumber>181</FileNumber>
+      <GroupNumber>37</GroupNumber>
+      <FileNumber>172</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3474,8 +3767,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>39</GroupNumber>
-      <FileNumber>182</FileNumber>
+      <GroupNumber>38</GroupNumber>
+      <FileNumber>173</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3490,8 +3783,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>39</GroupNumber>
-      <FileNumber>183</FileNumber>
+      <GroupNumber>38</GroupNumber>
+      <FileNumber>174</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3514,8 +3807,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>40</GroupNumber>
-      <FileNumber>184</FileNumber>
+      <GroupNumber>39</GroupNumber>
+      <FileNumber>175</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3530,15 +3823,15 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>40</GroupNumber>
-      <FileNumber>185</FileNumber>
+      <GroupNumber>39</GroupNumber>
+      <FileNumber>176</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
       <ColumnNumber>4</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>501</TopLine>
-      <CurrentLine>503</CurrentLine>
+      <TopLine>443</TopLine>
+      <CurrentLine>444</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\USER_UI\UI\module_win\module_win.c</PathWithFileName>
       <FilenameWithoutPath>module_win.c</FilenameWithoutPath>
@@ -3554,8 +3847,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>41</GroupNumber>
-      <FileNumber>186</FileNumber>
+      <GroupNumber>40</GroupNumber>
+      <FileNumber>177</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3570,15 +3863,15 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>41</GroupNumber>
-      <FileNumber>187</FileNumber>
+      <GroupNumber>40</GroupNumber>
+      <FileNumber>178</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>12</ColumnNumber>
+      <ColumnNumber>30</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>660</TopLine>
-      <CurrentLine>665</CurrentLine>
+      <TopLine>15</TopLine>
+      <CurrentLine>21</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\USER_UI\UI\calibration_win\calibration_win.c</PathWithFileName>
       <FilenameWithoutPath>calibration_win.c</FilenameWithoutPath>
@@ -3586,15 +3879,15 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>41</GroupNumber>
-      <FileNumber>188</FileNumber>
+      <GroupNumber>40</GroupNumber>
+      <FileNumber>179</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>21</ColumnNumber>
+      <ColumnNumber>28</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>310</TopLine>
-      <CurrentLine>311</CurrentLine>
+      <TopLine>19</TopLine>
+      <CurrentLine>25</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\USER_UI\UI\calibration_win\sel_cal_module_win.c</PathWithFileName>
       <FilenameWithoutPath>sel_cal_module_win.c</FilenameWithoutPath>
@@ -3602,8 +3895,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>41</GroupNumber>
-      <FileNumber>189</FileNumber>
+      <GroupNumber>40</GroupNumber>
+      <FileNumber>180</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3626,8 +3919,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>42</GroupNumber>
-      <FileNumber>190</FileNumber>
+      <GroupNumber>41</GroupNumber>
+      <FileNumber>181</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3642,8 +3935,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>42</GroupNumber>
-      <FileNumber>191</FileNumber>
+      <GroupNumber>41</GroupNumber>
+      <FileNumber>182</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3666,8 +3959,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>43</GroupNumber>
-      <FileNumber>192</FileNumber>
+      <GroupNumber>42</GroupNumber>
+      <FileNumber>183</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3682,8 +3975,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>43</GroupNumber>
-      <FileNumber>193</FileNumber>
+      <GroupNumber>42</GroupNumber>
+      <FileNumber>184</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3706,15 +3999,15 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>44</GroupNumber>
-      <FileNumber>194</FileNumber>
+      <GroupNumber>43</GroupNumber>
+      <FileNumber>185</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>22</ColumnNumber>
+      <ColumnNumber>21</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>85</TopLine>
+      <CurrentLine>87</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\usb_manage\cs99xx_usb_manager.c</PathWithFileName>
       <FilenameWithoutPath>cs99xx_usb_manager.c</FilenameWithoutPath>
@@ -3729,22 +4022,6 @@
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
-    <File>
-      <GroupNumber>45</GroupNumber>
-      <FileNumber>195</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>4</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>56</TopLine>
-      <CurrentLine>68</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\source\test_manage\running_test.c</PathWithFileName>
-      <FilenameWithoutPath>running_test.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
   </Group>
 
   <Group>
@@ -3754,8 +4031,24 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>46</GroupNumber>
-      <FileNumber>196</FileNumber>
+      <GroupNumber>45</GroupNumber>
+      <FileNumber>186</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>33</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>18</TopLine>
+      <CurrentLine>24</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\source\test_manage\running_test.c</PathWithFileName>
+      <FilenameWithoutPath>running_test.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>45</GroupNumber>
+      <FileNumber>187</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3778,14 +4071,14 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>47</GroupNumber>
-      <FileNumber>197</FileNumber>
+      <GroupNumber>46</GroupNumber>
+      <FileNumber>188</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
       <ColumnNumber>4</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>619</TopLine>
+      <TopLine>630</TopLine>
       <CurrentLine>631</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\parameter_manage\parameter_manage.c</PathWithFileName>
@@ -3797,20 +4090,20 @@
 
   <Group>
     <GroupName>MODULE_MANAGE</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>48</GroupNumber>
-      <FileNumber>198</FileNumber>
+      <GroupNumber>47</GroupNumber>
+      <FileNumber>189</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>94</TopLine>
-      <CurrentLine>92</CurrentLine>
+      <TopLine>80</TopLine>
+      <CurrentLine>81</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\module_manage\module_manage.c</PathWithFileName>
       <FilenameWithoutPath>module_manage.c</FilenameWithoutPath>
@@ -3818,8 +4111,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>48</GroupNumber>
-      <FileNumber>199</FileNumber>
+      <GroupNumber>47</GroupNumber>
+      <FileNumber>190</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3834,8 +4127,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>48</GroupNumber>
-      <FileNumber>200</FileNumber>
+      <GroupNumber>47</GroupNumber>
+      <FileNumber>191</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3850,8 +4143,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>48</GroupNumber>
-      <FileNumber>201</FileNumber>
+      <GroupNumber>47</GroupNumber>
+      <FileNumber>192</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3866,8 +4159,8 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>48</GroupNumber>
-      <FileNumber>202</FileNumber>
+      <GroupNumber>47</GroupNumber>
+      <FileNumber>193</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -3882,15 +4175,15 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>48</GroupNumber>
-      <FileNumber>203</FileNumber>
+      <GroupNumber>47</GroupNumber>
+      <FileNumber>194</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>34</TopLine>
-      <CurrentLine>12</CurrentLine>
+      <TopLine>77</TopLine>
+      <CurrentLine>78</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\module_manage\com_comm.c</PathWithFileName>
       <FilenameWithoutPath>com_comm.c</FilenameWithoutPath>
@@ -3898,15 +4191,15 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>48</GroupNumber>
-      <FileNumber>204</FileNumber>
+      <GroupNumber>47</GroupNumber>
+      <FileNumber>195</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>20</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>16</TopLine>
-      <CurrentLine>15</CurrentLine>
+      <TopLine>116</TopLine>
+      <CurrentLine>117</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\module_manage\scan_module.c</PathWithFileName>
       <FilenameWithoutPath>scan_module.c</FilenameWithoutPath>
@@ -3914,15 +4207,15 @@
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>48</GroupNumber>
-      <FileNumber>205</FileNumber>
+      <GroupNumber>47</GroupNumber>
+      <FileNumber>196</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>33</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1</TopLine>
-      <CurrentLine>11</CurrentLine>
+      <TopLine>108</TopLine>
+      <CurrentLine>109</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\module_manage\send_cmd.c</PathWithFileName>
       <FilenameWithoutPath>send_cmd.c</FilenameWithoutPath>
@@ -3938,8 +4231,8 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>49</GroupNumber>
-      <FileNumber>206</FileNumber>
+      <GroupNumber>48</GroupNumber>
+      <FileNumber>197</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>

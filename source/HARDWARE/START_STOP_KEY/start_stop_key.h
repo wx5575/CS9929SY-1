@@ -32,6 +32,14 @@
 #define ROAD3_TEST_OVER_PIN     PGin(15) ///<第三路测试结束
 #define ROAD4_TEST_OVER_PIN     PGin(13) ///<第四路测试结束
 
+#define TEST_ALARM_N     1   //测试未报警 当测试结束时就可以作为测试合格信号了
+#define TEST_ALARM_Y     0   //测试报警
+
+#define ROAD1_TEST_ALARM_PIN     PBin(8) ///<第一路报警信号
+#define ROAD2_TEST_ALARM_PIN     PBin(3) ///<第二路报警信号
+#define ROAD3_TEST_ALARM_PIN     PGin(14) ///<第三路报警信号
+#define ROAD4_TEST_ALARM_PIN     PGin(12) ///<第四路报警信号
+
 #endif //__START_STOP_KEY_H__
 
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

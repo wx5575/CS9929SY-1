@@ -35,52 +35,10 @@
 #include "uart4.h"
 #include "bsp_tft_lcd.h"
 
-void dis_fast_ele(uint16_t x, uint16_t y, uint8_t *str)
-{
-    uint32_t abc = 0;
-    uint8_t buf[30];
-    int32_t i = 0;
-    int32_t j = 0;
-	FONT_T tFont;
-    
-    tFont.usFontCode = FC_ST_29;	/* 字体代码 16点阵 */
-    tFont.usTextColor = CL_WHITE;	/* 字体颜色 */
-    tFont.usBackColor = CL_BLUE;	/* 文字背景颜色 */
-    tFont.usSpace = 0;				/* 文字间距，单位 = 像素 */
-    
-    LCD_DispStr(x, y, str, &tFont);
-}
-void dis_test(uint8_t *str)
-{
-    uint32_t abc = 0;
-    uint8_t buf[30];
-    int32_t i = 0;
-    int32_t j = 0;
-    uint16_t x = 0;
-    uint16_t y = 0;
-	FONT_T tFont;
-    
-    tFont.usFontCode = FC_ST_29;	/* 字体代码 16点阵 */
-    tFont.usTextColor = CL_WHITE;	/* 字体颜色 */
-    tFont.usBackColor = CL_BLUE;	/* 文字背景颜色 */
-    tFont.usSpace = 0;				/* 文字间距，单位 = 像素 */
-    
-//    RA8875_ClrScr(CL_BLUE);  				   /* 清屏，背景蓝色 */
-    
-    LCD_DispStr(0, 480 - 60, str, &tFont);
-}
+
 RCC_ClocksTypeDef clock;
 void bsp_init(void)
 {
-    uint32_t abc = 0;
-    uint8_t buf[30];
-    int32_t i = 0;
-    int32_t j = 0;
-    uint16_t x = 0;
-    uint16_t y = 0;
-	FONT_T tFont;			/* 定义一个字体结构体变量，用于设置字体参数 */
-    
-    
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);//中断分组配置
     CS99xx_Peripheral_Config();//FSMC配置
     CS99xx_GPIO_Config();//FSMC GPIO配置
@@ -100,55 +58,6 @@ void bsp_init(void)
     usart3_config(115200 * 6);
     uart4_config (115200 * 6);
     
-	/* 设置字体参数, 仅用于 LCD_DispStr 函数 */
-	{
-		tFont.usFontCode = FC_ST_32;	/* 字体代码 16点阵 */
-		tFont.usTextColor = CL_WHITE;	/* 字体颜色 */
-		tFont.usBackColor = CL_BLUE;	/* 文字背景颜色 */
-		tFont.usSpace = 0;				/* 文字间距，单位 = 像素 */
-	}
-    RA8875_ClrScr(CL_BLUE);  				   /* 清屏，背景蓝色 */
-//	LCD_SetBackLight(BRIGHT_DEFAULT);	   /* 设置为缺省亮度 */
-
-	/* 读取当前的背光亮度参数 */
-//	ucBright = LCD_GetBackLight();
-
-//	LCD_ClrScr(CL_BLUE);	/* 清除屏幕 */
-
-	/* 　LCD_DispStr 函数使用CPU内部Flash存储的点阵数组显示汉字，未用RA8875的字库　*/
-//	LCD_DispStr(5, 3, "01", &tFont);	/* 显示一串汉字 */
-//    while(1);
-//    RA8875_SetBackColor(0);
-    RA8875_SetFrontColor(CL_RED);
-    RA8875_SetBackColor(CL_GREEN);
-//    RA8875_SetFont(RA_FONT_29, 0, 0);
-    RA8875_SetBackLight(BRIGHT_DEFAULT);
-    RA8875_SetFont(RA_FONT_16, 0, 0);
-    RA8875_SetTextZoom(RA_SIZE_X2, RA_SIZE_X2);
-//    RA8875_DispAscii(100, 100, "12345AbCdE");
-//    RA8875_DispStr(100, 100, "12345AbCdE");
-    
-//    RA8875_SetFont(RA_FONT_16, 0, 0);	
-//    RA8875_DispStr(5, 50, buf);
-//    RA8875_SetTextZoom(2,2);
-//    RA8875_DispStr(5, 50, "123");
-//    while(1);
-//    while(1)
-//    {
-//        abc++;
-//        
-//        for(i = 0; i < 7; i++)
-//        {
-//            for(j = 0; j < 9; j++)
-//            {
-//                sprintf(buf, "%d", abc);
-//                x = i * 120;
-//                y = j * 50;
-////                LCD_DispStr(x, y, buf, &tFont);
-//                RA8875_DispAscii(x, y, buf);
-//            }
-//        }
-//    }
 }
 
 /*

@@ -104,6 +104,12 @@ void com_comm_status_machine(COM_STRUCT *com)
                 com->status = MODULE_COMM_RECEIVE;//进入接收状态
             }
             break;
+        case MODULE_COMM_SEND_BROADCAST:
+            if(com->get_com_send_status(com))
+            {
+                com->status = MODULE_COMM_IDLE;
+            }
+            break;
             /* 通信超时 或 通信解析异常时需要进行重发 */
         case MODULE_COMM_TIMEOUT:
         case MODULE_COMM_ANOMALY:

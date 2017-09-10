@@ -15,6 +15,7 @@
 #define COUNT_ARRAY_SIZE(array) sizeof(array)/sizeof(array[0])
 #define ARRAY_SIZE(array) sizeof(array)/sizeof(array[0])
 #define OS_DELAY_ms(ms)  { OS_ERR err; OSTimeDlyHMSM(0,0,0,ms,OS_OPT_TIME_PERIODIC,&err);}
+//#define OS_DELAY_ms(ms)  { GUI_Delay(ms);}
 
 extern uint32_t ten_power(u8 n);
 extern void mysprintf(uint8_t *buf, const uint8_t* unit, uint8_t type, uint32_t value);

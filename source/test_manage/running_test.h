@@ -150,10 +150,6 @@ RUNNING_EXT float cur_adc_b;             /* 当前ADC校准系数b */
 RUNNING_EXT float cur_adc_cur_k;         /* 当前 电流ADC校准系数k */
 RUNNING_EXT float cur_arc_k;             /* 当前ARC报警校准系数k */
 RUNNING_EXT float cur_res_k;             /* 当前IR电阻挡位的校准系数k */
-// RUNNING_EXT float cur_ir_second_cal_k_1; /* 当前 IR二次校准系数 */
-// RUNNING_EXT float cur_ir_second_cal_b_1; /* 当前 IR二次校准系数 */
-// RUNNING_EXT float cur_ir_second_cal_k_2; /* 当前 IR二次校准系数 */
-// RUNNING_EXT float cur_ir_second_cal_b_2; /* 当前 IR二次校准系数 */
 
 RUNNING_EXT  float vol_ch_step;	/* 电压缓变步进值 */
 RUNNING_EXT  float vol_ch_base;	/* 电压变化的起始值 */
@@ -162,5 +158,6 @@ RUNNING_EXT  float vol_ch_target;	/* 电压变化的目标 */
 
 extern CS_BOOL judge_road_work(ROAD_NUM_T road);
 extern uint8_t get_work_roads(void);
+extern void load_data(void);
 
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

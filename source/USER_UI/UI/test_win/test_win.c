@@ -20,6 +20,8 @@
 #include "start_stop_key.h"
 #include "tim3.h"
 #include "os.h"
+#include "running_test.h"
+#include "crc.h"
 
 
 /* Private typedef -----------------------------------------------------------*/
@@ -2967,26 +2969,27 @@ ROAD_DIS_ELE_INF road_test_dis_inf[]=
 
 void dis_fast_ele(uint16_t x, uint16_t y, uint8_t *str);
 void dis_test(uint8_t *str);
-void dis_one_road_test_inf(COMM_TEST_DATA *inf, ROAD_DIS_ELE_INF* road_ele_inf)
+void dis_one_road_test_inf(COMM_TEST_DATA *inf, ROAD_DIS_ELE_INF* road_ele_inf, CS_BOOL force)
 {
     const uint8_t *str = NULL;
-    static uint32_t xxx;
-    TEXT_ELE_T* node;
-    CS_ERR err;
-    uint16_t x,y;
+//    static uint32_t xxx;
+//    TEXT_ELE_T* node;
+//    CS_ERR err;
+//    uint16_t x,y;
     static uint8_t flag = 0;
     
-    strcat((char*)inf->vol, (const char*)unit_pool[inf->vol_unit]);
-    div_str_pre_zero((char*)inf->vol);
-    strcat((char*)inf->cur, (const char*)unit_pool[inf->cur_unit]);
-    div_str_pre_zero((char*)inf->cur);
     strcat((char*)inf->time, (const char*)unit_pool[TIM_U_s]);
     div_str_pre_zero((char*)inf->time);
     
     update_text_ele(road_ele_inf->time, this_win, inf->time);
     
-    if(++flag % 3 == 0)
+    if(++flag % 5 == 0 || force == CS_TRUE)
     {
+        strcat((char*)inf->vol, (const char*)unit_pool[inf->vol_unit]);
+        div_str_pre_zero((char*)inf->vol);
+        strcat((char*)inf->cur, (const char*)unit_pool[inf->cur_unit]);
+        div_str_pre_zero((char*)inf->cur);
+        
         update_text_ele(road_ele_inf->vol, this_win, inf->vol);
         update_text_ele(road_ele_inf->cur, this_win, inf->cur);
         update_text_ele(road_ele_inf->mode, this_win, inf->mode);
@@ -3021,22 +3024,20 @@ void dis_one_road_test_inf(COMM_TEST_DATA *inf, ROAD_DIS_ELE_INF* road_ele_inf)
   * @param  无
   * @retval 无
   */
-void dis_roads_inf(void)
+void dis_roads_inf(CS_BOOL force)
 {
     COMM_TEST_DATA test_data;
     COMM_TEST_DATA *road_inf;
     uint32_t num = 0;
     uint8_t road_num;
     int32_t i = 0;
-    static uint8_t flag = 0;
+//    static uint8_t flag = 0;
     #define MAX_UPDATE_NUM 2
     
     
     num = ARRAY_SIZE(road_test_dis_inf);
     
-//    flag = (flag + 1) % MAX_UPDATE_NUM;
-    
-    for(i = flag; i < num; i++)
+    for(i = 0; i < num; i++)
     {
         road_num = road_test_dis_inf[i].road_num;
         road_inf = get_road_test_data(road_num, &test_data);
@@ -3044,7 +3045,7 @@ void dis_roads_inf(void)
         if(road_inf->usable == 1)
         {
             road_inf->usable = 0;
-            dis_one_road_test_inf(&test_data, &road_test_dis_inf[i]);
+            dis_one_road_test_inf(&test_data, &road_test_dis_inf[i], force);
             update_com_text_ele((CS_INDEX)COM_UI_CUR_STEP, this_win, test_data.step);
         }
     }
@@ -3113,6 +3114,57 @@ CS_BOOL all_road_test_over(void)
     
     return CS_FALSE;
 }
+void dis_test_over_status(void)
+{
+    CS_BOOL res;
+//    uint8_t over_count = 0;
+//    static uint8_t timeout_count = 0;
+    const uint8_t *str;
+    
+    if(CS_TRUE == judge_road_work(INDEX_ROAD_1))
+    {
+        res = road1_test_alarm();
+        
+        if(res == CS_FALSE)
+        {
+            str = get_test_status_str(ST_PASS);
+            update_text_ele(TEST_UI_ROAD01_STATUS, this_win, str);
+        }
+    }
+    
+    if(CS_TRUE == judge_road_work(INDEX_ROAD_2))
+    {
+        res = road2_test_alarm();
+        
+        if(res == CS_FALSE)
+        {
+            str = get_test_status_str(ST_PASS);
+            update_text_ele(TEST_UI_ROAD02_STATUS, this_win, str);
+        }
+    }
+    
+    if(CS_TRUE == judge_road_work(INDEX_ROAD_3))
+    {
+        res = road3_test_alarm();
+        
+        if(res == CS_FALSE)
+        {
+            str = get_test_status_str(ST_PASS);
+            update_text_ele(TEST_UI_ROAD03_STATUS, this_win, str);
+        }
+    }
+    
+    if(CS_TRUE == judge_road_work(INDEX_ROAD_4))
+    {
+        res = road4_test_alarm();
+        
+        if(res == CS_FALSE)
+        {
+            str = get_test_status_str(ST_PASS);
+            update_text_ele(TEST_UI_ROAD04_STATUS, this_win, str);
+        }
+    }
+}
 uint32_t hold_start_sign_time;
 
 void run_start_sign(void)
@@ -3145,18 +3197,18 @@ void send_start_sign(void)
 static void test_status_machine(void)
 {
     static uint32_t count_dly;
-    CS_ERR err;
+//    CS_ERR err;
     static uint16_t test_step = 1;
-    NODE_STEP *node;
-    uint8_t total_roads;
-    static uint8_t cur_road;
+//    NODE_STEP *node;
+//    uint8_t total_roads;
+//    static uint8_t cur_road;
     
     switch(test_status)
     {
         case TEST_IDLE:
             break;
         case CHECK_TEST_OVER_SIGN:
-            total_roads = get_total_roads_num();
+//            total_roads = get_total_roads_num();
 //            
 //            if(comm_syn_sign == 0)
 //            {
@@ -3179,6 +3231,7 @@ static void test_status_machine(void)
             send_start_sign();
             
             test_status = TEST_TESTING;
+            count_dly = 0;
             break;
         case TEST_RESET:
             test_step = 1;
@@ -3189,11 +3242,14 @@ static void test_status_machine(void)
             update_test_win_text_ele_text(this_win);
             break;
         case TEST_TESTING:
-//            send_cmd_to_all_module(NULL, 0, send_get_test_data);
-            dis_roads_inf();
-            
+            send_cmd_to_all_module(NULL, 0, send_get_test_data);
+            dis_roads_inf(CS_FALSE);
+        
             if(CS_TRUE == all_road_test_over())
             {
+                dis_roads_inf(CS_TRUE);
+                dis_test_over_status();
+                
                 if(steps_con)
                 {
                     if(++count_dly > 3)
@@ -3202,12 +3258,16 @@ static void test_status_machine(void)
                         test_status = TEST_START;
                     }
                 }
-                else if(++count_dly > 3)
+                else
                 {
-                    count_dly = 0;
-                    test_status = TEST_IDLE;
+                    if(++count_dly > 2)
+                    {
+                        count_dly = 0;
+                        test_status = TEST_IDLE;
+                    }
                 }
             }
+            
             break;
     }
 }
@@ -3219,7 +3279,7 @@ void other_task_test(void)
         if(test_status == TEST_TESTING)
         {
 //            send_cmd_to_all_module(NULL, 0, send_get_slave_test_time);
-            send_cmd_to_all_module(NULL, 0, send_get_test_data);
+//            send_cmd_to_all_module(NULL, 0, send_get_test_data);
             
         }
         
@@ -3271,7 +3331,7 @@ static void test_win_cb(WM_MESSAGE* pMsg)
 		case WM_TIMER:
 		{
             test_status_machine();
-			WM_RestartTimer(test_win_timer_handle, 2);
+			WM_RestartTimer(test_win_timer_handle, 1);
 			break;
         }
         case WM_KEY:
