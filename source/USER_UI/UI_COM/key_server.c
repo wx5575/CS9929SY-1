@@ -26,12 +26,12 @@ typedef struct{
     uint8_t shift_flag;///< SHIFT键按下标记
 }UI_FLAG;
 /* Private define ------------------------------------------------------------*/
+
+/* Private macro -------------------------------------------------------------*/
 #define OS_MAX_QS       10
 #define ASCII_NUM 	    "0123456789."
 #define KEY_ALL_VALUE   "0+/-1ABC2DEF3GHI4JKL5MNO6PQR7STU8VWX9YZ ."
 #define KEY_ALL_VALUE_  "0+/-1abc2def3ghi4jkl5mno6pqr7stu8vwx9yz ."
-/* Private macro -------------------------------------------------------------*/
-
 /* Private variables ---------------------------------------------------------*/
 
 static volatile UI_FLAG ui_flag;///<界面使用全局标记
@@ -426,15 +426,16 @@ uint32_t get_key_value(void)
     return KEY_NONE;
 }
 
+/**
+  * @brief  复位键与各路模块的同步复位相联，在复位中断中被调用
+  * @param  无
+  * @retval 无
+  */
 static void run_syn_stop_pin_irq(void)
 {
     SYN_STOP_PIN = STOP_PIN;
-//    SYN_START_PIN = START_PIN;
 }
-//CS_BOOL start_key_press(void)
-//{
-//    return SYN_START_PIN == 0? CS_TRUE:CS_FALSE;
-//}
+
 /**
   * @brief  按键扫描任务
   * @param  无

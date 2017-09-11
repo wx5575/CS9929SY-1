@@ -27,54 +27,7 @@ uint32_t ten_power(u8 n)
 	}
 	return temp;
 }
-float myatof(uint8_t *buf)
-{
-    uint8_t t_buf[2][100];
-    int32_t i = 0;
-    int32_t j = 0;
-    uint8_t k = 0;
-    uint8_t len = 0;
-    float val_1;
-    float val_2;
-    float fol;
-    
-    memset(t_buf, 0, sizeof(t_buf));
-    len = strlen((const char*)buf);
-    
-    if(len >= sizeof(t_buf[0]))
-    {
-        len = sizeof(t_buf[0] - 1);
-    }
-    
-    for(i = 0; i < len; i++)
-    {
-        if(buf[i] == '.')
-        {
-            if(j == 1)
-            {
-                break;
-            }
-            
-            j++;
-            k = 0;
-            continue;
-        }
-        else if(buf[i] < '0' && buf[i] > '9')
-        {
-            break;
-        }
-        
-        t_buf[j][k++] = buf[i];
-    }
-    
-    val_1 = atoi((const char*)t_buf[0]);
-    val_2 = atoi((const char*)t_buf[1]);
-    
-    fol = val_2;
-    fol /= ten_power(k);
-    
-    return (fol + val_1);
-}
+
 /**
   * @brief  自定义格式化字符串,用来取代对sprintf的，因为sprintf不安全
   * @param  [out] buf 输出字符串

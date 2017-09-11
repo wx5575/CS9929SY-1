@@ -50,6 +50,14 @@ CS_INDEX get_edit_ele_index(EDIT_ELE_T *edit_pool, uint32_t pool_size, CS_INDEX 
     return (CS_INDEX)0;
 }
 
+/**
+  * @brief  获取编辑对象结构信息
+  * @param  [in] edit_pool 控件池
+  * @param  [in] pool_size 控件池的大小
+  * @param  [in] index 控件索引值，是控件索引池中的元素
+  * @param  [out] err 成功返回 CS_ERR_NONE, 失败返回 CS_ERR_ELE_INDEX_INVALID
+  * @retval EDIT_ELE_T* 编辑对象的结构信息，如果返回NULL 说明没有找到匹配的编辑对象
+  */
 EDIT_ELE_T* get_edit_ele_inf(EDIT_ELE_T *edit_pool, uint32_t pool_size, CS_INDEX index, CS_ERR*err)
 {
     EDIT_ELE_T *ele = NULL;
@@ -688,6 +696,11 @@ EDIT_ELE_T *get_cur_win_edit_ele_list_head(void)
     return list_entry(g_cur_win->edit.list_head.next, EDIT_ELE_T, e_list);
 }
 
+/**
+  * @brief  更新编辑对象的范围文本信息
+  * @param  [in] ele 编辑对象指针
+  * @retval 无
+  */
 void update_ele_range_text(EDIT_ELE_T *ele)
 {
     uint8_t*str[2] = {0};//ele->range.notice[SYS_LANGUAGE];
@@ -706,11 +719,13 @@ void update_ele_range_text(EDIT_ELE_T *ele)
             break;
         case ELE_EDIT_NUM:
         {
+            /* 定制化处理函数不为空 */
             if(ele->range.provided_dis_range_fun != NULL)
             {
                 ele->range.provided_dis_range_fun(ele);
                 flag = 1;
             }
+            /* 默认处理 */
             else
             {
                 mysprintf(buf1, unit_pool[ele->format.unit], ele->format.dec + ele->format.lon * 10 + 1 * 100, ele->range.low);
@@ -726,6 +741,7 @@ void update_ele_range_text(EDIT_ELE_T *ele)
         case ELE_EDIT_STR:
             break;
         case ELE_DROPDOWN:
+            /* 第一个资源表 不支持中英文切换 */
             if(ele->resource.table != NULL)
             {
                 for(i = 0; i < ele->resource.size; i++)
@@ -734,6 +750,7 @@ void update_ele_range_text(EDIT_ELE_T *ele)
                     strcat((char*)buf, " ");
                 }
             }
+            /* 第二个资源表支持中英文切换 */
             else if(ele->resource.table_2 != NULL)
             {
                 for(i = 0; i < ele->resource.size; i++)
@@ -749,6 +766,7 @@ void update_ele_range_text(EDIT_ELE_T *ele)
             break;
     }
     
+    /* 非定制化处理的编辑对象要更新范围文本显示内容 */
     if(0 == flag)
     {
         set_com_text_ele_inf((CS_INDEX)COM_RANGE_NOTICE, g_cur_win, str);

@@ -13,8 +13,8 @@
 #include "keyboard.h"
 #include "os.h"
 
-static uint32_t SEND_MSG_RIGH = CODE_RIGH;
-static uint32_t SEND_MSG_LEDT = CODE_LEFT;
+static const uint32_t SEND_MSG_RIGH = CODE_RIGH;///<码盘正转的消息常量定义
+static const uint32_t SEND_MSG_LEDT = CODE_LEFT;///<码盘反转的消息常量定义
 
 #define C_DISC_RIGH_PORT    GPIOF
 #define C_DISC_RIGH_PIN     GPIO_Pin_7
@@ -22,7 +22,12 @@ static uint32_t SEND_MSG_LEDT = CODE_LEFT;
 #define C_DISC_LEFT_PIN     GPIO_Pin_6
 static void(*send_coded_disc_msg_fun)(uint32_t *);
 
-void coded_exit_config(void)
+/**
+  * @brief  码盘中断配置
+  * @param  无
+  * @retval 无
+  */
+static void coded_exit_config(void)
 {
     EXTI_InitTypeDef EXTI_InitStructure;
     
@@ -47,7 +52,12 @@ void coded_exit_config(void)
     EXTI_Init(&EXTI_InitStructure);
 }
 
-void NVIC_Config(void)
+/**
+  * @brief  码盘NVIC中断配置
+  * @param  无
+  * @retval 无
+  */
+static void NVIC_Config(void)
 {
     NVIC_InitTypeDef NVIC_InitStructure;
     
@@ -59,6 +69,11 @@ void NVIC_Config(void)
     NVIC_Init(&NVIC_InitStructure);
 }
 
+/**
+  * @brief  码盘硬件初始化
+  * @param  无
+  * @retval 无
+  */
 void coded_disc_init(void)
 {	 
     GPIO_InitTypeDef  GPIO_InitStructure;
@@ -84,11 +99,21 @@ void coded_disc_init(void)
     NVIC_Config();
 }
 
+/**
+  * @brief  注册码盘发送消息函数，由应用层注册
+  * @param  [in] fun 发送消息函数
+  * @retval 无
+  */
 void register_coded_disc_send_msg_fun(void(*fun)(uint32_t *))
 {
     send_coded_disc_msg_fun = fun;
 }
 
+/**
+  * @brief  码盘中断服务函数
+  * @param  [in] fun 发送消息函数
+  * @retval 无
+  */
 void EXTI9_5_IRQHandler(void)
 {
 	OSIntEnter();    
@@ -98,7 +123,7 @@ void EXTI9_5_IRQHandler(void)
         
         if(send_coded_disc_msg_fun != NULL)
         {
-            send_coded_disc_msg_fun(&SEND_MSG_LEDT);
+            send_coded_disc_msg_fun((uint32_t *)&SEND_MSG_LEDT);
         }
     }
     if(EXTI_GetITStatus(EXTI_Line7) != RESET)
@@ -107,7 +132,7 @@ void EXTI9_5_IRQHandler(void)
         
         if(send_coded_disc_msg_fun != NULL)
         {
-            send_coded_disc_msg_fun(&SEND_MSG_RIGH);
+            send_coded_disc_msg_fun((uint32_t *)&SEND_MSG_RIGH);
         }
     }
     if(EXTI_GetITStatus(EXTI_Line5) != RESET)

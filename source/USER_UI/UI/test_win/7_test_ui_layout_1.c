@@ -245,6 +245,59 @@ void _7_init_test_ui_layout1_text_ele_pos(TEXT_ELE_T *pool)
     init_one_road_pos_size_inf(R3B_X, R3B_Y, &road_pool[2]);
     init_one_road_pos_size_inf(R4B_X, R4B_Y, &road_pool[3]);
 }
+#define ROAD_STATUS_BAR_NORMAL_COLOR    0x404040
+#define ROAD_STATUS_BAR_WARNING_COLOR   GUI_RED
+#define ROAD_STATUS_BAR_PASS_COLOR      GUI_GREEN
+void draw_road_status_bar(const GUI_RECT *road_rec, GUI_COLOR color)
+{
+    GUI_RECT rec;
+    
+    GUI_SetColor(color);
+    rec.x0 = road_rec->x0 + 2;
+    rec.y0 = road_rec->y0 + 2;
+    rec.x1 = road_rec->x1 - 1;
+    rec.y1 = road_rec->y0 + 40;
+    
+//    GUI_FillRectEx(&rec);
+//    GUI_FillRect(rec.x0, rec.y0, rec.x1, rec.y1);
+    GUI_FillRect(rec.x0, rec.y0, rec.x1-20, rec.y1);
+//    GUI_FillRect(rec.x1-20, rec.y0, rec.x1, rec.y1);
+}
+
+void draw_test_roads_status_normal_7_1(void)
+{
+    draw_road_status_bar(&test_port1_area, ROAD_STATUS_BAR_NORMAL_COLOR);
+    draw_road_status_bar(&test_port2_area, ROAD_STATUS_BAR_NORMAL_COLOR);
+    draw_road_status_bar(&test_port3_area, ROAD_STATUS_BAR_NORMAL_COLOR);
+    draw_road_status_bar(&test_port4_area, ROAD_STATUS_BAR_NORMAL_COLOR);
+}
+void draw_test_roads_status_7_1(uint8_t road, GUI_COLOR color)
+{
+    const GUI_RECT *road_rec[] =
+    {
+        &test_port1_area,
+        &test_port2_area,
+        &test_port3_area,
+        &test_port4_area,
+    };
+    uint8_t num = 0;
+    
+    num = ARRAY_SIZE(road_rec);
+    
+    if(road >= num)
+    {
+        return;
+    }
+    
+    draw_road_status_bar(road_rec[road], color);
+}
+void draw_test_roads_status_warning_7_1(void)
+{
+    draw_road_status_bar(&test_port1_area, ROAD_STATUS_BAR_WARNING_COLOR);
+    draw_road_status_bar(&test_port2_area, ROAD_STATUS_BAR_WARNING_COLOR);
+    draw_road_status_bar(&test_port3_area, ROAD_STATUS_BAR_WARNING_COLOR);
+    draw_road_status_bar(&test_port4_area, ROAD_STATUS_BAR_WARNING_COLOR);
+}
 
 /**
   * @brief  绘制7寸屏第1种布局框
@@ -259,6 +312,42 @@ void draw_composition_7_1(void)
 	myGUI_DrawRectEx(&test_port2_area);
 	myGUI_DrawRectEx(&test_port3_area);
 	myGUI_DrawRectEx(&test_port4_area);
+    
+    if(road1_dis.st == ST_PASS)
+    {
+        draw_test_roads_status_7_1(0, ROAD_STATUS_BAR_WARNING_COLOR);
+    }
+    else
+    {
+        draw_test_roads_status_7_1(0, ROAD_STATUS_BAR_NORMAL_COLOR);
+    }
+    
+//    if(road2_dis.st == ST_PASS)
+//    {
+//        draw_test_roads_status_7_1(1, ROAD_STATUS_BAR_PASS_COLOR);
+//    }
+//    else
+//    {
+//        draw_test_roads_status_7_1(1, ROAD_STATUS_BAR_NORMAL_COLOR);
+//    }
+    
+//    if(road3_dis.st == ST_PASS)
+//    {
+//        draw_test_roads_status_7_1(2, ROAD_STATUS_BAR_PASS_COLOR);
+//    }
+//    else
+//    {
+//        draw_test_roads_status_7_1(2, ROAD_STATUS_BAR_NORMAL_COLOR);
+//    }
+//    
+//    if(road4_dis.st == ST_PASS)
+//    {
+//        draw_test_roads_status_7_1(3, ROAD_STATUS_BAR_PASS_COLOR);
+//    }
+//    else
+//    {
+//        draw_test_roads_status_7_1(3, ROAD_STATUS_BAR_NORMAL_COLOR);
+//    }
 }
 
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

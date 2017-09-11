@@ -3114,11 +3114,14 @@ CS_BOOL all_road_test_over(void)
     
     return CS_FALSE;
 }
+ROAD_DIS_INF road1_dis;///<第1路显示信息
+ROAD_DIS_INF road2_dis;///<第2路显示信息
+ROAD_DIS_INF road3_dis;///<第3路显示信息
+ROAD_DIS_INF road4_dis;///<第4路显示信息
+
 void dis_test_over_status(void)
 {
     CS_BOOL res;
-//    uint8_t over_count = 0;
-//    static uint8_t timeout_count = 0;
     const uint8_t *str;
     
     if(CS_TRUE == judge_road_work(INDEX_ROAD_1))
@@ -3129,6 +3132,12 @@ void dis_test_over_status(void)
         {
             str = get_test_status_str(ST_PASS);
             update_text_ele(TEST_UI_ROAD01_STATUS, this_win, str);
+            road1_dis.st = ST_PASS;
+            WM_SendMessageNoPara(this_win->handle, WM_PAINT);
+        }
+        else
+        {
+            road1_dis.st = ST_TESTING;
         }
     }
     
@@ -3140,6 +3149,13 @@ void dis_test_over_status(void)
         {
             str = get_test_status_str(ST_PASS);
             update_text_ele(TEST_UI_ROAD02_STATUS, this_win, str);
+            road2_dis.st = ST_PASS;
+            WM_SendMessageNoPara(this_win->handle, WM_PAINT);
+        }
+        else
+        {
+            road1_dis.st = ST_TESTING;
+            WM_SendMessageNoPara(this_win->handle, WM_PAINT);
         }
     }
     
@@ -3151,6 +3167,13 @@ void dis_test_over_status(void)
         {
             str = get_test_status_str(ST_PASS);
             update_text_ele(TEST_UI_ROAD03_STATUS, this_win, str);
+            road3_dis.st = ST_PASS;
+            WM_SendMessageNoPara(this_win->handle, WM_PAINT);
+        }
+        else
+        {
+            road1_dis.st = ST_TESTING;
+            WM_SendMessageNoPara(this_win->handle, WM_PAINT);
         }
     }
     
@@ -3162,6 +3185,13 @@ void dis_test_over_status(void)
         {
             str = get_test_status_str(ST_PASS);
             update_text_ele(TEST_UI_ROAD04_STATUS, this_win, str);
+            road4_dis.st = ST_PASS;
+            WM_SendMessageNoPara(this_win->handle, WM_PAINT);
+        }
+        else
+        {
+            road1_dis.st = ST_TESTING;
+            WM_SendMessageNoPara(this_win->handle, WM_PAINT);
         }
     }
 }
@@ -3197,26 +3227,16 @@ void send_start_sign(void)
 static void test_status_machine(void)
 {
     static uint32_t count_dly;
-//    CS_ERR err;
     static uint16_t test_step = 1;
-//    NODE_STEP *node;
-//    uint8_t total_roads;
-//    static uint8_t cur_road;
     
     switch(test_status)
     {
         case TEST_IDLE:
+//                WM_SendMessageNoPara(this_win->handle, WM_PAINT);
             break;
         case CHECK_TEST_OVER_SIGN:
-//            total_roads = get_total_roads_num();
-//            
-//            if(comm_syn_sign == 0)
-//            {
-//                send_cmd_to_one_module(cur_road, &cur_road, sizeof(cur_road), send_test_over_sign_h);
-//            }
             break;
         case TEST_START:
-//            send_cmd_to_all_module(NULL, 0, send_start_test);
             load_data();
             send_cmd_to_all_module((uint8_t*)&test_step,
                                     2, send_load_step);
@@ -3228,7 +3248,7 @@ static void test_status_machine(void)
             load_steps_to_list(test_step, 1);//加载新的当前步
             g_cur_step = get_g_cur_step();
             
-            send_start_sign();
+            send_start_sign();//发出同步启动信号
             
             test_status = TEST_TESTING;
             count_dly = 0;
@@ -3244,12 +3264,15 @@ static void test_status_machine(void)
         case TEST_TESTING:
             send_cmd_to_all_module(NULL, 0, send_get_test_data);
             dis_roads_inf(CS_FALSE);
-        
+            
+            /* 判断当前步是否测试结束 */
             if(CS_TRUE == all_road_test_over())
             {
                 dis_roads_inf(CS_TRUE);
                 dis_test_over_status();
+                WM_SendMessageNoPara(this_win->handle, WM_PAINT);
                 
+                /* 步间连续打开 */
                 if(steps_con)
                 {
                     if(++count_dly > 3)
@@ -3258,6 +3281,7 @@ static void test_status_machine(void)
                         test_status = TEST_START;
                     }
                 }
+                /* 步间连续关闭 */
                 else
                 {
                     if(++count_dly > 2)
@@ -3280,7 +3304,6 @@ void other_task_test(void)
         {
 //            send_cmd_to_all_module(NULL, 0, send_get_slave_test_time);
 //            send_cmd_to_all_module(NULL, 0, send_get_test_data);
-            
         }
         
         OS_DELAY_ms(40);
@@ -3330,7 +3353,7 @@ static void test_win_cb(WM_MESSAGE* pMsg)
 		}
 		case WM_TIMER:
 		{
-            test_status_machine();
+            test_status_machine();//测试状态机
 			WM_RestartTimer(test_win_timer_handle, 1);
 			break;
         }

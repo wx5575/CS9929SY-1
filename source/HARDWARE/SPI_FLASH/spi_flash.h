@@ -1,14 +1,13 @@
-/*
- * Copyright(c) 2016,南京长盛仪器
- * All rights reserved
- * 文件名称：spi_flash.h
- * 摘  要  ：应用程序
- * 当前版本：V0.1，编写者：王鑫
- * 历史版本：
- * 修改记录：
- *
- */
 
+/**
+  ******************************************************************************
+  * @file    spi_flash.h
+  * @author  王鑫
+  * @version V1.0.0
+  * @date    2017.4.18
+  * @brief   SPI串口FLASH驱动
+  ******************************************************************************
+  */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __SPI_FLASH_H
@@ -44,4 +43,4 @@ extern void flash_cs_set_at45db161(char n);
 
 #endif /* __SPI_FLASH_H */
 
-/******************* (C) COPYRIGHT 2008 STMicroelectronics *****END OF FILE****/
+/************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

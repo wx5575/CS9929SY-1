@@ -1,14 +1,13 @@
-/*
- * Copyright(c) 2016,南京长盛仪器
- * All rights reserved
- * 文件名称：spi_flash.c
- * 摘  要  ：应用程序
- * 当前版本：V0.1，编写者：王鑫
- * 历史版本：
- * 修改记录：
- *
- */
 
+/**
+  ******************************************************************************
+  * @file    spi_flash.c
+  * @author  王鑫
+  * @version V1.0.0
+  * @date    2017.4.18
+  * @brief   SPI串口FLASH驱动
+  ******************************************************************************
+  */
 /* Includes ------------------------------------------------------------------*/
 #include "spi_flash.h"
 
@@ -92,13 +91,12 @@ uint8_t chipselect;
 #define CHIP_SIZE   4
 static SFLASH_INFO  at45db161_info[CHIP_SIZE];
 
-/*
- * 函数名：flash_cs_set_at45db161
- * 描述  ：FLASH片选设置
- * 输入  ：n 1、2、3
- * 输出  ：无
- * 返回  ：无
- */
+
+/**
+  * @brief  FLASH片选设置
+  * @param  [in] n n 1、2、3
+  * @retval 无
+  */
 void flash_cs_set_at45db161(char n)
 {
 	switch(n)
@@ -118,13 +116,11 @@ void flash_cs_set_at45db161(char n)
 	}
 }
 
-/*
- * 函数名：flash_cs_en_at45db161
- * 描述  ：FLASH片选使能
- * 输入  ：n 1、2、3
- * 输出  ：无
- * 返回  ：无
- */
+/**
+  * @brief  FLASH片选使能
+  * @param  无
+  * @retval 无
+  */
 static void flash_cs_en_at45db161(void)
 {
     FLASH_CS1_DIS();
@@ -149,13 +145,11 @@ static void flash_cs_en_at45db161(void)
 	}
 }
 
-/*
- * 函数名：flash_cs_dis_at45db161
- * 描述  ：FLASH片选使能
- * 输入  ：无
- * 输出  ：无
- * 返回  ：无
- */
+/**
+  * @brief  FLASH片选去使能
+  * @param  无
+  * @retval 无
+  */
 static void flash_cs_dis_at45db161(void)
 {
 	FLASH_CS1_DIS();
@@ -164,35 +158,31 @@ static void flash_cs_dis_at45db161(void)
 	FLASH_CS4_DIS();
 }
 
-/*
- * 函数名：at45_flash_lock
- * 描述  ：FLASH写保护上锁
- * 输入  ：无
- * 输出  ：无
- * 返回  ：无
- */
+/**
+  * @brief  FLASH写保护上锁
+  * @param  无
+  * @retval 无
+  */
 static void at45_flash_lock(void)
 {
     FLASH_WP_EN();
 }
 
-/*
- * 函数名：at45_flash_unlock
- * 描述  ：FLASH写保护解锁
- * 输入  ：无
- * 输出  ：无
- * 返回  ：无
- */
+/**
+  * @brief  FLASH写保护解锁
+  * @param  无
+  * @retval 无
+  */
 static void at45_flash_unlock(void)
 {
     FLASH_WP_DIS();
 }
-/*
- * 函数名：at45_gpio_init
- * 描述  ：初始化管脚
- * 输入  ：空
- * 输出  ：空
- */
+
+/**
+  * @brief  FLASH初始化管脚
+  * @param  无
+  * @retval 无
+  */
 static void at45_gpio_init(void)
 {
 	/*************************    定义初始化结构变量    *************************/
@@ -244,13 +234,11 @@ static void at45_gpio_init(void)
 	flash_cs_dis_at45db161();
 }
 
-/*
- * 函数名：at45_send_byte
- * 描述  ：data 发送的数据
- * 输入  ：空
- * 输出  ：空
- * 返回  ：收到的数据
- */
+/**
+  * @brief  发送  FLASH 的数据
+  * @param  [in] data 8bit数据
+  * @retval 无
+  */
 static void at45_send_byte(unsigned char data)
 {
     uint8_t   i;
@@ -273,7 +261,12 @@ static void at45_send_byte(unsigned char data)
     }
 }
 
-static uint8_t at45_read_byte()
+/**
+  * @brief  读 FLASH 的数据
+  * @param  无
+  * @retval 读出的数据8bit
+  */
+static uint8_t at45_read_byte(void)
 {
     uint8_t   i, data = 0;
     
@@ -288,15 +281,12 @@ static uint8_t at45_read_byte()
     
     return data;
 }
-/*******************************************************************************
-* Function Name  : SPI_FLASH_WaitForWriteEnd
-* Description    : Polls the status of the Write In Progress (WIP) flag in the
-*                  FLASH's status  register  and  loop  until write  opertaion
-*                  has completed.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
+
+/**
+  * @brief  等待flash写完成
+  * @param  无
+  * @retval 无
+  */
 static void SPI_FLASH_WaitForWriteEnd(void)
 {
     u8 FLASH_Status = 0;
@@ -311,9 +301,12 @@ static void SPI_FLASH_WaitForWriteEnd(void)
     
     flash_cs_dis_at45db161();
 }
-/*******************************************************************************
-* 说明:	address 中(A20--A9)(Page Address) (A8--A0)(Byte Address)
-*******************************************************************************/
+
+/**
+  * @brief  写扇区保护寄存器
+  * @param  无
+  * @retval 无
+  */
 static void SPI_FLASH_PROTE_ENABLE(void)
 {
     uint8_t bytes[4] = {0X3D, 0X2A, 0X7F, 0XA9};//写扇区保护寄存器
@@ -330,6 +323,12 @@ static void SPI_FLASH_PROTE_ENABLE(void)
     
 	flash_cs_dis_at45db161();
 }
+
+/**
+  * @brief  写扇区去保护寄存器
+  * @param  无
+  * @retval 无
+  */
 static void SPI_FLASH_PROTE_DISABLE(void)
 {
     uint8_t bytes[4] = {0X3D, 0X2A, 0X7F, 0X9A};//写扇区保护寄存器
@@ -346,6 +345,12 @@ static void SPI_FLASH_PROTE_DISABLE(void)
     
 	flash_cs_dis_at45db161();
 }
+
+/**
+  * @brief  FLASH页擦除
+  * @param  [in] PageAddr 页地址
+  * @retval 无
+  */
 void SPI_FLASH_PageErase(uint32_t PageAddr)
 {
     at45_flash_unlock();
@@ -363,6 +368,12 @@ void SPI_FLASH_PageErase(uint32_t PageAddr)
     
     at45_flash_lock();
 }
+
+/**
+  * @brief  擦除FLASH扇区保护寄存器
+  * @param  void
+  * @retval 无
+  */
 static void SPI_FLASH_Erase_Sector_Protection_Reg(void)
 {
     uint8_t bytes[4] = {0X3D, 0X2A, 0X7F, 0XCF};//写扇区保护寄存器
@@ -383,6 +394,11 @@ static void SPI_FLASH_Erase_Sector_Protection_Reg(void)
     
     at45_flash_lock();
 }
+/**
+  * @brief  写FLASH扇区保护寄存器
+  * @param  void
+  * @retval 无
+  */
 static void SPI_FLASH_Write_Sector_Protection_Reg(uint8_t cmd)
 {
     uint8_t bytes[4] = {0X3D, 0X2A, 0X7F, 0XFC};//写扇区保护寄存器
@@ -408,6 +424,11 @@ static void SPI_FLASH_Write_Sector_Protection_Reg(uint8_t cmd)
 	SPI_FLASH_WaitForWriteEnd();
     at45_flash_lock();
 }
+/**
+  * @brief  读FLASH扇区保护寄存器
+  * @param  void
+  * @retval 无
+  */
 static void SPI_FLASH_Read_Sector_Protection_Reg(uint8_t *buf)
 {
     uint8_t bytes[4] = {0X32, 0X2A, 0X7F, 0XFC};//写扇区保护寄存器
@@ -431,6 +452,11 @@ static void SPI_FLASH_Read_Sector_Protection_Reg(uint8_t *buf)
 	SPI_FLASH_WaitForWriteEnd();
 }
 
+/**
+  * @brief  擦除整片flash
+  * @param  无
+  * @retval 无
+  */
 void erase_chip_spi_flash(void)
 {
     uint8_t bytes[4] = {0XC7, 0X94, 0X80, 0X9A};//写扇区保护寄存器
@@ -451,19 +477,14 @@ void erase_chip_spi_flash(void)
     SPI_FLASH_WaitForWriteEnd();
     at45_flash_lock();
 }
-/*******************************************************************************
-* Function Name  : SPI_FLASH_WriteSector
-* Description    : Writes one Sector to the FLASH with a single WRITE
-*                  cycle(Page WRITE sequence). The number of byte can't exceed
-*                  the FLASH page size, But for FAT always 512 butes
-* Input          : - pBuffer : pointer to the buffer  containing the data to be
-*                    written to the FLASH.
-*                  - SectorAddr : FLASH's internal Page address to write to.
-*                  - NumByteToWrite : number of bytes to write to the FLASH,
-*                    must be equal or less than "SPI_FLASH_PageSize" value.
-* Output         : None
-* Return         : None
-*******************************************************************************/
+
+/**
+  * @brief  FLASH 写扇区
+  * @param  [in] pBuffer 数据缓冲区
+  * @param  [in] SectorAddr 扇区地址
+  * @param  [in] NumByteToWrite 要写入的字节数
+  * @retval 无
+  */
 static void SPI_FLASH_WriteSector(u8* pBuffer, u32 SectorAddr, u16 NumByteToWrite)
 {
 	uint32_t  uiPageAddress;
@@ -500,16 +521,13 @@ static void SPI_FLASH_WriteSector(u8* pBuffer, u32 SectorAddr, u16 NumByteToWrit
     at45_flash_lock();
 }
 
-/*******************************************************************************
-* Function Name  : SPI_FLASH_ReadSector
-* Description    : Reads a block of data from the FLASH.
-* Input          : - pBuffer : pointer to the buffer that receives the data read
-*                    from the FLASH.
-*                  - ReadAddr : FLASH's internal Pages address to read from.
-*                  - NumByteToRead : number of bytes to read from the FLASH.
-* Output         : None
-* Return         : None
-*******************************************************************************/
+/**
+  * @brief  FLASH 读扇区
+  * @param  [in] pBuffer 数据缓冲区
+  * @param  [in] SectorAddr 扇区地址
+  * @param  [in] NumByteToWrite 要读的字节数
+  * @retval 无
+  */
 static void SPI_FLASH_ReadSector(u8* pBuffer, u32 SectorAddr, u16 NumByteToRead)
 {
 	uint32_t  uiPageAddress;
@@ -549,13 +567,11 @@ static void SPI_FLASH_ReadSector(u8* pBuffer, u32 SectorAddr, u16 NumByteToRead)
 }
 
 
-/*******************************************************************************
-* Function Name  : SPI_FLASH_ReadID
-* Description    : Reads FLASH identification.
-* Input          : None
-* Output         : None
-* Return         : FLASH identification
-*******************************************************************************/
+/**
+  * @brief  FLASH 读ID
+  * @param  无
+  * @retval FLASH ID(32bit)
+  */
 static u32 SPI_FLASH_ReadID(void)
 {
   u32 Temp = 0, Temp0 = 0, Temp1 = 0, Temp2 = 0, Temp3;
@@ -586,14 +602,12 @@ static u32 SPI_FLASH_ReadID(void)
   return Temp;
 }
 
-
-/*
- * 函数名：write_page_and_check_ok
- * 描述  ：写入一页并对写入的数据进行检查
- * 输入  ：buf 数据缓存 addr 地址页对齐的
- * 输出  ：空
- * 返回  ：无
- */
+/**
+  * @brief  写入一页并对写入的数据进行检查
+  * @param  [in] buf 数据缓存
+  * @param  [in] addr 地址页对齐的
+  * @retval 无
+  */
 static void write_page_and_check_ok(uint8_t *buf, uint32_t addr)
 {
     static uint8_t buf_cmp[SPI_FLASH_PAGE_SIZE];
@@ -611,13 +625,13 @@ static void write_page_and_check_ok(uint8_t *buf, uint32_t addr)
     }while(0 != memcmp(buf, buf_cmp, page_size));
 }
 
-/*
- * 函数名：at45_buffer_write
- * 描述  ：缓冲写，地址是2Mb内任意地址，
- * 输入  ：pBuffer 数据缓存 WriteAddr 地址页对齐的 NumByteToWrite 写入的字节数只要空间足够的任意字节数
- * 输出  ：空
- * 返回  ：无
- */
+/**
+  * @brief  缓冲写，地址是2Mb内任意地址，
+  * @param  [in] pBuffer 数据缓存
+  * @param  [in] WriteAddr 要写入的地址
+  * @param  [in] NumByteToWrite 写入的字节数只要空间足够的任意字节数
+  * @retval 无
+  */
 void at45_buffer_write(uint8_t* pBuffer, uint32_t WriteAddr, uint32_t NumByteToWrite)
 {
 	uint32_t num_of_p_first = 0;//第一页个数
@@ -702,6 +716,13 @@ void at45_buffer_write(uint8_t* pBuffer, uint32_t WriteAddr, uint32_t NumByteToW
     }
 }
 
+/**
+  * @brief  缓冲读，地址是2Mb内任意地址，
+  * @param  [in] pBuffer 数据缓存
+  * @param  [in] WriteAddr 要读的地址
+  * @param  [in] NumByteToRead 读的字节数只要空间足够的任意字节数
+  * @retval 无
+  */
 void at45_buffer_read(uint8_t* pBuffer, uint32_t ReadAddr, uint32_t NumByteToRead)
 {
 	uint32_t num_of_p_first = 0;//第一页个数
@@ -791,6 +812,11 @@ void xxxx(void)
 }
 
 
+/**
+  * @brief  测试FLASH
+  * @param  无
+  * @retval 无
+  */
 void test_flash(void)
 {
     int i = 0;
@@ -821,13 +847,12 @@ void test_flash(void)
     at45_buffer_write(buf, 0, 1024);
     at45_buffer_read(buf, 1, 1024);
 }
-/*
- * 函数名：init_flash
- * 描述  ：初始化FLASH
- * 输入  ：空
- * 输出  ：空
- * 返回  ：无
- */
+
+/**
+  * @brief  初始化FLASH
+  * @param  无
+  * @retval 无
+  */
 void init_flash(void)
 {
     uint8_t buf[20];
@@ -858,4 +883,4 @@ void init_flash(void)
     }
 }
 
-/******************* (C) COPYRIGHT 2008 STMicroelectronics *****END OF FILE****/
+/************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

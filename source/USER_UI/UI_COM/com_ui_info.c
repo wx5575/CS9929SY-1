@@ -370,12 +370,22 @@ void init_window_edit_ele_dis_inf(MYUSER_WINDOW_T *win, EDIT_ELE_AUTO_LAYOUT_T* 
         }
     }
 }
+/**
+  * @brief  隐藏编辑对象
+  * @param  [in] ele 编辑对象
+  * @retval 无
+  */
 static void hide_edit_ele(EDIT_ELE_T *ele)
 {
     WM_HideWindow(ele->dis.name.handle);
     WM_HideWindow(ele->dis.edit.handle);
     WM_HideWindow(ele->dis.unit.handle);
 }
+/**
+  * @brief  显示编辑对象
+  * @param  [in] ele 编辑对象
+  * @retval 无
+  */
 static void show_edit_ele(EDIT_ELE_T *ele)
 {
     WM_ShowWindow(ele->dis.name.handle);

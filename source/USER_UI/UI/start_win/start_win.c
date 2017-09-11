@@ -30,18 +30,18 @@
 static void start_win_cb(WM_MESSAGE * pMsg);
 static void update_main_ui_menu_key_inf(WM_HMEM hWin);
 
-static void sys_exit_key_fun_cb(KEY_MESSAGE *key_msg);
-static void sys_stop_key_fun_cb(KEY_MESSAGE *key_msg);
-static void sys_shift_key_fun_cb(KEY_MESSAGE *key_msg);
-static void sys_unlock_key_fun_cb(KEY_MESSAGE *key_msg);
-static void screen_capture_key_fun_cb(KEY_MESSAGE *key_msg);
+//static void sys_exit_key_fun_cb(KEY_MESSAGE *key_msg);
+//static void sys_stop_key_fun_cb(KEY_MESSAGE *key_msg);
+//static void sys_shift_key_fun_cb(KEY_MESSAGE *key_msg);
+//static void sys_unlock_key_fun_cb(KEY_MESSAGE *key_msg);
+//static void screen_capture_key_fun_cb(KEY_MESSAGE *key_msg);
 
-static void main_win_f1_cb(KEY_MESSAGE *key_msg);
-static void main_win_f2_cb(KEY_MESSAGE *key_msg);
-static void main_win_f3_cb(KEY_MESSAGE *key_msg);
-static void main_win_f4_cb(KEY_MESSAGE *key_msg);
-static void main_win_f5_cb(KEY_MESSAGE *key_msg);
-static void main_win_f6_cb(KEY_MESSAGE *key_msg);
+static void start_win_f1_cb(KEY_MESSAGE *key_msg);
+static void start_win_f2_cb(KEY_MESSAGE *key_msg);
+static void start_win_f3_cb(KEY_MESSAGE *key_msg);
+static void start_win_f4_cb(KEY_MESSAGE *key_msg);
+static void start_win_f5_cb(KEY_MESSAGE *key_msg);
+static void start_win_f6_cb(KEY_MESSAGE *key_msg);
 
 static void update_key_inf(WM_HWIN hWin);
 /* Private variables ---------------------------------------------------------*/
@@ -62,11 +62,11 @@ static	WM_HWIN KEY_CAPITAL_SMALL_handle;///<大小写图标句柄
   */
 static CONFIG_FUNCTION_KEY_INFO_T sys_key_pool[]=
 {
-	{KEY_SHIFT	    , sys_shift_key_fun_cb      },
-	{KEY_UNLOCK	    , sys_unlock_key_fun_cb     },
-	{KEY_EXIT	    , sys_exit_key_fun_cb       },
-	{KEY_STOP	    , sys_stop_key_fun_cb       },
-	{KEY_F1 & KEY_0 , screen_capture_key_fun_cb },
+	{KEY_SHIFT	    , 0 },
+	{KEY_UNLOCK	    , 0 },
+	{KEY_EXIT	    , 0 },
+	{KEY_STOP	    , 0 },
+	{KEY_F1 & KEY_0 , 0 },
 };
 /**
   * @brief  根据不同屏幕尺寸填入位置尺寸信息
@@ -81,12 +81,12 @@ static WIDGET_POS_SIZE_T* start_win_pos_size_pool[SCREEN_NUM]=
 static MENU_KEY_INFO_T 	main_ui_menu_key_inf[] = 
 {
     {"", F_KEY_DISPLAY  , KEY_F0 & _KEY_UP, 0             , SYS_KEY_DIS},//f0
-    {"", F_KEY_FILE		, KEY_F1 & _KEY_UP, main_win_f1_cb, SYS_KEY_EN },//f1
-    {"", F_KEY_STEP		, KEY_F2 & _KEY_UP, main_win_f2_cb, SYS_KEY_EN},//f2
-    {"", F_KEY_SYS		, KEY_F3 & _KEY_UP, main_win_f3_cb, SYS_KEY_EN },//f3
-    {"", F_KEY_RESULT   , KEY_F4 & _KEY_UP, main_win_f4_cb, SYS_KEY_EN},//f4
-    {"", F_KEY_TEST		, KEY_F5 & _KEY_UP, main_win_f5_cb, SYS_KEY_EN},//f5
-    {"", F_KEY_HELP		, KEY_F6 & _KEY_UP, main_win_f6_cb, SYS_KEY_DIS },//f6
+    {"", F_KEY_FILE		, KEY_F1 & _KEY_UP, start_win_f1_cb, SYS_KEY_EN },//f1
+    {"", F_KEY_STEP		, KEY_F2 & _KEY_UP, start_win_f2_cb, SYS_KEY_EN},//f2
+    {"", F_KEY_SYS		, KEY_F3 & _KEY_UP, start_win_f3_cb, SYS_KEY_EN },//f3
+    {"", F_KEY_RESULT   , KEY_F4 & _KEY_UP, start_win_f4_cb, SYS_KEY_EN},//f4
+    {"", F_KEY_TEST		, KEY_F5 & _KEY_UP, start_win_f5_cb, SYS_KEY_EN},//f5
+    {"", F_KEY_HELP		, KEY_F6 & _KEY_UP, start_win_f6_cb, SYS_KEY_DIS },//f6
 };
 /**
   * @brief  主界面的文本对象池
@@ -121,7 +121,7 @@ MYUSER_WINDOW_T start_windows=
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
-static void main_win_f1_cb(KEY_MESSAGE *key_msg)
+static void start_win_f1_cb(KEY_MESSAGE *key_msg)
 {
     uint8_t flag = get_key_lock_flag();
     
@@ -141,7 +141,7 @@ static void main_win_f1_cb(KEY_MESSAGE *key_msg)
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
-static void main_win_f2_cb(KEY_MESSAGE *key_msg)
+static void start_win_f2_cb(KEY_MESSAGE *key_msg)
 {
     uint8_t flag = get_key_lock_flag();
     
@@ -161,7 +161,7 @@ static void main_win_f2_cb(KEY_MESSAGE *key_msg)
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
-static void main_win_f3_cb(KEY_MESSAGE *key_msg)
+static void start_win_f3_cb(KEY_MESSAGE *key_msg)
 {
     uint8_t flag = get_key_lock_flag();
     
@@ -181,7 +181,7 @@ static void main_win_f3_cb(KEY_MESSAGE *key_msg)
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
-static void main_win_f4_cb(KEY_MESSAGE *key_msg)
+static void start_win_f4_cb(KEY_MESSAGE *key_msg)
 {
     uint8_t flag = get_key_lock_flag();
     
@@ -201,7 +201,7 @@ static void main_win_f4_cb(KEY_MESSAGE *key_msg)
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
-static void main_win_f5_cb(KEY_MESSAGE *key_msg)
+static void start_win_f5_cb(KEY_MESSAGE *key_msg)
 {
     create_test_win(key_msg->user_data);
 }
@@ -210,7 +210,7 @@ static void main_win_f5_cb(KEY_MESSAGE *key_msg)
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
-static void main_win_f6_cb(KEY_MESSAGE *key_msg)
+static void start_win_f6_cb(KEY_MESSAGE *key_msg)
 {
 }
 /**
@@ -236,7 +236,7 @@ static void init_main_ui_text_ele_pos_inf(void)
   * @param  无
   * @retval 无
   */
-static void draw_main_win_status_bar(void)
+static void draw_start_win_status_bar(void)
 {
     GUI_SetColor(GUI_LIGHTGRAY);
     
@@ -262,53 +262,6 @@ static void update_main_ui_menu_key_inf(WM_HMEM hWin)
 	init_menu_key_info(main_ui_menu_key_inf, ARRAY_SIZE(main_ui_menu_key_inf), hWin);
 }
 
-
-
-/**
-  * @brief  系统EXIT按键回调函数
-  * @param  [in] key_msg 按键消息
-  * @retval 无
-  */
-static void sys_exit_key_fun_cb(KEY_MESSAGE *key_msg)
-{
-}
-/**
-  * @brief  系统STOP按键回调函数
-  * @param  [in] key_msg 按键消息
-  * @retval 无
-  */
-static void sys_stop_key_fun_cb(KEY_MESSAGE *key_msg)
-{
-}
-/**
-  * @brief  系统SHIFT按键回调函数
-  * @param  [in] data 用户数据
-  * @retval 无
-  */
-static void sys_shift_key_fun_cb(KEY_MESSAGE *key_msg)
-{
-}
-
-
-
-/**
-  * @brief  系统键盘锁按键回调函数
-  * @param  [in] data 用户数据
-  * @retval 无
-  */
-static void sys_unlock_key_fun_cb(KEY_MESSAGE *key_msg)
-{
-}
-
-/**
-  * @brief  截屏按键的
-  * @param  [in] data 用户数据
-  * @retval 无
-  */
-static void screen_capture_key_fun_cb(KEY_MESSAGE *key_msg)
-{
-}
-
 /**
   * @brief  更新系统按键信息
   * @param  [in] hWin 窗口句柄
@@ -324,7 +277,7 @@ static void update_system_key_inf(WM_HMEM hWin)
   * @param  [in] hWin 窗口句柄
   * @retval 无
   */
-static void set_main_windows_handle(WM_HWIN hWin)
+static void set_start_windows_handle(WM_HWIN hWin)
 {
 }
 
@@ -352,7 +305,6 @@ static void update_key_inf(WM_HWIN hWin)
     update_system_key_inf(hWin);
 }
 
-
 /**
   * @brief  主测试界面回调函数
   * @param  [in] pMsg 回调函数指针
@@ -366,7 +318,7 @@ static void start_win_cb(WM_MESSAGE * pMsg)
 	switch (pMsg->MsgId)
 	{
 		case WM_CREATE:
-			set_main_windows_handle(hWin);
+			set_start_windows_handle(hWin);
 			win = get_user_window_info(hWin);
             
             WM_CreateTimer(hWin, 0, 1000, 0);

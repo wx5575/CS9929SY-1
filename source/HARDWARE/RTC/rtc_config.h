@@ -1,4 +1,12 @@
-
+/**
+  ******************************************************************************
+  * @file    rtc_config.h
+  * @author  王鑫
+  * @version V1.0.0
+  * @date    2017.4.18
+  * @brief   RTC时钟初始化
+  ******************************************************************************
+  */
 #ifndef __RTC_CONFIG_H__
 #define __RTC_CONFIG_H__
 
@@ -20,3 +28,5 @@ extern void rtc_set_time(uint32_t year, uint32_t month, uint32_t day,
 
 
 #endif //__RTC_CONFIG_H__
+
+/************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

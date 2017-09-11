@@ -135,6 +135,14 @@ typedef enum {
 
 
 
+typedef struct{
+    uint8_t st;///<测试路状态
+}ROAD_DIS_INF;
+
+extern ROAD_DIS_INF road1_dis;///<第1路显示信息
+extern ROAD_DIS_INF road2_dis;///<第2路显示信息
+extern ROAD_DIS_INF road3_dis;///<第3路显示信息
+extern ROAD_DIS_INF road4_dis;///<第4路显示信息
 
 #endif //__TEST_UI_COM_H__
 

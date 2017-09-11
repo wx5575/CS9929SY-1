@@ -1,4 +1,12 @@
-
+/**
+  ******************************************************************************
+  * @file    rtc_config.c
+  * @author  王鑫
+  * @version V1.0.0
+  * @date    2017.4.18
+  * @brief   RTC时钟初始化
+  ******************************************************************************
+  */
 #include "rtc_config.h"
 #include "stdio.h"
 #include "string.h"
@@ -6,6 +14,11 @@
 
 
 
+/**
+  * @brief  获取RTC年
+  * @param  无
+  * @retval 年-整数
+  */
 uint16_t get_rtc_year(void)
 {
 	RTC_DateTypeDef rtc_date;
@@ -15,6 +28,11 @@ uint16_t get_rtc_year(void)
 	return rtc_date.RTC_Year + 2000;
 }
 
+/**
+  * @brief  获取RTC月
+  * @param  无
+  * @retval 月-整数
+  */
 uint16_t get_rtc_month(void)
 {
 	RTC_DateTypeDef rtc_date;
@@ -24,6 +42,11 @@ uint16_t get_rtc_month(void)
 	return rtc_date.RTC_Month;
 }
 
+/**
+  * @brief  获取RTC日
+  * @param  无
+  * @retval 日-整数
+  */
 uint16_t get_rtc_day(void)
 {
 	RTC_DateTypeDef rtc_date;
@@ -32,6 +55,11 @@ uint16_t get_rtc_day(void)
     
 	return rtc_date.RTC_Date;
 }
+/**
+  * @brief  获取RTC时
+  * @param  无
+  * @retval 时-整数
+  */
 uint16_t get_rtc_hour(void)
 {
 	RTC_TimeTypeDef rtc_time;
@@ -40,6 +68,11 @@ uint16_t get_rtc_hour(void)
     
 	return rtc_time.RTC_Hours;
 }
+/**
+  * @brief  获取RTC分
+  * @param  无
+  * @retval 分-整数
+  */
 uint16_t get_rtc_minute(void)
 {
 	RTC_TimeTypeDef rtc_time;
@@ -48,6 +81,11 @@ uint16_t get_rtc_minute(void)
 	
 	return rtc_time.RTC_Minutes;
 }
+/**
+  * @brief  获取RTC秒
+  * @param  无
+  * @retval 秒-整数
+  */
 uint16_t get_rtc_second(void)
 {
 	RTC_TimeTypeDef rtc_time;
@@ -57,6 +95,11 @@ uint16_t get_rtc_second(void)
 	return rtc_time.RTC_Seconds;
 }
 
+/**
+  * @brief  获取RTC时间字符串
+  * @param  [out] buf 输出时间字符串
+  * @retval RTC时间字符串
+  */
 uint8_t* get_time_str(uint8_t *buf)
 {
 	static uint8_t time_buf[30] = {0};
@@ -78,6 +121,11 @@ uint8_t* get_time_str(uint8_t *buf)
 	return time_buf;
 }
 
+/**
+  * @brief  设置RTC时间字符串
+  * @param  [in] year month day hours minutes seconds 年月日时分秒
+  * @retval RTC时间字符串
+  */
 void rtc_set_time(uint32_t year, uint32_t month, uint32_t day,
 		uint32_t hours, uint32_t minutes, uint32_t seconds)
 {
@@ -95,6 +143,11 @@ void rtc_set_time(uint32_t year, uint32_t month, uint32_t day,
 	RTC_SetDate(RTC_Format_BIN,&rtc_date);
 	RTC_SetTime(RTC_Format_BIN,&rtc_time);
 }
+/**
+  * @brief  RTC NVIC配置
+  * @param  无
+  * @retval 无
+  */
 static void RTC_Nvic_Configuration(void)
 {
 	NVIC_InitTypeDef NVIC_InitStructure;
@@ -121,13 +174,11 @@ static void RTC_Nvic_Configuration(void)
 	RTC_SetWakeUpCounter(0);
 }
 
-/*******************************************************************************
-* Function Name  : RTC_Configuration
-* Description    : Configures the RTC.
-* Input          : None
-* Output         : None
-* Return         : 0 reday,-1 error.
-*******************************************************************************/
+/**
+  * @brief  RTC 初始化配置
+  * @param  无
+  * @retval 无
+  */
 static int RTC_Configuration(void)
 {
 	uint8_t redo_times = 0;
@@ -193,6 +244,11 @@ static int RTC_Configuration(void)
 }
 
 
+/**
+  * @brief  RTC 开机初始化配置
+  * @param  无
+  * @retval 无
+  */
 void rtc_init(void)
 {
     if (RTC_ReadBackupRegister(RTC_BKP_DR0) != 0xA5A5)
@@ -224,6 +280,11 @@ void rtc_init(void)
     return;
 }
 
+/**
+  * @brief  RTC 中断服务函数
+  * @param  无
+  * @retval 无
+  */
 void RTC_WKUP_IRQHandler(void)
 {
 	if(RTC_GetITStatus(RTC_IT_WUT) != RESET)
@@ -233,3 +294,5 @@ void RTC_WKUP_IRQHandler(void)
 // 		EXTI_ClearITPendingBit(EXTI_Line22);
 	} 
 }
+
+/************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/
