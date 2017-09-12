@@ -43,6 +43,7 @@ typedef enum {
 	TEST_UI_ROADS,///<"多路信息"文本
 	TEST_UI_CUR_ROADS,///<多路信息 XXXHHH
 	
+	TEST_UI_ROAD01_BAR,///<第一路的BAR文本复用其改变背景颜色
 	TEST_UI_ROAD01_NUM,///<第一路的编号
 	TEST_UI_ROAD01_MODE,///<第一路的模式
 	TEST_UI_ROAD01_STATUS,///<第一路的状态
@@ -51,6 +52,7 @@ typedef enum {
 	TEST_UI_ROAD01_REAL,///<第一路的真实电流
 	TEST_UI_ROAD01_TIME,///<第一路的测试时间
 	
+	TEST_UI_ROAD02_BAR,///<第2路的BAR文本复用其改变背景颜色
 	TEST_UI_ROAD02_NUM,///<第二路的测试编号
 	TEST_UI_ROAD02_MODE,///<第二路的模式
 	TEST_UI_ROAD02_STATUS,///<第二路的状态
@@ -59,6 +61,7 @@ typedef enum {
 	TEST_UI_ROAD02_REAL,///<第二路的真实电流
 	TEST_UI_ROAD02_TIME,///<第二路的测试时间
 	
+	TEST_UI_ROAD03_BAR,///<第一路的BAR文本复用其改变背景颜色
 	TEST_UI_ROAD03_NUM,///<第三路的测试编号
 	TEST_UI_ROAD03_MODE,///<第三路的模式
 	TEST_UI_ROAD03_STATUS,///<第三路的状态
@@ -67,6 +70,7 @@ typedef enum {
 	TEST_UI_ROAD03_REAL,///<第三路的真实电流
 	TEST_UI_ROAD03_TIME,///<第三路的测试时间
 	
+	TEST_UI_ROAD04_BAR,///<第一路的BAR文本复用其改变背景颜色
 	TEST_UI_ROAD04_NUM,///<第四路的测试编号
 	TEST_UI_ROAD04_MODE,///<第四路的模式
 	TEST_UI_ROAD04_STATUS,///<第四路的状态
@@ -75,6 +79,7 @@ typedef enum {
 	TEST_UI_ROAD04_REAL,///<第四路的真实电流
 	TEST_UI_ROAD04_TIME,///<第四路的测试时间
 	
+	TEST_UI_ROAD05_BAR,///<第一路的BAR文本复用其改变背景颜色
 	TEST_UI_ROAD05_NUM,///<第五路的测试编号
 	TEST_UI_ROAD05_MODE,///<第五路的模式
 	TEST_UI_ROAD05_STATUS,///<第五路的状态
@@ -90,7 +95,9 @@ typedef enum {
 	TEST_UI_ROAD06_UPPER,///<第六路的测试电流 在等待测试时显示的是电流上限
 	TEST_UI_ROAD06_REAL,///<第六路的真实电流
 	TEST_UI_ROAD06_TIME,///<第六路的测试时间
+	TEST_UI_ROAD06_BAR,///<第一路的BAR文本复用其改变背景颜色
 	
+	TEST_UI_ROAD07_BAR,///<第一路的BAR文本复用其改变背景颜色
 	TEST_UI_ROAD07_NUM,///<第七路的测试编号
 	TEST_UI_ROAD07_MODE,///<第七路的模式
 	TEST_UI_ROAD07_STATUS,///<第七路的状态
@@ -99,6 +106,7 @@ typedef enum {
 	TEST_UI_ROAD07_REAL,///<第七路的真实电流
 	TEST_UI_ROAD07_TIME,///<第七路的测试时间
 
+	TEST_UI_ROAD08_BAR,///<第一路的BAR文本复用其改变背景颜色
 	TEST_UI_ROAD08_NUM,///<第八路的测试编号
 	TEST_UI_ROAD08_MODE,///<第八路的模式
 	TEST_UI_ROAD08_STATUS,///<第八路的状态
@@ -138,11 +146,6 @@ typedef enum {
 typedef struct{
     uint8_t st;///<测试路状态
 }ROAD_DIS_INF;
-
-extern ROAD_DIS_INF road1_dis;///<第1路显示信息
-extern ROAD_DIS_INF road2_dis;///<第2路显示信息
-extern ROAD_DIS_INF road3_dis;///<第3路显示信息
-extern ROAD_DIS_INF road4_dis;///<第4路显示信息
 
 #endif //__TEST_UI_COM_H__
 

@@ -421,6 +421,7 @@ extern TEXT_ELE_T * get_text_ele_inf(TEXT_ELE_T *text_pool, uint32_t pool_size, 
 extern void init_window_text_ele(MYUSER_WINDOW_T* win);
 extern void update_text_ele(CS_INDEX index, MYUSER_WINDOW_T* win, const uint8_t *str);
 extern void set_text_ele_font_color(CS_INDEX index, MYUSER_WINDOW_T* win, GUI_COLOR color);
+extern void set_text_ele_font_backcolor(CS_INDEX index, MYUSER_WINDOW_T* win, GUI_COLOR back_color);
 extern void create_user_window(MYUSER_WINDOW_T* win_info, CS_LIST *list_head, WM_HWIN h_parent);
 extern void init_window_pos_size(MYUSER_WINDOW_T* win_inf, WIDGET_POS_SIZE_T *pos_size_inf);
 extern void init_sys_function_key_inf(MYUSER_WINDOW_T* win);

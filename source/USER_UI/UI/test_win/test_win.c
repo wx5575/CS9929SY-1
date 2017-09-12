@@ -32,7 +32,7 @@ enum{
     TEST_WIN_EDIT_INDEX,///<测试窗口中的编辑对象索引枚举
 };
 /**
-* @brief  测试状态机的状态枚举定义
+  * @brief  测试状态机的状态枚举定义
   */
 typedef enum{
     TEST_IDLE,///<空闲状态
@@ -43,6 +43,23 @@ typedef enum{
 }TEST_STATUS_ENUM;
 
 /**
+  * @brief  每路的文本对象在文本对象池中的索引测试状态等
+  */
+typedef struct
+{
+    ROAD_INDEX road_num;
+    CS_INDEX num;///<路编号
+    CS_INDEX mode;///<测试模块
+    CS_INDEX status;///<测试状态
+    CS_INDEX vol;///<测试电压
+    CS_INDEX cur;///<测试电流
+    CS_INDEX real;///<真实电流
+    CS_INDEX time;///<测试时间
+    CS_INDEX bar;///<状态条背景颜色
+    uint8_t test_st;///<测试路状态
+}ROAD_DIS_ELE_INF;
+
+/**
   * @brief  数据设置的倍率
   */
 typedef struct{
@@ -51,6 +68,10 @@ typedef struct{
 /* Private define ------------------------------------------------------------*/
 #define CUR_VALUE_AT_KEY_COLOR      GUI_RED     ///<当前值所在的菜单键字体颜色
 #define NO_CUR_VALUE_AT_KEY_COLOR   GUI_WHITE   ///<当前值不在的菜单键字体颜色
+
+#define ROAD_STATUS_BAR_NORMAL_COLOR    0x404040
+#define ROAD_STATUS_BAR_WARNING_COLOR   GUI_RED
+#define ROAD_STATUS_BAR_PASS_COLOR      GUI_GREEN
 /* Private macro -------------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 
@@ -188,7 +209,63 @@ static void update_data_mul_power(uint32_t key_value, uint32_t mul_power);
 static void test_win_check_cur_step_changed_send_to_slave(void);
 static void test_win_update_cur_step_crc(void);
 
+static void set_roads_test_st(uint8_t test_st);
+static void update_roads_bar(void);
 /* Private variables ---------------------------------------------------------*/
+
+ROAD_DIS_ELE_INF road_test_dis_inf[]=
+{
+    {
+        INDEX_ROAD_1,
+        TEST_UI_ROAD01_NUM,///<第1路的编号
+        TEST_UI_ROAD01_MODE,///<第1路的模式
+        TEST_UI_ROAD01_STATUS,///<第1路的状态
+        TEST_UI_ROAD01_VOLTAGE,///<第1路的输出电压
+        TEST_UI_ROAD01_UPPER,///<第1路的测试电流 在等待测试时显示的是电流上限
+        TEST_UI_ROAD01_REAL,///<第1路的真实电流
+        TEST_UI_ROAD01_TIME,///<第1路的测试时间
+        TEST_UI_ROAD01_BAR,///<第1路的BAR文本复用其改变背景颜色
+        ST_WAIT,///<测试路状态
+    },
+    {
+        INDEX_ROAD_2,
+        TEST_UI_ROAD02_NUM,///<第2路的编号
+        TEST_UI_ROAD02_MODE,///<第2路的模式
+        TEST_UI_ROAD02_STATUS,///<第2路的状态
+        TEST_UI_ROAD02_VOLTAGE,///<第2路的输出电压
+        TEST_UI_ROAD02_UPPER,///<第2路的测试电流 在等待测试时显示的是电流上限
+        TEST_UI_ROAD02_REAL,///<第2路的真实电流
+        TEST_UI_ROAD02_TIME,///<第2路的测试时间
+        TEST_UI_ROAD02_BAR,///<第2路的BAR文本复用其改变背景颜色
+        ST_WAIT,///<测试路状态
+    },
+    {
+        INDEX_ROAD_3,
+        TEST_UI_ROAD03_NUM,///<第3路的编号
+        TEST_UI_ROAD03_MODE,///<第3路的模式
+        TEST_UI_ROAD03_STATUS,///<第3路的状态
+        TEST_UI_ROAD03_VOLTAGE,///<第3路的输出电压
+        TEST_UI_ROAD03_UPPER,///<第3路的测试电流 在等待测试时显示的是电流上限
+        TEST_UI_ROAD03_REAL,///<第3路的真实电流
+        TEST_UI_ROAD03_TIME,///<第3路的测试时间
+        TEST_UI_ROAD03_BAR,///<第3路的BAR文本复用其改变背景颜色
+        ST_WAIT,///<测试路状态
+    },
+    {
+        INDEX_ROAD_4,
+        TEST_UI_ROAD04_NUM,///<第4路的编号
+        TEST_UI_ROAD04_MODE,///<第4路的模式
+        TEST_UI_ROAD04_STATUS,///<第4路的状态
+        TEST_UI_ROAD04_VOLTAGE,///<第4路的输出电压
+        TEST_UI_ROAD04_UPPER,///<第4路的测试电流 在等待测试时显示的是电流上限
+        TEST_UI_ROAD04_REAL,///<第4路的真实电流
+        TEST_UI_ROAD04_TIME,///<第4路的测试时间
+        TEST_UI_ROAD04_BAR,///<第4路的BAR文本复用其改变背景颜色
+        ST_WAIT,///<测试路状态
+    },
+};
+
+static uint32_t hold_start_sign_time;///<启动信号保持时间
 /**
   * @brief  测试状态机的状态
   */
@@ -301,6 +378,7 @@ static MENU_KEY_INFO_T test_ui_gr_menu_pool[][6]=
   */
 static CS_INDEX test_ui_ele_buf[] =
 {
+	TEST_UI_ROAD01_BAR,///<第一路的BAR文本复用其改变背景颜色
 	TEST_UI_ROAD01_NUM,     ///<第一路编号
 	TEST_UI_ROAD01_MODE,    ///<第一路模式
 	TEST_UI_ROAD01_STATUS,  ///<第一路状态
@@ -308,6 +386,7 @@ static CS_INDEX test_ui_ele_buf[] =
 	TEST_UI_ROAD01_UPPER,   ///<第一路上限
 	TEST_UI_ROAD01_REAL,    ///<第一路真实电流
 	TEST_UI_ROAD01_TIME,    ///<第一路测试时间
+	TEST_UI_ROAD02_BAR,///<第一路的BAR文本复用其改变背景颜色
 	TEST_UI_ROAD02_NUM,     ///<第二路编号
 	TEST_UI_ROAD02_MODE,    ///<第二路模式
 	TEST_UI_ROAD02_STATUS,  ///<第二路状态
@@ -315,6 +394,7 @@ static CS_INDEX test_ui_ele_buf[] =
 	TEST_UI_ROAD02_UPPER,   ///<第二路上限
 	TEST_UI_ROAD02_REAL,    ///<第二路真实电流
 	TEST_UI_ROAD02_TIME,    ///<第二路测试时间
+	TEST_UI_ROAD03_BAR,///<第一路的BAR文本复用其改变背景颜色
 	TEST_UI_ROAD03_NUM,     ///<第三路编号
 	TEST_UI_ROAD03_MODE,    ///<第三路模式
 	TEST_UI_ROAD03_STATUS,  ///<第三路状态
@@ -322,6 +402,7 @@ static CS_INDEX test_ui_ele_buf[] =
 	TEST_UI_ROAD03_UPPER,   ///<第三路上限
 	TEST_UI_ROAD03_REAL,    ///<第三路真实电流
 	TEST_UI_ROAD03_TIME,    ///<第三路测试时间
+	TEST_UI_ROAD04_BAR,///<第一路的BAR文本复用其改变背景颜色
 	TEST_UI_ROAD04_NUM,     ///<第四路编号
 	TEST_UI_ROAD04_MODE,    ///<第四路模式
 	TEST_UI_ROAD04_STATUS,  ///<第四路状态
@@ -361,6 +442,7 @@ static TEXT_ELE_T test_ui_ele_pool[]=
 	{{"多路:"  ,"Roads:"    }, TEST_UI_ROADS        },
 	{{"HHXX"   ,"HHXX"      }, TEST_UI_CUR_ROADS    },
 	
+	{{"" ,""                }, TEST_UI_ROAD01_BAR    },
 	{{"01"     ,"01"        }, TEST_UI_ROAD01_NUM    },
 	{{"ACW"    ,"ACW"       }, TEST_UI_ROAD01_MODE   },
 	{{"正在测试","Testing"  }, TEST_UI_ROAD01_STATUS },
@@ -368,6 +450,7 @@ static TEXT_ELE_T test_ui_ele_pool[]=
 	{{"2.000mA","2.000mA"   }, TEST_UI_ROAD01_UPPER  },
 	{{"2.000mA","2.000mA"   }, TEST_UI_ROAD01_REAL   },
 	{{"823.4s" ,"823.4s"    }, TEST_UI_ROAD01_TIME   },
+	{{"" ,""                }, TEST_UI_ROAD02_BAR    },
 	{{"02"     ,"02"        }, TEST_UI_ROAD02_NUM    },
 	{{"ACW"    ,"ACW"       }, TEST_UI_ROAD02_MODE   },
 	{{"正在测试","Testing"  }, TEST_UI_ROAD02_STATUS },
@@ -375,6 +458,7 @@ static TEXT_ELE_T test_ui_ele_pool[]=
 	{{"2.000mA","2.000mA"   }, TEST_UI_ROAD02_UPPER  },
 	{{"2.000mA","2.000mA"   }, TEST_UI_ROAD02_REAL   },
 	{{"123.4s" ,"123.4s"    }, TEST_UI_ROAD02_TIME   },
+	{{"" ,""                }, TEST_UI_ROAD03_BAR    },
 	{{"03"     ,"03"        }, TEST_UI_ROAD03_NUM    },
 	{{"ACW"    ,"ACW"       }, TEST_UI_ROAD03_MODE   },
 	{{"正在测试","Testing"  }, TEST_UI_ROAD03_STATUS },
@@ -382,6 +466,7 @@ static TEXT_ELE_T test_ui_ele_pool[]=
 	{{"2.000mA","2.000mA"   }, TEST_UI_ROAD03_UPPER  },
 	{{"2.000mA","2.000mA"   }, TEST_UI_ROAD03_REAL   },
 	{{"123.4s" ,"123.4s"    }, TEST_UI_ROAD03_TIME   },
+	{{"" ,""                }, TEST_UI_ROAD04_BAR    },
 	{{"04"     ,"04"        }, TEST_UI_ROAD04_NUM    },
 	{{"ACW"    ,"ACW"       }, TEST_UI_ROAD04_MODE   },
 	{{"正在测试","Testing"  }, TEST_UI_ROAD04_STATUS },
@@ -389,6 +474,7 @@ static TEXT_ELE_T test_ui_ele_pool[]=
 	{{"2.000mA","2.000mA"   }, TEST_UI_ROAD04_UPPER  },
 	{{"2.000mA","2.000mA"   }, TEST_UI_ROAD04_REAL   },
 	{{"123.4s" ,"123.4s"    }, TEST_UI_ROAD04_TIME   },
+	{{"" ,""                }, TEST_UI_ROAD05_BAR    },
 	{{"05"     ,"05"        }, TEST_UI_ROAD05_NUM    },
 	{{"ACW"    ,"ACW"       }, TEST_UI_ROAD05_MODE   },
 	{{"正在测试","Testing"  }, TEST_UI_ROAD05_STATUS },
@@ -396,6 +482,7 @@ static TEXT_ELE_T test_ui_ele_pool[]=
 	{{"2.000mA","2.000mA"   }, TEST_UI_ROAD05_UPPER  },
 	{{"2.000mA","2.000mA"   }, TEST_UI_ROAD05_REAL   },
 	{{"123.4s" ,"123.4s"    }, TEST_UI_ROAD05_TIME   },
+	{{"" ,""                }, TEST_UI_ROAD06_BAR    },
 	{{"06"     ,"06"        }, TEST_UI_ROAD06_NUM    },
 	{{"ACW"    ,"ACW"       }, TEST_UI_ROAD06_MODE   },
 	{{"正在测试","Testing"  }, TEST_UI_ROAD06_STATUS },
@@ -403,6 +490,7 @@ static TEXT_ELE_T test_ui_ele_pool[]=
 	{{"2.000mA","2.000mA"   }, TEST_UI_ROAD06_UPPER  },
 	{{"2.000mA","2.000mA"   }, TEST_UI_ROAD06_REAL   },
 	{{"123.4s" ,"123.4s"    }, TEST_UI_ROAD06_TIME   },
+	{{"" ,""                }, TEST_UI_ROAD07_BAR    },
 	{{"07"     ,"07"        }, TEST_UI_ROAD07_NUM    },
 	{{"ACW"    ,"ACW"       }, TEST_UI_ROAD07_MODE   },
 	{{"正在测试","Testing"  }, TEST_UI_ROAD07_STATUS },
@@ -410,6 +498,7 @@ static TEXT_ELE_T test_ui_ele_pool[]=
 	{{"2.000mA","2.000mA"   }, TEST_UI_ROAD07_UPPER  },
 	{{"2.000mA","2.000mA"   }, TEST_UI_ROAD07_REAL   },
 	{{"123.4s" ,"123.4s"    }, TEST_UI_ROAD07_TIME   },
+	{{"" ,""                }, TEST_UI_ROAD08_BAR    },
 	{{"08"     ,"08"        }, TEST_UI_ROAD08_NUM    },
 	{{"ACW"    ,"ACW"       }, TEST_UI_ROAD08_MODE   },
 	{{"正在测试","Testing"  }, TEST_UI_ROAD08_STATUS },
@@ -2892,90 +2981,81 @@ char* div_str_pre_zero(char *str)
 const uint8_t* get_test_status_str(uint8_t status)
 {
     const uint8_t *str = NULL;
+    CS_INDEX index = 0;
+    uint8_t test_st_buf[][2]={
+        {ST_VOL_RISE  , TEST_RISE_INDEX},
+        {ST_TESTING   , TEST_TEST_INDEX},
+        {ST_VOL_FALL  , TEST_FALL_INDEX},
+        {ST_INTER_WAIT, TEST_INTER_INDEX},
+        {ST_WAIT      , TEST_WAIT_INDEX},
+        {ST_PASS      , TEST_PASS_INDEX},
+        {ST_STOP      , TEST_WAIT_INDEX},    /* 复位状态 */
+        {ST_ERR_H     , ERR_HIGH_INDEX},
+        {ST_ERR_L     , ERR_LOW_INDEX},
+        {ST_ERR_SHORT , ERR_SHORT_INDEX},
+        {ST_ERR_VOL_ABNORMAL, ERR_VOL_INDEX},     /* 电压异常 */
+        {ST_ERR_ARC     , ERR_ARC_INDEX},
+        {ST_ERR_GFI     , ERR_GFI_INDEX},
+        {ST_ERR_FAIL    , TEST_FAIL_INDEX},
+        {ST_ERR_REAL    , ERR_REAL_INDEX},     /* 真实电流报警 */
+        {ST_ERR_CHAR    , ERR_CHARGE_INDEX},     /* 充电报警 */
+        {ST_ERR_GEAR    , ERR_GEAR_INDEX},     /* 量程报警 / 档位报警 */
+        {ST_ERR_AMP     , ERR_AMP_INDEX},
+        {ST_ERR_OPEN    , ERR_OPEN_INDEX},     /* 开路报警 */
+        {ST_OUTPUT_DELAY, TEST_OUTPUT_DELAY},
+    };
+//    int32_t i = 0;
+    uint32_t num = 0;
     
-    switch(status)
+    num = ARRAY_SIZE(test_st_buf);
+    
+    if(status < num)
     {
-        case ST_WAIT:
-            str = status_str[TEST_WAIT_INDEX][SYS_LANGUAGE];
-            break;
-        case ST_TESTING:
-            str = status_str[TEST_TEST_INDEX][SYS_LANGUAGE];
-            break;
-        case ST_PASS:
-            str = status_str[TEST_PASS_INDEX][SYS_LANGUAGE];
-            break;
-        default:
-            str = status_str[TEST_WAIT_INDEX][SYS_LANGUAGE];
-            break;
+        index = test_st_buf[status][1];
     }
+    else
+    {
+        index = TEST_WAIT_INDEX;
+    }
+    
+    str = status_str[index][SYS_LANGUAGE];
     
     return str;
 }
-typedef struct
-{
-    uint8_t road_num;
-    CS_INDEX num;///<路编号
-    CS_INDEX mode;///<测试模块
-    CS_INDEX status;///<测试状态
-    CS_INDEX vol;///<测试电压
-    CS_INDEX cur;///<测试电流
-    CS_INDEX real;///<真实电流
-    CS_INDEX time;///<测试时间
-}ROAD_DIS_ELE_INF;
 
-ROAD_DIS_ELE_INF road_test_dis_inf[]=
+void update_road_bar_dis(COMM_TEST_DATA *inf, ROAD_DIS_ELE_INF* road_ele_inf)
 {
+    GUI_COLOR backcolor;
+    
+    if(inf->status == ST_ERR_H
+        || inf->status == ST_ERR_L
+        || inf->status == ST_ERR_SHORT
+        || inf->status == ST_ERR_VOL_ABNORMAL
+        || inf->status == ST_ERR_ARC
+        || inf->status == ST_ERR_GFI
+        || inf->status == ST_ERR_FAIL
+        || inf->status == ST_ERR_REAL
+        || inf->status == ST_ERR_CHAR
+        || inf->status == ST_ERR_GEAR
+        || inf->status == ST_ERR_AMP
+        || inf->status == ST_ERR_OPEN
+    )
     {
-        1,
-        TEST_UI_ROAD01_NUM,///<第一路的编号
-        TEST_UI_ROAD01_MODE,///<第一路的模式
-        TEST_UI_ROAD01_STATUS,///<第一路的状态
-        TEST_UI_ROAD01_VOLTAGE,///<第一路的输出电压
-        TEST_UI_ROAD01_UPPER,///<第一路的测试电流 在等待测试时显示的是电流上限
-        TEST_UI_ROAD01_REAL,///<第一路的真实电流
-        TEST_UI_ROAD01_TIME,///<第一路的测试时间
-    },
-    {
-        2,
-        TEST_UI_ROAD02_NUM,///<第一路的编号
-        TEST_UI_ROAD02_MODE,///<第一路的模式
-        TEST_UI_ROAD02_STATUS,///<第一路的状态
-        TEST_UI_ROAD02_VOLTAGE,///<第一路的输出电压
-        TEST_UI_ROAD02_UPPER,///<第一路的测试电流 在等待测试时显示的是电流上限
-        TEST_UI_ROAD02_REAL,///<第一路的真实电流
-        TEST_UI_ROAD02_TIME,///<第一路的测试时间
-    },
-    {
-        3,
-        TEST_UI_ROAD03_NUM,///<第一路的编号
-        TEST_UI_ROAD03_MODE,///<第一路的模式
-        TEST_UI_ROAD03_STATUS,///<第一路的状态
-        TEST_UI_ROAD03_VOLTAGE,///<第一路的输出电压
-        TEST_UI_ROAD03_UPPER,///<第一路的测试电流 在等待测试时显示的是电流上限
-        TEST_UI_ROAD03_REAL,///<第一路的真实电流
-        TEST_UI_ROAD03_TIME,///<第一路的测试时间
-    },
-    {
-        4,
-        TEST_UI_ROAD04_NUM,///<第一路的编号
-        TEST_UI_ROAD04_MODE,///<第一路的模式
-        TEST_UI_ROAD04_STATUS,///<第一路的状态
-        TEST_UI_ROAD04_VOLTAGE,///<第一路的输出电压
-        TEST_UI_ROAD04_UPPER,///<第一路的测试电流 在等待测试时显示的是电流上限
-        TEST_UI_ROAD04_REAL,///<第一路的真实电流
-        TEST_UI_ROAD04_TIME,///<第一路的测试时间
-    },
-};
-
-void dis_fast_ele(uint16_t x, uint16_t y, uint8_t *str);
-void dis_test(uint8_t *str);
+        backcolor = ROAD_STATUS_BAR_WARNING_COLOR;
+        set_text_ele_font_backcolor(road_ele_inf->bar, this_win, backcolor);
+    }
+    
+}
+/**
+  * @brief  显示1路的测试信息
+  * @param  [in] inf 测试数据
+  * @param  [in] road_ele_inf 每路的文本对象信息
+  * @param  [in] force 强制刷新标志
+  * @retval 无
+  */
 void dis_one_road_test_inf(COMM_TEST_DATA *inf, ROAD_DIS_ELE_INF* road_ele_inf, CS_BOOL force)
 {
     const uint8_t *str = NULL;
-//    static uint32_t xxx;
-//    TEXT_ELE_T* node;
-//    CS_ERR err;
-//    uint16_t x,y;
     static uint8_t flag = 0;
     
     strcat((char*)inf->time, (const char*)unit_pool[TIM_U_s]);
@@ -2995,33 +3075,12 @@ void dis_one_road_test_inf(COMM_TEST_DATA *inf, ROAD_DIS_ELE_INF* road_ele_inf, 
         update_text_ele(road_ele_inf->mode, this_win, inf->mode);
         str = get_test_status_str(inf->status);
         update_text_ele(road_ele_inf->status, this_win, str);
+        update_road_bar_dis(inf, road_ele_inf);//测试出现异常时使用
     }
-    
-//    node = get_text_ele_node(road_ele_inf->vol, &this_win->text.list_head, &err);
-//    x = node->dis_info.base_x + node->dis_info.pos_size.x;
-//    y = node->dis_info.base_y + node->dis_info.pos_size.y;
-//    dis_fast_ele(x, y, inf->vol);
-//    
-//    node = get_text_ele_node(road_ele_inf->cur, &this_win->text.list_head, &err);
-//    x = node->dis_info.base_x + node->dis_info.pos_size.x;
-//    y = node->dis_info.base_y + node->dis_info.pos_size.y;
-//    dis_fast_ele(x, y, inf->cur);
-//    
-//    node = get_text_ele_node(road_ele_inf->time, &this_win->text.list_head, &err);
-//    x = node->dis_info.base_x + node->dis_info.pos_size.x;
-//    y = node->dis_info.base_y + node->dis_info.pos_size.y;
-//    dis_fast_ele(x, y, inf->time);
-//    
-//    node = get_text_ele_node(road_ele_inf->mode, &this_win->text.list_head, &err);
-//    x = node->dis_info.base_x + node->dis_info.pos_size.x;
-//    y = node->dis_info.base_y + node->dis_info.pos_size.y;
-//    dis_fast_ele(x, y, inf->mode);
-
-
 }
 /**
-  * @brief  显示测试信息
-  * @param  无
+  * @brief  显示各路测试信息
+  * @param  [in] force 强制刷新
   * @retval 无
   */
 void dis_roads_inf(CS_BOOL force)
@@ -3031,9 +3090,6 @@ void dis_roads_inf(CS_BOOL force)
     uint32_t num = 0;
     uint8_t road_num;
     int32_t i = 0;
-//    static uint8_t flag = 0;
-    #define MAX_UPDATE_NUM 2
-    
     
     num = ARRAY_SIZE(road_test_dis_inf);
     
@@ -3050,6 +3106,11 @@ void dis_roads_inf(CS_BOOL force)
         }
     }
 }
+/**
+  * @brief  显示各路测试信息
+  * @param  [in] force 强制刷新
+  * @retval 无
+  */
 CS_BOOL all_road_test_over(void)
 {
     CS_BOOL res;
@@ -3104,7 +3165,7 @@ CS_BOOL all_road_test_over(void)
     {
         if(++timeout_count > 5)
         {
-            return CS_TRUE;
+//            return CS_TRUE;
         }
     }
     else if(over_count == 0)
@@ -3114,11 +3175,11 @@ CS_BOOL all_road_test_over(void)
     
     return CS_FALSE;
 }
-ROAD_DIS_INF road1_dis;///<第1路显示信息
-ROAD_DIS_INF road2_dis;///<第2路显示信息
-ROAD_DIS_INF road3_dis;///<第3路显示信息
-ROAD_DIS_INF road4_dis;///<第4路显示信息
-
+/**
+  * @brief  显示各路测试结束状态
+  * @param  无
+  * @retval 无
+  */
 void dis_test_over_status(void)
 {
     CS_BOOL res;
@@ -3132,12 +3193,11 @@ void dis_test_over_status(void)
         {
             str = get_test_status_str(ST_PASS);
             update_text_ele(TEST_UI_ROAD01_STATUS, this_win, str);
-            road1_dis.st = ST_PASS;
-            WM_SendMessageNoPara(this_win->handle, WM_PAINT);
+            road_test_dis_inf[INDEX_ROAD_1 - 1].test_st = ST_PASS;
         }
         else
         {
-            road1_dis.st = ST_TESTING;
+            road_test_dis_inf[INDEX_ROAD_1 - 1].test_st = ST_ERR_FAIL;
         }
     }
     
@@ -3149,13 +3209,11 @@ void dis_test_over_status(void)
         {
             str = get_test_status_str(ST_PASS);
             update_text_ele(TEST_UI_ROAD02_STATUS, this_win, str);
-            road2_dis.st = ST_PASS;
-            WM_SendMessageNoPara(this_win->handle, WM_PAINT);
+            road_test_dis_inf[INDEX_ROAD_2 - 1].test_st = ST_PASS;
         }
         else
         {
-            road1_dis.st = ST_TESTING;
-            WM_SendMessageNoPara(this_win->handle, WM_PAINT);
+            road_test_dis_inf[INDEX_ROAD_2 - 1].test_st = ST_ERR_FAIL;
         }
     }
     
@@ -3167,13 +3225,11 @@ void dis_test_over_status(void)
         {
             str = get_test_status_str(ST_PASS);
             update_text_ele(TEST_UI_ROAD03_STATUS, this_win, str);
-            road3_dis.st = ST_PASS;
-            WM_SendMessageNoPara(this_win->handle, WM_PAINT);
+            road_test_dis_inf[INDEX_ROAD_3 - 1].test_st = ST_PASS;
         }
         else
         {
-            road1_dis.st = ST_TESTING;
-            WM_SendMessageNoPara(this_win->handle, WM_PAINT);
+            road_test_dis_inf[INDEX_ROAD_3 - 1].test_st = ST_ERR_FAIL;
         }
     }
     
@@ -3185,17 +3241,16 @@ void dis_test_over_status(void)
         {
             str = get_test_status_str(ST_PASS);
             update_text_ele(TEST_UI_ROAD04_STATUS, this_win, str);
-            road4_dis.st = ST_PASS;
-            WM_SendMessageNoPara(this_win->handle, WM_PAINT);
+            road_test_dis_inf[INDEX_ROAD_4 - 1].test_st = ST_PASS;
         }
         else
         {
-            road1_dis.st = ST_TESTING;
-            WM_SendMessageNoPara(this_win->handle, WM_PAINT);
+            road_test_dis_inf[INDEX_ROAD_4 - 1].test_st = ST_ERR_FAIL;
         }
     }
+    
+    update_roads_bar();
 }
-uint32_t hold_start_sign_time;
 
 void run_start_sign(void)
 {
@@ -3252,6 +3307,8 @@ static void test_status_machine(void)
             
             test_status = TEST_TESTING;
             count_dly = 0;
+            set_roads_test_st(ST_TESTING);
+            update_roads_bar();
             break;
         case TEST_RESET:
             test_step = 1;
@@ -3260,6 +3317,8 @@ static void test_status_machine(void)
             load_data();
             test_status = TEST_IDLE;
             update_test_win_text_ele_text(this_win);
+            set_roads_test_st(ST_WAIT);
+            update_roads_bar();
             break;
         case TEST_TESTING:
             send_cmd_to_all_module(NULL, 0, send_get_test_data);
@@ -3270,7 +3329,6 @@ static void test_status_machine(void)
             {
                 dis_roads_inf(CS_TRUE);
                 dis_test_over_status();
-                WM_SendMessageNoPara(this_win->handle, WM_PAINT);
                 
                 /* 步间连续打开 */
                 if(steps_con)
@@ -3284,7 +3342,7 @@ static void test_status_machine(void)
                 /* 步间连续关闭 */
                 else
                 {
-                    if(++count_dly > 2)
+                    if(++count_dly > 10)
                     {
                         count_dly = 0;
                         test_status = TEST_IDLE;
@@ -3307,6 +3365,72 @@ void other_task_test(void)
         }
         
         OS_DELAY_ms(40);
+    }
+}
+
+static void set_roads_test_st(uint8_t test_st)
+{
+    int32_t i = 0;
+    uint32_t num = 0;
+    ROAD_DIS_ELE_INF *inf = NULL;
+    
+    num = ARRAY_SIZE(road_test_dis_inf);
+    
+    for(i = 0; i < num; i++)
+    {
+        inf = &road_test_dis_inf[i];
+        inf->test_st = test_st;
+    }
+}
+static void update_roads_bar(void)
+{
+    int32_t i = 0;
+    uint32_t num = 0;
+    ROAD_DIS_ELE_INF *inf = NULL;
+    GUI_COLOR backcolor;
+    
+    num = ARRAY_SIZE(road_test_dis_inf);
+    
+    for(i = 0; i < num; i++)
+    {
+        inf = &road_test_dis_inf[i];
+        
+        if(inf->test_st == ST_PASS)
+        {
+            backcolor = ROAD_STATUS_BAR_PASS_COLOR;
+        }
+        else if(inf->test_st == ST_WAIT
+            || inf->test_st == ST_VOL_RISE
+            || inf->test_st == ST_TESTING
+            || inf->test_st == ST_VOL_FALL
+            || inf->test_st == ST_INTER_WAIT
+            || inf->test_st == ST_STOP
+        )
+        {
+            backcolor = ROAD_STATUS_BAR_NORMAL_COLOR;
+        }
+        else if(inf->test_st == ST_ERR_H
+            || inf->test_st == ST_ERR_L
+            || inf->test_st == ST_ERR_SHORT
+            || inf->test_st == ST_ERR_VOL_ABNORMAL
+            || inf->test_st == ST_ERR_ARC
+            || inf->test_st == ST_ERR_GFI
+            || inf->test_st == ST_ERR_FAIL
+            || inf->test_st == ST_ERR_REAL
+            || inf->test_st == ST_ERR_CHAR
+            || inf->test_st == ST_ERR_GEAR
+            || inf->test_st == ST_ERR_AMP
+            || inf->test_st == ST_ERR_OPEN
+        )
+        {
+            backcolor = ROAD_STATUS_BAR_WARNING_COLOR;
+        }
+        else
+        {
+            backcolor = ROAD_STATUS_BAR_NORMAL_COLOR;
+        }
+        
+        set_text_ele_font_backcolor(inf->bar, this_win, backcolor);
     }
 }
 /**
@@ -3354,7 +3478,7 @@ static void test_win_cb(WM_MESSAGE* pMsg)
 		case WM_TIMER:
 		{
             test_status_machine();//测试状态机
-			WM_RestartTimer(test_win_timer_handle, 1);
+			WM_RestartTimer(test_win_timer_handle, 10);
 			break;
         }
         case WM_KEY:
@@ -3362,7 +3486,7 @@ static void test_win_cb(WM_MESSAGE* pMsg)
 		case WM_PAINT:
 			test_win_paint_frame();
             draw_group_inf_area();
-			draw_composition_7_1();
+			draw_composition_7_1(this_win);
 			break;
 		case WM_NOTIFY_PARENT:
 			break;

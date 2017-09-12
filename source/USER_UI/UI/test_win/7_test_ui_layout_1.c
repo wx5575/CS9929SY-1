@@ -28,6 +28,7 @@ typedef struct{
     TEXT_ELE_T * cur;///<多路电流
     TEXT_ELE_T * real;///<多路真实电流
     TEXT_ELE_T * time;///<多路时间
+    TEXT_ELE_T * bar;///<多路状态条背景
 }ROAD_T;
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -95,7 +96,8 @@ static const GUI_RECT test_port4_area = {PB4_X, PB4_Y, PB4_X + TP_W, PB4_Y + TP_
   * @param  [in] road 路测试信息的文本控件结构
   * @retval 无
   */
-static void init_one_road_pos_size_inf(uint16_t base_x, uint16_t base_y, ROAD_T *road)
+static void init_one_road_pos_size_inf(uint16_t base_x, uint16_t base_y,
+                                ROAD_T *road, const GUI_RECT *road_rec)
 {
     UI_ELE_DISPLAY_INFO_T inf;
     
@@ -186,6 +188,18 @@ static void init_one_road_pos_size_inf(uint16_t base_x, uint16_t base_y, ROAD_T 
     inf.pos_size.y = RT_Y;
     
     memcpy(&road->time->dis_info, &inf, sizeof(UI_ELE_DISPLAY_INFO_T));
+    
+    /* 每路的状态条背景 */
+    inf.align = GUI_TA_LEFT | GUI_TA_TOP;
+    inf.pos_size.width = road_rec->x1 - road_rec->x0 - 2;
+    inf.pos_size.x = road_rec->x0 + 2;
+    inf.pos_size.y = road_rec->y0 + 2;
+    inf.pos_size.height = 40;
+    inf.base_x = 0;
+    inf.base_y = 0;
+    inf.back_color = 0x404040;
+    
+    memcpy(&road->bar->dis_info, &inf, sizeof(UI_ELE_DISPLAY_INFO_T));
 }
 
 /* Public functions ---------------------------------------------------------*/
@@ -205,6 +219,7 @@ void _7_init_test_ui_layout1_text_ele_pos(TEXT_ELE_T *pool)
     road_pool[0].cur    = &pool[TEST_UI_ROAD01_UPPER];
     road_pool[0].real   = &pool[TEST_UI_ROAD01_REAL];
     road_pool[0].time   = &pool[TEST_UI_ROAD01_TIME];
+    road_pool[0].bar    = &pool[TEST_UI_ROAD01_BAR];
     
     road_pool[1].num    = &pool[TEST_UI_ROAD02_NUM];
     road_pool[1].mode   = &pool[TEST_UI_ROAD02_MODE];
@@ -213,6 +228,7 @@ void _7_init_test_ui_layout1_text_ele_pos(TEXT_ELE_T *pool)
     road_pool[1].cur    = &pool[TEST_UI_ROAD02_UPPER];
     road_pool[1].real   = &pool[TEST_UI_ROAD02_REAL];
     road_pool[1].time   = &pool[TEST_UI_ROAD02_TIME];
+    road_pool[1].bar    = &pool[TEST_UI_ROAD02_BAR];
     
     road_pool[2].num    = &pool[TEST_UI_ROAD03_NUM];
     road_pool[2].mode   = &pool[TEST_UI_ROAD03_MODE];
@@ -221,6 +237,7 @@ void _7_init_test_ui_layout1_text_ele_pos(TEXT_ELE_T *pool)
     road_pool[2].cur    = &pool[TEST_UI_ROAD03_UPPER];
     road_pool[2].real   = &pool[TEST_UI_ROAD03_REAL];
     road_pool[2].time   = &pool[TEST_UI_ROAD03_TIME];
+    road_pool[2].bar    = &pool[TEST_UI_ROAD03_BAR];
     
     road_pool[3].num    = &pool[TEST_UI_ROAD04_NUM];
     road_pool[3].mode   = &pool[TEST_UI_ROAD04_MODE];
@@ -229,6 +246,7 @@ void _7_init_test_ui_layout1_text_ele_pos(TEXT_ELE_T *pool)
     road_pool[3].cur    = &pool[TEST_UI_ROAD04_UPPER];
     road_pool[3].real   = &pool[TEST_UI_ROAD04_REAL];
     road_pool[3].time   = &pool[TEST_UI_ROAD04_TIME];
+    road_pool[3].bar    = &pool[TEST_UI_ROAD04_BAR];
     
     /******************** 测试界面文件信息 ***********************************/
 #define R1B_X	PB1_X+2
@@ -240,63 +258,10 @@ void _7_init_test_ui_layout1_text_ele_pos(TEXT_ELE_T *pool)
 #define R4B_X	PB4_X+2
 #define R4B_Y	PB4_Y+5
     
-    init_one_road_pos_size_inf(R1B_X, R1B_Y, &road_pool[0]);
-    init_one_road_pos_size_inf(R2B_X, R2B_Y, &road_pool[1]);
-    init_one_road_pos_size_inf(R3B_X, R3B_Y, &road_pool[2]);
-    init_one_road_pos_size_inf(R4B_X, R4B_Y, &road_pool[3]);
-}
-#define ROAD_STATUS_BAR_NORMAL_COLOR    0x404040
-#define ROAD_STATUS_BAR_WARNING_COLOR   GUI_RED
-#define ROAD_STATUS_BAR_PASS_COLOR      GUI_GREEN
-void draw_road_status_bar(const GUI_RECT *road_rec, GUI_COLOR color)
-{
-    GUI_RECT rec;
-    
-    GUI_SetColor(color);
-    rec.x0 = road_rec->x0 + 2;
-    rec.y0 = road_rec->y0 + 2;
-    rec.x1 = road_rec->x1 - 1;
-    rec.y1 = road_rec->y0 + 40;
-    
-//    GUI_FillRectEx(&rec);
-//    GUI_FillRect(rec.x0, rec.y0, rec.x1, rec.y1);
-    GUI_FillRect(rec.x0, rec.y0, rec.x1-20, rec.y1);
-//    GUI_FillRect(rec.x1-20, rec.y0, rec.x1, rec.y1);
-}
-
-void draw_test_roads_status_normal_7_1(void)
-{
-    draw_road_status_bar(&test_port1_area, ROAD_STATUS_BAR_NORMAL_COLOR);
-    draw_road_status_bar(&test_port2_area, ROAD_STATUS_BAR_NORMAL_COLOR);
-    draw_road_status_bar(&test_port3_area, ROAD_STATUS_BAR_NORMAL_COLOR);
-    draw_road_status_bar(&test_port4_area, ROAD_STATUS_BAR_NORMAL_COLOR);
-}
-void draw_test_roads_status_7_1(uint8_t road, GUI_COLOR color)
-{
-    const GUI_RECT *road_rec[] =
-    {
-        &test_port1_area,
-        &test_port2_area,
-        &test_port3_area,
-        &test_port4_area,
-    };
-    uint8_t num = 0;
-    
-    num = ARRAY_SIZE(road_rec);
-    
-    if(road >= num)
-    {
-        return;
-    }
-    
-    draw_road_status_bar(road_rec[road], color);
-}
-void draw_test_roads_status_warning_7_1(void)
-{
-    draw_road_status_bar(&test_port1_area, ROAD_STATUS_BAR_WARNING_COLOR);
-    draw_road_status_bar(&test_port2_area, ROAD_STATUS_BAR_WARNING_COLOR);
-    draw_road_status_bar(&test_port3_area, ROAD_STATUS_BAR_WARNING_COLOR);
-    draw_road_status_bar(&test_port4_area, ROAD_STATUS_BAR_WARNING_COLOR);
+    init_one_road_pos_size_inf(R1B_X, R1B_Y, &road_pool[0], &test_port1_area);
+    init_one_road_pos_size_inf(R2B_X, R2B_Y, &road_pool[1], &test_port2_area);
+    init_one_road_pos_size_inf(R3B_X, R3B_Y, &road_pool[2], &test_port3_area);
+    init_one_road_pos_size_inf(R4B_X, R4B_Y, &road_pool[3], &test_port4_area);
 }
 
 /**
@@ -304,7 +269,7 @@ void draw_test_roads_status_warning_7_1(void)
   * @param  无
   * @retval 无
   */
-void draw_composition_7_1(void)
+void draw_composition_7_1(MYUSER_WINDOW_T* win)
 {
 	GUI_SetColor(GUI_WHITE);
 	GUI_SetPenSize(2);
@@ -312,42 +277,6 @@ void draw_composition_7_1(void)
 	myGUI_DrawRectEx(&test_port2_area);
 	myGUI_DrawRectEx(&test_port3_area);
 	myGUI_DrawRectEx(&test_port4_area);
-    
-    if(road1_dis.st == ST_PASS)
-    {
-        draw_test_roads_status_7_1(0, ROAD_STATUS_BAR_WARNING_COLOR);
-    }
-    else
-    {
-        draw_test_roads_status_7_1(0, ROAD_STATUS_BAR_NORMAL_COLOR);
-    }
-    
-//    if(road2_dis.st == ST_PASS)
-//    {
-//        draw_test_roads_status_7_1(1, ROAD_STATUS_BAR_PASS_COLOR);
-//    }
-//    else
-//    {
-//        draw_test_roads_status_7_1(1, ROAD_STATUS_BAR_NORMAL_COLOR);
-//    }
-    
-//    if(road3_dis.st == ST_PASS)
-//    {
-//        draw_test_roads_status_7_1(2, ROAD_STATUS_BAR_PASS_COLOR);
-//    }
-//    else
-//    {
-//        draw_test_roads_status_7_1(2, ROAD_STATUS_BAR_NORMAL_COLOR);
-//    }
-//    
-//    if(road4_dis.st == ST_PASS)
-//    {
-//        draw_test_roads_status_7_1(3, ROAD_STATUS_BAR_PASS_COLOR);
-//    }
-//    else
-//    {
-//        draw_test_roads_status_7_1(3, ROAD_STATUS_BAR_NORMAL_COLOR);
-//    }
 }
 
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

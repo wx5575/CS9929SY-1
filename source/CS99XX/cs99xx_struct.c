@@ -92,10 +92,24 @@ const uint8_t* status_str[][2] =
 	{"正在放电", "Discharg"},
 	{"放电结束", "Disch.OK"},
 	{"输出延时", "Out.Dly" },
+    
+	{"上限报警", "High Fail"},
+	{"下限报警", "Low Fail" },
+	{"真实报警", "Real Fail"},
+	{"充电报警", "Char Fail"},
+	{"开路报警", "Open Fail"},
+	{"短路报警", "ShortFail"},
+	{"ARC报警" , "ARC Fail" },
+	{"GFI报警" , "GFI Fail" },
+	{"功放报警", "AMP Fail" },
+	{"档位报警", "GEAR Fail"},
+	{"电压异常", "VOL. Fail"},
+	{"未定义"  , "Undefine "},
 };
 /**
   * @brief  测试异常状态
   */
+
 const uint8_t* except_buf[][3]=
 {
 	{"","",""},

@@ -679,7 +679,20 @@ enum{
 	TEST_DISCHARGE_INDEX,
 	TEST_DISCHARGE_OVER_INDEX,
     TEST_OUTPUT_DELAY,
+    
+    ERR_HIGH_INDEX  ,    /* 电流上限报警 */
+    ERR_LOW_INDEX   ,    /* 电流下限报警 */
+    ERR_REAL_INDEX  ,    /* 真实电流报警 */
+    ERR_CHARGE_INDEX,    /* 充电报警 */
+    ERR_OPEN_INDEX  ,    /* 开路报警 */
+    ERR_SHORT_INDEX ,    /* 短路报警 */
+    ERR_ARC_INDEX   ,    /* ARC 报警 */
+    ERR_GFI_INDEX   ,    /* GFI 报警 */
+    ERR_AMP_INDEX   ,    /* 功放报警 */
+    ERR_GEAR_INDEX  ,   /* 档位报警 */
+    ERR_VOL_INDEX   ,   /* 电压异常 */
 };
+extern const uint8_t* status_str[][2];
 
 typedef enum {
 	ST_VOL_RISE     = 0,
@@ -703,7 +716,22 @@ typedef enum {
 	ST_OUTPUT_DELAY = 18,
 	ST_ERR_OPEN     = 19,           /* 开路报警 */
 }TestingStatusTypedef;  /*运行时状态*/
-extern const uint8_t* status_str[][2];
+
+/* 错误码 */
+typedef enum err_num_enum{
+    ERR_NONE   = 0,    /* 没有错误 */
+    ERR_HIGH   = 1,    /* 电流上限报警 */
+    ERR_LOW    = 2,    /* 电流下限报警 */
+    ERR_REAL   = 3,    /* 真实电流报警 */
+    ERR_CHARGE = 4,    /* 充电报警 */
+    ERR_OPEN   = 5,    /* 开路报警 */
+    ERR_SHORT  = 6,    /* 短路报警 */
+    ERR_ARC    = 7,    /* ARC 报警 */
+    ERR_GFI    = 8,    /* GFI 报警 */
+    ERR_AMP    = 9,    /* 功放报警 */
+    ERR_GEAR   = 10,   /* 档位报警 */
+    ERR_VOL    = 11,   /* 电压异常 */
+}ERR_NUM_ENUM;
 extern const uint8_t* except_buf[][3];
 
 #define ACW_STR     "ACW"
