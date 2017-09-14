@@ -30,12 +30,6 @@
 static void start_win_cb(WM_MESSAGE * pMsg);
 static void update_main_ui_menu_key_inf(WM_HMEM hWin);
 
-//static void sys_exit_key_fun_cb(KEY_MESSAGE *key_msg);
-//static void sys_stop_key_fun_cb(KEY_MESSAGE *key_msg);
-//static void sys_shift_key_fun_cb(KEY_MESSAGE *key_msg);
-//static void sys_unlock_key_fun_cb(KEY_MESSAGE *key_msg);
-//static void screen_capture_key_fun_cb(KEY_MESSAGE *key_msg);
-
 static void start_win_f1_cb(KEY_MESSAGE *key_msg);
 static void start_win_f2_cb(KEY_MESSAGE *key_msg);
 static void start_win_f3_cb(KEY_MESSAGE *key_msg);
@@ -51,7 +45,7 @@ static	WM_HWIN U_FLASH_1_handle;///<U盘图标1句柄
 static	WM_HWIN U_FLASH_2_handle;///<U盘图标2句柄
 static	WM_HWIN KEY_LOCK_handle;///<键盘锁图标句柄
 static	WM_HWIN KEY_CAPITAL_SMALL_handle;///<大小写图标句柄
-/** 主界面显示的文本索引表 */
+/** 界面显示的文本索引表 */
 //static CS_INDEX main_ui_text_ele_table[] =
 //{
 //	MAIN_UI_COM_ST,
@@ -66,7 +60,6 @@ static CONFIG_FUNCTION_KEY_INFO_T sys_key_pool[]=
 	{KEY_UNLOCK	    , 0 },
 	{KEY_EXIT	    , 0 },
 	{KEY_STOP	    , 0 },
-	{KEY_F1 & KEY_0 , 0 },
 };
 /**
   * @brief  根据不同屏幕尺寸填入位置尺寸信息

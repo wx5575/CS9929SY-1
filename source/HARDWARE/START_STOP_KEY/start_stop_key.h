@@ -20,6 +20,7 @@
 #define SYN_STOP_PIN    PEout(6)    ///<同步复位引脚
 #define SYN_START_PIN   PEout(5)    ///<同步启动引脚
 
+
 #define PIN_H           1///<引脚输出高电平
 #define PIN_L           0///<引脚输出低电平
 

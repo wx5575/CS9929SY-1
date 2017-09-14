@@ -13,7 +13,6 @@
 #include    "key_led_buzzer.h"
 #include    "start_stop_key.h"
 
-#define KEY_BUZZER_TIME 30
 
 typedef uint8_t (*IS_FUN)(uint32_t);
 
@@ -255,7 +254,12 @@ static void DetectKey(KEY_STRUCT *p, uint32_t key_value)
 			if (p->State == 0)
 			{
 				p->State = 1;
-				BUZZER_ON_T(KEY_BUZZER_TIME);
+                
+                if(p->KeyCodeDown != KEY_START &&  p->KeyCodeDown != KEY_STOP)
+                {
+                    BUZZER_ON_T(KEY_BUZZER_TIME);
+                }
+                
  				
 // 				if(BUZZER_EN)
 //                 {

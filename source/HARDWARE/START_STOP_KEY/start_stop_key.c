@@ -27,6 +27,8 @@
 #define  GPIO_PORT_SYN_STOP		GPIOE
 #define  GPIO_PIN_SYN_STOP      GPIO_Pin_6
 
+#define  GPIO_PORT_TEST_LED		GPIOF
+#define  GPIO_PIN_TEST_LED      GPIO_Pin_8
 /**
   * @brief  启动复位键外部中断配置
   * @param  无
@@ -77,7 +79,6 @@ static void key_start_stop_nvic_config(void)
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;//开中断
     NVIC_Init(&NVIC_InitStructure);
 }
-
 /**
   * @brief  启动复位键引脚初始化配置
   * @param  无
@@ -87,7 +88,10 @@ void key_start_stop_gpio_init(void)
 {	 
     GPIO_InitTypeDef  GPIO_InitStructure;
     
-    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB | RCC_AHB1Periph_GPIOF, ENABLE);//使能GPIOA时钟
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB
+        | RCC_AHB1Periph_GPIOG
+        | RCC_AHB1Periph_GPIOF,
+        ENABLE);//使能GPIOA时钟
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOE, ENABLE);
     
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;//100MHz
@@ -153,6 +157,11 @@ void key_start_stop_gpio_init(void)
     GPIO_InitStructure.GPIO_Pin = GPIO_PIN_SYN_STOP;
     GPIO_Init(GPIO_PORT_SYN_STOP, &GPIO_InitStructure);
     GPIO_SetBits(GPIO_PORT_SYN_STOP, GPIO_PIN_SYN_STOP);
+    
+    /* TEST_LED */
+    GPIO_InitStructure.GPIO_Pin = GPIO_PIN_TEST_LED;
+    GPIO_Init(GPIO_PORT_TEST_LED, &GPIO_InitStructure);
+    GPIO_ResetBits(GPIO_PORT_TEST_LED, GPIO_PIN_TEST_LED);
 }
 
 /**

@@ -9,6 +9,7 @@
   */
 /* Includes ------------------------------------------------------------------*/
 #include "string.h"
+#include "stdio.h"
 #include "GUI.H"
 #include "WM.h"
 #include "IMAGE.H"
@@ -637,12 +638,14 @@ static void into_self_check_win(void)//进入自检窗口
 		GUI_Delay(1);//调用这个函数可以刷新界面
 }
 /* Public functions ---------------------------------------------------------*/
-
+#include "start_stop_key.h"
 /**
   * @brief  主窗口的入口
   * @param  无
   * @retval 无
   */
+extern uint8_t flagx[100];
+extern uint8_t countx;
 void main_ui_enter(void)
 {
 	SCREEM_SIZE = SCREEN_7INCH;//设置为7寸屏

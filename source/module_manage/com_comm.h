@@ -90,6 +90,7 @@ struct COM_STRUCT_{
     uint8_t resend_count;///<重发计数
     uint32_t ack_timeout;///<通信应答超时计时器
     CS_ERR comm_cannot_connect;///<通信无法连接标记。可能是从机不存在或通信硬件故障
+    uint8_t buf[512];///<通信缓冲区
 };
 
 

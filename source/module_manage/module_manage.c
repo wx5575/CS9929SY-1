@@ -104,9 +104,9 @@ uint8_t get_com_offset_add(COM_NUM com_num)
     return addr_offset[com_num];
 }
 /**
-  * @brief  从存储器中读取参数
-  * @param  无
-  * @retval 无
+  * @brief  获取串口结构信息
+  * @param  [in] 串口编号
+  * @retval 串口结构信息
   */
 COM_STRUCT* get_com_inf(COM_NUM com_num)
 {
@@ -135,7 +135,7 @@ COM_STRUCT* get_com_inf(COM_NUM com_num)
   * @param  无
   * @retval 无
   */
-void update_module_addr_flag(void)
+void update_module_addr_inf(void)
 {
     int32_t i = 0;
     int32_t j = 0;
@@ -180,22 +180,50 @@ void update_module_addr_flag(void)
     }
 }
 
+/**
+  * @brief  获取从机模块信息通信指令返回处理函数
+  * @param  [in] com_num 串口编辑
+  * @param  [in] index_addr 索引地址
+  * @param  [in] data 返回数据
+  * @retval 无
+  */
 void set_module_inf(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
 {
     module_inf_pool[index_addr].com_num = com_num;
     memcpy(&module_inf_pool[index_addr].module_inf, data, sizeof(MODULE_INF));
-    update_module_addr_flag();
+    update_module_addr_inf();
 }
-void set_module_cal_points(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
+/**
+  * @brief  获取从机校准点总数通信指令返回处理函数
+  * @param  [in] com_num 串口编辑
+  * @param  [in] index_addr 索引地址
+  * @param  [in] data 返回数据
+  * @retval 无
+  */
+void get_module_cal_points(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
 {
     memcpy(&cur_module_cal_points, data, sizeof(cur_module_cal_points));
 }
+/**
+  * @brief  查询从机校准点信息通信指令返回处理函数
+  * @param  [in] com_num 串口编辑
+  * @param  [in] index_addr 索引地址
+  * @param  [in] data 返回数据
+  * @retval 无
+  */
 void query_cal_point_inf(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
 {
     CAL_POINT_INF *inf = (void*)data;
     
     memcpy(&cal_point_inf_pool[inf->index], inf, sizeof(CAL_POINT_INF));
 }
+/**
+  * @brief  从机启动校准通信指令返回处理函数
+  * @param  [in] com_num 串口编辑
+  * @param  [in] index_addr 索引地址
+  * @param  [in] data 返回数据
+  * @retval 无
+  */
 void slave_cal_start(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
 {
     ROAD_NUM_T road;
@@ -204,6 +232,14 @@ void slave_cal_start(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
     
     syn_test_port[road - 1].test_st = ROAD_TESTING;
 }
+
+/**
+  * @brief  从机停止校准通信指令返回处理函数
+  * @param  [in] com_num 串口编辑
+  * @param  [in] index_addr 索引地址
+  * @param  [in] data 返回数据
+  * @retval 无
+  */
 void slave_cal_stop(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
 {
     ROAD_NUM_T road;
@@ -213,24 +249,73 @@ void slave_cal_stop(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
 }
 
 
+/**
+  * @brief  从机新建文件通信指令返回处理函数
+  * @param  [in] com_num 串口编辑
+  * @param  [in] index_addr 索引地址
+  * @param  [in] data 返回数据
+  * @retval 无
+  */
 void slave_new_file(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
 {
 }
+/**
+  * @brief  从机编辑文件通信指令返回处理函数
+  * @param  [in] com_num 串口编辑
+  * @param  [in] index_addr 索引地址
+  * @param  [in] data 返回数据
+  * @retval 无
+  */
 void slave_edit_file(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
 {
 }
+/**
+  * @brief  从机读取文件通信指令返回处理函数
+  * @param  [in] com_num 串口编辑
+  * @param  [in] index_addr 索引地址
+  * @param  [in] data 返回数据
+  * @retval 无
+  */
 void slave_read_file(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
 {
 }
+/**
+  * @brief  从机删除文件通信指令返回处理函数
+  * @param  [in] com_num 串口编辑
+  * @param  [in] index_addr 索引地址
+  * @param  [in] data 返回数据
+  * @retval 无
+  */
 void slave_del_file(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
 {
 }
+/**
+  * @brief  从机保存文件通信指令返回处理函数
+  * @param  [in] com_num 串口编辑
+  * @param  [in] index_addr 索引地址
+  * @param  [in] data 返回数据
+  * @retval 无
+  */
 void slave_save_file(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
 {
 }
+/**
+  * @brief  从机加载文件通信指令返回处理函数
+  * @param  [in] com_num 串口编辑
+  * @param  [in] index_addr 索引地址
+  * @param  [in] data 返回数据
+  * @retval 无
+  */
 void slave_load_file(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
 {
 }
+/**
+  * @brief  从机清空所有文件通信指令返回处理函数
+  * @param  [in] com_num 串口编辑
+  * @param  [in] index_addr 索引地址
+  * @param  [in] data 返回数据
+  * @retval 无
+  */
 void slave_clear_all_files(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
 {
 }
@@ -238,42 +323,89 @@ void slave_clear_all_files(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
 
 
 
+/**
+  * @brief  从机插入测试步骤通信指令返回处理函数
+  * @param  [in] com_num 串口编辑
+  * @param  [in] index_addr 索引地址
+  * @param  [in] data 返回数据
+  * @retval 无
+  */
 void slave_insert_step(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
 {
 }
 
+/**
+  * @brief  从机加载测试步骤通信指令返回处理函数
+  * @param  [in] com_num 串口编辑
+  * @param  [in] index_addr 索引地址
+  * @param  [in] data 返回数据
+  * @retval 无
+  */
 void slave_load_step(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
 {
 }
 
+/**
+  * @brief  从机删除测试步骤通信指令返回处理函数
+  * @param  [in] com_num 串口编辑
+  * @param  [in] index_addr 索引地址
+  * @param  [in] data 返回数据
+  * @retval 无
+  */
 void slave_del_step(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
 {
 }
 
-
+/**
+  * @brief  从机读取测试步骤通信指令返回处理函数
+  * @param  [in] com_num 串口编辑
+  * @param  [in] index_addr 索引地址
+  * @param  [in] data 返回数据
+  * @retval 无
+  */
 void slave_read_step(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
 {
 }
+/**
+  * @brief  从机前移测试步骤通信指令返回处理函数
+  * @param  [in] com_num 串口编辑
+  * @param  [in] index_addr 索引地址
+  * @param  [in] data 返回数据
+  * @retval 无
+  */
 void slave_pre_step(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
 {
 }
+/**
+  * @brief  从机后移测试步骤通信指令返回处理函数
+  * @param  [in] com_num 串口编辑
+  * @param  [in] index_addr 索引地址
+  * @param  [in] data 返回数据
+  * @retval 无
+  */
 void slave_back_step(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
 {
 }
 
+/**
+  * @brief  从机交换测试步骤通信指令返回处理函数
+  * @param  [in] com_num 串口编辑
+  * @param  [in] index_addr 索引地址
+  * @param  [in] data 返回数据
+  * @retval 无
+  */
 void slave_swap_step(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
 {
 }
 
 
-
-
-
-
-
-
-
-
+/**
+  * @brief  获取测试数据通信指令返回处理函数
+  * @param  [in] com_num 串口编辑
+  * @param  [in] index_addr 索引地址
+  * @param  [in] data 返回数据
+  * @retval 无
+  */
 void get_slave_test_data(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
 {
     ROAD_NUM_T road;
@@ -281,49 +413,49 @@ void get_slave_test_data(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
     road = get_road_index_num(index_addr);
     memcpy(&syn_test_port[road - 1].test_data, data, sizeof(COMM_TEST_DATA));
 }
+
+/**
+  * @brief  测试完成信息置低通信返回处理函数
+  * @param  [in] com_num 串口编辑
+  * @param  [in] index_addr 索引地址
+  * @param  [in] data 返回数据
+  * @retval 无
+  */
 void get_slave_test_time(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
 {
-//    ROAD_NUM_T road;
     
-//    road = get_road_index_num(index_addr);
-//    memcpy(&syn_test_port[road - 1].test_data.g_dis_time, data, 2);
 }
 
+/**
+  * @brief  测试完成信息置低通信返回处理函数
+  * @param  [in] com_num 串口编辑
+  * @param  [in] index_addr 索引地址
+  * @param  [in] data 返回数据
+  * @retval 无
+  */
 void test_over_sign_l(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
 {
     comm_syn_sign = 1;
 }
+
+/**
+  * @brief  测试完成信息置高通信返回处理函数
+  * @param  [in] com_num 串口编辑
+  * @param  [in] index_addr 索引地址
+  * @param  [in] data 返回数据
+  * @retval 无
+  */
 void test_over_sign_h(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
 {
     CS_BOOL res = CS_FALSE;
     SYN_TEST_PORT_INF *inf;
     CS_ERR err;
     
-    
     inf = get_road_inf(index_addr, &err);
     
     if(err != CS_ERR_NONE)
     {
         return;
-    }
-    
-    if(res == CS_FALSE)
-    {
-        res = road4_test_over();
-        
-        if(res == CS_TRUE)
-        {
-            inf->road_num = 4;
-        }
-    }
-    if(res == CS_FALSE)
-    {
-        res = road3_test_over();
-        
-        if(res == CS_TRUE)
-        {
-            inf->road_num = 3;
-        }
     }
     
     if(res == CS_FALSE)
@@ -346,16 +478,64 @@ void test_over_sign_h(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
         }
     }
     
+    if(res == CS_FALSE)
+    {
+        res = road3_test_over();
+        
+        if(res == CS_TRUE)
+        {
+            inf->road_num = 3;
+        }
+    }
+    
+    if(res == CS_FALSE)
+    {
+        res = road4_test_over();
+        
+        if(res == CS_TRUE)
+        {
+            inf->road_num = 4;
+        }
+    }
     
     comm_syn_sign = 1;
 }
 
+/**
+  * @brief  根据路号获取模块测试数据
+  * @param  [in] road 路号
+  * @param  [out] test_data 输出测试数据
+  * @retval 获取到的模块测试数据
+  */
 COMM_TEST_DATA* get_road_test_data(ROAD_NUM_T road, COMM_TEST_DATA *test_data)
 {
-    memcpy(test_data, &syn_test_port[road - 1].test_data, sizeof(COMM_TEST_DATA));
+    uint8_t total_roads = 0;
+    int32_t i = 0;
     
-    return &syn_test_port[road - 1].test_data;
+    total_roads = get_total_roads_num();
+    
+    for(i = 0; i < total_roads; i++)
+    {
+        if(syn_test_port[i].road_num == road)
+        {
+            break;
+        }
+    }
+    
+    if(i == total_roads)
+    {
+        return NULL;
+    }
+    
+    memcpy(test_data, &syn_test_port[i].test_data, sizeof(COMM_TEST_DATA));
+    
+    return &syn_test_port[i].test_data;
 }
+/**
+  * @brief  根据路号获取模块测试状态
+  * @param  [in] road 路号
+  * @retval 获取到的模块测试状态
+  */
 ROAD_TEST_ST read_road_test_status(ROAD_NUM_T road)
 {
     return syn_test_port[road - 1].test_st;
@@ -732,7 +912,7 @@ CS_BOOL cal_cmd_dispose(COM_NUM com_num, uint8_t index_addr, FRAME_T *frame)
     switch(frame->fun_code)
     {
         case GET_MODULE_CAL_POINTS:
-            set_module_cal_points(com_num, index_addr, frame->data);
+            get_module_cal_points(com_num, index_addr, frame->data);
             break;
         case SLAVE_ENTER_CAL_ST:
             break;
@@ -1389,13 +1569,10 @@ CS_BOOL com_is_idle(MODULE_ADDR_T addr)
 CS_ERR com_send_cmd_data(MODULE_ADDR_T addr, uint8_t cmd, uint8_t *data, uint32_t len)
 {
     FRAME_T *frame;
-    ROAD_INF *inf;
     uint32_t frame_len = 0;
     COM_STRUCT *com_inf;
     CS_ERR err;
     COM_NUM com_num;
-    
-    inf = &module_inf_pool[addr];
     
     com_num = get_com_num(&addr, &err);//获取串口号
     
@@ -1413,11 +1590,12 @@ CS_ERR com_send_cmd_data(MODULE_ADDR_T addr, uint8_t cmd, uint8_t *data, uint32_
         return CS_ERR_COM_BUSY;
     }
     
-    frame = (void*)inf->buf;
+    frame = (void*)com_inf->buf;
     
     frame->addr = addr;
     frame->fun_code = cmd;
     frame->st = 0;
+    frame->data_len = len;
     memcpy(frame->data, data, len);
     frame_len = len + FRAME_HEAD_SIZE;
     add_crc_to_send_data((uint8_t*)frame, frame_len);

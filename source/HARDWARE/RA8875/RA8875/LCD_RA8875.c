@@ -2308,7 +2308,7 @@ void RA8875_DrawHLine(uint16_t _usX1 , uint16_t _usY1 , uint16_t _usX2 , uint16_
 void RA8875_DrawHColorLine(uint16_t _usX1 , uint16_t _usY1, uint16_t _usWidth, uint16_t *_pColor)
 {
 	uint16_t i;
-
+    
 	s_ucRA8875Busy = 1;
 	
 	RA8875_REG = 0x46; RA8875_RAM = _usX1;

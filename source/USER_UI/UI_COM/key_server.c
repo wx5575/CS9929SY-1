@@ -15,6 +15,8 @@
 #include "key_fun_manage.h"
 #include "CODED_DISC/coded_disc.h"
 #include "start_stop_key.h"
+#include "tim3.h"
+#include "app.h"
 
 
 /* Private typedef -----------------------------------------------------------*/
@@ -425,7 +427,24 @@ uint32_t get_key_value(void)
     
     return KEY_NONE;
 }
+/**
+  * @brief  清空按键缓冲区
+  * @param  无
+  * @retval 无
+  */
+void clear_key_buf(void)
+{
+    OS_ERR err;
+    uint16_t size = 0;
+    
+    while(NULL != OSQPend(&KeyboardQSem, 0, OS_OPT_PEND_NON_BLOCKING, &size, NULL, &err));
+}
+void (*test_reset_server)(void);
 
+void register_test_reset_server_fun(void(*fun)(void))
+{
+    test_reset_server = fun;
+}
 /**
   * @brief  复位键与各路模块的同步复位相联，在复位中断中被调用
   * @param  无
@@ -434,8 +453,43 @@ uint32_t get_key_value(void)
 static void run_syn_stop_pin_irq(void)
 {
     SYN_STOP_PIN = STOP_PIN;
+    
+    if(test_reset_server != NULL && STOP_PIN != 1)
+    {
+        test_reset_server();
+    }
 }
-
+static uint8_t key_scan_status;
+/**
+  * @brief  打开按键扫描任务
+  * @param  无
+  * @retval 无
+  */
+void key_scan_on(void)
+{
+    OS_ERR err;
+    
+    if(key_scan_status == 0)
+    {
+        key_scan_status = 1;
+        OSTaskResume(&ScanKeyTaskTCB, &err);
+    }
+}
+/**
+  * @brief  关闭按键扫描任务
+  * @param  无
+  * @retval 无
+  */
+void key_scan_off(void)
+{
+    OS_ERR err;
+    
+    if(key_scan_status == 1)
+    {
+        key_scan_status = 0;
+        OSTaskSuspend(&ScanKeyTaskTCB, &err);
+    }
+}
 /**
   * @brief  按键扫描任务
   * @param  无
@@ -452,6 +506,7 @@ void scan_key_task(void)
 	set_scan_key_custom_fun(NULL);
     register_key_send_msg_fun(send_key_msg);
     register_coded_disc_send_msg_fun(send_key_msg);
+    key_scan_on();
 	
 	while(1)
 	{

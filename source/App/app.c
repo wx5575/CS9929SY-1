@@ -89,7 +89,7 @@ static void File_Init(void)
 void soft_init(void)
 {
 	File_Init();
-    check_type();
+    check_type();//机型检查
 }
 
 /**
@@ -165,7 +165,8 @@ void start_task(void *p_arg)
 	OSSchedRoundRobinCfg(DEF_ENABLED,1,&err);
 #endif
 	
-	BUZZER_ON_T(1000);//蜂鸣器启动1000ms
+//	BUZZER_ON_T(1000);//蜂鸣器启动1000ms
+//    led_all_hold_on_t(1000);
 	
 	OS_CRITICAL_ENTER();	//进入临界区
 	//STemWin Demo任务
@@ -238,12 +239,8 @@ void start_task(void *p_arg)
                  (void*       )0,
                  (OS_OPT      )OS_OPT_TASK_STK_CHK|OS_OPT_TASK_STK_CLR,
                  (OS_ERR*     )&err);
-// 	OS_TaskSuspend((OS_TCB*)&StartTaskTCB,&err);		//挂起开始任务
-    
+                 
 	OS_CRITICAL_EXIT();	//退出临界区
-//	OSTaskDel(&StartTaskTCB, (OS_ERR*)&err);//删除启动任务
-    
-    other_task_test();
 }
 /**
   * @brief  EMWIN皮肤设置
@@ -438,6 +435,7 @@ void set_module_config_parameter(void)
   */
 void read_par_from_memory(void)
 {
+    GUI_Delay(500);
     read_module_inf();//读取模块信息
     GUI_Delay(500);
     syn_module_num();//同步模块的编辑
@@ -489,7 +487,7 @@ static void AppTaskModuleComm(void *p_arg)
     
     while(1)
     {
-        OS_DELAY_ms(2);
+        OS_DELAY_ms(5);
         module_comm_task();
     }
 }

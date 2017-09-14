@@ -170,6 +170,8 @@ void disable_system_fun_key_fun(void)
 {
     uint32_t key_buf[]=
     {
+        KEY_START,
+//        KEY_STOP,
         CODE_LEFT,
         CODE_RIGH,
 //        KEY_EXIT,

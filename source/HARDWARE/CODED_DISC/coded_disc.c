@@ -12,6 +12,7 @@
 #include "coded_disc.h"
 #include "keyboard.h"
 #include "os.h"
+#include "key_led_buzzer.h"
 
 static const uint32_t SEND_MSG_RIGH = CODE_RIGH;///<码盘正转的消息常量定义
 static const uint32_t SEND_MSG_LEDT = CODE_LEFT;///<码盘反转的消息常量定义
@@ -123,6 +124,7 @@ void EXTI9_5_IRQHandler(void)
         
         if(send_coded_disc_msg_fun != NULL)
         {
+            BUZZER_ON_T(KEY_BUZZER_TIME);
             send_coded_disc_msg_fun((uint32_t *)&SEND_MSG_LEDT);
         }
     }
@@ -132,6 +134,7 @@ void EXTI9_5_IRQHandler(void)
         
         if(send_coded_disc_msg_fun != NULL)
         {
+            BUZZER_ON_T(KEY_BUZZER_TIME);
             send_coded_disc_msg_fun((uint32_t *)&SEND_MSG_RIGH);
         }
     }

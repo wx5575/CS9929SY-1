@@ -54,12 +54,13 @@ void bsp_init(void)
     fsmc_gpio_config();//FSMC GPIO配置
 	key_led_buzzer_init();//按键LED蜂鸣器
     register_tim3_server_fun(sub_buzzer_time);//注册定时器服务函数
+    register_tim3_server_fun(sub_led_time);//注册定时器服务函数
     key_start_stop_gpio_init();//启动复位按键GPIO初始化
 	ra8875_bsp_Init();//RA8875硬件初始化
 	rtc_init();//RTC初始化
     coded_disc_init();//码盘初始化
     init_flash();//外扩FLASH初始化
-    tim3_init(10 - 1, 8400 - 1);//10 * 0.1ms = 1ms //定时器3初始化
+    tim3_init(10 - 1, 4200 - 1);//10 * 0.1ms = 1ms //定时器3初始化
     RCC_GetClocksFreq(&clock);//获取时钟频率
     
     /* 串口配置 */

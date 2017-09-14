@@ -197,7 +197,7 @@ static void init_one_road_pos_size_inf(uint16_t base_x, uint16_t base_y,
     inf.pos_size.height = 40;
     inf.base_x = 0;
     inf.base_y = 0;
-    inf.back_color = 0x404040;
+    inf.back_color = ROAD_STATUS_BAR_NORMAL_COLOR;
     
     memcpy(&road->bar->dis_info, &inf, sizeof(UI_ELE_DISPLAY_INFO_T));
 }

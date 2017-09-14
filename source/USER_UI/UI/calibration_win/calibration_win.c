@@ -175,14 +175,14 @@ static CS_INDEX calibration_win_text_index_pool[]=
   */
 static TEXT_ELE_T calibration_win_text_ele_pool[]=
 {
-	{{"编号:" ,"MODULE:"}   , CAL_WIN_MODULE_NUM },
+	{{"编号:"  ,"MODULE:"}   , CAL_WIN_MODULE_NUM },
 	{{"01"     ,"01"     }    , CAL_WIN_MODULE_NUM_V },
-	{{"地址:" ,"ADDR:"}  , CAL_WIN_MODULE_ADDR },
+	{{"地址:"  ,"ADDR:"}  , CAL_WIN_MODULE_ADDR },
 	{{"01"     ,"01"   }            , CAL_WIN_MODULE_ADDR_V  },
-	{{"串口号:" ,"PORT:"}           , CAL_WIN_MODULE_PORT  },
-	{{"COM1"     ,"COM1"   }        , CAL_WIN_MODULE_PORT_V  },
-	{{"校准点:" ,"POINT:"}           , CAL_WIN_MODULE_TOTAL  },
-	{{"1/10"     ,"1/10"   }        , CAL_WIN_MODULE_TOTAL_V  },
+	{{"串口号:","PORT:"}           , CAL_WIN_MODULE_PORT  },
+	{{"COM1"   ,"COM1"   }        , CAL_WIN_MODULE_PORT_V  },
+	{{"校准点:","POINT:"}           , CAL_WIN_MODULE_TOTAL  },
+	{{"1/0"    ,"1/0"   }        , CAL_WIN_MODULE_TOTAL_V  },
 };
 
 enum{
@@ -645,6 +645,7 @@ static void cal_status_machine(void)
     switch(cal_status)
     {
         case CAL_ST_IDLE:
+            key_scan_on();
             break;
         case LOAD_CAL_POINT:
         {
@@ -778,6 +779,7 @@ static void cal_status_machine(void)
                 }
                 case SLAVE_INTO_CAL:
                 {
+                    key_scan_off();
                     road = (ROAD_INDEX)get_cur_cal_road();
                     
                     err = send_cmd_to_one_module(road, NULL, 0, send_slave_enter_cal_st);
@@ -837,7 +839,7 @@ static void calibration_win_cb(WM_MESSAGE * pMsg)
 		case WM_TIMER:
 		{
             cal_status_machine();
-			WM_RestartTimer(cal_win_timer_handle, 100);
+			WM_RestartTimer(cal_win_timer_handle, 10);
 			break;
 		}
 		case WM_KEY:

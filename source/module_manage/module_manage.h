@@ -42,7 +42,6 @@ typedef struct{
     COM_NUM com_num;///<串口编号
     ROAD_NUM_T road_num;///<路号
     MODULE_INF module_inf;///<模块信息
-    uint8_t buf[512];///<通信缓冲区
 }ROAD_INF;
 
 typedef enum{
@@ -78,7 +77,7 @@ typedef struct{
     COMM_TEST_DATA test_data;///<实时测试数据
 }SYN_TEST_PORT_INF;
 
-#define FRAME_HEAD_SIZE     4  ///<帧头的字节个数
+#define FRAME_HEAD_SIZE     6  ///<帧头的字节个数
 #define CRC_LEN             2  ///<CRC校验字节个数
 
 #pragma pack(1)
@@ -86,6 +85,7 @@ typedef struct{
     MODULE_ADDR_T addr;///<模块地址
     uint16_t fun_code;///<功能码
     uint8_t st;///<状态码
+    uint16_t data_len;
     uint8_t data[512];///<数据缓冲区
 }FRAME_T;
 #pragma pack()

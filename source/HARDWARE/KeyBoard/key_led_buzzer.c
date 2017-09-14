@@ -54,11 +54,100 @@ void sub_buzzer_time(void)
 }
 
 /**
+  * @brief  提供给定时器调用的用于保持时间到后自动关闭LED灯
+  * @param  无
+  * @retval 无
+  */
+void sub_led_time(void)
+{
+	if(device_ctrl_info.pass_led_time > 0)
+	{
+		if(--device_ctrl_info.pass_led_time == 0)
+		{
+			set_pass_led_state(LED_OFF);
+		}
+	}
+    
+	if(device_ctrl_info.fail_led_time > 0)
+	{
+		if(--device_ctrl_info.fail_led_time == 0)
+		{
+			set_fail_led_state(LED_OFF);
+		}
+	}
+    
+	if(device_ctrl_info.test_led_time > 0)
+	{
+		if(--device_ctrl_info.test_led_time == 0)
+		{
+			set_test_led_state(LED_OFF);
+		}
+	}
+}
+
+/**
+  * @brief  打开 PASS_LED  保持指定时间后自动关闭
+  * @param  [in] time 保持时间 单位 ms
+  * @retval 无
+  */
+void set_pass_led_on_time(uint32_t time)
+{
+	device_ctrl_info.pass_led_time = time;
+	set_pass_led_state(LED_ON);
+}
+
+/**
+  * @brief  打开 FAIL_LED  保持指定时间后自动关闭
+  * @param  [in] time 保持时间 单位 ms
+  * @retval 无
+  */
+void set_fail_led_on_time(uint32_t time)
+{
+	device_ctrl_info.fail_led_time = time;
+	set_fail_led_state(LED_ON);
+}
+
+/**
+  * @brief  打开 TEST_LED  保持指定时间后自动关闭
+  * @param  [in] time 保持时间 单位 ms
+  * @retval 无
+  */
+void set_test_led_on_time(uint32_t time)
+{
+	device_ctrl_info.test_led_time = time;
+	set_test_led_state(LED_ON);
+}
+/**
+  * @brief  打开所有LED灯 PASS_LED、TEST_LED、FAIL_LED 保持指定时间后自动关闭
+  * @param  [in] ms 保持时间 单位 ms
+  * @retval 无
+  */
+void led_all_hold_on_t(uint32_t ms)
+{
+    set_pass_led_on_time(ms);
+    set_fail_led_on_time(ms);
+    set_test_led_on_time(ms);
+}
+
+/**
+  * @brief  测试灯闪烁
+  * @param  无
+  * @retval 无
+  */
+void test_led_flicker(void)
+{
+	if(++device_ctrl_info.test_led_flicker_time >= 200)
+    {
+        device_ctrl_info.test_led_flicker_time = 0;
+        TEST_LED_PIN++;
+    }
+}
+/**
   * @brief  PASS灯控制函数
   * @param  [in] state：目标状态  ON or OFF
   * @retval 无
   */
-void Set_LED_PASSLED(uint8_t state)
+void set_pass_led_state(uint8_t state)
 {
     uint8_t tmp = 0;
     
@@ -82,7 +171,7 @@ void Set_LED_PASSLED(uint8_t state)
   * @param  [in] state：目标状态  ON or OFF
   * @retval 无
   */
-void Set_LED_FAILLED(uint8_t state)
+void set_fail_led_state(uint8_t state)
 {
     uint8_t tmp = 0;
     
@@ -106,8 +195,16 @@ void Set_LED_FAILLED(uint8_t state)
   * @param  [in] state：目标状态  ON or OFF
   * @retval 无
   */
-void Set_LED_TESTLED(uint8_t state)
+void set_test_led_state(uint8_t state)
 {
+	if(state == LED_ON)
+	{
+        TEST_LED_PIN = LED_ON;
+    }
+    else
+    {
+        TEST_LED_PIN = LED_OFF;
+    }
 }
 
 /**

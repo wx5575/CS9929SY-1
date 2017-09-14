@@ -757,7 +757,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {step_edit_win_sys_key_init, edit_sw_menu_key_init, NULL,},/*key_inf*/
     },
     {
-        {"输出端口:","Port:"}, /* 名称 */
+        {"工作端口:","Work Port:"}, /* 名称 */
         STEP_EDIT_WIN_PORT,/* 通过枚举索引 */
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */

@@ -286,14 +286,28 @@ void init_acw_step(NODE_STEP * p)
     
     l_acw.port.num = type_spe.port_num;
     l_acw.work_port.num = type_spe.work_port_num;
-    l_acw.work_port.ports[0].port1 = 2;
-    l_acw.work_port.ports[0].port2 = 2;
-    l_acw.work_port.ports[0].port3 = 2;
-    l_acw.work_port.ports[0].port4 = 2;
-    l_acw.work_port.ports[0].port5 = 2;
-    l_acw.work_port.ports[0].port6 = 2;
-    l_acw.work_port.ports[0].port7 = 2;
-    l_acw.work_port.ports[0].port8 = 2;
+    
+    if(PORT_NUM4 == type_spe.work_port_num)
+    {
+        l_acw.work_port.ports[0].port1 = 2;
+        l_acw.work_port.ports[0].port2 = 2;
+        l_acw.work_port.ports[0].port3 = 2;
+        l_acw.work_port.ports[0].port4 = 2;
+    }
+    else if(PORT_NUM8 == type_spe.work_port_num)
+    {
+        l_acw.work_port.ports[0].port1 = 2;
+        l_acw.work_port.ports[0].port2 = 2;
+        l_acw.work_port.ports[0].port3 = 2;
+        l_acw.work_port.ports[0].port4 = 2;
+        l_acw.work_port.ports[0].port5 = 2;
+        l_acw.work_port.ports[0].port6 = 2;
+        l_acw.work_port.ports[0].port7 = 2;
+        l_acw.work_port.ports[0].port8 = 2;
+    }
+    else
+    {
+    }
     
 	p->one_step.acw = l_acw;
 }
@@ -349,14 +363,24 @@ void init_cc_step(NODE_STEP * p)
     
     l_cc.port.num = type_spe.port_num;
     l_cc.work_port.num = type_spe.work_port_num;
-    l_cc.work_port.ports[0].port1 = 2;
-    l_cc.work_port.ports[0].port2 = 2;
-    l_cc.work_port.ports[0].port3 = 2;
-    l_cc.work_port.ports[0].port4 = 2;
-    l_cc.work_port.ports[0].port5 = 2;
-    l_cc.work_port.ports[0].port6 = 2;
-    l_cc.work_port.ports[0].port7 = 2;
-    l_cc.work_port.ports[0].port8 = 2;
+    if(PORT_NUM4 == type_spe.work_port_num)
+    {
+        l_cc.work_port.ports[0].port1 = 2;
+        l_cc.work_port.ports[0].port2 = 2;
+        l_cc.work_port.ports[0].port3 = 2;
+        l_cc.work_port.ports[0].port4 = 2;
+    }
+    else if(PORT_NUM8 == type_spe.work_port_num)
+    {
+        l_cc.work_port.ports[0].port1 = 2;
+        l_cc.work_port.ports[0].port2 = 2;
+        l_cc.work_port.ports[0].port3 = 2;
+        l_cc.work_port.ports[0].port4 = 2;
+        l_cc.work_port.ports[0].port5 = 2;
+        l_cc.work_port.ports[0].port6 = 2;
+        l_cc.work_port.ports[0].port7 = 2;
+        l_cc.work_port.ports[0].port8 = 2;
+    }
     
 	p->one_step.cc = l_cc;
 }
@@ -403,14 +427,26 @@ void init_dcw_step(NODE_STEP * p)
     
     l_dcw.port.num = type_spe.port_num;
     l_dcw.work_port.num = type_spe.work_port_num;
-    l_dcw.work_port.ports[0].port1 = 2;
-    l_dcw.work_port.ports[0].port2 = 2;
-    l_dcw.work_port.ports[0].port3 = 2;
-    l_dcw.work_port.ports[0].port4 = 2;
-    l_dcw.work_port.ports[0].port5 = 2;
-    l_dcw.work_port.ports[0].port6 = 2;
-    l_dcw.work_port.ports[0].port7 = 2;
-    l_dcw.work_port.ports[0].port8 = 2;
+    
+    if(PORT_NUM4 == type_spe.work_port_num)
+    {
+        l_dcw.work_port.ports[0].port1 = 2;
+        l_dcw.work_port.ports[0].port2 = 2;
+        l_dcw.work_port.ports[0].port3 = 2;
+        l_dcw.work_port.ports[0].port4 = 2;
+    }
+    else if(PORT_NUM8 == type_spe.work_port_num)
+    {
+        l_dcw.work_port.ports[0].port1 = 2;
+        l_dcw.work_port.ports[0].port2 = 2;
+        l_dcw.work_port.ports[0].port3 = 2;
+        l_dcw.work_port.ports[0].port4 = 2;
+        l_dcw.work_port.ports[0].port5 = 2;
+        l_dcw.work_port.ports[0].port6 = 2;
+        l_dcw.work_port.ports[0].port7 = 2;
+        l_dcw.work_port.ports[0].port8 = 2;
+    }
+    
 	p->one_step.dcw = l_dcw;
 }
 /**
@@ -439,14 +475,26 @@ void init_ir_step(NODE_STEP * p)
 	
     l_ir.port.num = type_spe.port_num;
     l_ir.work_port.num = type_spe.work_port_num;
-    l_ir.work_port.ports[0].port1 = 2;
-    l_ir.work_port.ports[0].port2 = 2;
-    l_ir.work_port.ports[0].port3 = 2;
-    l_ir.work_port.ports[0].port4 = 2;
-    l_ir.work_port.ports[0].port5 = 2;
-    l_ir.work_port.ports[0].port6 = 2;
-    l_ir.work_port.ports[0].port7 = 2;
-    l_ir.work_port.ports[0].port8 = 2;
+    
+    if(PORT_NUM4 == type_spe.work_port_num)
+    {
+        l_ir.work_port.ports[0].port1 = 2;
+        l_ir.work_port.ports[0].port2 = 2;
+        l_ir.work_port.ports[0].port3 = 2;
+        l_ir.work_port.ports[0].port4 = 2;
+    }
+    else if(PORT_NUM8 == type_spe.work_port_num)
+    {
+        l_ir.work_port.ports[0].port1 = 2;
+        l_ir.work_port.ports[0].port2 = 2;
+        l_ir.work_port.ports[0].port3 = 2;
+        l_ir.work_port.ports[0].port4 = 2;
+        l_ir.work_port.ports[0].port5 = 2;
+        l_ir.work_port.ports[0].port6 = 2;
+        l_ir.work_port.ports[0].port7 = 2;
+        l_ir.work_port.ports[0].port8 = 2;
+    }
+    
 	p->one_step.ir = l_ir;
 }
 /**
@@ -490,14 +538,26 @@ void init_gr_step(NODE_STEP * p)
 	l_gr.offset_result = 0;
 	
     l_gr.work_port.num = type_spe.work_port_num;
-    l_gr.work_port.ports[0].port1 = 2;
-    l_gr.work_port.ports[0].port2 = 2;
-    l_gr.work_port.ports[0].port3 = 2;
-    l_gr.work_port.ports[0].port4 = 2;
-    l_gr.work_port.ports[0].port5 = 2;
-    l_gr.work_port.ports[0].port6 = 2;
-    l_gr.work_port.ports[0].port7 = 2;
-    l_gr.work_port.ports[0].port8 = 2;
+    
+    if(PORT_NUM4 == type_spe.work_port_num)
+    {
+        l_gr.work_port.ports[0].port1 = 2;
+        l_gr.work_port.ports[0].port2 = 2;
+        l_gr.work_port.ports[0].port3 = 2;
+        l_gr.work_port.ports[0].port4 = 2;
+    }
+    else if(PORT_NUM8 == type_spe.work_port_num)
+    {
+        l_gr.work_port.ports[0].port1 = 2;
+        l_gr.work_port.ports[0].port2 = 2;
+        l_gr.work_port.ports[0].port3 = 2;
+        l_gr.work_port.ports[0].port4 = 2;
+        l_gr.work_port.ports[0].port5 = 2;
+        l_gr.work_port.ports[0].port6 = 2;
+        l_gr.work_port.ports[0].port7 = 2;
+        l_gr.work_port.ports[0].port8 = 2;
+    }
+    
 	p->one_step.gr = l_gr;
 }
 
@@ -540,14 +600,26 @@ void init_bbd_step(NODE_STEP * p)
 	
     l_bbd.port.num = type_spe.port_num;
     l_bbd.work_port.num = type_spe.work_port_num;
-    l_bbd.work_port.ports[0].port1 = 2;
-    l_bbd.work_port.ports[0].port2 = 2;
-    l_bbd.work_port.ports[0].port3 = 2;
-    l_bbd.work_port.ports[0].port4 = 2;
-    l_bbd.work_port.ports[0].port5 = 2;
-    l_bbd.work_port.ports[0].port6 = 2;
-    l_bbd.work_port.ports[0].port7 = 2;
-    l_bbd.work_port.ports[0].port8 = 2;
+    
+    if(PORT_NUM4 == type_spe.work_port_num)
+    {
+        l_bbd.work_port.ports[0].port1 = 2;
+        l_bbd.work_port.ports[0].port2 = 2;
+        l_bbd.work_port.ports[0].port3 = 2;
+        l_bbd.work_port.ports[0].port4 = 2;
+    }
+    else if(PORT_NUM8 == type_spe.work_port_num)
+    {
+        l_bbd.work_port.ports[0].port1 = 2;
+        l_bbd.work_port.ports[0].port2 = 2;
+        l_bbd.work_port.ports[0].port3 = 2;
+        l_bbd.work_port.ports[0].port4 = 2;
+        l_bbd.work_port.ports[0].port5 = 2;
+        l_bbd.work_port.ports[0].port6 = 2;
+        l_bbd.work_port.ports[0].port7 = 2;
+        l_bbd.work_port.ports[0].port8 = 2;
+    }
+    
 	p->one_step.bbd = l_bbd;
 }
 

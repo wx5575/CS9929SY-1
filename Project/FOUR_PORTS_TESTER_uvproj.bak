@@ -416,39 +416,9 @@
           <GroupName>HARDWARE</GroupName>
           <Files>
             <File>
-              <FileName>sram.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\HARDWARE\SRAM\sram.c</FilePath>
-            </File>
-            <File>
-              <FileName>24cxx.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\HARDWARE\24CXX\24cxx.c</FilePath>
-            </File>
-            <File>
-              <FileName>myiic.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\HARDWARE\IIC\myiic.c</FilePath>
-            </File>
-            <File>
-              <FileName>ctiic.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\HARDWARE\TOUCH\ctiic.c</FilePath>
-            </File>
-            <File>
-              <FileName>spi.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\HARDWARE\SPI\spi.c</FilePath>
-            </File>
-            <File>
               <FileName>rtc_config.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\HARDWARE\RTC\rtc_config.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_led.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\HARDWARE\LED\bsp_led.c</FilePath>
             </File>
             <File>
               <FileName>bsp_sdio_sd.c</FileName>
@@ -509,6 +479,11 @@
               <FileName>panel_4094.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\HARDWARE\KeyBoard\panel_4094.c</FilePath>
+            </File>
+            <File>
+              <FileName>FSMC_CONFIG.C</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\HARDWARE\FSMC\FSMC_CONFIG.C</FilePath>
             </File>
           </Files>
         </Group>
@@ -1088,7 +1063,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>Keyboard</GroupName>
+          <GroupName>Key_LED_BUZZER</GroupName>
           <Files>
             <File>
               <FileName>keyboard.c</FileName>
@@ -1544,15 +1519,17 @@
         </Group>
         <Group>
           <GroupName>TEST_MANAGE</GroupName>
-        </Group>
-        <Group>
-          <GroupName>KEY_MANAGE</GroupName>
           <Files>
             <File>
               <FileName>running_test.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\test_manage\running_test.c</FilePath>
             </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>KEY_MANAGE</GroupName>
+          <Files>
             <File>
               <FileName>key_fun_manage.c</FileName>
               <FileType>1</FileType>
@@ -1983,7 +1960,7 @@
               <MiscControls>--locale=ENGLISH</MiscControls>
               <Define>STM32F40_41xxx,USE_STDPERIPH_DRIVER,__FPU_PRESENT = 1,__FPU_USED=1,ARM_MATH_CM4,__CC_ARM,CS_BOOT</Define>
               <Undefine></Undefine>
-              <IncludePath>..\source\CORE;..\source\SYSTEM\delay;..\source\SYSTEM\sys;..\source\SYSTEM\usart;..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc;..\source\SYS_LEVEL;..\source\HARDWARE\IIC;..\source\HARDWARE\LCD;..\source\HARDWARE\LED;..\source\HARDWARE\SRAM;..\source\HARDWARE\TIMER;..\source\HARDWARE\24CXX;..\source\HARDWARE\SPI;..\source\HARDWARE\SDIO;..\source\HARDWARE\TOUCH;..\source\HARDWARE\W25QXX;..\source\TEXT;..\source\USMART;..\source\FATFS\src;..\source\FATFS\src\option;..\source\MALLOC;..\source\FWLIB\CMSIS\Include;..\source\EMWIN\emWin\Config;..\source\EMWIN\emWin\emWinTask;..\source\EMWIN\Demo;..\source\UCOSIII\uC-CPU;..\source\UCOSIII\uC-LIB;..\source\UCOSIII\uCOS-III;..\source\UCOSIII\UCOS_BSP;..\source\UCOSIII\uCOS_CONFIG;..\source\UCOSIII\uCOS-III\Source;..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView;..\source\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView;..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView;..\source\EMWIN_DEMO\NUM_DISPLAY;..\source\HARDWARE\RA8875\BSP;..\source\HARDWARE\RA8875\RA8875;..\source\EMWIN\emWin\Include;..\source\HARDWARE\KeyBoard;..\source\HARDWARE;..\source\HARDWARE\sd_card;..\source\HARDWARE\RTC;..\source\HARDWARE\SPI_FLASH;..\source\App;..\source\App\fonts;..\source\TESTER_UI;..\source\CS99XX;..\source\tools;..\source\USER_UI;..\source\USER_UI\UI;..\source\HARDWARE\CH376\inc;..\source\mem_manage;..\source\test_manage;..\source\usb_manage;..\source\key_manage;..\source\CS99XX_Type;..\source\parameter_manage;..\source\CORE\stm32f4xx;..\source\key_server;..\source\HARDWARE\USART;..\source\module_manage;..\source\HARDWARE\START_STOP_KEY;..\Project</IncludePath>
+              <IncludePath>..\source\CORE;..\source\SYSTEM\delay;..\source\SYSTEM\sys;..\source\SYSTEM\usart;..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc;..\source\SYS_LEVEL;..\source\HARDWARE\IIC;..\source\HARDWARE\LCD;..\source\HARDWARE\LED;..\source\HARDWARE\SRAM;..\source\HARDWARE\TIMER;..\source\HARDWARE\24CXX;..\source\HARDWARE\SPI;..\source\HARDWARE\SDIO;..\source\HARDWARE\TOUCH;..\source\HARDWARE\W25QXX;..\source\TEXT;..\source\USMART;..\source\FATFS\src;..\source\FATFS\src\option;..\source\MALLOC;..\source\FWLIB\CMSIS\Include;..\source\EMWIN\emWin\Config;..\source\EMWIN\emWin\emWinTask;..\source\EMWIN\Demo;..\source\UCOSIII\uC-CPU;..\source\UCOSIII\uC-LIB;..\source\UCOSIII\uCOS-III;..\source\UCOSIII\UCOS_BSP;..\source\UCOSIII\uCOS_CONFIG;..\source\UCOSIII\uCOS-III\Source;..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView;..\source\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView;..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView;..\source\EMWIN_DEMO\NUM_DISPLAY;..\source\HARDWARE\RA8875\BSP;..\source\HARDWARE\RA8875\RA8875;..\source\EMWIN\emWin\Include;..\source\HARDWARE\KeyBoard;..\source\HARDWARE;..\source\HARDWARE\sd_card;..\source\HARDWARE\RTC;..\source\HARDWARE\SPI_FLASH;..\source\App;..\source\App\fonts;..\source\TESTER_UI;..\source\CS99XX;..\source\tools;..\source\USER_UI;..\source\USER_UI\UI;..\source\HARDWARE\CH376\inc;..\source\mem_manage;..\source\test_manage;..\source\usb_manage;..\source\key_manage;..\source\CS99XX_Type;..\source\parameter_manage;..\source\CORE\stm32f4xx;..\source\key_server;..\source\HARDWARE\USART;..\source\module_manage;..\source\HARDWARE\START_STOP_KEY;..\Project;..\source\HARDWARE\FSMC</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -2037,39 +2014,9 @@
           <GroupName>HARDWARE</GroupName>
           <Files>
             <File>
-              <FileName>sram.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\HARDWARE\SRAM\sram.c</FilePath>
-            </File>
-            <File>
-              <FileName>24cxx.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\HARDWARE\24CXX\24cxx.c</FilePath>
-            </File>
-            <File>
-              <FileName>myiic.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\HARDWARE\IIC\myiic.c</FilePath>
-            </File>
-            <File>
-              <FileName>ctiic.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\HARDWARE\TOUCH\ctiic.c</FilePath>
-            </File>
-            <File>
-              <FileName>spi.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\HARDWARE\SPI\spi.c</FilePath>
-            </File>
-            <File>
               <FileName>rtc_config.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\HARDWARE\RTC\rtc_config.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_led.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\HARDWARE\LED\bsp_led.c</FilePath>
             </File>
             <File>
               <FileName>bsp_sdio_sd.c</FileName>
@@ -2130,6 +2077,11 @@
               <FileName>panel_4094.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\HARDWARE\KeyBoard\panel_4094.c</FilePath>
+            </File>
+            <File>
+              <FileName>FSMC_CONFIG.C</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\HARDWARE\FSMC\FSMC_CONFIG.C</FilePath>
             </File>
           </Files>
         </Group>
@@ -2709,7 +2661,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>Keyboard</GroupName>
+          <GroupName>Key_LED_BUZZER</GroupName>
           <Files>
             <File>
               <FileName>keyboard.c</FileName>
@@ -3165,15 +3117,17 @@
         </Group>
         <Group>
           <GroupName>TEST_MANAGE</GroupName>
-        </Group>
-        <Group>
-          <GroupName>KEY_MANAGE</GroupName>
           <Files>
             <File>
               <FileName>running_test.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\test_manage\running_test.c</FilePath>
             </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>KEY_MANAGE</GroupName>
+          <Files>
             <File>
               <FileName>key_fun_manage.c</FileName>
               <FileType>1</FileType>

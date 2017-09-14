@@ -82,6 +82,32 @@ uint8_t register_tim3_server_fun(TIM_SERVER_FUN fun)
 }
 
 /**
+  * @brief  注销定时器3的服务函数
+  * @param  [in] fun 定时器服务函数
+  * @retval 0 成功 1表示失败定时器服务函数池已满
+  */
+uint8_t unregister_tim3_server_fun(TIM_SERVER_FUN fun)
+{
+    int32_t i = 0;
+    
+    for(i = 0; i < TIM3_MAX_SERVER_FUN; i++)
+    {
+        if(tim_server_fun_pool[i] == fun)
+        {
+            tim_server_fun_pool[i] = NULL;
+            break;
+        }
+    }
+    
+    if(i == TIM3_MAX_SERVER_FUN)
+    {
+        return 1;
+    }
+    
+    return 0;
+}
+
+/**
   * @brief  定时器3中断服务函数
   * @param  无
   * @retval 无
@@ -98,11 +124,6 @@ void TIM3_IRQHandler(void)
         if(tim_server_fun_pool[i] != NULL)
         {
             tim_server_fun_pool[i]();
-        }
-        /* 遇到第一个NULL后面全为NULL所以退出 */
-        else
-        {
-            break;
         }
     }
     

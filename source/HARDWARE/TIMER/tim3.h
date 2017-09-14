@@ -15,6 +15,7 @@
 
 extern void tim3_init(uint16_t arr,uint16_t psc);
 extern uint8_t register_tim3_server_fun(void (*fun)(void));
+extern uint8_t unregister_tim3_server_fun(void (*fun)(void));
 
 #endif //__TIM3_H__
 

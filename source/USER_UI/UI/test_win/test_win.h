@@ -141,6 +141,9 @@ typedef enum {
   */
 }TEST_UI_INDEX;
 
+#define ROAD_STATUS_BAR_NORMAL_COLOR    0x404040
+#define ROAD_STATUS_BAR_WARNING_COLOR   GUI_RED
+#define ROAD_STATUS_BAR_PASS_COLOR      GUI_GREEN
 
 
 typedef struct{
