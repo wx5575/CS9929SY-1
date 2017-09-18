@@ -157,9 +157,9 @@ void DebugMon_Handler(void)
   */
 void SysTick_Handler(void)
 {
-    OSIntEnter();//进入中断
+    OSIntEnter();
     OSTimeTick();//调用ucos的时钟服务程序
-    OSIntExit(); //触发任务切换软中断
+    OSIntExit();
 }
 
 /******************************************************************************/

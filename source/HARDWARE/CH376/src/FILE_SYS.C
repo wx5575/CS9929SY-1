@@ -241,6 +241,12 @@ UINT8	CH376FileOpen( PUINT8 name )  /* 在根目录或者当前目录下打开文件或者目录(文
 	if ( name[0] == DEF_SEPAR_CHAR1 || name[0] == DEF_SEPAR_CHAR2 ) CH376WriteVar32( VAR_CURRENT_CLUST, 0 );
 	return( CH376SendCmdWaitInt( CMD0H_FILE_OPEN ) );
 }
+/* 继续枚举文件 */
+UINT8 CH376ENUM_FILE_GO(void)
+{
+    return CH376SendCmdWaitInt(CMD0H_FILE_ENUM_GO);
+}
+
 
 UINT8	CH376FileCreate( PUINT8 name )  /* 在根目录或者当前目录下新建文件,如果文件已经存在那么先删除 */
 {

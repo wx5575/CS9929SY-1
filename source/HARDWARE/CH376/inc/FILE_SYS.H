@@ -82,6 +82,8 @@ UINT8	CH376DiskMount( void );  /* 初始化磁盘并测试磁盘是否就绪 */
 
 UINT8	CH376FileOpen( PUINT8 name );  /* 在根目录或者当前目录下打开文件或者目录(文件夹) */
 
+UINT8 CH376ENUM_FILE_GO(void);/* 继续枚举文件 */
+
 UINT8	CH376FileCreate( PUINT8 name );  /* 在根目录或者当前目录下新建文件,如果文件已经存在那么先删除 */
 
 UINT8	CH376DirCreate( PUINT8 name );  /* 在根目录下新建目录(文件夹)并打开,如果目录已经存在那么直接打开 */
