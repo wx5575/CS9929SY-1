@@ -7,7 +7,7 @@
   * @brief   LCD\SRAM FSMC总线初始化
   ******************************************************************************
   */
-  
+
 /* Includes ------------------------------------------------------------------*/
 
 #include "FSMC_CONFIG.H"
@@ -318,16 +318,16 @@ void fsmc_peripheral_config(void)
 	RCC_AHB3PeriphClockCmd(RCC_AHB3Periph_FSMC, ENABLE);
 	
 	timingWrite.FSMC_AddressSetupTime = 4;
-	timingWrite.FSMC_AddressHoldTime = 0;
-	timingWrite.FSMC_DataSetupTime = 0;
+	timingWrite.FSMC_AddressHoldTime = 2;
+	timingWrite.FSMC_DataSetupTime = 8;
 	timingWrite.FSMC_BusTurnAroundDuration = 1;
 	timingWrite.FSMC_CLKDivision = 0;
 	timingWrite.FSMC_DataLatency = 0;
 	timingWrite.FSMC_AccessMode = FSMC_AccessMode_A;
 	
 	timingRead.FSMC_AddressSetupTime = 4;
-	timingRead.FSMC_AddressHoldTime =  0;
-	timingRead.FSMC_DataSetupTime = 6;
+	timingRead.FSMC_AddressHoldTime =  2;
+	timingRead.FSMC_DataSetupTime = 8;
 	timingRead.FSMC_BusTurnAroundDuration = 1;
 	timingRead.FSMC_CLKDivision = 0;
 	timingRead.FSMC_DataLatency = 0;

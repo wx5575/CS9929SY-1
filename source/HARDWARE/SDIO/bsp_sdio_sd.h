@@ -46,8 +46,8 @@
 	#define SD_DETECT_GPIO_CLK               RCC_AHB1Periph_GPIOE
 #else	/* STM32_F4 */
 	#define SD_DETECT_PIN                    GPIO_Pin_11
-	#define SD_DETECT_GPIO_PORT              GPIOA
-	#define SD_DETECT_GPIO_CLK               RCC_AHB1Periph_GPIOA
+	#define SD_DETECT_GPIO_PORT              GPIOG
+	#define SD_DETECT_GPIO_CLK               RCC_AHB1Periph_GPIOG
 #endif
 
 #define SDIO_FIFO_ADDRESS                ((uint32_t)0x40012C80)

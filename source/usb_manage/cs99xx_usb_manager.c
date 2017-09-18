@@ -327,16 +327,95 @@ void write_byte_2_file(uint8_t data, void *p)
     }
 }
 void read_dis_ram(uint16_t _usX, uint16_t _usY, uint16_t *buf);
+#include "ui_com/com_ui_info.h"
 void usb2_server_task(void)
 {
     uint8_t res = 0;
     int32_t i = 0;
-    uint8_t buf[50]={"中华人民共和国678936.bmp"};
+    uint8_t buf[50]={"123.bmp"};
     uint32_t c = 0;
+    uint32_t file_size;
+    uint32_t num;
+    uint32_t last_num;
+    uint32_t package_size;
+    FRESULT fresult;
+    FIL f;
+    uint32_t real_size;
     
 	switch(usb_exe_task)
 	{
+		case USB_COPY_FILE:
+//            strcpy((char*)buf, "\\1.GIF");
+            strcpy((char*)buf, "\\2.BMP");
+            
+//            res = CH376FileOpenPath((uint8_t*)buf);/* 打开文件 */
+            res = CH376FileOpen((uint8_t*)buf);
+        
+            if(0x14 != res)
+            {
+                usb_exe_task = USB_TASK_NULL;
+                break;
+            }
+            
+            file_size = CH376GetFileSize();
+            ex_addr = malloc_ex_mem(file_size);
+            
+            if(ex_addr == NULL)
+            {
+                usb_exe_task = USB_TASK_NULL;
+                break;
+            }
+            package_size = (4 * 1024);
+            num = file_size / package_size;
+            
+            set_main_win_progbar_show();//显示进度条
+            
+            for(i = 0; i < num; i++)
+            {
+                res = CH376ByteRead(ex_addr + i * package_size, package_size, NULL);
+                set_main_win_progbar_value(i * 100 / num);//设置进度条进度
+                if(0x14 != res)
+                {
+                    usb_exe_task = USB_TASK_NULL;
+                    delete_main_win_progbar();//删除进度条
+                    break;
+                }
+            }
+            
+            last_num = file_size % package_size;
+            res = CH376ByteRead(ex_addr + i * package_size, last_num, NULL);
+            
+            if(0x14 != res)
+            {
+                usb_exe_task = USB_TASK_NULL;
+                delete_main_win_progbar();//删除进度条
+                break;
+            }
+            
+//            fresult = f_open (&f, "/1.gif", FA_CREATE_ALWAYS | FA_WRITE);
+            fresult = f_open (&f, "/2.bmp", FA_CREATE_ALWAYS | FA_WRITE);
+            
+            if(fresult == FR_OK)
+            {
+                fresult = f_write(&f, ex_addr, file_size, &real_size); 
+                if(fresult == FR_OK)
+                {
+                }
+                f_close(&f);
+            }
+            
+            free_ex_mem(ex_addr);
+			usb_exe_task = USB_TASK_NULL;
+            delete_main_win_progbar();//删除进度条
+            break;
 		case USB_SCREEN_CAPTURE:
+            
+            if(g_cur_win != NULL)
+            {
+                strcpy((char*)buf, (const char*)g_cur_win->win_name[ENGLISH]);
+                strcat((char*)buf, ".bmp");
+            }
+            
             res = open_file_in_usb_disk(buf, "/");
             
             if(0x14 != res)

@@ -66,6 +66,7 @@ extern void led0_task(void *p_arg);
 extern void touch_task(void *p_arg);
 extern uint32_t get_key_value(void);
 extern void scan_key_task(void);
+extern void read_par_from_memory(void);
 
 
 #endif // __APP_H__

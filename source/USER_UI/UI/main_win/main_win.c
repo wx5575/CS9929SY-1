@@ -21,6 +21,7 @@
 #include "7_main_win.h"
 #include "main_win.h"
 #include "PROGBAR.h"
+#include "mem_alloc.h"
 
 /* Private typedef -----------------------------------------------------------*/
 
@@ -36,6 +37,7 @@ static void sys_stop_key_fun_cb(KEY_MESSAGE *key_msg);
 static void sys_shift_key_fun_cb(KEY_MESSAGE *key_msg);
 static void sys_unlock_key_fun_cb(KEY_MESSAGE *key_msg);
 static void screen_capture_key_fun_cb(KEY_MESSAGE *key_msg);
+static void copy_file_to_sdcard_key_fun_cb(KEY_MESSAGE *key_msg);
 static void reset_cpu_key_fun_cb(KEY_MESSAGE *key_msg);
 
 static void main_win_f1_cb(KEY_MESSAGE *key_msg);
@@ -70,6 +72,7 @@ static CONFIG_FUNCTION_KEY_INFO_T sys_key_pool[]=
 	{KEY_EXIT	    , sys_exit_key_fun_cb       },
 	{KEY_STOP	    , sys_stop_key_fun_cb       },
 	{KEY_F1 & KEY_0 , screen_capture_key_fun_cb },
+	{KEY_F1 & KEY_1 , copy_file_to_sdcard_key_fun_cb },
 	{KEY_UNLOCK & KEY_OFFSET , reset_cpu_key_fun_cb },
 };
 /**
@@ -414,6 +417,19 @@ static void screen_capture_key_fun_cb(KEY_MESSAGE *key_msg)
     progbar_handle = PROGBAR_CreateEx(105, 455, 50, 20, data, WM_CF_HIDE, 0, id_base++);
 }
 /**
+  * @brief  截屏按键的
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void copy_file_to_sdcard_key_fun_cb(KEY_MESSAGE *key_msg)
+{
+    int32_t data = key_msg->user_data;
+    
+    set_usb_disk_task(USB_COPY_FILE);
+    //创建进度条
+    progbar_handle = PROGBAR_CreateEx(105, 455, 50, 20, data, WM_CF_HIDE, 0, id_base++);
+}
+/**
   * @brief  重启仪器
   * @param  [in] key_msg 按键消息
   * @retval 无
@@ -529,6 +545,41 @@ void update_usb_dis_status(void)
     update_shift_bmp();
 }
 
+#include "ff.h"
+
+uint8_t *bmpBuffer;
+static int BmpGetData(void * p, const U8 ** ppData, unsigned NumBytesReq, U32 Off) 
+{
+        static int readaddress=0;
+        FIL * phFile;
+        UINT NumBytesRead;
+        #if SYSTEM_SUPPORT_UCOS
+                OS_CPU_SR cpu_sr;
+        #endif
+        
+        phFile = (FIL *)p;
+        
+        if (NumBytesReq > sizeof(bmpBuffer)) 
+        {
+                NumBytesReq = sizeof(bmpBuffer);
+        }
+
+        //移动指针到应该读取的位置
+        if(Off == 1) readaddress = 0;
+        else readaddress=Off;
+        #if SYSTEM_SUPPORT_UCOS
+                OS_ENTER_CRITICAL();        //临界区
+        #endif
+        f_lseek(phFile,readaddress); 
+        
+        //读取数据到缓冲区中
+        f_read(phFile,bmpBuffer,NumBytesReq,&NumBytesRead);
+        #if SYSTEM_SUPPORT_UCOS
+                OS_EXIT_CRITICAL();        //退出临界区 
+        #endif
+        *ppData = (U8 *)bmpBuffer;
+        return NumBytesRead;//返回读取到的字节数
+}
 /**
   * @brief  主测试界面回调函数
   * @param  [in] pMsg 回调函数指针
@@ -644,8 +695,6 @@ static void into_self_check_win(void)//进入自检窗口
   * @param  无
   * @retval 无
   */
-extern uint8_t flagx[100];
-extern uint8_t countx;
 void main_ui_enter(void)
 {
 	SCREEM_SIZE = SCREEN_7INCH;//设置为7寸屏

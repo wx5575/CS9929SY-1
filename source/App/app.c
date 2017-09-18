@@ -15,7 +15,7 @@
 #include "GUI.H"
 #include "WM.h"
 #include "DIALOG.h"
-#include "sys.h"
+#include "sys_level.h"
 #include "mem_alloc.h"
 #include "bsp.h"
 #include "board.h"
@@ -74,12 +74,21 @@ int main(void)
   * @retval 无
   */
 static void File_Init(void)
-{	
+{
+    FIL f;
 	fs_result = f_mount(&fs_struct, "0:/", 0);
+    
 	if (fs_result != FR_OK)
 	{
 		return;
 	}
+    
+//    fs_result = f_open (&f, "/1.jpg", FA_READ);
+    
+    if(fs_result == FR_OK)
+    {
+//        f_close (&f);
+    }
 }
 /**
   * @brief  软件环境初始化
@@ -270,7 +279,7 @@ void set_framewin_skin(void)
 void init_gui_environment(void)
 {
     /* 开启所有窗口使用内存设备 */
-//    WM_SetCreateFlags(WM_CF_MEMDEV);
+    WM_SetCreateFlags(WM_CF_MEMDEV);
     GUI_Init();
     
     GUI_UC_SetEncodeUTF8();/* 使能UTF8解码 */

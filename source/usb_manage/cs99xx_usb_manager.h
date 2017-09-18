@@ -32,6 +32,7 @@ enum{
 	USB_SAVE_ONE_RESULT,///<保存一条结果,测试一条保存一条
     
     USB_SCREEN_CAPTURE,///<截屏
+    USB_COPY_FILE,///<拷贝文件
 };
 
 typedef struct{

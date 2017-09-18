@@ -29,6 +29,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_it.h"
+#include "os.h"
  
 
 /** @addtogroup Template_Project
@@ -154,10 +155,12 @@ void DebugMon_Handler(void)
   * @param  None
   * @retval None
   */
-//void SysTick_Handler(void)
-//{
-// 
-//}
+void SysTick_Handler(void)
+{
+    OSIntEnter();//进入中断
+    OSTimeTick();//调用ucos的时钟服务程序
+    OSIntExit(); //触发任务切换软中断
+}
 
 /******************************************************************************/
 /*                 STM32F4xx Peripherals Interrupt Handlers                   */

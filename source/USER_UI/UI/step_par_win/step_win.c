@@ -20,7 +20,7 @@
 #include "module_manage.h"
 #include "send_cmd.h"
 
-  
+
 /* Private typedef -----------------------------------------------------------*/
 
 /**
