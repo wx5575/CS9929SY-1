@@ -1095,6 +1095,16 @@
               <FileType>1</FileType>
               <FilePath>..\source\USER_UI\fonts\HZ\hz_29.c</FilePath>
             </File>
+            <File>
+              <FileName>xingkai_42.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\fonts\HZ\xingkai_42.c</FilePath>
+            </File>
+            <File>
+              <FileName>xingkai.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\fonts\HZ\xingkai.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -2672,6 +2682,16 @@
               <FileName>hz_29.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\USER_UI\fonts\HZ\hz_29.c</FilePath>
+            </File>
+            <File>
+              <FileName>xingkai_42.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\fonts\HZ\xingkai_42.c</FilePath>
+            </File>
+            <File>
+              <FileName>xingkai.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\fonts\HZ\xingkai.c</FilePath>
             </File>
           </Files>
         </Group>

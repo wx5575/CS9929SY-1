@@ -61,6 +61,11 @@ static CS_INDEX main_ui_text_ele_table[] =
 {
 	MAIN_UI_COM_ST,
 	MAIN_UI_SYS_TIME,
+    MAIN_UI_CSALLWIN,
+    MAIN_UI_VERSION,
+    MAIN_UI_TYPE,
+    MAIN_UI_WWW,///<主界面的公司网站
+    MAIN_UI_WTS,///<主界面的微信技术服务
 };
 /**
   * @brief  系统按键信息
@@ -102,6 +107,11 @@ static TEXT_ELE_T main_ui_text_ele_pool[]=
 {
 	{{"本控","LOCAL"}, MAIN_UI_COM_ST },
 	{{"2017-04-07 08:59:00","2017-04-07 08:59:00"}, MAIN_UI_SYS_TIME },
+	{{"南京长盛仪器","CSALLWIN"}, MAIN_UI_CSALLWIN },
+	{{"版本:1.0.0","Ver:1.0.0"}, MAIN_UI_VERSION },
+	{{"型号:CS9929SY","Type:CS9929SY"}, MAIN_UI_TYPE },
+	{{"公司网站","web sites"}, MAIN_UI_WWW },
+	{{"微信技术服务","WeChat services"}, MAIN_UI_WTS },
 };
 /**
   * @brief  主窗口结构体初始化
@@ -125,6 +135,7 @@ MYUSER_WINDOW_T main_windows=
     },/* auto_layout */
     main_win_pos_size_pool,/*pos_size_pool */
 };
+static MYUSER_WINDOW_T *this_win = &main_windows;
 /* Private functions ---------------------------------------------------------*/
 /**
   * @brief  主窗口中功能键F1回调函数
@@ -599,11 +610,13 @@ static void main_win_cb(WM_MESSAGE * pMsg)
 			WM_SetFocus(hWin);/* 设置聚焦 */
             main_win_update_key_inf(hWin);
             
+            create_slogo_image(hWin);
+            create_www_qr_code_image(hWin);
+            create_wts_qr_code_image(hWin);
             init_main_ui_text_ele_pos_inf();//初始化文本对象的位置信息
             init_window_text_ele_list(win);//初始化窗口文本对象链表
 			init_window_text_ele(win);
 			timer_handle = WM_CreateTimer(hWin, 0, 1000, 0);
-            create_logo_image(hWin);
             U_FLASH_1_handle = create_u_flash_1_image(hWin, 5 + 25 * 0, 480 - 24);
             U_FLASH_2_handle = create_u_flash_2_image(hWin, 5 + 25 * 1, 480 - 24);
             KEY_LOCK_handle = create_key_lock_image(hWin, 5 + 25 * 2, 480 - 24);
@@ -663,19 +676,6 @@ static void init_user_window_env(void)
 	list_init(&windows_list);//初始化窗口链表
 }
 /**
-  * @brief  进入启动窗口
-  * @param  无
-  * @retval 无
-  */
-static void into_start_win(void)//进入启动窗口
-{
-    create_start_win(0);//创建启动窗口
-    
-    //等待窗口关闭
-    while(g_cur_win != NULL)
-		GUI_Delay(1);//调用这个函数可以刷新界面
-}
-/**
   * @brief  进入自检窗口
   * @param  无
   * @retval 无
@@ -683,10 +683,15 @@ static void into_start_win(void)//进入启动窗口
 static void into_self_check_win(void)//进入自检窗口
 {
     create_self_check_win(0);//创建自检窗口
-    
-    //等待窗口关闭
-    while(g_cur_win != NULL)
-		GUI_Delay(1);//调用这个函数可以刷新界面
+}
+/**
+  * @brief  进入启动窗口
+  * @param  无
+  * @retval 无
+  */
+static void into_start_win(void)//进入启动窗口
+{
+    create_start_win(0);//创建启动窗口
 }
 /* Public functions ---------------------------------------------------------*/
 #include "start_stop_key.h"
@@ -701,10 +706,13 @@ void main_ui_enter(void)
 	id_base = GUI_ID_USER;//窗口控件ID
     init_user_window_env();//初始化用户窗口环境
     into_start_win();//进入启动窗口
+    GUI_Delay(1000);//调用这个函数可以刷新界面
     into_self_check_win();//进入自检窗口
-    read_par_from_memory();//从存储器读取参数
+    GUI_Delay(2000);//调用这个函数可以刷新界面
+    
     create_key_menu_window();//创建按键界面
     create_main_windows();//创建主界面
+    read_par_from_memory();//从存储器读取参数
 	
 	while(1)
 	{

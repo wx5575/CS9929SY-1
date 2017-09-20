@@ -3632,7 +3632,7 @@ static void test_win_cb(WM_MESSAGE* pMsg)
             win = get_user_window_info(hWin);
             register_tim3_server_fun(run_start_sign);
             register_test_reset_server_fun(test_reset_fun);
-            
+//            create_test_image(hWin);
 			WM_SetFocus(hWin);/* 设置聚焦 */
 			WM_SetCreateFlags(WM_CF_MEMDEV);//如果不开启显示效果非常差, 开启后刷屏很慢
 			test_win_timer_handle = WM_CreateTimer(hWin, 0, 100, 0);

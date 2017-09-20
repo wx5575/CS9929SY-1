@@ -10,4 +10,8 @@
 #ifndef __SELF_CHECK_WIN_H__
 #define __SELF_CHECK_WIN_H__
 
+enum{
+    SELF_CHECK_UI_CONTENT,///<自检内容文本
+};
+
 #endif //__SELF_CHECK_WIN_H__

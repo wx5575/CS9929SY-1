@@ -283,7 +283,7 @@ static void _PaintFrame(void)
 {
 	GUI_RECT r;
 	WM_GetClientRect(&r);
-	GUI_SetBkColor(WINDOWS_BAK_COLOR);
+	GUI_SetBkColor(GUI_BLACK);
 	GUI_ClearRectEx(&r);
 }
 
@@ -303,28 +303,31 @@ static void update_key_inf(WM_HWIN hWin)
   * @param  [in] pMsg 回调函数指针
   * @retval 无
   */
+IMAGE_Handle image_handle;
+IMAGE_Handle timer_handle;
 static void start_win_cb(WM_MESSAGE * pMsg)
 {
 	MYUSER_WINDOW_T* win;
 	WM_HWIN hWin = pMsg->hWin;
+    static int count;
 	
 	switch (pMsg->MsgId)
 	{
 		case WM_CREATE:
 			set_start_windows_handle(hWin);
 			win = get_user_window_info(hWin);
-            
-            WM_CreateTimer(hWin, 0, 1000, 0);
+            image_handle = create_logo_image(hWin);
 			break;
 		case WM_PAINT:
 			_PaintFrame();
 			break;
 		case WM_TIMER:
 		{
-            back_win(hWin);
 			break;
 		}
 		case WM_KEY:
+			break;
+		case WM_DELETE:
 			break;
 		default:
 			WM_DefaultProc(pMsg);

@@ -1249,11 +1249,11 @@ void del_cur_window(void)
     delete_win_all_ele(win_info);//删除窗口中所有控件
     set_cur_edit_ele(NULL);//将当前编辑对象置为空
     disable_system_fun_key_fun();//失能系统功能按键
-    set_cur_window(win);//把新窗口设置为当前窗口
-    show_user_window(win);//显示出用户当前窗口
     
 	WM_DeleteWindow(win_info->handle);//删除窗口控件
 	win_info->handle = 0;//清除被删除窗口的句柄
+    set_cur_window(win);//把新窗口设置为当前窗口
+    show_user_window(win);//显示出用户当前窗口
 }
 /**
   * @brief  显示用户窗口

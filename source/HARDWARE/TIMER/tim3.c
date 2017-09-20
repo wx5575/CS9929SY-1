@@ -95,7 +95,6 @@ uint8_t unregister_tim3_server_fun(TIM_SERVER_FUN fun)
         if(tim_server_fun_pool[i] == fun)
         {
             tim_server_fun_pool[i] = NULL;
-            break;
         }
     }
     

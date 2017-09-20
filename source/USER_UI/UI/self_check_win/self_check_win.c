@@ -39,6 +39,7 @@ static void self_check_win_f5_cb(KEY_MESSAGE *key_msg);
 static void self_check_win_f6_cb(KEY_MESSAGE *key_msg);
 
 static void update_key_inf(WM_HWIN hWin);
+static void init_create_self_check_win_text_ele(MYUSER_WINDOW_T* win);
 /* Private variables ---------------------------------------------------------*/
 
 
@@ -74,14 +75,31 @@ static MENU_KEY_INFO_T 	main_ui_menu_key_inf[] =
     {"", F_KEY_TEST		, KEY_F5 & _KEY_UP, self_check_win_f5_cb, SYS_KEY_EN},//f5
     {"", F_KEY_HELP		, KEY_F6 & _KEY_UP, self_check_win_f6_cb, SYS_KEY_DIS },//f6
 };
+CS_INDEX self_check_win_test_ele_index_pool[]=
+{
+    SELF_CHECK_UI_CONTENT,///<自检内容文本
+};
 /**
-  * @brief  主界面的文本对象池
+  * @brief  界面的文本对象池
   */
-//static TEXT_ELE_T main_ui_text_ele_pool[]=
-//{
+static TEXT_ELE_T self_check_ui_text_ele_pool[]=
+{
 //	{{"本控","LOCAL"}, MAIN_UI_COM_ST },
-//	{{"2017-04-07 08:59:00","2017-04-07 08:59:00"}, MAIN_UI_SYS_TIME },
-//};
+	{{"1.电源检查     .............. OK\n\n"
+      "2.键盘检查     .............. OK\n\n"
+      "3.存储检查     .............. OK\n\n"
+      "4.电压检查     .............. OK\n\n"
+      "5.电流检查     .............. OK\n\n"
+      "6.系统参数检查 .............. OK\n\n"
+        ,
+      "1.Power check  .............. OK\n"
+      "2.Key check    .............. OK\n"
+      "3.Memory check .............. OK\n"
+      "4.Voltage check.............. OK\n"
+      "5.Current check.............. OK\n"
+      "5.Sys.Par.check.............. OK\n"
+    }, SELF_CHECK_UI_CONTENT },
+};
 /**
   * @brief  自检窗口结构体初始化
   */
@@ -89,7 +107,12 @@ MYUSER_WINDOW_T self_check_windows=
 {
     {"自检窗口", "Self check Window"},
     self_check_win_cb, NULL,
-	{0},
+	{
+        self_check_ui_text_ele_pool,COUNT_ARRAY_SIZE(self_check_ui_text_ele_pool),
+        (CS_INDEX*)self_check_win_test_ele_index_pool,
+        COUNT_ARRAY_SIZE(self_check_win_test_ele_index_pool),
+        init_create_self_check_win_text_ele
+    },/* text */
     {0},
     {0},
     /* 自动布局 */
@@ -102,6 +125,33 @@ MYUSER_WINDOW_T self_check_windows=
     self_check_win_pos_size_pool,/*pos_size_pool */
 };
 /* Private functions ---------------------------------------------------------*/
+
+static void init_self_check_win_text_ele_pos_inf(void)
+{
+    switch(SCREEM_SIZE)
+    {
+        case SCREEN_4_3INCH:
+            break;
+        case SCREEN_6_5INCH:
+            break;
+        default:
+        case SCREEN_7INCH:
+            _7_init_self_check_win_layout1_text_ele_pos(self_check_ui_text_ele_pool);
+            break;
+    }
+}
+/**
+  * @brief  初始化并创建步骤编辑窗口中的文本控件
+  * @param  [in] win 窗口的结构数据
+  * @retval 无
+  */
+static void init_create_self_check_win_text_ele(MYUSER_WINDOW_T* win)
+{
+    init_self_check_win_text_ele_pos_inf();
+    init_window_text_ele_list(win);//初始化窗口文本对象链表
+    init_window_text_ele(win);
+//    update_result_win_text_ele_text(win);
+}
 /**
   * @brief  主窗口中功能键F1回调函数
   * @param  [in] key_msg 按键消息
@@ -280,7 +330,7 @@ static void self_check_win_paint_frame(void)
 {
 	GUI_RECT r;
 	WM_GetClientRect(&r);
-	GUI_SetBkColor(GUI_GREEN);
+	GUI_SetBkColor(GUI_BLACK);
 	GUI_ClearRectEx(&r);
 }
 
@@ -308,20 +358,15 @@ static void self_check_win_cb(WM_MESSAGE * pMsg)
 	switch (pMsg->MsgId)
 	{
 		case WM_CREATE:
-			set_self_check_windows_handle(hWin);
+            set_user_window_handle(hWin);
 			win = get_user_window_info(hWin);
-            
+            init_create_win_all_ele(win);
 			WM_SetFocus(hWin);/* 设置聚焦 */
-            WM_CreateTimer(hWin, 0, 1000, 0);
 			break;
 		case WM_PAINT:
 			self_check_win_paint_frame();
+            create_slogo_image(hWin);
 			break;
-		case WM_TIMER:
-		{
-            back_win(hWin);
-			break;
-		}
 		case WM_KEY:
 			break;
 		default:

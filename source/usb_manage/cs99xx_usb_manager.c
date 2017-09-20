@@ -15,8 +15,10 @@
 #include "stdio.h"
 #include "app.h"
 #include "main_win/main_win.h"
+#include "ui_com/com_ui_info.h"
 #include "GUI.H"
 #include "mem_alloc.h"
+#include "UNICODE.H"
 
 
 uint8_t g_long_file_name[100];//长文件名
@@ -97,6 +99,12 @@ uint8_t check_connect_usb(uint8_t strong_brush)
 	return get_cur_ch376_status();
 }
 
+/**
+  * @brief  创建长文件名
+  * @param  [in] file_Shortname 短文件名可包含路径
+  * @param  [in] ModelName 长文件名，不能包含路径
+  * @retval 返回创建结果
+  */
 unsigned int Creat_LongFile_Name(unsigned char *file_Shortname,unsigned char *ModelName)
 {
 	unsigned int j;
@@ -117,6 +125,12 @@ unsigned int Creat_LongFile_Name(unsigned char *file_Shortname,unsigned char *Mo
 	return (s);
 }
 
+/**
+  * @brief  设置文件的创建日期
+  * @param  [in] date 日期
+  * @param  [in] time 时间
+  * @retval 返回结果
+  */
 uint8_t set_file_create_time(uint8_t* file_name, uint16_t date, uint16_t time)
 {
 	FAT_DIR_INFO fdi;
@@ -126,7 +140,7 @@ uint8_t set_file_create_time(uint8_t* file_name, uint16_t date, uint16_t time)
 	
 	if(0x14 != res)
 	{
-		return 0xff;
+		return res;
 	}
 	
 	//1.用CMD1H_DIR_INFO_READ读取当前文件结构到内存
@@ -154,6 +168,13 @@ uint8_t set_file_create_time(uint8_t* file_name, uint16_t date, uint16_t time)
 	
 	return 0x14;
 }
+
+/**
+  * @brief  设置文件的修改日期
+  * @param  [in] date 日期
+  * @param  [in] time 时间
+  * @retval 返回结果
+  */
 uint8_t set_file_update_time(uint8_t* file_name, uint16_t date, uint16_t time)
 {
 	FAT_DIR_INFO fdi;
@@ -163,7 +184,7 @@ uint8_t set_file_update_time(uint8_t* file_name, uint16_t date, uint16_t time)
 	
 	if(0x14 != res)
 	{
-		return 0xff;
+		return res;
 	}
 	
 	//1.用CMD1H_DIR_INFO_READ读取当前文件结构到内存
@@ -184,6 +205,11 @@ uint8_t set_file_update_time(uint8_t* file_name, uint16_t date, uint16_t time)
 	
 	return 0x14;
 }
+/**
+  * @brief  设置文件的创建时间
+  * @param  [in] file_name 文件名
+  * @retval 返回结果
+  */
 uint8_t SetFileCreateTime(uint8_t* file_name)
 {
 	uint16_t year = get_rtc_year();
@@ -196,6 +222,14 @@ uint8_t SetFileCreateTime(uint8_t* file_name)
 	return set_file_create_time(file_name, MAKE_FILE_DATE(year, month, day), MAKE_FILE_TIME(hour, minute, second));
 }
 
+/**
+  * @brief  生成长短文件名
+  * @param  [in] file_name 文件名不包含路径
+  * @param  [in] path 文件路径
+  * @param  [out] tar_name 短文件名包含路径
+  * @param  [out] long_file_name 长文件名<不包含路径>
+  * @retval 返回结果
+  */
 uint8_t create_long_file_name(uint8_t *file_name, uint8_t *path, uint8_t *tar_name, uint8_t *long_file_name)
 {
     uint8_t len = 0;
@@ -203,9 +237,7 @@ uint8_t create_long_file_name(uint8_t *file_name, uint8_t *path, uint8_t *tar_na
     
     tar_name[0] = 0;
     long_file_name[0] = 0;
-//     strcat((char*)tar_name, "/");
     strcat((char*)tar_name, (const char*)path);
-//     strcat((char*)tar_name, "/");
     
     len = strlen((const char*)file_name);
 	
@@ -222,6 +254,14 @@ uint8_t create_long_file_name(uint8_t *file_name, uint8_t *path, uint8_t *tar_na
     strcpy((char*)long_file_name, (const char*)file_name);
     return res;
 }
+/**
+  * @brief  在u盘中创建文件
+  * @param  [in] file_name 文件名不包含路径
+  * @param  [in] path 文件路径
+  * @param  [out] tar_name 短文件名包含路径
+  * @param  [out] long_file_name 长文件名<不包含路径>
+  * @retval 返回结果
+  */
 uint8_t create_file_usb_flash(uint8_t *file_name, uint8_t *path, uint8_t *tar_name, uint8_t *long_file_name)
 {
 	uint8_t res;
@@ -330,7 +370,6 @@ void read_dis_ram(uint16_t _usX, uint16_t _usY, uint16_t *buf);
 
 void get_file_name(uint8_t *buf, uint8_t *name)
 {
-    uint8_t len = 0;
     uint8_t flag = 0;
     int32_t i = 0;
     int32_t j = 0;
@@ -360,11 +399,10 @@ void get_file_name(uint8_t *buf, uint8_t *name)
     
     name_1[j] = 0;
     name_2[k] = 0;
-    strncpy((char*)name_2, &name[8], 3);
+    strncpy((char*)name_2, (const char*)&name[8], 3);
     
     sprintf((char*)buf, "%s.%s", name_1, name_2);
 }
-#include "ui_com/com_ui_info.h"
 void get_dir_path(uint8_t *buf, uint8_t *dir_name)
 {
     uint8_t tmp_buf[12] = {0};
@@ -383,15 +421,147 @@ void get_dir_path(uint8_t *buf, uint8_t *dir_name)
     
     tmp_buf[j] = 0;
     
-    sprintf((char*)buf, "\\%s\\%s", "BOOT", tmp_buf);
+    sprintf((char*)buf, "\\%s\\%s", "ROOT", tmp_buf);
 }
 
-uint8_t open_dir(uint8_t *path, uint32_t index);
-uint8_t enum_dir_files(uint32_t *index)
+FRESULT my_mkdir(uint8_t *path)
+{
+    uint8_t len = 0;
+    int32_t i = 0;
+    int32_t j = 0;
+    int32_t k = 0;
+    uint8_t dir_buf[10][20] = {0};
+    uint8_t full_path[100] = {0};
+    FRESULT fresult;
+    
+    
+    len = strlen((const char*)path);
+    
+    for(i = 0; i < len; i++)
+    {
+        if(path[i] == '\\')
+        {
+            j++;
+            k = 0;
+            continue;
+        }
+        
+        dir_buf[j][k++] = path[i];
+    }
+    
+    for(i = 1; i <= j; i++)
+    {
+        sprintf((char*)full_path, "%s\\%s",full_path, dir_buf[i]);
+        fresult = f_mkdir(full_path);
+        
+        if(fresult == FR_EXIST)
+        {
+            continue;
+        }
+        
+        if(fresult != FR_OK)
+        {
+            break;
+        }
+    }
+    
+    return fresult;
+}
+void copy_file_to_sdcard(uint8_t *file_name, uint8_t *path)
 {
     uint8_t res = 0;
+    int32_t i = 0;
+    uint32_t file_size;
+    uint32_t num;
+    uint32_t last_num;
+    uint32_t package_size;
+    FRESULT fresult;
+    FIL f;
+    uint32_t real_size;
+    FAT_DIR_INFO dir_inf;
+    uint8_t name_buf[50];
+    
+    res = CH376FileOpen(file_name);
+    
+    if(res != 0X14)
+    {
+        return;
+    }
+    
+    file_size = CH376GetFileSize();
+    ex_addr = malloc_ex_mem(file_size);
+    
+    if(ex_addr == NULL)
+    {
+        return;
+    }
+    
+    package_size = (4 * 1024);
+    num = file_size / package_size;
+    
+    set_main_win_progbar_show();//显示进度条
+    
+    for(i = 0; i < num; i++)
+    {
+        res = CH376ByteRead(ex_addr + i * package_size, package_size, NULL);
+        set_main_win_progbar_value(i * 100 / num);//设置进度条进度
+        if(0x14 != res)
+        {
+            break;
+        }
+    }
+    
+    last_num = file_size % package_size;
+    res = CH376ByteRead(ex_addr + i * package_size, last_num, NULL);
+    
+    if(0x14 != res)
+    {
+    }
+    
+    sprintf((char*)name_buf, "%s\\%s", path, file_name);
+    fresult = my_mkdir(path);
+//    fresult = f_mkdir(path);
+    fresult = f_open (&f, name_buf, FA_CREATE_ALWAYS | FA_WRITE);
+    
+    if(fresult == FR_OK)
+    {
+        fresult = f_write(&f, ex_addr, file_size, &real_size); 
+        
+        if(fresult == FR_OK)
+        {
+        }
+        
+        f_close(&f);
+    }
+    
+    free_ex_mem(ex_addr);
+    CH376FileClose(0);
+}
+uint8_t open_dir(uint8_t *path, uint32_t index);
+
+void get_return_dir_path(uint8_t *path)
+{
+    int32_t i = 0;
+    uint8_t len = 0;
+    
+    len = strlen(path);
+    
+    for(i = len - 1; i > 0; i--)
+    {
+        if(path[i] == '\\')
+        {
+            path[i] = 0;
+            break;
+        }
+    }
+}
+uint8_t enum_dir_files(uint32_t *index, uint8_t *path)
+{
+    uint8_t res = 0;
+    uint8_t ret = 0;
     FAT_DIR_INFO dir_inf;
     uint8_t buf[50]={0};
+    int32_t i = 0;
     
     res = CH376ReadBlock((void*)&dir_inf);
     *index = (*index) + 1;
@@ -399,6 +569,18 @@ uint8_t enum_dir_files(uint32_t *index)
     /* 文件 */
     if(dir_inf.DIR_Attr == ATTR_ARCHIVE)
     {
+        get_file_name(buf, dir_inf.DIR_Name);
+        copy_file_to_sdcard(buf, path);
+        
+        /* 重新进入枚举状态 */
+        res = CH376FileOpenPath((uint8_t*)path);/* 打开目录 */
+        res = CH376FileOpen("*");
+        
+        for(i = 1; i < *index; i++)
+        {
+            CH376ReadBlock((void*)&dir_inf);
+            res = CH376ENUM_FILE_GO();
+        }
     }
     /* 子目录 */
     else if(dir_inf.DIR_Attr == ATTR_DIRECTORY)
@@ -407,34 +589,39 @@ uint8_t enum_dir_files(uint32_t *index)
         if((0 != strncmp(".", dir_inf.DIR_Name, 1))
             && (0 != strncmp("..", dir_inf.DIR_Name, 2)))
         {
-//            res = CH376FileOpenPath((uint8_t*)buf);/* 打开目录 */
-//            res = CH376FileOpen("*");
-//            res = enum_dir_files();
             res = open_dir(buf, 0);
             
-            /* 子目录处理完毕 */
+            /* 子目录处理完毕，返回上级目录 */
             if(res == 1)
             {
-                res = open_dir(buf, index);
+                get_return_dir_path(buf);
+                open_dir(buf, *index);
             }
         }
     }
     
     res = CH376ENUM_FILE_GO();
     
+    /* 当前目录的枚举未结束 */
     if(USB_INT_DISK_READ == res)
     {
-        enum_dir_files(0);
-        return 0;
+        ret = 0;
+    }
+    /* 当前目录的枚举已结束 */
+    else
+    {
+        ret = 1;
     }
     
-    return 1;
+    return ret;
 }
 
 uint8_t open_dir(uint8_t *path, uint32_t index)
 {
+    uint8_t ret = 0;
     uint8_t res = 0;
     int32_t i = 0;
+    FAT_DIR_INFO dir_inf;
     
     res = CH376FileOpenPath((uint8_t*)path);/* 打开目录 */
     res = CH376FileOpen("*");
@@ -442,11 +629,13 @@ uint8_t open_dir(uint8_t *path, uint32_t index)
     for(i = 0; i < index; i++)
     {
         CH376ReadBlock((void*)&dir_inf);
+        res = CH376ENUM_FILE_GO();
     }
     
-    res = enum_dir_files(&index);
+    while(ret == 0)
+        ret = enum_dir_files(&index, path);
     
-    return res;
+    return ret;
 }
 
 void usb2_server_task(void)
@@ -469,104 +658,13 @@ void usb2_server_task(void)
 		case USB_COPY_FILE:
             
             memset(&dir_inf, 0, sizeof(dir_inf));
-//            strcpy((char*)buf, "\\1.GIF");
-            strcpy((char*)buf, "\\BOOT");
+            strcpy((char*)buf, "\\ROOT");
             
-            res = CH376FileOpenPath((uint8_t*)buf);/* 打开目录 */
-//            res = CH376FileOpen((uint8_t*)buf);
-//            CH376SetFileName("*");
-//            res = CH376FileOpen("*");
-//            enum_dir_files();
+//            res = CH376FileOpenPath((uint8_t*)buf);/* 打开目录 */
+            set_main_win_progbar_show();//显示进度条
             open_dir(buf, 0);
-//            if(0x14 != res)
-//            {
-//                usb_exe_task = USB_TASK_NULL;
-//                break;
-//            }
-//            res = Wait376Interrupt();
-        
-//            while(USB_INT_DISK_READ == res)
-//            {
-//                res = CH376ReadBlock((void*)&dir_inf);
-//                /* 文件 */
-//                if(dir_inf.DIR_Attr == ATTR_ARCHIVE)
-//                {
-//                    get_file_name(buf, dir_inf.DIR_Name);
-//                }
-//                /* 子目录 */
-//                else if(dir_inf.DIR_Attr == ATTR_DIRECTORY)
-//                {
-//                    get_dir_path();
-//                    res = CH376FileOpenPath((uint8_t*)buf);/* 打开目录 */
-//                    res = CH376FileOpen("*");
-//                }
-//                
-//                res = CH376ENUM_FILE_GO();
-//            }
-//            
-//            void open_enum_dir_files(uint8_t *path)
-//            {
-//                res = CH376FileOpenPath((uint8_t*)buf);/* 打开目录 */
-//                res = CH376FileOpen("*");
-//            }
-//            
-//            void enum_dir_files(uint8_t *path)
-//            {
-//                res = CH376FileOpenPath((uint8_t*)buf);/* 打开目录 */
-//                res = CH376FileOpen("*");
-//            }
-            
-//            CH376FileClose();
-//            file_size = CH376GetFileSize();
-//            ex_addr = malloc_ex_mem(file_size);
-            
-//            if(ex_addr == NULL)
-//            {
-//                usb_exe_task = USB_TASK_NULL;
-//                break;
-//            }
-//            package_size = (4 * 1024);
-//            num = file_size / package_size;
-//            
-//            set_main_win_progbar_show();//显示进度条
-//            
-//            for(i = 0; i < num; i++)
-//            {
-//                res = CH376ByteRead(ex_addr + i * package_size, package_size, NULL);
-//                set_main_win_progbar_value(i * 100 / num);//设置进度条进度
-//                if(0x14 != res)
-//                {
-//                    usb_exe_task = USB_TASK_NULL;
-//                    delete_main_win_progbar();//删除进度条
-//                    break;
-//                }
-//            }
-//            
-//            last_num = file_size % package_size;
-//            res = CH376ByteRead(ex_addr + i * package_size, last_num, NULL);
-//            
-//            if(0x14 != res)
-//            {
-//                usb_exe_task = USB_TASK_NULL;
-//                delete_main_win_progbar();//删除进度条
-//                break;
-//            }
-//            
-////            fresult = f_open (&f, "/1.gif", FA_CREATE_ALWAYS | FA_WRITE);
-//            fresult = f_open (&f, "/2.bmp", FA_CREATE_ALWAYS | FA_WRITE);
-//            
-//            if(fresult == FR_OK)
-//            {
-//                fresult = f_write(&f, ex_addr, file_size, &real_size); 
-//                if(fresult == FR_OK)
-//                {
-//                }
-//                f_close(&f);
-//            }
-//            
-//            free_ex_mem(ex_addr);
 			usb_exe_task = USB_TASK_NULL;
-//            delete_main_win_progbar();//删除进度条
+            delete_main_win_progbar();//删除进度条
             break;
 		case USB_SCREEN_CAPTURE:
             
