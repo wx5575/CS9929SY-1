@@ -38,10 +38,10 @@ WIDGET_POS_SIZE_T _7_main_windows=
 /**
   * @brief  初始化7寸屏中主界面系统状态信息区
   */
-const GUI_RECT _7_sys_st_info_area =
-{
-    0, SIZE_7INCH_HEIGH - 25, 0 + SIZE_7INCH_WIDTH - 110, SIZE_7INCH_HEIGH - 1
-};
+//const GUI_RECT _7_sys_st_info_area =
+//{
+//    0, SIZE_7INCH_HEIGH - 25, 0 + SIZE_7INCH_WIDTH - 110, SIZE_7INCH_HEIGH - 1
+//};
 /**
   * @brief  初始化7寸屏中主界面文本对象的显示信息
   * @param  [out] pool 文本对象显示信息数组
@@ -55,22 +55,6 @@ void _7_init_main_ui_text_ele_pos(TEXT_ELE_T *pool)
 		0/*base_x*/,0/*base_y*/,0/*x*/,0/*y*/,0/*width*/,25/*height*/,100,
 		{&GUI_Fonthz_20}, GUI_BLACK, GUI_INVALID_COLOR, GUI_TA_LEFT | GUI_TA_TOP
     };
-    
-    //主界面的系统时间
-    inf.base_x = 0;
-    inf.base_y = 0;
-    inf.pos_size.width = 210;
-    inf.pos_size.x = SIZE_7INCH_WIDTH - 115 - inf.pos_size.width;
-    inf.pos_size.y = SIZE_7INCH_HEIGH - inf.pos_size.height;
-    memcpy(&pool[MAIN_UI_SYS_TIME].dis_info, &inf, sizeof(UI_ELE_DISPLAY_INFO_T));
-    str = get_time_str(0);
-    pool[MAIN_UI_SYS_TIME].text[0] = str;
-    pool[MAIN_UI_SYS_TIME].text[1] = str;
-    
-    //主界面的通信状态
-    inf.pos_size.width = 80;
-    inf.pos_size.x -= inf.pos_size.width;
-    memcpy(&pool[MAIN_UI_COM_ST].dis_info, &inf, sizeof(UI_ELE_DISPLAY_INFO_T));
     
     ele = &pool[MAIN_UI_CSALLWIN];
     

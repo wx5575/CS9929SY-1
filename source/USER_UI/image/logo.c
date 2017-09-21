@@ -136,7 +136,7 @@ IMAGE_Handle create_www_qr_code_image(WM_HWIN hWin)
     uint32_t width = 0;
     uint32_t height = 0;
     
-    res = f_open (&f, "\\ROOT\\IMAGE\\cswww.bmp", FA_READ);
+    res = f_open (&f, "\\ROOT\\IMAGE\\QRCODE\\cswww.bmp", FA_READ);
     
     if(res == FR_OK)
     {

@@ -474,6 +474,8 @@ extern void register_backup_key_inf_fun(void(*fun)(void));
 extern void register_recover_key_inf_fun(void(*fun)(void));
 
 /* 各个窗口的创建接口.放在这里方便窗口间相互创建 */
+extern void create_main_windows(void);
+extern void create_status_bar_windows(void);
 extern void create_file_win(int hWin);
 extern void create_sys_manager_win(int hWin);
 extern void create_key_menu_window(void);

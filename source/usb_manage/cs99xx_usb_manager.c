@@ -287,7 +287,12 @@ uint8_t create_file_usb_flash(uint8_t *file_name, uint8_t *path, uint8_t *tar_na
     
 	return res;
 }
-
+/**
+  * @brief  在u盘中创建文件
+  * @param  [in] file_name 文件名不包含路径
+  * @param  [in] path 文件路径
+  * @retval 返回结果
+  */
 uint8_t new_file_in_usb_flash(uint8_t *file_name, uint8_t *path)
 {
     uint8_t name_buf[100];
@@ -299,10 +304,21 @@ uint8_t new_file_in_usb_flash(uint8_t *file_name, uint8_t *path)
 	return create_file_usb_flash(name_buf, path_buf, g_tar_name, g_long_file_name);
 }
 
+/**
+  * @brief  关闭u盘中打开的文件
+  * @param  无
+  * @retval 返回结果
+  */
 uint8_t close_file_in_usb_disk(void)
 {
     return CH376FileClose(TRUE);
 }
+/**
+  * @brief  打开u盘中的文件
+  * @param  [in] file_name 文件名
+  * @param  [in] path 路径
+  * @retval 返回结果
+  */
 uint8_t open_file_in_usb_disk(uint8_t *file_name, uint8_t *path)
 {
     uint8_t name_buf[100];
@@ -318,23 +334,12 @@ uint8_t open_file_in_usb_disk(uint8_t *file_name, uint8_t *path)
     
 	return res;
 }
-
-uint8_t write_file_in_usb_disk(uint8_t *file_name, uint8_t *path)
-{
-    uint8_t name_buf[100];
-    uint8_t path_buf[100];
-    uint8_t res = 0;
-    
-    strcpy((char*)name_buf, (const char*)file_name);
-    strcpy((char*)path_buf, (const char*)path);
-    
-    create_long_file_name(name_buf, path_buf, g_tar_name, g_long_file_name);
-    
-    res = CH376FileOpenPath((uint8_t*)g_tar_name);/* 打开文件 */
-    
-	return res;
-}
-
+/**
+  * @brief  打开u盘中的文件
+  * @param  [in] file_name 文件名
+  * @param  [in] path 路径
+  * @retval 返回结果
+  */
 void usb1_server_task(void)
 {
     int i = 0;
@@ -343,6 +348,11 @@ void usb1_server_task(void)
     
 }
 
+/**
+  * @brief  设置u盘任务
+  * @param  [in] cmd 命令
+  * @retval 无
+  */
 void set_usb_disk_task(uint8_t cmd)
 {
     if(get_ch376_status(CH376_USB_1))
@@ -359,6 +369,12 @@ void set_usb_disk_task(uint8_t cmd)
 uint8_t *ex_addr;
 uint32_t count;
 
+/**
+  * @brief  写两个字节到文件，供截屏使用
+  * @param  [in] data 要写的数据
+  * @param  [in] p 未使用
+  * @retval 无
+  */
 void write_byte_2_file(uint8_t data, void *p)
 {
     if(ex_addr != NULL)
@@ -368,6 +384,12 @@ void write_byte_2_file(uint8_t data, void *p)
 }
 void read_dis_ram(uint16_t _usX, uint16_t _usY, uint16_t *buf);
 
+/**
+  * @brief  获取文件名
+  * @param  [out] buf 输出缓冲
+  * @param  [in] name 未使用
+  * @retval 无
+  */
 void get_file_name(uint8_t *buf, uint8_t *name)
 {
     uint8_t flag = 0;
@@ -377,8 +399,7 @@ void get_file_name(uint8_t *buf, uint8_t *name)
     uint8_t name_1[10] = {0};
     uint8_t name_2[4] = {0};
     
-//    len = strlen((const char*)name);
-    
+    /* 最后3个字符中文件的扩展名 */
     for(i = 0; i < (11 - 3); i++)
     {
         if(name[i] == ' ')
@@ -399,11 +420,20 @@ void get_file_name(uint8_t *buf, uint8_t *name)
     
     name_1[j] = 0;
     name_2[k] = 0;
-    strncpy((char*)name_2, (const char*)&name[8], 3);
+    strncat((char*)name_2, (const char*)&name[8], 3);
+//    strncpy((char*)name_2, (const char*)
     
     sprintf((char*)buf, "%s.%s", name_1, name_2);
 }
-void get_dir_path(uint8_t *buf, uint8_t *dir_name)
+
+/**
+  * @brief  获取目录路径
+  * @param  [out] buf 输出缓冲
+  * @param  [out] path 当前文件夹路径
+  * @param  [in] dir_name 未使用
+  * @retval 无
+  */
+void get_dir_path(uint8_t *buf, uint8_t *path, uint8_t *dir_name)
 {
     uint8_t tmp_buf[12] = {0};
     int32_t i = 0;
@@ -421,9 +451,14 @@ void get_dir_path(uint8_t *buf, uint8_t *dir_name)
     
     tmp_buf[j] = 0;
     
-    sprintf((char*)buf, "\\%s\\%s", "ROOT", tmp_buf);
+    sprintf((char*)buf, "%s\\%s", path, tmp_buf);
 }
 
+/**
+  * @brief  在SDCARD中创建多级目录，目录分隔符必须为 "\\"
+  * @param  [in] path 文件路径
+  * @retval 创建结果
+  */
 FRESULT my_mkdir(uint8_t *path)
 {
     uint8_t len = 0;
@@ -433,7 +468,6 @@ FRESULT my_mkdir(uint8_t *path)
     uint8_t dir_buf[10][20] = {0};
     uint8_t full_path[100] = {0};
     FRESULT fresult;
-    
     
     len = strlen((const char*)path);
     
@@ -467,6 +501,13 @@ FRESULT my_mkdir(uint8_t *path)
     
     return fresult;
 }
+
+/**
+  * @brief  拷贝文件到SDCARD中
+  * @param  [in] file_name 文件名
+  * @param  [in] path 文件路径
+  * @retval 无
+  */
 void copy_file_to_sdcard(uint8_t *file_name, uint8_t *path)
 {
     uint8_t res = 0;
@@ -539,6 +580,11 @@ void copy_file_to_sdcard(uint8_t *file_name, uint8_t *path)
 }
 uint8_t open_dir(uint8_t *path, uint32_t index);
 
+/**
+  * @brief  获取返回路径，当前目录的上一级目录
+  * @param  [in/out] path 路径
+  * @retval 无
+  */
 void get_return_dir_path(uint8_t *path)
 {
     int32_t i = 0;
@@ -555,6 +601,12 @@ void get_return_dir_path(uint8_t *path)
         }
     }
 }
+/**
+  * @brief  枚举文件夹中的文件
+  * @param  [in/out] index 当前文件夹已经被枚举的文件个数
+  * @param  [in/out] path 路径
+  * @retval 无
+  */
 uint8_t enum_dir_files(uint32_t *index, uint8_t *path)
 {
     uint8_t res = 0;
@@ -585,7 +637,7 @@ uint8_t enum_dir_files(uint32_t *index, uint8_t *path)
     /* 子目录 */
     else if(dir_inf.DIR_Attr == ATTR_DIRECTORY)
     {
-        get_dir_path(buf, dir_inf.DIR_Name);
+        get_dir_path(buf, path, dir_inf.DIR_Name);
         if((0 != strncmp(".", dir_inf.DIR_Name, 1))
             && (0 != strncmp("..", dir_inf.DIR_Name, 2)))
         {
@@ -615,7 +667,12 @@ uint8_t enum_dir_files(uint32_t *index, uint8_t *path)
     
     return ret;
 }
-
+/**
+  * @brief  枚举文件夹中的文件
+  * @param  [in/out] path 路径
+  * @param  [in/out] index 当前文件夹已经被枚举的文件个数
+  * @retval 无
+  */
 uint8_t open_dir(uint8_t *path, uint32_t index)
 {
     uint8_t ret = 0;
@@ -633,11 +690,18 @@ uint8_t open_dir(uint8_t *path, uint32_t index)
     }
     
     while(ret == 0)
+    {
         ret = enum_dir_files(&index, path);
+    }
     
     return ret;
 }
-
+/**
+  * @brief  USB2口服务函数
+  * @param  [in/out] path 路径
+  * @param  [in/out] index 当前文件夹已经被枚举的文件个数
+  * @retval 无
+  */
 void usb2_server_task(void)
 {
     uint8_t res = 0;
@@ -651,20 +715,15 @@ void usb2_server_task(void)
     FRESULT fresult;
     FIL f;
     uint32_t real_size;
-    FAT_DIR_INFO dir_inf;
     
 	switch(usb_exe_task)
 	{
 		case USB_COPY_FILE:
-            
-            memset(&dir_inf, 0, sizeof(dir_inf));
-            strcpy((char*)buf, "\\ROOT");
-            
-//            res = CH376FileOpenPath((uint8_t*)buf);/* 打开目录 */
             set_main_win_progbar_show();//显示进度条
+            strcpy((char*)buf, "\\ROOT");
             open_dir(buf, 0);
-			usb_exe_task = USB_TASK_NULL;
             delete_main_win_progbar();//删除进度条
+			usb_exe_task = USB_TASK_NULL;
             break;
 		case USB_SCREEN_CAPTURE:
             

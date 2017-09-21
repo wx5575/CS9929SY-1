@@ -10418,7 +10418,7 @@ GUI_CONST_STORAGE GUI_CHARINFO GUI_Fonthz_29_CharInfo[332] = {
   ,{  16,  16,  2, acGUI_Fonthz_29_007B } /* code 007B */
   ,{  16,  16,  2, acGUI_Fonthz_29_007D } /* code 007D */
   ,{  30,  30,  4, acGUI_Fonthz_29_03A9 } /* code 03A9 */
-  ,{  30,  30,  4, acGUI_Fonthz_29_03BC } /* code 03BC */
+  ,{  26,  26,  4, acGUI_Fonthz_29_03BC } /* code 03BC */
   ,{  30,  30,  4, acGUI_Fonthz_29_4E00 } /* code 4E00 */
   ,{  30,  30,  4, acGUI_Fonthz_29_4E0A } /* code 4E0A */
   ,{  30,  30,  4, acGUI_Fonthz_29_4E0B } /* code 4E0B */

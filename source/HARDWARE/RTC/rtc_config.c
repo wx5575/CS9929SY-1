@@ -143,36 +143,6 @@ void rtc_set_time(uint32_t year, uint32_t month, uint32_t day,
 	RTC_SetDate(RTC_Format_BIN,&rtc_date);
 	RTC_SetTime(RTC_Format_BIN,&rtc_time);
 }
-/**
-  * @brief  RTC NVIC配置
-  * @param  无
-  * @retval 无
-  */
-static void RTC_Nvic_Configuration(void)
-{
-	NVIC_InitTypeDef NVIC_InitStructure;
-	EXTI_InitTypeDef EXTI_InitStructure;
-	
-//	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
-	
-	EXTI_ClearITPendingBit(EXTI_Line22);
-	EXTI_InitStructure.EXTI_Line = EXTI_Line22;
-	EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
-	EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
-	EXTI_InitStructure.EXTI_LineCmd = ENABLE;
-	EXTI_Init(&EXTI_InitStructure);
-	
-	NVIC_InitStructure.NVIC_IRQChannel = RTC_WKUP_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
-	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-	NVIC_Init(&NVIC_InitStructure);
-	
-	RTC_ITConfig(RTC_IT_WUT, ENABLE);
-	RTC_WakeUpCmd(ENABLE);
-	RTC_WakeUpClockConfig(RTC_WakeUpClock_CK_SPRE_16bits);
-	RTC_SetWakeUpCounter(0);
-}
 
 /**
   * @brief  RTC 初始化配置
@@ -189,9 +159,11 @@ static int RTC_Configuration(void)
 	
     /* 使能PWR时钟 */
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR, ENABLE);
-// 	RCC_APB1PeriphClockCmd(RCC_AHB1Periph_BKPSRAM, ENABLE);
+ 	RCC_APB1PeriphClockCmd(RCC_AHB1Periph_BKPSRAM, ENABLE);
 	
-// 	RTC_DeInit();
+    
+    
+ 	RTC_DeInit();
 	/* 允许访问RTC */
 	PWR_BackupAccessCmd(ENABLE);
 	
@@ -251,6 +223,9 @@ static int RTC_Configuration(void)
   */
 void rtc_init(void)
 {
+//    RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR, ENABLE);//使能PWR时钟
+//    PWR_BackupAccessCmd(ENABLE);//使能后备寄存器访问
+    
     if (RTC_ReadBackupRegister(RTC_BKP_DR0) != 0xA5A5)
     {
         if ( RTC_Configuration() != 0)
@@ -274,10 +249,6 @@ void rtc_init(void)
 		RTC->CR = 0;
 		RTC->WPR = 0XFF;
     }
-	
-// 	RTC_Nvic_Configuration();
-	
-    return;
 }
 
 /**

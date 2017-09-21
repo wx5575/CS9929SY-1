@@ -59,8 +59,6 @@ static	WM_HWIN KEY_CAPITAL_SMALL_handle;///<大小写图标句柄
 /** 主界面显示的文本索引表 */
 static CS_INDEX main_ui_text_ele_table[] =
 {
-	MAIN_UI_COM_ST,
-	MAIN_UI_SYS_TIME,
     MAIN_UI_CSALLWIN,
     MAIN_UI_VERSION,
     MAIN_UI_TYPE,
@@ -70,7 +68,7 @@ static CS_INDEX main_ui_text_ele_table[] =
 /**
   * @brief  系统按键信息
   */
-static CONFIG_FUNCTION_KEY_INFO_T sys_key_pool[]=
+static CONFIG_FUNCTION_KEY_INFO_T main_win_sys_key_pool[]=
 {
 	{KEY_SHIFT	    , sys_shift_key_fun_cb      },
 	{KEY_UNLOCK	    , sys_unlock_key_fun_cb     },
@@ -105,8 +103,6 @@ static MENU_KEY_INFO_T 	main_ui_menu_key_inf[] =
   */
 static TEXT_ELE_T main_ui_text_ele_pool[]=
 {
-	{{"本控","LOCAL"}, MAIN_UI_COM_ST },
-	{{"2017-04-07 08:59:00","2017-04-07 08:59:00"}, MAIN_UI_SYS_TIME },
 	{{"南京长盛仪器","CSALLWIN"}, MAIN_UI_CSALLWIN },
 	{{"版本:1.0.0","Ver:1.0.0"}, MAIN_UI_VERSION },
 	{{"型号:CS9929SY","Type:CS9929SY"}, MAIN_UI_TYPE },
@@ -253,30 +249,6 @@ static void init_main_ui_text_ele_pos_inf(void)
         break;
     }
 }
-/**
-  * @brief  绘制主界面状态栏
-  * @param  无
-  * @retval 无
-  */
-static void draw_main_win_status_bar(void)
-{
-    GUI_SetColor(GUI_LIGHTGRAY);
-    
-    switch(SCREEM_SIZE)
-    {
-        case SCREEN_4_3INCH:
-            break;
-        case SCREEN_6_5INCH:
-            break;
-        default:
-        case SCREEN_7INCH:
-            GUI_FillRectEx(&_7_sys_st_info_area);
-            break;
-    }
-}
-
-
-
 
 /**
   * @brief  更新主界面的菜单键信息
@@ -287,7 +259,6 @@ static void update_main_ui_menu_key_inf(WM_HMEM hWin)
 {
 	init_menu_key_info(main_ui_menu_key_inf, ARRAY_SIZE(main_ui_menu_key_inf), hWin);
 }
-
 
 /**
   * @brief  更新上档键的图标显示
@@ -377,19 +348,19 @@ static void sys_shift_key_fun_cb(KEY_MESSAGE *key_msg)
   * @param  无
   * @retval 无
   */
-void update_unlock_bmp(void)
-{
-    uint8_t flag = get_key_lock_flag();
-    
-    if(flag)
-    {
-        set_key_lock_image(KEY_LOCK_handle);
-    }
-    else
-    {
-        set_key_unlock_image(KEY_LOCK_handle);
-    }
-}
+//void update_unlock_bmp(void)
+//{
+//    uint8_t flag = get_key_lock_flag();
+//    
+//    if(flag)
+//    {
+//        set_key_lock_image(KEY_LOCK_handle);
+//    }
+//    else
+//    {
+//        set_key_unlock_image(KEY_LOCK_handle);
+//    }
+//}
 
 /**
   * @brief  改变键盘锁状态
@@ -484,7 +455,7 @@ void set_main_win_progbar_show(void)
   */
 static void update_system_key_inf(WM_HMEM hWin)
 {
-    register_system_key_fun(sys_key_pool, ARRAY_SIZE(sys_key_pool), hWin);
+    register_system_key_fun(main_win_sys_key_pool, ARRAY_SIZE(main_win_sys_key_pool), hWin);
 }
 
 /**
@@ -502,7 +473,7 @@ static void set_main_windows_handle(WM_HWIN hWin)
   * @param  无
   * @retval 无
   */
-static void _PaintFrame(void) 
+static void main_win_paintframe(void) 
 {
 	GUI_RECT r;
 	WM_GetClientRect(&r);
@@ -522,76 +493,6 @@ static void main_win_update_key_inf(WM_HWIN hWin)
 }
 
 /**
-  * @brief  更新USB的显示状态
-  * @param  [in] hWin 窗口句柄
-  * @retval 无
-  */
-void update_usb_dis_status(void)
-{
-    uint8_t st = 0;
-    
-    st = get_ch376_status(1);
-    
-    if(st == 1)
-    {
-        set_usb_disk_1_ok_image(U_FLASH_1_handle);
-    }
-    else
-    {
-        set_usb_disk_1_ng_image(U_FLASH_1_handle);
-    }
-    
-    st = get_ch376_status(2);
-    
-    if(st == 1)
-    {
-        set_usb_disk_2_ok_image(U_FLASH_2_handle);
-    }
-    else
-    {
-        set_usb_disk_2_ng_image(U_FLASH_2_handle);
-    }
-    
-    update_unlock_bmp();
-    update_shift_bmp();
-}
-
-#include "ff.h"
-
-uint8_t *bmpBuffer;
-static int BmpGetData(void * p, const U8 ** ppData, unsigned NumBytesReq, U32 Off) 
-{
-        static int readaddress=0;
-        FIL * phFile;
-        UINT NumBytesRead;
-        #if SYSTEM_SUPPORT_UCOS
-                OS_CPU_SR cpu_sr;
-        #endif
-        
-        phFile = (FIL *)p;
-        
-        if (NumBytesReq > sizeof(bmpBuffer)) 
-        {
-                NumBytesReq = sizeof(bmpBuffer);
-        }
-
-        //移动指针到应该读取的位置
-        if(Off == 1) readaddress = 0;
-        else readaddress=Off;
-        #if SYSTEM_SUPPORT_UCOS
-                OS_ENTER_CRITICAL();        //临界区
-        #endif
-        f_lseek(phFile,readaddress); 
-        
-        //读取数据到缓冲区中
-        f_read(phFile,bmpBuffer,NumBytesReq,&NumBytesRead);
-        #if SYSTEM_SUPPORT_UCOS
-                OS_EXIT_CRITICAL();        //退出临界区 
-        #endif
-        *ppData = (U8 *)bmpBuffer;
-        return NumBytesRead;//返回读取到的字节数
-}
-/**
   * @brief  主测试界面回调函数
   * @param  [in] pMsg 回调函数指针
   * @retval 无
@@ -610,37 +511,17 @@ static void main_win_cb(WM_MESSAGE * pMsg)
 			WM_SetFocus(hWin);/* 设置聚焦 */
             main_win_update_key_inf(hWin);
             
-            create_slogo_image(hWin);
-            create_www_qr_code_image(hWin);
-            create_wts_qr_code_image(hWin);
             init_main_ui_text_ele_pos_inf();//初始化文本对象的位置信息
             init_window_text_ele_list(win);//初始化窗口文本对象链表
 			init_window_text_ele(win);
-			timer_handle = WM_CreateTimer(hWin, 0, 1000, 0);
-            U_FLASH_1_handle = create_u_flash_1_image(hWin, 5 + 25 * 0, 480 - 24);
-            U_FLASH_2_handle = create_u_flash_2_image(hWin, 5 + 25 * 1, 480 - 24);
-            KEY_LOCK_handle = create_key_lock_image(hWin, 5 + 25 * 2, 480 - 24);
-            KEY_CAPITAL_SMALL_handle = create_capital_small_letter_image(hWin, 5 + 25 * 3, 480 - 24);
             
-            set_usb_disk_1_ng_image(U_FLASH_1_handle);
-            set_usb_disk_2_ng_image(U_FLASH_2_handle);
-            set_key_unlock_image(KEY_LOCK_handle);
-            set_small_letter_image(KEY_CAPITAL_SMALL_handle);
+            create_slogo_image(hWin);
+            create_www_qr_code_image(hWin);
+            create_wts_qr_code_image(hWin);
 			break;
 		case WM_PAINT:
-			_PaintFrame();
-            draw_main_win_status_bar();
+			main_win_paintframe();
 			break;
-		case WM_TIMER:
-		{
-            uint8_t *str = get_time_str(0);
-			win = get_user_window_info(hWin);
-            main_ui_text_ele_pool[MAIN_UI_SYS_TIME].text[CHINESE] = str;
-            main_ui_text_ele_pool[MAIN_UI_SYS_TIME].text[ENGLISH] = str;
-			update_text_ele((CS_INDEX)MAIN_UI_SYS_TIME, win, str);
-			WM_RestartTimer(timer_handle, 1000);
-			break;
-		}
 		case WM_KEY:
 			break;
 		default:
@@ -649,10 +530,20 @@ static void main_win_cb(WM_MESSAGE * pMsg)
 	}
 }
 
+/**
+  * @brief  隐藏主界面
+  * @param  无
+  * @retval 无
+  */
 void hide_main_win(void)
 {
     WM_HideWindow(main_windows.handle);
 }
+/**
+  * @brief  显示主界面
+  * @param  无
+  * @retval 无
+  */
 void show_main_win(void)
 {
     WM_ShowWindow(main_windows.handle);
@@ -662,7 +553,7 @@ void show_main_win(void)
   * @param  无
   * @retval 无
   */
-static void create_main_windows(void)
+void create_main_windows(void)
 {
     create_user_window(&main_windows, &windows_list, 0);
 }
@@ -694,7 +585,7 @@ static void into_start_win(void)//进入启动窗口
     create_start_win(0);//创建启动窗口
 }
 /* Public functions ---------------------------------------------------------*/
-#include "start_stop_key.h"
+
 /**
   * @brief  主窗口的入口
   * @param  无
@@ -711,6 +602,7 @@ void main_ui_enter(void)
     GUI_Delay(2000);//调用这个函数可以刷新界面
     
     create_key_menu_window();//创建按键界面
+    create_status_bar_windows();
     create_main_windows();//创建主界面
     read_par_from_memory();//从存储器读取参数
 	
