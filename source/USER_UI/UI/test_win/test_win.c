@@ -319,7 +319,7 @@ static MENU_KEY_INFO_T test_ui_menu_key_pool[]=
     {"", F_KEY_FILE		, KEY_F1 & _KEY_UP,	test_win_f1_cb },//f1
     {"", F_KEY_SETTING  , KEY_F2 & _KEY_UP,	test_win_f2_cb },//f2
     {"", F_KEY_RESULT   , KEY_F3 & _KEY_UP,	test_win_f3_cb },//f3
-    {"", F_KEY_START    , KEY_F4 & _KEY_UP,	test_win_f4_cb },//f4
+    {"", F_KEY_NULL     , KEY_F4 & _KEY_UP,	test_win_f4_cb },//f4
     {"", F_KEY_NULL     , KEY_F5 & _KEY_UP,	test_win_f5_cb },//f5
     {"", F_KEY_BACK		, KEY_F6 & _KEY_UP,	test_win_f6_cb },//f6
 };

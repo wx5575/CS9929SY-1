@@ -50,12 +50,6 @@ static void main_win_f6_cb(KEY_MESSAGE *key_msg);
 static void main_win_update_key_inf(WM_HWIN hWin);
 /* Private variables ---------------------------------------------------------*/
 
-static	WM_HWIN progbar_handle;///<进度条
-static	WM_HWIN timer_handle;///<定时器句柄
-static	WM_HWIN U_FLASH_1_handle;///<U盘图标1句柄
-static	WM_HWIN U_FLASH_2_handle;///<U盘图标2句柄
-static	WM_HWIN KEY_LOCK_handle;///<键盘锁图标句柄
-static	WM_HWIN KEY_CAPITAL_SMALL_handle;///<大小写图标句柄
 /** 主界面显示的文本索引表 */
 static CS_INDEX main_ui_text_ele_table[] =
 {
@@ -131,6 +125,9 @@ MYUSER_WINDOW_T main_windows=
     },/* auto_layout */
     main_win_pos_size_pool,/*pos_size_pool */
 };
+/**
+  * @brief  指向主窗口结构体this指针
+  */
 static MYUSER_WINDOW_T *this_win = &main_windows;
 /* Private functions ---------------------------------------------------------*/
 /**
@@ -261,25 +258,6 @@ static void update_main_ui_menu_key_inf(WM_HMEM hWin)
 }
 
 /**
-  * @brief  更新上档键的图标显示
-  * @param  [in] hWin 主界面窗口句柄
-  * @retval 无
-  */
-static void update_shift_bmp(void)
-{
-    uint8_t flag = get_shift_status();
-    
-    if(flag)
-    {
-        set_capital_letter_image(KEY_CAPITAL_SMALL_handle);
-    }
-    else
-    {
-        set_small_letter_image(KEY_CAPITAL_SMALL_handle);
-    }
-}
-
-/**
   * @brief  系统EXIT按键回调函数
   * @param  [in] key_msg 按键消息
   * @retval 无
@@ -344,25 +322,6 @@ static void sys_shift_key_fun_cb(KEY_MESSAGE *key_msg)
 }
 
 /**
-  * @brief  更新键盘锁图标
-  * @param  无
-  * @retval 无
-  */
-//void update_unlock_bmp(void)
-//{
-//    uint8_t flag = get_key_lock_flag();
-//    
-//    if(flag)
-//    {
-//        set_key_lock_image(KEY_LOCK_handle);
-//    }
-//    else
-//    {
-//        set_key_unlock_image(KEY_LOCK_handle);
-//    }
-//}
-
-/**
   * @brief  改变键盘锁状态
   * @param  [in] key_msg 按键消息
   * @retval 无
@@ -392,11 +351,10 @@ static void sys_unlock_key_fun_cb(KEY_MESSAGE *key_msg)
   */
 static void screen_capture_key_fun_cb(KEY_MESSAGE *key_msg)
 {
-    int32_t data = key_msg->user_data;
-    
     set_usb_disk_task(USB_SCREEN_CAPTURE);
+    
     //创建进度条
-    progbar_handle = PROGBAR_CreateEx(105, 455, 50, 20, data, WM_CF_HIDE, 0, id_base++);
+    create_status_bar_win_progbar();
 }
 /**
   * @brief  截屏按键的
@@ -405,11 +363,10 @@ static void screen_capture_key_fun_cb(KEY_MESSAGE *key_msg)
   */
 static void copy_file_to_sdcard_key_fun_cb(KEY_MESSAGE *key_msg)
 {
-    int32_t data = key_msg->user_data;
-    
     set_usb_disk_task(USB_COPY_FILE);
+    
     //创建进度条
-    progbar_handle = PROGBAR_CreateEx(105, 455, 50, 20, data, WM_CF_HIDE, 0, id_base++);
+    create_status_bar_win_progbar();
 }
 /**
   * @brief  重启仪器
@@ -420,34 +377,7 @@ static void reset_cpu_key_fun_cb(KEY_MESSAGE *key_msg)
 {
     NVIC_SystemReset();
 }
-/**
-  * @brief  删除主窗口进度条
-  * @param  无
-  * @retval 无
-  */
-void delete_main_win_progbar(void)
-{
-    WM_DeleteWindow(progbar_handle);//删除窗口控件
-    progbar_handle = 0;//清除被删除窗口的句柄
-}
-/**
-  * @brief  设置主窗口进度条的进度
-  * @param  value 进度值
-  * @retval 无
-  */
-void set_main_win_progbar_value(int32_t value)
-{
-    PROGBAR_SetValue(progbar_handle, value);
-}
-/**
-  * @brief  设置主窗口进度条从隐藏变为可见
-  * @param  无
-  * @retval 无
-  */
-void set_main_win_progbar_show(void)
-{
-    WM_ShowWindow(progbar_handle);
-}
+
 /**
   * @brief  更新系统按键信息
   * @param  [in] hWin 窗口句柄
@@ -600,7 +530,10 @@ void main_ui_enter(void)
     GUI_Delay(1000);//调用这个函数可以刷新界面
     into_self_check_win();//进入自检窗口
     GUI_Delay(2000);//调用这个函数可以刷新界面
-    
+    while(self_check_ok == 0)
+    {
+        GUI_Delay(1);//调用这个函数可以刷新界面
+    }
     create_key_menu_window();//创建按键界面
     create_status_bar_windows();
     create_main_windows();//创建主界面

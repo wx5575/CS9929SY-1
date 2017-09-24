@@ -17,9 +17,9 @@ typedef enum {
 }MAIN_UI_INDEX;
 
 extern void update_usb_dis_status(void);
-extern void set_main_win_progbar_value(int value);
-extern void delete_main_win_progbar(void);
-extern void set_main_win_progbar_show(void);
+extern void set_status_bar_win_progbar_value(int value);
+extern void delete_status_bar_win_progbar(void);
+extern void set_status_bar_win_progbar_show(void);
 extern void main_ui_enter(void);
 
 #endif //__MAIN_UI_COM_INFO_H__

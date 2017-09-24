@@ -1040,6 +1040,11 @@
               <FileType>1</FileType>
               <FilePath>..\source\HARDWARE\CH376\src\SPI_SW.C</FilePath>
             </File>
+            <File>
+              <FileName>376host.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\HARDWARE\CH376\src\376host.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1094,6 +1099,16 @@
               <FileName>hz_29.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\USER_UI\fonts\HZ\hz_29.c</FilePath>
+            </File>
+            <File>
+              <FileName>xingkai_42.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\fonts\HZ\xingkai_42.c</FilePath>
+            </File>
+            <File>
+              <FileName>xingkai.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\fonts\HZ\xingkai.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1219,6 +1234,21 @@
               <FileName>self_check_win.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\USER_UI\UI\self_check_win\self_check_win.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>STATUS_BAR_WIN</GroupName>
+          <Files>
+            <File>
+              <FileName>7_status_bar_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\status_bar_win\7_status_bar_win.c</FilePath>
+            </File>
+            <File>
+              <FileName>status_bar_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\status_bar_win\status_bar_win.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2618,6 +2648,11 @@
               <FileType>1</FileType>
               <FilePath>..\source\HARDWARE\CH376\src\SPI_SW.C</FilePath>
             </File>
+            <File>
+              <FileName>376host.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\HARDWARE\CH376\src\376host.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -2672,6 +2707,16 @@
               <FileName>hz_29.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\USER_UI\fonts\HZ\hz_29.c</FilePath>
+            </File>
+            <File>
+              <FileName>xingkai_42.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\fonts\HZ\xingkai_42.c</FilePath>
+            </File>
+            <File>
+              <FileName>xingkai.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\fonts\HZ\xingkai.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2797,6 +2842,21 @@
               <FileName>self_check_win.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\USER_UI\UI\self_check_win\self_check_win.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>STATUS_BAR_WIN</GroupName>
+          <Files>
+            <File>
+              <FileName>7_status_bar_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\status_bar_win\7_status_bar_win.c</FilePath>
+            </File>
+            <File>
+              <FileName>status_bar_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\status_bar_win\status_bar_win.c</FilePath>
             </File>
           </Files>
         </Group>

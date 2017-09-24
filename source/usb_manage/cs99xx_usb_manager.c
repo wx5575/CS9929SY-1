@@ -540,12 +540,12 @@ void copy_file_to_sdcard(uint8_t *file_name, uint8_t *path)
     package_size = (4 * 1024);
     num = file_size / package_size;
     
-    set_main_win_progbar_show();//显示进度条
+    set_status_bar_win_progbar_show();//显示进度条
     
     for(i = 0; i < num; i++)
     {
         res = CH376ByteRead(ex_addr + i * package_size, package_size, NULL);
-        set_main_win_progbar_value(i * 100 / num);//设置进度条进度
+        set_status_bar_win_progbar_value(i * 100 / num);//设置进度条进度
         if(0x14 != res)
         {
             break;
@@ -719,10 +719,10 @@ void usb2_server_task(void)
 	switch(usb_exe_task)
 	{
 		case USB_COPY_FILE:
-            set_main_win_progbar_show();//显示进度条
+            set_status_bar_win_progbar_show();//显示进度条
             strcpy((char*)buf, "\\ROOT");
             open_dir(buf, 0);
-            delete_main_win_progbar();//删除进度条
+            delete_status_bar_win_progbar();//删除进度条
 			usb_exe_task = USB_TASK_NULL;
             break;
 		case USB_SCREEN_CAPTURE:
@@ -759,11 +759,11 @@ void usb2_server_task(void)
             GUI_BMP_Serialize(write_byte_2_file, NULL);
             
             c = count / (1024 * 3);
-            set_main_win_progbar_show();//显示进度条
+            set_status_bar_win_progbar_show();//显示进度条
             
             for(i = 0; i < c; i++)
             {
-                set_main_win_progbar_value(i * 100 / c);//设置进度条进度
+                set_status_bar_win_progbar_value(i * 100 / c);//设置进度条进度
                 res = CH376LongNameWrite((uint8_t *)(ex_addr + (1024 * 3) * i), (1024 * 3));
                 
                 if(0x14 != res)
@@ -783,7 +783,7 @@ void usb2_server_task(void)
                 }
             }
             
-            delete_main_win_progbar();//删除进度条
+            delete_status_bar_win_progbar();//删除进度条
             free_ex_mem(ex_addr);
             close_file_in_usb_disk();
 			usb_exe_task = USB_TASK_NULL;

@@ -416,10 +416,14 @@ COM_UI_EXT EDIT_ELE_T     *g_cur_edit_ele_bk;///<备份当前编辑对象
 COM_UI_EXT TEXT_ELE_T           *g_cur_text_ele;///<当前文本对象
 COM_UI_EXT CUSTOM_MSG_T 	    g_custom_msg;///<用户自定义消息实体变量
 COM_UI_EXT uint32_t             id_base;///<全局控件ID变量
+COM_UI_EXT uint8_t              self_check_ok;///<自检结束标记
 
 extern TEXT_ELE_T * get_text_ele_inf(TEXT_ELE_T *text_pool, uint32_t pool_size, CS_INDEX index, CS_ERR*err);
 extern void init_window_text_ele(MYUSER_WINDOW_T* win);
+
+extern void get_text_ele_text(CS_INDEX index, MYUSER_WINDOW_T* win, uint8_t *str, uint32_t size);
 extern void update_text_ele(CS_INDEX index, MYUSER_WINDOW_T* win, const uint8_t *str);
+extern void set_text_ele_visible(CS_INDEX index, MYUSER_WINDOW_T* win, uint8_t visible);
 extern void set_text_ele_font_color(CS_INDEX index, MYUSER_WINDOW_T* win, GUI_COLOR color);
 extern void set_text_ele_font_backcolor(CS_INDEX index, MYUSER_WINDOW_T* win, GUI_COLOR back_color);
 extern void create_user_window(MYUSER_WINDOW_T* win_info, CS_LIST *list_head, WM_HWIN h_parent);
@@ -476,6 +480,13 @@ extern void register_recover_key_inf_fun(void(*fun)(void));
 /* 各个窗口的创建接口.放在这里方便窗口间相互创建 */
 extern void create_main_windows(void);
 extern void create_status_bar_windows(void);
+extern void update_shift_bmp(void);
+extern void update_unlock_bmp(void);
+extern void update_usb_dis_status(void);
+extern void create_status_bar_win_progbar(void);
+extern void delete_status_bar_win_progbar(void);
+extern void set_status_bar_win_progbar_show(void);
+extern void set_status_bar_win_progbar_value(int32_t value);
 extern void create_file_win(int hWin);
 extern void create_sys_manager_win(int hWin);
 extern void create_key_menu_window(void);

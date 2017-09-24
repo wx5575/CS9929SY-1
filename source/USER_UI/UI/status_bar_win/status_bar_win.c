@@ -62,7 +62,7 @@ static TEXT_ELE_T status_bar_win_text_ele_pool[]=
 	{{"2017-04-07 08:59:00","2017-04-07 08:59:00"}, STATUS_BAR_WIN_SYS_TIME },
 };
 /**
-  * @brief  主窗口结构体初始化
+  * @brief  状态栏结构体初始化
   */
 MYUSER_WINDOW_T status_bar_windows=
 {
@@ -83,7 +83,10 @@ MYUSER_WINDOW_T status_bar_windows=
     },/* auto_layout */
     status_bar_win_pos_size_pool,/*pos_size_pool */
 };
-
+/**
+  * @brief  指向状态栏的this指针
+  */
+static MYUSER_WINDOW_T *this_win = &status_bar_windows;
 /* Private functions ---------------------------------------------------------*/
 
 /**
@@ -128,27 +131,6 @@ static void draw_status_bar_win_status_bar(void)
 }
 
 /**
-  * @brief  更新上档键的图标显示
-  * @param  [in] hWin 主界面窗口句柄
-  * @retval 无
-  */
-static void update_shift_bmp(void)
-{
-    uint8_t flag = get_shift_status();
-    
-    if(flag)
-    {
-        set_capital_letter_image(KEY_CAPITAL_SMALL_handle);
-    }
-    else
-    {
-        set_small_letter_image(KEY_CAPITAL_SMALL_handle);
-    }
-}
-
-
-
-/**
   * @brief  重绘背景
   * @param  无
   * @retval 无
@@ -182,11 +164,14 @@ static void status_bar_win_cb(WM_MESSAGE * pMsg)
             init_window_text_ele_list(win);//初始化窗口文本对象链表
 			init_window_text_ele(win);
 			timer_handle = WM_CreateTimer(hWin, 0, 1000, 0);
+            
+            /* 状态栏图标 */
             U_FLASH_1_handle = create_u_flash_1_image(hWin, 5 + 25 * 0, 2);
             U_FLASH_2_handle = create_u_flash_2_image(hWin, 5 + 25 * 1, 2);
             KEY_LOCK_handle = create_key_lock_image(hWin, 5 + 25 * 2, 2);
             KEY_CAPITAL_SMALL_handle = create_capital_small_letter_image(hWin, 5 + 25 * 3, 2);
             
+            /* 设置图标内容 */
             set_usb_disk_1_ng_image(U_FLASH_1_handle);
             set_usb_disk_2_ng_image(U_FLASH_2_handle);
             set_key_unlock_image(KEY_LOCK_handle);
@@ -217,6 +202,25 @@ static void status_bar_win_cb(WM_MESSAGE * pMsg)
 /* Public functions ---------------------------------------------------------*/
 
 /**
+  * @brief  更新上档键的图标显示
+  * @param  [in] hWin 主界面窗口句柄
+  * @retval 无
+  */
+void update_shift_bmp(void)
+{
+    uint8_t flag = get_shift_status();
+    
+    if(flag)
+    {
+        set_capital_letter_image(KEY_CAPITAL_SMALL_handle);
+    }
+    else
+    {
+        set_small_letter_image(KEY_CAPITAL_SMALL_handle);
+    }
+}
+
+/**
   * @brief  更新键盘锁图标
   * @param  无
   * @retval 无
@@ -233,6 +237,16 @@ void update_unlock_bmp(void)
     {
         set_key_unlock_image(KEY_LOCK_handle);
     }
+}
+/**
+  * @brief  创建状态栏进度条
+  * @param  无
+  * @retval 无
+  */
+void create_status_bar_win_progbar(void)
+{
+    progbar_handle = PROGBAR_CreateEx(105, 0, 50, 20, this_win->handle,
+            WM_CF_HIDE, 0, id_base++);
 }
 /**
   * @brief  删除状态栏进度条

@@ -106,6 +106,7 @@ void soft_init(void)
   * @param  [in] p_arg 任务自己的参数
   * @retval 无
   */
+void mainx( void );
 void ch376_task(void *p_arg)
 {
     uint8_t strong_brush_time = 0;//强刷计时
@@ -113,7 +114,8 @@ void ch376_task(void *p_arg)
     
     init_ch376();
     OS_DELAY_ms(2000);
-	
+    set_cur_ch376_chip(1);
+	mainx();
 	while(1)
 	{
         OS_DELAY_ms(200);

@@ -1040,6 +1040,11 @@
               <FileType>1</FileType>
               <FilePath>..\source\HARDWARE\CH376\src\SPI_SW.C</FilePath>
             </File>
+            <File>
+              <FileName>376host.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\HARDWARE\CH376\src\376host.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1233,6 +1238,21 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>STATUS_BAR_WIN</GroupName>
+          <Files>
+            <File>
+              <FileName>7_status_bar_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\status_bar_win\7_status_bar_win.c</FilePath>
+            </File>
+            <File>
+              <FileName>status_bar_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\status_bar_win\status_bar_win.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>MAIN_WIN</GroupName>
           <Files>
             <File>
@@ -1244,6 +1264,11 @@
               <FileName>main_win.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\USER_UI\UI\main_win\main_win.c</FilePath>
+            </File>
+            <File>
+              <FileName>test.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\test.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2628,6 +2653,11 @@
               <FileType>1</FileType>
               <FilePath>..\source\HARDWARE\CH376\src\SPI_SW.C</FilePath>
             </File>
+            <File>
+              <FileName>376host.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\HARDWARE\CH376\src\376host.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -2821,6 +2851,21 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>STATUS_BAR_WIN</GroupName>
+          <Files>
+            <File>
+              <FileName>7_status_bar_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\status_bar_win\7_status_bar_win.c</FilePath>
+            </File>
+            <File>
+              <FileName>status_bar_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\status_bar_win\status_bar_win.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>MAIN_WIN</GroupName>
           <Files>
             <File>
@@ -2832,6 +2877,11 @@
               <FileName>main_win.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\USER_UI\UI\main_win\main_win.c</FilePath>
+            </File>
+            <File>
+              <FileName>test.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\test.c</FilePath>
             </File>
           </Files>
         </Group>

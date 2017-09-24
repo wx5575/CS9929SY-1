@@ -4,6 +4,46 @@
 #include "ff.h"
 #include "mem_alloc.h"
 
+IMAGE_Handle create_logo_imagex(WM_HWIN hWin)
+{
+    IMAGE_Handle handle;
+    uint8_t *bmpBuffer;
+    FRESULT res;
+    GUI_HMEM hmem;
+    FIL f;
+    uint32_t width = 0;
+    uint32_t height = 0;
+    
+    res = f_open (&f, "\\ROOT\\IMAGE\\mlogo.bmp", FA_READ);
+    
+    if(res == FR_OK)
+    {
+//        bmpBuffer = malloc_ex_mem(f.fsize);
+        
+        hmem = GUI_ALLOC_AllocZero(f.fsize);
+        bmpBuffer = GUI_ALLOC_h2p(hmem);
+        
+        if(bmpBuffer != NULL)
+        {
+            f_read(&f, bmpBuffer, f.fsize, NULL);
+            width = *(uint32_t*)&bmpBuffer[18];
+            height = *(uint32_t*)&bmpBuffer[18+4];
+            
+            handle = IMAGE_CreateUser(10, 10, width, height, hWin,
+                WM_CF_SHOW, 0, id_base++, 0);
+            
+            IMAGE_SetBMP(handle, bmpBuffer, f.fsize);
+//            free_ex_mem(bmpBuffer);
+//            GUI_ALLOC_Free(hmem);
+            bmpBuffer = NULL;
+        }
+        
+        f_close(&f);
+    }
+    
+    return handle;
+}
+
 IMAGE_Handle create_logo_image(WM_HWIN hWin)
 {
     IMAGE_Handle handle;

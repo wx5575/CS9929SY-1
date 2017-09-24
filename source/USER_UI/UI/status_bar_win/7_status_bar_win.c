@@ -51,7 +51,7 @@ void _7_init_status_bar_win_text_ele_pos(TEXT_ELE_T *pool)
 {
     uint8_t *str;
     TEXT_ELE_T *ele;
-    UI_ELE_DISPLAY_INFO_T inf={	//主界面的通信状态
+    UI_ELE_DISPLAY_INFO_T inf={
 		0/*base_x*/,0/*base_y*/,0/*x*/,0/*y*/,0/*width*/,25/*height*/,100,
 		{&GUI_Fonthz_20}, GUI_BLACK, GUI_INVALID_COLOR, GUI_TA_LEFT | GUI_TA_TOP
     };

@@ -10,6 +10,7 @@
 #ifndef __LOGO_H__
 #define __LOGO_H__
 
+int create_logo_imagex(WM_HWIN hWin);
 int create_logo_image(WM_HWIN hWin);
 int create_slogo_image(WM_HWIN hWin);
 int create_main_image(WM_HWIN hWin);

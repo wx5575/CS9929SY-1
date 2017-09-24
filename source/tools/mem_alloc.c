@@ -25,7 +25,7 @@ typedef struct{
     void *p;///<分配的地址
 }MEM_MANAGE_INF;
 
-MEM_MANAGE_INF mem_manage_pool[10];
+MEM_MANAGE_INF mem_manage_pool[30];
 
 #define EX_RAM_SIZE         (2 * 1024 * 1024)
 #define GET_EX_RAM_ADDR(B)  ((uint8_t*)0x60000000 + (B));
