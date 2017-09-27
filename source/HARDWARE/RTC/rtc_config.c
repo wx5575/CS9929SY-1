@@ -215,6 +215,16 @@ static int RTC_Configuration(void)
     return 0;
 }
 
+#define RTC_TR_RESERVED_MASK    ((uint32_t)0x007F7F7F)
+#define RTC_DR_RESERVED_MASK    ((uint32_t)0x00FFFF3F) 
+uint32_t get_rtc_time(void)
+{
+    return (uint32_t)(RTC->TR & RTC_TR_RESERVED_MASK);
+}
+uint32_t get_rtc_data(void)
+{
+    return (uint32_t)(RTC->DR & RTC_DR_RESERVED_MASK);
+}
 
 /**
   * @brief  RTC 开机初始化配置

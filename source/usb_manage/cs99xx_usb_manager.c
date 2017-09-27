@@ -486,7 +486,7 @@ FRESULT my_mkdir(uint8_t *path)
     for(i = 1; i <= j; i++)
     {
         sprintf((char*)full_path, "%s\\%s",full_path, dir_buf[i]);
-        fresult = f_mkdir(full_path);
+        fresult = f_mkdir((const char*)full_path);
         
         if(fresult == FR_EXIST)
         {
@@ -519,7 +519,7 @@ void copy_file_to_sdcard(uint8_t *file_name, uint8_t *path)
     FRESULT fresult;
     FIL f;
     uint32_t real_size;
-    FAT_DIR_INFO dir_inf;
+//    FAT_DIR_INFO dir_inf;
     uint8_t name_buf[50];
     
     res = CH376FileOpen(file_name);
@@ -562,7 +562,7 @@ void copy_file_to_sdcard(uint8_t *file_name, uint8_t *path)
     sprintf((char*)name_buf, "%s\\%s", path, file_name);
     fresult = my_mkdir(path);
 //    fresult = f_mkdir(path);
-    fresult = f_open (&f, name_buf, FA_CREATE_ALWAYS | FA_WRITE);
+    fresult = f_open (&f, (const char*)name_buf, FA_CREATE_ALWAYS | FA_WRITE);
     
     if(fresult == FR_OK)
     {
@@ -590,7 +590,7 @@ void get_return_dir_path(uint8_t *path)
     int32_t i = 0;
     uint8_t len = 0;
     
-    len = strlen(path);
+    len = strlen((const char*)path);
     
     for(i = len - 1; i > 0; i--)
     {
@@ -638,8 +638,8 @@ uint8_t enum_dir_files(uint32_t *index, uint8_t *path)
     else if(dir_inf.DIR_Attr == ATTR_DIRECTORY)
     {
         get_dir_path(buf, path, dir_inf.DIR_Name);
-        if((0 != strncmp(".", dir_inf.DIR_Name, 1))
-            && (0 != strncmp("..", dir_inf.DIR_Name, 2)))
+        if((0 != strncmp(".", (const char*)dir_inf.DIR_Name, 1))
+            && (0 != strncmp("..", (const char*)dir_inf.DIR_Name, 2)))
         {
             res = open_dir(buf, 0);
             
@@ -680,6 +680,8 @@ uint8_t open_dir(uint8_t *path, uint32_t index)
     int32_t i = 0;
     FAT_DIR_INFO dir_inf;
     
+    res = res;
+    
     res = CH376FileOpenPath((uint8_t*)path);/* 打开目录 */
     res = CH376FileOpen("*");
     
@@ -708,13 +710,6 @@ void usb2_server_task(void)
     int32_t i = 0;
     uint8_t buf[50]={"123.bmp"};
     uint32_t c = 0;
-    uint32_t file_size;
-    uint32_t num;
-    uint32_t last_num;
-    uint32_t package_size;
-    FRESULT fresult;
-    FIL f;
-    uint32_t real_size;
     
 	switch(usb_exe_task)
 	{

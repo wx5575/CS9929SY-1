@@ -106,10 +106,10 @@ const uint8_t* status_str[][2] =
 	{"电压异常", "VOL. Fail"},
 	{"未定义"  , "Undefine "},
 };
+
 /**
   * @brief  测试异常状态
   */
-
 const uint8_t* except_buf[][3]=
 {
 	{"","",""},
@@ -182,7 +182,7 @@ TEST_FILE default_file =
 	10,///<蜂鸣时间
 	0,///<PASS时间
 	ARC_CUR_MODE,///<电弧侦测模式
-  0,///<存放日期时间 xxxx.xx.xx xx:xx:xx
+    0,///<存放日期时间 xxxx.xx.xx xx:xx:xx
 };
 
 /************************ (C) COPYRIGHT Nanjing Changsheng 2017 *****END OF FILE****/

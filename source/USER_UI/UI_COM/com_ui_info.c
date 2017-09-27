@@ -863,7 +863,7 @@ void set_text_ele(CS_INDEX index, MYUSER_WINDOW_T* win, const uint8_t *str)
 		return;
 	}
 	
-    TEXT_SetText(node->handle, str);
+    TEXT_SetText(node->handle, (const char*)str);
 }
 /**
   * @brief  查找并显示文本对象，如果查找到就显示文本对象内容
@@ -884,7 +884,7 @@ void get_text_ele_text(CS_INDEX index, MYUSER_WINDOW_T* win, uint8_t *str, uint3
 		return;
 	}
 	
-    TEXT_GetText(node->handle, str, size);
+    TEXT_GetText(node->handle, (char*)str, size);
 }
 /**
   * @brief  设置文本对象的可见性
@@ -1059,6 +1059,37 @@ void init_sys_function_key_inf(MYUSER_WINDOW_T* win)
             win->init_key_fun(win->handle);
         }
     }
+}
+
+/**
+  * @brief  选中文本对象，取消选中后要 改变背景颜色
+  * @param  [in] ele 文本对象信息
+  * @retval 无
+  */
+void select_text_ele(TEXT_ELE_T *ele)
+{
+    TEXT_SetBkColor(ele->handle, SELETED_COLOR);
+    TEXT_SetTextColor(ele->handle, GUI_RED);
+}
+/**
+  * @brief  取消选中文本对象，取消选中后要 恢复背景颜色
+  * @param  [in] ele 文本对象信息
+  * @retval 无
+  */
+void dis_select_text_ele(TEXT_ELE_T *ele)
+{
+    TEXT_SetBkColor(ele->handle, ele->dis_info.back_color);
+    TEXT_SetTextColor(ele->handle, ele->dis_info.font_color);
+}
+/**
+  * @brief  自动布局窗口中的文本对象
+  * @param  [in] win 窗口信息
+  * @retval 无
+  */
+void auto_layout_win_text_ele(MYUSER_WINDOW_T* win)
+{
+    auto_init_win_text_ele_dis_inf(win);//自动布局窗口中的普通文本
+    adjust_win_text_ele_dis_inf(win);//调整某些文本对象的布局
 }
 
 /**

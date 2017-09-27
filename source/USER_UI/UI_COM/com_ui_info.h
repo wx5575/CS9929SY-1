@@ -35,6 +35,7 @@
 #define SEL_USER_STR(str)      str[SYS_LANGUAGE]==NULL?str[CHINESE]:str[SYS_LANGUAGE]
 #define WINDOWS_BAK_COLOR	GUI_BLUE	//0x00FF6464 //GUI_GRAY ///< 窗口背景色
 
+#define SELETED_COLOR	GUI_LIGHTBLUE
 /** 
   * @brief 编辑控件结构
   */
@@ -421,6 +422,8 @@ COM_UI_EXT uint8_t              self_check_ok;///<自检结束标记
 extern TEXT_ELE_T * get_text_ele_inf(TEXT_ELE_T *text_pool, uint32_t pool_size, CS_INDEX index, CS_ERR*err);
 extern void init_window_text_ele(MYUSER_WINDOW_T* win);
 
+extern void select_text_ele(TEXT_ELE_T *ele);
+extern void dis_select_text_ele(TEXT_ELE_T *ele);
 extern void set_text_ele(CS_INDEX index, MYUSER_WINDOW_T* win, const uint8_t *str);
 extern void get_text_ele_text(CS_INDEX index, MYUSER_WINDOW_T* win, uint8_t *str, uint32_t size);
 extern void update_text_ele(CS_INDEX index, MYUSER_WINDOW_T* win, const uint8_t *str);

@@ -1040,11 +1040,6 @@
               <FileType>1</FileType>
               <FilePath>..\source\HARDWARE\CH376\src\SPI_SW.C</FilePath>
             </File>
-            <File>
-              <FileName>376host.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\HARDWARE\CH376\src\376host.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -1264,11 +1259,6 @@
               <FileName>main_win.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\USER_UI\UI\main_win\main_win.c</FilePath>
-            </File>
-            <File>
-              <FileName>test.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\USER_UI\test.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2668,11 +2658,6 @@
               <FileType>1</FileType>
               <FilePath>..\source\HARDWARE\CH376\src\SPI_SW.C</FilePath>
             </File>
-            <File>
-              <FileName>376host.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\HARDWARE\CH376\src\376host.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -2892,11 +2877,6 @@
               <FileName>main_win.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\USER_UI\UI\main_win\main_win.c</FilePath>
-            </File>
-            <File>
-              <FileName>test.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\USER_UI\test.c</FilePath>
             </File>
           </Files>
         </Group>

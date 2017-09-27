@@ -19,7 +19,6 @@
 #include "stdio.h"
 #include "keyboard.h"
 
-#define SELETED_COLOR	GUI_LIGHTBLUE
 
 static void create_win_edit_ele(EDIT_ELE_T *ele, WM_HWIN hParent);
 
@@ -865,26 +864,6 @@ void dis_select_edit_ele(EDIT_ELE_T *ele, LOAD_DATA_FLAG flag)
     }
 }
 /**
-  * @brief  选中文本对象，取消选中后要 改变背景颜色
-  * @param  [in] ele 文本对象信息
-  * @retval 无
-  */
-void select_text_ele(TEXT_ELE_T *ele)
-{
-    TEXT_SetBkColor(ele->handle, SELETED_COLOR);
-    TEXT_SetTextColor(ele->handle, GUI_RED);
-}
-/**
-  * @brief  取消选中文本对象，取消选中后要 恢复背景颜色
-  * @param  [in] ele 文本对象信息
-  * @retval 无
-  */
-void dis_select_text_ele(TEXT_ELE_T *ele)
-{
-    TEXT_SetBkColor(ele->handle, ele->dis_info.back_color);
-    TEXT_SetTextColor(ele->handle, ele->dis_info.font_color);
-}
-/**
   * @brief  获取当前编辑对象中编辑控件的句柄
   * @param  无
   * @retval WM_HMEM 控件句柄
@@ -1299,15 +1278,4 @@ void auto_layout_win_edit_ele(MYUSER_WINDOW_T* win)
     auto_init_win_edit_ele_dis_inf(win);//自动布局窗口中的编辑对象
     adjust_win_edit_ele_dis_inf(win);//调整某些编辑对象的布局
 }
-/**
-  * @brief  自动布局窗口中的文本对象
-  * @param  [in] win 窗口信息
-  * @retval 无
-  */
-void auto_layout_win_text_ele(MYUSER_WINDOW_T* win)
-{
-    auto_init_win_text_ele_dis_inf(win);//自动布局窗口中的普通文本
-    adjust_win_text_ele_dis_inf(win);//调整某些文本对象的布局
-}
-
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

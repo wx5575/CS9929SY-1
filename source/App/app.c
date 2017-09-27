@@ -75,20 +75,12 @@ int main(void)
   */
 static void File_Init(void)
 {
-    FIL f;
 	fs_result = f_mount(&fs_struct, "0:/", 0);
     
 	if (fs_result != FR_OK)
 	{
 		return;
 	}
-    
-//    fs_result = f_open (&f, "/1.jpg", FA_READ);
-    
-    if(fs_result == FR_OK)
-    {
-//        f_close (&f);
-    }
 }
 /**
   * @brief  软件环境初始化
@@ -389,7 +381,7 @@ void send_one_road_test_over_sign_h(uint8_t road_index)
 {
     comm_syn_sign = 0;
     
-    send_cmd_to_index_one_module(road_index, NULL, 0, send_test_over_sign_h);
+    send_cmd_to_index_one_module((ROAD_INDEX)road_index, NULL, 0, send_test_over_sign_h);
     
     while(1)
     {
@@ -406,7 +398,7 @@ void send_one_road_test_over_sign_l(uint8_t road_index)
 {
     comm_syn_sign = 0;
     
-    send_cmd_to_index_one_module(road_index, NULL, 0, send_test_over_sign_l);
+    send_cmd_to_index_one_module((ROAD_INDEX)road_index, NULL, 0, send_test_over_sign_l);
     
     while(1)
     {

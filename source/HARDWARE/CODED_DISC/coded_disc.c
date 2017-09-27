@@ -110,18 +110,18 @@ void register_coded_disc_send_msg_fun(void(*fun)(uint32_t *))
     send_coded_disc_msg_fun = fun;
 }
 
-static void coded_disc_soft_delay_us(u32 dly_us)
-{
-	unsigned int dly_i;
-	while(dly_us--)
-	{
-		for(dly_i=0;dly_i<802;dly_i++);
-	}
-}
-static void coded_disc_soft_delay_10us(u32 dly_us)
-{
-    coded_disc_soft_delay_us(dly_us);
-}
+//static void coded_disc_soft_delay_us(u32 dly_us)
+//{
+//	unsigned int dly_i;
+//	while(dly_us--)
+//	{
+//		for(dly_i=0;dly_i<802;dly_i++);
+//	}
+//}
+//static void coded_disc_soft_delay_10us(u32 dly_us)
+//{
+//    coded_disc_soft_delay_us(dly_us);
+//}
 
 /**
   * @brief  码盘中断服务函数

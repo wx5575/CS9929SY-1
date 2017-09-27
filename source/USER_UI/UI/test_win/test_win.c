@@ -24,6 +24,7 @@
 #include "running_test.h"
 #include "crc.h"
 #include "key_led_buzzer.h"
+#include "rtc_config.h"
 
 
 /* Private typedef -----------------------------------------------------------*/
@@ -3076,7 +3077,27 @@ void update_road_bar_dis(COMM_TEST_DATA *inf, ROAD_DIS_ELE_INF* road_ele_inf)
         backcolor = ROAD_STATUS_BAR_WARNING_COLOR;
         set_text_ele_font_backcolor(road_ele_inf->bar, this_win, backcolor);
     }
+}
+void update_result_inf(COMM_TEST_DATA *inf, ROAD_DIS_ELE_INF* road_ele_inf)
+{
+    RES_TEST_DATA *res_test_data;
     
+    res_test_data = &result_inf_pool[road_ele_inf->road_num - 1].test_data;
+    
+    switch(cur_mode)
+    {
+        case ACW:
+            strcpy((char*)res_test_data->un.acw.vol, inf->vol);
+            strcpy((char*)res_test_data->un.acw.cur, inf->cur);
+            strcpy((char*)res_test_data->un.acw.real, inf->cur);
+            break;
+        case DCW:
+            break;
+        case IR:
+            break;
+        case GR:
+            break;
+    }
 }
 /**
   * @brief  显示1路的测试信息
@@ -3145,6 +3166,10 @@ void dis_roads_inf(CS_BOOL force)
         if(road_inf->usable == 1)
         {
             road_inf->usable = 0;
+            if(road_inf->status == ST_TESTING)
+            {
+                update_result_inf(&test_data, &road_test_dis_inf[i]);
+            }
             dis_one_road_test_inf(&test_data, &road_test_dis_inf[i], force);
         }
     }
@@ -3378,6 +3403,78 @@ void clear_test_flag(void)
 {
     memset(&test_flag, 0, sizeof(test_flag));
 }
+
+void record_setting_par_for_result(void)
+{
+    int32_t i = 0;
+    RESULT_INF *res;
+    uint8_t decs = 0;
+    uint8_t lon = 0;
+    UNIT_T unit = NULL_U_NULL;
+    uint8_t format = 0;
+    
+    res = &result_inf_pool[i];
+    
+    strcpy((char*)res->par.file_name, g_cur_file->name);
+    res->par.mode = g_cur_step->one_step.com.mode;
+    res->par.work_mode = g_cur_file->work_mode;
+    res->par.step = g_cur_step->one_step.com.step;
+    res->par.total_step = g_cur_file->total;
+    sprintf((char*)res->product_code, "%04d", g_product_code);
+    res->test_data.record_date = get_rtc_data();
+    res->test_data.record_time = get_rtc_time();
+    
+    switch(cur_mode)
+    {
+        case ACW:
+        {
+            mysprintf(res->par.un.acw.vol, unit_pool[VOL_U_kV], 53, cur_vol);
+            decs = ac_gear[cur_gear].dec;
+            lon = ac_gear[cur_gear].lon;
+            unit = ac_gear[cur_gear].unit;
+            format = lon * 10 + decs;
+            mysprintf(res->par.un.acw.hight, unit_pool[unit], format, cur_high);
+            mysprintf(res->par.un.acw.lower, unit_pool[unit], format, cur_low);
+            mysprintf(res->par.un.acw.test_time, unit_pool[TIM_U_s], 51, tes_t);
+            mysprintf(res->par.un.acw.rise_time, unit_pool[TIM_U_s], 51, ris_t);
+            break;
+        }
+        case DCW:
+        {
+            mysprintf(res->par.un.dcw.vol, unit_pool[VOL_U_kV], 53, cur_vol);
+            decs = dc_gear[cur_gear].dec;
+            lon = dc_gear[cur_gear].lon;
+            unit = dc_gear[cur_gear].unit;
+            format = lon * 10 + decs;
+            mysprintf(res->par.un.dcw.hight, unit_pool[unit], format, cur_high);
+            mysprintf(res->par.un.dcw.lower, unit_pool[unit], format, cur_low);
+            mysprintf(res->par.un.dcw.test_time, unit_pool[TIM_U_s], 51, tes_t);
+            mysprintf(res->par.un.dcw.rise_time, unit_pool[TIM_U_s], 51, ris_t);
+            break;
+        }
+        case IR:
+        {
+            mysprintf(res->par.un.ir.vol, unit_pool[VOL_U_kV], 53, cur_vol);
+            mysprintf(res->par.un.ir.hight, unit_pool[RES_U_MOHM], 50, cur_high);
+            mysprintf(res->par.un.ir.lower, unit_pool[RES_U_MOHM], 50, cur_low);
+            mysprintf(res->par.un.ir.test_time, unit_pool[TIM_U_s], 51, tes_t);
+            break;
+        }
+        case GR:
+        {
+            mysprintf(res->par.un.gr.cur, unit_pool[CUR_U_A], 53, cur_vol);
+            mysprintf(res->par.un.gr.hight, unit_pool[RES_U_mOHM], 51, cur_high);
+            mysprintf(res->par.un.gr.lower, unit_pool[RES_U_mOHM], 51, cur_low);
+            mysprintf(res->par.un.gr.test_time, unit_pool[TIM_U_s], 51, tes_t);
+            break;
+        }
+    }
+}
+
+void save_test_result(void)
+{
+    
+}
 /**
   * @brief  测试状态机
   * @param  无
@@ -3402,6 +3499,7 @@ static void test_status_machine(void)
             send_cmd_to_all_module((uint8_t*)&test_step,
                                     2, send_load_step);
             
+            record_setting_par_for_result();
             test_step = ((test_step) % (g_cur_file->total)) + 1;
             
             load_steps_to_list(test_step, 1);//加载新的当前步
@@ -3451,6 +3549,7 @@ static void test_status_machine(void)
                 dis_test_over_status();
                 unregister_tim3_server_fun(test_led_flicker);
                 set_test_led_state(LED_OFF);
+                save_test_result();
                 
                 if(cur_step == g_cur_file->total)
                 {

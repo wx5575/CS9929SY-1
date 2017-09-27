@@ -22,6 +22,7 @@
 #include "main_win.h"
 #include "PROGBAR.h"
 #include "mem_alloc.h"
+#include "app.h"
 
 /* Private typedef -----------------------------------------------------------*/
 
@@ -526,6 +527,7 @@ void main_ui_enter(void)
     create_status_bar_windows();
     create_main_windows();//创建主界面
     read_par_from_memory();//从存储器读取参数
+    
 	
 	while(1)
 	{

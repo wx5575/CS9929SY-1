@@ -8,6 +8,7 @@
   ******************************************************************************
   */
 
+#include "stdio.h"
 #include "LISTVIEW.H"
 #include "UI_COM/com_ui_info.h"
 #include "7_result_win.h"
@@ -20,7 +21,6 @@
 
 /* Private function prototypes -----------------------------------------------*/
 
-static LISTVIEW_Handle list_h;
 static void result_win_cb(WM_MESSAGE* pMsg);
 static void update_result_win_menu_key_inf(WM_HMEM hWin);
 
@@ -119,7 +119,7 @@ static TEXT_ELE_T result_win_ele_pool[]=
        "TEST RESULT:PASS\n"
        "RECORD TIME:2017-9-15 12:12:12\n",}, RESULT_WIN_TEST_DATA_C},
 };
-static CS_INDEX result_inf_pool[]=
+static CS_INDEX result_inf_index[]=
 {
     RESULT_WIN_TEST_RES_1,
     RESULT_WIN_TEST_RES_2,
@@ -274,11 +274,11 @@ void update_result_num_dis(uint32_t result_count)
     uint8_t t_buf[201] = {0};
     CS_INDEX index;
     
-    num = ARRAY_SIZE(result_inf_pool);
+    num = ARRAY_SIZE(result_inf_index);
     
     for(i = 0; i < num; i++)
     {
-        index = result_inf_pool[i];
+        index = result_inf_index[i];
         get_text_ele_text(index, this_win, buf, 200);
         sprintf((char*)t_buf, "%04d%s", result_count + i, buf + 4);
         set_text_ele(index, this_win, t_buf);
@@ -295,7 +295,7 @@ static void result_win_direct_key_up_cb(KEY_MESSAGE *key_msg)
 {
     uint8_t num = 0;
     
-    num = ARRAY_SIZE(result_inf_pool);
+    num = ARRAY_SIZE(result_inf_index);
     l_cur_result = (l_cur_result + num - 1) % num;
     update_selete_result_opt();
     
@@ -320,7 +320,7 @@ static void update_selete_result_opt(void)
     
     dis_select_text_ele(g_cur_text_ele);
     ele = get_text_ele_inf(g_cur_win->text.pool,
-            g_cur_win->text.pool_size, result_inf_pool[l_cur_result], &err);
+            g_cur_win->text.pool_size, result_inf_index[l_cur_result], &err);
     
     if(err == CS_ERR_NONE)
     {
@@ -338,7 +338,7 @@ static void result_win_direct_key_down_cb(KEY_MESSAGE *key_msg)
 {
     uint8_t num = 0;
     
-    num = ARRAY_SIZE(result_inf_pool);
+    num = ARRAY_SIZE(result_inf_index);
     l_cur_result = (l_cur_result + 1) % num;
     update_selete_result_opt();
     
@@ -418,24 +418,24 @@ static void result_win_paint_frame(void)
   * @param  [in] hWin 窗口句柄
   * @retval 无
   */
-static WM_HWIN create_result_listview(WM_HWIN hWin)
-{
-    WM_HWIN handle = 0;
-    
-    switch(SCREEM_SIZE)
-    {
-        case SCREEN_4_3INCH:
-            break;
-        case SCREEN_6_5INCH:
-            break;
-        default:
-        case SCREEN_7INCH:
-//            handle = _7_create_result_listview(hWin);
-            break;
-    }
-    
-    return handle;
-}
+//static WM_HWIN create_result_listview(WM_HWIN hWin)
+//{
+//    WM_HWIN handle = 0;
+//    
+//    switch(SCREEM_SIZE)
+//    {
+//        case SCREEN_4_3INCH:
+//            break;
+//        case SCREEN_6_5INCH:
+//            break;
+//        default:
+//        case SCREEN_7INCH:
+////            handle = _7_create_result_listview(hWin);
+//            break;
+//    }
+//    
+//    return handle;
+//}
 static void init_result_win_text_ele_pos_inf(void)
 {
     switch(SCREEM_SIZE)
@@ -509,7 +509,7 @@ static void result_win_cb(WM_MESSAGE* pMsg)
             l_result_count = 1;
             update_result_num_dis(l_result_count);
             g_cur_text_ele = get_text_ele_inf(g_cur_win->text.pool,
-                    g_cur_win->text.pool_size, result_inf_pool[l_cur_result], &err);
+                    g_cur_win->text.pool_size, result_inf_index[l_cur_result], &err);
             select_text_ele(g_cur_text_ele);
             break;
 		case WM_TIMER:

@@ -72,7 +72,7 @@ uint32_t soft_crc32_word(uint32_t *ptr, uint32_t len)
     
     for(i = 0;i < len;i ++)
     {
-        xbit = 1 << 31;
+        xbit = 1u << 31;
         data = ptr[i];
         
         for (bits = 0; bits < 32; bits++)
@@ -121,7 +121,7 @@ uint32_t soft_crc32_byte(uint8_t *ptr, uint32_t len)
     
     for(i = 0;i < len;i ++)
     {
-        xbit = 1 << 31;
+        xbit = 1u << 31;
         
         buff[3] = ptr[i];
         data = *p32;

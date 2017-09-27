@@ -75,9 +75,13 @@ void load_data(void)
 	{
 		case ACW:
 		{
+            tes_t = pun->acw.test_time;
+            ris_t = pun->acw.rise_time;
 			steps_con = pun->acw.step_con;
 			steps_pass = pun->acw.step_pass;
 			
+            cur_gear = pun->acw.range;
+            cur_vol = pun->acw.output_vol;
 			cur_high = pun->acw.upper_limit;
 			cur_low = pun->acw.lower_limit;
 			cur_frequency_gear = pun->acw.output_freq;
@@ -91,6 +95,8 @@ void load_data(void)
 			steps_con = pun->dcw.step_con;
 			steps_pass = pun->dcw.step_pass;
 			
+            cur_vol = pun->dcw.output_vol;
+            cur_gear = pun->dcw.range;
 			cur_high = pun->dcw.upper_limit;
 			cur_low  = pun->dcw.lower_limit;
 			cur_charge_cur = pun->dcw.charge_cur;	/* 当前充电电流 */
@@ -102,6 +108,8 @@ void load_data(void)
 		}
 		case IR:
 		{
+            cur_vol = pun->ir.output_vol;
+            
 			steps_con = pun->ir.step_con;
 			steps_pass = pun->ir.step_pass;
 			cur_frequency_gear = 9;/* 选择400赫兹 */
@@ -115,6 +123,7 @@ void load_data(void)
 		}
 		case GR:
 		{
+            cur_vol = pun->gr.output_cur;
 			steps_con = pun->gr.step_con;
 			steps_pass = pun->gr.step_pass;
 			cur_gear = pun->gr.voltage_gear;

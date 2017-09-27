@@ -641,6 +641,91 @@ typedef struct {
     uint8_t dec;///<档位的小数点位数
 }GEAR_STR;
 
+typedef struct{
+    uint8_t vol[8];///<电压
+    uint8_t hight[8];///<电流上限
+    uint8_t lower[8];///<电流下限
+    uint8_t test_time[8];///<测试时间
+    uint8_t rise_time[8];///<上升时间
+}ACW_RES_SET;
+typedef struct{
+    uint8_t vol[8];///<电压
+    uint8_t hight[8];///<电流上限
+    uint8_t lower[8];///<电流下限
+    uint8_t test_time[8];///<测试时间
+    uint8_t rise_time[8];///<上升时间
+}DCW_RES_SET;
+typedef struct{
+    uint8_t vol[8];///<电压
+    uint8_t hight[10];///<电阻上限
+    uint8_t lower[10];///<电阻下限
+    uint8_t test_time[8];///<测试时间
+    uint8_t rise_time[8];///<上升时间
+}IR_RES_SET;
+typedef struct{
+    uint8_t cur[8];///<电流
+    uint8_t hight[10];///<电阻上限
+    uint8_t lower[10];///<电阻下限
+    uint8_t test_time[8];///<测试时间
+}GR_RES_SET;
+/**
+  * @brief  结果设置信息结构定义
+  */
+typedef struct {
+    uint8_t file_name[NAME_LON + 1];///<文件名
+    uint8_t mode;///<测试模式
+    uint8_t step;///<测试步骤
+    uint8_t total_step;///<总测试步骤
+    uint8_t work_mode;///<工作模式
+    union{
+        ACW_RES_SET acw;///<ACW结果设置参数
+        DCW_RES_SET dcw;///<DCW结果设置参数
+        IR_RES_SET ir;///<IR结果设置参数
+        GR_RES_SET gr;///<GR结果设置参数
+    }un;
+}RES_SETTING_PAR;
+
+typedef struct{
+    uint8_t vol[8];///<电压
+    uint8_t cur[8];///<电流
+    uint8_t real[8];///<真实电流
+}RES_ACW;
+typedef struct{
+    uint8_t vol[8];///<电压
+    uint8_t cur[8];///<电流
+}RES_DCW;
+typedef struct{
+    uint8_t vol[8];///<电压
+    uint8_t res[10];///<电阻
+}RES_IR;
+typedef struct{
+    uint8_t cur[8];///<电流
+    uint8_t res[10];///<电阻
+}RES_GR;
+/**
+  * @brief  结果测试数据信息结构定义
+  */
+typedef struct {
+    union{
+        RES_ACW acw;///<ACW测试数据
+        RES_DCW dcw;///<DCW测试数据
+        RES_IR ir;///<IR测试数据
+        RES_GR gr;///<GR测试数据
+    }un;
+    uint16_t test_time;///<测试时间
+    uint8_t test_result;///<测试结果
+    uint32_t record_date;///<记录日期
+    uint32_t record_time;///<记录时间
+}RES_TEST_DATA;
+/**
+  * @brief  结果信息结构定义
+  */
+typedef struct {
+    uint8_t product_code[31];///<产品编码
+    uint8_t road_num;///<测试路 例：第1路
+    RES_SETTING_PAR par;///<设置参数
+    RES_TEST_DATA test_data;///<测试数据
+}RESULT_INF;
 #ifdef   STRUCT_GLOBALS
 #define  STRUCT_EXT
 #else
@@ -757,10 +842,12 @@ STRUCT_EXT TEST_FILE global_file;///< 全局文件实体用于界面通信
 STRUCT_EXT SYS_PAR sys_par;///<系统参数
 STRUCT_EXT SYS_FLAG sys_flag;///<系统参数
 STRUCT_EXT NODE_STEP * g_cur_step;///<当前步指针
+STRUCT_EXT uint32_t g_product_code;///<当前产品编码
 STRUCT_EXT uint32_t g_cur_step_crc;///<当前步的CRC校验数据
 STRUCT_EXT uint32_t g_cur_step_crc_bk;///<当前步CRC校验数据备份
 STRUCT_EXT TESTGROUP test_step_buf;///<测试步缓冲区
 STRUCT_EXT CS_LIST list_head_99xx;///<测试步链表头
+STRUCT_EXT RESULT_INF result_inf_pool[8];///<结果存放的缓冲区 支持同时测试8路数据
 
 extern GEAR_STR ac_gear[];
 extern GEAR_STR dc_gear[];

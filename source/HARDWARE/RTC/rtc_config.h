@@ -26,6 +26,8 @@ extern uint16_t get_rtc_year(void);
 extern void rtc_set_time(uint32_t year, uint32_t month, uint32_t day,
 		uint32_t hours, uint32_t minutes, uint32_t seconds);
 
+extern uint32_t get_rtc_time(void);
+extern uint32_t get_rtc_data(void);
 
 #endif //__RTC_CONFIG_H__
 

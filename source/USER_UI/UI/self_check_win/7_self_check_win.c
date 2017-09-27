@@ -45,7 +45,7 @@ WIDGET_POS_SIZE_T _7_self_check_windows=
 void _7_init_self_check_win_layout1_text_ele_pos(TEXT_ELE_T *pool)
 {
     UI_ELE_DISPLAY_INFO_T inf={
-		0/*base_x*/,0/*base_y*/,0/*x*/,0/*y*/,0/*width*/,30/*height*/,450,
+		0/*base_x*/,0/*base_y*/,0/*x*/,0/*y*/,0/*width*/,30/*height*/,250,
 		{&GUI_Fonthz_26}, GUI_WHITE, GUI_INVALID_COLOR, GUI_TA_LEFT | GUI_TA_TOP
     };
     uint8_t offset = 40;

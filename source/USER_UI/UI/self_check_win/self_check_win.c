@@ -168,23 +168,23 @@ void self_check_server(void)
         }
         else if(flag == 1)
         {
-            len = strlen(buf);
+            len = strlen((const char*)buf);
             
             if(len < 18)
             {
                 for(i = 0; i < 18 - len; i++)
                 {
-                    strcat(buf, ".");
+                    strcat((char*)buf, ".");
                 }
             }
             
-            strcat(buf, "............................");
+            strcat((char*)buf, "............................");
             flag = 2;
         }
         else
         {
             get_text_ele_text(index, this_win, buf, 200);
-            strcat(buf, " OK");
+            strcat((char*)buf, " OK");
             flag = 0;
             self_check_count++;
         }
