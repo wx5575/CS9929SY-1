@@ -125,10 +125,7 @@ MYUSER_WINDOW_T main_windows=
     },/* auto_layout */
     main_win_pos_size_pool,/*pos_size_pool */
 };
-/**
-  * @brief  指向主窗口结构体this指针
-  */
-static MYUSER_WINDOW_T *this_win = &main_windows;
+
 /* Private functions ---------------------------------------------------------*/
 /**
   * @brief  主窗口中功能键F1回调函数
@@ -226,6 +223,7 @@ static void main_win_f5_cb(KEY_MESSAGE *key_msg)
   */
 static void main_win_f6_cb(KEY_MESSAGE *key_msg)
 {
+    create_help_win(key_msg->user_data);
 }
 /**
   * @brief  根据屏幕尺寸初始化主界面的文本对象位置尺寸信息
@@ -389,16 +387,6 @@ static void update_system_key_inf(WM_HMEM hWin)
 }
 
 /**
-  * @brief  设置主界面窗口句柄
-  * @param  [in] hWin 窗口句柄
-  * @retval 无
-  */
-static void set_main_windows_handle(WM_HWIN hWin)
-{
-	main_windows.handle = hWin;
-}
-
-/**
   * @brief  重绘背景
   * @param  无
   * @retval 无
@@ -435,7 +423,7 @@ static void main_win_cb(WM_MESSAGE * pMsg)
 	switch (pMsg->MsgId)
 	{
 		case WM_CREATE:
-			set_main_windows_handle(hWin);
+			set_user_window_handle(hWin);
 			win = get_user_window_info(hWin);
             
 			WM_SetFocus(hWin);/* 设置聚焦 */

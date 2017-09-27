@@ -23,8 +23,6 @@
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 
-#define WINDOWS_BAK_COLOR	GUI_BLUE	//窗口背景色
-
 /* Private function prototypes -----------------------------------------------*/
 
 static void into_save_file_dialog(WM_HMEM hWin);

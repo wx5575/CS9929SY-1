@@ -19,6 +19,9 @@
 #define MAX_FILES			((uint16_t)31)  ///< 最大文件数目包括一个默认的文件 
 #define NAME_LON			((uint16_t)14)  ///< 文件名的长度 
 
+
+
+#define MAX_RESULT_NUM      ((uint16_t)8000) ///<最大的结果条数8000条
 #define PWD_MAX_LEN         8               ///<密码的最大长度
 #define DEFAULT_PWD         "888888"        ///<系统默认密码
 

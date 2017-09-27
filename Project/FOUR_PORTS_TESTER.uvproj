@@ -1508,6 +1508,21 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>HELP_WIN</GroupName>
+          <Files>
+            <File>
+              <FileName>7_help_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\help_win\7_help_win.c</FilePath>
+            </File>
+            <File>
+              <FileName>help_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\help_win\help_win.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>MEM_MANAGE</GroupName>
           <Files>
             <File>
@@ -3117,6 +3132,21 @@
               <FileName>result_win.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\USER_UI\UI\result_win\result_win.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>HELP_WIN</GroupName>
+          <Files>
+            <File>
+              <FileName>7_help_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\help_win\7_help_win.c</FilePath>
+            </File>
+            <File>
+              <FileName>help_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\help_win\help_win.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -1265,6 +1265,11 @@
               <FileType>1</FileType>
               <FilePath>..\source\USER_UI\UI\main_win\main_win.c</FilePath>
             </File>
+            <File>
+              <FileName>test.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\test.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -2872,6 +2877,11 @@
               <FileName>main_win.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\USER_UI\UI\main_win\main_win.c</FilePath>
+            </File>
+            <File>
+              <FileName>test.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\test.c</FilePath>
             </File>
           </Files>
         </Group>

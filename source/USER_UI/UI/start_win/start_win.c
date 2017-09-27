@@ -61,20 +61,11 @@ MYUSER_WINDOW_T start_windows=
 /* Private functions ---------------------------------------------------------*/
 
 /**
-  * @brief  设置主界面窗口句柄
-  * @param  [in] hWin 窗口句柄
-  * @retval 无
-  */
-static void set_start_windows_handle(WM_HWIN hWin)
-{
-}
-
-/**
   * @brief  重绘背景
   * @param  无
   * @retval 无
   */
-static void _PaintFrame(void) 
+static void start_win_paint_frame(void) 
 {
 	GUI_RECT r;
 	WM_GetClientRect(&r);
@@ -94,11 +85,11 @@ static void start_win_cb(WM_MESSAGE * pMsg)
 	switch (pMsg->MsgId)
 	{
 		case WM_CREATE:
-			set_start_windows_handle(hWin);
+			set_user_window_handle(hWin);
             create_logo_image(hWin);
 			break;
 		case WM_PAINT:
-			_PaintFrame();
+			start_win_paint_frame();
 			break;
 		case WM_KEY:
 			break;

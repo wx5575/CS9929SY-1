@@ -76,6 +76,10 @@ typedef enum{
     F_KEY_START,///<启动
     F_KEY_STOP,///<停止
     F_KEY_MODULE,///<模块
+    F_KEY_STATIS,///<统计
+    F_KEY_LEAD_OUT,///<导出
+    F_KEY_LEAD_IN,///<导入
+    F_KEY_GOTO,///<跳转
 }MENU_KEY_INDEX_ENUM;
 
 /**

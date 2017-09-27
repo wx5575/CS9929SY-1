@@ -28,52 +28,52 @@ void _7_init_result_win_layout1_text_ele_pos(TEXT_ELE_T *pool)
 {
     int32_t i = 0;
     TEXT_ELE_T *ele;
-    #define FONT_RES_WIN &GUI_Fonthz_20
+    #define FONT_RES_WIN &GUI_Fonthz_24
     
-    ele = &pool[RESULT_WIN_PRODUCT_NUM];
-    
-    ele->dis_info.base_x = 0;
-    ele->dis_info.base_y = 0;
-    ele->dis_info.pos_size.x = 5;
-    ele->dis_info.pos_size.y = 30;
-    ele->dis_info.back_color = GUI_INVALID_COLOR;
-    ele->dis_info.font = FONT_RES_WIN;
-    ele->dis_info.font_color = GUI_WHITE;
-    ele->dis_info.max_len = 100;
-    ele->dis_info.align = GUI_TA_CENTER | GUI_TA_TOP;
-    ele->dis_info.pos_size.height = 30;
-    ele->dis_info.pos_size.width = 190;
-    
-    for(i = 0; i < 16; i++)
-    {
-        ele = &pool[RESULT_WIN_NUM01 + i];
-        
-        ele->dis_info.base_x = 0;
-        ele->dis_info.base_y = 0;
-        ele->dis_info.pos_size.x = 5;
-        ele->dis_info.pos_size.y = 60 + 23 * i;
-        ele->dis_info.back_color = GUI_INVALID_COLOR;
-        ele->dis_info.font = FONT_RES_WIN;
-        ele->dis_info.font_color = GUI_WHITE;
-        ele->dis_info.max_len = 100;
-        ele->dis_info.align = GUI_TA_CENTER | GUI_TA_TOP;
-        ele->dis_info.pos_size.height = 30;
-        ele->dis_info.pos_size.width = 180;
-    }
-    
-    ele = &pool[RESULT_WIN_TEST_RES_INF];
-    
-    ele->dis_info.base_x = 0;
-    ele->dis_info.base_y = 0;
-    ele->dis_info.pos_size.x = 215;
-    ele->dis_info.pos_size.y = 30;
-    ele->dis_info.back_color = GUI_INVALID_COLOR;
-    ele->dis_info.font = FONT_RES_WIN;
-    ele->dis_info.font_color = GUI_WHITE;
-    ele->dis_info.max_len = 100;
-    ele->dis_info.align = GUI_TA_CENTER | GUI_TA_TOP;
-    ele->dis_info.pos_size.height = 30;
-    ele->dis_info.pos_size.width = 675 - 215;
+//    ele = &pool[RESULT_WIN_PRODUCT_NUM];
+//    
+//    ele->dis_info.base_x = 0;
+//    ele->dis_info.base_y = 0;
+//    ele->dis_info.pos_size.x = 5;
+//    ele->dis_info.pos_size.y = 30;
+//    ele->dis_info.back_color = GUI_INVALID_COLOR;
+//    ele->dis_info.font = FONT_RES_WIN;
+//    ele->dis_info.font_color = GUI_WHITE;
+//    ele->dis_info.max_len = 100;
+//    ele->dis_info.align = GUI_TA_CENTER | GUI_TA_TOP;
+//    ele->dis_info.pos_size.height = 30;
+//    ele->dis_info.pos_size.width = 190;
+//    
+//    for(i = 0; i < 16; i++)
+//    {
+//        ele = &pool[RESULT_WIN_NUM01 + i];
+//        
+//        ele->dis_info.base_x = 0;
+//        ele->dis_info.base_y = 0;
+//        ele->dis_info.pos_size.x = 5;
+//        ele->dis_info.pos_size.y = 60 + 23 * i;
+//        ele->dis_info.back_color = GUI_INVALID_COLOR;
+//        ele->dis_info.font = FONT_RES_WIN;
+//        ele->dis_info.font_color = GUI_WHITE;
+//        ele->dis_info.max_len = 100;
+//        ele->dis_info.align = GUI_TA_CENTER | GUI_TA_TOP;
+//        ele->dis_info.pos_size.height = 30;
+//        ele->dis_info.pos_size.width = 180;
+//    }
+//    
+//    ele = &pool[RESULT_WIN_TEST_RES_INF];
+//    
+//    ele->dis_info.base_x = 0;
+//    ele->dis_info.base_y = 0;
+//    ele->dis_info.pos_size.x = 10;
+//    ele->dis_info.pos_size.y = 30;
+//    ele->dis_info.back_color = GUI_INVALID_COLOR;
+//    ele->dis_info.font = FONT_RES_WIN;
+//    ele->dis_info.font_color = GUI_WHITE;
+//    ele->dis_info.max_len = 100;
+//    ele->dis_info.align = GUI_TA_CENTER | GUI_TA_TOP;
+//    ele->dis_info.pos_size.height = 30;
+//    ele->dis_info.pos_size.width = 675 - 10;
     
     for(i = 0; i < 8; i++)
     {
@@ -81,23 +81,23 @@ void _7_init_result_win_layout1_text_ele_pos(TEXT_ELE_T *pool)
         
         ele->dis_info.base_x = 0;
         ele->dis_info.base_y = 0;
-        ele->dis_info.pos_size.x = 180;
-        ele->dis_info.pos_size.y = 60 + 23 * i;
+        ele->dis_info.pos_size.x = 10;
+        ele->dis_info.pos_size.y = 60 + 30 * i;
         ele->dis_info.back_color = GUI_INVALID_COLOR;
         ele->dis_info.font = FONT_RES_WIN;
         ele->dis_info.font_color = GUI_WHITE;
         ele->dis_info.max_len = 100;
-        ele->dis_info.align = GUI_TA_CENTER | GUI_TA_TOP;
+        ele->dis_info.align = GUI_TA_LEFT | GUI_TA_TOP;
         ele->dis_info.pos_size.height = 30;
-        ele->dis_info.pos_size.width = 675 - 180;
+        ele->dis_info.pos_size.width = 650;
     }
     
     ele = &pool[RESULT_WIN_SETTING_PAR];
     
     ele->dis_info.base_x = 0;
     ele->dis_info.base_y = 0;
-    ele->dis_info.pos_size.x = 180;
-    ele->dis_info.pos_size.y = 260;
+    ele->dis_info.pos_size.x = 10;
+    ele->dis_info.pos_size.y = 220;
     ele->dis_info.back_color = GUI_INVALID_COLOR;
     ele->dis_info.font = FONT_RES_WIN;
     ele->dis_info.font_color = GUI_WHITE;
@@ -110,22 +110,22 @@ void _7_init_result_win_layout1_text_ele_pos(TEXT_ELE_T *pool)
     
     ele->dis_info.base_x = 0;
     ele->dis_info.base_y = 0;
-    ele->dis_info.pos_size.x = 180;
-    ele->dis_info.pos_size.y = 300;
+    ele->dis_info.pos_size.x = 10;
+    ele->dis_info.pos_size.y = 260;
     ele->dis_info.back_color = GUI_INVALID_COLOR;
     ele->dis_info.font = FONT_RES_WIN;
     ele->dis_info.font_color = GUI_WHITE;
     ele->dis_info.max_len = 100;
     ele->dis_info.align = GUI_TA_LEFT | GUI_TA_TOP;
-    ele->dis_info.pos_size.height = 140;
+    ele->dis_info.pos_size.height = 200;
     ele->dis_info.pos_size.width = 395 - 180;
     
     ele = &pool[RESULT_WIN_TEST_DATA];
     
     ele->dis_info.base_x = 0;
     ele->dis_info.base_y = 0;
-    ele->dis_info.pos_size.x = 370;
-    ele->dis_info.pos_size.y = 260;
+    ele->dis_info.pos_size.x = 270;
+    ele->dis_info.pos_size.y = 220;
     ele->dis_info.back_color = GUI_INVALID_COLOR;
     ele->dis_info.font = FONT_RES_WIN;
     ele->dis_info.font_color = GUI_WHITE;
@@ -138,15 +138,15 @@ void _7_init_result_win_layout1_text_ele_pos(TEXT_ELE_T *pool)
     
     ele->dis_info.base_x = 0;
     ele->dis_info.base_y = 0;
-    ele->dis_info.pos_size.x = 370;
-    ele->dis_info.pos_size.y = 300;
+    ele->dis_info.pos_size.x = 270;
+    ele->dis_info.pos_size.y = 260;
     ele->dis_info.back_color = GUI_INVALID_COLOR;
     ele->dis_info.font = FONT_RES_WIN;
     ele->dis_info.font_color = GUI_WHITE;
     ele->dis_info.max_len = 100;
     ele->dis_info.align = GUI_TA_LEFT | GUI_TA_TOP;
-    ele->dis_info.pos_size.height = 140;
-    ele->dis_info.pos_size.width = 670 - 370;
+    ele->dis_info.pos_size.height = 200;
+    ele->dis_info.pos_size.width = 670 - 270;
 }    
 
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

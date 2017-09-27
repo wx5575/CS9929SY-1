@@ -40,7 +40,7 @@ typedef struct {
 #define MENU_KEY_HEIGHT			((MENU_KEY_AREA_HEIGHT - (MENU_KEY_NUM + 1) * MENU_KEY_O) / (MENU_KEY_NUM))
 
 #define KEY_DOWN_COLOR		    GUI_DARKBLUE //GUI_DARKGRAY//
-#define KEY_UP_COLOR		    0x804000 //GUI_LIGHTGRAY//GUI_LIGHTBLUE //
+#define KEY_UP_COLOR		   0xff5050 //0x804000 //GUI_LIGHTGRAY//GUI_LIGHTBLUE //
 #define KEY_EN_BACK_COLOR		KEY_UP_COLOR
 #define KEY_EN_FONT_COLOR	    GUI_WHITE
 #define KEY_DIS_BACK_COLOR		KEY_UP_COLOR
@@ -134,6 +134,10 @@ static const STAND_MENU_KEY_INFO_T all_menu_key_info_[]=
 	{{"启动", "START"   }, F_KEY_START      },
 	{{"停止", "STOP"    }, F_KEY_STOP       },
 	{{"模块", "MODULE"  }, F_KEY_MODULE     },
+	{{"统计", "statis." }, F_KEY_STATIS     },
+	{{"导出", "LEAD OUT"}, F_KEY_LEAD_OUT   },
+	{{"导入", "LEAD IN" }, F_KEY_LEAD_IN    },
+	{{"跳转", "GOTO"    }, F_KEY_GOTO       },
 };
 
 /**

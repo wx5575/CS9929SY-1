@@ -33,7 +33,7 @@
 #define SELE_STR(S1, S2)	(SYS_LANGUAGE==CHINESE?S1:S2) ///< 根据系统语言选择不同的字符串
 /* 选择要使用的字符串，如果对应语言的字符串不存在，就用中文字符串 */
 #define SEL_USER_STR(str)      str[SYS_LANGUAGE]==NULL?str[CHINESE]:str[SYS_LANGUAGE]
-#define WINDOWS_BAK_COLOR	GUI_BLUE	//GUI_GRAY ///< 窗口背景色
+#define WINDOWS_BAK_COLOR	GUI_BLUE	//0x00FF6464 //GUI_GRAY ///< 窗口背景色
 
 /** 
   * @brief 编辑控件结构
@@ -421,6 +421,7 @@ COM_UI_EXT uint8_t              self_check_ok;///<自检结束标记
 extern TEXT_ELE_T * get_text_ele_inf(TEXT_ELE_T *text_pool, uint32_t pool_size, CS_INDEX index, CS_ERR*err);
 extern void init_window_text_ele(MYUSER_WINDOW_T* win);
 
+extern void set_text_ele(CS_INDEX index, MYUSER_WINDOW_T* win, const uint8_t *str);
 extern void get_text_ele_text(CS_INDEX index, MYUSER_WINDOW_T* win, uint8_t *str, uint32_t size);
 extern void update_text_ele(CS_INDEX index, MYUSER_WINDOW_T* win, const uint8_t *str);
 extern void set_text_ele_visible(CS_INDEX index, MYUSER_WINDOW_T* win, uint8_t visible);
@@ -526,6 +527,7 @@ extern void create_env_par_dialog(int hWin);
 extern void create_sys_time_dialog(int hWin);
 extern void create_restor_factory_setting_dialog(int hWin);
 
+extern void create_help_win(int hWin);
 extern void create_self_check_win(int hWin);
 extern void create_start_win(int hWin);
 extern void create_calibration_win(int hWin);

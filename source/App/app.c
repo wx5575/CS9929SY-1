@@ -114,8 +114,8 @@ void ch376_task(void *p_arg)
     
     init_ch376();
     OS_DELAY_ms(2000);
-    set_cur_ch376_chip(1);
-	mainx();
+//    set_cur_ch376_chip(1);
+//	mainx();
 	while(1)
 	{
         OS_DELAY_ms(200);

@@ -110,6 +110,19 @@ void register_coded_disc_send_msg_fun(void(*fun)(uint32_t *))
     send_coded_disc_msg_fun = fun;
 }
 
+static void coded_disc_soft_delay_us(u32 dly_us)
+{
+	unsigned int dly_i;
+	while(dly_us--)
+	{
+		for(dly_i=0;dly_i<802;dly_i++);
+	}
+}
+static void coded_disc_soft_delay_10us(u32 dly_us)
+{
+    coded_disc_soft_delay_us(dly_us);
+}
+
 /**
   * @brief  码盘中断服务函数
   * @param  [in] fun 发送消息函数
@@ -120,22 +133,32 @@ void EXTI9_5_IRQHandler(void)
 	OSIntEnter();    
     if(EXTI_GetITStatus(EXTI_Line6) != RESET)
     {
+        EXTI_ClearITPendingBit(EXTI_Line7);
         EXTI_ClearITPendingBit(EXTI_Line6);
         
-        if(send_coded_disc_msg_fun != NULL)
+//        coded_disc_soft_delay_10us(1000);
+        if(0 == GPIO_ReadInputDataBit(C_DISC_LEFT_PORT, C_DISC_LEFT_PIN))
         {
-            BUZZER_ON_T(KEY_BUZZER_TIME);
-            send_coded_disc_msg_fun((uint32_t *)&SEND_MSG_LEDT);
+            if(send_coded_disc_msg_fun != NULL)
+            {
+                BUZZER_ON_T(KEY_BUZZER_TIME);
+                send_coded_disc_msg_fun((uint32_t *)&SEND_MSG_LEDT);
+            }
         }
     }
     if(EXTI_GetITStatus(EXTI_Line7) != RESET)
     {
         EXTI_ClearITPendingBit(EXTI_Line7);
+        EXTI_ClearITPendingBit(EXTI_Line6);
         
-        if(send_coded_disc_msg_fun != NULL)
+//        coded_disc_soft_delay_10us(1000);
+        if(0 == GPIO_ReadInputDataBit(C_DISC_RIGH_PORT, C_DISC_RIGH_PIN))
         {
-            BUZZER_ON_T(KEY_BUZZER_TIME);
-            send_coded_disc_msg_fun((uint32_t *)&SEND_MSG_RIGH);
+            if(send_coded_disc_msg_fun != NULL)
+            {
+                BUZZER_ON_T(KEY_BUZZER_TIME);
+                send_coded_disc_msg_fun((uint32_t *)&SEND_MSG_RIGH);
+            }
         }
     }
     if(EXTI_GetITStatus(EXTI_Line5) != RESET)

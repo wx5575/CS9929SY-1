@@ -851,6 +851,27 @@ void update_text_ele(CS_INDEX index, MYUSER_WINDOW_T* win, const uint8_t *str)
   * @param  [in] str 要显示的文本
   * @retval 无
   */
+void set_text_ele(CS_INDEX index, MYUSER_WINDOW_T* win, const uint8_t *str)
+{
+	TEXT_ELE_T *node = NULL;
+    CS_ERR err;
+	
+	node = get_text_ele_node(index, &win->text.list_head, &err);//获取文本对象指针
+	
+	if(node == NULL || err != CS_ERR_NONE)
+	{
+		return;
+	}
+	
+    TEXT_SetText(node->handle, str);
+}
+/**
+  * @brief  查找并显示文本对象，如果查找到就显示文本对象内容
+  * @param  [in] index 文本对象的索引
+  * @param  [in] win 文本对象所在窗口的指针
+  * @param  [in] str 要显示的文本
+  * @retval 无
+  */
 void get_text_ele_text(CS_INDEX index, MYUSER_WINDOW_T* win, uint8_t *str, uint32_t size)
 {
 	TEXT_ELE_T *node = NULL;

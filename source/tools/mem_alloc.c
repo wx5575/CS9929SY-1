@@ -55,11 +55,13 @@ void* malloc_ex_mem(uint32_t bytes)
         }
     }
     
+    /* 内存不足 */
     if(EX_RAM_SIZE < (bytes + s))
     {
         return NULL;
     }
     
+    /* 内存够分配，就分配最近的未分配内存地址开始分配 */
     for(i = 0; i < n; i++)
     {
         if(mem_manage_pool[i].flag == 0)
