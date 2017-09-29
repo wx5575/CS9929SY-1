@@ -28,6 +28,8 @@ extern void rtc_set_time(uint32_t year, uint32_t month, uint32_t day,
 
 extern uint32_t get_rtc_time(void);
 extern uint32_t get_rtc_data(void);
+extern void turn_rtc_time_str(uint32_t t_time, uint8_t* time);
+extern void turn_rtc_date_str(uint32_t t_date, uint8_t* date);
 
 #endif //__RTC_CONFIG_H__
 

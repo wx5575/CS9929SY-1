@@ -215,15 +215,81 @@ static int RTC_Configuration(void)
     return 0;
 }
 
-#define RTC_TR_RESERVED_MASK    ((uint32_t)0x007F7F7F)
-#define RTC_DR_RESERVED_MASK    ((uint32_t)0x00FFFF3F) 
+
 uint32_t get_rtc_time(void)
 {
-    return (uint32_t)(RTC->TR & RTC_TR_RESERVED_MASK);
+    uint32_t t_time = 0;
+	RTC_TimeTypeDef rtc_time;
+	
+	RTC_GetTime(RTC_Format_BIN, &rtc_time);
+    
+    t_time |= (rtc_time.RTC_Seconds % 10) << 0;
+    t_time |= (rtc_time.RTC_Seconds / 10) << 4;
+    t_time |= (rtc_time.RTC_Minutes % 10) << 8;
+    t_time |= (rtc_time.RTC_Minutes / 10) << 12;
+    t_time |= (rtc_time.RTC_Hours % 10) << 16;
+    t_time |= (rtc_time.RTC_Hours / 10) << 20;
+    
+    return t_time;
 }
 uint32_t get_rtc_data(void)
 {
-    return (uint32_t)(RTC->DR & RTC_DR_RESERVED_MASK);
+    uint32_t t_date = 0;
+    uint32_t year = 0;
+	RTC_DateTypeDef rtc_date;
+    
+	RTC_GetDate(RTC_Format_BIN, &rtc_date);
+    
+    t_date |= (rtc_date.RTC_Date % 10) << 0;
+    t_date |= (rtc_date.RTC_Date / 10) << 4;
+    t_date |= (rtc_date.RTC_Month % 10) << 8;
+    t_date |= (rtc_date.RTC_Month / 10) << 12;
+    year = rtc_date.RTC_Year + 2000;
+    t_date |= ((year / 1) % 10) << 16;
+    t_date |= ((year / 10) % 10) << 20;
+    t_date |= ((year / 100) % 10) << 24;
+    t_date |= ((year / 1000) % 10) << 28;
+    
+    return t_date;
+}
+
+void turn_rtc_time_str(uint32_t t_time, uint8_t* time)
+{
+    if(time == NULL)
+    {
+        return;
+    }
+    
+    sprintf((char*)time, "%d%d:%d%d:%d%d",
+        (t_time >> 20) & 0xF,
+        (t_time >> 16) & 0xF,
+        
+        (t_time >> 12) & 0xF,
+        (t_time >> 8) & 0xF,
+        
+        (t_time >> 4) & 0xF,
+        (t_time >> 0) & 0xF);
+}
+void turn_rtc_date_str(uint32_t t_date, uint8_t* date)
+{
+    uint32_t year = 0;
+    
+    if(date == NULL)
+    {
+        return;
+    }
+    
+    sprintf((char*)date, "%d%d%d%d-%d%d-%d%d",
+        (t_date >> 28) & 0xF,
+        (t_date >> 24) & 0xF,
+        (t_date >> 20) & 0xF,
+        (t_date >> 16) & 0xF,
+        
+        (t_date >> 12) & 0xF,
+        (t_date >> 8) & 0xF,
+        
+        (t_date >> 4) & 0xF,
+        (t_date >> 0) & 0xF);
 }
 
 /**

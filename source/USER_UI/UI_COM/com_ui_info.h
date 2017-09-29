@@ -26,8 +26,6 @@
 
 #pragma  diag_suppress 870 //消除870号编译警告
 
-#define SYS_LANGUAGE		sys_par.language //CHINESE //ENGLISH //
-#define SCREEM_SIZE         g_custom_sys_par.screem_size
 /* 选择字体 如果当前系统字体为空就使用系统字体 不为空就正常使用 */
 #define SEL_FONT(font)      font[SYS_LANGUAGE]==NULL?font[CHINESE]:font[SYS_LANGUAGE]
 #define SELE_STR(S1, S2)	(SYS_LANGUAGE==CHINESE?S1:S2) ///< 根据系统语言选择不同的字符串

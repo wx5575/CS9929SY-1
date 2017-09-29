@@ -22,7 +22,7 @@ WIDGET_POS_SIZE_T _7_step_edit_windows=
 	0/*x*/,0/*y*/,STEP_EDIT_UI_WIDTH/*width*/,STEP_EDIT_UI_HEIGHT/*height*/,
 };
 
-#define FONT    &GUI_Fonthz_24
+#define FONT    &GUI_Fonthz_26
 
 /**
   * @brief  7寸屏步骤编辑窗口编辑对象自动布局结构初始化信息

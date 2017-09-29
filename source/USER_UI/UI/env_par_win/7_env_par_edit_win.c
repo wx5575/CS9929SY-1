@@ -19,7 +19,7 @@ WIDGET_POS_SIZE_T _7_env_par_windows=
 };
 
 
-#define FONT    &GUI_Fonthz_24
+#define FONT    &GUI_Fonthz_26
 /**
   * @brief  环境变量窗口界面编辑对象自动布局结构
   */

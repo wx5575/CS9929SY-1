@@ -105,6 +105,11 @@ void free_ex_mem(void *p)
 }
 
 
+void* remalloc_ex_mem(void *p, uint32_t bytes)
+{
+    free_ex_mem(p);
+    return malloc_ex_mem(bytes);
+}
 
 
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

@@ -37,7 +37,7 @@ extern unsigned char const g_RA8875_Ascii24_width[];
 extern unsigned char const g_RA8875_Ascii32_width[];
 
 extern GUI_CONST_STORAGE GUI_FONT GUI_Fonthz_20;
-extern GUI_CONST_STORAGE GUI_FONT GUI_Fonthz_24;
+extern GUI_CONST_STORAGE GUI_FONT GUI_Fonthz_26;
 extern GUI_CONST_STORAGE GUI_FONT GUI_Fonthz_26;
 extern GUI_CONST_STORAGE GUI_FONT GUI_Fonthz_29;
 extern GUI_CONST_STORAGE GUI_FONT GUI_Fontxingkai_42;

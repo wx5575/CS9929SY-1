@@ -8100,7 +8100,7 @@ GUI_CONST_STORAGE GUI_CHARINFO_EXT GUI_Fonthz_26_CharInfo[342] = {
   ,{   6,  23,   6,   1,  14, acGUI_Fonthz_26_007B } /* code 007B, LEFT CURLY BRACKET */
   ,{   6,  23,   2,   1,  14, acGUI_Fonthz_26_007D } /* code 007D, RIGHT CURLY BRACKET */
   ,{  15,  16,   6,   4,  27, acGUI_Fonthz_26_03A9 } /* code 03A9, GREEK CAPITAL LETTER OMEGA */
-  ,{  13,  13,   7,   9,  27, acGUI_Fonthz_26_03BC } /* code 03BC, GREEK SMALL LETTER MU */
+  ,{  13,  13,   2,   9,  16, acGUI_Fonthz_26_03BC } /* code 03BC, GREEK SMALL LETTER MU */
   ,{  25,   2,   1,  10,  27, acGUI_Fonthz_26_4E00 } /* code 4E00, <CJK Ideograph, First> */
   ,{  25,  22,   1,   1,  27, acGUI_Fonthz_26_4E0A } /* code 4E0A */
   ,{  23,  22,   2,   2,  27, acGUI_Fonthz_26_4E0B } /* code 4E0B */

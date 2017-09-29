@@ -28,7 +28,7 @@ void _7_init_result_win_layout1_text_ele_pos(TEXT_ELE_T *pool)
 {
     int32_t i = 0;
     TEXT_ELE_T *ele;
-    #define FONT_RES_WIN &GUI_Fonthz_24
+    #define FONT_RES_WIN &GUI_Fonthz_26
     
 //    ele = &pool[RESULT_WIN_PRODUCT_NUM];
 //    
@@ -118,7 +118,7 @@ void _7_init_result_win_layout1_text_ele_pos(TEXT_ELE_T *pool)
     ele->dis_info.max_len = 100;
     ele->dis_info.align = GUI_TA_LEFT | GUI_TA_TOP;
     ele->dis_info.pos_size.height = 200;
-    ele->dis_info.pos_size.width = 395 - 180;
+    ele->dis_info.pos_size.width = 395 - 170;
     
     ele = &pool[RESULT_WIN_TEST_DATA];
     

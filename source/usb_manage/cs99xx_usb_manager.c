@@ -455,54 +455,6 @@ void get_dir_path(uint8_t *buf, uint8_t *path, uint8_t *dir_name)
 }
 
 /**
-  * @brief  在SDCARD中创建多级目录，目录分隔符必须为 "\\"
-  * @param  [in] path 文件路径
-  * @retval 创建结果
-  */
-FRESULT my_mkdir(uint8_t *path)
-{
-    uint8_t len = 0;
-    int32_t i = 0;
-    int32_t j = 0;
-    int32_t k = 0;
-    uint8_t dir_buf[10][20] = {0};
-    uint8_t full_path[100] = {0};
-    FRESULT fresult;
-    
-    len = strlen((const char*)path);
-    
-    for(i = 0; i < len; i++)
-    {
-        if(path[i] == '\\')
-        {
-            j++;
-            k = 0;
-            continue;
-        }
-        
-        dir_buf[j][k++] = path[i];
-    }
-    
-    for(i = 1; i <= j; i++)
-    {
-        sprintf((char*)full_path, "%s\\%s",full_path, dir_buf[i]);
-        fresult = f_mkdir((const char*)full_path);
-        
-        if(fresult == FR_EXIST)
-        {
-            continue;
-        }
-        
-        if(fresult != FR_OK)
-        {
-            break;
-        }
-    }
-    
-    return fresult;
-}
-
-/**
   * @brief  拷贝文件到SDCARD中
   * @param  [in] file_name 文件名
   * @param  [in] path 文件路径
@@ -519,7 +471,6 @@ void copy_file_to_sdcard(uint8_t *file_name, uint8_t *path)
     FRESULT fresult;
     FIL f;
     uint32_t real_size;
-//    FAT_DIR_INFO dir_inf;
     uint8_t name_buf[50];
     
     res = CH376FileOpen(file_name);

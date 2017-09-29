@@ -163,4 +163,53 @@ void load_data(void)
 }
 
 
+/**
+  * @brief  获取测试状态显示用的字符串
+  * @param  [in] status 测试状态
+  * @retval 无
+  */
+const uint8_t* get_test_status_str(uint8_t status)
+{
+    const uint8_t *str = NULL;
+    CS_INDEX index = 0;
+    uint8_t test_st_buf[][2]={
+        {ST_VOL_RISE  , TEST_RISE_INDEX},
+        {ST_TESTING   , TEST_TEST_INDEX},
+        {ST_VOL_FALL  , TEST_FALL_INDEX},
+        {ST_INTER_WAIT, TEST_INTER_INDEX},
+        {ST_WAIT      , TEST_WAIT_INDEX},
+        {ST_PASS      , TEST_PASS_INDEX},
+        {ST_STOP      , TEST_WAIT_INDEX},    /* 复位状态 */
+        {ST_ERR_H     , ERR_HIGH_INDEX},
+        {ST_ERR_L     , ERR_LOW_INDEX},
+        {ST_ERR_SHORT , ERR_SHORT_INDEX},
+        {ST_ERR_VOL_ABNORMAL, ERR_VOL_INDEX},     /* 电压异常 */
+        {ST_ERR_ARC     , ERR_ARC_INDEX},
+        {ST_ERR_GFI     , ERR_GFI_INDEX},
+        {ST_ERR_FAIL    , TEST_FAIL_INDEX},
+        {ST_ERR_REAL    , ERR_REAL_INDEX},     /* 真实电流报警 */
+        {ST_ERR_CHAR    , ERR_CHARGE_INDEX},     /* 充电报警 */
+        {ST_ERR_GEAR    , ERR_GEAR_INDEX},     /* 量程报警 / 档位报警 */
+        {ST_ERR_AMP     , ERR_AMP_INDEX},
+        {ST_ERR_OPEN    , ERR_OPEN_INDEX},     /* 开路报警 */
+        {ST_OUTPUT_DELAY, TEST_OUTPUT_DELAY},
+    };
+    uint32_t num = 0;
+    
+    num = ARRAY_SIZE(test_st_buf);
+    
+    if(status < num)
+    {
+        index = test_st_buf[status][1];
+    }
+    else
+    {
+        index = TEST_WAIT_INDEX;
+    }
+    
+    str = status_str[index][SYS_LANGUAGE];
+    
+    return str;
+}
+
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

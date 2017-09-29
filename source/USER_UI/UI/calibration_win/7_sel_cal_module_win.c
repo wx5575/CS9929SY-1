@@ -40,7 +40,7 @@ WIDGET_POS_SIZE_T _7_sel_cal_module_windows=
 	SIZE_7INCH_X/*x*/, SIZE_7INCH_Y/*y*/, SIZE_7INCH_WIDTH/*width*/, SIZE_7INCH_HEIGH/*height*/,
 };
 
-#define FONT    &GUI_Fonthz_24
+#define FONT    &GUI_Fonthz_26
 
 #define _7_SEL_CAL_MODULE_WIN_WIDTH        230
 #define _7_SEL_CAL_MODULE_WIN_HEIGHT       100

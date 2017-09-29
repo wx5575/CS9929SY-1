@@ -48,7 +48,7 @@ TEXT_ELE_AUTO_LAYOUT_T _7_calibration_text_ele_auto_layout_inf=
 {
    MODULE_BASE_T_X/*base_x*/,MODULE_BASE_T_Y/*base_y*/,MODULE_BASE_T_W/*width*/,30/*height*/,
     1/*rows*/,8/*column*/,50/*row_spacing*/,MODULE_BASE_T_W/*column_spacing*/,
-    {&GUI_Fonthz_24}, GUI_BLACK, GUI_INVALID_COLOR, GUI_TA_LEFT | GUI_TA_VCENTER,20
+    {&GUI_Fonthz_26}, GUI_BLACK, GUI_INVALID_COLOR, GUI_TA_LEFT | GUI_TA_VCENTER,20
 };
 #define X_OFFSET   -100
 static ADJUST_TEXT_ELE_LAYOUT _7_calibration_win_text_ele_adjust_layout[]=
@@ -140,10 +140,10 @@ WM_HWIN _7_create_calibration_listview(WM_HWIN hWin)
 	list_h = LISTVIEW_CreateEx(0, 30, 690, 430, hWin, WM_CF_MEMDEV_ON_REDRAW | WM_CF_SHOW, 0, id_base++);
 	hScrollbar = SCROLLBAR_CreateAttached(list_h, SCROLLBAR_CF_VERTICAL);
 	
-	LISTVIEW_SetFont(list_h, &GUI_Fonthz_24);
+	LISTVIEW_SetFont(list_h, &GUI_Fonthz_26);
 	
 	hHeader = LISTVIEW_GetHeader(list_h);
-	HEADER_SetFont(hHeader,&GUI_Fonthz_24);
+	HEADER_SetFont(hHeader,&GUI_Fonthz_26);
 	HEADER_SetHeight(hHeader,28);
 	LISTVIEW_AddColumn(list_h, 60	, SELE_STR("编号","NO.") , GUI_TA_HCENTER | GUI_TA_VCENTER);
     LISTVIEW_AddColumn(list_h, 130	, SELE_STR("校准模式","Mode") , GUI_TA_HCENTER | GUI_TA_VCENTER);

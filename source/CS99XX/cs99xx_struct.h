@@ -25,6 +25,8 @@
 #define PWD_MAX_LEN         8               ///<密码的最大长度
 #define DEFAULT_PWD         "888888"        ///<系统默认密码
 
+#define SYS_LANGUAGE		sys_par.language //CHINESE //ENGLISH //
+#define SCREEM_SIZE         g_custom_sys_par.screem_size
 /** 
   * @brief 用户数组对象索引,只提供类型，用来将用户的索引统一
   */
@@ -335,6 +337,7 @@ typedef enum{
 	G_MODE,///<G模式
 	N_MODE,///<N模式
 }WORK_MODE_T;
+extern const uint8_t *work_mode_pool[2];
 
 /**
   * @brief  ARC 侦测枚举定义
@@ -642,31 +645,33 @@ typedef struct {
 }GEAR_STR;
 
 typedef struct{
-    uint8_t vol[8];///<电压
-    uint8_t hight[8];///<电流上限
-    uint8_t lower[8];///<电流下限
-    uint8_t test_time[8];///<测试时间
-    uint8_t rise_time[8];///<上升时间
+    uint16_t vol;///<电压
+    uint16_t hight;///<电流上限
+    uint16_t lower;///<电流下限
+    uint8_t range;///<电流档位
+    uint16_t test_time;///<测试时间
+    uint16_t rise_time;///<上升时间
 }ACW_RES_SET;
 typedef struct{
-    uint8_t vol[8];///<电压
-    uint8_t hight[8];///<电流上限
-    uint8_t lower[8];///<电流下限
-    uint8_t test_time[8];///<测试时间
-    uint8_t rise_time[8];///<上升时间
+    uint16_t vol;///<电压
+    uint16_t hight;///<电流上限
+    uint16_t lower;///<电流下限
+    uint8_t range;///<电流档位
+    uint16_t test_time;///<测试时间
+    uint16_t rise_time;///<上升时间
 }DCW_RES_SET;
 typedef struct{
-    uint8_t vol[8];///<电压
-    uint8_t hight[10];///<电阻上限
-    uint8_t lower[10];///<电阻下限
-    uint8_t test_time[8];///<测试时间
-    uint8_t rise_time[8];///<上升时间
+    uint16_t vol;///<电压
+    uint32_t hight;///<电阻上限
+    uint32_t lower;///<电阻下限
+    uint16_t test_time;///<测试时间
+    uint16_t rise_time;///<上升时间
 }IR_RES_SET;
 typedef struct{
-    uint8_t cur[8];///<电流
-    uint8_t hight[10];///<电阻上限
-    uint8_t lower[10];///<电阻下限
-    uint8_t test_time[8];///<测试时间
+    uint16_t cur;///<电流
+    uint16_t hight;///<电阻上限
+    uint16_t lower;///<电阻下限
+    uint16_t test_time;///<测试时间
 }GR_RES_SET;
 /**
   * @brief  结果设置信息结构定义
@@ -686,21 +691,24 @@ typedef struct {
 }RES_SETTING_PAR;
 
 typedef struct{
-    uint8_t vol[8];///<电压
-    uint8_t cur[8];///<电流
-    uint8_t real[8];///<真实电流
+    uint16_t vol;///<电压
+    uint16_t cur;///<电流
+    uint16_t real;///<真实电流
+    uint8_t range;///<电流档位
 }RES_ACW;
 typedef struct{
-    uint8_t vol[8];///<电压
-    uint8_t cur[8];///<电流
+    uint16_t vol;///<电压
+    uint16_t cur;///<电流
+    uint8_t range;///<电流档位
 }RES_DCW;
 typedef struct{
-    uint8_t vol[8];///<电压
-    uint8_t res[10];///<电阻
+    uint16_t vol;///<电压
+    uint16_t res;///<电阻
+    uint8_t range;///<电阻档位
 }RES_IR;
 typedef struct{
-    uint8_t cur[8];///<电流
-    uint8_t res[10];///<电阻
+    uint16_t cur;///<电流
+    uint16_t res;///<电阻
 }RES_GR;
 /**
   * @brief  结果测试数据信息结构定义

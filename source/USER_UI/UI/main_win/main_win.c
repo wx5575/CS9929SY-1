@@ -411,6 +411,7 @@ static void main_win_update_key_inf(WM_HWIN hWin)
     update_system_key_inf(hWin);
 }
 
+void test_ttf_font(void);
 /**
   * @brief  主测试界面回调函数
   * @param  [in] pMsg 回调函数指针
@@ -510,6 +511,7 @@ static void into_start_win(void)//进入启动窗口
   * @param  无
   * @retval 无
   */
+
 void main_ui_enter(void)
 {
 	SCREEM_SIZE = SCREEN_7INCH;//设置为7寸屏

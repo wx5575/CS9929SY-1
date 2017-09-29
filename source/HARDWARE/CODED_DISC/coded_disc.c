@@ -39,7 +39,7 @@ static void coded_exit_config(void)
     EXTI_ClearITPendingBit(EXTI_Line6);        //清外部线路0中断
     EXTI_InitStructure.EXTI_Line = EXTI_Line6;      //线路0
     EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;    //触发模式为中断
-    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;   //下降沿触发
+    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;   //下降沿触发
     EXTI_InitStructure.EXTI_LineCmd = ENABLE;      //开外部中断
     EXTI_Init(&EXTI_InitStructure);
     
@@ -48,7 +48,7 @@ static void coded_exit_config(void)
     EXTI_ClearITPendingBit(EXTI_Line7);//清外部线路0中断
     EXTI_InitStructure.EXTI_Line = EXTI_Line7;//线路0
     EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;//触发模式为中断
-    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;//下降沿触发
+    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;//下降沿触发
     EXTI_InitStructure.EXTI_LineCmd = ENABLE;//开外部中断
     EXTI_Init(&EXTI_InitStructure);
 }
@@ -110,19 +110,60 @@ void register_coded_disc_send_msg_fun(void(*fun)(uint32_t *))
     send_coded_disc_msg_fun = fun;
 }
 
-//static void coded_disc_soft_delay_us(u32 dly_us)
-//{
-//	unsigned int dly_i;
-//	while(dly_us--)
-//	{
-//		for(dly_i=0;dly_i<802;dly_i++);
-//	}
-//}
-//static void coded_disc_soft_delay_10us(u32 dly_us)
-//{
-//    coded_disc_soft_delay_us(dly_us);
-//}
-
+static void coded_disc_soft_delay_us(u32 dly_us)
+{
+	unsigned int dly_i;
+	while(dly_us--)
+	{
+		for(dly_i=0;dly_i<802;dly_i++);
+	}
+}
+static void coded_disc_soft_delay_10us(u32 dly_us)
+{
+    coded_disc_soft_delay_us(dly_us);
+}
+void scan_coded_disc(void)
+{
+    static int32_t count;
+    static uint32_t left_count;
+    static uint32_t right_count;
+    const uint8_t COUNTX = 30;
+    
+//    if(++count < 2)
+//    {
+//        return;
+//    }
+    
+    count = 0;
+    
+    if(1 == GPIO_ReadInputDataBit(C_DISC_LEFT_PORT, C_DISC_LEFT_PIN))
+    {
+        right_count = 0;
+        if(++left_count > COUNTX)
+        {
+            left_count = 0;
+            if(send_coded_disc_msg_fun != NULL)
+            {
+                BUZZER_ON_T(KEY_BUZZER_TIME);
+                send_coded_disc_msg_fun((uint32_t *)&SEND_MSG_LEDT);
+            }
+        }
+    }
+    
+    if(1 == GPIO_ReadInputDataBit(C_DISC_RIGH_PORT, C_DISC_RIGH_PIN))
+    {
+        left_count = 0;
+        if(++right_count > COUNTX)
+        {
+            right_count = 0;
+            if(send_coded_disc_msg_fun != NULL)
+            {
+                BUZZER_ON_T(KEY_BUZZER_TIME);
+                send_coded_disc_msg_fun((uint32_t *)&SEND_MSG_RIGH);
+            }
+        }
+    }
+}
 /**
   * @brief  码盘中断服务函数
   * @param  [in] fun 发送消息函数
@@ -133,11 +174,8 @@ void EXTI9_5_IRQHandler(void)
 	OSIntEnter();    
     if(EXTI_GetITStatus(EXTI_Line6) != RESET)
     {
-        EXTI_ClearITPendingBit(EXTI_Line7);
-        EXTI_ClearITPendingBit(EXTI_Line6);
-        
-//        coded_disc_soft_delay_10us(1000);
-        if(0 == GPIO_ReadInputDataBit(C_DISC_LEFT_PORT, C_DISC_LEFT_PIN))
+        coded_disc_soft_delay_10us(100);
+        if(1 == GPIO_ReadInputDataBit(C_DISC_LEFT_PORT, C_DISC_LEFT_PIN))
         {
             if(send_coded_disc_msg_fun != NULL)
             {
@@ -146,13 +184,10 @@ void EXTI9_5_IRQHandler(void)
             }
         }
     }
-    if(EXTI_GetITStatus(EXTI_Line7) != RESET)
+    else if(EXTI_GetITStatus(EXTI_Line7) != RESET)
     {
-        EXTI_ClearITPendingBit(EXTI_Line7);
-        EXTI_ClearITPendingBit(EXTI_Line6);
-        
-//        coded_disc_soft_delay_10us(1000);
-        if(0 == GPIO_ReadInputDataBit(C_DISC_RIGH_PORT, C_DISC_RIGH_PIN))
+        coded_disc_soft_delay_10us(100);
+        if(1 == GPIO_ReadInputDataBit(C_DISC_RIGH_PORT, C_DISC_RIGH_PIN))
         {
             if(send_coded_disc_msg_fun != NULL)
             {
@@ -175,6 +210,10 @@ void EXTI9_5_IRQHandler(void)
     {
         EXTI_ClearITPendingBit(EXTI_Line9);
     }
+    
+    EXTI_ClearITPendingBit(EXTI_Line7);
+    EXTI_ClearITPendingBit(EXTI_Line6);
+    
 	OSIntExit();
 }
 

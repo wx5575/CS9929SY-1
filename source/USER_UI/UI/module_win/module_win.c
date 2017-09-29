@@ -116,7 +116,7 @@ static WIDGET_POS_SIZE_T* module_win_pos_size_pool[SCREEN_NUM]=
     &_7_module_windows,/*5.6寸屏*/
     &_7_module_windows,/*7寸屏*/
 };
-/** 主界面使用的菜单键信息的配置 */
+/** 界面使用的菜单键信息的配置 */
 static MENU_KEY_INFO_T 	module_win_start_menu_key_inf[] = 
 {
     {"", F_KEY_NULL		, KEY_F1 & _KEY_UP, module_win_start_f1_cb },//f1
@@ -126,7 +126,7 @@ static MENU_KEY_INFO_T 	module_win_start_menu_key_inf[] =
     {"", F_KEY_START    , KEY_F5 & _KEY_UP, module_win_start_f5_cb },//f5
     {"", F_KEY_BACK		, KEY_F6 & _KEY_UP, module_win_start_f6_cb },//f6
 };
-/** 主界面使用的菜单键信息的配置 */
+/** 界面使用的菜单键信息的配置 */
 static MENU_KEY_INFO_T 	module_win_stop_menu_key_inf[] = 
 {
     {"", F_KEY_NULL		, KEY_F1 & _KEY_UP, module_win_stop_f1_cb },//f1

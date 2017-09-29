@@ -159,5 +159,6 @@ RUNNING_EXT  float vol_ch_target;	/* 电压变化的目标 */
 extern CS_BOOL judge_road_work(ROAD_NUM_T road);
 extern uint8_t get_work_roads(void);
 extern void load_data(void);
+extern const uint8_t* get_test_status_str(uint8_t status);
 
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

@@ -130,12 +130,12 @@ static WIDGET_POS_SIZE_T* calibration_win_pos_size_pool[SCREEN_NUM]=
     &_7_calibration_windows,/*5.6寸屏*/
     &_7_calibration_windows,/*7寸屏*/
 };
-/** 主界面使用的菜单键信息的配置 */
+/** 界面使用的菜单键信息的配置 */
 static MENU_KEY_INFO_T 	calibration_win_menu_key_inf[] = 
 {
     {"", F_KEY_START    , KEY_F1 & _KEY_UP, calibration_win_f1_cb },//f1
-    {"", F_KEY_F2		, KEY_F2 & _KEY_UP, calibration_win_f2_cb },//f2
-    {"", F_KEY_F3		, KEY_F3 & _KEY_UP, calibration_win_f3_cb },//f3
+    {"", F_KEY_NULL		, KEY_F2 & _KEY_UP, calibration_win_f2_cb },//f2
+    {"", F_KEY_NULL		, KEY_F3 & _KEY_UP, calibration_win_f3_cb },//f3
     {"", F_KEY_MODULE   , KEY_F4 & _KEY_UP, calibration_win_f4_cb },//f4
     {"", F_KEY_ENTER    , KEY_F5 & _KEY_UP, calibration_win_f5_cb },//f5
     {"", F_KEY_BACK		, KEY_F6 & _KEY_UP, calibration_win_f6_cb },//f6
@@ -434,7 +434,7 @@ static void init_calibration_win_edit_ele_inf(void)
         edit_ele->dis.name.height = 1;
         edit_ele->dis.x = x;
         edit_ele->dis.y = y + 30;
-        edit_ele->dis.edit.font = &GUI_Fonthz_24;
+        edit_ele->dis.edit.font = &GUI_Fonthz_26;
         edit_ele->dis.edit.back_color = GUI_INVALID_COLOR;
         edit_ele->dis.edit.font_color = GUI_BLACK;
         edit_ele->dis.edit.height = height;
@@ -443,7 +443,7 @@ static void init_calibration_win_edit_ele_inf(void)
         edit_ele->dis.edit.max_len = edit_ele->format.lon;
         edit_ele->dis.unit.width = 30;
         edit_ele->dis.unit.height = height;
-        edit_ele->dis.unit.font = &GUI_Fonthz_24;
+        edit_ele->dis.unit.font = &GUI_Fonthz_26;
         edit_ele->dis.unit.back_color = GUI_INVALID_COLOR;
         edit_ele->dis.unit.font_color = GUI_BLACK;
         

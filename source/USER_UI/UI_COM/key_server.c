@@ -528,6 +528,8 @@ void scan_key_task(void)
 		{
 			global_fun_key_dispose(key_value);
 		}
+        
+//        scan_coded_disc();
 	}					 
 }
 

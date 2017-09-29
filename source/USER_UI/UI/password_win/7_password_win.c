@@ -25,7 +25,7 @@ WIDGET_POS_SIZE_T _7_password_windows=
     _7_PWD_WIN_WIDTH/*width*/, _7_PWD_WIN_HEIGHT/*height*/,
 };
 
-#define FONT    &GUI_Fonthz_24
+#define FONT    &GUI_Fonthz_26
 
 /** 
   * @brief 7寸屏密码界面编辑对象自动布局结构

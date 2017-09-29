@@ -66,7 +66,7 @@ typedef struct{
 #define WM_W		120
 #define CWM_X		WM_X+WM_W
 #define CWM_W  		20
-#define TF_FONT     &GUI_Fonthz_24
+#define TF_FONT     &GUI_Fonthz_26
 
 /* Private variables ---------------------------------------------------------*/
 

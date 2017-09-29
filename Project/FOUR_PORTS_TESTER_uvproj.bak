@@ -771,9 +771,9 @@
           <GroupName>EMWIN_LIB</GroupName>
           <Files>
             <File>
-              <FileName>STemWin526_CM4_OS_Keil.lib</FileName>
+              <FileName>GUI_CM4F_L.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\source\EMWIN\emWin\GUILib\STemWin526_CM4_OS_Keil.lib</FilePath>
+              <FilePath>..\source\EMWIN\emWin\GUILib\GUI_CM4F_L.lib</FilePath>
             </File>
           </Files>
         </Group>
@@ -1040,11 +1040,6 @@
               <FileType>1</FileType>
               <FilePath>..\source\HARDWARE\CH376\src\SPI_SW.C</FilePath>
             </File>
-            <File>
-              <FileName>376host.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\HARDWARE\CH376\src\376host.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -1266,9 +1261,9 @@
               <FilePath>..\source\USER_UI\UI\main_win\main_win.c</FilePath>
             </File>
             <File>
-              <FileName>test.c</FileName>
+              <FileName>myfont.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\source\USER_UI\test.c</FilePath>
+              <FilePath>..\source\USER_UI\UI\main_win\myfont.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1544,6 +1539,16 @@
               <FileName>cs99xx_usb_manager.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\usb_manage\cs99xx_usb_manager.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>FATFS_MANAGE</GroupName>
+          <Files>
+            <File>
+              <FileName>FATFS_MANAGE.C</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\FATFS_MANAGE\FATFS_MANAGE.C</FilePath>
             </File>
           </Files>
         </Group>
@@ -1990,7 +1995,7 @@
               <MiscControls>--locale=ENGLISH</MiscControls>
               <Define>STM32F40_41xxx,USE_STDPERIPH_DRIVER,__FPU_PRESENT = 1,__FPU_USED=1,ARM_MATH_CM4,__CC_ARM,CS_BOOT</Define>
               <Undefine></Undefine>
-              <IncludePath>..\source\CORE;..\source\SYSTEM\delay;..\source\SYSTEM\sys;..\source\SYSTEM\usart;..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc;..\source\SYS_LEVEL;..\source\HARDWARE\IIC;..\source\HARDWARE\LCD;..\source\HARDWARE\LED;..\source\HARDWARE\SRAM;..\source\HARDWARE\TIMER;..\source\HARDWARE\24CXX;..\source\HARDWARE\SPI;..\source\HARDWARE\SDIO;..\source\HARDWARE\TOUCH;..\source\HARDWARE\W25QXX;..\source\TEXT;..\source\USMART;..\source\FATFS\src;..\source\FATFS\src\option;..\source\MALLOC;..\source\FWLIB\CMSIS\Include;..\source\EMWIN\emWin\Config;..\source\EMWIN\emWin\emWinTask;..\source\EMWIN\Demo;..\source\UCOSIII\uC-CPU;..\source\UCOSIII\uC-LIB;..\source\UCOSIII\uCOS-III;..\source\UCOSIII\UCOS_BSP;..\source\UCOSIII\uCOS_CONFIG;..\source\UCOSIII\uCOS-III\Source;..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView;..\source\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView;..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView;..\source\EMWIN_DEMO\NUM_DISPLAY;..\source\HARDWARE\RA8875\BSP;..\source\HARDWARE\RA8875\RA8875;..\source\EMWIN\emWin\Include;..\source\HARDWARE\KeyBoard;..\source\HARDWARE;..\source\HARDWARE\sd_card;..\source\HARDWARE\RTC;..\source\HARDWARE\SPI_FLASH;..\source\App;..\source\App\fonts;..\source\TESTER_UI;..\source\CS99XX;..\source\tools;..\source\USER_UI;..\source\USER_UI\UI;..\source\HARDWARE\CH376\inc;..\source\mem_manage;..\source\test_manage;..\source\usb_manage;..\source\key_manage;..\source\CS99XX_Type;..\source\parameter_manage;..\source\CORE\stm32f4xx;..\source\key_server;..\source\HARDWARE\USART;..\source\module_manage;..\source\HARDWARE\START_STOP_KEY;..\Project;..\source\HARDWARE\FSMC</IncludePath>
+              <IncludePath>..\source\CORE;..\source\SYSTEM\delay;..\source\SYSTEM\sys;..\source\SYSTEM\usart;..\source\FWLIB\STM32F4xx_StdPeriph_Driver\inc;..\source\SYS_LEVEL;..\source\HARDWARE\IIC;..\source\HARDWARE\LCD;..\source\HARDWARE\LED;..\source\HARDWARE\SRAM;..\source\HARDWARE\TIMER;..\source\HARDWARE\24CXX;..\source\HARDWARE\SPI;..\source\HARDWARE\SDIO;..\source\HARDWARE\TOUCH;..\source\HARDWARE\W25QXX;..\source\TEXT;..\source\USMART;..\source\FATFS\src;..\source\FATFS\src\option;..\source\MALLOC;..\source\FWLIB\CMSIS\Include;..\source\EMWIN\emWin\Config;..\source\EMWIN\emWin\emWinTask;..\source\EMWIN\Demo;..\source\UCOSIII\uC-CPU;..\source\UCOSIII\uC-LIB;..\source\UCOSIII\uCOS-III;..\source\UCOSIII\UCOS_BSP;..\source\UCOSIII\uCOS_CONFIG;..\source\UCOSIII\uCOS-III\Source;..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView;..\source\UCOSIII\uC-LIB\Ports\ARM-Cortex-M4\RealView;..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView;..\source\EMWIN_DEMO\NUM_DISPLAY;..\source\HARDWARE\RA8875\BSP;..\source\HARDWARE\RA8875\RA8875;..\source\EMWIN\emWin\Include;..\source\HARDWARE\KeyBoard;..\source\HARDWARE;..\source\HARDWARE\sd_card;..\source\HARDWARE\RTC;..\source\HARDWARE\SPI_FLASH;..\source\App;..\source\App\fonts;..\source\TESTER_UI;..\source\CS99XX;..\source\tools;..\source\USER_UI;..\source\USER_UI\UI;..\source\HARDWARE\CH376\inc;..\source\mem_manage;..\source\test_manage;..\source\usb_manage;..\source\key_manage;..\source\CS99XX_Type;..\source\parameter_manage;..\source\CORE\stm32f4xx;..\source\key_server;..\source\HARDWARE\USART;..\source\module_manage;..\source\HARDWARE\START_STOP_KEY;..\Project;..\source\HARDWARE\FSMC;..\source\FATFS_MANAGE</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -2399,9 +2404,9 @@
           <GroupName>EMWIN_LIB</GroupName>
           <Files>
             <File>
-              <FileName>STemWin526_CM4_OS_Keil.lib</FileName>
+              <FileName>GUI_CM4F_L.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\source\EMWIN\emWin\GUILib\STemWin526_CM4_OS_Keil.lib</FilePath>
+              <FilePath>..\source\EMWIN\emWin\GUILib\GUI_CM4F_L.lib</FilePath>
             </File>
           </Files>
         </Group>
@@ -2668,11 +2673,6 @@
               <FileType>1</FileType>
               <FilePath>..\source\HARDWARE\CH376\src\SPI_SW.C</FilePath>
             </File>
-            <File>
-              <FileName>376host.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\HARDWARE\CH376\src\376host.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -2894,9 +2894,9 @@
               <FilePath>..\source\USER_UI\UI\main_win\main_win.c</FilePath>
             </File>
             <File>
-              <FileName>test.c</FileName>
+              <FileName>myfont.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\source\USER_UI\test.c</FilePath>
+              <FilePath>..\source\USER_UI\UI\main_win\myfont.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -3172,6 +3172,16 @@
               <FileName>cs99xx_usb_manager.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\usb_manage\cs99xx_usb_manager.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>FATFS_MANAGE</GroupName>
+          <Files>
+            <File>
+              <FileName>FATFS_MANAGE.C</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\FATFS_MANAGE\FATFS_MANAGE.C</FilePath>
             </File>
           </Files>
         </Group>

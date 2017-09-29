@@ -7,11 +7,13 @@
   * @brief   测试窗口
   ******************************************************************************
   */
-  
+
 /* Includes ------------------------------------------------------------------*/
 
 #include "string.h"
 #include "stdio.h"
+#include "math.h"
+#include "stdlib.h"
 #include "running_test.h"
 #include "ui_com/com_edit_api.h"
 #include "7_test_ui_layout_1.h"
@@ -25,6 +27,8 @@
 #include "crc.h"
 #include "key_led_buzzer.h"
 #include "rtc_config.h"
+#include "ff.h"
+#include "FATFS_MANAGE.H"
 
 
 /* Private typedef -----------------------------------------------------------*/
@@ -47,6 +51,7 @@ typedef enum{
 
 typedef struct{
     uint8_t fail;///<测试失败标记
+    uint8_t save_only_onece;///<只保存1次结果标记
 }TEST_FLAG;
 /**
   * @brief  每路的文本对象在文本对象池中的索引测试状态等
@@ -3002,55 +3007,6 @@ char* div_str_pre_zero(char *str)
 }
 
 /**
-  * @brief  获取测试状态显示用的字符串
-  * @param  [in] status 测试状态
-  * @retval 无
-  */
-const uint8_t* get_test_status_str(uint8_t status)
-{
-    const uint8_t *str = NULL;
-    CS_INDEX index = 0;
-    uint8_t test_st_buf[][2]={
-        {ST_VOL_RISE  , TEST_RISE_INDEX},
-        {ST_TESTING   , TEST_TEST_INDEX},
-        {ST_VOL_FALL  , TEST_FALL_INDEX},
-        {ST_INTER_WAIT, TEST_INTER_INDEX},
-        {ST_WAIT      , TEST_WAIT_INDEX},
-        {ST_PASS      , TEST_PASS_INDEX},
-        {ST_STOP      , TEST_WAIT_INDEX},    /* 复位状态 */
-        {ST_ERR_H     , ERR_HIGH_INDEX},
-        {ST_ERR_L     , ERR_LOW_INDEX},
-        {ST_ERR_SHORT , ERR_SHORT_INDEX},
-        {ST_ERR_VOL_ABNORMAL, ERR_VOL_INDEX},     /* 电压异常 */
-        {ST_ERR_ARC     , ERR_ARC_INDEX},
-        {ST_ERR_GFI     , ERR_GFI_INDEX},
-        {ST_ERR_FAIL    , TEST_FAIL_INDEX},
-        {ST_ERR_REAL    , ERR_REAL_INDEX},     /* 真实电流报警 */
-        {ST_ERR_CHAR    , ERR_CHARGE_INDEX},     /* 充电报警 */
-        {ST_ERR_GEAR    , ERR_GEAR_INDEX},     /* 量程报警 / 档位报警 */
-        {ST_ERR_AMP     , ERR_AMP_INDEX},
-        {ST_ERR_OPEN    , ERR_OPEN_INDEX},     /* 开路报警 */
-        {ST_OUTPUT_DELAY, TEST_OUTPUT_DELAY},
-    };
-    uint32_t num = 0;
-    
-    num = ARRAY_SIZE(test_st_buf);
-    
-    if(status < num)
-    {
-        index = test_st_buf[status][1];
-    }
-    else
-    {
-        index = TEST_WAIT_INDEX;
-    }
-    
-    str = status_str[index][SYS_LANGUAGE];
-    
-    return str;
-}
-
-/**
   * @brief  更新每路状态条背景色
   * @param  [in] inf 测试数据
   * @param  [in] road_ele_inf 每路的显示对象信息
@@ -3081,15 +3037,18 @@ void update_road_bar_dis(COMM_TEST_DATA *inf, ROAD_DIS_ELE_INF* road_ele_inf)
 void update_result_inf(COMM_TEST_DATA *inf, ROAD_DIS_ELE_INF* road_ele_inf)
 {
     RES_TEST_DATA *res_test_data;
+    float f = 0;
     
     res_test_data = &result_inf_pool[road_ele_inf->road_num - 1].test_data;
     
     switch(cur_mode)
     {
         case ACW:
-            strcpy((char*)res_test_data->un.acw.vol, inf->vol);
-            strcpy((char*)res_test_data->un.acw.cur, inf->cur);
-            strcpy((char*)res_test_data->un.acw.real, inf->cur);
+            f = atof((const char*)inf->vol);
+            res_test_data->un.acw.vol = f * 1000;
+            f = atof((const char*)inf->cur);
+            res_test_data->un.acw.cur = f * pow(10, ac_gear[cur_gear].dec);
+            res_test_data->test_time = atof((const char*)inf->time) * 10;
             break;
         case DCW:
             break;
@@ -3110,7 +3069,9 @@ void dis_one_road_test_inf(COMM_TEST_DATA *inf, ROAD_DIS_ELE_INF* road_ele_inf, 
 {
     const uint8_t *str = NULL;
     static uint8_t flag = 0;
+    RES_TEST_DATA *res_test_data;
     
+    res_test_data = &result_inf_pool[road_ele_inf->road_num - 1].test_data;
     strcat((char*)inf->time, (const char*)unit_pool[TIM_U_s]);
     div_str_pre_zero((char*)inf->time);
     
@@ -3127,6 +3088,8 @@ void dis_one_road_test_inf(COMM_TEST_DATA *inf, ROAD_DIS_ELE_INF* road_ele_inf, 
         update_text_ele(road_ele_inf->cur, this_win, inf->cur);
         update_text_ele(road_ele_inf->mode, this_win, inf->mode);
         str = get_test_status_str(inf->status);
+        res_test_data->test_result = inf->status;
+        
         update_text_ele(road_ele_inf->status, this_win, str);
         update_road_bar_dis(inf, road_ele_inf);//测试出现异常时使用
     }
@@ -3252,7 +3215,6 @@ void dis_test_over_status(void)
 {
     CS_BOOL res;
     const uint8_t *str;
-    
     int32_t i = 0;
     uint32_t num = 0;
     ROAD_DIS_ELE_INF *inf = NULL;
@@ -3282,75 +3244,6 @@ void dis_test_over_status(void)
     }
     
     update_roads_bar();
-//    if(CS_TRUE == judge_road_work(INDEX_ROAD_1))
-//    {
-//        res = road1_test_alarm();
-//        
-//        if(res == CS_FALSE)
-//        {
-//            str = get_test_status_str(ST_PASS);
-//            update_text_ele(TEST_UI_ROAD01_STATUS, this_win, str);
-//            road_test_dis_inf[INDEX_ROAD_1 - 1].test_st = ST_PASS;
-//        }
-//        else
-//        {
-//            road_test_dis_inf[INDEX_ROAD_1 - 1].test_st = ST_ERR_FAIL;
-//            test_flag.fail = 1;
-//        }
-//    }
-//    
-//    if(CS_TRUE == judge_road_work(INDEX_ROAD_2))
-//    {
-//        res = road2_test_alarm();
-//        
-//        if(res == CS_FALSE)
-//        {
-//            str = get_test_status_str(ST_PASS);
-//            update_text_ele(TEST_UI_ROAD02_STATUS, this_win, str);
-//            road_test_dis_inf[INDEX_ROAD_2 - 1].test_st = ST_PASS;
-//        }
-//        else
-//        {
-//            road_test_dis_inf[INDEX_ROAD_2 - 1].test_st = ST_ERR_FAIL;
-//            test_flag.fail = 1;
-//        }
-//    }
-//    
-//    if(CS_TRUE == judge_road_work(INDEX_ROAD_3))
-//    {
-//        res = road3_test_alarm();
-//        
-//        if(res == CS_FALSE)
-//        {
-//            str = get_test_status_str(ST_PASS);
-//            update_text_ele(TEST_UI_ROAD03_STATUS, this_win, str);
-//            road_test_dis_inf[INDEX_ROAD_3 - 1].test_st = ST_PASS;
-//            test_flag.fail = 1;
-//        }
-//        else
-//        {
-//            road_test_dis_inf[INDEX_ROAD_3 - 1].test_st = ST_ERR_FAIL;
-//        }
-//    }
-//    
-//    if(CS_TRUE == judge_road_work(INDEX_ROAD_4))
-//    {
-//        res = road4_test_alarm();
-//        
-//        if(res == CS_FALSE)
-//        {
-//            str = get_test_status_str(ST_PASS);
-//            update_text_ele(TEST_UI_ROAD04_STATUS, this_win, str);
-//            road_test_dis_inf[INDEX_ROAD_4 - 1].test_st = ST_PASS;
-//        }
-//        else
-//        {
-//            road_test_dis_inf[INDEX_ROAD_4 - 1].test_st = ST_ERR_FAIL;
-//            test_flag.fail = 1;
-//        }
-//    }
-//    
-//    update_roads_bar();
 }
 
 /**
@@ -3404,18 +3297,9 @@ void clear_test_flag(void)
     memset(&test_flag, 0, sizeof(test_flag));
 }
 
-void record_setting_par_for_result(void)
+void _record_setting_par_for_result(RESULT_INF *res, uint8_t road_num)
 {
-    int32_t i = 0;
-    RESULT_INF *res;
-    uint8_t decs = 0;
-    uint8_t lon = 0;
-    UNIT_T unit = NULL_U_NULL;
-    uint8_t format = 0;
-    
-    res = &result_inf_pool[i];
-    
-    strcpy((char*)res->par.file_name, g_cur_file->name);
+    strcpy((char*)res->par.file_name, (const char*)g_cur_file->name);
     res->par.mode = g_cur_step->one_step.com.mode;
     res->par.work_mode = g_cur_file->work_mode;
     res->par.step = g_cur_step->one_step.com.step;
@@ -3424,56 +3308,161 @@ void record_setting_par_for_result(void)
     res->test_data.record_date = get_rtc_data();
     res->test_data.record_time = get_rtc_time();
     
+    res->road_num = road_num;
+    
     switch(cur_mode)
     {
         case ACW:
         {
-            mysprintf(res->par.un.acw.vol, unit_pool[VOL_U_kV], 53, cur_vol);
-            decs = ac_gear[cur_gear].dec;
-            lon = ac_gear[cur_gear].lon;
-            unit = ac_gear[cur_gear].unit;
-            format = lon * 10 + decs;
-            mysprintf(res->par.un.acw.hight, unit_pool[unit], format, cur_high);
-            mysprintf(res->par.un.acw.lower, unit_pool[unit], format, cur_low);
-            mysprintf(res->par.un.acw.test_time, unit_pool[TIM_U_s], 51, tes_t);
-            mysprintf(res->par.un.acw.rise_time, unit_pool[TIM_U_s], 51, ris_t);
+            res->test_data.un.acw.range = cur_gear;
+            res->par.un.acw.range = cur_gear;
+            res->par.un.acw.vol = cur_vol;
+            
+            res->par.un.acw.hight = cur_high;
+            res->par.un.acw.lower = cur_low;
+            res->par.un.acw.test_time = tes_t;
+            res->par.un.acw.rise_time = ris_t;
             break;
         }
         case DCW:
         {
-            mysprintf(res->par.un.dcw.vol, unit_pool[VOL_U_kV], 53, cur_vol);
-            decs = dc_gear[cur_gear].dec;
-            lon = dc_gear[cur_gear].lon;
-            unit = dc_gear[cur_gear].unit;
-            format = lon * 10 + decs;
-            mysprintf(res->par.un.dcw.hight, unit_pool[unit], format, cur_high);
-            mysprintf(res->par.un.dcw.lower, unit_pool[unit], format, cur_low);
-            mysprintf(res->par.un.dcw.test_time, unit_pool[TIM_U_s], 51, tes_t);
-            mysprintf(res->par.un.dcw.rise_time, unit_pool[TIM_U_s], 51, ris_t);
+            res->test_data.un.dcw.range = cur_gear;
+            res->par.un.dcw.range = cur_gear;
+            res->par.un.dcw.vol = cur_vol;
+            
+            res->par.un.dcw.hight = cur_high;
+            res->par.un.dcw.lower = cur_low;
+            res->par.un.dcw.test_time = tes_t;
+            res->par.un.dcw.rise_time = ris_t;
             break;
         }
         case IR:
         {
-            mysprintf(res->par.un.ir.vol, unit_pool[VOL_U_kV], 53, cur_vol);
-            mysprintf(res->par.un.ir.hight, unit_pool[RES_U_MOHM], 50, cur_high);
-            mysprintf(res->par.un.ir.lower, unit_pool[RES_U_MOHM], 50, cur_low);
-            mysprintf(res->par.un.ir.test_time, unit_pool[TIM_U_s], 51, tes_t);
+            res->par.un.ir.vol = cur_vol;
+            res->par.un.ir.hight = cur_high;
+            res->par.un.ir.lower = cur_low;
+            res->par.un.ir.test_time = tes_t;
             break;
         }
         case GR:
         {
-            mysprintf(res->par.un.gr.cur, unit_pool[CUR_U_A], 53, cur_vol);
-            mysprintf(res->par.un.gr.hight, unit_pool[RES_U_mOHM], 51, cur_high);
-            mysprintf(res->par.un.gr.lower, unit_pool[RES_U_mOHM], 51, cur_low);
-            mysprintf(res->par.un.gr.test_time, unit_pool[TIM_U_s], 51, tes_t);
+            res->par.un.gr.cur = cur_vol;
+            res->par.un.gr.hight = cur_high;
+            res->par.un.gr.lower = cur_low;
+            res->par.un.gr.test_time = tes_t;
             break;
         }
     }
 }
 
+void record_setting_par_for_result(void)
+{
+    int32_t i = 0;
+    uint8_t num = 0;
+    
+    test_flag.save_only_onece = 0;
+    num = ARRAY_SIZE(result_inf_pool);
+    
+    for(i = 0; i < num; i++)
+    {
+        _record_setting_par_for_result(&result_inf_pool[i], i + 1);
+    }
+}
+
+static void save_roads_test_st(void)
+{
+    int32_t i = 0;
+    uint32_t num = 0;
+    ROAD_DIS_ELE_INF *inf = NULL;
+    
+    num = ARRAY_SIZE(road_test_dis_inf);
+    
+    for(i = 0; i < num; i++)
+    {
+        inf = &road_test_dis_inf[i];
+        
+        if(inf->test_st == ST_PASS)
+        {
+            result_inf_pool[i].test_data.test_result = ST_PASS;
+        }
+    }
+}
 void save_test_result(void)
 {
+    FRESULT fresult;
+    FIL f;
     
+    if(test_flag.save_only_onece)
+    {
+        return;
+    }
+    
+    test_flag.save_only_onece = 1;
+    save_roads_test_st();
+    
+    fresult = f_open (&f, (const char*)"\\ROOT\\RESULT\\RESULT.BIN", FA_WRITE | FA_OPEN_ALWAYS);
+    
+    if(fresult != FR_OK)
+    {
+        fresult = my_mkdir("\\ROOT\\RESULT");
+        
+        if(fresult != FR_OK)
+        {
+            return;
+        }
+        
+        fresult = f_open(&f, (const char*)"\\ROOT\\RESULT\\RESULT.BIN", FA_WRITE | FA_CREATE_ALWAYS | FA_OPEN_ALWAYS);
+        
+        if(fresult != FR_OK)
+        {
+            return;
+        }
+    }
+    
+    fresult = f_lseek(&f, f.fsize);
+    
+    if(CS_TRUE == judge_road_work(INDEX_ROAD_1))
+    {
+        fresult = f_write (&f, &result_inf_pool[INDEX_ROAD_1 - 1], sizeof(RESULT_INF), NULL);
+        
+        if(fresult != FR_OK)
+        {
+            goto end;
+        }
+    }
+    
+    if(CS_TRUE == judge_road_work(INDEX_ROAD_2))
+    {
+        fresult = f_write (&f, &result_inf_pool[INDEX_ROAD_2 - 1], sizeof(RESULT_INF), NULL);
+        
+        if(fresult != FR_OK)
+        {
+            goto end;
+        }
+    }
+    
+    if(CS_TRUE == judge_road_work(INDEX_ROAD_3))
+    {
+        fresult = f_write (&f, &result_inf_pool[INDEX_ROAD_3 - 1], sizeof(RESULT_INF), NULL);
+        
+        if(fresult != FR_OK)
+        {
+            goto end;
+        }
+    }
+    
+    if(CS_TRUE == judge_road_work(INDEX_ROAD_4))
+    {
+        fresult = f_write (&f, &result_inf_pool[INDEX_ROAD_4 - 1], sizeof(RESULT_INF), NULL);
+        
+        if(fresult != FR_OK)
+        {
+            goto end;
+        }
+    }
+    
+end:
+    f_close(&f);
 }
 /**
   * @brief  测试状态机

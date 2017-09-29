@@ -874,7 +874,7 @@ static void create_list_wheel(int x, int y, int xSize, int ySize,
     //
     // Create LISTWHEEL object
     //
-    pFont         = &GUI_Fonthz_24;
+    pFont         = &GUI_Fonthz_26;
     LineHeight    = 30;
     pWheel->pFont = pFont;
     pWheel->font_color_sel = GUI_RED;
@@ -887,7 +887,7 @@ static void create_list_wheel(int x, int y, int xSize, int ySize,
         return;
     }
     
-    LISTWHEEL_SetFont(hWin, &GUI_Fonthz_24);
+    LISTWHEEL_SetFont(hWin, &GUI_Fonthz_26);
     LISTWHEEL_SetTextAlign(hWin, TextAlign);
     LISTWHEEL_SetSnapPosition(hWin, (ySize - LineHeight) / 2);
     LISTWHEEL_SetOwnerDraw(hWin, owner_draw);

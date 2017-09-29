@@ -1793,7 +1793,7 @@ void init_group_com_text_ele_dis_inf(MYUSER_WINDOW_T* win)
     #define WM_W		120
     #define CWM_X		WM_X+WM_W
     #define CWM_W  		20
-    #define TF_FONT     &GUI_Fonthz_24
+    #define TF_FONT     &GUI_Fonthz_26
     
     /* "文件名" */
     inf.base_x = GB_X;//x基坐标 

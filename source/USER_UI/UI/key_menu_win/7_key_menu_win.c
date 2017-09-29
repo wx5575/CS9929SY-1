@@ -39,7 +39,7 @@ WIDGET_POS_SIZE_T _7_key_menu_windows=
 #define MK_W            (MENU_KEY_AREA_WIDTH - 2 * MENU_KEY_O)
 #define MK_H            ((MENU_KEY_AREA_HEIGHT - (MENU_KEY_NUM + 1) * MENU_KEY_O) / (MENU_KEY_NUM))
 #define MK_FONTS_CN     &GUI_Fonthz_29
-#define MK_FONTS_EN     &GUI_Fonthz_24
+#define MK_FONTS_EN     &GUI_Fonthz_26
 #define MK_ALIGN        GUI_TA_HCENTER | GUI_TA_VCENTER
 #define MK_F_COLOR      GUI_WHITE
 #define KEY_UP_COLOR    0x804000 //GUI_LIGHTGRAY//GUI_LIGHTBLUE //

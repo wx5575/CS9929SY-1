@@ -16,6 +16,7 @@
 
 extern void free_ex_mem(void *p);
 extern void* malloc_ex_mem(uint32_t bytes);
+extern void* remalloc_ex_mem(void *p, uint32_t bytes);
 
 
 

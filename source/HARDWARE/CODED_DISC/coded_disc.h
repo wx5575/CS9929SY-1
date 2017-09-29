@@ -14,7 +14,8 @@
 
 
 extern void coded_disc_init(void);
-void register_coded_disc_send_msg_fun(void(*fun)(uint32_t *));
+extern void register_coded_disc_send_msg_fun(void(*fun)(uint32_t *));
+extern void scan_coded_disc(void);
 
 #endif //__CODED_DISC_H__
 
