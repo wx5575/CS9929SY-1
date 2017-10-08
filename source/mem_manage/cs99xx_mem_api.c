@@ -215,4 +215,14 @@ void save_roads_flag(void)
 {
     save_roads_flag_flash();
 }
+
+/**
+  * @brief  获取测试结果的最大条数
+  * @param  无
+  * @retval 测试结果的最大条数
+  */
+uint32_t get_result_max_num(void)
+{
+    return F_RES_TOTAL;
+}
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

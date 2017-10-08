@@ -272,8 +272,6 @@ void turn_rtc_time_str(uint32_t t_time, uint8_t* time)
 }
 void turn_rtc_date_str(uint32_t t_date, uint8_t* date)
 {
-    uint32_t year = 0;
-    
     if(date == NULL)
     {
         return;

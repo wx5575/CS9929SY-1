@@ -1081,11 +1081,6 @@
               <FilePath>..\source\USER_UI\fonts\HZ\hz_20.c</FilePath>
             </File>
             <File>
-              <FileName>hz_24.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\USER_UI\fonts\HZ\hz_24.c</FilePath>
-            </File>
-            <File>
               <FileName>hz_26.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\USER_UI\fonts\HZ\hz_26.c</FilePath>
@@ -1259,11 +1254,6 @@
               <FileName>main_win.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\USER_UI\UI\main_win\main_win.c</FilePath>
-            </File>
-            <File>
-              <FileName>myfont.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\USER_UI\UI\main_win\myfont.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1499,6 +1489,16 @@
               <FileName>result_win.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\USER_UI\UI\result_win\result_win.c</FilePath>
+            </File>
+            <File>
+              <FileName>set_goto_result_num_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\result_win\set_goto_result_num_win.c</FilePath>
+            </File>
+            <File>
+              <FileName>7_set_goto_result_num_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\result_win\7_set_goto_result_num_win.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2714,11 +2714,6 @@
               <FilePath>..\source\USER_UI\fonts\HZ\hz_20.c</FilePath>
             </File>
             <File>
-              <FileName>hz_24.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\USER_UI\fonts\HZ\hz_24.c</FilePath>
-            </File>
-            <File>
               <FileName>hz_26.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\USER_UI\fonts\HZ\hz_26.c</FilePath>
@@ -2892,11 +2887,6 @@
               <FileName>main_win.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\USER_UI\UI\main_win\main_win.c</FilePath>
-            </File>
-            <File>
-              <FileName>myfont.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\USER_UI\UI\main_win\myfont.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -3132,6 +3122,16 @@
               <FileName>result_win.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\USER_UI\UI\result_win\result_win.c</FilePath>
+            </File>
+            <File>
+              <FileName>set_goto_result_num_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\result_win\set_goto_result_num_win.c</FilePath>
+            </File>
+            <File>
+              <FileName>7_set_goto_result_num_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\result_win\7_set_goto_result_num_win.c</FilePath>
             </File>
           </Files>
         </Group>

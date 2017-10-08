@@ -126,6 +126,45 @@ IMAGE_Handle create_slogo_image(WM_HWIN hWin)
     return handle;
 }
 
+IMAGE_Handle create_miclogo_image(WM_HWIN hWin, void**mem)
+{
+    IMAGE_Handle handle;
+    uint8_t *bmpBuffer;
+    FRESULT res;
+    FIL f;
+    int32_t width = 0;
+    int32_t height = 0;
+    
+    res = f_open (&f, "\\ROOT\\IMAGE\\miclogo.bmp", FA_READ);
+    
+    if(res == FR_OK)
+    {
+        bmpBuffer = malloc_ex_mem(f.fsize);
+        
+        if(bmpBuffer != NULL)
+        {
+            *mem = bmpBuffer;
+            f_read(&f, bmpBuffer, f.fsize, NULL);
+            width = *(int32_t*)&bmpBuffer[18];
+            height = *(int32_t*)&bmpBuffer[18+4];
+            if(height < 0)
+            {
+                height = -1 * height;
+            }
+            
+            handle = IMAGE_CreateUser(2, 2, width, height, hWin,
+                WM_CF_SHOW, 0, id_base++, 0);
+            
+            IMAGE_SetBMP(handle, bmpBuffer, f.fsize);
+//            free_ex_mem(bmpBuffer);
+            bmpBuffer = NULL;
+        }
+        
+        f_close(&f);
+    }
+    
+    return handle;
+}
 IMAGE_Handle create_main_image(WM_HWIN hWin)
 {
     IMAGE_Handle handle;

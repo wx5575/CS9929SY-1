@@ -3,8 +3,8 @@
   * @file    set_goto_result_num_win.c
   * @author  王鑫
   * @version V1.0.0
-  * @date    2017.4.18
-  * @brief   启动窗口
+  * @date    2017.9.29
+  * @brief   跳转到指定的结果
   ******************************************************************************
   */
 /* Includes ------------------------------------------------------------------*/
@@ -31,7 +31,6 @@
 
 /* Private function prototypes -----------------------------------------------*/
 static void set_goto_result_num_win_cb(WM_MESSAGE * pMsg);
-static void update_set_goto_result_num_win_menu_key_inf(WM_HMEM hWin);
 
 static void set_goto_result_num_win_f1_cb(KEY_MESSAGE *key_msg);
 static void set_goto_result_num_win_f2_cb(KEY_MESSAGE *key_msg);
@@ -40,44 +39,22 @@ static void set_goto_result_num_win_f4_cb(KEY_MESSAGE *key_msg);
 static void set_goto_result_num_win_f5_cb(KEY_MESSAGE *key_msg);
 static void set_goto_result_num_win_f6_cb(KEY_MESSAGE *key_msg);
 
-
 static void set_goto_result_num_direct_key_up_cb	  (KEY_MESSAGE *key_msg);
 static void set_goto_result_num_direct_key_down_cb( KEY_MESSAGE *key_msg);
 static void set_goto_result_num_direct_key_left_cb( KEY_MESSAGE *key_msg);
 static void set_goto_result_num_direct_key_right_cb(KEY_MESSAGE *key_msg);
 static void set_goto_result_num_enter_key_up_cb	  (KEY_MESSAGE *key_msg);
 
-
-static void set_goto_result_num_win_update_key_inf(WM_HWIN hWin);
 static void reg_set_goto_result_num_menu_key(WM_HMEM hWin);
 static void reg_set_goto_result_num_sys_key(WM_HMEM hWin);
 static void init_create_set_goto_result_num_edit_ele(MYUSER_WINDOW_T* win);
 static void init_create_set_goto_result_num_win_com_ele(MYUSER_WINDOW_T* win);
 /* Private variables ---------------------------------------------------------*/
-
-//static	WM_HWIN timer_handle;///<定时器句柄
-//static	WM_HWIN U_FLASH_1_handle;///<U盘图标1句柄
-//static	WM_HWIN U_FLASH_2_handle;///<U盘图标2句柄
-//static	WM_HWIN KEY_LOCK_handle;///<键盘锁图标句柄
-//static	WM_HWIN KEY_CAPITAL_SMALL_handle;///<大小写图标句柄
-/** 主界面显示的文本索引表 */
-//static CS_INDEX main_ui_text_ele_table[] =
-//{
-//	MAIN_UI_COM_ST,
-//	MAIN_UI_SYS_TIME,
-//};
-//static	LISTVIEW_Handle set_goto_result_num_list_handle;///<校准管理列表句柄
 /**
-  * @brief  系统按键信息
+  * @brief  当前要跳转的结果条数
   */
-//static CONFIG_FUNCTION_KEY_INFO_T set_goto_result_num_win_sys_key_pool[]=
-//{
-//	{KEY_SHIFT	    , sys_shift_key_fun_cb      },
-//	{KEY_UNLOCK	    , sys_unlock_key_fun_cb     },
-//	{KEY_EXIT	    , sys_exit_key_fun_cb       },
-//	{KEY_STOP	    , sys_stop_key_fun_cb       },
-//	{KEY_F1 & KEY_0 , screen_capture_key_fun_cb },
-//};
+static uint32_t cur_goto_result_num;
+
 /**
   * @brief  根据不同屏幕尺寸填入位置尺寸信息
   */
@@ -97,16 +74,6 @@ static EDIT_ELE_AUTO_LAYOUT_T      *set_goto_result_num_edit_ele_auto_layout[]=
     &_7_set_goto_result_num_edit_ele_auto_layout_inf,//5.6寸屏
     &_7_set_goto_result_num_edit_ele_auto_layout_inf,//7寸屏
 };
-/** 主界面使用的菜单键信息的配置 */
-//static MENU_KEY_INFO_T 	set_goto_result_num_win_menu_key_inf[] = 
-//{
-//    {"", F_KEY_NULL		, KEY_F1 & _KEY_UP, set_goto_result_num_win_f1_cb },//f1
-//    {"", F_KEY_NULL		, KEY_F2 & _KEY_UP, set_goto_result_num_win_f2_cb },//f2
-//    {"", F_KEY_NULL		, KEY_F3 & _KEY_UP, set_goto_result_num_win_f3_cb },//f3
-//    {"", F_KEY_NULL     , KEY_F4 & _KEY_UP, set_goto_result_num_win_f4_cb },//f4
-//    {"", F_KEY_ENTER    , KEY_F5 & _KEY_UP, set_goto_result_num_win_f5_cb },//f5
-//    {"", F_KEY_BACK		, KEY_F6 & _KEY_UP, set_goto_result_num_win_f6_cb },//f6
-//};
 
 /**
   * @brief  原始密码 新设密码使用的菜单键信息初始化数组
@@ -132,11 +99,11 @@ static CONFIG_FUNCTION_KEY_INFO_T set_goto_result_num_sys_key_pool[]={
 	{CODE_RIGH	, set_goto_result_num_direct_key_up_cb	     },
 };
 enum{
-    set_goto_result_num,///<选择校准模块
+    SET_GOTO_RESULT_NUM,///<选择校准模块
 };
 CS_INDEX set_goto_result_num_win_edit_ele_index[]=
 {
-    set_goto_result_num,///<选择校准模块
+    SET_GOTO_RESULT_NUM,///<选择校准模块
 };
 /**
   * @brief  窗口中使用到的编辑控件初始化数组
@@ -145,12 +112,12 @@ static EDIT_ELE_T set_goto_result_num_ele_pool[]=
 {
     {
         {"",""}, /* 名称 */
-        set_goto_result_num,/* 通过枚举索引 */
+        SET_GOTO_RESULT_NUM,/* 通过枚举索引 */
         {"",""},/* 默认值 */
         {NULL, 1},/* 数据指针 */
         {NULL,0},/* 资源表 */
         {ELE_EDIT_NUM,},/*类型*/
-        {0/*dec*/,2/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
+        {0/*dec*/,5/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {15/*heigh*/,1/*low*/,{"",""}/*notice*/},/*range*/
         {reg_set_goto_result_num_menu_key,reg_set_goto_result_num_sys_key,keyboard_fun_num,},/*key_inf*/
         0,/*dis*/
@@ -161,8 +128,8 @@ static EDIT_ELE_T set_goto_result_num_ele_pool[]=
   */
 MYUSER_WINDOW_T set_goto_result_num_windows=
 {
-    {"选择校准模块", "select module"},
-    set_goto_result_num_win_cb, set_goto_result_num_win_update_key_inf,
+    {"设置跳转的结果编号", "Set Goto result No."},
+    set_goto_result_num_win_cb, NULL,
 	{0},/*text*/
     {
         set_goto_result_num_ele_pool, ARRAY_SIZE(set_goto_result_num_ele_pool),
@@ -189,8 +156,6 @@ static void init_create_set_goto_result_num_win_com_ele(MYUSER_WINDOW_T* win)
 {
     init_window_com_ele_list(win);//初始化窗口文本对象链表
     init_com_text_ele_dis_inf(win);//初始化公共文本对象的显示信息
-//    init_group_com_text_ele_dis_inf(win);//初始化记忆组对象的显示信息
-//    update_group_inf(win);//更新记忆组信息
     init_window_com_text_ele(win);//初始化创建窗口中的公共文本对象
 }
 static void set_goto_result_num_direct_key_up_cb	  (KEY_MESSAGE *key_msg)
@@ -214,7 +179,7 @@ static void set_goto_result_num_enter_key_up_cb	  (KEY_MESSAGE *key_msg)
 }
 
 /**
-  * @brief  主窗口中功能键F1回调函数
+  * @brief  窗口中功能键F1回调函数
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
@@ -223,7 +188,7 @@ static void set_goto_result_num_win_f1_cb(KEY_MESSAGE *key_msg)
     menu_key_backspace(key_msg->user_data);
 }
 /**
-  * @brief  主窗口中功能键F2回调函数
+  * @brief  窗口中功能键F2回调函数
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
@@ -232,7 +197,7 @@ static void set_goto_result_num_win_f2_cb(KEY_MESSAGE *key_msg)
     clear_edit_ele(key_msg->user_data);
 }
 /**
-  * @brief  主窗口中功能键F3回调函数
+  * @brief  窗口中功能键F3回调函数
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
@@ -240,7 +205,7 @@ static void set_goto_result_num_win_f3_cb(KEY_MESSAGE *key_msg)
 {
 }
 /**
-  * @brief  主窗口中功能键F4回调函数
+  * @brief  窗口中功能键F4回调函数
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
@@ -249,7 +214,7 @@ static void set_goto_result_num_win_f4_cb(KEY_MESSAGE *key_msg)
     
 }
 /**
-  * @brief  主窗口中功能键F5回调函数
+  * @brief  窗口中功能键F5回调函数
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
@@ -259,12 +224,13 @@ static void set_goto_result_num_win_f5_cb(KEY_MESSAGE *key_msg)
     back_win(key_msg->user_data);
 }
 /**
-  * @brief  主窗口中功能键F6回调函数
+  * @brief  窗口中功能键F6回调函数
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
 static void set_goto_result_num_win_f6_cb(KEY_MESSAGE *key_msg)
 {
+    cur_goto_result_num = 0;
     back_win(key_msg->user_data);
 }
 
@@ -283,28 +249,10 @@ static void reg_set_goto_result_num_menu_key(WM_HMEM hWin)
 }
 static void reg_set_goto_result_num_sys_key(WM_HMEM hWin)
 {
-    register_system_key_fun(set_goto_result_num_sys_key_pool, ARRAY_SIZE(set_goto_result_num_sys_key_pool), hWin);
+    register_system_key_fun(set_goto_result_num_sys_key_pool,
+        ARRAY_SIZE(set_goto_result_num_sys_key_pool), hWin);
 }
-//uint8_t cur_cal_module_index = 1;///<当前校准路索引
-//uint8_t prev_cal_module_index = 1;///<上一路校准索引
-//uint8_t get_cur_cal_road(void)
-//{
-//    return cur_cal_module_index;
-//}
 
-//uint8_t get_prev_cal_road(void)
-//{
-//    return prev_cal_module_index;
-//}
-//void set_prev_cal_road(uint8_t road)
-//{
-//    prev_cal_module_index = road;
-//}
-
-//void set_cur_cal_road(uint8_t road)
-//{
-//    cur_cal_module_index = road;
-//}
 static void set_set_goto_result_num_par_win_ele_data(void)
 {
     EDIT_ELE_T *edit_ele = NULL;
@@ -315,24 +263,16 @@ static void set_set_goto_result_num_par_win_ele_data(void)
     pool = g_cur_win->edit.pool;
     n = g_cur_win->edit.pool_size;
     
-    edit_ele = get_edit_ele_inf(pool, n, set_goto_result_num, &err);
+    edit_ele = get_edit_ele_inf(pool, n, SET_GOTO_RESULT_NUM, &err);
     
     if(err != CS_ERR_NONE)
     {
         return;
     }
-    
-//    reg_edit_ele_data_inf(set_goto_result_num, &cur_cal_module_index, sizeof(cur_cal_module_index));
-//    edit_ele->range.high = get_total_roads_num();
-    
-    if(edit_ele->range.high < 1)
-    {
-        edit_ele->range.low = 0;
-    }
-    else
-    {
-        edit_ele->range.low = 1;
-    }
+    cur_goto_result_num = 1;
+    reg_edit_ele_data_inf(SET_GOTO_RESULT_NUM, &cur_goto_result_num, sizeof(cur_goto_result_num));
+    edit_ele->range.high = get_result_max_num();
+    edit_ele->range.low = 1;
 }
 /**
   * @brief  初始化并创建密码编辑对象
@@ -346,37 +286,6 @@ static void init_create_set_goto_result_num_edit_ele(MYUSER_WINDOW_T* win)
     auto_layout_win_edit_ele(win);//自动布局窗口中的编辑对象
     init_window_edit_ele(win);//初始化创建编辑对象
 }
-/**
-  * @brief  更新主界面的菜单键信息
-  * @param  [in] hWin 主界面窗口句柄
-  * @retval 无
-  */
-static void update_set_goto_result_num_win_menu_key_inf(WM_HMEM hWin)
-{
-	init_menu_key_info(set_goto_result_num_menu_key_info, ARRAY_SIZE(set_goto_result_num_menu_key_info), hWin);
-}
-
-/**
-  * @brief  更新系统按键信息
-  * @param  [in] hWin 窗口句柄
-  * @retval 无
-  */
-static void set_goto_result_num_win_update_system_key_inf(WM_HMEM hWin)
-{
-    register_system_key_fun(set_goto_result_num_sys_key_pool, ARRAY_SIZE(set_goto_result_num_sys_key_pool), hWin);
-}
-
-/**
-  * @brief  更新按键信息
-  * @param  [in] hWin 窗口句柄
-  * @retval 无
-  */
-static void set_goto_result_num_win_update_key_inf(WM_HWIN hWin)
-{
-    update_set_goto_result_num_win_menu_key_inf(hWin);
-    set_goto_result_num_win_update_system_key_inf(hWin);
-}
-
 /**
   * @brief  主测试界面回调函数
   * @param  [in] pMsg 回调函数指针
@@ -397,7 +306,7 @@ static void set_goto_result_num_win_cb(WM_MESSAGE * pMsg)
             init_dialog(win);
             
             init_create_win_all_ele(win);
-            
+            update_default_range_name();
             g_cur_edit_ele = get_cur_win_edit_ele_list_head();
             if(g_cur_edit_ele != NULL)
             {
@@ -414,7 +323,7 @@ static void set_goto_result_num_win_cb(WM_MESSAGE * pMsg)
 			break;
 		case WM_DELETE:
 		{
-            update_cur_cal_point_inf();
+            update_cur_result_inf(cur_goto_result_num);
 			break;
 		}
 		default:

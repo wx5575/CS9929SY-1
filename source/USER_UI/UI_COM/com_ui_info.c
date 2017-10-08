@@ -1553,7 +1553,7 @@ TEXT_ELE_T com_text_ele_pool[COM_ELE_NUM]=
     
 	{{page_num_buf[0]    ,page_num_buf[1] }, COM_PAGE_NOTICE },///<页码文本对象
     
-	{{"文件名:", "FileName:" }, COM_UI_FILE_NAME    },///<记忆组文本名文本对象
+	{{"文件名:", "File:" }, COM_UI_FILE_NAME    },///<记忆组文本名文本对象
 	{{"DEFAULT", "DEFAULT"   }, COM_UI_CUR_FILE_NAME},///<记忆组文件名文本对象
 	{{"步骤:"  , "Step:"     }, COM_UI_STEP         },///<记忆组步骤名称文本对象
 	{{"01/01"  , "01/01"     }, COM_UI_CUR_STEP     },///<记忆组步骤文本对象
@@ -1793,7 +1793,7 @@ void init_group_com_text_ele_dis_inf(MYUSER_WINDOW_T* win)
     #define WM_W		120
     #define CWM_X		WM_X+WM_W
     #define CWM_W  		20
-    #define TF_FONT     &GUI_Fonthz_26
+    #define TF_FONT     &GUI_Fonthz_20
     
     /* "文件名" */
     inf.base_x = GB_X;//x基坐标 

@@ -1,19 +1,15 @@
 /**
   ******************************************************************************
-  * @file    main_win.h
+  * @file    set_goto_result_num_win.h
   * @author  王鑫
   * @version V1.0.0
-  * @date    2017.4.18
-  * @brief   启动窗口
+  * @date    2017.9.29
+  * @brief   跳转到指定的结果
   ******************************************************************************
   */
-#ifndef __SEL_CAL_MODULE_WIN_H__
-#define __SEL_CAL_MODULE_WIN_H__
+#ifndef __SET_GOTO_RESULT_NUM_WIN_H__
+#define __SET_GOTO_RESULT_NUM_WIN_H__
 
-extern void create_sel_cal_module_win(int hWin);
-extern uint8_t get_cur_cal_road(void);
-extern uint8_t get_prev_cal_road(void);
-extern void set_cur_cal_road(uint8_t road);
-extern void set_prev_cal_road(uint8_t road);
+extern void create_set_goto_result_num_win(int hWin);
 
-#endif //__SEL_CAL_MODULE_WIN_H__
+#endif //__SET_GOTO_RESULT_NUM_WIN_H__

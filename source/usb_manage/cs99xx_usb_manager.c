@@ -19,6 +19,7 @@
 #include "GUI.H"
 #include "mem_alloc.h"
 #include "UNICODE.H"
+#include "FATFS_MANAGE.H"
 
 
 uint8_t g_long_file_name[100];//长文件名

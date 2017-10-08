@@ -347,8 +347,8 @@ static void init_create_sel_cal_module_edit_ele(MYUSER_WINDOW_T* win)
     init_window_edit_ele(win);//初始化创建编辑对象
 }
 /**
-  * @brief  更新主界面的菜单键信息
-  * @param  [in] hWin 主界面窗口句柄
+  * @brief  更新界面的菜单键信息
+  * @param  [in] hWin 窗口句柄
   * @retval 无
   */
 static void update_sel_cal_module_win_menu_key_inf(WM_HMEM hWin)

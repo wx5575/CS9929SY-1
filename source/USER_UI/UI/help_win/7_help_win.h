@@ -12,6 +12,7 @@
 #define __7_HELP_WIN_H__
 
 extern WIDGET_POS_SIZE_T _7_help_windows;
+extern void _7_init_help_win_layout1_text_ele_pos(TEXT_ELE_T *pool);
 
 #endif //__7_HELP_WIN_H__
 

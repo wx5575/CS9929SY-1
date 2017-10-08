@@ -18,9 +18,17 @@
 #include "FATFS_MANAGE.H"
 #include "running_test.h"
 #include "rtc_config.h"
+#include "set_goto_result_num_win.h"
+#include "image/logo.h"
+#include "mem_alloc.h"
 
 
 /* Private typedef -----------------------------------------------------------*/
+
+enum{
+    RES_WIN_IDLE,///<空闲状态
+    RES_WIN_UPDATE,///<更新显示
+};
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 
@@ -47,7 +55,10 @@ static void update_result_inf_dis(uint32_t result_count);
 static void update_result_inf_dis(uint32_t result_count);
 static void read_result_to_buf(uint32_t result_count);
 static void update_result_win_title(RESULT_INF *res);
+static void result_win_task(void);
 /* Private variables ---------------------------------------------------------*/
+static uint8_t win_task;///<窗口任务号
+static WM_HWIN result_win_timer_handle;
 static uint8_t l_cur_result;///<当前结果项
 static uint32_t l_result_count;///<当前结果项计数
 /**
@@ -82,15 +93,15 @@ static TEXT_ELE_T result_win_ele_pool[]=
 	{{"000015","000015"}, RESULT_WIN_NUM15      },
 	{{"000016","000016"}, RESULT_WIN_NUM16      },
 	{{"测试结果信息","Test Result Information"}, RESULT_WIN_TEST_RES_INF},
-	{{"0001 第1路 ACW 5.000kV 2.000mA   3.0s 合格",
-      "0001 ROAD1 ACW 5.000kV 2.000mA   3.0s PASS"}, RESULT_WIN_TEST_RES_1},
-	{{"0001 第1路 ACW 5.000kV 2.000mA   3.0s 短路报警",
-      "0001 ROAD1 ACW 5.000kV 2.000mA   3.0s PASS"}, RESULT_WIN_TEST_RES_2},
-	{{"0001 第1路 ACW 5.000kV 2.000mA   3.0s 合格",
-      "0001 ROAD1 ACW 5.000kV 2.000mA   3.0s PASS"}, RESULT_WIN_TEST_RES_3},
-	{{"0001 第2路 ACW 5.000kV 2.000mA   3.0s 合格",
-      "0001 ROAD1 ACW 5.000kV 2.000mA   3.0s PASS"}, RESULT_WIN_TEST_RES_4},
-	{{"0001 第2路 ACW 5.000kV 2.000mA   3.0s 合格",
+	{{"0001",
+      "0001"}, RESULT_WIN_TEST_RES_1},
+	{{"0001",
+      "0001"}, RESULT_WIN_TEST_RES_2},
+	{{"0001",
+      "0001"}, RESULT_WIN_TEST_RES_3},
+	{{"0001",
+      "0001"}, RESULT_WIN_TEST_RES_4},
+	{{"0001",
       "0001 ROAD1 ACW 5.000kV 2.000mA   3.0s PASS"}, RESULT_WIN_TEST_RES_5},
 	{{"0001 第2路 ACW 5.000kV 2.000mA   3.0s 合格",
       "0001 ROAD1 ACW 5.000kV 2.000mA   3.0s PASS"}, RESULT_WIN_TEST_RES_6},
@@ -126,7 +137,7 @@ static TEXT_ELE_T result_win_ele_pool[]=
        "TEST CUR:2.000mA\n"
        "TEST TIME:3.0s\n"
        "TEST RESULT:PASS\n"
-       "RECORD TIME:2017-9-15 12:12:12\n",}, RESULT_WIN_TEST_DATA_C},
+       "RECORD:2017-9-15 12:12:12\n",}, RESULT_WIN_TEST_DATA_C},
 };
 static CS_INDEX result_inf_index[]=
 {
@@ -280,23 +291,6 @@ static void result_win_f6_cb(KEY_MESSAGE *key_msg)
     back_win(key_msg->user_data);
 }
 
-//void update_group_inf(RESULT_INF* res)
-//{
-//    uint8_t buf[10] = {0};
-//    STEP_NUM step;
-//    
-//    set_group_text_ele_inf(COM_UI_CUR_FILE_NAME, win, g_cur_file->name);
-//    step = g_cur_step->one_step.com.step;
-//    sprintf((char*)buf, "%d/%d", step, g_cur_file->total);
-//    set_group_text_ele_inf(COM_UI_CUR_STEP, win, buf);
-//    strncpy((char*)buf, (const char*)work_mode_pool[g_cur_file->work_mode], 2);
-//    set_group_text_ele_inf(COM_UI_CUR_WORK_MODE, win, buf);
-//    
-//    update_com_text_ele((CS_INDEX)COM_UI_CUR_FILE_NAME, win, NULL);
-//    update_com_text_ele((CS_INDEX)COM_UI_CUR_STEP, win, NULL);
-//    update_com_text_ele((CS_INDEX)COM_UI_CUR_WORK_MODE, win, NULL);
-//}
-
 static void read_result_to_buf(uint32_t result_count)
 {
     uint8_t num = 0;
@@ -340,19 +334,19 @@ static void read_result_to_buf(uint32_t result_count)
 
 void update_one_res_inf(RESULT_INF *res)
 {
-    uint8_t num = 0;
-    int32_t i = 0;
-    uint8_t buf[201] = {0};
     uint8_t t_buf[201] = {0};
     uint8_t setting_buf[201] = {0};
     uint8_t testting_buf[201] = {0};
-    CS_INDEX index;
     uint8_t decs = 0;
     uint8_t unit = 0;
     
     /* 判断结果是有效数据 */
     if(res->par.step != 0)
     {
+        sprintf((char*)setting_buf, "%s", SELE_STR("测试模式:","Mode:"));
+        strcat((char*)setting_buf, (const char*)mode_pool[res->par.mode]);
+        strcat((char*)setting_buf, "\n");
+        
         strcat((char*)setting_buf, SELE_STR("输出电压:","Voltage:"));
         mysprintf(t_buf, unit_pool[VOL_U_kV], 53, res->par.un.acw.vol);
         strcat((char*)setting_buf, (const char*)t_buf);
@@ -375,12 +369,12 @@ void update_one_res_inf(RESULT_INF *res)
         mysprintf(t_buf, unit_pool[TIM_U_s], 50 + 1, res->par.un.acw.rise_time);
         strcat((char*)setting_buf, (const char*)t_buf);
         strcat((char*)setting_buf, "\n");
-
+        
         testting_buf[0] = 0;
         strcat((char*)testting_buf, SELE_STR("产品编号:","Product NO.:"));
         strcat((char*)testting_buf, (const char*)res->product_code);
         strcat((char*)testting_buf, "\n");
-
+        
         strcat((char*)testting_buf, SELE_STR("输出电压:","Output Vol.:"));
         mysprintf(t_buf, unit_pool[VOL_U_kV], 53, res->test_data.un.acw.vol);
         strcat((char*)testting_buf, (const char*)t_buf);
@@ -398,7 +392,7 @@ void update_one_res_inf(RESULT_INF *res)
         strcat((char*)testting_buf, SELE_STR("测试结果:","TestResult:"));
         strcat((char*)testting_buf, (const char*)get_test_status_str(res->test_data.test_result));
         strcat((char*)testting_buf, "\n");
-        strcat((char*)testting_buf, SELE_STR("记录时间:","RECORD TIME:"));
+        strcat((char*)testting_buf, SELE_STR("记录时间:","RECORD:"));
         turn_rtc_date_str(res->test_data.record_date, t_buf);
         strcat((char*)testting_buf, (const char*)t_buf);
         strcat((char*)testting_buf, " ");
@@ -413,16 +407,7 @@ void update_one_res_inf(RESULT_INF *res)
 
 static void update_result_win_title(RESULT_INF *res)
 {
-    uint8_t num = 0;
-    int32_t i = 0;
     uint8_t buf[201] = {0};
-    uint8_t t_buf[201] = {0};
-    uint8_t setting_buf[201] = {0};
-    uint8_t testting_buf[201] = {0};
-    CS_INDEX index;
-    uint8_t decs = 0;
-    uint8_t unit = 0;
-    
     
     /* 判断结果是有效数据 */
     if(res->par.step != 0)
@@ -447,12 +432,11 @@ static void update_result_inf_dis(uint32_t result_count)
     int32_t i = 0;
     uint8_t buf[201] = {0};
     uint8_t t_buf[201] = {0};
-    uint8_t setting_buf[201] = {0};
-    uint8_t testting_buf[201] = {0};
     CS_INDEX index;
     RESULT_INF *res;
     uint8_t decs = 0;
     uint8_t unit = 0;
+    const uint8_t *str = NULL;
     
     num = ARRAY_SIZE(result_inf_index);
     
@@ -464,19 +448,14 @@ static void update_result_inf_dis(uint32_t result_count)
         if(res->par.step != 0)
         {
             sprintf((char*)buf, "%04d ", result_count + i);
-            sprintf((char*)t_buf, "第%d路 ", res->road_num);
+            sprintf((char*)t_buf, SELE_STR("第%d路 ", "Road%d "), res->road_num);
             strcat((char*)buf, (const char*)t_buf);
             strcat((char*)buf, (const char*)mode_pool[res->par.mode]);
-            
-            sprintf((char*)setting_buf, "%s", SELE_STR("测试模式:","Mode:"));
-            strcat((char*)setting_buf, (const char*)mode_pool[res->par.mode]);
-            strcat((char*)setting_buf, "\n");
             
             switch(res->par.mode)
             {
                 case ACW:
                     strcat((char*)buf, " ");
-//                    strcat((char*)buf, (const char*)res->test_data.un.acw.vol);
                     mysprintf(t_buf, unit_pool[VOL_U_kV], 53, res->test_data.un.acw.vol);
                     strcat((char*)buf, (const char*)t_buf);
                     strcat((char*)buf, " ");
@@ -491,8 +470,8 @@ static void update_result_inf_dis(uint32_t result_count)
                     mysprintf(t_buf, unit_pool[TIM_U_s], 50 + 1, res->test_data.test_time);
                     strcat((char*)buf, (const char*)t_buf);
                     strcat((char*)buf, " ");
-                    strcat((char*)buf,
-                        (const char*)get_test_status_str(res->test_data.test_result));
+                    str = get_test_status_str(res->test_data.test_result);
+                    strcat((char*)buf, (const char*)str);
                     break;
                 case DCW:
                     break;
@@ -523,26 +502,29 @@ static void update_result_inf_dis(uint32_t result_count)
     }
 }
 
-//static void update_result_inf_dis(uint32_t result_count)
-//{
-//    uint8_t num = 0;
-//    int32_t i = 0;
-//    uint8_t buf[201] = {0};
-//    uint8_t t_buf[201] = {0};
-//    CS_INDEX index;
-//    
-//    num = ARRAY_SIZE(result_inf_index);
-//    
-//    for(i = 0; i < num; i++)
-//    {
-//        index = result_inf_index[i];
-//        get_text_ele_text(index, this_win, buf, 200);
-//        sprintf((char*)t_buf, "%04d", result_count + i);
-//        set_text_ele(index, this_win, t_buf);
-//    }
-//    
-//    update_result_inf_dis(result_count);
-//}
+void update_cur_result_inf(uint32_t result_num)
+{
+    uint8_t num = 0;
+    uint32_t max_result = 0;
+    
+    num = ARRAY_SIZE(result_inf_index);
+    max_result = get_result_max_num();
+    
+    if(result_num == 0)
+    {
+        return;
+    }
+    
+    if(result_num > max_result)
+    {
+        result_num = max_result;
+    }
+    
+    l_cur_result = (result_num - 1) % num;
+    l_result_count = result_num;
+    
+    win_task = RES_WIN_UPDATE;
+}
 
 /**
   * @brief  向上功能键回调函数
@@ -726,6 +708,21 @@ void draw_result_win_frame(void)
 	myGUI_DrawRectEx(&area1);
 	myGUI_DrawRectEx(&area2);
 }
+static void result_win_task(void)
+{
+    switch(win_task)
+    {
+        case RES_WIN_IDLE:
+            break;
+        case RES_WIN_UPDATE:
+            read_result_to_buf(l_result_count - l_cur_result);
+            update_result_inf_dis(l_result_count - l_cur_result);
+            update_selete_result_opt();
+            update_one_res_inf(&result_inf_pool[l_cur_result]);
+            win_task = RES_WIN_IDLE;
+            break;
+    }
+}
 /**
   * @brief  结果管理窗口回调函数
   * @param  [in] pMsg 窗口消息
@@ -736,27 +733,31 @@ static void result_win_cb(WM_MESSAGE* pMsg)
 	MYUSER_WINDOW_T* win;
 	WM_HWIN hWin = pMsg->hWin;
     CS_ERR err;
+    static void *p_mem;
 	
 	switch (pMsg->MsgId)
 	{
 		case WM_CREATE:
 			WM_SetFocus(hWin);/* 设置聚焦 */
             set_user_window_handle(hWin);
+            create_miclogo_image(hWin, &p_mem);
 			win = get_user_window_info(hWin);
             init_create_win_all_ele(win);
             update_result_win_key_inf(hWin);
-            
+            win_task = RES_WIN_UPDATE;
             l_cur_result = 0;
             l_result_count = 1;
-            read_result_to_buf(l_result_count);
-            update_result_inf_dis(l_result_count);
-            update_one_res_inf(&result_inf_pool[l_cur_result]);
             g_cur_text_ele = get_text_ele_inf(g_cur_win->text.pool,
                     g_cur_win->text.pool_size, result_inf_index[l_cur_result], &err);
             select_text_ele(g_cur_text_ele);
+            result_win_timer_handle = WM_CreateTimer(hWin, 0, 100, 0);
             break;
 		case WM_TIMER:
+        {
+            result_win_task();
+			WM_RestartTimer(result_win_timer_handle, 10);
 			break;
+        }
 		 case WM_KEY:
             break;
 		case WM_PAINT:
@@ -765,6 +766,9 @@ static void result_win_cb(WM_MESSAGE* pMsg)
             draw_group_inf_area();
 			break;
 		case WM_NOTIFY_PARENT:
+			break;
+		case WM_DELETE:
+            free_ex_mem(p_mem);
 			break;
 		default:
 			WM_DefaultProc(pMsg);

@@ -44,6 +44,7 @@ extern uint8_t get_first_step_mode(void);
 
 extern void save_roads_flag(void);
 extern void read_roads_flag(void);
+extern uint32_t get_result_max_num(void);
 
 #endif //__CS99XX_MEM_API_H__
 

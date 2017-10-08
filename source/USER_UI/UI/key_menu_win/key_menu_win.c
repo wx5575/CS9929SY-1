@@ -135,8 +135,8 @@ static const STAND_MENU_KEY_INFO_T all_menu_key_info_[]=
 	{{"停止", "STOP"    }, F_KEY_STOP       },
 	{{"模块", "MODULE"  }, F_KEY_MODULE     },
 	{{"统计", "statis." }, F_KEY_STATIS     },
-	{{"导出", "LEAD OUT"}, F_KEY_LEAD_OUT   },
-	{{"导入", "LEAD IN" }, F_KEY_LEAD_IN    },
+	{{"导出", "LeadOut"}, F_KEY_LEAD_OUT   },
+	{{"导入", "LeadIn" }, F_KEY_LEAD_IN    },
 	{{"跳转", "GOTO"    }, F_KEY_GOTO       },
 };
 

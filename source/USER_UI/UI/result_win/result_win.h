@@ -45,6 +45,8 @@ typedef enum{
     RESULT_WIN_TEST_DATA_C,
 }RESULT_WIN_TEXT_ELE_INDEX;
 
+extern void update_cur_result_inf(uint32_t result_num);
+
 #endif //__RESULT_WIN_H__
 
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

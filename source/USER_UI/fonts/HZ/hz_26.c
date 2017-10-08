@@ -22,6 +22,7 @@
 * Initial font height:  26                                           *
 * Range disabled:       0000 - FFFF                                  *
 * Read pattern file: F:\CS9929SY\CS9929SY\CS9929SY\source\Document\24ËÎÌו.txt*
+* Read pattern file: F:\CS9929SY\CS9929SY\CS9929SY\source\Document\24ËÎÌו.txt*
 *                                                                    *
 **********************************************************************
 */
@@ -68,6 +69,26 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_0022[ 12] = { /* code 0022, QUOT
   _XXX_XXX,________,
   _XX__XX_,________,
   XX__XX__,________};
+
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_0023[ 36] = { /* code 0023, NUMBER SIGN */
+  ___XX___,XX______,
+  ___XX___,XX______,
+  ___XX___,XX______,
+  ___XX___,XX______,
+  XXXXXXXX,XXXX____,
+  XXXXXXXX,XXXX____,
+  ___XX___,XX______,
+  ___XX___,XX______,
+  __XX___X,X_______,
+  __XX___X,X_______,
+  __XX___X,X_______,
+  XXXXXXXX,XXXX____,
+  XXXXXXXX,XXXX____,
+  __XX___X,X_______,
+  __XX___X,X_______,
+  __XX___X,X_______,
+  __XX___X,X_______,
+  __XX___X,X_______};
 
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_0025[ 36] = { /* code 0025, PERCENT SIGN */
   _XXXX___,_XX_____,
@@ -1842,6 +1863,32 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_4EA7[ 72] = { /* code 4EA7 */
   _XX_____,________,________,
   XX______,________,________};
 
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_4EAC[ 72] = { /* code 4EAC */
+  ________,_XX_____,________,
+  ________,__XXX___,________,
+  ________,___XX___,________,
+  ________,___XX___,____XX__,
+  XXXXXXXX,XXXXXXXX,XXXXXXX_,
+  ________,________,________,
+  ________,________,________,
+  ____XXXX,XXXXXXXX,XXX_____,
+  ____XXX_,________,XXX_____,
+  ____XXX_,________,XXX_____,
+  ____XXX_,________,XXX_____,
+  ____XXX_,________,XXX_____,
+  ____XXX_,________,XXX_____,
+  ____XXXX,XXXXXXXX,XXX_____,
+  ____XXX_,__XXX___,XX______,
+  ________,__XXX___,________,
+  ______XX,__XXX__X,X_______,
+  _____XXX,X_XXX___,XX______,
+  ____XXX_,__XXX___,_XXX____,
+  ___XXX__,__XXX___,__XXX___,
+  __XXX___,__XXX___,__XXX___,
+  _XXX__XX,X_XXX___,___XXX__,
+  XX______,XXXXX___,___XX___,
+  ________,_XXX____,________};
+
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_4EEA[ 96] = { /* code 4EEA */
   ______XX,________,________,________,
   ______XX,X___XX__,________,________,
@@ -2255,6 +2302,31 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_5165[ 88] = { /* code 5165 */
   _XX_____,________,____XXX_,________,
   XX______,________,________,________};
 
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_516C[ 69] = { /* code 516C */
+  ________,_____XX_,________,
+  _______X,XX___XX_,________,
+  _______X,XX___XX_,________,
+  _______X,XX___XX_,________,
+  ______XX,X_____XX,________,
+  ______XX,______XX,________,
+  _____XXX,_______X,X_______,
+  _____XX_,_______X,XX______,
+  ____XX__,________,XXX_____,
+  ___XX___,__XXX___,_XXX____,
+  __XXX___,__XXXX__,_XXXX___,
+  _XX_____,_XXX____,__XXXXX_,
+  XX______,_XXX____,___XXX__,
+  ________,XXX_____,________,
+  ________,XX______,________,
+  _______X,X____XX_,________,
+  ______XX,X_____XX,________,
+  _____XXX,_______X,X_______,
+  _____XX_,________,XX______,
+  ____XX__,________,XXX_____,
+  ___XXXXX,XXXXXXXX,XXXX____,
+  ___XXX__,________,_XXX____,
+  ________,________,_XX_____};
+
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_5173[ 96] = { /* code 5173 */
   ______XX,________,XX______,________,
   _______X,X______X,XXX_____,________,
@@ -2534,6 +2606,32 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_529F[ 69] = { /* code 529F */
   ________,XX______,_XXXXX__,
   _______X,X_______,__XXX___};
 
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_52A1[ 96] = { /* code 52A1 */
+  ________,XX______,________,________,
+  _______X,XX______,________,________,
+  _______X,XXXXXXXX,XXX_____,________,
+  ______XX,X_______,XX______,________,
+  ______XX,XX_____X,XX______,________,
+  _____XX_,_XX___XX,X_______,________,
+  _____XX_,_XXX__XX,________,________,
+  ____XX__,__XXXXX_,________,________,
+  ___XX___,___XXX__,________,________,
+  __XX____,__XXXXX_,________,________,
+  ________,_XXX_XXX,X_______,________,
+  _______X,XXXX___X,XXXX____,________,
+  _____XXX,__XXX___,_XXXXXXX,X_______,
+  __XXXX__,__XXX___,_XX_XXX_,________,
+  XXX_XXXX,XXXXXXXX,XXXX____,________,
+  ________,__XX____,_XX_____,________,
+  ________,_XXX____,_XX_____,________,
+  ________,_XX_____,_XX_____,________,
+  ________,XXX_____,_XX_____,________,
+  ________,XX______,XXX_____,________,
+  _______X,X_______,XXX_____,________,
+  _____XXX,____XXX_,XXX_____,________,
+  ____XX__,______XX,XX______,________,
+  __XXX___,_______X,X_______,________};
+
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_52A8[ 72] = { /* code 52A8 */
   ________,_______X,X_______,
   ________,_______X,XX______,
@@ -2586,6 +2684,31 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_52A9[ 72] = { /* code 52A9 */
   ________,_XX_____,___XXX__,
   ________,XX______,________};
 
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_533A[ 69] = { /* code 533A */
+  ________,________,__XX____,
+  XXXXXXXX,XXXXXXXX,XXXXX___,
+  _XX_____,________,________,
+  _XX_____,________,________,
+  _XX_____,_______X,X_______,
+  _XX__XX_,______XX,XX______,
+  _XX___XX,______XX,X_______,
+  _XX____X,X____XXX,________,
+  _XX_____,XX___XX_,________,
+  _XX_____,_XX_XXX_,________,
+  _XX_____,__XXXX__,________,
+  _XX_____,__XXXX__,________,
+  _XX_____,__XXXXX_,________,
+  _XX_____,_XXXXXXX,________,
+  _XX_____,XXX__XXX,X_______,
+  _XX____X,XX____XX,X_______,
+  _XX___XX,X______X,XX______,
+  _XX__XX_,_______X,XX______,
+  _XX_XX__,________,________,
+  _XX_____,________,________,
+  _XX_____,________,__XX____,
+  XXXXXXXX,XXXXXXXX,XXXXX___,
+  _XX_____,________,________};
+
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_5347[ 92] = { /* code 5347 */
   ________,____XX__,XX______,________,
   ________,__XXXXX_,XXX_____,________,
@@ -2610,6 +2733,31 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_5347[ 92] = { /* code 5347 */
   ____XX__,________,XX______,________,
   __XXX___,________,XX______,________,
   _XX_____,________,XX______,________};
+
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_5357[ 92] = { /* code 5357 */
+  ________,___XXX__,________,________,
+  ________,___XXX__,________,________,
+  ________,___XXX__,_____XX_,________,
+  XXXXXXXX,XXXXXXXX,XXXXXXXX,________,
+  ________,___XX___,________,________,
+  ________,___XX___,________,________,
+  ________,___XX___,________,________,
+  ___XXXXX,XXXXXXXX,XXXXXXX_,________,
+  ___XX__X,X_____XX,X___XX__,________,
+  ___XX___,XX____XX,X___XX__,________,
+  ___XX___,_XX___XX,____XX__,________,
+  ___XX___,_XX__XX_,XX__XX__,________,
+  ___XX_XX,XXXXXXXX,XXX_XX__,________,
+  ___XX___,___XX___,____XX__,________,
+  ___XX___,___XX___,____XX__,________,
+  ___XX___,___XX___,_XX_XX__,________,
+  ___XXXXX,XXXXXXXX,XXXXXX__,________,
+  ___XX___,___XX___,____XX__,________,
+  ___XX___,___XX___,____XX__,________,
+  ___XX___,___XX___,____XX__,________,
+  ___XX___,___XX__X,XXXXXX__,________,
+  ___XX___,___XX___,__XXXX__,________,
+  ___XX___,___XX___,__XXX___,________};
 
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_5382[ 72] = { /* code 5382 */
   ________,________,_____XX_,
@@ -2712,6 +2860,32 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_53C2[ 92] = { /* code 53C2 */
   _______X,XXXX____,________,________,
   __XXXXXX,________,________,________};
 
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_53D1[ 96] = { /* code 53D1 */
+  ________,_XXX____,________,________,
+  ____XX__,_XXX___X,XX______,________,
+  ____XXX_,_XXX____,XXXX____,________,
+  ___XXX__,_XXX____,_XXX____,________,
+  ___XXX__,_XX_____,__XX____,________,
+  ___XX___,_XX_____,_____XX_,________,
+  __XXXXXX,XXXXXXXX,XXXXXXXX,________,
+  ________,XXX_____,________,________,
+  ________,XXX_____,________,________,
+  ________,XX______,________,________,
+  ________,XX______,__XX____,________,
+  _______X,XXXXXXXX,XXXXX___,________,
+  _______X,XXXX____,__XX____,________,
+  _______X,X_XX____,_XXX____,________,
+  ______XX,X__XX___,XXX_____,________,
+  ______XX,X__XX___,XX______,________,
+  ______XX,____XX_X,XX______,________,
+  _____XX_,_____XXX,X_______,________,
+  ____XXX_,_____XXX,________,________,
+  ____XX__,____XXXX,XX______,________,
+  ___XX___,___XXX__,XXXX____,________,
+  __XX____,_XXX____,_XXXXX__,________,
+  _XX____X,XX______,___XXXXX,________,
+  _____XXX,________,_____XX_,________};
+
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_53D6[ 92] = { /* code 53D6 */
   ________,___XX___,________,________,
   XXXXXXXX,XXXXX___,________,________,
@@ -2806,6 +2980,30 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_53F7[ 69] = { /* code 53F7 */
   ________,__XXX__X,XX______,
   ________,____XXXX,X_______,
   ________,_____XXX,________};
+
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_53F8[ 66] = { /* code 53F8 */
+  ________,________,__XX____,
+  __XXXXXX,XXXXXXXX,XXXXX___,
+  ________,________,__XXX___,
+  ________,________,__XXX___,
+  ________,______XX,__XXX___,
+  XXXXXXXX,XXXXXXXX,X_XXX___,
+  ________,________,__XXX___,
+  ________,________,__XXX___,
+  ________,________,__XXX___,
+  ___XXXXX,XXXXXXX_,__XXX___,
+  ___XXX__,____XX__,__XXX___,
+  ___XXX__,____XX__,__XXX___,
+  ___XXX__,____XX__,__XXX___,
+  ___XXX__,____XX__,__XXX___,
+  ___XXXXX,XXXXXX__,__XXX___,
+  ___XXX__,____XX__,__XXX___,
+  ___XXX__,________,__XXX___,
+  ________,________,__XXX___,
+  ________,________,__XXX___,
+  ________,______XX,__XXX___,
+  ________,_______X,XXXX____,
+  ________,________,_XX_____};
 
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_5408[ 92] = { /* code 5408 */
   ________,___XX___,________,________,
@@ -3033,6 +3231,31 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_54C1[ 69] = { /* code 54C1 */
   XXX____X,X__XXX__,__XXX___,
   XXX____X,X__XXX__,__XXX___,
   XX______,___XX___,________};
+
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_5668[ 92] = { /* code 5668 */
+  ________,________,________,________,
+  ____XXXX,XXX___XX,XXXXX___,________,
+  ____XX__,_XXX__XX,___XXX__,________,
+  ____XX__,_XX___XX,___XX___,________,
+  ____XX__,_XX___XX,___XX___,________,
+  ____XX__,_XX___XX,___XX___,________,
+  ____XXXX,XXX___XX,XXXXX___,________,
+  ____XX__,_XX___XX,X__XX___,________,
+  ________,__XXX___,XXX_____,________,
+  ________,__XXX___,_XX__XX_,________,
+  _XXXXXXX,XXXXXXXX,XXXXXXXX,________,
+  ________,_XX___XX,________,________,
+  ________,XX_____X,X_______,________,
+  ______XX,X_______,XXX_____,________,
+  _____XX_,________,__XXXX__,________,
+  ___XXXXX,XXXX_XXX,XXXXXXXX,________,
+  _XXXXX__,_XXX_XX_,___XXXX_,________,
+  ____XX__,_XXX_XX_,___XX___,________,
+  ____XX__,_XXX_XX_,___XX___,________,
+  ____XX__,_XXX_XX_,___XX___,________,
+  ____XXXX,XXXX_XXX,XXXXX___,________,
+  ____XX__,_XXX_XX_,___XX___,________,
+  ____XX__,_____XX_,________,________};
 
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_56DB[ 69] = { /* code 56DB */
   XX______,________,__XX____,
@@ -3462,6 +3685,31 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_5B58[ 96] = { /* code 5B58 */
   ______XX,___XXXXX,X_______,________,
   ______XX,_____XXX,X_______,________,
   _____XX_,______XX,________,________};
+
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_5B81[ 69] = { /* code 5B81 */
+  ________,_XX_____,________,
+  ________,__XX____,________,
+  ________,__XXX___,________,
+  ________,__XXX___,________,
+  __XX____,___XX___,________,
+  __XXXXXX,XXXXXXXX,XXXXXX__,
+  __XX____,________,___XXX__,
+  _XXX____,________,__XXX___,
+  XXXX____,________,__XXX___,
+  XXXXXXXX,XXXXXXXX,XXXXXX__,
+  ________,__XXX___,________,
+  ________,__XXX___,________,
+  ________,__XXX___,________,
+  ________,__XXX___,________,
+  ________,__XXX___,________,
+  ________,__XXX___,________,
+  ________,__XXX___,________,
+  ________,__XXX___,________,
+  ________,__XXX___,________,
+  ________,__XXX___,________,
+  ______XX,XXXXX___,________,
+  ________,XXXX____,________,
+  ________,_XX_____,________};
 
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_5B89[ 69] = { /* code 5B89 */
   ________,_XX_____,________,
@@ -4013,6 +4261,32 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_5F85[ 96] = { /* code 5F85 */
   ____XXX_,_______X,XXXX____,________,
   ____XX__,________,_XX_____,________};
 
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_5FAE[ 96] = { /* code 5FAE */
+  ________,__XX____,_XX_____,________,
+  ___XXXX_,__XX____,_XXX____,________,
+  ___XX___,__XX____,_XXX____,________,
+  __XX___X,XXXX_XX_,_XX_____,________,
+  _XX____X,XXXX_XX_,_XX_____,________,
+  _XX____X,XXXX_XX_,_XX_____,________,
+  ____XXXX,XXXX_XX_,XXXXXXXX,________,
+  ____XXXX,XXXXXXX_,XX__XXX_,________,
+  ____XX__,_____XX_,XX__XXX_,________,
+  ___XXX__,_____XX_,XX__XXX_,________,
+  ___XXX_X,XXXXXXXX,XXX_XX__,________,
+  __XXXX__,_______X,XXX_XX__,________,
+  _XXXXX__,______XX,_XX_XX__,________,
+  XX_XXX__,XXXXXXX_,_XX_XX__,________,
+  ___XXX__,XX__XX__,_XXXXX__,________,
+  ___XXX__,XX__XX__,__XXX___,________,
+  ___XXX__,XX__XX_X,X_XXX___,________,
+  ___XXX__,XX__XXXX,__XXX___,________,
+  ___XXX__,XX__XXX_,_XXXX___,________,
+  ___XXX_X,XX__XX__,_XXXXX__,________,
+  ___XXX_X,X______X,XX__XXX_,________,
+  ___XXXXX,______XX,X____XXX,X_______,
+  ___XXX__,____XXX_,______XX,________,
+  ___XX___,___XX___,________,________};
+
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_5FC6[ 92] = { /* code 5FC6 */
   ____XX__,________,________,________,
   ____XXX_,________,________,________,
@@ -4288,6 +4562,31 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_6267[ 96] = { /* code 6267 */
   _XXXXXX_,XXX_____,____XXXX,________,
   ___XXXXX,XX______,_____XXX,X_______,
   ____XXXX,________,________,________};
+
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_6280[ 92] = { /* code 6280 */
+  _____XX_,_______X,X_______,________,
+  _____XXX,_______X,XX______,________,
+  _____XX_,_______X,XX______,________,
+  _____XX_,_______X,XX______,________,
+  _____XX_,_______X,XX___XX_,________,
+  XXXXXXXX,XXXXXXXX,XXXXXXXX,________,
+  _____XX_,_______X,XX______,________,
+  _____XX_,_______X,XX______,________,
+  _____XX_,_______X,XX______,________,
+  _____XX_,_XX____X,XX______,________,
+  _____XXX,XXXXXXXX,XXXXXX__,________,
+  ____XXXX,____XX__,___XXX__,________,
+  _XXXXXX_,____XX__,___XX___,________,
+  _XXX_XX_,_____XX_,___XX___,________,
+  _____XX_,_____XX_,__XXX___,________,
+  _____XX_,______XX,_XXX____,________,
+  _____XX_,______XX,_XX_____,________,
+  _____XX_,_______X,XXX_____,________,
+  _____XX_,_______X,XX______,________,
+  _____XX_,_____XXX,_XXX____,________,
+  _XXX_XX_,____XXX_,__XXXX__,________,
+  ___XXXX_,_XXXX___,___XXXXX,X_______,
+  ____XX_X,XX______,_____XX_,________};
 
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_62A4[ 72] = { /* code 62A4 */
   _____XX_,______XX,________,
@@ -4926,6 +5225,30 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_6709[ 96] = { /* code 6709 */
   _______X,X______X,XXXX____,________,
   ________,________,XXX_____,________};
 
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_670D[ 88] = { /* code 670D */
+  ________,_XX_____,____XX__,________,
+  ___XXXXX,XXX_XXXX,XXXXXXX_,________,
+  ___XX___,XXX_XX__,____XX__,________,
+  ___XX___,XXX_XX__,____XX__,________,
+  ___XX___,XXX_XX__,____XX__,________,
+  ___XX___,XXX_XX__,___XXX__,________,
+  ___XXXXX,XXX_XX__,XX_XXX__,________,
+  ___XX___,XXX_XX__,_XXXX___,________,
+  ___XX___,XXX_XX__,__XX____,________,
+  ___XX___,XXX_XXXX,XXXXXXX_,________,
+  ___XX___,XXX_XX_X,X___XXX_,________,
+  ___XXXXX,XXX_XX_X,X___XX__,________,
+  ___XX___,XXX_XX_X,X___XX__,________,
+  ___XX___,XXX_XX__,XX_XX___,________,
+  ___XX___,XXX_XX__,XX_XX___,________,
+  ___XX___,XXX_XX__,_XXXX___,________,
+  __XXX___,XXX_XX__,_XXX____,________,
+  __XX____,XXX_XX__,_XXXX___,________,
+  __XX____,XXX_XX__,XX_XXX__,________,
+  _XX__XXX,XXX_XX_X,X___XXXX,X_______,
+  _XX____X,XX__XXXX,________,________,
+  XX______,____XX__,________,________};
+
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_671F[ 72] = { /* code 671F */
   ____XX__,_XX_____,________,
   ____XXX_,__XX____,________,
@@ -5003,6 +5326,32 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_672C[ 96] = { /* code 672C */
   ________,___XXX__,________,________,
   ________,___XXX__,________,________,
   ________,___XXX__,________,________};
+
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_672F[ 96] = { /* code 672F */
+  ________,___XX___,________,________,
+  ________,___XXXXX,X_______,________,
+  ________,___XXX__,XXX_____,________,
+  ________,___XXX__,_XXX____,________,
+  ________,___XXX__,__XXX___,________,
+  ________,___XXX__,__XX____,________,
+  ________,___XXX__,_____XX_,________,
+  _XXXXXXX,XXXXXXXX,XXXXXXXX,________,
+  ________,__XXXXX_,________,________,
+  ________,__XXXXX_,________,________,
+  ________,_XXXXXXX,________,________,
+  ________,XXXXXXXX,________,________,
+  ________,XXXXXX_X,X_______,________,
+  _______X,XX_XXX_X,X_______,________,
+  _______X,X__XXX__,XX______,________,
+  ______XX,___XXX__,XXX_____,________,
+  _____XX_,___XXX__,_XXX____,________,
+  ____XX__,___XXX__,__XXXX__,________,
+  ___XX___,___XXX__,___XXXXX,________,
+  __XX____,___XXX__,____XXX_,________,
+  _XX_____,___XXX__,________,________,
+  ________,___XXX__,________,________,
+  ________,___XXX__,________,________,
+  ________,___XX___,________,________};
 
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_673A[ 96] = { /* code 673A */
   _____XX_,________,________,________,
@@ -5384,6 +5733,29 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_6BD4[ 66] = { /* code 6BD4 */
   XXXX____,__XXX___,_XXXX___,
   _XX_____,__XXXXXX,XXXX____};
 
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_6C5F[ 84] = { /* code 6C5F */
+  __XX____,________,________,________,
+  ___XXX__,________,________,________,
+  ____XX_X,XXXXXXXX,XXXXXXX_,________,
+  ____XXX_,______XX,________,________,
+  _______X,X_____XX,________,________,
+  XX_____X,X_____XX,________,________,
+  _XXX__XX,______XX,________,________,
+  __XXX_XX,______XX,________,________,
+  __XXXXX_,______XX,________,________,
+  ___XXXX_,______XX,________,________,
+  _____XX_,______XX,________,________,
+  ____XX__,______XX,________,________,
+  ____XX__,______XX,________,________,
+  ____XX__,______XX,________,________,
+  XXXXX___,______XX,________,________,
+  __XXX___,______XX,________,________,
+  ___XX___,______XX,________,________,
+  ___XX___,______XX,________,________,
+  __XXX___,______XX,______XX,________,
+  __XXXXXX,XXXXXXXX,XXXXXXXX,X_______,
+  __XXX___,________,________,________};
+
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_6CD5[ 92] = { /* code 6CD5 */
   ________,______XX,________,________,
   ___XX___,______XX,X_______,________,
@@ -5636,6 +6008,32 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_6EA2[ 92] = { /* code 6EA2 */
   __XXXXXX,XXXXXXXX,XXXXXXXX,X_______,
   ___XX___,________,________,________};
 
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_6EE8[ 96] = { /* code 6EE8 */
+  ________,______XX,________,________,
+  __XX____,______XX,X_______,________,
+  ___XXX__,_______X,X_______,________,
+  ____XXX_,XXXXXXXX,XXXXXXXX,________,
+  ____XXX_,XX______,_____XXX,X_______,
+  _______X,XX______,_____XX_,________,
+  _______X,XX______,XXXXXX__,________,
+  XX____XX,____XXXX,XX______,________,
+  _XXX_XX_,__XXX___,________,________,
+  __XXXXX_,__XX____,________,________,
+  __XXXXX_,__XX____,____XX__,________,
+  _____XX_,__XXXXXX,XXXXXXX_,________,
+  ____XX__,__XX____,XXX_____,________,
+  ____XX__,__XX____,XXX_____,________,
+  ____XX__,__XX____,XXX_____,________,
+  ___XX___,__XX____,XXX_____,________,
+  XXXXX_XX,XXXXXXXX,XXXXXXXX,________,
+  __XXX___,________,________,________,
+  __XXX___,____XX__,_XX_____,________,
+  __XXX___,___XXXX_,__XXX___,________,
+  __XXX___,__XXX___,___XXX__,________,
+  __XXX___,_XX_____,____XXX_,________,
+  __XXX___,XX______,_____XX_,________,
+  ______XX,X_______,_____XX_,________};
+
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_70B9[ 69] = { /* code 70B9 */
   ________,__XX____,________,
   ________,__XXX___,________,
@@ -5836,6 +6234,31 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_7535[ 69] = { /* code 7535 */
   ________,XX______,__XXX___,
   ________,XXXXXXXX,XXXXX___};
 
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_7684[ 69] = { /* code 7684 */
+  ____XX__,_____XX_,________,
+  ____XXX_,_____XXX,________,
+  ___XXX__,_____XX_,________,
+  ___XX___,____XXX_,________,
+  ___XX___,____XX__,___XX___,
+  XXXXXXXX,XX_XXXXX,XXXXXX__,
+  XXX____X,X__XX___,___XX___,
+  XXX____X,X_XXX___,___XX___,
+  XXX____X,X_XX____,__XXX___,
+  XXX____X,XXX_____,__XXX___,
+  XXX____X,XX_XX___,__XXX___,
+  XXX____X,X___XX__,__XXX___,
+  XXXXXXXX,X____XX_,__XXX___,
+  XXX____X,X____XXX,__XXX___,
+  XXX____X,X____XX_,__XXX___,
+  XXX____X,X_______,__XXX___,
+  XXX____X,X_______,__XXX___,
+  XXX____X,X_______,__XXX___,
+  XXX____X,X_______,__XXX___,
+  XXXXXXXX,X_______,__XXX___,
+  XXX____X,X____XXX,_XXX____,
+  XXX____X,X______X,XXXX____,
+  XX______,________,XXX_____};
+
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_76D6[ 88] = { /* code 76D6 */
   ________,_______X,X_______,________,
   _______X,XX_____X,XX______,________,
@@ -5883,6 +6306,30 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_76D8[ 88] = { /* code 76D8 */
   _____XX_,_XX___XX,__XXX___,________,
   _____XX_,_XX___XX,__XXX_XX,________,
   XXXXXXXX,XXXXXXXX,XXXXXXXX,________};
+
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_76DB[ 66] = { /* code 76DB */
+  ________,_____XX_,_XX_____,
+  ________,_____XXX,__XX____,
+  ________,_____XXX,__XXXXX_,
+  ____XXXX,XXXXXXXX,XXXXXXXX,
+  ____XXX_,______XX,________,
+  ____XXX_,______XX,___XX___,
+  ____XXX_,__XX__XX,__XXX___,
+  ____XXXX,XXXXX_XX,XXXX____,
+  ____XXX_,__XX___X,XXX_____,
+  ____XX__,__XX___X,XX______,
+  ____XX__,__XX___X,XX____XX,
+  ___XXX__,_XXX__XX,_XXX__XX,
+  ___XX__X,XXX_XXX_,__XXXXXX,
+  __XXX___,XXXXX___,___XXXXX,
+  _XXXXXXX,XXXXXXXX,XXXXX_XX,
+  XX__XXX_,_XX___XX,__XX____,
+  ____XXX_,_XX___XX,__XX____,
+  ____XXX_,_XX___XX,__XX____,
+  ____XXX_,_XX___XX,__XX____,
+  ____XXX_,_XX___XX,__XX____,
+  ____XXX_,_XX___XX,__XX_XX_,
+  XXXXXXXX,XXXXXXXX,XXXXXXXX};
 
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_771F[ 96] = { /* code 771F */
   ________,___XX___,________,________,
@@ -5959,6 +6406,31 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_7801[ 88] = { /* code 7801 */
   ___XX___,________,XXXXXXX_,________,
   ________,________,__XXXX__,________,
   ________,________,___XX___,________};
+
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_786C[ 92] = { /* code 786C */
+  ________,XX______,________,________,
+  _XXXXXXX,XXXXXXXX,XXXXXXXX,________,
+  ____XXX_,________,XX______,________,
+  ____XXX_,________,XX___XX_,________,
+  ____XX__,___XXXXX,XXXXXXXX,________,
+  ____XX__,___XX___,XX___XX_,________,
+  ___XXX__,___XX___,XX___XX_,________,
+  ___XX___,___XX___,XX___XX_,________,
+  ___XXXXX,XX_XXXXX,XXXXXXX_,________,
+  __XXX__X,XX_XX___,XX___XX_,________,
+  __XXX__X,XX_XX___,XX___XX_,________,
+  _XXXX__X,XX_XX___,XX___XX_,________,
+  _XXXX__X,XX_XXXXX,XXXXXXX_,________,
+  XX_XX__X,XX_XX___,XX___XX_,________,
+  ___XX__X,XX_XX__X,XX______,________,
+  ___XX__X,XX__XX_X,XX______,________,
+  ___XX__X,XX___XXX,X_______,________,
+  ___XXXXX,XX___XXX,X_______,________,
+  ___XX__X,XX____XX,X_______,________,
+  ___XX___,____XXXX,XXX_____,________,
+  ___XX___,___XXX__,_XXXXX__,________,
+  ________,_XXX____,___XXXXX,________,
+  _______X,XX______,________,________};
 
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_786E[ 72] = { /* code 786E */
   ________,______XX,________,
@@ -6162,6 +6634,31 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_7A7A[ 66] = { /* code 7A7A */
   ________,__XXX___,________,
   ________,__XXX___,____XX__,
   XXXXXXXX,XXXXXXXX,XXXXXXX_};
+
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_7AD9[ 92] = { /* code 7AD9 */
+  ________,_______X,XX______,________,
+  ____XX__,________,XX______,________,
+  ____XXX_,________,XX______,________,
+  _____XXX,________,XX______,________,
+  _____XXX,________,XX______,________,
+  _____XX_,__XX____,XX___XX_,________,
+  XXXXXXXX,XXXXX___,XXXXXXXX,________,
+  ________,________,XX______,________,
+  ________,XX______,XX______,________,
+  __XX____,XXX_____,XX______,________,
+  ___XX__X,XX______,XX______,________,
+  ___XX__X,XX______,XX______,________,
+  ___XXX_X,X___XXXX,XXXXXXX_,________,
+  ___XXX_X,X___XX__,____XX__,________,
+  ___XXX_X,X___XX__,____XX__,________,
+  ___XXXXX,____XX__,____XX__,________,
+  ______XX,____XX__,____XX__,________,
+  ______XX,XXX_XX__,____XX__,________,
+  ____XXXX,X___XX__,____XX__,________,
+  _XXXXX__,____XXXX,XXXXXX__,________,
+  _XX_____,____XX__,____XX__,________,
+  ________,____XX__,____XXX_,________,
+  ________,____XX__,________,________};
 
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_7AEF[ 96] = { /* code 7AEF */
   ________,_______X,X_______,________,
@@ -6570,6 +7067,30 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_7F16[ 72] = { /* code 7F16 */
   ______XX,___XX_XX,_____XX_,
   ______XX,___XX___,___XXXX_,
   _____XX_,________,________};
+
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_7F51[ 66] = { /* code 7F51 */
+  ________,________,__XX____,
+  XXXXXXXX,XXXXXXXX,XXXXX___,
+  XXX_____,________,__XXX___,
+  XXX_____,________,__XXX___,
+  XXX____X,X_______,__XXX___,
+  XXX____X,XX____XX,X_XXX___,
+  XXXXX__X,X_XX__XX,X_XXX___,
+  XXX_XXXX,X__XX_XX,__XXX___,
+  XXX__XXX,____XXXX,__XXX___,
+  XXX__XXX,____XXX_,__XXX___,
+  XXX__XXX,X____XXX,__XXX___,
+  XXX__XXX,X___XXXX,X_XXX___,
+  XXX_XX_X,XX__XXXX,X_XXX___,
+  XXX_XX_X,XX_XX__X,XXXXX___,
+  XXXXX___,XX_XX__X,XXXXX___,
+  XXXX____,__XX____,XXXXX___,
+  XXX_____,_XX_____,__XXX___,
+  XXX_____,________,__XXX___,
+  XXX_____,________,__XXX___,
+  XXX_____,________,__XXX___,
+  XXX_____,________,XXXX____,
+  XX______,________,_XX_____};
 
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_7F6E[ 92] = { /* code 7F6E */
   ________,________,____XX__,________,
@@ -7004,6 +7525,31 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_8B66[ 96] = { /* code 8B66 */
   _____XXX,XXXXXXXX,XXX_____,________,
   _____XX_,________,_XX_____,________};
 
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_8BA1[ 92] = { /* code 8BA1 */
+  ___XX___,_______X,X_______,________,
+  ____XXX_,_______X,XX______,________,
+  _____XXX,_______X,X_______,________,
+  _____XXX,_______X,X_______,________,
+  ________,_______X,X_______,________,
+  ________,_______X,X_______,________,
+  ________,_______X,X_______,________,
+  _____XX_,_______X,X_______,________,
+  XXXXXXXX,XXXXXXXX,XXXXXXXX,________,
+  ____XXX_,_______X,X_______,________,
+  ____XXX_,_______X,X_______,________,
+  ____XXX_,_______X,X_______,________,
+  ____XXX_,_______X,X_______,________,
+  ____XXX_,_______X,X_______,________,
+  ____XXX_,_______X,X_______,________,
+  ____XXX_,_XX____X,X_______,________,
+  ____XXX_,XX_____X,X_______,________,
+  ____XXXX,X______X,X_______,________,
+  ____XXXX,X______X,X_______,________,
+  ____XXXX,_______X,X_______,________,
+  ____XXX_,_______X,X_______,________,
+  _____XX_,_______X,X_______,________,
+  ________,_______X,X_______,________};
+
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_8BA4[ 92] = { /* code 8BA4 */
   ________,______XX,________,________,
   ____XX__,______XX,X_______,________,
@@ -7355,6 +7901,84 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_8DEF[ 96] = { /* code 8DEF */
   ________,_____XX_,___XXX__,________,
   ________,_____XX_,________,________};
 
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_8DF3[ 96] = { /* code 8DF3 */
+  ________,_____XX_,_XX_____,________,
+  _XXXXXXX,XX___XXX,_XX_____,________,
+  _XXX___X,XX___XXX,_XX_____,________,
+  _XXX___X,XX___XXX,_XX_____,________,
+  _XXX___X,XX___XXX,_XX__XX_,________,
+  _XXX___X,XXXX_XXX,_XX__XXX,________,
+  _XXX___X,XXXXXXXX,_XX_XXX_,________,
+  _XXXXXXX,XX_XXXXX,_XXXX___,________,
+  _XXXXXXX,X__XXXXX,_XXX____,________,
+  ____XXX_,___XXXXX,_XX_____,________,
+  ____XXX_,_____XXX,_XX_____,________,
+  _XXXXXX_,_____XXX,_XX_____,________,
+  _XXXXXXX,XX__XXXX,_XXXX___,________,
+  _XXXXXX_,___XXXX_,_XX_XXX_,________,
+  _XXXXXX_,XXXX_XX_,_XX__XXX,________,
+  _XXXXXX_,_XX__XX_,_XX___XX,________,
+  _XXXXXX_,_____XX_,_XX_____,________,
+  _XXXXXX_,____XXX_,_XX___XX,________,
+  _XXXXXXX,X___XX__,_XX___XX,________,
+  _XXXXX__,___XXX__,_XX___XX,________,
+  _XXX____,___XX___,_XX___XX,________,
+  ________,__XX____,_XXX__XX,________,
+  ________,XXX_____,_XXXXXXX,________,
+  _______X,X_______,________,________};
+
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_8F6C[ 96] = { /* code 8F6C */
+  ________,________,XX______,________,
+  ____XXX_,________,XXX_____,________,
+  ____XXX_,________,XX______,________,
+  ____XX__,________,XX______,________,
+  XXXXXXXX,XXXX___X,XX___XX_,________,
+  ___XXX__,___XXXXX,XXXXXXX_,________,
+  ___XX___,_______X,X_______,________,
+  ___XXXX_,_______X,X_______,________,
+  ___XX_XX,______XX,X_______,________,
+  __XXX_XX,______XX,X_______,________,
+  __XX__XX,_XXXXXXX,XXXXXXXX,________,
+  _XXXXXXX,XXXX__XX,________,________,
+  __XX__XX,_____XXX,________,________,
+  ______XX,_____XX_,________,________,
+  ______XX,____XXXX,XXXXXX__,________,
+  ______XX,XXXXXXX_,___XXX__,________,
+  _____XXX,X_______,__XXX___,________,
+  XXXXXXXX,________,__XX____,________,
+  _XXX__XX,____XX__,_XX_____,________,
+  ______XX,_____XXX,_XX_____,________,
+  ______XX,_______X,XXX_____,________,
+  ______XX,________,XXXX____,________,
+  ______XX,________,__XXX___,________,
+  ______XX,________,___XX___,________};
+
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_8F6F[ 96] = { /* code 8F6F */
+  _____XX_,________,________,________,
+  _____XXX,_______X,XX______,________,
+  _____XX_,______XX,X_______,________,
+  _____XX_,__XX__XX,X_______,________,
+  XXXXXXXX,XXXXX_XX,________,________,
+  ____XX__,______XX,_____XX_,________,
+  ____XX__,_____XXX,XXXXXXXX,________,
+  ___XXXXX,X____XX_,_____XX_,________,
+  ___XX_XX,X___XX_X,X___XX__,________,
+  ___XX_XX,X___XX_X,XXX_XX__,________,
+  __XXX_XX,X_XXX__X,XX______,________,
+  __XXXXXX,XXXXX__X,XX______,________,
+  ______XX,X______X,XXX_____,________,
+  ______XX,X______X,XXX_____,________,
+  ______XX,X__XX__X,XXX_____,________,
+  ______XX,XXXX___X,XXX_____,________,
+  _____XXX,X_____XX,XXX_____,________,
+  _XXXXXXX,X_____XX,__XX____,________,
+  _XXX__XX,X____XXX,__XX____,________,
+  ______XX,X____XX_,___XX___,________,
+  ______XX,X___XX__,___XXX__,________,
+  ______XX,X__XX___,____XXX_,________,
+  ______XX,X_XX____,____XXXX,X_______,
+  ______XX,_XX_____,________,________};
+
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_8F91[ 92] = { /* code 8F91 */
   _____XX_,________,___XX___,________,
   ____XXX_,___XXXXX,XXXXXX__,________,
@@ -7651,6 +8275,31 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_952E[ 92] = { /* code 952E */
   ______XX,X_______,XXXXXXX_,________,
   _____XX_,________,________,________};
 
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_957F[ 92] = { /* code 957F */
+  ______XX,________,________,________,
+  ______XX,X_______,XXX_____,________,
+  ______XX,________,XXX_____,________,
+  ______XX,_______X,XX______,________,
+  ______XX,______XX,X_______,________,
+  ______XX,_____XX_,________,________,
+  ______XX,___XXX__,________,________,
+  ______XX,__XX____,________,________,
+  ______XX,_XX_____,________,________,
+  ______XX,________,_____XX_,________,
+  XXXXXXXX,XXXXXXXX,XXXXXXXX,________,
+  ______XX,___XX___,________,________,
+  ______XX,____XX__,________,________,
+  ______XX,____XX__,________,________,
+  ______XX,_____XX_,________,________,
+  ______XX,_____XXX,________,________,
+  ______XX,______XX,X_______,________,
+  ______XX,_______X,XXX_____,________,
+  ______XX,____XXX_,XXXXX___,________,
+  ______XX,__XXX___,__XXXXXX,________,
+  ______XX,XXX_____,___XXXX_,________,
+  _____XXX,XX______,________,________,
+  ______XX,________,________,________};
+
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_95ED[ 69] = { /* code 95ED */
   __XX____,________,________,
   ___XX___,________,________,
@@ -7929,6 +8578,31 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_98CE[ 92] = { /* code 98CE */
   _XX_____,________,_____XXX,________,
   XX______,________,________,________};
 
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_98DE[ 69] = { /* code 98DE */
+  ________,___XX___,________,
+  XXXXXXXX,XXXXXX__,________,
+  ________,___XX___,_XXX____,
+  ________,___XX___,XXXX____,
+  ________,___XX___,XXX_____,
+  ________,___XX__X,XX______,
+  ________,___XX_XX,________,
+  ________,___XXXX_,________,
+  ________,___XXXX_,________,
+  ________,___XX_XX,X_______,
+  ________,___XX__X,XXX_____,
+  ________,___XX___,XXXX____,
+  ________,___XX___,_XXX____,
+  ________,___XXX__,__XX____,
+  ________,___XXX__,________,
+  ________,____XX__,____XX__,
+  ________,____XXX_,____XX__,
+  ________,____XXX_,____XX__,
+  ________,_____XXX,____XX__,
+  ________,______XX,XX__XX__,
+  ________,_______X,XXXXXX__,
+  ________,________,_XXXXXX_,
+  ________,________,________};
+
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_9A8C[ 92] = { /* code 9A8C */
   ________,_______X,X_______,________,
   ________,_______X,XX______,________,
@@ -8005,6 +8679,32 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_9E23[ 72] = { /* code 9E23 */
   ________,________,XXXXX___,
   ________,________,_XXX____};
 
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_9E70[ 72] = { /* code 9E70 */
+  ________,___XXX__,________,
+  ________,____XXX_,_____XX_,
+  __XXXXXX,XXXXXXXX,XXXXXXXX,
+  __XXX___,XX_XX__X,X_______,
+  __XXX__X,XX_XX___,XX______,
+  __XXX__X,X_XXXXXX,XXXXXX__,
+  __XXX_XX,XXXXX__X,X__XX___,
+  __XXXXXX,XXXXXXXX,XXXXXX__,
+  __XXXX_X,XXXXX__X,X_______,
+  __XXX__X,X_XXXXXX,XXXXXX__,
+  __XXX__X,X_XXX__X,X____XX_,
+  __XXX__X,X_XXXXXX,XXXXXXX_,
+  __XXX_XX,____XXX_,________,
+  __XXX__X,XXXXXXXX,XXXX____,
+  __XX___X,XX_XX___,_XX_____,
+  __XX___X,XX__XX__,_XX_____,
+  __XX___X,XX__XXXX,XXX_____,
+  __XX___X,XX__XX__,XX______,
+  __XX___X,XXXXXXXX,XXXXXXX_,
+  _XX_____,XX______,XX__XXX_,
+  _XX_XXXX,XXXXXXXX,XXX_XX__,
+  XX______,________,____XX__,
+  XX______,________,_XXXXX__,
+  ________,________,__XXX___};
+
 /* Start of unicode area <Halfwidth and Fullwidth Forms> */
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_FF0C[  7] = { /* code FF0C, FULLWIDTH COMMA */
   _XXX____,
@@ -8015,10 +8715,11 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_26_FF0C[  7] = { /* code FF0C, FULL
   _XX_____,
   XX______};
 
-GUI_CONST_STORAGE GUI_CHARINFO_EXT GUI_Fonthz_26_CharInfo[342] = {
+GUI_CONST_STORAGE GUI_CHARINFO_EXT GUI_Fonthz_26_CharInfo[370] = {
    {   1,   1,   0,  22,  14, acGUI_Fonthz_26_0020 } /* code 0020, SPACE */
   ,{   4,  18,   5,   4,  14, acGUI_Fonthz_26_0021 } /* code 0021, EXCLAMATION MARK */
   ,{  10,   6,   2,   1,  14, acGUI_Fonthz_26_0022 } /* code 0022, QUOTATION MARK */
+  ,{  12,  18,   1,   4,  14, acGUI_Fonthz_26_0023 } /* code 0023, NUMBER SIGN */
   ,{  13,  18,   0,   4,  14, acGUI_Fonthz_26_0025 } /* code 0025, PERCENT SIGN */
   ,{   4,   7,   2,   1,  14, acGUI_Fonthz_26_0027 } /* code 0027, APOSTROPHE */
   ,{   7,  23,   6,   1,  14, acGUI_Fonthz_26_0028 } /* code 0028, LEFT PARENTHESIS */
@@ -8100,7 +8801,7 @@ GUI_CONST_STORAGE GUI_CHARINFO_EXT GUI_Fonthz_26_CharInfo[342] = {
   ,{   6,  23,   6,   1,  14, acGUI_Fonthz_26_007B } /* code 007B, LEFT CURLY BRACKET */
   ,{   6,  23,   2,   1,  14, acGUI_Fonthz_26_007D } /* code 007D, RIGHT CURLY BRACKET */
   ,{  15,  16,   6,   4,  27, acGUI_Fonthz_26_03A9 } /* code 03A9, GREEK CAPITAL LETTER OMEGA */
-  ,{  13,  13,   2,   9,  16, acGUI_Fonthz_26_03BC } /* code 03BC, GREEK SMALL LETTER MU */
+  ,{  13,  13,   7,   9,  27, acGUI_Fonthz_26_03BC } /* code 03BC, GREEK SMALL LETTER MU */
   ,{  25,   2,   1,  10,  27, acGUI_Fonthz_26_4E00 } /* code 4E00, <CJK Ideograph, First> */
   ,{  25,  22,   1,   1,  27, acGUI_Fonthz_26_4E0A } /* code 4E0A */
   ,{  23,  22,   2,   2,  27, acGUI_Fonthz_26_4E0B } /* code 4E0B */
@@ -8113,6 +8814,7 @@ GUI_CONST_STORAGE GUI_CHARINFO_EXT GUI_Fonthz_26_CharInfo[342] = {
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_4E49 } /* code 4E49 */
   ,{  24,  22,   1,   2,  27, acGUI_Fonthz_26_4E8E } /* code 4E8E */
   ,{  24,  24,   1,   1,  27, acGUI_Fonthz_26_4EA7 } /* code 4EA7 */
+  ,{  24,  24,   2,   1,  27, acGUI_Fonthz_26_4EAC } /* code 4EAC */
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_4EEA } /* code 4EEA */
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_4EF6 } /* code 4EF6 */
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_4F1A } /* code 4F1A */
@@ -8129,6 +8831,7 @@ GUI_CONST_STORAGE GUI_CHARINFO_EXT GUI_Fonthz_26_CharInfo[342] = {
   ,{  23,  24,   2,   1,  27, acGUI_Fonthz_26_5141 } /* code 5141 */
   ,{  24,  24,   1,   1,  27, acGUI_Fonthz_26_5145 } /* code 5145 */
   ,{  25,  22,   1,   2,  27, acGUI_Fonthz_26_5165 } /* code 5165 */
+  ,{  23,  23,   2,   1,  27, acGUI_Fonthz_26_516C } /* code 516C */
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_5173 } /* code 5173 */
   ,{  23,  23,   2,   1,  27, acGUI_Fonthz_26_5199 } /* code 5199 */
   ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_51C6 } /* code 51C6 */
@@ -8140,17 +8843,22 @@ GUI_CONST_STORAGE GUI_CHARINFO_EXT GUI_Fonthz_26_CharInfo[342] = {
   ,{  24,  24,   1,   1,  27, acGUI_Fonthz_26_5220 } /* code 5220 */
   ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_524D } /* code 524D */
   ,{  24,  23,   1,   1,  27, acGUI_Fonthz_26_529F } /* code 529F */
+  ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_52A1 } /* code 52A1 */
   ,{  24,  24,   1,   1,  27, acGUI_Fonthz_26_52A8 } /* code 52A8 */
   ,{  24,  24,   1,   1,  27, acGUI_Fonthz_26_52A9 } /* code 52A9 */
+  ,{  22,  23,   3,   1,  27, acGUI_Fonthz_26_533A } /* code 533A */
   ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_5347 } /* code 5347 */
+  ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_5357 } /* code 5357 */
   ,{  24,  24,   1,   1,  27, acGUI_Fonthz_26_5382 } /* code 5382 */
   ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_538B } /* code 538B */
   ,{  23,  23,   2,   1,  27, acGUI_Fonthz_26_539F } /* code 539F */
   ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_53C2 } /* code 53C2 */
+  ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_53D1 } /* code 53D1 */
   ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_53D6 } /* code 53D6 */
   ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_53D8 } /* code 53D8 */
   ,{  18,  18,   5,   4,  27, acGUI_Fonthz_26_53E3 } /* code 53E3 */
   ,{  23,  23,   2,   1,  27, acGUI_Fonthz_26_53F7 } /* code 53F7 */
+  ,{  21,  22,   2,   2,  27, acGUI_Fonthz_26_53F8 } /* code 53F8 */
   ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_5408 } /* code 5408 */
   ,{  21,  23,   4,   1,  27, acGUI_Fonthz_26_540C } /* code 540C */
   ,{  23,  23,   1,   1,  27, acGUI_Fonthz_26_540D } /* code 540D */
@@ -8160,6 +8868,7 @@ GUI_CONST_STORAGE GUI_CHARINFO_EXT GUI_Fonthz_26_CharInfo[342] = {
   ,{  21,  23,   2,   1,  27, acGUI_Fonthz_26_542F } /* code 542F */
   ,{  23,  24,   2,   1,  27, acGUI_Fonthz_26_544A } /* code 544A */
   ,{  21,  23,   3,   1,  27, acGUI_Fonthz_26_54C1 } /* code 54C1 */
+  ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_5668 } /* code 5668 */
   ,{  21,  23,   3,   1,  27, acGUI_Fonthz_26_56DB } /* code 56DB */
   ,{  20,  22,   4,   2,  27, acGUI_Fonthz_26_56DE } /* code 56DE */
   ,{  22,  24,   3,   1,  27, acGUI_Fonthz_26_56F4 } /* code 56F4 */
@@ -8177,6 +8886,7 @@ GUI_CONST_STORAGE GUI_CHARINFO_EXT GUI_Fonthz_26_CharInfo[342] = {
   ,{  24,  23,   1,   1,  27, acGUI_Fonthz_26_59CB } /* code 59CB */
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_5B57 } /* code 5B57 */
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_5B58 } /* code 5B58 */
+  ,{  23,  23,   2,   1,  27, acGUI_Fonthz_26_5B81 } /* code 5B81 */
   ,{  23,  23,   2,   1,  27, acGUI_Fonthz_26_5B89 } /* code 5B89 */
   ,{  23,  24,   2,   1,  27, acGUI_Fonthz_26_5B9A } /* code 5B9A */
   ,{  24,  24,   2,   1,  27, acGUI_Fonthz_26_5B9E } /* code 5B9E */
@@ -8199,6 +8909,7 @@ GUI_CONST_STORAGE GUI_CHARINFO_EXT GUI_Fonthz_26_CharInfo[342] = {
   ,{  24,  23,   2,   1,  27, acGUI_Fonthz_26_5F27 } /* code 5F27 */
   ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_5F55 } /* code 5F55 */
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_5F85 } /* code 5F85 */
+  ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_5FAE } /* code 5FAE */
   ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_5FC6 } /* code 5FC6 */
   ,{  23,  22,   2,   1,  27, acGUI_Fonthz_26_5FD7 } /* code 5FD7 */
   ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_6001 } /* code 6001 */
@@ -8210,6 +8921,7 @@ GUI_CONST_STORAGE GUI_CHARINFO_EXT GUI_Fonthz_26_CharInfo[342] = {
   ,{  22,  24,   1,   1,  27, acGUI_Fonthz_26_6237 } /* code 6237 */
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_6240 } /* code 6240 */
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_6267 } /* code 6267 */
+  ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_6280 } /* code 6280 */
   ,{  24,  24,   1,   1,  27, acGUI_Fonthz_26_62A4 } /* code 62A4 */
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_62A5 } /* code 62A5 */
   ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_62E9 } /* code 62E9 */
@@ -8235,9 +8947,11 @@ GUI_CONST_STORAGE GUI_CHARINFO_EXT GUI_Fonthz_26_CharInfo[342] = {
   ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_66F4 } /* code 66F4 */
   ,{  20,  24,   2,   1,  27, acGUI_Fonthz_26_6708 } /* code 6708 */
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_6709 } /* code 6709 */
+  ,{  25,  22,   1,   2,  27, acGUI_Fonthz_26_670D } /* code 670D */
   ,{  24,  24,   1,   1,  27, acGUI_Fonthz_26_671F } /* code 671F */
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_672A } /* code 672A */
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_672C } /* code 672C */
+  ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_672F } /* code 672F */
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_673A } /* code 673A */
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_6743 } /* code 6743 */
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_675F } /* code 675F */
@@ -8253,6 +8967,7 @@ GUI_CONST_STORAGE GUI_CHARINFO_EXT GUI_Fonthz_26_CharInfo[342] = {
   ,{  23,  21,   2,   2,  27, acGUI_Fonthz_26_6B63 } /* code 6B63 */
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_6B65 } /* code 6B65 */
   ,{  21,  22,   4,   1,  27, acGUI_Fonthz_26_6BD4 } /* code 6BD4 */
+  ,{  25,  21,   1,   2,  27, acGUI_Fonthz_26_6C5F } /* code 6C5F */
   ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_6CD5 } /* code 6CD5 */
   ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_6CE8 } /* code 6CE8 */
   ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_6D41 } /* code 6D41 */
@@ -8263,6 +8978,7 @@ GUI_CONST_STORAGE GUI_CHARINFO_EXT GUI_Fonthz_26_CharInfo[342] = {
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_6E05 } /* code 6E05 */
   ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_6E90 } /* code 6E90 */
   ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_6EA2 } /* code 6EA2 */
+  ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_6EE8 } /* code 6EE8 */
   ,{  23,  23,   2,   1,  27, acGUI_Fonthz_26_70B9 } /* code 70B9 */
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_7248 } /* code 7248 */
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_72B6 } /* code 72B6 */
@@ -8271,11 +8987,14 @@ GUI_CONST_STORAGE GUI_CHARINFO_EXT GUI_Fonthz_26_CharInfo[342] = {
   ,{  25,  21,   1,   2,  27, acGUI_Fonthz_26_7406 } /* code 7406 */
   ,{  23,  23,   1,   1,  27, acGUI_Fonthz_26_7528 } /* code 7528 */
   ,{  21,  23,   4,   1,  27, acGUI_Fonthz_26_7535 } /* code 7535 */
+  ,{  22,  23,   3,   1,  27, acGUI_Fonthz_26_7684 } /* code 7684 */
   ,{  25,  22,   1,   1,  27, acGUI_Fonthz_26_76D6 } /* code 76D6 */
   ,{  25,  22,   1,   1,  27, acGUI_Fonthz_26_76D8 } /* code 76D8 */
+  ,{  24,  22,   1,   1,  27, acGUI_Fonthz_26_76DB } /* code 76DB */
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_771F } /* code 771F */
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_77ED } /* code 77ED */
   ,{  25,  22,   1,   2,  27, acGUI_Fonthz_26_7801 } /* code 7801 */
+  ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_786C } /* code 786C */
   ,{  24,  24,   1,   1,  27, acGUI_Fonthz_26_786E } /* code 786E */
   ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_793A } /* code 793A */
   ,{  24,  24,   1,   1,  27, acGUI_Fonthz_26_79D2 } /* code 79D2 */
@@ -8284,6 +9003,7 @@ GUI_CONST_STORAGE GUI_CHARINFO_EXT GUI_Fonthz_26_CharInfo[342] = {
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_7A0B } /* code 7A0B */
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_7A33 } /* code 7A33 */
   ,{  24,  22,   2,   1,  27, acGUI_Fonthz_26_7A7A } /* code 7A7A */
+  ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_7AD9 } /* code 7AD9 */
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_7AEF } /* code 7AEF */
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_7B26 } /* code 7B26 */
   ,{  24,  24,   1,   1,  27, acGUI_Fonthz_26_7B2C } /* code 7B2C */
@@ -8300,6 +9020,7 @@ GUI_CONST_STORAGE GUI_CHARINFO_EXT GUI_Fonthz_26_CharInfo[342] = {
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_7EFC } /* code 7EFC */
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_7F13 } /* code 7F13 */
   ,{  24,  24,   1,   1,  27, acGUI_Fonthz_26_7F16 } /* code 7F16 */
+  ,{  21,  22,   3,   2,  27, acGUI_Fonthz_26_7F51 } /* code 7F51 */
   ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_7F6E } /* code 7F6E */
   ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_8054 } /* code 8054 */
   ,{  24,  23,   2,   1,  27, acGUI_Fonthz_26_80FD } /* code 80FD */
@@ -8317,6 +9038,7 @@ GUI_CONST_STORAGE GUI_CHARINFO_EXT GUI_Fonthz_26_CharInfo[342] = {
   ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_89C4 } /* code 89C4 */
   ,{  23,  23,   2,   1,  27, acGUI_Fonthz_26_8A00 } /* code 8A00 */
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_8B66 } /* code 8B66 */
+  ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_8BA1 } /* code 8BA1 */
   ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_8BA4 } /* code 8BA4 */
   ,{  25,  22,   1,   1,  27, acGUI_Fonthz_26_8BB0 } /* code 8BB0 */
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_8BB8 } /* code 8BB8 */
@@ -8331,6 +9053,9 @@ GUI_CONST_STORAGE GUI_CHARINFO_EXT GUI_Fonthz_26_CharInfo[342] = {
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_8D25 } /* code 8D25 */
   ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_8D2E } /* code 8D2E */
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_8DEF } /* code 8DEF */
+  ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_8DF3 } /* code 8DF3 */
+  ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_8F6C } /* code 8F6C */
+  ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_8F6F } /* code 8F6F */
   ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_8F91 } /* code 8F91 */
   ,{  25,  24,   1,   1,  27, acGUI_Fonthz_26_8F93 } /* code 8F93 */
   ,{  25,  21,   1,   2,  27, acGUI_Fonthz_26_8FD0 } /* code 8FD0 */
@@ -8343,6 +9068,7 @@ GUI_CONST_STORAGE GUI_CHARINFO_EXT GUI_Fonthz_26_CharInfo[342] = {
   ,{  25,  22,   1,   2,  27, acGUI_Fonthz_26_9192 } /* code 9192 */
   ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_91CF } /* code 91CF */
   ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_952E } /* code 952E */
+  ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_957F } /* code 957F */
   ,{  21,  23,   4,   1,  27, acGUI_Fonthz_26_95ED } /* code 95ED */
   ,{  21,  23,   3,   1,  27, acGUI_Fonthz_26_95F4 } /* code 95F4 */
   ,{  23,  22,   3,   2,  27, acGUI_Fonthz_26_963B } /* code 963B */
@@ -8354,1828 +9080,2012 @@ GUI_CONST_STORAGE GUI_CHARINFO_EXT GUI_Fonthz_26_CharInfo[342] = {
   ,{  24,  24,   1,   1,  27, acGUI_Fonthz_26_9879 } /* code 9879 */
   ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_9891 } /* code 9891 */
   ,{  25,  23,   1,   2,  27, acGUI_Fonthz_26_98CE } /* code 98CE */
+  ,{  23,  23,   2,   2,  27, acGUI_Fonthz_26_98DE } /* code 98DE */
   ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_9A8C } /* code 9A8C */
   ,{  25,  23,   1,   1,  27, acGUI_Fonthz_26_9AA4 } /* code 9AA4 */
   ,{  23,  24,   2,   1,  27, acGUI_Fonthz_26_9E23 } /* code 9E23 */
+  ,{  24,  24,   1,   1,  27, acGUI_Fonthz_26_9E70 } /* code 9E70 */
   ,{   5,   7,   4,  16,  27, acGUI_Fonthz_26_FF0C } /* code FF0C, FULLWIDTH COMMA */
 };
 
-GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop260 = {
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop286 = {
    0xFF0C /* first character */
   ,0xFF0C /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[341] /* address of first character */
+  ,&GUI_Fonthz_26_CharInfo[369] /* address of first character */
   ,(GUI_CONST_STORAGE GUI_FONT_PROP_EXT *)0 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
-GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop259 = {
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop285 = {
+   0x9E70 /* first character */
+  ,0x9E70 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[368] /* address of first character */
+  ,&GUI_Fonthz_26_Prop286 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop284 = {
    0x9E23 /* first character */
   ,0x9E23 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[340] /* address of first character */
+  ,&GUI_Fonthz_26_CharInfo[367] /* address of first character */
+  ,&GUI_Fonthz_26_Prop285 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop283 = {
+   0x9AA4 /* first character */
+  ,0x9AA4 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[366] /* address of first character */
+  ,&GUI_Fonthz_26_Prop284 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop282 = {
+   0x9A8C /* first character */
+  ,0x9A8C /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[365] /* address of first character */
+  ,&GUI_Fonthz_26_Prop283 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop281 = {
+   0x98DE /* first character */
+  ,0x98DE /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[364] /* address of first character */
+  ,&GUI_Fonthz_26_Prop282 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop280 = {
+   0x98CE /* first character */
+  ,0x98CE /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[363] /* address of first character */
+  ,&GUI_Fonthz_26_Prop281 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop279 = {
+   0x9891 /* first character */
+  ,0x9891 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[362] /* address of first character */
+  ,&GUI_Fonthz_26_Prop280 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop278 = {
+   0x9879 /* first character */
+  ,0x9879 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[361] /* address of first character */
+  ,&GUI_Fonthz_26_Prop279 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop277 = {
+   0x9694 /* first character */
+  ,0x9694 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[360] /* address of first character */
+  ,&GUI_Fonthz_26_Prop278 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop276 = {
+   0x9669 /* first character */
+  ,0x9669 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[359] /* address of first character */
+  ,&GUI_Fonthz_26_Prop277 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop275 = {
+   0x9664 /* first character */
+  ,0x9664 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[358] /* address of first character */
+  ,&GUI_Fonthz_26_Prop276 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop274 = {
+   0x9650 /* first character */
+  ,0x9650 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[357] /* address of first character */
+  ,&GUI_Fonthz_26_Prop275 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop273 = {
+   0x964D /* first character */
+  ,0x964D /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[356] /* address of first character */
+  ,&GUI_Fonthz_26_Prop274 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop272 = {
+   0x963B /* first character */
+  ,0x963B /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[355] /* address of first character */
+  ,&GUI_Fonthz_26_Prop273 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop271 = {
+   0x95F4 /* first character */
+  ,0x95F4 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[354] /* address of first character */
+  ,&GUI_Fonthz_26_Prop272 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop270 = {
+   0x95ED /* first character */
+  ,0x95ED /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[353] /* address of first character */
+  ,&GUI_Fonthz_26_Prop271 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop269 = {
+   0x957F /* first character */
+  ,0x957F /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[352] /* address of first character */
+  ,&GUI_Fonthz_26_Prop270 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop268 = {
+   0x952E /* first character */
+  ,0x952E /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[351] /* address of first character */
+  ,&GUI_Fonthz_26_Prop269 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop267 = {
+   0x91CF /* first character */
+  ,0x91CF /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[350] /* address of first character */
+  ,&GUI_Fonthz_26_Prop268 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop266 = {
+   0x9192 /* first character */
+  ,0x9192 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[349] /* address of first character */
+  ,&GUI_Fonthz_26_Prop267 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop265 = {
+   0x901A /* first character */
+  ,0x901A /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[348] /* address of first character */
+  ,&GUI_Fonthz_26_Prop266 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop264 = {
+   0x9009 /* first character */
+  ,0x9009 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[347] /* address of first character */
+  ,&GUI_Fonthz_26_Prop265 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop263 = {
+   0x9000 /* first character */
+  ,0x9000 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[346] /* address of first character */
+  ,&GUI_Fonthz_26_Prop264 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop262 = {
+   0x8FDE /* first character */
+  ,0x8FDE /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[345] /* address of first character */
+  ,&GUI_Fonthz_26_Prop263 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop261 = {
+   0x8FDC /* first character */
+  ,0x8FDC /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[344] /* address of first character */
+  ,&GUI_Fonthz_26_Prop262 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop260 = {
+   0x8FD4 /* first character */
+  ,0x8FD4 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[343] /* address of first character */
+  ,&GUI_Fonthz_26_Prop261 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop259 = {
+   0x8FD0 /* first character */
+  ,0x8FD0 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[342] /* address of first character */
   ,&GUI_Fonthz_26_Prop260 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop258 = {
-   0x9AA4 /* first character */
-  ,0x9AA4 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[339] /* address of first character */
+   0x8F93 /* first character */
+  ,0x8F93 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[341] /* address of first character */
   ,&GUI_Fonthz_26_Prop259 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop257 = {
-   0x9A8C /* first character */
-  ,0x9A8C /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[338] /* address of first character */
+   0x8F91 /* first character */
+  ,0x8F91 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[340] /* address of first character */
   ,&GUI_Fonthz_26_Prop258 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop256 = {
-   0x98CE /* first character */
-  ,0x98CE /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[337] /* address of first character */
+   0x8F6F /* first character */
+  ,0x8F6F /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[339] /* address of first character */
   ,&GUI_Fonthz_26_Prop257 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop255 = {
-   0x9891 /* first character */
-  ,0x9891 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[336] /* address of first character */
+   0x8F6C /* first character */
+  ,0x8F6C /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[338] /* address of first character */
   ,&GUI_Fonthz_26_Prop256 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop254 = {
-   0x9879 /* first character */
-  ,0x9879 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[335] /* address of first character */
+   0x8DF3 /* first character */
+  ,0x8DF3 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[337] /* address of first character */
   ,&GUI_Fonthz_26_Prop255 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop253 = {
-   0x9694 /* first character */
-  ,0x9694 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[334] /* address of first character */
+   0x8DEF /* first character */
+  ,0x8DEF /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[336] /* address of first character */
   ,&GUI_Fonthz_26_Prop254 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop252 = {
-   0x9669 /* first character */
-  ,0x9669 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[333] /* address of first character */
+   0x8D2E /* first character */
+  ,0x8D2E /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[335] /* address of first character */
   ,&GUI_Fonthz_26_Prop253 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop251 = {
-   0x9664 /* first character */
-  ,0x9664 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[332] /* address of first character */
+   0x8D25 /* first character */
+  ,0x8D25 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[334] /* address of first character */
   ,&GUI_Fonthz_26_Prop252 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop250 = {
-   0x9650 /* first character */
-  ,0x9650 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[331] /* address of first character */
+   0x8BFB /* first character */
+  ,0x8BFB /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[333] /* address of first character */
   ,&GUI_Fonthz_26_Prop251 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop249 = {
-   0x964D /* first character */
-  ,0x964D /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[330] /* address of first character */
+   0x8BF7 /* first character */
+  ,0x8BF7 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[332] /* address of first character */
   ,&GUI_Fonthz_26_Prop250 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop248 = {
-   0x963B /* first character */
-  ,0x963B /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[329] /* address of first character */
+   0x8BED /* first character */
+  ,0x8BED /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[331] /* address of first character */
   ,&GUI_Fonthz_26_Prop249 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop247 = {
-   0x95F4 /* first character */
-  ,0x95F4 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[328] /* address of first character */
+   0x8BE5 /* first character */
+  ,0x8BE6 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[329] /* address of first character */
   ,&GUI_Fonthz_26_Prop248 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop246 = {
-   0x95ED /* first character */
-  ,0x95ED /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[327] /* address of first character */
+   0x8BD5 /* first character */
+  ,0x8BD5 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[328] /* address of first character */
   ,&GUI_Fonthz_26_Prop247 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop245 = {
-   0x952E /* first character */
-  ,0x952E /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[326] /* address of first character */
+   0x8BC1 /* first character */
+  ,0x8BC1 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[327] /* address of first character */
   ,&GUI_Fonthz_26_Prop246 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop244 = {
-   0x91CF /* first character */
-  ,0x91CF /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[325] /* address of first character */
+   0x8BBE /* first character */
+  ,0x8BBE /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[326] /* address of first character */
   ,&GUI_Fonthz_26_Prop245 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop243 = {
-   0x9192 /* first character */
-  ,0x9192 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[324] /* address of first character */
+   0x8BB8 /* first character */
+  ,0x8BB8 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[325] /* address of first character */
   ,&GUI_Fonthz_26_Prop244 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop242 = {
-   0x901A /* first character */
-  ,0x901A /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[323] /* address of first character */
+   0x8BB0 /* first character */
+  ,0x8BB0 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[324] /* address of first character */
   ,&GUI_Fonthz_26_Prop243 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop241 = {
-   0x9009 /* first character */
-  ,0x9009 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[322] /* address of first character */
+   0x8BA4 /* first character */
+  ,0x8BA4 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[323] /* address of first character */
   ,&GUI_Fonthz_26_Prop242 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop240 = {
-   0x9000 /* first character */
-  ,0x9000 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[321] /* address of first character */
+   0x8BA1 /* first character */
+  ,0x8BA1 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[322] /* address of first character */
   ,&GUI_Fonthz_26_Prop241 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop239 = {
-   0x8FDE /* first character */
-  ,0x8FDE /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[320] /* address of first character */
+   0x8B66 /* first character */
+  ,0x8B66 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[321] /* address of first character */
   ,&GUI_Fonthz_26_Prop240 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop238 = {
-   0x8FDC /* first character */
-  ,0x8FDC /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[319] /* address of first character */
+   0x8A00 /* first character */
+  ,0x8A00 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[320] /* address of first character */
   ,&GUI_Fonthz_26_Prop239 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop237 = {
-   0x8FD4 /* first character */
-  ,0x8FD4 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[318] /* address of first character */
+   0x89C4 /* first character */
+  ,0x89C4 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[319] /* address of first character */
   ,&GUI_Fonthz_26_Prop238 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop236 = {
-   0x8FD0 /* first character */
-  ,0x8FD0 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[317] /* address of first character */
+   0x8986 /* first character */
+  ,0x8986 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[318] /* address of first character */
   ,&GUI_Fonthz_26_Prop237 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop235 = {
-   0x8F93 /* first character */
-  ,0x8F93 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[316] /* address of first character */
+   0x8981 /* first character */
+  ,0x8981 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[317] /* address of first character */
   ,&GUI_Fonthz_26_Prop236 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop234 = {
-   0x8F91 /* first character */
-  ,0x8F91 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[315] /* address of first character */
+   0x88AB /* first character */
+  ,0x88AB /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[316] /* address of first character */
   ,&GUI_Fonthz_26_Prop235 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop233 = {
-   0x8DEF /* first character */
-  ,0x8DEF /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[314] /* address of first character */
+   0x8868 /* first character */
+  ,0x8868 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[315] /* address of first character */
   ,&GUI_Fonthz_26_Prop234 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop232 = {
-   0x8D2E /* first character */
-  ,0x8D2E /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[313] /* address of first character */
+   0x884C /* first character */
+  ,0x884C /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[314] /* address of first character */
   ,&GUI_Fonthz_26_Prop233 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop231 = {
-   0x8D25 /* first character */
-  ,0x8D25 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[312] /* address of first character */
+   0x8702 /* first character */
+  ,0x8702 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[313] /* address of first character */
   ,&GUI_Fonthz_26_Prop232 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop230 = {
-   0x8BFB /* first character */
-  ,0x8BFB /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[311] /* address of first character */
+   0x8303 /* first character */
+  ,0x8303 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[312] /* address of first character */
   ,&GUI_Fonthz_26_Prop231 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop229 = {
-   0x8BF7 /* first character */
-  ,0x8BF7 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[310] /* address of first character */
+   0x82F1 /* first character */
+  ,0x82F1 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[311] /* address of first character */
   ,&GUI_Fonthz_26_Prop230 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop228 = {
-   0x8BED /* first character */
-  ,0x8BED /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[309] /* address of first character */
+   0x81F4 /* first character */
+  ,0x81F4 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[310] /* address of first character */
   ,&GUI_Fonthz_26_Prop229 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop227 = {
-   0x8BE5 /* first character */
-  ,0x8BE6 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[307] /* address of first character */
+   0x81EA /* first character */
+  ,0x81EA /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[309] /* address of first character */
   ,&GUI_Fonthz_26_Prop228 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop226 = {
-   0x8BD5 /* first character */
-  ,0x8BD5 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[306] /* address of first character */
+   0x8131 /* first character */
+  ,0x8131 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[308] /* address of first character */
   ,&GUI_Fonthz_26_Prop227 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop225 = {
-   0x8BC1 /* first character */
-  ,0x8BC1 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[305] /* address of first character */
+   0x80FD /* first character */
+  ,0x80FD /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[307] /* address of first character */
   ,&GUI_Fonthz_26_Prop226 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop224 = {
-   0x8BBE /* first character */
-  ,0x8BBE /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[304] /* address of first character */
+   0x8054 /* first character */
+  ,0x8054 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[306] /* address of first character */
   ,&GUI_Fonthz_26_Prop225 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop223 = {
-   0x8BB8 /* first character */
-  ,0x8BB8 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[303] /* address of first character */
+   0x7F6E /* first character */
+  ,0x7F6E /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[305] /* address of first character */
   ,&GUI_Fonthz_26_Prop224 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop222 = {
-   0x8BB0 /* first character */
-  ,0x8BB0 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[302] /* address of first character */
+   0x7F51 /* first character */
+  ,0x7F51 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[304] /* address of first character */
   ,&GUI_Fonthz_26_Prop223 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop221 = {
-   0x8BA4 /* first character */
-  ,0x8BA4 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[301] /* address of first character */
+   0x7F16 /* first character */
+  ,0x7F16 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[303] /* address of first character */
   ,&GUI_Fonthz_26_Prop222 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop220 = {
-   0x8B66 /* first character */
-  ,0x8B66 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[300] /* address of first character */
+   0x7F13 /* first character */
+  ,0x7F13 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[302] /* address of first character */
   ,&GUI_Fonthz_26_Prop221 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop219 = {
-   0x8A00 /* first character */
-  ,0x8A00 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[299] /* address of first character */
+   0x7EFC /* first character */
+  ,0x7EFC /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[301] /* address of first character */
   ,&GUI_Fonthz_26_Prop220 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop218 = {
-   0x89C4 /* first character */
-  ,0x89C4 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[298] /* address of first character */
+   0x7EED /* first character */
+  ,0x7EED /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[300] /* address of first character */
   ,&GUI_Fonthz_26_Prop219 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop217 = {
-   0x8986 /* first character */
-  ,0x8986 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[297] /* address of first character */
+   0x7EE7 /* first character */
+  ,0x7EE7 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[299] /* address of first character */
   ,&GUI_Fonthz_26_Prop218 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop216 = {
-   0x8981 /* first character */
-  ,0x8981 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[296] /* address of first character */
+   0x7EDF /* first character */
+  ,0x7EDF /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[298] /* address of first character */
   ,&GUI_Fonthz_26_Prop217 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop215 = {
-   0x88AB /* first character */
-  ,0x88AB /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[295] /* address of first character */
+   0x7ED3 /* first character */
+  ,0x7ED3 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[297] /* address of first character */
   ,&GUI_Fonthz_26_Prop216 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop214 = {
-   0x8868 /* first character */
-  ,0x8868 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[294] /* address of first character */
+   0x7EC6 /* first character */
+  ,0x7EC6 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[296] /* address of first character */
   ,&GUI_Fonthz_26_Prop215 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop213 = {
-   0x884C /* first character */
-  ,0x884C /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[293] /* address of first character */
+   0x7EC4 /* first character */
+  ,0x7EC4 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[295] /* address of first character */
   ,&GUI_Fonthz_26_Prop214 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop212 = {
-   0x8702 /* first character */
-  ,0x8702 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[292] /* address of first character */
+   0x7EA7 /* first character */
+  ,0x7EA7 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[294] /* address of first character */
   ,&GUI_Fonthz_26_Prop213 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop211 = {
-   0x8303 /* first character */
-  ,0x8303 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[291] /* address of first character */
+   0x7CFB /* first character */
+  ,0x7CFB /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[293] /* address of first character */
   ,&GUI_Fonthz_26_Prop212 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop210 = {
-   0x82F1 /* first character */
-  ,0x82F1 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[290] /* address of first character */
+   0x7BA1 /* first character */
+  ,0x7BA1 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[292] /* address of first character */
   ,&GUI_Fonthz_26_Prop211 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop209 = {
-   0x81F4 /* first character */
-  ,0x81F4 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[289] /* address of first character */
+   0x7B49 /* first character */
+  ,0x7B49 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[291] /* address of first character */
   ,&GUI_Fonthz_26_Prop210 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop208 = {
-   0x81EA /* first character */
-  ,0x81EA /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[288] /* address of first character */
+   0x7B2C /* first character */
+  ,0x7B2C /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[290] /* address of first character */
   ,&GUI_Fonthz_26_Prop209 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop207 = {
-   0x8131 /* first character */
-  ,0x8131 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[287] /* address of first character */
+   0x7B26 /* first character */
+  ,0x7B26 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[289] /* address of first character */
   ,&GUI_Fonthz_26_Prop208 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop206 = {
-   0x80FD /* first character */
-  ,0x80FD /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[286] /* address of first character */
+   0x7AEF /* first character */
+  ,0x7AEF /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[288] /* address of first character */
   ,&GUI_Fonthz_26_Prop207 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop205 = {
-   0x8054 /* first character */
-  ,0x8054 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[285] /* address of first character */
+   0x7AD9 /* first character */
+  ,0x7AD9 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[287] /* address of first character */
   ,&GUI_Fonthz_26_Prop206 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop204 = {
-   0x7F6E /* first character */
-  ,0x7F6E /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[284] /* address of first character */
+   0x7A7A /* first character */
+  ,0x7A7A /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[286] /* address of first character */
   ,&GUI_Fonthz_26_Prop205 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop203 = {
-   0x7F16 /* first character */
-  ,0x7F16 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[283] /* address of first character */
+   0x7A33 /* first character */
+  ,0x7A33 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[285] /* address of first character */
   ,&GUI_Fonthz_26_Prop204 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop202 = {
-   0x7F13 /* first character */
-  ,0x7F13 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[282] /* address of first character */
+   0x7A0B /* first character */
+  ,0x7A0B /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[284] /* address of first character */
   ,&GUI_Fonthz_26_Prop203 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop201 = {
-   0x7EFC /* first character */
-  ,0x7EFC /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[281] /* address of first character */
+   0x79FB /* first character */
+  ,0x79FB /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[283] /* address of first character */
   ,&GUI_Fonthz_26_Prop202 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop200 = {
-   0x7EED /* first character */
-  ,0x7EED /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[280] /* address of first character */
+   0x79F0 /* first character */
+  ,0x79F0 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[282] /* address of first character */
   ,&GUI_Fonthz_26_Prop201 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop199 = {
-   0x7EE7 /* first character */
-  ,0x7EE7 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[279] /* address of first character */
+   0x79D2 /* first character */
+  ,0x79D2 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[281] /* address of first character */
   ,&GUI_Fonthz_26_Prop200 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop198 = {
-   0x7EDF /* first character */
-  ,0x7EDF /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[278] /* address of first character */
+   0x793A /* first character */
+  ,0x793A /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[280] /* address of first character */
   ,&GUI_Fonthz_26_Prop199 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop197 = {
-   0x7ED3 /* first character */
-  ,0x7ED3 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[277] /* address of first character */
+   0x786E /* first character */
+  ,0x786E /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[279] /* address of first character */
   ,&GUI_Fonthz_26_Prop198 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop196 = {
-   0x7EC6 /* first character */
-  ,0x7EC6 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[276] /* address of first character */
+   0x786C /* first character */
+  ,0x786C /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[278] /* address of first character */
   ,&GUI_Fonthz_26_Prop197 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop195 = {
-   0x7EC4 /* first character */
-  ,0x7EC4 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[275] /* address of first character */
+   0x7801 /* first character */
+  ,0x7801 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[277] /* address of first character */
   ,&GUI_Fonthz_26_Prop196 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop194 = {
-   0x7EA7 /* first character */
-  ,0x7EA7 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[274] /* address of first character */
+   0x77ED /* first character */
+  ,0x77ED /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[276] /* address of first character */
   ,&GUI_Fonthz_26_Prop195 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop193 = {
-   0x7CFB /* first character */
-  ,0x7CFB /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[273] /* address of first character */
+   0x771F /* first character */
+  ,0x771F /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[275] /* address of first character */
   ,&GUI_Fonthz_26_Prop194 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop192 = {
-   0x7BA1 /* first character */
-  ,0x7BA1 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[272] /* address of first character */
+   0x76DB /* first character */
+  ,0x76DB /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[274] /* address of first character */
   ,&GUI_Fonthz_26_Prop193 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop191 = {
-   0x7B49 /* first character */
-  ,0x7B49 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[271] /* address of first character */
+   0x76D8 /* first character */
+  ,0x76D8 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[273] /* address of first character */
   ,&GUI_Fonthz_26_Prop192 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop190 = {
-   0x7B2C /* first character */
-  ,0x7B2C /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[270] /* address of first character */
+   0x76D6 /* first character */
+  ,0x76D6 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[272] /* address of first character */
   ,&GUI_Fonthz_26_Prop191 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop189 = {
-   0x7B26 /* first character */
-  ,0x7B26 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[269] /* address of first character */
+   0x7684 /* first character */
+  ,0x7684 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[271] /* address of first character */
   ,&GUI_Fonthz_26_Prop190 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop188 = {
-   0x7AEF /* first character */
-  ,0x7AEF /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[268] /* address of first character */
+   0x7535 /* first character */
+  ,0x7535 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[270] /* address of first character */
   ,&GUI_Fonthz_26_Prop189 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop187 = {
-   0x7A7A /* first character */
-  ,0x7A7A /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[267] /* address of first character */
+   0x7528 /* first character */
+  ,0x7528 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[269] /* address of first character */
   ,&GUI_Fonthz_26_Prop188 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop186 = {
-   0x7A33 /* first character */
-  ,0x7A33 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[266] /* address of first character */
+   0x7406 /* first character */
+  ,0x7406 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[268] /* address of first character */
   ,&GUI_Fonthz_26_Prop187 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop185 = {
-   0x7A0B /* first character */
-  ,0x7A0B /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[265] /* address of first character */
+   0x73AF /* first character */
+  ,0x73AF /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[267] /* address of first character */
   ,&GUI_Fonthz_26_Prop186 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop184 = {
-   0x79FB /* first character */
-  ,0x79FB /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[264] /* address of first character */
+   0x7387 /* first character */
+  ,0x7387 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[266] /* address of first character */
   ,&GUI_Fonthz_26_Prop185 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop183 = {
-   0x79F0 /* first character */
-  ,0x79F0 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[263] /* address of first character */
+   0x72B6 /* first character */
+  ,0x72B6 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[265] /* address of first character */
   ,&GUI_Fonthz_26_Prop184 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop182 = {
-   0x79D2 /* first character */
-  ,0x79D2 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[262] /* address of first character */
+   0x7248 /* first character */
+  ,0x7248 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[264] /* address of first character */
   ,&GUI_Fonthz_26_Prop183 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop181 = {
-   0x793A /* first character */
-  ,0x793A /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[261] /* address of first character */
+   0x70B9 /* first character */
+  ,0x70B9 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[263] /* address of first character */
   ,&GUI_Fonthz_26_Prop182 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop180 = {
-   0x786E /* first character */
-  ,0x786E /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[260] /* address of first character */
+   0x6EE8 /* first character */
+  ,0x6EE8 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[262] /* address of first character */
   ,&GUI_Fonthz_26_Prop181 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop179 = {
-   0x7801 /* first character */
-  ,0x7801 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[259] /* address of first character */
+   0x6EA2 /* first character */
+  ,0x6EA2 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[261] /* address of first character */
   ,&GUI_Fonthz_26_Prop180 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop178 = {
-   0x77ED /* first character */
-  ,0x77ED /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[258] /* address of first character */
+   0x6E90 /* first character */
+  ,0x6E90 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[260] /* address of first character */
   ,&GUI_Fonthz_26_Prop179 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop177 = {
-   0x771F /* first character */
-  ,0x771F /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[257] /* address of first character */
+   0x6E05 /* first character */
+  ,0x6E05 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[259] /* address of first character */
   ,&GUI_Fonthz_26_Prop178 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop176 = {
-   0x76D8 /* first character */
-  ,0x76D8 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[256] /* address of first character */
+   0x6DB2 /* first character */
+  ,0x6DB2 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[258] /* address of first character */
   ,&GUI_Fonthz_26_Prop177 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop175 = {
-   0x76D6 /* first character */
-  ,0x76D6 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[255] /* address of first character */
+   0x6D88 /* first character */
+  ,0x6D88 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[257] /* address of first character */
   ,&GUI_Fonthz_26_Prop176 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop174 = {
-   0x7535 /* first character */
-  ,0x7535 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[254] /* address of first character */
+   0x6D6E /* first character */
+  ,0x6D6E /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[256] /* address of first character */
   ,&GUI_Fonthz_26_Prop175 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop173 = {
-   0x7528 /* first character */
-  ,0x7528 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[253] /* address of first character */
+   0x6D4B /* first character */
+  ,0x6D4B /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[255] /* address of first character */
   ,&GUI_Fonthz_26_Prop174 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop172 = {
-   0x7406 /* first character */
-  ,0x7406 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[252] /* address of first character */
+   0x6D41 /* first character */
+  ,0x6D41 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[254] /* address of first character */
   ,&GUI_Fonthz_26_Prop173 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop171 = {
-   0x73AF /* first character */
-  ,0x73AF /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[251] /* address of first character */
+   0x6CE8 /* first character */
+  ,0x6CE8 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[253] /* address of first character */
   ,&GUI_Fonthz_26_Prop172 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop170 = {
-   0x7387 /* first character */
-  ,0x7387 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[250] /* address of first character */
+   0x6CD5 /* first character */
+  ,0x6CD5 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[252] /* address of first character */
   ,&GUI_Fonthz_26_Prop171 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop169 = {
-   0x72B6 /* first character */
-  ,0x72B6 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[249] /* address of first character */
+   0x6C5F /* first character */
+  ,0x6C5F /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[251] /* address of first character */
   ,&GUI_Fonthz_26_Prop170 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop168 = {
-   0x7248 /* first character */
-  ,0x7248 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[248] /* address of first character */
+   0x6BD4 /* first character */
+  ,0x6BD4 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[250] /* address of first character */
   ,&GUI_Fonthz_26_Prop169 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop167 = {
-   0x70B9 /* first character */
-  ,0x70B9 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[247] /* address of first character */
+   0x6B65 /* first character */
+  ,0x6B65 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[249] /* address of first character */
   ,&GUI_Fonthz_26_Prop168 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop166 = {
-   0x6EA2 /* first character */
-  ,0x6EA2 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[246] /* address of first character */
+   0x6B62 /* first character */
+  ,0x6B63 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[247] /* address of first character */
   ,&GUI_Fonthz_26_Prop167 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop165 = {
-   0x6E90 /* first character */
-  ,0x6E90 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[245] /* address of first character */
+   0x6A21 /* first character */
+  ,0x6A21 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[246] /* address of first character */
   ,&GUI_Fonthz_26_Prop166 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop164 = {
-   0x6E05 /* first character */
-  ,0x6E05 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[244] /* address of first character */
+   0x68C0 /* first character */
+  ,0x68C0 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[245] /* address of first character */
   ,&GUI_Fonthz_26_Prop165 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop163 = {
-   0x6DB2 /* first character */
-  ,0x6DB2 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[243] /* address of first character */
+   0x6863 /* first character */
+  ,0x6863 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[244] /* address of first character */
   ,&GUI_Fonthz_26_Prop164 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop162 = {
-   0x6D88 /* first character */
-  ,0x6D88 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[242] /* address of first character */
+   0x683C /* first character */
+  ,0x683C /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[243] /* address of first character */
   ,&GUI_Fonthz_26_Prop163 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop161 = {
-   0x6D6E /* first character */
-  ,0x6D6E /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[241] /* address of first character */
+   0x6821 /* first character */
+  ,0x6821 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[242] /* address of first character */
   ,&GUI_Fonthz_26_Prop162 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop160 = {
-   0x6D4B /* first character */
-  ,0x6D4B /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[240] /* address of first character */
+   0x680F /* first character */
+  ,0x680F /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[241] /* address of first character */
   ,&GUI_Fonthz_26_Prop161 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop159 = {
-   0x6D41 /* first character */
-  ,0x6D41 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[239] /* address of first character */
+   0x67E5 /* first character */
+  ,0x67E5 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[240] /* address of first character */
   ,&GUI_Fonthz_26_Prop160 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop158 = {
-   0x6CE8 /* first character */
-  ,0x6CE8 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[238] /* address of first character */
+   0x679C /* first character */
+  ,0x679C /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[239] /* address of first character */
   ,&GUI_Fonthz_26_Prop159 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop157 = {
-   0x6CD5 /* first character */
-  ,0x6CD5 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[237] /* address of first character */
+   0x675F /* first character */
+  ,0x675F /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[238] /* address of first character */
   ,&GUI_Fonthz_26_Prop158 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop156 = {
-   0x6BD4 /* first character */
-  ,0x6BD4 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[236] /* address of first character */
+   0x6743 /* first character */
+  ,0x6743 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[237] /* address of first character */
   ,&GUI_Fonthz_26_Prop157 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop155 = {
-   0x6B65 /* first character */
-  ,0x6B65 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[235] /* address of first character */
+   0x673A /* first character */
+  ,0x673A /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[236] /* address of first character */
   ,&GUI_Fonthz_26_Prop156 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop154 = {
-   0x6B62 /* first character */
-  ,0x6B63 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[233] /* address of first character */
+   0x672F /* first character */
+  ,0x672F /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[235] /* address of first character */
   ,&GUI_Fonthz_26_Prop155 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop153 = {
-   0x6A21 /* first character */
-  ,0x6A21 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[232] /* address of first character */
+   0x672C /* first character */
+  ,0x672C /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[234] /* address of first character */
   ,&GUI_Fonthz_26_Prop154 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop152 = {
-   0x68C0 /* first character */
-  ,0x68C0 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[231] /* address of first character */
+   0x672A /* first character */
+  ,0x672A /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[233] /* address of first character */
   ,&GUI_Fonthz_26_Prop153 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop151 = {
-   0x6863 /* first character */
-  ,0x6863 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[230] /* address of first character */
+   0x671F /* first character */
+  ,0x671F /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[232] /* address of first character */
   ,&GUI_Fonthz_26_Prop152 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop150 = {
-   0x683C /* first character */
-  ,0x683C /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[229] /* address of first character */
+   0x670D /* first character */
+  ,0x670D /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[231] /* address of first character */
   ,&GUI_Fonthz_26_Prop151 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop149 = {
-   0x6821 /* first character */
-  ,0x6821 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[228] /* address of first character */
+   0x6708 /* first character */
+  ,0x6709 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[229] /* address of first character */
   ,&GUI_Fonthz_26_Prop150 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop148 = {
-   0x680F /* first character */
-  ,0x680F /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[227] /* address of first character */
+   0x66F4 /* first character */
+  ,0x66F4 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[228] /* address of first character */
   ,&GUI_Fonthz_26_Prop149 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop147 = {
-   0x67E5 /* first character */
-  ,0x67E5 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[226] /* address of first character */
+   0x6676 /* first character */
+  ,0x6676 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[227] /* address of first character */
   ,&GUI_Fonthz_26_Prop148 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop146 = {
-   0x679C /* first character */
-  ,0x679C /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[225] /* address of first character */
+   0x663E /* first character */
+  ,0x663E /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[226] /* address of first character */
   ,&GUI_Fonthz_26_Prop147 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop145 = {
-   0x675F /* first character */
-  ,0x675F /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[224] /* address of first character */
+   0x662F /* first character */
+  ,0x662F /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[225] /* address of first character */
   ,&GUI_Fonthz_26_Prop146 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop144 = {
-   0x6743 /* first character */
-  ,0x6743 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[223] /* address of first character */
+   0x65F6 /* first character */
+  ,0x65F6 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[224] /* address of first character */
   ,&GUI_Fonthz_26_Prop145 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop143 = {
-   0x673A /* first character */
-  ,0x673A /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[222] /* address of first character */
+   0x65E5 /* first character */
+  ,0x65E5 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[223] /* address of first character */
   ,&GUI_Fonthz_26_Prop144 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop142 = {
-   0x672C /* first character */
-  ,0x672C /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[221] /* address of first character */
+   0x65E0 /* first character */
+  ,0x65E0 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[222] /* address of first character */
   ,&GUI_Fonthz_26_Prop143 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop141 = {
-   0x672A /* first character */
-  ,0x672A /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[220] /* address of first character */
+   0x65B0 /* first character */
+  ,0x65B0 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[221] /* address of first character */
   ,&GUI_Fonthz_26_Prop142 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop140 = {
-   0x671F /* first character */
-  ,0x671F /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[219] /* address of first character */
+   0x65AD /* first character */
+  ,0x65AD /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[220] /* address of first character */
   ,&GUI_Fonthz_26_Prop141 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop139 = {
-   0x6708 /* first character */
-  ,0x6709 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[217] /* address of first character */
+   0x6587 /* first character */
+  ,0x6587 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[219] /* address of first character */
   ,&GUI_Fonthz_26_Prop140 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop138 = {
-   0x66F4 /* first character */
-  ,0x66F4 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[216] /* address of first character */
+   0x6570 /* first character */
+  ,0x6570 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[218] /* address of first character */
   ,&GUI_Fonthz_26_Prop139 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop137 = {
-   0x6676 /* first character */
-  ,0x6676 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[215] /* address of first character */
+   0x653E /* first character */
+  ,0x653E /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[217] /* address of first character */
   ,&GUI_Fonthz_26_Prop138 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop136 = {
-   0x663E /* first character */
-  ,0x663E /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[214] /* address of first character */
+   0x6539 /* first character */
+  ,0x6539 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[216] /* address of first character */
   ,&GUI_Fonthz_26_Prop137 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop135 = {
-   0x662F /* first character */
-  ,0x662F /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[213] /* address of first character */
+   0x64CD /* first character */
+  ,0x64CD /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[215] /* address of first character */
   ,&GUI_Fonthz_26_Prop136 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop134 = {
-   0x65F6 /* first character */
-  ,0x65F6 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[212] /* address of first character */
+   0x63D2 /* first character */
+  ,0x63D2 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[214] /* address of first character */
   ,&GUI_Fonthz_26_Prop135 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop133 = {
-   0x65E5 /* first character */
-  ,0x65E5 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[211] /* address of first character */
+   0x63D0 /* first character */
+  ,0x63D0 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[213] /* address of first character */
   ,&GUI_Fonthz_26_Prop134 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop132 = {
-   0x65E0 /* first character */
-  ,0x65E0 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[210] /* address of first character */
+   0x63A7 /* first character */
+  ,0x63A7 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[212] /* address of first character */
   ,&GUI_Fonthz_26_Prop133 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop131 = {
-   0x65B0 /* first character */
-  ,0x65B0 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[209] /* address of first character */
+   0x63A5 /* first character */
+  ,0x63A5 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[211] /* address of first character */
   ,&GUI_Fonthz_26_Prop132 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop130 = {
-   0x65AD /* first character */
-  ,0x65AD /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[208] /* address of first character */
+   0x636E /* first character */
+  ,0x636E /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[210] /* address of first character */
   ,&GUI_Fonthz_26_Prop131 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop129 = {
-   0x6587 /* first character */
-  ,0x6587 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[207] /* address of first character */
+   0x6362 /* first character */
+  ,0x6362 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[209] /* address of first character */
   ,&GUI_Fonthz_26_Prop130 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop128 = {
-   0x6570 /* first character */
-  ,0x6570 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[206] /* address of first character */
+   0x62E9 /* first character */
+  ,0x62E9 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[208] /* address of first character */
   ,&GUI_Fonthz_26_Prop129 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop127 = {
-   0x653E /* first character */
-  ,0x653E /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[205] /* address of first character */
+   0x62A4 /* first character */
+  ,0x62A5 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[206] /* address of first character */
   ,&GUI_Fonthz_26_Prop128 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop126 = {
-   0x6539 /* first character */
-  ,0x6539 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[204] /* address of first character */
+   0x6280 /* first character */
+  ,0x6280 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[205] /* address of first character */
   ,&GUI_Fonthz_26_Prop127 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop125 = {
-   0x64CD /* first character */
-  ,0x64CD /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[203] /* address of first character */
+   0x6267 /* first character */
+  ,0x6267 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[204] /* address of first character */
   ,&GUI_Fonthz_26_Prop126 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop124 = {
-   0x63D2 /* first character */
-  ,0x63D2 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[202] /* address of first character */
+   0x6240 /* first character */
+  ,0x6240 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[203] /* address of first character */
   ,&GUI_Fonthz_26_Prop125 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop123 = {
-   0x63D0 /* first character */
-  ,0x63D0 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[201] /* address of first character */
+   0x6237 /* first character */
+  ,0x6237 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[202] /* address of first character */
   ,&GUI_Fonthz_26_Prop124 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop122 = {
-   0x63A7 /* first character */
-  ,0x63A7 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[200] /* address of first character */
+   0x6210 /* first character */
+  ,0x6210 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[201] /* address of first character */
   ,&GUI_Fonthz_26_Prop123 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop121 = {
-   0x63A5 /* first character */
-  ,0x63A5 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[199] /* address of first character */
+   0x610F /* first character */
+  ,0x610F /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[200] /* address of first character */
   ,&GUI_Fonthz_26_Prop122 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop120 = {
-   0x636E /* first character */
-  ,0x636E /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[198] /* address of first character */
+   0x606F /* first character */
+  ,0x606F /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[199] /* address of first character */
   ,&GUI_Fonthz_26_Prop121 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop119 = {
-   0x6362 /* first character */
-  ,0x6362 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[197] /* address of first character */
+   0x6062 /* first character */
+  ,0x6062 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[198] /* address of first character */
   ,&GUI_Fonthz_26_Prop120 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop118 = {
-   0x62E9 /* first character */
-  ,0x62E9 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[196] /* address of first character */
+   0x603B /* first character */
+  ,0x603B /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[197] /* address of first character */
   ,&GUI_Fonthz_26_Prop119 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop117 = {
-   0x62A4 /* first character */
-  ,0x62A5 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[194] /* address of first character */
+   0x6001 /* first character */
+  ,0x6001 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[196] /* address of first character */
   ,&GUI_Fonthz_26_Prop118 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop116 = {
-   0x6267 /* first character */
-  ,0x6267 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[193] /* address of first character */
+   0x5FD7 /* first character */
+  ,0x5FD7 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[195] /* address of first character */
   ,&GUI_Fonthz_26_Prop117 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop115 = {
-   0x6240 /* first character */
-  ,0x6240 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[192] /* address of first character */
+   0x5FC6 /* first character */
+  ,0x5FC6 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[194] /* address of first character */
   ,&GUI_Fonthz_26_Prop116 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop114 = {
-   0x6237 /* first character */
-  ,0x6237 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[191] /* address of first character */
+   0x5FAE /* first character */
+  ,0x5FAE /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[193] /* address of first character */
   ,&GUI_Fonthz_26_Prop115 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop113 = {
-   0x6210 /* first character */
-  ,0x6210 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[190] /* address of first character */
+   0x5F85 /* first character */
+  ,0x5F85 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[192] /* address of first character */
   ,&GUI_Fonthz_26_Prop114 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop112 = {
-   0x610F /* first character */
-  ,0x610F /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[189] /* address of first character */
+   0x5F55 /* first character */
+  ,0x5F55 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[191] /* address of first character */
   ,&GUI_Fonthz_26_Prop113 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop111 = {
-   0x606F /* first character */
-  ,0x606F /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[188] /* address of first character */
+   0x5F27 /* first character */
+  ,0x5F27 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[190] /* address of first character */
   ,&GUI_Fonthz_26_Prop112 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop110 = {
-   0x6062 /* first character */
-  ,0x6062 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[187] /* address of first character */
+   0x5F0F /* first character */
+  ,0x5F0F /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[189] /* address of first character */
   ,&GUI_Fonthz_26_Prop111 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop109 = {
-   0x603B /* first character */
-  ,0x603B /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[186] /* address of first character */
+   0x5F02 /* first character */
+  ,0x5F02 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[188] /* address of first character */
   ,&GUI_Fonthz_26_Prop110 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop108 = {
-   0x6001 /* first character */
-  ,0x6001 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[185] /* address of first character */
+   0x5F00 /* first character */
+  ,0x5F00 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[187] /* address of first character */
   ,&GUI_Fonthz_26_Prop109 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop107 = {
-   0x5FD7 /* first character */
-  ,0x5FD7 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[184] /* address of first character */
+   0x5EFA /* first character */
+  ,0x5EFA /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[186] /* address of first character */
   ,&GUI_Fonthz_26_Prop108 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop106 = {
-   0x5FC6 /* first character */
-  ,0x5FC6 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[183] /* address of first character */
+   0x5EF6 /* first character */
+  ,0x5EF6 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[185] /* address of first character */
   ,&GUI_Fonthz_26_Prop107 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop105 = {
-   0x5F85 /* first character */
-  ,0x5F85 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[182] /* address of first character */
+   0x5EA6 /* first character */
+  ,0x5EA6 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[184] /* address of first character */
   ,&GUI_Fonthz_26_Prop106 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop104 = {
-   0x5F55 /* first character */
-  ,0x5F55 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[181] /* address of first character */
+   0x5E74 /* first character */
+  ,0x5E74 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[183] /* address of first character */
   ,&GUI_Fonthz_26_Prop105 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop103 = {
-   0x5F27 /* first character */
-  ,0x5F27 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[180] /* address of first character */
+   0x5E38 /* first character */
+  ,0x5E38 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[182] /* address of first character */
   ,&GUI_Fonthz_26_Prop104 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop102 = {
-   0x5F0F /* first character */
-  ,0x5F0F /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[179] /* address of first character */
+   0x5E2E /* first character */
+  ,0x5E2E /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[181] /* address of first character */
   ,&GUI_Fonthz_26_Prop103 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop101 = {
-   0x5F02 /* first character */
-  ,0x5F02 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[178] /* address of first character */
+   0x5DF2 /* first character */
+  ,0x5DF2 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[180] /* address of first character */
   ,&GUI_Fonthz_26_Prop102 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop100 = {
-   0x5F00 /* first character */
-  ,0x5F00 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[177] /* address of first character */
+   0x5DE5 /* first character */
+  ,0x5DE5 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[179] /* address of first character */
   ,&GUI_Fonthz_26_Prop101 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop99 = {
-   0x5EFA /* first character */
-  ,0x5EFA /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[176] /* address of first character */
+   0x5C3E /* first character */
+  ,0x5C3E /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[178] /* address of first character */
   ,&GUI_Fonthz_26_Prop100 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop98 = {
-   0x5EF6 /* first character */
-  ,0x5EF6 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[175] /* address of first character */
+   0x5C0F /* first character */
+  ,0x5C0F /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[177] /* address of first character */
   ,&GUI_Fonthz_26_Prop99 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop97 = {
-   0x5EA6 /* first character */
-  ,0x5EA6 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[174] /* address of first character */
+   0x5BFC /* first character */
+  ,0x5BFC /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[176] /* address of first character */
   ,&GUI_Fonthz_26_Prop98 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop96 = {
-   0x5E74 /* first character */
-  ,0x5E74 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[173] /* address of first character */
+   0x5BF9 /* first character */
+  ,0x5BF9 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[175] /* address of first character */
   ,&GUI_Fonthz_26_Prop97 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop95 = {
-   0x5E38 /* first character */
-  ,0x5E38 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[172] /* address of first character */
+   0x5BC6 /* first character */
+  ,0x5BC6 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[174] /* address of first character */
   ,&GUI_Fonthz_26_Prop96 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop94 = {
-   0x5E2E /* first character */
-  ,0x5E2E /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[171] /* address of first character */
+   0x5B9E /* first character */
+  ,0x5B9E /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[173] /* address of first character */
   ,&GUI_Fonthz_26_Prop95 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop93 = {
-   0x5DF2 /* first character */
-  ,0x5DF2 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[170] /* address of first character */
+   0x5B9A /* first character */
+  ,0x5B9A /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[172] /* address of first character */
   ,&GUI_Fonthz_26_Prop94 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop92 = {
-   0x5DE5 /* first character */
-  ,0x5DE5 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[169] /* address of first character */
+   0x5B89 /* first character */
+  ,0x5B89 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[171] /* address of first character */
   ,&GUI_Fonthz_26_Prop93 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop91 = {
-   0x5C3E /* first character */
-  ,0x5C3E /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[168] /* address of first character */
+   0x5B81 /* first character */
+  ,0x5B81 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[170] /* address of first character */
   ,&GUI_Fonthz_26_Prop92 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop90 = {
-   0x5C0F /* first character */
-  ,0x5C0F /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[167] /* address of first character */
+   0x5B57 /* first character */
+  ,0x5B58 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[168] /* address of first character */
   ,&GUI_Fonthz_26_Prop91 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop89 = {
-   0x5BFC /* first character */
-  ,0x5BFC /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[166] /* address of first character */
+   0x59CB /* first character */
+  ,0x59CB /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[167] /* address of first character */
   ,&GUI_Fonthz_26_Prop90 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop88 = {
-   0x5BF9 /* first character */
-  ,0x5BF9 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[165] /* address of first character */
+   0x5934 /* first character */
+  ,0x5934 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[166] /* address of first character */
   ,&GUI_Fonthz_26_Prop89 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop87 = {
-   0x5BC6 /* first character */
-  ,0x5BC6 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[164] /* address of first character */
+   0x5931 /* first character */
+  ,0x5931 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[165] /* address of first character */
   ,&GUI_Fonthz_26_Prop88 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop86 = {
-   0x5B9E /* first character */
-  ,0x5B9E /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[163] /* address of first character */
+   0x5927 /* first character */
+  ,0x5927 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[164] /* address of first character */
   ,&GUI_Fonthz_26_Prop87 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop85 = {
-   0x5B9A /* first character */
-  ,0x5B9A /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[162] /* address of first character */
+   0x591A /* first character */
+  ,0x591A /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[163] /* address of first character */
   ,&GUI_Fonthz_26_Prop86 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop84 = {
-   0x5B89 /* first character */
-  ,0x5B89 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[161] /* address of first character */
+   0x590D /* first character */
+  ,0x590D /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[162] /* address of first character */
   ,&GUI_Fonthz_26_Prop85 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop83 = {
-   0x5B57 /* first character */
-  ,0x5B58 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[159] /* address of first character */
+   0x5883 /* first character */
+  ,0x5883 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[161] /* address of first character */
   ,&GUI_Fonthz_26_Prop84 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop82 = {
-   0x59CB /* first character */
-  ,0x59CB /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[158] /* address of first character */
+   0x578B /* first character */
+  ,0x578B /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[160] /* address of first character */
   ,&GUI_Fonthz_26_Prop83 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop81 = {
-   0x5934 /* first character */
-  ,0x5934 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[157] /* address of first character */
+   0x5757 /* first character */
+  ,0x5757 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[159] /* address of first character */
   ,&GUI_Fonthz_26_Prop82 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop80 = {
-   0x5931 /* first character */
-  ,0x5931 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[156] /* address of first character */
+   0x5740 /* first character */
+  ,0x5740 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[158] /* address of first character */
   ,&GUI_Fonthz_26_Prop81 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop79 = {
-   0x5927 /* first character */
-  ,0x5927 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[155] /* address of first character */
+   0x5730 /* first character */
+  ,0x5730 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[157] /* address of first character */
   ,&GUI_Fonthz_26_Prop80 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop78 = {
-   0x591A /* first character */
-  ,0x591A /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[154] /* address of first character */
+   0x5728 /* first character */
+  ,0x5728 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[156] /* address of first character */
   ,&GUI_Fonthz_26_Prop79 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop77 = {
-   0x590D /* first character */
-  ,0x590D /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[153] /* address of first character */
+   0x56F4 /* first character */
+  ,0x56F4 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[155] /* address of first character */
   ,&GUI_Fonthz_26_Prop78 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop76 = {
-   0x5883 /* first character */
-  ,0x5883 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[152] /* address of first character */
+   0x56DE /* first character */
+  ,0x56DE /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[154] /* address of first character */
   ,&GUI_Fonthz_26_Prop77 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop75 = {
-   0x578B /* first character */
-  ,0x578B /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[151] /* address of first character */
+   0x56DB /* first character */
+  ,0x56DB /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[153] /* address of first character */
   ,&GUI_Fonthz_26_Prop76 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop74 = {
-   0x5757 /* first character */
-  ,0x5757 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[150] /* address of first character */
+   0x5668 /* first character */
+  ,0x5668 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[152] /* address of first character */
   ,&GUI_Fonthz_26_Prop75 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop73 = {
-   0x5740 /* first character */
-  ,0x5740 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[149] /* address of first character */
+   0x54C1 /* first character */
+  ,0x54C1 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[151] /* address of first character */
   ,&GUI_Fonthz_26_Prop74 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop72 = {
-   0x5730 /* first character */
-  ,0x5730 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[148] /* address of first character */
+   0x544A /* first character */
+  ,0x544A /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[150] /* address of first character */
   ,&GUI_Fonthz_26_Prop73 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop71 = {
-   0x5728 /* first character */
-  ,0x5728 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[147] /* address of first character */
+   0x542F /* first character */
+  ,0x542F /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[149] /* address of first character */
   ,&GUI_Fonthz_26_Prop72 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop70 = {
-   0x56F4 /* first character */
-  ,0x56F4 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[146] /* address of first character */
+   0x5426 /* first character */
+  ,0x5426 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[148] /* address of first character */
   ,&GUI_Fonthz_26_Prop71 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop69 = {
-   0x56DE /* first character */
-  ,0x56DE /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[145] /* address of first character */
+   0x5417 /* first character */
+  ,0x5417 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[147] /* address of first character */
   ,&GUI_Fonthz_26_Prop70 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop68 = {
-   0x56DB /* first character */
-  ,0x56DB /* last character  */
+   0x540C /* first character */
+  ,0x540E /* last character  */
   ,&GUI_Fonthz_26_CharInfo[144] /* address of first character */
   ,&GUI_Fonthz_26_Prop69 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop67 = {
-   0x54C1 /* first character */
-  ,0x54C1 /* last character  */
+   0x5408 /* first character */
+  ,0x5408 /* last character  */
   ,&GUI_Fonthz_26_CharInfo[143] /* address of first character */
   ,&GUI_Fonthz_26_Prop68 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop66 = {
-   0x544A /* first character */
-  ,0x544A /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[142] /* address of first character */
+   0x53F7 /* first character */
+  ,0x53F8 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[141] /* address of first character */
   ,&GUI_Fonthz_26_Prop67 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop65 = {
-   0x542F /* first character */
-  ,0x542F /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[141] /* address of first character */
+   0x53E3 /* first character */
+  ,0x53E3 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[140] /* address of first character */
   ,&GUI_Fonthz_26_Prop66 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop64 = {
-   0x5426 /* first character */
-  ,0x5426 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[140] /* address of first character */
+   0x53D8 /* first character */
+  ,0x53D8 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[139] /* address of first character */
   ,&GUI_Fonthz_26_Prop65 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop63 = {
-   0x5417 /* first character */
-  ,0x5417 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[139] /* address of first character */
+   0x53D6 /* first character */
+  ,0x53D6 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[138] /* address of first character */
   ,&GUI_Fonthz_26_Prop64 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop62 = {
-   0x540C /* first character */
-  ,0x540E /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[136] /* address of first character */
+   0x53D1 /* first character */
+  ,0x53D1 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[137] /* address of first character */
   ,&GUI_Fonthz_26_Prop63 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop61 = {
-   0x5408 /* first character */
-  ,0x5408 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[135] /* address of first character */
+   0x53C2 /* first character */
+  ,0x53C2 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[136] /* address of first character */
   ,&GUI_Fonthz_26_Prop62 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop60 = {
-   0x53F7 /* first character */
-  ,0x53F7 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[134] /* address of first character */
+   0x539F /* first character */
+  ,0x539F /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[135] /* address of first character */
   ,&GUI_Fonthz_26_Prop61 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop59 = {
-   0x53E3 /* first character */
-  ,0x53E3 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[133] /* address of first character */
+   0x538B /* first character */
+  ,0x538B /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[134] /* address of first character */
   ,&GUI_Fonthz_26_Prop60 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop58 = {
-   0x53D8 /* first character */
-  ,0x53D8 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[132] /* address of first character */
+   0x5382 /* first character */
+  ,0x5382 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[133] /* address of first character */
   ,&GUI_Fonthz_26_Prop59 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop57 = {
-   0x53D6 /* first character */
-  ,0x53D6 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[131] /* address of first character */
+   0x5357 /* first character */
+  ,0x5357 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[132] /* address of first character */
   ,&GUI_Fonthz_26_Prop58 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop56 = {
-   0x53C2 /* first character */
-  ,0x53C2 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[130] /* address of first character */
+   0x5347 /* first character */
+  ,0x5347 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[131] /* address of first character */
   ,&GUI_Fonthz_26_Prop57 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop55 = {
-   0x539F /* first character */
-  ,0x539F /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[129] /* address of first character */
+   0x533A /* first character */
+  ,0x533A /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[130] /* address of first character */
   ,&GUI_Fonthz_26_Prop56 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop54 = {
-   0x538B /* first character */
-  ,0x538B /* last character  */
+   0x52A8 /* first character */
+  ,0x52A9 /* last character  */
   ,&GUI_Fonthz_26_CharInfo[128] /* address of first character */
   ,&GUI_Fonthz_26_Prop55 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop53 = {
-   0x5382 /* first character */
-  ,0x5382 /* last character  */
+   0x52A1 /* first character */
+  ,0x52A1 /* last character  */
   ,&GUI_Fonthz_26_CharInfo[127] /* address of first character */
   ,&GUI_Fonthz_26_Prop54 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop52 = {
-   0x5347 /* first character */
-  ,0x5347 /* last character  */
+   0x529F /* first character */
+  ,0x529F /* last character  */
   ,&GUI_Fonthz_26_CharInfo[126] /* address of first character */
   ,&GUI_Fonthz_26_Prop53 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop51 = {
-   0x52A8 /* first character */
-  ,0x52A9 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[124] /* address of first character */
+   0x524D /* first character */
+  ,0x524D /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[125] /* address of first character */
   ,&GUI_Fonthz_26_Prop52 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop50 = {
-   0x529F /* first character */
-  ,0x529F /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[123] /* address of first character */
+   0x5220 /* first character */
+  ,0x5220 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[124] /* address of first character */
   ,&GUI_Fonthz_26_Prop51 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop49 = {
-   0x524D /* first character */
-  ,0x524D /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[122] /* address of first character */
+   0x521B /* first character */
+  ,0x521B /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[123] /* address of first character */
   ,&GUI_Fonthz_26_Prop50 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop48 = {
-   0x5220 /* first character */
-  ,0x5220 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[121] /* address of first character */
+   0x5219 /* first character */
+  ,0x5219 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[122] /* address of first character */
   ,&GUI_Fonthz_26_Prop49 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop47 = {
-   0x521B /* first character */
-  ,0x521B /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[120] /* address of first character */
+   0x5217 /* first character */
+  ,0x5217 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[121] /* address of first character */
   ,&GUI_Fonthz_26_Prop48 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop46 = {
-   0x5219 /* first character */
-  ,0x5219 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[119] /* address of first character */
+   0x5206 /* first character */
+  ,0x5206 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[120] /* address of first character */
   ,&GUI_Fonthz_26_Prop47 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop45 = {
-   0x5217 /* first character */
-  ,0x5217 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[118] /* address of first character */
+   0x51FA /* first character */
+  ,0x51FA /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[119] /* address of first character */
   ,&GUI_Fonthz_26_Prop46 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop44 = {
-   0x5206 /* first character */
-  ,0x5206 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[117] /* address of first character */
+   0x51C6 /* first character */
+  ,0x51C6 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[118] /* address of first character */
   ,&GUI_Fonthz_26_Prop45 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop43 = {
-   0x51FA /* first character */
-  ,0x51FA /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[116] /* address of first character */
+   0x5199 /* first character */
+  ,0x5199 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[117] /* address of first character */
   ,&GUI_Fonthz_26_Prop44 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop42 = {
-   0x51C6 /* first character */
-  ,0x51C6 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[115] /* address of first character */
+   0x5173 /* first character */
+  ,0x5173 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[116] /* address of first character */
   ,&GUI_Fonthz_26_Prop43 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop41 = {
-   0x5199 /* first character */
-  ,0x5199 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[114] /* address of first character */
+   0x516C /* first character */
+  ,0x516C /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[115] /* address of first character */
   ,&GUI_Fonthz_26_Prop42 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop40 = {
-   0x5173 /* first character */
-  ,0x5173 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[113] /* address of first character */
+   0x5165 /* first character */
+  ,0x5165 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[114] /* address of first character */
   ,&GUI_Fonthz_26_Prop41 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop39 = {
-   0x5165 /* first character */
-  ,0x5165 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[112] /* address of first character */
+   0x5145 /* first character */
+  ,0x5145 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[113] /* address of first character */
   ,&GUI_Fonthz_26_Prop40 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop38 = {
-   0x5145 /* first character */
-  ,0x5145 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[111] /* address of first character */
+   0x5141 /* first character */
+  ,0x5141 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[112] /* address of first character */
   ,&GUI_Fonthz_26_Prop39 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop37 = {
-   0x5141 /* first character */
-  ,0x5141 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[110] /* address of first character */
+   0x50A8 /* first character */
+  ,0x50A8 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[111] /* address of first character */
   ,&GUI_Fonthz_26_Prop38 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop36 = {
-   0x50A8 /* first character */
-  ,0x50A8 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[109] /* address of first character */
+   0x505C /* first character */
+  ,0x505C /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[110] /* address of first character */
   ,&GUI_Fonthz_26_Prop37 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop35 = {
-   0x505C /* first character */
-  ,0x505C /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[108] /* address of first character */
+   0x503C /* first character */
+  ,0x503C /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[109] /* address of first character */
   ,&GUI_Fonthz_26_Prop36 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop34 = {
-   0x503C /* first character */
-  ,0x503C /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[107] /* address of first character */
+   0x4FEE /* first character */
+  ,0x4FEE /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[108] /* address of first character */
   ,&GUI_Fonthz_26_Prop35 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop33 = {
-   0x4FEE /* first character */
-  ,0x4FEE /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[106] /* address of first character */
+   0x4FE1 /* first character */
+  ,0x4FE1 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[107] /* address of first character */
   ,&GUI_Fonthz_26_Prop34 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop32 = {
-   0x4FE1 /* first character */
-  ,0x4FE1 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[105] /* address of first character */
+   0x4FDD /* first character */
+  ,0x4FDD /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[106] /* address of first character */
   ,&GUI_Fonthz_26_Prop33 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop31 = {
-   0x4FDD /* first character */
-  ,0x4FDD /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[104] /* address of first character */
+   0x4FA6 /* first character */
+  ,0x4FA6 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[105] /* address of first character */
   ,&GUI_Fonthz_26_Prop32 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop30 = {
-   0x4FA6 /* first character */
-  ,0x4FA6 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[103] /* address of first character */
+   0x4F5C /* first character */
+  ,0x4F5C /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[104] /* address of first character */
   ,&GUI_Fonthz_26_Prop31 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop29 = {
-   0x4F5C /* first character */
-  ,0x4F5C /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[102] /* address of first character */
+   0x4F59 /* first character */
+  ,0x4F59 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[103] /* address of first character */
   ,&GUI_Fonthz_26_Prop30 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop28 = {
-   0x4F59 /* first character */
-  ,0x4F59 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[101] /* address of first character */
+   0x4F4D /* first character */
+  ,0x4F4D /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[102] /* address of first character */
   ,&GUI_Fonthz_26_Prop29 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop27 = {
-   0x4F4D /* first character */
-  ,0x4F4D /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[100] /* address of first character */
+   0x4F1A /* first character */
+  ,0x4F1A /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[101] /* address of first character */
   ,&GUI_Fonthz_26_Prop28 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop26 = {
-   0x4F1A /* first character */
-  ,0x4F1A /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[ 99] /* address of first character */
+   0x4EF6 /* first character */
+  ,0x4EF6 /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[100] /* address of first character */
   ,&GUI_Fonthz_26_Prop27 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop25 = {
-   0x4EF6 /* first character */
-  ,0x4EF6 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[ 98] /* address of first character */
+   0x4EEA /* first character */
+  ,0x4EEA /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[ 99] /* address of first character */
   ,&GUI_Fonthz_26_Prop26 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop24 = {
-   0x4EEA /* first character */
-  ,0x4EEA /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[ 97] /* address of first character */
+   0x4EAC /* first character */
+  ,0x4EAC /* last character  */
+  ,&GUI_Fonthz_26_CharInfo[ 98] /* address of first character */
   ,&GUI_Fonthz_26_Prop25 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop23 = {
    0x4EA7 /* first character */
   ,0x4EA7 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[ 96] /* address of first character */
+  ,&GUI_Fonthz_26_CharInfo[ 97] /* address of first character */
   ,&GUI_Fonthz_26_Prop24 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop22 = {
    0x4E8E /* first character */
   ,0x4E8E /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[ 95] /* address of first character */
+  ,&GUI_Fonthz_26_CharInfo[ 96] /* address of first character */
   ,&GUI_Fonthz_26_Prop23 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop21 = {
    0x4E49 /* first character */
   ,0x4E49 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[ 94] /* address of first character */
+  ,&GUI_Fonthz_26_CharInfo[ 95] /* address of first character */
   ,&GUI_Fonthz_26_Prop22 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop20 = {
    0x4E3A /* first character */
   ,0x4E3A /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[ 93] /* address of first character */
+  ,&GUI_Fonthz_26_CharInfo[ 94] /* address of first character */
   ,&GUI_Fonthz_26_Prop21 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop19 = {
    0x4E32 /* first character */
   ,0x4E32 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[ 92] /* address of first character */
+  ,&GUI_Fonthz_26_CharInfo[ 93] /* address of first character */
   ,&GUI_Fonthz_26_Prop20 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop18 = {
    0x4E2D /* first character */
   ,0x4E2D /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[ 91] /* address of first character */
+  ,&GUI_Fonthz_26_CharInfo[ 92] /* address of first character */
   ,&GUI_Fonthz_26_Prop19 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop17 = {
    0x4E2A /* first character */
   ,0x4E2A /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[ 90] /* address of first character */
+  ,&GUI_Fonthz_26_CharInfo[ 91] /* address of first character */
   ,&GUI_Fonthz_26_Prop18 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop16 = {
    0x4E22 /* first character */
   ,0x4E22 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[ 89] /* address of first character */
+  ,&GUI_Fonthz_26_CharInfo[ 90] /* address of first character */
   ,&GUI_Fonthz_26_Prop17 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop15 = {
    0x4E0D /* first character */
   ,0x4E0D /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[ 88] /* address of first character */
+  ,&GUI_Fonthz_26_CharInfo[ 89] /* address of first character */
   ,&GUI_Fonthz_26_Prop16 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop14 = {
    0x4E0A /* first character */
   ,0x4E0B /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[ 86] /* address of first character */
+  ,&GUI_Fonthz_26_CharInfo[ 87] /* address of first character */
   ,&GUI_Fonthz_26_Prop15 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop13 = {
    0x4E00 /* first character */
   ,0x4E00 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[ 85] /* address of first character */
+  ,&GUI_Fonthz_26_CharInfo[ 86] /* address of first character */
   ,&GUI_Fonthz_26_Prop14 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop12 = {
    0x03BC /* first character */
   ,0x03BC /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[ 84] /* address of first character */
+  ,&GUI_Fonthz_26_CharInfo[ 85] /* address of first character */
   ,&GUI_Fonthz_26_Prop13 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop11 = {
    0x03A9 /* first character */
   ,0x03A9 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[ 83] /* address of first character */
+  ,&GUI_Fonthz_26_CharInfo[ 84] /* address of first character */
   ,&GUI_Fonthz_26_Prop12 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop10 = {
    0x007D /* first character */
   ,0x007D /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[ 82] /* address of first character */
+  ,&GUI_Fonthz_26_CharInfo[ 83] /* address of first character */
   ,&GUI_Fonthz_26_Prop11 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop9 = {
    0x0061 /* first character */
   ,0x007B /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[ 55] /* address of first character */
+  ,&GUI_Fonthz_26_CharInfo[ 56] /* address of first character */
   ,&GUI_Fonthz_26_Prop10 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop8 = {
    0x005F /* first character */
   ,0x005F /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[ 54] /* address of first character */
+  ,&GUI_Fonthz_26_CharInfo[ 55] /* address of first character */
   ,&GUI_Fonthz_26_Prop9 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop7 = {
    0x005D /* first character */
   ,0x005D /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[ 53] /* address of first character */
+  ,&GUI_Fonthz_26_CharInfo[ 54] /* address of first character */
   ,&GUI_Fonthz_26_Prop8 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop6 = {
    0x0041 /* first character */
   ,0x005B /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[ 26] /* address of first character */
+  ,&GUI_Fonthz_26_CharInfo[ 27] /* address of first character */
   ,&GUI_Fonthz_26_Prop7 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop5 = {
    0x003F /* first character */
   ,0x003F /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[ 25] /* address of first character */
+  ,&GUI_Fonthz_26_CharInfo[ 26] /* address of first character */
   ,&GUI_Fonthz_26_Prop6 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop4 = {
    0x003D /* first character */
   ,0x003D /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[ 24] /* address of first character */
+  ,&GUI_Fonthz_26_CharInfo[ 25] /* address of first character */
   ,&GUI_Fonthz_26_Prop5 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop3 = {
    0x0027 /* first character */
   ,0x003A /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[  4] /* address of first character */
+  ,&GUI_Fonthz_26_CharInfo[  5] /* address of first character */
   ,&GUI_Fonthz_26_Prop4 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop2 = {
    0x0025 /* first character */
   ,0x0025 /* last character  */
-  ,&GUI_Fonthz_26_CharInfo[  3] /* address of first character */
+  ,&GUI_Fonthz_26_CharInfo[  4] /* address of first character */
   ,&GUI_Fonthz_26_Prop3 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fonthz_26_Prop1 = {
    0x0020 /* first character */
-  ,0x0022 /* last character  */
+  ,0x0023 /* last character  */
   ,&GUI_Fonthz_26_CharInfo[  0] /* address of first character */
   ,&GUI_Fonthz_26_Prop2 /* pointer to next GUI_FONT_PROP_EXT */
 };

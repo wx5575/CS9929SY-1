@@ -518,7 +518,8 @@ void main_ui_enter(void)
 	id_base = GUI_ID_USER;//窗口控件ID
     init_user_window_env();//初始化用户窗口环境
     into_start_win();//进入启动窗口
-    GUI_Delay(1000);//调用这个函数可以刷新界面
+    GUI_Delay(500);//调用这个函数可以刷新界面
+    read_par_from_memory();//从存储器读取参数
     into_self_check_win();//进入自检窗口
     GUI_Delay(2000);//调用这个函数可以刷新界面
     while(self_check_ok == 0)
@@ -528,7 +529,6 @@ void main_ui_enter(void)
     create_key_menu_window();//创建按键界面
     create_status_bar_windows();
     create_main_windows();//创建主界面
-    read_par_from_memory();//从存储器读取参数
     
 	
 	while(1)

@@ -36,10 +36,10 @@ WM_HWIN _7_create_file_listview(WM_HWIN hWin)
 	list_h = LISTVIEW_CreateEx(0, 0, 690, 455, hWin, WM_CF_MEMDEV_ON_REDRAW | WM_CF_SHOW, 0, id_base++);
 	hScrollbar = SCROLLBAR_CreateAttached(list_h, SCROLLBAR_CF_VERTICAL);
 	
-	LISTVIEW_SetFont(list_h, &GUI_Fonthz_26);
+	LISTVIEW_SetFont(list_h, &GUI_Fonthz_20);
 	
 	hHeader = LISTVIEW_GetHeader(list_h);
-	HEADER_SetFont(hHeader,&GUI_Fonthz_26);
+	HEADER_SetFont(hHeader,&GUI_Fonthz_20);
 	HEADER_SetHeight(hHeader,28);
 	LISTVIEW_AddColumn(list_h, 60	, SELE_STR("编号","NO.")			, GUI_TA_HCENTER | GUI_TA_VCENTER);
     LISTVIEW_AddColumn(list_h, 190	, SELE_STR("文件名","FileName")		, GUI_TA_HCENTER | GUI_TA_VCENTER);

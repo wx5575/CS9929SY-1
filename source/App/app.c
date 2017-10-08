@@ -438,13 +438,13 @@ void set_module_config_parameter(void)
   */
 void read_par_from_memory(void)
 {
-    GUI_Delay(500);
+    read_par_inf();//读取参数信息
+    GUI_Delay(100);
     read_module_inf();//读取模块信息
-    GUI_Delay(500);
+    GUI_Delay(100);
     syn_module_num();//同步模块的编辑
     set_module_road_num();//设置模块的路编号
-    GUI_Delay(500);
-    read_par_inf();//读取参数信息
+    GUI_Delay(100);
     set_module_config_parameter();//设置配置参数
     read_first_step_init_cur_step();
 }

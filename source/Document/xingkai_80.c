@@ -13,7 +13,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-* Source file: xingkai.c                                             *
+* Source file: xingkai_80.c                                          *
 * Font:        »ªÎÄÐÐ¿¬                                              *
 * Height:      80                                                    *
 *                                                                    *
@@ -35,10 +35,395 @@
 /* The following line needs to be included in any file selecting the
    font.
 */
-extern GUI_CONST_STORAGE GUI_FONT GUI_Fontxingkai;
+extern GUI_CONST_STORAGE GUI_FONT GUI_Fontxingkai_80;
+
+/* Start of unicode area <Basic Latin> */
+GUI_CONST_STORAGE unsigned char acGUI_Fontxingkai_80_0041[424] = { /* code 0041, LATIN CAPITAL LETTER A */
+  ________,________,________,________,________,________,________,_XXXX___,
+  ________,________,________,________,________,________,_______X,XXXXX___,
+  ________,________,________,________,________,________,______XX,XXXXXX__,
+  ________,________,________,________,________,________,____XXXX,XXXXXX__,
+  ________,________,________,________,________,________,__XXXXXX,XXXXXX__,
+  ________,________,________,________,________,________,_XXXXXXX,XXXXXX__,
+  ________,________,________,________,________,_______X,XXXXXXXX,XXXXX___,
+  ________,________,________,________,________,______XX,XXXXXXXX,XXXXX___,
+  ________,________,________,________,________,_____XXX,XXXXXXXX,XXXX____,
+  ________,________,________,________,________,___XXXXX,XXXXXXXX,XXXX____,
+  ________,________,________,________,________,__XXXXXX,XX_XXXXX,XXX_____,
+  ________,________,________,________,________,_XXXXXXX,X_XXXXXX,XX______,
+  ________,________,________,________,________,XXXXXXX_,__XXXXXX,XX______,
+  ________,________,________,________,______XX,XXXXXX__,_XXXXXXX,X_______,
+  ________,________,________,________,_____XXX,XXXXX___,XXXXXXXX,X_______,
+  ________,________,________,________,____XXXX,XXXX____,XXXXXXXX,________,
+  ________,________,________,________,___XXXXX,XXX____X,XXXXXXXX,________,
+  ________,________,________,________,__XXXXXX,X______X,XXXXXXX_,________,
+  ________,________,________,________,_XXXXXXX,______XX,XXXXXX__,________,
+  ________,________,________,________,XXXXXXX_,_____XXX,XXXXXX__,________,
+  ________,________,________,_______X,XXXXXX__,_____XXX,XXXXX___,________,
+  ________,________,________,______XX,XXXXX___,____XXXX,XXXXX___,________,
+  ________,________,________,_____XXX,XXXX____,____XXXX,XXXX____,________,
+  ________,________,___XXXXX,X___XXXX,XXX_____,___XXXXX,XXXX____,________,
+  ________,________,XXXXXXXX,X_XXXXXX,XX__XXXX,XXXXXXXX,XXXXXXXX,________,
+  ________,_______X,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,X_______,
+  ________,______XX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,X_______,
+  ________,_____XXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,________,
+  ________,____XXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXX_,________,
+  ________,____XXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXX__,________,
+  ________,___XXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXX__,________,
+  ________,___XXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXX___,________,
+  ________,___XXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXX____,________,
+  ________,______XX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,________,________,
+  ________,________,_XXXXXXX,________,_____XXX,XXXXXX__,________,________,
+  ________,________,XXXXXXX_,________,____XXXX,XXXXX___,________,________,
+  ________,_______X,XXXXXX__,________,____XXXX,XXXXX___,________,________,
+  ________,______XX,XXXXX___,________,___XXXXX,XXXX____,________,________,
+  ________,_____XXX,XXXX____,________,___XXXXX,XXXX____,________,________,
+  ________,____XXXX,XXX_____,________,__XXXXXX,XXX_____,________,________,
+  ________,XXXXXXXX,XX______,________,__XXXXXX,XXX____X,XX______,________,
+  _______X,XXXXXXXX,X_______,________,_XXXXXXX,XX___XXX,XX______,________,
+  ______XX,XXXXXXXX,________,________,_XXXXXXX,XX_XXXXX,XX______,________,
+  _____XXX,XXXXXXX_,________,________,XXXXXXXX,XXXXXXXX,X_______,________,
+  ____XXXX,XXXXXX__,________,________,XXXXXXXX,XXXXXXX_,________,________,
+  ___XXXXX,XXXXX___,________,________,XXXXXXXX,XXXXXX__,________,________,
+  __XXXXXX,XXXX____,________,________,XXXXXXXX,XXXXX___,________,________,
+  __XXXXXX,XXX_____,________,________,XXXXXXXX,XXXX____,________,________,
+  _XXXXXXX,XX______,________,________,_XXXXXXX,XX______,________,________,
+  _XXXXXXX,X_______,________,________,_XXXXXXX,X_______,________,________,
+  XXXXXXXX,________,________,________,________,________,________,________,
+  XXXXXXX_,________,________,________,________,________,________,________,
+  _XXXX___,________,________,________,________,________,________,________};
+
+GUI_CONST_STORAGE unsigned char acGUI_Fontxingkai_80_0043[427] = { /* code 0043, LATIN CAPITAL LETTER C */
+  ________,________,________,________,______XX,XXXXXX__,________,
+  ________,________,________,________,___XXXXX,XXXXXXX_,________,
+  ________,________,________,________,_XXXXXXX,XXXXXXXX,________,
+  ________,________,________,_______X,XXXXXXXX,XXXXXXXX,________,
+  ________,________,________,_____XXX,XXXXXXXX,XXXXXXXX,X_______,
+  ________,________,________,____XXXX,XXXXXXXX,__XXXXXX,X_______,
+  ________,________,________,__XXXXXX,XXXXXX__,__XXXXXX,X_______,
+  ________,________,________,_XXXXXXX,XXXXX___,__XXXXXX,X_______,
+  ________,________,________,XXXXXXXX,XXX_____,__XXXXXX,X_______,
+  ________,________,_______X,XXXXXXXX,XX______,_XXXXXXX,X_______,
+  ________,________,______XX,XXXXXXXX,X_______,_XXXXXXX,X_______,
+  ________,________,_____XXX,XXXXXXXX,________,XXXXXXXX,X_______,
+  ________,________,___XXXXX,XXXXXXX_,________,XXXXXXXX,________,
+  ________,________,__XXXXXX,XXXXXX__,_______X,XXXXXXXX,________,
+  ________,________,__XXXXXX,XXXX____,______XX,XXXXXXXX,________,
+  ________,________,_XXXXXXX,XXX_____,______XX,XXXXXXX_,________,
+  ________,________,XXXXXXXX,XXX_____,_____XXX,XXXXXXX_,________,
+  ________,_______X,XXXXXXXX,XX______,____XXXX,XXXXXX__,________,
+  ________,______XX,XXXXXXXX,X_______,____XXXX,XXXXXX__,________,
+  ________,_____XXX,XXXXXXXX,________,___XXXXX,XXXXX___,________,
+  ________,____XXXX,XXXXXXX_,________,__XXXXXX,XXXX____,________,
+  ________,___XXXXX,XXXXXX__,______XX,XXXXXXXX,XXXX____,________,
+  ________,___XXXXX,XXXXX___,____XXXX,XXXXXXXX,XXX_____,________,
+  ________,__XXXXXX,XXXXX___,___XXXXX,XXXXXXXX,XX______,________,
+  ________,_XXXXXXX,XXXX____,__XXXXXX,XXXXXXXX,X_______,________,
+  ________,XXXXXXXX,XXX_____,_XXXXXXX,XXXXXXXX,X_______,________,
+  ________,XXXXXXXX,XXX_____,_XXXXXXX,XXXXXXXX,________,________,
+  _______X,XXXXXXXX,XX______,XXXXXXXX,XXXXXXX_,________,________,
+  ______XX,XXXXXXXX,X______X,XXXXXXXX,XXXXXX__,________,________,
+  ______XX,XXXXXXXX,X_____XX,XXXXXXXX,XXXXX___,________,________,
+  _____XXX,XXXXXXXX,______XX,XXXXXXXX,XXXX____,________,________,
+  _____XXX,XXXXXXX_,_____XXX,XXXXXXXX,XXX_____,________,________,
+  ____XXXX,XXXXXXX_,_____XXX,XXXXXXXX,XX______,________,________,
+  ____XXXX,XXXXXX__,_____XXX,XXXXXXXX,X_______,________,________,
+  ___XXXXX,XXXXXX__,_____XXX,XXXXXXX_,________,________,________,
+  ___XXXXX,XXXXX___,_____XXX,XXXXXX__,________,________,________,
+  __XXXXXX,XXXXX___,_____XXX,XXXXX___,________,________,________,
+  __XXXXXX,XXXX____,_______X,XXX_____,________,________,________,
+  __XXXXXX,XXXX____,________,________,________,__XXX___,________,
+  _XXXXXXX,XXXX____,________,________,________,_XXXX___,________,
+  _XXXXXXX,XXXX____,________,________,________,XXXXX___,________,
+  _XXXXXXX,XXX_____,________,________,_______X,XXXX____,________,
+  _XXXXXXX,XXX_____,________,________,______XX,XXX_____,________,
+  XXXXXXXX,XXX_____,________,________,____XXXX,XXX_____,________,
+  XXXXXXXX,XXX_____,________,________,___XXXXX,XX______,________,
+  XXXXXXXX,XXX_____,________,________,__XXXXXX,X_______,________,
+  XXXXXXXX,XXX_____,________,________,_XXXXXXX,________,________,
+  XXXXXXXX,XXX_____,________,_______X,XXXXXXX_,________,________,
+  XXXXXXXX,XXXX____,________,______XX,XXXXXX__,________,________,
+  XXXXXXXX,XXXX____,________,____XXXX,XXXX____,________,________,
+  XXXXXXXX,XXXXX___,________,__XXXXXX,XXX_____,________,________,
+  XXXXXXXX,XXXXXX__,________,XXXXXXXX,XX______,________,________,
+  _XXXXXXX,XXXXXXX_,______XX,XXXXXXXX,X_______,________,________,
+  _XXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,________,________,________,
+  _XXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXX_,________,________,________,
+  __XXXXXX,XXXXXXXX,XXXXXXXX,XXXXX___,________,________,________,
+  ___XXXXX,XXXXXXXX,XXXXXXXX,XXXX____,________,________,________,
+  ____XXXX,XXXXXXXX,XXXXXXXX,XX______,________,________,________,
+  _____XXX,XXXXXXXX,XXXXXXXX,________,________,________,________,
+  ______XX,XXXXXXXX,XXXXXX__,________,________,________,________,
+  ________,_XXXXXXX,XXX_____,________,________,________,________};
+
+GUI_CONST_STORAGE unsigned char acGUI_Fontxingkai_80_0049[260] = { /* code 0049, LATIN CAPITAL LETTER I */
+  ________,________,______XX,XXXXXX__,________,
+  ________,________,____XXXX,XXXXXXX_,________,
+  ________,________,_XXXXXXX,XXXXXXXX,________,
+  ________,_______X,XXXXXXXX,XXXXXXXX,________,
+  ________,______XX,XXXXXXXX,XXXXXXXX,X_______,
+  ________,____XXXX,XXXXXXXX,XXXXXXXX,X_______,
+  ________,___XXXXX,XXXXXXXX,XXXXXXXX,X_______,
+  ________,__XXXXXX,XXXXXXXX,XXXXXXXX,X_______,
+  ________,_XXXXXXX,XXXXXXXX,___XXXXX,X_______,
+  ________,XXXXXXXX,XXXXXX__,___XXXXX,X_______,
+  _______X,XXXXXXXX,XXXX____,___XXXXX,X_______,
+  ______XX,XXXXXXXX,XXX_____,___XXXXX,X_______,
+  _____XXX,XXXXXXXX,XX______,__XXXXXX,X_______,
+  _____XXX,XXXXXXXX,________,__XXXXXX,________,
+  ____XXXX,XXXXXXX_,________,__XXXXXX,________,
+  ___XXXXX,XXXXXX__,________,_XXXXXXX,________,
+  ___XXXXX,XXXXX___,________,_XXXXXX_,________,
+  __XXXXXX,XXXX____,________,XXXXXXX_,________,
+  __XXXXXX,XXXX____,________,XXXXXXX_,________,
+  _XXXXXXX,XXX_____,________,XXXXXX__,________,
+  _XXXXXXX,XX______,_______X,XXXXXX__,________,
+  XXXXXXXX,XX______,_______X,XXXXXX__,________,
+  XXXXXXXX,XXXXXX__,______XX,XXXXX___,________,
+  XXXXXXXX,XXXXXX__,______XX,XXXXX___,________,
+  _XXXXXXX,XXXXX___,_____XXX,XXXX____,________,
+  _XXXXXXX,XXXX____,_____XXX,XXXX____,________,
+  __XXXXXX,XXX_____,____XXXX,XXXX____,________,
+  ___XXXXX,XX______,____XXXX,XXX_____,________,
+  ____XXXX,X_______,___XXXXX,XXX_____,________,
+  ________,________,___XXXXX,XX______,________,
+  ________,________,__XXXXXX,XX______,________,
+  ________,________,__XXXXXX,X_______,________,
+  ________,________,_XXXXXXX,________,________,
+  ________,________,_XXXXXXX,________,________,
+  ________,________,XXXXXXX_,________,________,
+  ________,________,XXXXXXX_,________,________,
+  ________,_______X,XXXXXX__,________,________,
+  ________,______XX,XXXXXX__,________,________,
+  ________,______XX,XXXXX___,________,________,
+  ________,_____XXX,XXXX____,________,________,
+  ________,_____XXX,XXXX____,________,________,
+  ________,____XXXX,XXX_____,________,________,
+  ________,___XXXXX,XXX_____,________,________,
+  ________,___XXXXX,XX______,________,________,
+  ________,__XXXXXX,XX______,________,________,
+  ________,__XXXXXX,XX______,________,________,
+  ________,_XXXXXXX,XX______,________,________,
+  ________,_XXXXXXX,X_______,________,________,
+  ________,_XXXXXXX,________,________,________,
+  ________,_XXXXXXX,________,________,________,
+  ________,__XXXXX_,________,________,________,
+  ________,________,________,________,________};
+
+GUI_CONST_STORAGE unsigned char acGUI_Fontxingkai_80_004C[364] = { /* code 004C, LATIN CAPITAL LETTER L */
+  ________,________,________,________,________,________,XXXX____,
+  ________,________,________,________,________,______XX,XXXXX___,
+  ________,________,________,________,________,____XXXX,XXXXXX__,
+  ________,________,________,________,________,___XXXXX,XXXXXX__,
+  ________,________,________,________,________,__XXXXXX,XXXXXX__,
+  ________,________,________,________,________,_XXXXXXX,XXXXX___,
+  ________,________,________,________,________,XXXXXXXX,XXXXX___,
+  ________,________,________,________,_______X,XXXXXXXX,XXXXX___,
+  ________,________,________,________,______XX,XXXXXXXX,XXXXX___,
+  ________,________,________,________,_____XXX,XXXXXXXX,XXXX____,
+  ________,________,________,________,____XXXX,XXXXXXXX,XXXX____,
+  ________,________,________,________,___XXXXX,XXXXXXXX,XXX_____,
+  ________,________,________,________,__XXXXXX,XX_XXXXX,XXX_____,
+  ________,________,________,________,__XXXXXX,X_XXXXXX,XX______,
+  ________,________,________,________,_XXXXXXX,__XXXXXX,XX______,
+  ________,________,________,________,XXXXXXX_,_XXXXXXX,XX______,
+  ________,________,________,_______X,XXXXXX__,XXXXXXXX,X_______,
+  ________,________,________,______XX,XXXXXX__,XXXXXXXX,________,
+  ________,________,________,______XX,XXXXX__X,XXXXXXXX,________,
+  ________,________,________,_____XXX,XXXX___X,XXXXXXX_,________,
+  ________,________,________,____XXXX,XXX___XX,XXXXXXX_,________,
+  ________,________,________,___XXXXX,XX____XX,XXXXXX__,________,
+  ________,________,________,___XXXXX,XX___XXX,XXXXXXX_,________,
+  ________,________,________,__XXXXXX,X____XXX,XXXXXXX_,________,
+  ________,________,________,_XXXXXXX,____XXXX,XXXXXX__,________,
+  ________,________,________,XXXXXXX_,____XXXX,XXXXX___,________,
+  ________,________,________,XXXXXXX_,____XXXX,XXXX____,________,
+  ________,________,_______X,XXXXXX__,____XXXX,XXX_____,________,
+  ________,________,______XX,XXXXX___,____XXXX,XX______,________,
+  ________,________,______XX,XXXXX___,____XXXX,X_______,________,
+  ________,________,_____XXX,XXXX____,____XXX_,________,________,
+  ________,________,____XXXX,XXX_____,________,________,________,
+  ________,________,____XXXX,XX______,________,________,________,
+  ________,________,___XXXXX,XX______,________,________,________,
+  ________,________,__XXXXXX,X_______,________,________,________,
+  ________,________,__XXXXXX,________,________,________,________,
+  ________,________,_XXXXXXX,________,________,________,________,
+  ________,________,XXXXXXX_,________,________,________,________,
+  ________,____XXXX,XXXXXX__,________,________,________,________,
+  _______X,XXXXXXXX,XXXXXXXX,XXXXX___,________,________,________,
+  ______XX,XXXXXXXX,XXXXXXXX,XXXXXXXX,X_______,________,________,
+  _____XXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXX___,________,________,
+  ____XXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,________,________,
+  ___XXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXX____,________,
+  __XXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXX_,________,
+  __XXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXX_,________,
+  _XXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXX__,________,
+  _XXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXX___,________,
+  XXXXXXXX,XX______,____XXXX,XXXXXXXX,XXXXXXXX,XXXX____,________,
+  XXXXXXXX,________,________,XXXXXXXX,XXXXXXXX,XXXX____,________,
+  _XXXX___,________,________,____XXXX,XXXXXXXX,XXX_____,________,
+  ________,________,________,________,_XXXXXXX,XX______,________};
+
+GUI_CONST_STORAGE unsigned char acGUI_Fontxingkai_80_004E[385] = { /* code 004E, LATIN CAPITAL LETTER N */
+  ________,________,________,__XXXXX_,________,________,________,
+  ________,________,_______X,XXXXXXXX,X_______,________,________,
+  ________,________,____XXXX,XXXXXXXX,XX______,________,________,
+  ________,_____XXX,__XXXXXX,XXXXXXXX,XX______,________,________,
+  ________,___XXXXX,XXXXXXXX,XXXXXXXX,XX______,_______X,XXXX____,
+  ________,__XXXXXX,XXXXXXXX,XXXXXXXX,XX______,______XX,XXXXX___,
+  ________,XXXXXXXX,XXXXXXXX,XXXXXXXX,XX______,____XXXX,XXXXX___,
+  _______X,XXXXXXXX,XXXXXXXX,XXXXXXXX,XX______,___XXXXX,XXXXXX__,
+  ______XX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XX______,__XXXXXX,XXXXXX__,
+  _____XXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,X_______,_XXXXXXX,XXXXXX__,
+  ____XXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,X______X,XXXXXXXX,XXXXXX__,
+  ___XXXXX,XXXXXXXX,XXXXXX__,_XXXXXXX,______XX,XXXXXXXX,XXXXXX__,
+  ___XXXXX,XXXXXXXX,XXXX____,_XXXXXXX,_____XXX,XXXXXXXX,XXXXXX__,
+  __XXXXXX,XXXXXXXX,XX______,XXXXXXX_,____XXXX,XXXXXXXX,XXXXXX__,
+  _XXXXXXX,XXXXXXX_,________,XXXXXXX_,___XXXXX,XXXXXXXX,XXXXXX__,
+  _XXXXXXX,XXXXX___,_______X,XXXXXX__,__XXXXXX,XXXXXXXX,XXXXX___,
+  _XXXXXXX,XXX_____,_______X,XXXXX___,_XXXXXXX,XX_XXXXX,XXXXX___,
+  XXXXXXXX,XX______,_______X,XXXXX___,XXXXXXXX,X_XXXXXX,XXXX____,
+  XXXXXXXX,________,______XX,XXXX___X,XXXXXXX_,__XXXXXX,XXX_____,
+  XXXXXX__,________,_____XXX,XXXX__XX,XXXXXX__,_XXXXXXX,XXX_____,
+  XXXX____,________,_____XXX,XXX__XXX,XXXXX___,_XXXXXXX,XX______,
+  ________,________,____XXXX,XXX__XXX,XXXX____,XXXXXXXX,X_______,
+  ________,________,____XXXX,XX__XXXX,XXX____X,XXXXXXXX,________,
+  ________,________,___XXXXX,X__XXXXX,XX_____X,XXXXXXXX,________,
+  ________,________,___XXXXX,X_XXXXXX,X_____XX,XXXXXXX_,________,
+  ________,________,__XXXXXX,_XXXXXXX,_____XXX,XXXXXX__,________,
+  ________,________,__XXXXXX,XXXXXXX_,_____XXX,XXXXXX__,________,
+  ________,________,_XXXXXXX,XXXXXX__,____XXXX,XXXXX___,________,
+  ________,________,_XXXXXXX,XXXXXX__,___XXXXX,XXXX____,________,
+  ________,________,XXXXXXXX,XXXXX___,___XXXXX,XXXX____,________,
+  ________,_______X,XXXXXXXX,XXXX____,__XXXXXX,XXX_____,________,
+  ________,_______X,XXXXXXXX,XXX_____,_XXXXXXX,XX______,________,
+  ________,______XX,XXXXXXXX,XX______,_XXXXXXX,XX______,________,
+  ________,______XX,XXXXXXXX,X_______,XXXXXXXX,X_______,________,
+  ________,_____XXX,XXXXXXXX,X_______,XXXXXXXX,________,________,
+  ________,____XXXX,XXXXXXXX,_______X,XXXXXXXX,________,________,
+  ________,____XXXX,XXXXXXX_,_______X,XXXXXXX_,________,________,
+  ________,___XXXXX,XXXXXX__,______XX,XXXXXX__,________,________,
+  ________,__XXXXXX,XXXXX___,______XX,XXXXXX__,________,________,
+  ________,__XXXXXX,XXXXX___,_____XXX,XXXXXX__,_______X,XX______,
+  ________,_XXXXXXX,XXXX____,_____XXX,XXXXX___,_____XXX,XX______,
+  ________,XXXXXXXX,XXX_____,____XXXX,XXXXX___,____XXXX,XX______,
+  ________,XXXXXXXX,XX______,____XXXX,XXXXX___,___XXXXX,X_______,
+  _______X,XXXXXXXX,XX______,___XXXXX,XXXX____,__XXXXXX,________,
+  _______X,XXXXXXXX,X_______,___XXXXX,XXXX____,XXXXXXX_,________,
+  _______X,XXXXXXXX,________,___XXXXX,XXXXX_XX,XXXXXX__,________,
+  _______X,XXXXXXX_,________,___XXXXX,XXXXXXXX,XXXXX___,________,
+  ________,XXXXXXX_,________,__XXXXXX,XXXXXXXX,XXXX____,________,
+  ________,_XXXXX__,________,__XXXXXX,XXXXXXXX,XXX_____,________,
+  ________,________,________,__XXXXXX,XXXXXXXX,XX______,________,
+  ________,________,________,__XXXXXX,XXXXXXXX,X_______,________,
+  ________,________,________,__XXXXXX,XXXXXXXX,________,________,
+  ________,________,________,___XXXXX,XXXXXX__,________,________,
+  ________,________,________,___XXXXX,XXXXX___,________,________,
+  ________,________,________,____XXXX,XXX_____,________,________};
+
+GUI_CONST_STORAGE unsigned char acGUI_Fontxingkai_80_0053[343] = { /* code 0053, LATIN CAPITAL LETTER S */
+  ________,________,________,________,XXXXXXXX,XXXXXXXX,X_______,
+  ________,________,________,___XXXXX,XXXXXXXX,XXXXXXXX,XXXX____,
+  ________,________,_______X,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXX___,
+  ________,________,____XXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXX___,
+  ________,________,__XXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXX___,
+  ________,________,_XXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXX___,
+  ________,_______X,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXX___,
+  ________,_______X,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXX____,
+  ________,______XX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXX____,
+  ________,_____XXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXX____,
+  ________,_____XXX,XXXXXXXX,XXXXXXXX,X_______,_XXXXXXX,XXX_____,
+  ________,____XXXX,XXXXXXXX,XXXX____,________,XXXXXXXX,________,
+  ________,____XXXX,XXXXXXXX,X_______,______XX,XXXXXX__,________,
+  ________,____XXXX,XXXXXXX_,________,_____XXX,XXX_____,________,
+  ________,___XXXXX,XXXXX___,________,_____XXX,XX______,________,
+  ________,___XXXXX,XXX_____,________,_____XXX,________,________,
+  ________,___XXXXX,XXX_____,________,________,________,________,
+  ________,___XXXXX,XX______,________,________,________,________,
+  ________,___XXXXX,XXX_____,________,________,________,________,
+  ________,___XXXXX,XXXXX___,________,________,________,________,
+  ________,___XXXXX,XXXXXXXX,________,________,________,________,
+  ________,___XXXXX,XXXXXXXX,XXX_____,________,________,________,
+  ________,____XXXX,XXXXXXXX,XXXXXXX_,________,________,________,
+  ________,_____XXX,XXXXXXXX,XXXXXXXX,X_______,________,________,
+  ________,_______X,XXXXXXXX,XXXXXXXX,XXXX____,________,________,
+  ________,________,_XXXXXXX,XXXXXXXX,XXXXXX__,________,________,
+  ________,________,____XXXX,XXXXXXXX,XXXXXXX_,________,________,
+  ________,________,________,XXXXXXXX,XXXXXXXX,X_______,________,
+  ________,________,________,____XXXX,XXXXXXXX,XX______,________,
+  ________,________,________,________,XXXXXXXX,XXX_____,________,
+  ________,________,________,________,__XXXXXX,XXX_____,________,
+  ________,________,________,________,___XXXXX,XXXX____,________,
+  ________,________,________,________,____XXXX,XXXX____,________,
+  ________,________,________,________,_____XXX,XXXX____,________,
+  ________,________,________,________,____XXXX,XXXX____,________,
+  ________,________,________,________,__XXXXXX,XXXX____,________,
+  ______XX,XXX_____,________,________,_XXXXXXX,XXXX____,________,
+  ____XXXX,XXX_____,________,______XX,XXXXXXXX,XXXX____,________,
+  ___XXXXX,X_______,________,_XXXXXXX,XXXXXXXX,XXX_____,________,
+  __XXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXX_____,________,
+  _XXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XX______,________,
+  _XXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XX______,________,
+  _XXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,X_______,________,
+  _XXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,________,________,
+  _XXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXX__,________,________,
+  _XXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XXXXX___,________,________,
+  _XXXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,XX______,________,________,
+  ___XXXXX,XXXXXXXX,XXXXXXXX,XXXXXXX_,________,________,________,
+  ______XX,XXXXXXXX,XXXXXXXX,XX______,________,________,________};
+
+GUI_CONST_STORAGE unsigned char acGUI_Fontxingkai_80_0057[384] = { /* code 0057, LATIN CAPITAL LETTER W */
+  ________,________,__XXXXXX,XXXXXX__,________,________,________,________,
+  ________,___XXX_X,XXXXXXXX,XXXXXXXX,________,________,________,________,
+  ________,_XXXXXXX,XXXXXXXX,XXXXXXXX,________,________,________,________,
+  _______X,XXXXXXXX,XXXXXXXX,XXXXXXXX,X_______,________,________,________,
+  ______XX,XXXXXXXX,XXXXXXXX,XXXXXXXX,X_______,_____XXX,XX______,___XXX__,
+  ____XXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,X_______,____XXXX,XX______,__XXXX__,
+  ___XXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,X_______,___XXXXX,XXX_____,_XXXXXX_,
+  __XXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,X_______,__XXXXXX,XXX_____,XXXXXXX_,
+  __XXXXXX,XXXXXXXX,XXXXXXXX,XXXXXXXX,X_______,_XXXXXXX,XXX_____,XXXXXXX_,
+  _XXXXXXX,XXXXXXXX,XXXXXX__,_XXXXXXX,X_______,XXXXXXXX,XXX____X,XXXXXXX_,
+  _XXXXXXX,XXXXXXXX,XXX_____,__XXXXXX,X______X,XXXXXXXX,XXX___XX,XXXXXXX_,
+  _XXXXXXX,XXXXXXXX,X_______,_XXXXXXX,X_____XX,XXXXXXXX,XX____XX,XXXXXXX_,
+  XXXXXXXX,XXXXXXX_,________,_XXXXXXX,______XX,XXXXXXXX,XX____XX,XXXXXX__,
+  XXXXXXXX,XXXXX___,________,XXXXXXXX,_____XXX,XXXXXXXX,X_____XX,XXXXXX__,
+  XXXXXXXX,XXX_____,_______X,XXXXXXX_,____XXXX,XXXXXXXX,_______X,XXXXXX__,
+  XXXXXXXX,X_______,______XX,XXXXXXX_,___XXXXX,XXXXXXXX,______XX,XXXXX___,
+  XXXXXXX_,________,______XX,XXXXXX__,___XXXXX,XXXXXXX_,______XX,XXXXX___,
+  XXXXXX__,________,_____XXX,XXXXX___,__XXXXXX,XXXXXX__,_____XXX,XXXXX___,
+  XXXX____,________,____XXXX,XXXXX___,_XXXXXXX,XXXXXX__,_____XXX,XXXX____,
+  ________,________,___XXXXX,XXXX____,XXXXXXXX,XXXXX___,____XXXX,XXXX____,
+  ________,________,__XXXXXX,XXX____X,XXXXXXXX,XXXXX___,____XXXX,XXX_____,
+  ________,________,_XXXXXXX,XXX___XX,XXXXXXXX,XXXX____,___XXXXX,XXX_____,
+  ________,________,XXXXXXXX,XX___XXX,XXXXXXXX,XXX_____,__XXXXXX,XXX_____,
+  ________,_______X,XXXXXXXX,X___XXXX,XXXXXXXX,XXX_____,__XXXXXX,XX______,
+  ________,______XX,XXXXXXXX,___XXXXX,XXXXXXXX,XX______,_XXXXXXX,XX______,
+  ________,_____XXX,XXXXXXXX,___XXXXX,XXXXXXXX,XX______,_XXXXXXX,X_______,
+  ________,_____XXX,XXXXXXX_,__XXXXXX,XXXXXXXX,X_______,XXXXXXXX,X_______,
+  ________,____XXXX,XXXXXX__,_XXXXXXX,XXXXXXXX,_______X,XXXXXXXX,________,
+  ________,___XXXXX,XXXXX___,XXXXXXXX,XXXXXXXX,_______X,XXXXXXXX,________,
+  ________,__XXXXXX,XXXX___X,XXXXXXXX,XXXXXXX_,______XX,XXXXXXX_,________,
+  ________,_XXXXXXX,XXX___XX,XXXXXXXX,XXXXXXX_,_____XXX,XXXXXX__,________,
+  ________,_XXXXXXX,XXX__XXX,XXXXX_XX,XXXXXX__,____XXXX,XXXXXX__,________,
+  ________,XXXXXXXX,XX__XXXX,XXXXX_XX,XXXXXX__,___XXXXX,XXXXX___,________,
+  _______X,XXXXXXXX,X__XXXXX,XXXX_XXX,XXXXX___,___XXXXX,XXXX____,________,
+  _______X,XXXXXXXX,__XXXXXX,XXX__XXX,XXXXX___,__XXXXXX,XXXX____,________,
+  ______XX,XXXXXXX_,_XXXXXXX,XX___XXX,XXXX____,_XXXXXXX,XXX_____,________,
+  ______XX,XXXXXXX_,XXXXXXXX,X___XXXX,XXXX____,XXXXXXXX,XX______,________,
+  ______XX,XXXXXXXX,XXXXXXXX,____XXXX,XXX____X,XXXXXXXX,XX______,________,
+  ______XX,XXXXXXXX,XXXXXXX_,____XXXX,XXX__XXX,XXXXXXXX,X_______,________,
+  ______XX,XXXXXXXX,XXXXXX__,____XXXX,XXX_XXXX,XXXXXXXX,________,________,
+  ______XX,XXXXXXXX,XXXXX___,____XXXX,XXXXXXXX,XXXXXXX_,________,________,
+  ______XX,XXXXXXXX,XXXX____,____XXXX,XXXXXXXX,XXXXXX__,________,________,
+  ______XX,XXXXXXXX,XXX_____,____XXXX,XXXXXXXX,XXXXX___,________,________,
+  ______XX,XXXXXXXX,XX______,____XXXX,XXXXXXXX,XXXX____,________,________,
+  _______X,XXXXXXXX,X_______,_____XXX,XXXXXXXX,XXX_____,________,________,
+  _______X,XXXXXXXX,________,_____XXX,XXXXXXXX,XX______,________,________,
+  ________,XXXXXX__,________,______XX,XXXXXXXX,________,________,________,
+  ________,________,________,________,XXXXXXX_,________,________,________};
 
 /* Start of unicode area <CJK Unified Ideographs> */
-GUI_CONST_STORAGE unsigned char acGUI_Fontxingkai_4EAC[441] = { /* code 4EAC */
+GUI_CONST_STORAGE unsigned char acGUI_Fontxingkai_80_4EAC[441] = { /* code 4EAC */
   ________,________,_____XXX,XXXXXXXX,X_______,________,________,
   ________,________,_____XXX,XXXXXXXX,XX______,________,________,
   ________,________,______XX,XXXXXXXX,XXX_____,________,________,
@@ -103,7 +488,7 @@ GUI_CONST_STORAGE unsigned char acGUI_Fontxingkai_4EAC[441] = { /* code 4EAC */
   ________,XXXX____,________,XXXXXXX_,________,________,________,
   ________,________,________,__XXXXX_,________,________,________};
 
-GUI_CONST_STORAGE unsigned char acGUI_Fontxingkai_4EEA[504] = { /* code 4EEA */
+GUI_CONST_STORAGE unsigned char acGUI_Fontxingkai_80_4EEA[504] = { /* code 4EEA */
   ________,________,XXX_____,________,________,________,________,________,________,
   ________,________,XXXX____,________,________,________,________,________,________,
   ________,________,XXXXX___,________,________,________,________,________,________,
@@ -161,7 +546,7 @@ GUI_CONST_STORAGE unsigned char acGUI_Fontxingkai_4EEA[504] = { /* code 4EEA */
   ________,___XXXXX,________,________,________,________,________,________,________,
   ________,____XXX_,________,________,________,________,________,________,________};
 
-GUI_CONST_STORAGE unsigned char acGUI_Fontxingkai_5357[469] = { /* code 5357 */
+GUI_CONST_STORAGE unsigned char acGUI_Fontxingkai_80_5357[469] = { /* code 5357 */
   ________,________,XXXXX___,________,________,________,________,
   ________,_______X,XXXXXXX_,________,________,________,________,
   ________,_______X,XXXXXXXX,X_______,________,________,________,
@@ -230,7 +615,7 @@ GUI_CONST_STORAGE unsigned char acGUI_Fontxingkai_5357[469] = { /* code 5357 */
   ________,________,________,________,____XXXX,X_______,________,
   ________,________,________,________,________,________,________};
 
-GUI_CONST_STORAGE unsigned char acGUI_Fontxingkai_5668[504] = { /* code 5668 */
+GUI_CONST_STORAGE unsigned char acGUI_Fontxingkai_80_5668[504] = { /* code 5668 */
   ________,________,________,________,________,____XXXX,XX______,________,
   ________,________,_____XXX,XXXXX___,________,__XXXXXX,XXXX____,________,
   ________,________,____XXXX,XXXXXX__,________,XXXXXXXX,XXXXX___,________,
@@ -295,7 +680,7 @@ GUI_CONST_STORAGE unsigned char acGUI_Fontxingkai_5668[504] = { /* code 5668 */
   ________,_____XXX,X_______,________,________,________,________,________,
   ________,______XX,X_______,________,________,________,________,________};
 
-GUI_CONST_STORAGE unsigned char acGUI_Fontxingkai_76DB[560] = { /* code 76DB */
+GUI_CONST_STORAGE unsigned char acGUI_Fontxingkai_80_76DB[560] = { /* code 76DB */
   ________,________,____XXXX,________,________,________,________,________,
   ________,________,____XXXX,XXXXX___,________,________,________,________,
   ________,________,____XXXX,XXXXXX__,________,________,________,________,
@@ -367,7 +752,7 @@ GUI_CONST_STORAGE unsigned char acGUI_Fontxingkai_76DB[560] = { /* code 76DB */
   ________,________,________,________,________,________,________,_XXXXXX_,
   ________,________,________,________,________,________,________,___XXX__};
 
-GUI_CONST_STORAGE unsigned char acGUI_Fontxingkai_957F[528] = { /* code 957F */
+GUI_CONST_STORAGE unsigned char acGUI_Fontxingkai_80_957F[528] = { /* code 957F */
   ________,________,_XXXX___,________,________,________,________,________,
   ________,________,XXXXXX__,________,________,________,________,________,
   ________,_______X,XXXXXXX_,________,________,________,________,________,
@@ -435,64 +820,120 @@ GUI_CONST_STORAGE unsigned char acGUI_Fontxingkai_957F[528] = { /* code 957F */
   ________,________,_XXXXXXX,X_______,________,________,________,________,
   ________,________,___XXXXX,________,________,________,________,________};
 
-GUI_CONST_STORAGE GUI_CHARINFO_EXT GUI_Fontxingkai_CharInfo[6] = {
-   {  51,  63,  11,   6,  77, acGUI_Fontxingkai_4EAC } /* code 4EAC */
-  ,{  71,  56,   3,   8,  77, acGUI_Fontxingkai_4EEA } /* code 4EEA */
-  ,{  51,  67,  16,   1,  77, acGUI_Fontxingkai_5357 } /* code 5357 */
-  ,{  57,  63,   9,   6,  77, acGUI_Fontxingkai_5668 } /* code 5668 */
-  ,{  63,  70,  10,   1,  77, acGUI_Fontxingkai_76DB } /* code 76DB */
-  ,{  59,  66,  10,   4,  77, acGUI_Fontxingkai_957F } /* code 957F */
+GUI_CONST_STORAGE GUI_CHARINFO_EXT GUI_Fontxingkai_80_CharInfo[13] = {
+   {  62,  53,  -5,   9,  49, acGUI_Fontxingkai_80_0041 } /* code 0041, LATIN CAPITAL LETTER A */
+  ,{  49,  61,   4,   8,  47, acGUI_Fontxingkai_80_0043 } /* code 0043, LATIN CAPITAL LETTER C */
+  ,{  33,  52,   2,   8,  34, acGUI_Fontxingkai_80_0049 } /* code 0049, LATIN CAPITAL LETTER I */
+  ,{  54,  52,  -4,   8,  46, acGUI_Fontxingkai_80_004C } /* code 004C, LATIN CAPITAL LETTER L */
+  ,{  54,  55,  -4,   7,  45, acGUI_Fontxingkai_80_004E } /* code 004E, LATIN CAPITAL LETTER N */
+  ,{  53,  49,   0,  13,  50, acGUI_Fontxingkai_80_0053 } /* code 0053, LATIN CAPITAL LETTER S */
+  ,{  63,  48,  -2,  12,  54, acGUI_Fontxingkai_80_0057 } /* code 0057, LATIN CAPITAL LETTER W */
+  ,{  51,  63,  11,   6,  77, acGUI_Fontxingkai_80_4EAC } /* code 4EAC */
+  ,{  71,  56,   3,   8,  77, acGUI_Fontxingkai_80_4EEA } /* code 4EEA */
+  ,{  51,  67,  16,   1,  77, acGUI_Fontxingkai_80_5357 } /* code 5357 */
+  ,{  57,  63,   9,   6,  77, acGUI_Fontxingkai_80_5668 } /* code 5668 */
+  ,{  63,  70,  10,   1,  77, acGUI_Fontxingkai_80_76DB } /* code 76DB */
+  ,{  59,  66,  10,   4,  77, acGUI_Fontxingkai_80_957F } /* code 957F */
 };
 
-GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fontxingkai_Prop6 = {
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fontxingkai_80_Prop13 = {
    0x957F /* first character */
   ,0x957F /* last character  */
-  ,&GUI_Fontxingkai_CharInfo[  5] /* address of first character */
+  ,&GUI_Fontxingkai_80_CharInfo[ 12] /* address of first character */
   ,(GUI_CONST_STORAGE GUI_FONT_PROP_EXT *)0 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
-GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fontxingkai_Prop5 = {
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fontxingkai_80_Prop12 = {
    0x76DB /* first character */
   ,0x76DB /* last character  */
-  ,&GUI_Fontxingkai_CharInfo[  4] /* address of first character */
-  ,&GUI_Fontxingkai_Prop6 /* pointer to next GUI_FONT_PROP_EXT */
+  ,&GUI_Fontxingkai_80_CharInfo[ 11] /* address of first character */
+  ,&GUI_Fontxingkai_80_Prop13 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
-GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fontxingkai_Prop4 = {
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fontxingkai_80_Prop11 = {
    0x5668 /* first character */
   ,0x5668 /* last character  */
-  ,&GUI_Fontxingkai_CharInfo[  3] /* address of first character */
-  ,&GUI_Fontxingkai_Prop5 /* pointer to next GUI_FONT_PROP_EXT */
+  ,&GUI_Fontxingkai_80_CharInfo[ 10] /* address of first character */
+  ,&GUI_Fontxingkai_80_Prop12 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
-GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fontxingkai_Prop3 = {
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fontxingkai_80_Prop10 = {
    0x5357 /* first character */
   ,0x5357 /* last character  */
-  ,&GUI_Fontxingkai_CharInfo[  2] /* address of first character */
-  ,&GUI_Fontxingkai_Prop4 /* pointer to next GUI_FONT_PROP_EXT */
+  ,&GUI_Fontxingkai_80_CharInfo[  9] /* address of first character */
+  ,&GUI_Fontxingkai_80_Prop11 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
-GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fontxingkai_Prop2 = {
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fontxingkai_80_Prop9 = {
    0x4EEA /* first character */
   ,0x4EEA /* last character  */
-  ,&GUI_Fontxingkai_CharInfo[  1] /* address of first character */
-  ,&GUI_Fontxingkai_Prop3 /* pointer to next GUI_FONT_PROP_EXT */
+  ,&GUI_Fontxingkai_80_CharInfo[  8] /* address of first character */
+  ,&GUI_Fontxingkai_80_Prop10 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
-GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fontxingkai_Prop1 = {
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fontxingkai_80_Prop8 = {
    0x4EAC /* first character */
   ,0x4EAC /* last character  */
-  ,&GUI_Fontxingkai_CharInfo[  0] /* address of first character */
-  ,&GUI_Fontxingkai_Prop2 /* pointer to next GUI_FONT_PROP_EXT */
+  ,&GUI_Fontxingkai_80_CharInfo[  7] /* address of first character */
+  ,&GUI_Fontxingkai_80_Prop9 /* pointer to next GUI_FONT_PROP_EXT */
 };
 
-GUI_CONST_STORAGE GUI_FONT GUI_Fontxingkai = {
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fontxingkai_80_Prop7 = {
+   0x0057 /* first character */
+  ,0x0057 /* last character  */
+  ,&GUI_Fontxingkai_80_CharInfo[  6] /* address of first character */
+  ,&GUI_Fontxingkai_80_Prop8 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fontxingkai_80_Prop6 = {
+   0x0053 /* first character */
+  ,0x0053 /* last character  */
+  ,&GUI_Fontxingkai_80_CharInfo[  5] /* address of first character */
+  ,&GUI_Fontxingkai_80_Prop7 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fontxingkai_80_Prop5 = {
+   0x004E /* first character */
+  ,0x004E /* last character  */
+  ,&GUI_Fontxingkai_80_CharInfo[  4] /* address of first character */
+  ,&GUI_Fontxingkai_80_Prop6 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fontxingkai_80_Prop4 = {
+   0x004C /* first character */
+  ,0x004C /* last character  */
+  ,&GUI_Fontxingkai_80_CharInfo[  3] /* address of first character */
+  ,&GUI_Fontxingkai_80_Prop5 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fontxingkai_80_Prop3 = {
+   0x0049 /* first character */
+  ,0x0049 /* last character  */
+  ,&GUI_Fontxingkai_80_CharInfo[  2] /* address of first character */
+  ,&GUI_Fontxingkai_80_Prop4 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fontxingkai_80_Prop2 = {
+   0x0043 /* first character */
+  ,0x0043 /* last character  */
+  ,&GUI_Fontxingkai_80_CharInfo[  1] /* address of first character */
+  ,&GUI_Fontxingkai_80_Prop3 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP_EXT GUI_Fontxingkai_80_Prop1 = {
+   0x0041 /* first character */
+  ,0x0041 /* last character  */
+  ,&GUI_Fontxingkai_80_CharInfo[  0] /* address of first character */
+  ,&GUI_Fontxingkai_80_Prop2 /* pointer to next GUI_FONT_PROP_EXT */
+};
+
+GUI_CONST_STORAGE GUI_FONT GUI_Fontxingkai_80 = {
    GUI_FONTTYPE_PROP_EXT /* type of font    */
   ,80 /* height of font  */
   ,80 /* space of font y */
   ,1 /* magnification x */
   ,1 /* magnification y */
-  ,{&GUI_Fontxingkai_Prop1}
+  ,{&GUI_Fontxingkai_80_Prop1}
   ,58 /* Baseline */
   ,30 /* Height of lowercase characters */
   ,53 /* Height of capital characters */

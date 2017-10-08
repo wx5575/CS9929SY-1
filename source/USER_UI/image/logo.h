@@ -17,6 +17,7 @@ int create_main_image(WM_HWIN hWin);
 int create_www_qr_code_image(WM_HWIN hWin);
 int create_wts_qr_code_image(WM_HWIN hWin);
 int create_test_image(WM_HWIN hWin);
+int create_miclogo_image(WM_HWIN hWin, void**mem);
 
 #endif //__LOGO_H__
 

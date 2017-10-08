@@ -63,7 +63,7 @@ void _7_init_main_ui_text_ele_pos(TEXT_ELE_T *pool)
     ele->dis_info.pos_size.x = 5;
     ele->dis_info.pos_size.y = 50;
     ele->dis_info.back_color = GUI_INVALID_COLOR;
-    ele->dis_info.font = &GUI_Fontxingkai;
+    ele->dis_info.font = &GUI_Fontxingkai_80;
     ele->dis_info.font_color = GUI_WHITE;
     ele->dis_info.max_len = 100;
     ele->dis_info.align = GUI_TA_CENTER | GUI_TA_TOP;
@@ -116,7 +116,7 @@ void _7_init_main_ui_text_ele_pos(TEXT_ELE_T *pool)
     
     ele->dis_info.base_x = 0;
     ele->dis_info.base_y = 0;
-    ele->dis_info.pos_size.x = 210;
+    ele->dis_info.pos_size.x = 190;
     ele->dis_info.pos_size.y = 405;
     ele->dis_info.back_color = GUI_INVALID_COLOR;
     ele->dis_info.font = &GUI_Fonthz_20;
@@ -124,7 +124,7 @@ void _7_init_main_ui_text_ele_pos(TEXT_ELE_T *pool)
     ele->dis_info.max_len = 100;
     ele->dis_info.align = GUI_TA_CENTER | GUI_TA_TOP;
     ele->dis_info.pos_size.height = 30;
-    ele->dis_info.pos_size.width = 130;
+    ele->dis_info.pos_size.width = 170;
 }
 
 

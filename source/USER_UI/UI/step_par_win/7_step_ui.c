@@ -29,10 +29,10 @@ WM_HWIN _7_create_step_listview(WM_HWIN hWin)
 	list_h = LISTVIEW_CreateEx(0, 30, 690, 425, hWin, WM_CF_MEMDEV_ON_REDRAW | WM_CF_SHOW, 0, id_base++);
 	hScrollbar = SCROLLBAR_CreateAttached(list_h, SCROLLBAR_CF_VERTICAL);
 	
-	LISTVIEW_SetFont(list_h, &GUI_Fonthz_26);
+	LISTVIEW_SetFont(list_h, &GUI_Fonthz_20);
 	
 	hHeader = LISTVIEW_GetHeader(list_h);
-	HEADER_SetFont(hHeader,&GUI_Fonthz_26);
+	HEADER_SetFont(hHeader,&GUI_Fonthz_20);
 	HEADER_SetHeight(hHeader,28);
 	LISTVIEW_AddColumn(list_h, 60	, SELE_STR("编号","NO.")            , GUI_TA_HCENTER | GUI_TA_VCENTER);
     LISTVIEW_AddColumn(list_h, 80	, SELE_STR("模式","Mode")           , GUI_TA_HCENTER | GUI_TA_VCENTER);
@@ -48,7 +48,7 @@ WM_HWIN _7_create_step_listview(WM_HWIN hWin)
 	SCROLLBAR_SetColor(hScrollbar, SCROLLBAR_CI_ARROW, GUI_GRAY);  //箭头
 	WIDGET_SetEffect(hScrollbar, &WIDGET_Effect_None);
 	
-	for(i = 0; i < 30; i++)
+	for(i = 0; i < 99; i++)
 	{
 		LISTVIEW_AddRow(list_h, 0);
 		sprintf((char *)buf, "%02d", i + 1);
