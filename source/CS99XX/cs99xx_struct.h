@@ -89,6 +89,8 @@ typedef enum{
     CS_ERR_COMM_CRC_ERR,///<通信CRC校验错误
     CS_ERR_COMM_SLAVE_ERR,///<从机通信错误
     CS_ERR_ROAD_INVALTD,///<路号不存在
+    
+    CS_ERR_READ_RES_FAIL,///<读取结果失败
 }CS_ERR;
 /**
   * @brief  文件编号
@@ -590,7 +592,7 @@ typedef struct Sys_Parameter{
 	
 	uint16_t used_res_num;		///< 已经记录的结果总数 用于统计结果
 	uint16_t pass_res_num;		///< 合格的数 用于统计结果 
-	uint16_t cover_res_num;		///< 当used_res_num记满n条后就如果允许覆盖就启动该计数变量计数 当其记满4500条后清零 
+	uint16_t cover_res_num;		///< 当used_res_num记满n条后就如果允许覆盖就启动该计数变量计数 当其记满最大条后清零 
 	
 	uint8_t key_lock;		    ///< 键盘锁 
 	

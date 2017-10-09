@@ -3378,6 +3378,8 @@ static void save_roads_test_st(void)
     
     num = ARRAY_SIZE(road_test_dis_inf);
     
+    
+    
     for(i = 0; i < num; i++)
     {
         inf = &road_test_dis_inf[i];
@@ -3387,6 +3389,50 @@ static void save_roads_test_st(void)
             result_inf_pool[i].test_data.test_result = ST_PASS;
         }
     }
+}
+
+void update_result_flag_inf(RESULT_INF *res)
+{
+    RESULT_INF old_res;
+    CS_ERR err;
+    
+    if(sys_par.used_res_num < MAX_RESULT_NUM)
+    {
+        sys_par.used_res_num++;
+        
+        if(res->test_data.test_result == ST_PASS)
+        {
+            sys_par.pass_res_num++;
+        }
+    }
+    else
+    {
+        if(sys_par.cover_res_num < MAX_RESULT_NUM)
+        {
+            sys_par.cover_res_num++;
+        }
+        else
+        {
+            sys_par.cover_res_num = 0;
+        }
+        
+        read_one_result(sys_par.cover_res_num, &old_res, &err);
+        
+        if(err != CS_ERR_NONE)
+        {
+            return;
+        }
+        
+        if(old_res.test_data.test_result != ST_PASS)
+        {
+            if(res->test_data.test_result == ST_PASS)
+            {
+                sys_par.pass_res_num++;
+            }
+        }
+    }
+    
+    save_sys_par();//保存系统参数
 }
 void save_test_result(void)
 {
@@ -3430,6 +3476,8 @@ void save_test_result(void)
         {
             goto end;
         }
+        
+        update_result_flag_inf(&result_inf_pool[INDEX_ROAD_1 - 1]);
     }
     
     if(CS_TRUE == judge_road_work(INDEX_ROAD_2))
@@ -3440,6 +3488,8 @@ void save_test_result(void)
         {
             goto end;
         }
+        
+        update_result_flag_inf(&result_inf_pool[INDEX_ROAD_2 - 1]);
     }
     
     if(CS_TRUE == judge_road_work(INDEX_ROAD_3))
@@ -3450,6 +3500,8 @@ void save_test_result(void)
         {
             goto end;
         }
+        
+        update_result_flag_inf(&result_inf_pool[INDEX_ROAD_3 - 1]);
     }
     
     if(CS_TRUE == judge_road_work(INDEX_ROAD_4))
@@ -3460,6 +3512,8 @@ void save_test_result(void)
         {
             goto end;
         }
+        
+        update_result_flag_inf(&result_inf_pool[INDEX_ROAD_4 - 1]);
     }
     
 end:

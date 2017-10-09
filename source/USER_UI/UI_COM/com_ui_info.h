@@ -506,6 +506,7 @@ extern void create_password_ui(int hWin);
 extern void init_back_up_will_enter_win_inf(void (*fun)(int), int data);
 extern void create_input_password_ui(int hWin);
 extern void create_result_win(int id);
+extern void create_result_statis_dialog(int id);
 extern void init_menu_key_info(MENU_KEY_INFO_T * info, uint32_t n, int data);
 extern void unregister_system_key_fun(CONFIG_FUNCTION_KEY_INFO_T info[], uint32_t n);
 extern void register_system_key_fun(CONFIG_FUNCTION_KEY_INFO_T info[], uint32_t n, int data);

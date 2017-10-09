@@ -1486,14 +1486,24 @@
               <FilePath>..\source\USER_UI\UI\result_win\result_win.c</FilePath>
             </File>
             <File>
+              <FileName>7_set_goto_result_num_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\result_win\7_set_goto_result_num_win.c</FilePath>
+            </File>
+            <File>
               <FileName>set_goto_result_num_win.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\USER_UI\UI\result_win\set_goto_result_num_win.c</FilePath>
             </File>
             <File>
-              <FileName>7_set_goto_result_num_win.c</FileName>
+              <FileName>7_result_statis_win.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\source\USER_UI\UI\result_win\7_set_goto_result_num_win.c</FilePath>
+              <FilePath>..\source\USER_UI\UI\result_win\7_result_statis_win.c</FilePath>
+            </File>
+            <File>
+              <FileName>result_statis_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\result_win\result_statis_win.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1519,6 +1529,11 @@
               <FileName>cs99xx_flash_manage.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\mem_manage\cs99xx_flash_manage.c</FilePath>
+            </File>
+            <File>
+              <FileName>cs99xx_sdcard_manage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\mem_manage\cs99xx_sdcard_manage.c</FilePath>
             </File>
             <File>
               <FileName>cs99xx_mem_api.c</FileName>
@@ -3114,14 +3129,24 @@
               <FilePath>..\source\USER_UI\UI\result_win\result_win.c</FilePath>
             </File>
             <File>
+              <FileName>7_set_goto_result_num_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\result_win\7_set_goto_result_num_win.c</FilePath>
+            </File>
+            <File>
               <FileName>set_goto_result_num_win.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\USER_UI\UI\result_win\set_goto_result_num_win.c</FilePath>
             </File>
             <File>
-              <FileName>7_set_goto_result_num_win.c</FileName>
+              <FileName>7_result_statis_win.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\source\USER_UI\UI\result_win\7_set_goto_result_num_win.c</FilePath>
+              <FilePath>..\source\USER_UI\UI\result_win\7_result_statis_win.c</FilePath>
+            </File>
+            <File>
+              <FileName>result_statis_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\result_win\result_statis_win.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -3147,6 +3172,11 @@
               <FileName>cs99xx_flash_manage.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\mem_manage\cs99xx_flash_manage.c</FilePath>
+            </File>
+            <File>
+              <FileName>cs99xx_sdcard_manage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\mem_manage\cs99xx_sdcard_manage.c</FilePath>
             </File>
             <File>
               <FileName>cs99xx_mem_api.c</FileName>

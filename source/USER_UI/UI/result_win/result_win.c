@@ -244,6 +244,7 @@ static CONFIG_FUNCTION_KEY_INFO_T 	result_win_sys_key_pool[]={
   */
 static void result_win_f1_cb(KEY_MESSAGE *key_msg)
 {
+    create_result_statis_dialog(key_msg->user_data);
 }
 /**
   * @brief  结果存在菜单功能键F2回调函数
@@ -290,6 +291,7 @@ static void result_win_f6_cb(KEY_MESSAGE *key_msg)
 {
     back_win(key_msg->user_data);
 }
+
 
 static void read_result_to_buf(uint32_t result_count)
 {
@@ -701,12 +703,28 @@ void draw_result_win_frame(void)
     {
         260, 210, 800 - 110 - 20, 420
     };
+    GUI_RECT area1_t;
+    GUI_RECT area2_t;
     
 	GUI_SetColor(GUI_WHITE);
 	GUI_SetPenSize(2);
 	myGUI_DrawRectEx(&area0);
 	myGUI_DrawRectEx(&area1);
 	myGUI_DrawRectEx(&area2);
+    
+    area1_t.x0 = area1.x0 + 2;
+    area1_t.y0 = area1.y0 + 2;
+    area1_t.x1 = area1.x1 - 1;
+    area1_t.y1 = area1.y0 + 40;
+    
+    area2_t.x0 = area2.x0 + 2;
+    area2_t.y0 = area2.y0 + 2;
+    area2_t.x1 = area2.x1 - 1;
+    area2_t.y1 = area2.y0 + 40;
+    
+    GUI_SetColor(GUI_GRAY);//GUI_LIGHTGRAY
+    GUI_FillRectEx(&area1_t);
+    GUI_FillRectEx(&area2_t);
 }
 static void result_win_task(void)
 {
