@@ -8,6 +8,7 @@
   ******************************************************************************
   */
 
+#include "stdio.h"
 #include "ui_com/com_ui_info.h"
 #include "7_result_statis_win.h"
 #include "result_statis_win.h"
@@ -89,12 +90,12 @@ static CS_INDEX result_statis_win_text_ele_table[]=
   */
 static TEXT_ELE_T result_statis_win_ui_text_ele_pool[]=
 {
-	{{"结果容量:10000", "Capacity:10000"}   , RESULT_STATIS_WIN_CAPACITY},
-	{{"已用条数:10000", "Used:10000"}       , RESULT_STATIS_WIN_USED},
-	{{"剩余条数:10000", "Residue:10000"}    , RESULT_STATIS_WIN_RESIDUE},
-	{{"合格条数:10000", "PASS:10000"}       , RESULT_STATIS_WIN_PASS},
-	{{"失败条数:10000", "FAIL:10000"}       , RESULT_STATIS_WIN_FAIL},
-	{{"合格率:100%", "Percent of pass:10000"}, RESULT_STATIS_WIN_PERCENT},
+	{{"结果容量:", " Total Capacity:"}   , RESULT_STATIS_WIN_CAPACITY},
+	{{"已用条数:", "   Already Used:"}       , RESULT_STATIS_WIN_USED},
+	{{"剩余条数:", "Remaining Space:"}    , RESULT_STATIS_WIN_RESIDUE},
+	{{"合格条数:", " Number of PASS:"}       , RESULT_STATIS_WIN_PASS},
+	{{"失败条数:", " Number of FAIL:"}       , RESULT_STATIS_WIN_FAIL},
+	{{"合 格 率:", "Percent of pass:"}, RESULT_STATIS_WIN_PERCENT},
 };
 /**
   * @brief  窗口文本控件自动布局信息数组，根据不同的屏幕尺寸进行初始化
@@ -128,6 +129,7 @@ MYUSER_WINDOW_T result_statis_windows=
     },/* auto_layout */
     result_statis_win_pos_size_pool/*pos_size_pool*/
 };
+static MYUSER_WINDOW_T *this_win = &result_statis_windows;
 /* Private functions ---------------------------------------------------------*/
 
 /**
@@ -200,6 +202,56 @@ static void update_menu_key_inf(WM_HMEM hWin)
 {
 	init_menu_key_info(result_statis_win_menu_key_info, ARRAY_SIZE(result_statis_win_menu_key_info), hWin);//刷新菜单键显示
 }
+
+static void update_result_statis_inf(void)
+{
+//    RESULT_STATIS_WIN_CAPACITY,///<
+//    RESULT_STATIS_WIN_USED,///<
+//    RESULT_STATIS_WIN_RESIDUE,///<
+//    RESULT_STATIS_WIN_PASS,///<
+//    RESULT_STATIS_WIN_FAIL,///<
+//    RESULT_STATIS_WIN_PERCENT///<
+    uint8_t buf[201] = {0};
+    uint32_t total_res = 0;
+    CS_INDEX *index = result_statis_win_text_ele_table;
+    
+    total_res = get_result_max_num();
+    
+    /* 结果容量 */
+    get_text_ele_text(*index, this_win, buf, 200);
+    sprintf((char*)buf, "%s%d", buf, total_res);
+    update_text_ele(*index, this_win, buf);
+    
+    /* 已用条数 */
+    index++;
+    get_text_ele_text(*index, this_win, buf, 200);
+    sprintf((char*)buf, "%s%d", buf, sys_par.used_res_num);
+    update_text_ele(*index, this_win, buf);
+    
+    /* 剩余条数 */
+    index++;
+    get_text_ele_text(*index, this_win, buf, 200);
+    sprintf((char*)buf, "%s%d", buf, total_res - sys_par.used_res_num);
+    update_text_ele(*index, this_win, buf);
+    
+    /* 合格条数 */
+    index++;
+    get_text_ele_text(*index, this_win, buf, 200);
+    sprintf((char*)buf, "%s%d", buf, sys_par.pass_res_num);
+    update_text_ele(*index, this_win, buf);
+    
+    /* 失败条数 */
+    index++;
+    get_text_ele_text(*index, this_win, buf, 200);
+    sprintf((char*)buf, "%s%d", buf, sys_par.used_res_num - sys_par.pass_res_num);
+    update_text_ele(*index, this_win, buf);
+    
+    /* 合格率 */
+    index++;
+    get_text_ele_text(*index, this_win, buf, 200);
+    sprintf((char*)buf, "%s%d%%", buf, sys_par.pass_res_num * 100 / sys_par.used_res_num);
+    update_text_ele(*index, this_win, buf);
+}
 /**
   * @brief  窗口的回调函数
   * @param  [in] pMsg 窗口消息
@@ -220,7 +272,7 @@ static void result_statis_win_cb(WM_MESSAGE* pMsg)
             init_dialog(win);
             update_win_menu_key(win);
             init_create_win_all_ele(win);
-            
+            update_result_statis_inf();
             break;
 		 case WM_KEY:
             break;

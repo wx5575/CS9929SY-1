@@ -494,7 +494,7 @@ void auto_init_win_edit_ele_dis_inf(MYUSER_WINDOW_T *win)
             row = 0;
             column++;
             
-            if(column >= auto_layout->columns)
+            if(column > auto_layout->columns)
             {
                 //换页
                 column = 0;
@@ -1435,8 +1435,8 @@ void init_dialog(MYUSER_WINDOW_T * win)
     FRAMEWIN_SetTitleHeight(hWin, 35);
     FRAMEWIN_SetTextColor(hWin, GUI_BLACK);
     FRAMEWIN_SetText(hWin, (const char*)win->win_name[SYS_LANGUAGE]);
-    FRAMEWIN_SetFont(hWin, &GUI_Fonthz_26);
-    FRAMEWIN_SetTextAlign(hWin, GUI_TA_CENTER);
+    FRAMEWIN_SetFont(hWin, &GUI_Fonthz_24);
+    FRAMEWIN_SetTextAlign(hWin, GUI_TA_HCENTER | GUI_TA_VCENTER);
 //    FRAMEWIN_SetBarColor(hWin, 1, GUI_LIGHTBLUE);
     FRAMEWIN_SetBarColor(hWin, 1, 0x804000);
     FRAMEWIN_SetBarColor(hWin, 0, GUI_LIGHTBLUE);
@@ -1793,7 +1793,7 @@ void init_group_com_text_ele_dis_inf(MYUSER_WINDOW_T* win)
     #define WM_W		120
     #define CWM_X		WM_X+WM_W
     #define CWM_W  		20
-    #define TF_FONT     &GUI_Fonthz_20
+    #define TF_FONT     &GUI_Fonthz_24
     
     /* "文件名" */
     inf.base_x = GB_X;//x基坐标 

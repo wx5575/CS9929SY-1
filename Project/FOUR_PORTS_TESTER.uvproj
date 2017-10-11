@@ -1076,6 +1076,11 @@
               <FilePath>..\source\USER_UI\fonts\fonts.h</FilePath>
             </File>
             <File>
+              <FileName>hz_24.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\fonts\HZ\hz_24.c</FilePath>
+            </File>
+            <File>
               <FileName>hz_20.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\USER_UI\fonts\HZ\hz_20.c</FilePath>
@@ -2717,6 +2722,11 @@
               <FileName>fonts.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\source\USER_UI\fonts\fonts.h</FilePath>
+            </File>
+            <File>
+              <FileName>hz_24.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\fonts\HZ\hz_24.c</FilePath>
             </File>
             <File>
               <FileName>hz_20.c</FileName>

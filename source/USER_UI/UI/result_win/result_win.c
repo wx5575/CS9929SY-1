@@ -75,40 +75,17 @@ static WIDGET_POS_SIZE_T* result_win_pos_size_pool[SCREEN_NUM]=
   */
 static TEXT_ELE_T result_win_ele_pool[]=
 {
-	{{"产品编号","Product number"}, RESULT_WIN_PRODUCT_NUM      },
-	{{"000001","000001"}, RESULT_WIN_NUM01      },
-	{{"000002","000002"}, RESULT_WIN_NUM02      },
-	{{"000003","000003"}, RESULT_WIN_NUM03      },
-	{{"000004","000004"}, RESULT_WIN_NUM04      },
-	{{"000005","000005"}, RESULT_WIN_NUM05      },
-	{{"000006","000006"}, RESULT_WIN_NUM06      },
-	{{"000007","000007"}, RESULT_WIN_NUM07      },
-	{{"000008","000008"}, RESULT_WIN_NUM08      },
-	{{"000009","000009"}, RESULT_WIN_NUM09      },
-	{{"000010","000010"}, RESULT_WIN_NUM10      },
-	{{"000011","000011"}, RESULT_WIN_NUM11      },
-	{{"000012","000012"}, RESULT_WIN_NUM12      },
-	{{"000013","000013"}, RESULT_WIN_NUM13      },
-	{{"000014","000014"}, RESULT_WIN_NUM14      },
-	{{"000015","000015"}, RESULT_WIN_NUM15      },
-	{{"000016","000016"}, RESULT_WIN_NUM16      },
 	{{"测试结果信息","Test Result Information"}, RESULT_WIN_TEST_RES_INF},
-	{{"0001",
-      "0001"}, RESULT_WIN_TEST_RES_1},
-	{{"0001",
-      "0001"}, RESULT_WIN_TEST_RES_2},
-	{{"0001",
-      "0001"}, RESULT_WIN_TEST_RES_3},
-	{{"0001",
-      "0001"}, RESULT_WIN_TEST_RES_4},
-	{{"0001",
-      "0001 ROAD1 ACW 5.000kV 2.000mA   3.0s PASS"}, RESULT_WIN_TEST_RES_5},
-	{{"0001 第2路 ACW 5.000kV 2.000mA   3.0s 合格",
-      "0001 ROAD1 ACW 5.000kV 2.000mA   3.0s PASS"}, RESULT_WIN_TEST_RES_6},
-	{{"0001 第3路 ACW 5.000kV 2.000mA   3.0s 合格",
-      "0001 ROAD1 ACW 5.000kV 2.000mA   3.0s PASS"}, RESULT_WIN_TEST_RES_7},
-	{{"0001 第3路 ACW 5.000kV 2.000mA   3.0s 合格",
-      "0001 ROAD1 ACW 5.000kV 2.000mA   3.0s PASS"}, RESULT_WIN_TEST_RES_8},
+	{{"0001", "0001"}, RESULT_WIN_TEST_RES_1},
+	{{"0001", "0001"}, RESULT_WIN_TEST_RES_2},
+	{{"0001", "0001"}, RESULT_WIN_TEST_RES_3},
+	{{"0001", "0001"}, RESULT_WIN_TEST_RES_4},
+	{{"0001", "0001"}, RESULT_WIN_TEST_RES_5},
+	{{"0001", "0001"}, RESULT_WIN_TEST_RES_6},
+	{{"0001", "0001"}, RESULT_WIN_TEST_RES_7},
+	{{"0001", "0001"}, RESULT_WIN_TEST_RES_8},
+//	{{"0001 第3路 ACW 5.000kV 2.000mA   3.0s 合格",
+//      "0001 ROAD1 ACW 5.000kV 2.000mA   3.0s PASS"}, RESULT_WIN_TEST_RES_8},
       
 	{{"设置参数", "SETTING PAR."}, RESULT_WIN_SETTING_PAR},
 	{{"测试模式:ACW\n"
@@ -148,25 +125,6 @@ static CS_INDEX result_inf_index[]=
 };
 static CS_INDEX result_win_text_ele_index_pool[]=
 {
-//    RESULT_WIN_PRODUCT_NUM,
-//    RESULT_WIN_NUM01,
-//    RESULT_WIN_NUM02,
-//    RESULT_WIN_NUM03,
-//    RESULT_WIN_NUM04,
-//    RESULT_WIN_NUM05,
-//    RESULT_WIN_NUM06,
-//    RESULT_WIN_NUM07,
-//    RESULT_WIN_NUM08,
-//    RESULT_WIN_NUM09,
-//    RESULT_WIN_NUM10,
-//    RESULT_WIN_NUM11,
-//    RESULT_WIN_NUM12,
-//    RESULT_WIN_NUM13,
-//    RESULT_WIN_NUM14,
-//    RESULT_WIN_NUM15,
-//    RESULT_WIN_NUM16,
-    
-//    RESULT_WIN_TEST_RES_INF,
     RESULT_WIN_TEST_RES_1,
     RESULT_WIN_TEST_RES_2,
     RESULT_WIN_TEST_RES_3,
@@ -256,6 +214,11 @@ static void result_win_f2_cb(KEY_MESSAGE *key_msg)
     my_deldir("\\ROOT\\RESULT");//删除结果目录
     read_result_to_buf(0);
     update_result_inf_dis(l_result_count - l_cur_result);//更新显示
+    
+    sys_par.used_res_num = 0;
+    sys_par.pass_res_num = 0;
+    sys_par.cover_res_num = 0;
+    save_sys_par();
 }
 /**
   * @brief  结果存在菜单功能键F3回调函数
@@ -291,7 +254,6 @@ static void result_win_f6_cb(KEY_MESSAGE *key_msg)
 {
     back_win(key_msg->user_data);
 }
-
 
 static void read_result_to_buf(uint32_t result_count)
 {

@@ -221,7 +221,7 @@ static CS_INDEX acw_par_index[]=
     STEP_EDIT_WIN_CONT,///<步间连续
     STEP_EDIT_WIN_PASS,///<步间PASS
     STEP_EDIT_WIN_PORT,///<输出端口
-    STEP_EDIT_WIN_DELAY_T,///<延时时间
+//    STEP_EDIT_WIN_DELAY_T,///<延时时间
 };
 /**
   * @brief  ACW G模式 步骤编辑窗口中要显示的编辑控件的索引表

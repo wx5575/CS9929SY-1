@@ -3431,8 +3431,6 @@ void update_result_flag_inf(RESULT_INF *res)
             }
         }
     }
-    
-    save_sys_par();//保存系统参数
 }
 void save_test_result(void)
 {
@@ -3518,6 +3516,8 @@ void save_test_result(void)
     
 end:
     f_close(&f);
+    
+    save_sys_par();//保存系统参数
 }
 /**
   * @brief  测试状态机
@@ -3633,7 +3633,6 @@ static void test_status_machine(void)
             break;
     }
 }
-
 
 /**
   * @brief  设置各路的测试状态
