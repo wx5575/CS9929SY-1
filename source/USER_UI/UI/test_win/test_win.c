@@ -3556,13 +3556,13 @@ static void test_status_machine(void)
             
             send_start_sign();//发出同步启动信号
             
-            test_status = TEST_TESTING;
+            test_status = TEST_TESTING;//进入正在测试状态
             count_dly = 0;
             roads_into_test_st();
             update_roads_bar();
             key_scan_off();
-            set_pass_led_state(LED_OFF);
-            register_tim3_server_fun(test_led_flicker);
+            set_pass_led_state(LED_OFF);//关闭PASS灯
+            register_tim3_server_fun(test_led_flicker);//测试灯闪烁
             break;
         case TEST_RESET:
             test_step = 1;
@@ -3612,6 +3612,7 @@ static void test_status_machine(void)
                 /* 步间连续打开 */
                 if(steps_con)
                 {
+                    /* 做延时是因为测试状态信息还没有传上来 */
                     if(++count_dly > 3)
                     {
                         count_dly = 0;
