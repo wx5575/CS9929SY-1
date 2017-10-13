@@ -623,6 +623,11 @@ static void result_win_paint_frame(void)
 	GUI_ClearRectEx(&r);
 }
 
+/**
+  * @brief  7寸屏结果窗口文本控件位置信息初始化
+  * @param  无
+  * @retval 无
+  */
 static void init_result_win_text_ele_pos_inf(void)
 {
     switch(SCREEM_SIZE)
@@ -651,6 +656,11 @@ static void init_create_result_win_text_ele(MYUSER_WINDOW_T* win)
 //    update_result_win_text_ele_text(win);
 }
 
+/**
+  * @brief  画结果窗口的框图
+  * @param  无
+  * @retval 无
+  */
 void draw_result_win_frame(void)
 {
     const GUI_RECT area0 =
@@ -688,6 +698,12 @@ void draw_result_win_frame(void)
     GUI_FillRectEx(&area1_t);
     GUI_FillRectEx(&area2_t);
 }
+
+/**
+  * @brief  结果窗口的子任务
+  * @param  无
+  * @retval 无
+  */
 static void result_win_task(void)
 {
     switch(win_task)
@@ -738,7 +754,7 @@ static void result_win_cb(WM_MESSAGE* pMsg)
 			WM_RestartTimer(result_win_timer_handle, 10);
 			break;
         }
-		 case WM_KEY:
+        case WM_KEY:
             break;
 		case WM_PAINT:
 			result_win_paint_frame();
