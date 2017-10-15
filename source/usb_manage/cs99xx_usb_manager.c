@@ -42,7 +42,7 @@ int32_t check_usb_disk(void)
         for (i = 0; i < 100; i ++ )
 		{
             /* 最长等待时间,100*50mS */
-			s = CH376DiskMount();  /* 初始化磁盘并测试磁盘是否就绪 */
+			s = CH376DiskMount();/* 初始化磁盘并测试磁盘是否就绪 */
 			if (s == USB_INT_SUCCESS)
 			{
 				break;  /* 准备好 */
@@ -64,7 +64,7 @@ int32_t check_usb_disk(void)
 			continue;
 		}
         /* 未知USB设备,例如USB键盘、打印机等 */
-		if (CH376GetDiskStatus( ) < DEF_DISK_MOUNTED)
+		if (CH376GetDiskStatus() < DEF_DISK_MOUNTED)
 		{
 			return -1;
 		}
@@ -79,6 +79,9 @@ int32_t check_usb_disk(void)
   */
 uint8_t check_connect_usb(uint8_t strong_brush)
 {
+//    uint8_t st = 0;
+//    uint8_t s = 0;
+    
 	if(1 == Query376Interrupt() || strong_brush)
 	{
 		if(CH376DiskConnect() == USB_INT_SUCCESS)
@@ -100,6 +103,36 @@ uint8_t check_connect_usb(uint8_t strong_brush)
 	return get_cur_ch376_status();
 }
 
+/**
+  * @brief  检查U盘是否连接成功
+  * @param  [in] strong_brush 强制刷新
+  * @retval 获取当前376状态
+  */
+uint8_t check_connect_usb2(uint8_t strong_brush)
+{
+//    uint8_t st = 0;
+//    uint8_t s = 0;
+    
+	if(1 == Query376Interrupt() || strong_brush)
+	{
+		if(CH376DiskConnect() == USB_INT_SUCCESS)
+		{
+			//u盘连接成功
+			if(check_sweep_code_rob() == 0)
+			{
+                set_cur_ch376_status(1);
+                update_usb_dis_status();
+			}
+		}
+		else
+		{
+            set_cur_ch376_status(0);
+            update_usb_dis_status();
+		}
+	}
+	
+	return get_cur_ch376_status();
+}
 /**
   * @brief  创建长文件名
   * @param  [in] file_Shortname 短文件名可包含路径

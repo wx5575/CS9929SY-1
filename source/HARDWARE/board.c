@@ -68,7 +68,7 @@ void bsp_init(void)
     usart2_config(115200 * 6);
     usart3_config(115200 * 6);
     uart4_config (115200 * 6);
-    
+    usart6_config (9600);
 }
 
 

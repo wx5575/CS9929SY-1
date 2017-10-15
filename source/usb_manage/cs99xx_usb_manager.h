@@ -54,7 +54,7 @@ USB_MANAGER_EXT uint8_t usb_exe_task;
 
 extern int32_t check_usb_flash(void);
 extern uint8_t check_connect_usb(uint8_t strong_brush);
-extern uint8_t check_connect_usb2(void);
+extern uint8_t check_connect_usb2(uint8_t strong_brush);
 extern void usb1_server_task(void);
 extern void usb2_server_task(void);
 extern int32_t leading_out_result_usb(void);

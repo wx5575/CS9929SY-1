@@ -103,14 +103,15 @@ void ch376_task(void *p_arg)
 {
     uint8_t strong_brush_time = 0;//强刷计时
     uint8_t strong_brush_flag = 0;//强刷标记
+    uint8_t res = 0;
     
     init_ch376();
     OS_DELAY_ms(2000);
-    set_cur_ch376_chip(1);
-	mainx();
+//    set_cur_ch376_chip(1);
+//	mainx();
 	while(1)
 	{
-        OS_DELAY_ms(200);
+        OS_DELAY_ms(20);
         
         if(++strong_brush_time > 5)
         {
@@ -123,15 +124,19 @@ void ch376_task(void *p_arg)
         }
 		
         set_cur_ch376_chip(1);
-		if(check_connect_usb(strong_brush_flag))
+        res = check_connect_usb(strong_brush_flag);
+        
+		if(res == 1)
 		{
 			usb2_server_task();
 		}
         
         set_cur_ch376_chip(2);
-		if(check_connect_usb(strong_brush_flag))
+        res = check_connect_usb2(strong_brush_flag);
+        
+		if(res == 1)
 		{
-			usb2_server_task();
+            receive_barcode();
 		}
 	}
 }

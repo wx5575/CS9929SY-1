@@ -23,6 +23,7 @@ typedef enum{
     SYS_UI_CAL,///<系统校准
     SYS_UI_MODULE,///<终统模块管理
     SYS_UI_RE_FACT_SETTING,///<恢复出厂设置
+    SYS_UI_RUN_LOG,///<运行日志
     SYS_UI_END,
 }SYS_WIN_TEXT_INDEX_ENUM;
 /* Private define ------------------------------------------------------------*/
@@ -65,7 +66,7 @@ static CS_INDEX sys_win_text_index_table[]=
     SYS_UI_CAL,// 系统校准
     SYS_UI_MODULE,// 终统模块管理
     SYS_UI_RE_FACT_SETTING,// 恢复出厂设置
-    SYS_UI_END,
+    SYS_UI_RUN_LOG,///<运行日志
 };
 /**
   * @brief  系统窗口文本控件池
@@ -78,6 +79,7 @@ static TEXT_ELE_T sys_ui_ele_pool[]=
     {{"校准管理"    ,"Calibration Management"   }, SYS_UI_CAL            },
     {{"模块管理"    ,"Module Management"        }, SYS_UI_MODULE         },
     {{"恢复出厂设置","Restore factory settings" }, SYS_UI_RE_FACT_SETTING},
+    {{"系统运行日志","System Run Log"           }, SYS_UI_RUN_LOG},
 };
 
 /**
@@ -237,6 +239,9 @@ static void into_sub_set_win(int hWin)
             break;
         case SYS_UI_RE_FACT_SETTING:
             create_restor_factory_setting_dialog(hWin);
+            break;
+        case SYS_UI_RUN_LOG:
+            create_run_log_win(hWin);
             break;
     }
 }

@@ -187,7 +187,7 @@ UINT8	Wait376Interrupt( void )  /* 等待CH376中断(INT#低电平)，返回中断状态码, 超
 #endif
 #else
 	UINT32	i;
-	for ( i = 0; i < 5000000; i ++ ) {  /* 计数防止超时,默认的超时时间,与单片机主频有关 */
+	for ( i = 0; i < 500000; i ++ ) {  /* 计数防止超时,默认的超时时间,与单片机主频有关 */
 		if ( Query376Interrupt( ) ) return( CH376GetIntStatus( ) );  /* 检测到中断 */
 /* 在等待CH376中断的过程中,可以做些需要及时处理的其它事情 */
 	}

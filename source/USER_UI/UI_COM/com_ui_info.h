@@ -530,6 +530,7 @@ extern void create_sys_time_dialog(int hWin);
 extern void create_restor_factory_setting_dialog(int hWin);
 
 extern void create_help_win(int hWin);
+extern void create_run_log_win(int hWin);
 extern void create_self_check_win(int hWin);
 extern void create_start_win(int hWin);
 extern void create_calibration_win(int hWin);

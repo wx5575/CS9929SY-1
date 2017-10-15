@@ -33,14 +33,15 @@
 static void main_win_cb(WM_MESSAGE * pMsg);
 static void update_main_ui_menu_key_inf(WM_HMEM hWin);
 
-static void sys_exit_key_fun_cb(KEY_MESSAGE *key_msg);
-static void sys_stop_key_fun_cb(KEY_MESSAGE *key_msg);
+static void main_win_sys_exit_key_fun_cb(KEY_MESSAGE *key_msg);
+static void main_win_sys_stop_key_fun_cb(KEY_MESSAGE *key_msg);
 static void sys_shift_key_fun_cb(KEY_MESSAGE *key_msg);
 static void sys_unlock_key_fun_cb(KEY_MESSAGE *key_msg);
 static void screen_capture_key_fun_cb(KEY_MESSAGE *key_msg);
 static void copy_file_to_sdcard_key_fun_cb(KEY_MESSAGE *key_msg);
 static void reset_cpu_key_fun_cb(KEY_MESSAGE *key_msg);
 
+static void main_win_f0_cb(KEY_MESSAGE *key_msg);
 static void main_win_f1_cb(KEY_MESSAGE *key_msg);
 static void main_win_f2_cb(KEY_MESSAGE *key_msg);
 static void main_win_f3_cb(KEY_MESSAGE *key_msg);
@@ -67,8 +68,8 @@ static CONFIG_FUNCTION_KEY_INFO_T main_win_sys_key_pool[]=
 {
 	{KEY_SHIFT	    , sys_shift_key_fun_cb      },
 	{KEY_UNLOCK	    , sys_unlock_key_fun_cb     },
-	{KEY_EXIT	    , sys_exit_key_fun_cb       },
-	{KEY_STOP	    , sys_stop_key_fun_cb       },
+	{KEY_EXIT	    , main_win_sys_exit_key_fun_cb       },
+	{KEY_STOP	    , main_win_sys_stop_key_fun_cb       },
 	{KEY_F1 & KEY_0 , screen_capture_key_fun_cb },
 	{KEY_F1 & KEY_1 , copy_file_to_sdcard_key_fun_cb },
 	{KEY_UNLOCK & KEY_OFFSET , reset_cpu_key_fun_cb },
@@ -85,7 +86,7 @@ static WIDGET_POS_SIZE_T* main_win_pos_size_pool[SCREEN_NUM]=
 /** 主界面使用的菜单键信息的配置 */
 static MENU_KEY_INFO_T 	main_ui_menu_key_inf[] = 
 {
-    {"", F_KEY_DISPLAY  , KEY_F0 & _KEY_UP, 0             , SYS_KEY_DIS},//f0
+    {"", F_KEY_DISPLAY  , KEY_F0 & _KEY_UP, main_win_f0_cb, SYS_KEY_DIS},//f0
     {"", F_KEY_FILE		, KEY_F1 & _KEY_UP, main_win_f1_cb, SYS_KEY_EN },//f1
     {"", F_KEY_STEP		, KEY_F2 & _KEY_UP, main_win_f2_cb, SYS_KEY_EN},//f2
     {"", F_KEY_SYS		, KEY_F3 & _KEY_UP, main_win_f3_cb, SYS_KEY_EN },//f3
@@ -127,7 +128,15 @@ MYUSER_WINDOW_T main_windows=
     main_win_pos_size_pool,/*pos_size_pool */
 };
 
-/* Private functions ---------------------------------------------------------*/
+/* Private functions ---------------------------------------------------------*//**
+  * @brief  主窗口中功能键F1回调函数
+  * @param  [in] key_msg 按键消息
+  * @retval 无
+  */
+static void main_win_f0_cb(KEY_MESSAGE *key_msg)
+{
+    main_win_sys_stop_key_fun_cb(key_msg);
+}
 /**
   * @brief  主窗口中功能键F1回调函数
   * @param  [in] key_msg 按键消息
@@ -261,7 +270,7 @@ static void update_main_ui_menu_key_inf(WM_HMEM hWin)
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
-static void sys_exit_key_fun_cb(KEY_MESSAGE *key_msg)
+static void main_win_sys_exit_key_fun_cb(KEY_MESSAGE *key_msg)
 {
 	MYUSER_WINDOW_T *node;
 	CS_LIST *index = NULL;
@@ -287,7 +296,7 @@ static void sys_exit_key_fun_cb(KEY_MESSAGE *key_msg)
   * @param  [in] key_msg 按键消息
   * @retval 无
   */
-static void sys_stop_key_fun_cb(KEY_MESSAGE *key_msg)
+static void main_win_sys_stop_key_fun_cb(KEY_MESSAGE *key_msg)
 {
 	MYUSER_WINDOW_T *node;
 	CS_LIST *index = NULL;

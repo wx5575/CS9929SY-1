@@ -456,6 +456,11 @@
               <FilePath>..\source\HARDWARE\USART\USART3.C</FilePath>
             </File>
             <File>
+              <FileName>UART4.C</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\HARDWARE\USART\UART4.C</FilePath>
+            </File>
+            <File>
               <FileName>USART6.C</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\HARDWARE\USART\USART6.C</FilePath>
@@ -464,11 +469,6 @@
               <FileName>tim3.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\HARDWARE\TIMER\tim3.c</FilePath>
-            </File>
-            <File>
-              <FileName>UART4.C</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\HARDWARE\USART\UART4.C</FilePath>
             </File>
             <File>
               <FileName>start_stop_key.c</FileName>
@@ -1533,6 +1533,21 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>RUN_LOG_WIN</GroupName>
+          <Files>
+            <File>
+              <FileName>7_run_log_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\run_log_win\7_run_log_win.c</FilePath>
+            </File>
+            <File>
+              <FileName>run_log_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\run_log_win\run_log_win.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>MEM_MANAGE</GroupName>
           <Files>
             <File>
@@ -1654,6 +1669,21 @@
               <FileName>templet.c.txt</FileName>
               <FileType>5</FileType>
               <FilePath>..\source\Document\templet.c.txt</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>SCPI</GroupName>
+          <Files>
+            <File>
+              <FileName>scpi_cmd_def.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\SCPI\scpi_cmd_def.c</FilePath>
+            </File>
+            <File>
+              <FileName>scpi_analysis_cmd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\SCPI\scpi_analysis_cmd.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2109,6 +2139,11 @@
               <FilePath>..\source\HARDWARE\USART\USART3.C</FilePath>
             </File>
             <File>
+              <FileName>UART4.C</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\HARDWARE\USART\UART4.C</FilePath>
+            </File>
+            <File>
               <FileName>USART6.C</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\HARDWARE\USART\USART6.C</FilePath>
@@ -2117,11 +2152,6 @@
               <FileName>tim3.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\HARDWARE\TIMER\tim3.c</FilePath>
-            </File>
-            <File>
-              <FileName>UART4.C</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\HARDWARE\USART\UART4.C</FilePath>
             </File>
             <File>
               <FileName>start_stop_key.c</FileName>
@@ -3186,6 +3216,21 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>RUN_LOG_WIN</GroupName>
+          <Files>
+            <File>
+              <FileName>7_run_log_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\run_log_win\7_run_log_win.c</FilePath>
+            </File>
+            <File>
+              <FileName>run_log_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\run_log_win\run_log_win.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>MEM_MANAGE</GroupName>
           <Files>
             <File>
@@ -3307,6 +3352,21 @@
               <FileName>templet.c.txt</FileName>
               <FileType>5</FileType>
               <FilePath>..\source\Document\templet.c.txt</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>SCPI</GroupName>
+          <Files>
+            <File>
+              <FileName>scpi_cmd_def.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\SCPI\scpi_cmd_def.c</FilePath>
+            </File>
+            <File>
+              <FileName>scpi_analysis_cmd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\SCPI\scpi_analysis_cmd.c</FilePath>
             </File>
           </Files>
         </Group>

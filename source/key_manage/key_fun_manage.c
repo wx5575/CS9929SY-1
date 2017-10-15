@@ -183,7 +183,7 @@ void disable_system_fun_key_fun(void)
         KEY_DOWN,
         KEY_LEFT,
         KEY_RIGHT,
-        KEY_F0 & _KEY_UP,
+//        KEY_F0 & _KEY_UP,
         KEY_F1 & _KEY_UP,
         KEY_F2 & _KEY_UP,
         KEY_F3 & _KEY_UP,
