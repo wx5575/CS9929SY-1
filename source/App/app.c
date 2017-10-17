@@ -31,6 +31,7 @@
 #include "scan_module.h"
 #include "send_cmd.h"
 #include "ui/main_win/main_win.h"
+#include "scpi/scpi.h"
 
 static void AppTaskScanKey(void *p_arg);
 static void AppTaskModuleComm(void *p_arg);
@@ -492,11 +493,13 @@ static void AppTaskExceptionHandling(void *p_arg)
 static void AppTaskModuleComm(void *p_arg)
 {
     init_module_manage_env();
+    init_scpi_manage_env();
     
     while(1)
     {
         OS_DELAY_ms(5);
         module_comm_task();
+        scpi_comm_task();
     }
 }
 /**
