@@ -122,16 +122,16 @@ typedef enum{
 }CMD_NUM;
 
 typedef enum {
-    SCPI_NO_ERROR                 ,   /*指令执行成功*/
-    SCPI_SYNTAX_ERROR             ,   /*语法错误，指令串中包含不合法的字符或者指令串格式不正确*/
-    SCPI_EXECUTE_NOT_ALLOWED       ,   /*指令执行不允许，在当前状态下，不允许执行指令*/
-    SCPI_PARAMETER_NOT_ALLOWED     ,   /*接收到指令不允许的参数*/
-    SCPI_MISSING_PARAMETER        ,   /*指令中遗漏了参数*/
-    SCPI_UNDEFINED_HEADER         ,   /*未定义的指令投*/
-    SCPI_PARAMETER_TYPE_ERROR      ,   /*参数类型错误*/
-    SCPI_INVALID_STRING_DATA       ,   /*不允许的字符串参数*/
-    SCPI_EXECUTE_TIME_OUT          ,   /*执行超时*/
-    SCPI_DATA_OUT_OF_RANGE          ,   /*参数值超出范围*/
+    SCPI_NO_ERROR               ,   /*指令执行成功*/
+    SCPI_SYNTAX_ERROR           ,   /*语法错误，指令串中包含不合法的字符或者指令串格式不正确*/
+    SCPI_EXECUTE_NOT_ALLOWED    ,   /*指令执行不允许，在当前状态下，不允许执行指令*/
+    SCPI_PARAMETER_NOT_ALLOWED  ,   /*接收到指令不允许的参数*/
+    SCPI_MISSING_PARAMETER      ,   /*指令中遗漏了参数*/
+    SCPI_UNDEFINED_HEADER       ,   /*未定义的指令投*/
+    SCPI_PARAMETER_TYPE_ERROR   ,   /*参数类型错误*/
+    SCPI_INVALID_STRING_DATA    ,   /*不允许的字符串参数*/
+    SCPI_EXECUTE_TIME_OUT       ,   /*执行超时*/
+    SCPI_DATA_OUT_OF_RANGE      ,   /*参数值超出范围*/
 }SCPI_ERR_T;
 extern const char * comm_error_msg[];
 
@@ -141,6 +141,7 @@ typedef enum{
 }SCPI_CMD_TYPE;
 
 #define MAX_SCPI_PAR_NUM    50 ///<SCPI指令可以携带的最大参数个数
+#define MAX_SCPI_CMD_NUM    4  ///<SCPI指令可以包含的最大指令级数
 typedef struct{
     uint8_t **argv;///<SCPI指令处理函数携带的参数
     uint8_t argc;///<SCPI指令处理函数携带的参数个数
@@ -148,14 +149,26 @@ typedef struct{
     uint8_t *ask_len;///<SCPI指令返回的数据长度（字节数）
     SCPI_CMD_TYPE type;///<标记指令类型是SCPI_EXE SCPI_QUERY
 }SCPI_DIS_FUN_PAR;
+typedef enum{
+    E__,///<只执行
+    _W_,///<只写
+    __R,///<只读
+    _WR,///<读写
+    EWR,///<读写执行
+}SCPI_ATTRIBUTE;
+
+#define IGNORE_PAR_NUM 0xff //忽略参数个数，程序不会自动检查参数个数，实用与多参数指令，\
+                                且参数个数不确定等使用
 
 typedef struct{
-    uint8_t cmd[4];///<4级指令
+    uint8_t cmd[MAX_SCPI_CMD_NUM];///<4级指令
+    SCPI_ATTRIBUTE att;///<指令属性
+    uint8_t par_num;///<参数个数 如果为 IGNORE_PAR_NUM 则为自定义参数个数，程序不会自动检查参数个数的合法性
     SCPI_ERR_T (*dispose_fun)(SCPI_DIS_FUN_PAR *par);///<处理函数
 }SCPI_CMD;
 
 
-uint8_t find_one_section_cmd(uint8_t *section, SCPI_ERR_T *err);
+uint8_t find_one_section_cmd(uint8_t *section, uint32_t *cmd_count, SCPI_ERR_T *err);
 SCPI_CMD * find_cmd_num(CMD_NUM_T cmd_num, SCPI_ERR_T *err);
 
 #endif //__SCPI_CMD_DEF_H__

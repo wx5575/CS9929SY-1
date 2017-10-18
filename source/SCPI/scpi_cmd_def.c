@@ -47,6 +47,7 @@ CMD_SEGMENT_T scpi_segment_pool[]=
     "CNEXt"         , C_CNEXT,
     "COMM"          , C_COMM,
     "COMMunication" , C_COMM,
+    "CONT"          , C_CONTRAST,
     "CONT"          , C_CONTROL,
     "CONTrast"      , C_CONTRAST,
     "CONTrol"       , C_CONTROL,
@@ -194,21 +195,21 @@ const char * comm_error_msg[] =
 SCPI_CMD scpi_cmd_pool[]=
 {
     /* 公用指令集 */
-    {{C_IDN}                , idn_scpi_dispose_fun},
-    {{C_RST}                , rst_scpi_dispose_fun},
+    {{C_IDN}                , __R, 0, idn_scpi_dispose_fun},
+    {{C_RST}                , E__, 0, rst_scpi_dispose_fun},
     /* 通信指令集 */
-    {{C_COMM,C_SADD}        , comm_sadd_scpi_dispose_fun},
-    {{C_COMM,C_REMOTE}      , comm_remote_scpi_dispose_fun},
-    {{C_COMM,C_LOCAL}       , comm_local_scpi_dispose_fun},
-    {{C_COMM,C_CONTROL}     , comm_control_scpi_dispose_fun},
+    {{C_COMM,C_SADD}        , _WR, 1, comm_sadd_scpi_dispose_fun},
+    {{C_COMM,C_REMOTE}      , E__, 0, comm_remote_scpi_dispose_fun},
+    {{C_COMM,C_LOCAL}       , E__, 0, comm_local_scpi_dispose_fun},
+    {{C_COMM,C_CONTROL}     , __R, 0, comm_control_scpi_dispose_fun},
     /* 文件指令集 */
-    {{C_FILE,C_NEW}             , file_new_scpi_dispose_fun},
-    {{C_FILE,C_EDIT}            , file_edit_scpi_dispose_fun},
-    {{C_FILE,C_DELETE,C_SINGLE} , file_del_single_scpi_dispose_fun},
-    {{C_FILE,C_DELETE,C_ALL}    , file_del_all_scpi_dispose_fun},
-    {{C_FILE,C_SAVE}            , file_save_scpi_dispose_fun},
-    {{C_FILE,C_READ}            , file_read_scpi_dispose_fun},
-    {{C_FILE,C_CATALOG,C_SINGLE}, file_catalog_single_scpi_dispose_fun},
+    {{C_FILE,C_NEW}             , _W_, IGNORE_PAR_NUM   , file_new_scpi_dispose_fun},
+    {{C_FILE,C_EDIT}            , _W_, IGNORE_PAR_NUM   , file_edit_scpi_dispose_fun},
+    {{C_FILE,C_DELETE,C_SINGLE} , E__, 1                , file_del_single_scpi_dispose_fun},
+    {{C_FILE,C_DELETE,C_ALL}    , E__, 0                , file_del_all_scpi_dispose_fun},
+    {{C_FILE,C_SAVE}            , _W_, 2                , file_save_scpi_dispose_fun},
+    {{C_FILE,C_READ}            , E__, 1                , file_read_scpi_dispose_fun},
+    {{C_FILE,C_CATALOG,C_SINGLE}, __R, 1                , file_catalog_single_scpi_dispose_fun},
     /* 源指令集 */
     {{C_SOURCE,C_TEST,C_START}      , source_test_start_scpi_dispose_fun},
     {{C_SOURCE,C_TEST,C_STOP}       , source_test_stop_scpi_dispose_fun},
@@ -340,18 +341,19 @@ SCPI_CMD * find_cmd_num(CMD_NUM_T cmd_num, SCPI_ERR_T *err)
     return NULL;
 }
 
-uint8_t find_one_section_cmd(uint8_t *section, SCPI_ERR_T *err)
+uint8_t find_one_section_cmd(uint8_t *section, uint32_t *cmd_count, SCPI_ERR_T *err)
 {
     uint8_t num = 0;
     int32_t i = 0;
     
     num = ARRAY_SIZE(scpi_segment_pool);
     
-    for(i = 0; i < num; i++)
+    for(i = *cmd_count; i < num; i++)
     {
         if( 0 == strcmp((const char*)section, scpi_segment_pool[i].cmd))
         {
             *err = SCPI_NO_ERROR;
+            *cmd_count = i + 1;
             return scpi_segment_pool[i].num;
         }
     }

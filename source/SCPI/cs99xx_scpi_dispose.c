@@ -5,6 +5,7 @@
 #include "cs99xx_type.h"
 #include "scpi_cmd_def.h"
 #include "cs99xx_scpi_dispose.h"
+#include "comm_bridge.h"
 
 SCPI_ERR_T idn_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
@@ -12,6 +13,7 @@ SCPI_ERR_T idn_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
     *par->ask_len = strlen((const char*)par->ask_data);
     return SCPI_NO_ERROR;
 }
+
 SCPI_ERR_T rst_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
     return SCPI_NO_ERROR;
@@ -24,10 +26,13 @@ SCPI_ERR_T comm_sadd_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 
 SCPI_ERR_T comm_remote_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    set_instrument_into_remote_bridge();
     return SCPI_NO_ERROR;
 }
+
 SCPI_ERR_T comm_local_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    set_instrument_exit_remote_bridge();
     return SCPI_NO_ERROR;
 }
 
@@ -440,6 +445,19 @@ SCPI_ERR_T sys_tport_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 }
 SCPI_ERR_T sys_language_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    par->argv
+    if(par->type == SCPI_EXE)
+    {
+        if(par->argc > 1)
+        {
+            return SCPI_PARAMETER_NOT_ALLOWED;
+        }
+        else if(par->argc == 0)
+        {
+            return SCPI_MISSING_PARAMETER;
+        }
+    }
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T sys_fcontinue_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)

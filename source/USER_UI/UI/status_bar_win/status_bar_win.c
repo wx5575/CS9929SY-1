@@ -4,7 +4,7 @@
   * @author  王鑫
   * @version V1.0.0
   * @date    2017.4.18
-  * @brief   主窗口文件
+  * @brief   状态栏
   ******************************************************************************
   */
 /* Includes ------------------------------------------------------------------*/
@@ -311,6 +311,30 @@ void update_usb_dis_status(void)
     update_shift_bmp();
 }
 
+/**
+  * @brief  通信进入远控状态
+  * @param  无
+  * @retval 无
+  */
+void com_st_into_remote(void)
+{
+    status_bar_win_text_ele_pool[STATUS_BAR_WIN_COM_ST].text[CHINESE] = "远控";
+    status_bar_win_text_ele_pool[STATUS_BAR_WIN_COM_ST].text[ENGLISH] = "REMOTE";
+    set_text_ele_font_color(STATUS_BAR_WIN_COM_ST, this_win, GUI_RED);
+    update_text_ele(STATUS_BAR_WIN_COM_ST, this_win, NULL);
+}
+/**
+  * @brief  通信退出远控状态
+  * @param  无
+  * @retval 无
+  */
+void com_st_exit_remote(void)
+{
+    status_bar_win_text_ele_pool[STATUS_BAR_WIN_COM_ST].text[CHINESE] = "本控";
+    status_bar_win_text_ele_pool[STATUS_BAR_WIN_COM_ST].text[ENGLISH] = "LOCAL";
+    set_text_ele_font_color(STATUS_BAR_WIN_COM_ST, this_win, GUI_BLACK);
+    update_text_ele(STATUS_BAR_WIN_COM_ST, this_win, NULL);
+}
 /**
   * @brief  隐藏状态栏界面
   * @param  无

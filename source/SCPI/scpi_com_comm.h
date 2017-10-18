@@ -53,7 +53,7 @@ struct SCPI_COMM_STRUCT_{
 };
 extern SCPI_COM_STRUCT scpi_com;
 
-void scpi_receive_dispose(SCPI_COM_STRUCT *com, uint8_t *data, uint32_t len);
+void scpi_receive_dispose(SCPI_COM_STRUCT *com, uint8_t *frame, uint32_t len);
 
 void scpi_comm_status_machine(SCPI_COM_STRUCT *com);
 void com_set_wait_ack_timeout(SCPI_COM_STRUCT *com);

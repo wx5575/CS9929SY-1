@@ -31,7 +31,16 @@ uint8_t end_data_1[] = {0X0D, 0X0A};
 uint8_t end_data_2[] = {'#'};
 uint8_t end_data_3[] = {0x0A};
 
-SCPI_ERR_T split_scpi_par(uint8_t *scpi_cmd, uint8_t *par[], uint8_t *layer)
+/**
+  * @brief  拆分SCPI指令携带的参数
+  * @param  [in] scpi_cmd SCPI指令
+  * @param  [out] par SCPI指令
+  * @param  [out] layer SCPI指令携带的参数个数
+  * @retval 拆分结果
+  *         @arg SCPI_NO_ERROR 正常结束
+  *         @arg SCPI_UNDEFINED_HEADER 未定义指令
+  */
+static SCPI_ERR_T split_scpi_par(uint8_t *scpi_cmd, uint8_t *par[], uint8_t *layer)
 {
     uint8_t len = 0;
     int32_t i = 0;
@@ -79,7 +88,12 @@ SCPI_ERR_T split_scpi_par(uint8_t *scpi_cmd, uint8_t *par[], uint8_t *layer)
     return SCPI_NO_ERROR;
 }
 
-void pretreat_scpi_cmd(uint8_t *scpi_cmd)
+/**
+  * @brief  SCPI指令预处理，主要是去除":"后的空格
+  * @param  [in/out] scpi_cmd SCPI指令
+  * @retval 无
+  */
+static void pretreat_scpi_cmd(uint8_t *scpi_cmd)
 {
     uint8_t len = 0;
     int32_t i = 0;
@@ -100,7 +114,18 @@ void pretreat_scpi_cmd(uint8_t *scpi_cmd)
     
     strcpy((char*)scpi_cmd, (const char*)buf);
 }
-SCPI_ERR_T split_scpi_cmd(uint8_t *scpi_cmd, uint8_t *cmd[], uint8_t *layer, uint8_t **p_par)
+
+/**
+  * @brief  拆分SCPI指令
+  * @param  [in] scpi_cmd SCPI指令
+  * @param  [out] cmd SCPI各级分解指令字符串地址缓冲区
+  * @param  [out] layer SCPI指令级数
+  * @param  [out] p_par SCPI指令携带参数的地址
+  * @retval 拆分结果
+  *         @arg SCPI_NO_ERROR 正常结束
+  *         @arg SCPI_UNDEFINED_HEADER 未定义指令
+  */
+static SCPI_ERR_T split_scpi_cmd(uint8_t *scpi_cmd, uint8_t *cmd[], uint8_t *layer, uint8_t **p_par)
 {
     uint8_t len = 0;
     int32_t i = 0;
@@ -135,6 +160,11 @@ SCPI_ERR_T split_scpi_cmd(uint8_t *scpi_cmd, uint8_t *cmd[], uint8_t *layer, uin
         }
         else if(scpi_cmd[i] == ':')
         {
+            if(j >= MAX_SCPI_CMD_NUM)
+            {
+                return SCPI_UNDEFINED_HEADER;
+            }
+            
             cmd[j++] = &scpi_cmd[i + 1];
             scpi_cmd[i] = 0;
         }
@@ -153,7 +183,15 @@ SCPI_ERR_T split_scpi_cmd(uint8_t *scpi_cmd, uint8_t *cmd[], uint8_t *layer, uin
     return SCPI_NO_ERROR;
 }
 
-SCPI_ERR_T scpi_server_receive_new_frame(uint8_t *scpi_cmd, uint32_t len)
+/**
+  * @brief  接收到新的SCPI数据帧
+  * @param  [in] scpi_cmd SCPI数据帧
+  * @param  [out] len SCPI数据帧长度
+  * @retval 
+  *         @arg SCPI_NO_ERROR 接收到完整数据帧
+  *         @arg SCPI_UNDEFINED_HEADER 接收到不完整数据帧
+  */
+static SCPI_ERR_T scpi_server_receive_new_frame(uint8_t *scpi_cmd, uint32_t len)
 {
     uint8_t end_data[2];
     
@@ -185,7 +223,14 @@ SCPI_ERR_T scpi_server_receive_new_frame(uint8_t *scpi_cmd, uint32_t len)
     return SCPI_NO_ERROR;
 }
 
-uint8_t count_check_num(uint8_t *data)
+/**
+  * @brief  计算SCPI指令数据的校验和
+  * @param  [in] data SCPI数据帧
+  * @retval 
+  *         @arg SCPI_NO_ERROR 接收到完整数据帧
+  *         @arg SCPI_UNDEFINED_HEADER 接收到不完整数据帧
+  */
+static uint8_t count_check_num(uint8_t *data)
 {
     uint8_t len = 0;
     int32_t i = 0;
@@ -216,10 +261,11 @@ uint8_t count_check_num(uint8_t *data)
   * @param  [in] len 数据帧长度
   * @retval 无
   */
-SCPI_ERR_T scpi_receive_dispose_(uint8_t *data, uint32_t len,
+static SCPI_ERR_T scpi_receive_dispose_(uint8_t *frame, uint32_t len,
                                 uint8_t *ask_frame, uint8_t *ask_len)
 {
-    uint8_t *cmd[10] = {0};
+    uint8_t *cmd[MAX_SCPI_CMD_NUM] = {0};
+    uint32_t cmd_count[MAX_SCPI_CMD_NUM] = {0};
     uint8_t *par[MAX_SCPI_PAR_NUM] = {0};
     uint8_t *p_par = NULL;//参数字符串
     uint8_t layer = 0;
@@ -232,10 +278,10 @@ SCPI_ERR_T scpi_receive_dispose_(uint8_t *data, uint32_t len,
     SCPI_CMD *p_scpi_cmd = NULL;
     SCPI_DIS_FUN_PAR scpi_par;
     
-    data[len] = 0;
+    frame[len] = 0;
     
     /* 检查数据长度 */
-    tmp = strlen((const char*)data);
+    tmp = strlen((const char*)frame);
     
     if(tmp != len)
     {
@@ -243,7 +289,7 @@ SCPI_ERR_T scpi_receive_dispose_(uint8_t *data, uint32_t len,
     }
     
     /* 检查结束符 */
-    err = scpi_server_receive_new_frame(data, len);
+    err = scpi_server_receive_new_frame(frame, len);
     
     if(err != SCPI_NO_ERROR)
     {
@@ -253,20 +299,22 @@ SCPI_ERR_T scpi_receive_dispose_(uint8_t *data, uint32_t len,
     /* 检查校验和 */
     if(end_type == SCPI_CMD_END_1 || end_type == SCPI_CMD_END_3)
     {
-        len = strlen((const char*)data);
+        len = strlen((const char*)frame);
         
-        tmp = count_check_num(data);
+        tmp = count_check_num(frame);
         
-        if(tmp != data[len - 1])
+        if(tmp != frame[len - 1])
         {
             return SCPI_UNDEFINED_HEADER;
         }
+        
+        frame[len - 1] = 0;
     }
     
     cur_scpi_cmd_type = SCPI_EXE;///默认为执行类指令
     
     /* 拆分指令 */
-    err = split_scpi_cmd(data, cmd, &layer, &p_par);
+    err = split_scpi_cmd(frame, cmd, &layer, &p_par);
     
     if(err != SCPI_NO_ERROR)
     {
@@ -286,7 +334,7 @@ SCPI_ERR_T scpi_receive_dispose_(uint8_t *data, uint32_t len,
     
     for(i = 0; i < layer; i++)
     {
-        scpi_cmd.cmd[i] = find_one_section_cmd(cmd[i], &err);
+        scpi_cmd.cmd[i] = find_one_section_cmd(cmd[i], &cmd_count[i], &err);
         
         if(err != SCPI_NO_ERROR)
         {
@@ -295,35 +343,63 @@ SCPI_ERR_T scpi_receive_dispose_(uint8_t *data, uint32_t len,
     }
     
     /* 指令解析匹配 */
-    cmd_num = *(CMD_NUM_T*)&scpi_cmd;
-    p_scpi_cmd = find_cmd_num(cmd_num, &err);
-    
-    if(err != SCPI_NO_ERROR)
-    {
-        return err;
-    }
+    do{
+        cmd_num = *(CMD_NUM_T*)&scpi_cmd;
+        p_scpi_cmd = find_cmd_num(cmd_num, &err);
+        
+        /* 找到定义的合法指令 */
+        if(err == SCPI_NO_ERROR)
+        {
+            break;
+        }
+        
+        /* 没有找到合法指令，断续查找 */
+        /* 断续查找下一个重码(多数是简写重码) */
+        for(i = 0; i < layer; i++)
+        {
+            tmp = find_one_section_cmd(cmd[i], &cmd_count[i], &err);
+            
+            if(err == SCPI_NO_ERROR)
+            {
+                /* 有重码 */
+                scpi_cmd.cmd[i] = tmp;
+                break;
+            }
+        }
+        
+        /* 没找到重码 */
+        if(i == layer)
+        {
+            return SCPI_UNDEFINED_HEADER;
+        }
+        
+    }while(i < layer);
     
     scpi_par.argv = par;
     scpi_par.argc = par_num;
     scpi_par.ask_data = ask_frame;
     scpi_par.ask_len = ask_len;
-    /* 执行类型指令处理 */
-//    if(cur_scpi_cmd_type == SCPI_EXE)
+    scpi_par.type = cur_scpi_cmd_type;
+    
+    if(p_scpi_cmd->dispose_fun != NULL)
     {
-        if(p_scpi_cmd->dispose_fun != NULL)
-        {
-            err = p_scpi_cmd->dispose_fun(&scpi_par);
-        }
-        else
-        {
-            err = SCPI_UNDEFINED_HEADER;
-        }
+        err = p_scpi_cmd->dispose_fun(&scpi_par);
+    }
+    else
+    {
+        err = SCPI_UNDEFINED_HEADER;
     }
     
     return err;
 }
 
-void add_end_code(uint8_t *ask_frame, uint8_t *ask_len)
+/**
+  * @brief  给应答帧添加结束符
+  * @param  [in/out] ask_frame 应答数据帧
+  * @param  [in] ask_len 数据帧长度
+  * @retval 无
+  */
+static void add_end_code(uint8_t *ask_frame, uint8_t *ask_len)
 {
     uint8_t tmp = 0;
     uint8_t len = *ask_len;
@@ -348,12 +424,20 @@ void add_end_code(uint8_t *ask_frame, uint8_t *ask_len)
     
     *ask_len = len;
 }
-void scpi_receive_dispose(SCPI_COM_STRUCT *com, uint8_t *data, uint32_t len)
+
+/**
+  * @brief  SCPI接收处理函数
+  * @param  [in/out] com 串口结构信息
+  * @param  [in] frame 数据帧
+  * @param  [in] len 数据帧长度
+  * @retval 无
+  */
+void scpi_receive_dispose(SCPI_COM_STRUCT *com, uint8_t *frame, uint32_t len)
 {
     SCPI_ERR_T err;
     uint8_t ask_len = 0;
     
-    err = scpi_receive_dispose_(data, len, com->frame_buf, &ask_len);
+    err = scpi_receive_dispose_(frame, len, com->frame_buf, &ask_len);
     
     if((cur_scpi_cmd_type == SCPI_EXE) 
         || ((cur_scpi_cmd_type == SCPI_QUERY) && (err != SCPI_NO_ERROR)))
@@ -370,7 +454,7 @@ void scpi_receive_dispose(SCPI_COM_STRUCT *com, uint8_t *data, uint32_t len)
     }
 }
 /**
-  * @brief  初始化模块管理的环境
+  * @brief  初始化SCPI管理的环境 里使用到了串口和定时器
   * @param  无
   * @retval 无
   */
