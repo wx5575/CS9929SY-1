@@ -5,5 +5,7 @@
 
 void com_st_exit_remote(void);
 void com_st_into_remote(void);
+void update_system_language(void);
+
 
 #endif //__UI_COMM_API_H__

@@ -119,10 +119,10 @@ CS_ERR check_file_data(TEST_FILE*file)
     {
         err = CS_ERR_DATA_OUT_OF_RANGE;
     }
-    else if(strlen((const char*)file->date) > 22)
-    {
-        err = CS_ERR_DATE_STR_TOO_LONG;
-    }
+//    else if(strlen((const char*)file->date) > 22)
+//    {
+//        err = CS_ERR_DATE_STR_TOO_LONG;
+//    }
     else if(file->arc_mode != ARC_CUR_MODE && file->arc_mode != ARC_GRADE_MODE)
     {
         err = CS_ERR_DATA_OUT_OF_RANGE;
@@ -138,11 +138,12 @@ CS_ERR check_file_data(TEST_FILE*file)
   */
 void init_file_data(TEST_FILE *file, FILE_NUM file_num)
 {
-    TEST_FILE f = {0,"DEFAULT", N_MODE, 0, 10, 0,ARC_CUR_MODE,"2017-5-10 17:59:59"};
+    TEST_FILE f = {0,"DEFAULT", N_MODE, 0, 10, 0,ARC_CUR_MODE};
     
     f.num = file_num;
     
-    strcpy((char *)f.date, (const char*)get_time_str(0));
+    f.create_date = get_rtc_data();
+    f.create_time = get_rtc_time();
     
     memcpy(file, &f, sizeof(TEST_FILE));
 }

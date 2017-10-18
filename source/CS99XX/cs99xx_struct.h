@@ -519,7 +519,8 @@ typedef struct{
 	uint16_t buzzer_time;///<蜂鸣时间
 	uint16_t pass_time;///<PASS时间
     ARC_MODE arc_mode;///<电弧侦测模式
-	uint8_t date[22];///<存放日期时间 xxxx.xx.xx xx:xx:xx
+    uint32_t create_date;///<创建日期
+    uint32_t create_time;///<创建时间
 }TEST_FILE;
 /**
   * @brief  屏幕尺寸枚举定义

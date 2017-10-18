@@ -33,6 +33,7 @@
 #include "usart2.h"
 #include "usart3.h"
 #include "uart4.h"
+#include "usart6.h"
 #include "bsp_tft_lcd.h"
 #include "FSMC_CONFIG.H"
 

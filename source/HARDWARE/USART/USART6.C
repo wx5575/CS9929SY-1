@@ -4,7 +4,7 @@
   * @author  王鑫
   * @version V1.0.0
   * @date    2017.4.18
-  * @brief   串口3的驱动程序
+  * @brief   usart6 的驱动程序
   ******************************************************************************
   */
 
@@ -13,7 +13,7 @@
 
 #define     BUFFER_SIZE         (512)
 //#define     MAX_485_EN
-#define     UART_TIMEOUT   (30)    //30ms
+#define     UART_TIMEOUT   (20)    //ms
 
 #define UART_PORT   USART6
 
@@ -96,7 +96,7 @@ void usart6_send_data(uint8_t *data, uint32_t len)
     send_count = len;
 	send_buf_bak = send_buf;/* 发送缓冲区备份 以备重发使用 */
 	send_count_bak = send_count;/* 发送数据计数 以备重发使用 */
-//    USART_ITConfig(UART_PORT, USART_IT_RXNE, DISABLE);
+    USART_ITConfig(UART_PORT, USART_IT_RXNE, DISABLE);
     USART_ITConfig(UART_PORT, USART_IT_TC, ENABLE);
 }
 /**

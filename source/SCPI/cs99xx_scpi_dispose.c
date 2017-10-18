@@ -6,6 +6,15 @@
 #include "scpi_cmd_def.h"
 #include "cs99xx_scpi_dispose.h"
 #include "comm_bridge.h"
+#include "cs99xx_mem_api.h"
+#include "app.h"
+#include "module_manage.h"
+#include "send_cmd.h"
+#include "rtc_config.h"
+#include "parameter_manage.h"
+#include "string.h"
+#include "stdlib.h"
+
 
 SCPI_ERR_T idn_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
@@ -27,27 +36,172 @@ SCPI_ERR_T comm_sadd_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 SCPI_ERR_T comm_remote_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
     set_instrument_into_remote_bridge();
+    app_flag.comm_status = COMM_REMOTE;
     return SCPI_NO_ERROR;
 }
 
 SCPI_ERR_T comm_local_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
     set_instrument_exit_remote_bridge();
+    app_flag.comm_status = COMM_LOCAL;
     return SCPI_NO_ERROR;
 }
 
 SCPI_ERR_T comm_control_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    get_instrument_comm_status_bridge();
+    strcpy((char*)par->ask_data, app_flag.comm_status==COMM_REMOTE? "1":"0");
+    
     return SCPI_NO_ERROR;
 }
 
+/* 文件指令集 */
+/**
+  * @brief  提取文件参数
+  * @param  [out] file 文件信息
+  * @param  [in] par SCPI指令携带的参数信息
+  * @retval 错误码
+  */
+static SCPI_ERR_T extract_file_par(TEST_FILE *file, SCPI_DIS_FUN_PAR *par)
+{
+    uint32_t value = 0;
+    uint8_t len = 0;
+    
+    if(par->argc < 6)
+    {
+        return SCPI_MISSING_PARAMETER;
+    }
+    else if(par->argc > 6)
+    {
+        return SCPI_INVALID_STRING_DATA;
+    }
+    
+    file->num = atoi((const char*)par->argv[0]);
+    
+    if(file->num >= MAX_FILES)
+    {
+        return SCPI_INVALID_STRING_DATA;
+    }
+    
+    if(CS_TRUE == is_file_exist(file->num))
+    {
+        return SCPI_DATA_OUT_OF_RANGE;
+    }
+    
+    len = strlen((const char*)par->argv[1]);
+    if(par->argv[1][0] != '"' || par->argv[1][len - 1] != '"' || len > NAME_LON)
+    {
+        return SCPI_INVALID_STRING_DATA;
+    }
+    
+    strncpy((char*)file->name, (const char*)&par->argv[1][1], len - 2);
+    
+    if(0 == strcmp((const char*)par->argv[2], "N")
+        || 0 == strcmp((const char*)par->argv[2], "1")
+        )
+    {
+        file->work_mode = N_MODE;
+    }
+    else if(0 == strcmp((const char*)par->argv[2], "G")
+        || 0 == strcmp((const char*)par->argv[2], "0")
+        )
+    {
+        file->work_mode = G_MODE;
+    }
+    else
+    {
+        return SCPI_INVALID_STRING_DATA;
+    }
+    
+    value = atof((const char*)par->argv[3]) * 10;
+    
+    if(value > 9999)
+    {
+        return SCPI_DATA_OUT_OF_RANGE;
+    }
+    
+    file->pass_time = value;
+    
+    value = atof((const char*)par->argv[4]) * 10;
+    
+    if(value > 9999)
+    {
+        return SCPI_DATA_OUT_OF_RANGE;
+    }
+    
+    file->buzzer_time = value;
+    
+    if(0 == strcmp((const char*)par->argv[5], "CURRent")
+        || 0 == strcmp((const char*)par->argv[5], "CURR")
+        || 0 == strcmp((const char*)par->argv[5], "1")
+        )
+    {
+        file->arc_mode = ARC_CUR_MODE;
+    }
+    else if(0 == strcmp((const char*)par->argv[5], "SCALe")
+        || 0 == strcmp((const char*)par->argv[5], "SCAL")
+        || 0 == strcmp((const char*)par->argv[5], "0")
+        )
+    {
+        file->arc_mode = ARC_GRADE_MODE;
+    }
+    else
+    {
+        return SCPI_INVALID_STRING_DATA;
+    }
+    
+    return SCPI_NO_ERROR;
+}
+
+/* 文件指令集 */
 SCPI_ERR_T file_new_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    TEST_FILE file;
+    SCPI_ERR_T err;
+    
+    /* 提取文件参数 */
+    err = extract_file_par(&file, par);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    /* 获取RTC时间 */
+    file.create_date = get_rtc_data();
+    file.create_time = get_rtc_time();
+    
+    file_pool[file.num] = file;
+    save_file(file.num);//保存文件
+    init_new_group_inf(&file_pool[file.num]);//初始化记忆组
+    send_cmd_to_all_module((void*)&file, sizeof(TEST_FILE),
+                send_slave_new_file);
+    
     return SCPI_NO_ERROR;
 }
 
 SCPI_ERR_T file_edit_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    TEST_FILE file;
+    SCPI_ERR_T err;
+    
+    /* 提取文件参数 */
+    err = extract_file_par(&file, par);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    file_pool[file.num] = file;
+    
+    /* 获取RTC时间 */
+    file.create_date = get_rtc_data();
+    file.create_time = get_rtc_time();
+    save_file(file.num);//保存文件
+    send_cmd_to_all_module((void*)&file, sizeof(TEST_FILE),
+                send_slave_edit_file);
+    
     return SCPI_NO_ERROR;
 }
 
@@ -75,7 +229,7 @@ SCPI_ERR_T file_catalog_single_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
     return SCPI_NO_ERROR;
 }
-
+/* 源指令集 */
 SCPI_ERR_T source_test_start_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
     return SCPI_NO_ERROR;
@@ -445,17 +599,38 @@ SCPI_ERR_T sys_tport_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 }
 SCPI_ERR_T sys_language_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    par->argv
+    uint8_t value;
+    
     if(par->type == SCPI_EXE)
     {
-        if(par->argc > 1)
+        if(0 == strcmp((const char*)par->argv[0], "CHINese")
+            || 0 == strcmp((const char*)par->argv[0], "CHIN")
+            || 0 == strcmp((const char*)par->argv[0], "1"))
         {
-            return SCPI_PARAMETER_NOT_ALLOWED;
+            value = 0;
         }
-        else if(par->argc == 0)
+        else if(0 == strcmp((const char*)par->argv[0], "ENGLish")
+            || 0 == strcmp((const char*)par->argv[0], "ENGL")
+            || 0 == strcmp((const char*)par->argv[0], "0"))
         {
-            return SCPI_MISSING_PARAMETER;
+            value = 1;
         }
+        /* 参数不允许 */
+        else
+        {
+            return SCPI_INVALID_STRING_DATA;
+        }
+        
+        if(sys_par.language != value)
+        {
+            sys_par.language = value;
+            save_sys_par();
+            update_system_language_bridge();
+        }
+    }
+    else
+    {
+        strcpy((char*)par->ask_data, sys_par.language==CHINESE? "1":"0");
     }
     
     return SCPI_NO_ERROR;

@@ -13,7 +13,7 @@
 
 #define     BUFFER_SIZE         (512)
 //#define     MAX_485_EN
-#define     UART_TIMEOUT   (30)    //30ms
+#define     UART_TIMEOUT   (5)    //5ms
 
 #define UART_PORT   USART1
 

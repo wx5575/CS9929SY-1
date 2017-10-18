@@ -191,7 +191,9 @@ const char * comm_error_msg[] =
     "-222,\"Data out of range\""        ,
 };
 
-
+/**
+  * @brief  SCPI命令池
+  */
 SCPI_CMD scpi_cmd_pool[]=
 {
     /* 公用指令集 */
@@ -211,112 +213,119 @@ SCPI_CMD scpi_cmd_pool[]=
     {{C_FILE,C_READ}            , E__, 1                , file_read_scpi_dispose_fun},
     {{C_FILE,C_CATALOG,C_SINGLE}, __R, 1                , file_catalog_single_scpi_dispose_fun},
     /* 源指令集 */
-    {{C_SOURCE,C_TEST,C_START}      , source_test_start_scpi_dispose_fun},
-    {{C_SOURCE,C_TEST,C_STOP}       , source_test_stop_scpi_dispose_fun},
-    {{C_SOURCE,C_TEST,C_STATUS}     , source_test_status_scpi_dispose_fun},
-    {{C_SOURCE,C_TEST,C_FETCH}      , source_test_fetch_scpi_dispose_fun},
-    {{C_SOURCE,C_LOAD,C_STEP}       , source_load_step_scpi_dispose_fun},
-    {{C_SOURCE,C_LOAD,C_FILE}       , source_load_file_scpi_dispose_fun},
-    {{C_SOURCE,C_LIST,C_FINDEX}     , source_list_findex_scpi_dispose_fun},
-    {{C_SOURCE,C_LIST,C_FMESSAGE}   , source_list_fmessage_scpi_dispose_fun},
-    {{C_SOURCE,C_LIST,C_SINDEX}     , source_list_sindex_scpi_dispose_fun},
-    {{C_SOURCE,C_LIST,C_SMESSAGE}   , source_list_smessage_scpi_dispose_fun},
-    {{C_SOURCE,C_LIST,C_MODE}       , source_list_mode_scpi_dispose_fun},
+    {{C_SOURCE,C_TEST,C_START}      , E__, 0, source_test_start_scpi_dispose_fun},
+    {{C_SOURCE,C_TEST,C_STOP}       , E__, 0, source_test_stop_scpi_dispose_fun},
+    {{C_SOURCE,C_TEST,C_STATUS}     , __R, 0, source_test_status_scpi_dispose_fun},
+    {{C_SOURCE,C_TEST,C_FETCH}      , __R, 0, source_test_fetch_scpi_dispose_fun},
+    {{C_SOURCE,C_LOAD,C_STEP}       , E__, 1, source_load_step_scpi_dispose_fun},
+    {{C_SOURCE,C_LOAD,C_FILE}       , E__, 1, source_load_file_scpi_dispose_fun},
+    {{C_SOURCE,C_LIST,C_FINDEX}     , __R, 0, source_list_findex_scpi_dispose_fun},
+    {{C_SOURCE,C_LIST,C_FMESSAGE}   , __R, 0, source_list_fmessage_scpi_dispose_fun},
+    {{C_SOURCE,C_LIST,C_SINDEX}     , __R, 0, source_list_sindex_scpi_dispose_fun},
+    {{C_SOURCE,C_LIST,C_SMESSAGE}   , __R, 0, source_list_smessage_scpi_dispose_fun},
+    {{C_SOURCE,C_LIST,C_MODE}       , __R, 0, source_list_mode_scpi_dispose_fun},
     /* 步骤指令集 */
-    {{C_STEP,C_INSERT,C_ACW}    , step_insert_acw_scpi_dispose_fun},
-    {{C_STEP,C_INSERT,C_DCW}    , step_insert_dcw_scpi_dispose_fun},
-    {{C_STEP,C_INSERT,C_IR}     , step_insert_ir_scpi_dispose_fun},
-    {{C_STEP,C_INSERT,C_GR}     , step_insert_gr_scpi_dispose_fun},
-    {{C_STEP,C_DELETE}          , step_delete_scpi_dispose_fun},
-    {{C_STEP,C_MOVE,C_FRONT}    , step_move_front_scpi_dispose_fun},
-    {{C_STEP,C_MOVE,C_BEHIND}   , step_move_behind_scpi_dispose_fun},
-    {{C_STEP,C_INTERCHANGE}     , step_interchange_scpi_dispose_fun},
-    {{C_STEP,C_MODE,C_ACW}      , step_mode_acw_scpi_dispose_fun},
-    {{C_STEP,C_MODE,C_DCW}      , step_mode_dcw_scpi_dispose_fun},
-    {{C_STEP,C_MODE,C_IR}       , step_mode_ir_scpi_dispose_fun},
-    {{C_STEP,C_MODE,C_GR}       , step_mode_gr_scpi_dispose_fun},
+    {{C_STEP,C_INSERT,C_ACW}    , E__, 0, step_insert_acw_scpi_dispose_fun},
+    {{C_STEP,C_INSERT,C_DCW}    , E__, 0, step_insert_dcw_scpi_dispose_fun},
+    {{C_STEP,C_INSERT,C_IR}     , E__, 0, step_insert_ir_scpi_dispose_fun},
+    {{C_STEP,C_INSERT,C_GR}     , E__, 0, step_insert_gr_scpi_dispose_fun},
+    {{C_STEP,C_DELETE}          , E__, 0, step_delete_scpi_dispose_fun},
+    {{C_STEP,C_MOVE,C_FRONT}    , E__, 0, step_move_front_scpi_dispose_fun},
+    {{C_STEP,C_MOVE,C_BEHIND}   , E__, 0, step_move_behind_scpi_dispose_fun},
+    {{C_STEP,C_INTERCHANGE}     , E__, 1, step_interchange_scpi_dispose_fun},
+    {{C_STEP,C_MODE,C_ACW}      , E__, 0, step_mode_acw_scpi_dispose_fun},
+    {{C_STEP,C_MODE,C_DCW}      , E__, 0, step_mode_dcw_scpi_dispose_fun},
+    {{C_STEP,C_MODE,C_IR}       , E__, 0, step_mode_ir_scpi_dispose_fun},
+    {{C_STEP,C_MODE,C_GR}       , E__, 0, step_mode_gr_scpi_dispose_fun},
     /* ACW */
-    {{C_STEP,C_ACW,C_VOLTAGE}   , step_acw_voltage_scpi_dispose_fun},
-    {{C_STEP,C_ACW,C_RANGE}     , step_acw_range_scpi_dispose_fun},
-    {{C_STEP,C_ACW,C_HIGH}      , step_acw_high_scpi_dispose_fun},
-    {{C_STEP,C_ACW,C_LOW}       , step_acw_low_scpi_dispose_fun},
-    {{C_STEP,C_ACW,C_RCURRENT}  , step_acw_real_current_scpi_dispose_fun},
-    {{C_STEP,C_ACW,C_ARC}       , step_acw_arc_scpi_dispose_fun},
-    {{C_STEP,C_ACW,C_FREQUENCY} , step_acw_frequency_scpi_dispose_fun},
-    {{C_STEP,C_ACW,C_RTIME}     , step_acw_rtime_scpi_dispose_fun},
-    {{C_STEP,C_ACW,C_TTIME}     , step_acw_ttime_scpi_dispose_fun},
-    {{C_STEP,C_ACW,C_FTIME}     , step_acw_ftime_scpi_dispose_fun},
-    {{C_STEP,C_ACW,C_ITIME}     , step_acw_itime_scpi_dispose_fun},
-    {{C_STEP,C_ACW,C_CTIME}     , step_acw_ctime_scpi_dispose_fun},
-    {{C_STEP,C_ACW,C_PSIGNAL}   , step_acw_psignal_scpi_dispose_fun},
-    {{C_STEP,C_ACW,C_CNEXT}     , step_acw_cnext_scpi_dispose_fun},
-    {{C_STEP,C_ACW,C_PORT}      , step_acw_port_scpi_dispose_fun},
+    {{C_STEP,C_ACW,C_VOLTAGE}   , _WR, 1, step_acw_voltage_scpi_dispose_fun},
+    {{C_STEP,C_ACW,C_RANGE}     , _WR, 1, step_acw_range_scpi_dispose_fun},
+    {{C_STEP,C_ACW,C_HIGH}      , _WR, 1, step_acw_high_scpi_dispose_fun},
+    {{C_STEP,C_ACW,C_LOW}       , _WR, 1, step_acw_low_scpi_dispose_fun},
+    {{C_STEP,C_ACW,C_RCURRENT}  , _WR, 1, step_acw_real_current_scpi_dispose_fun},
+    {{C_STEP,C_ACW,C_ARC}       , _WR, 1, step_acw_arc_scpi_dispose_fun},
+    {{C_STEP,C_ACW,C_FREQUENCY} , _WR, 1, step_acw_frequency_scpi_dispose_fun},
+    {{C_STEP,C_ACW,C_RTIME}     , _WR, 1, step_acw_rtime_scpi_dispose_fun},
+    {{C_STEP,C_ACW,C_TTIME}     , _WR, 1, step_acw_ttime_scpi_dispose_fun},
+    {{C_STEP,C_ACW,C_FTIME}     , _WR, 1, step_acw_ftime_scpi_dispose_fun},
+    {{C_STEP,C_ACW,C_ITIME}     , _WR, 1, step_acw_itime_scpi_dispose_fun},
+    {{C_STEP,C_ACW,C_CTIME}     , _WR, 1, step_acw_ctime_scpi_dispose_fun},
+    {{C_STEP,C_ACW,C_PSIGNAL}   , _WR, 1, step_acw_psignal_scpi_dispose_fun},
+    {{C_STEP,C_ACW,C_CNEXT}     , _WR, 1, step_acw_cnext_scpi_dispose_fun},
+    {{C_STEP,C_ACW,C_PORT}      , _WR, IGNORE_PAR_NUM, step_acw_port_scpi_dispose_fun},
     /* DCW */
-    {{C_STEP,C_DCW,C_VOLTAGE}   , step_dcw_voltage_scpi_dispose_fun},
-    {{C_STEP,C_DCW,C_RANGE}     , step_dcw_range_scpi_dispose_fun},
-    {{C_STEP,C_DCW,C_HIGH}      , step_dcw_high_scpi_dispose_fun},
-    {{C_STEP,C_DCW,C_LOW}       , step_dcw_low_scpi_dispose_fun},
-    {{C_STEP,C_DCW,C_CCURRENT}  , step_dcw_ccurrent_scpi_dispose_fun},
-    {{C_STEP,C_DCW,C_ARC}       , step_dcw_arc_scpi_dispose_fun},
-    {{C_STEP,C_DCW,C_DTIME}     , step_dcw_dtime_scpi_dispose_fun},
-    {{C_STEP,C_DCW,C_RTIME}     , step_dcw_rtime_scpi_dispose_fun},
-    {{C_STEP,C_DCW,C_TTIME}     , step_dcw_ttime_scpi_dispose_fun},
-    {{C_STEP,C_DCW,C_FTIME}     , step_dcw_ftime_scpi_dispose_fun},
-    {{C_STEP,C_DCW,C_ITIME}     , step_dcw_itime_scpi_dispose_fun},
-    {{C_STEP,C_DCW,C_CTIME}     , step_dcw_ctime_scpi_dispose_fun},
-    {{C_STEP,C_DCW,C_PSIGNAL}   , step_dcw_psignal_scpi_dispose_fun},
-    {{C_STEP,C_DCW,C_CNEXT}     , step_dcw_cnext_scpi_dispose_fun},
-    {{C_STEP,C_DCW,C_PORT}      , step_dcw_port_scpi_dispose_fun},
+    {{C_STEP,C_DCW,C_VOLTAGE}   , _WR, 1, step_dcw_voltage_scpi_dispose_fun},
+    {{C_STEP,C_DCW,C_RANGE}     , _WR, 1, step_dcw_range_scpi_dispose_fun},
+    {{C_STEP,C_DCW,C_HIGH}      , _WR, 1, step_dcw_high_scpi_dispose_fun},
+    {{C_STEP,C_DCW,C_LOW}       , _WR, 1, step_dcw_low_scpi_dispose_fun},
+    {{C_STEP,C_DCW,C_CCURRENT}  , _WR, 1, step_dcw_ccurrent_scpi_dispose_fun},
+    {{C_STEP,C_DCW,C_ARC}       , _WR, 1, step_dcw_arc_scpi_dispose_fun},
+    {{C_STEP,C_DCW,C_DTIME}     , _WR, 1, step_dcw_dtime_scpi_dispose_fun},
+    {{C_STEP,C_DCW,C_RTIME}     , _WR, 1, step_dcw_rtime_scpi_dispose_fun},
+    {{C_STEP,C_DCW,C_TTIME}     , _WR, 1, step_dcw_ttime_scpi_dispose_fun},
+    {{C_STEP,C_DCW,C_FTIME}     , _WR, 1, step_dcw_ftime_scpi_dispose_fun},
+    {{C_STEP,C_DCW,C_ITIME}     , _WR, 1, step_dcw_itime_scpi_dispose_fun},
+    {{C_STEP,C_DCW,C_CTIME}     , _WR, 1, step_dcw_ctime_scpi_dispose_fun},
+    {{C_STEP,C_DCW,C_PSIGNAL}   , _WR, 1, step_dcw_psignal_scpi_dispose_fun},
+    {{C_STEP,C_DCW,C_CNEXT}     , _WR, 1, step_dcw_cnext_scpi_dispose_fun},
+    {{C_STEP,C_DCW,C_PORT}      , _WR, IGNORE_PAR_NUM, step_dcw_port_scpi_dispose_fun},
     /* IR */
-    {{C_STEP,C_IR,C_VOLTAGE}    , step_ir_voltage_scpi_dispose_fun},
-    {{C_STEP,C_IR,C_ARANGE}     , step_ir_range_scpi_dispose_fun},
-    {{C_STEP,C_IR,C_HIGH}       , step_ir_high_scpi_dispose_fun},
-    {{C_STEP,C_IR,C_LOW}        , step_ir_low_scpi_dispose_fun},
-    {{C_STEP,C_IR,C_RTIME}      , step_ir_rtime_scpi_dispose_fun},
-    {{C_STEP,C_IR,C_TTIME}      , step_ir_ttime_scpi_dispose_fun},
-    {{C_STEP,C_IR,C_DTIME}      , step_ir_dtime_scpi_dispose_fun},
-    {{C_STEP,C_IR,C_ITIME}      , step_ir_itime_scpi_dispose_fun},
-    {{C_STEP,C_IR,C_PSIGNAL}    , step_ir_psignal_scpi_dispose_fun},
-    {{C_STEP,C_IR,C_CNEXT}      , step_ir_cnext_scpi_dispose_fun},
-    {{C_STEP,C_IR,C_PORT}       , step_ir_port_scpi_dispose_fun},
+    {{C_STEP,C_IR,C_VOLTAGE}    , _WR, 1, step_ir_voltage_scpi_dispose_fun},
+    {{C_STEP,C_IR,C_ARANGE}     , _WR, 1, step_ir_range_scpi_dispose_fun},
+    {{C_STEP,C_IR,C_HIGH}       , _WR, 1, step_ir_high_scpi_dispose_fun},
+    {{C_STEP,C_IR,C_LOW}        , _WR, 1, step_ir_low_scpi_dispose_fun},
+    {{C_STEP,C_IR,C_RTIME}      , _WR, 1, step_ir_rtime_scpi_dispose_fun},
+    {{C_STEP,C_IR,C_TTIME}      , _WR, 1, step_ir_ttime_scpi_dispose_fun},
+    {{C_STEP,C_IR,C_DTIME}      , _WR, 1, step_ir_dtime_scpi_dispose_fun},
+    {{C_STEP,C_IR,C_ITIME}      , _WR, 1, step_ir_itime_scpi_dispose_fun},
+    {{C_STEP,C_IR,C_PSIGNAL}    , _WR, 1, step_ir_psignal_scpi_dispose_fun},
+    {{C_STEP,C_IR,C_CNEXT}      , _WR, 1, step_ir_cnext_scpi_dispose_fun},
+    {{C_STEP,C_IR,C_PORT}       , _WR, IGNORE_PAR_NUM, step_ir_port_scpi_dispose_fun},
     /* GR */
-    {{C_STEP,C_GR,C_CURRENT}    , step_gr_current_scpi_dispose_fun},
-    {{C_STEP,C_GR,C_HIGH}       , step_gr_high_scpi_dispose_fun},
-    {{C_STEP,C_GR,C_LOW}        , step_gr_low_scpi_dispose_fun},
-    {{C_STEP,C_GR,C_TTIME}      , step_gr_ttime_scpi_dispose_fun},
-    {{C_STEP,C_GR,C_ITIME}      , step_gr_itime_scpi_dispose_fun},
-    {{C_STEP,C_GR,C_PSIGNAL}    , step_gr_psignal_scpi_dispose_fun},
-    {{C_STEP,C_GR,C_CNEXT}      , step_gr_cnext_scpi_dispose_fun},
+    {{C_STEP,C_GR,C_CURRENT}    , _WR, 1, step_gr_current_scpi_dispose_fun},
+    {{C_STEP,C_GR,C_HIGH}       , _WR, 1, step_gr_high_scpi_dispose_fun},
+    {{C_STEP,C_GR,C_LOW}        , _WR, 1, step_gr_low_scpi_dispose_fun},
+    {{C_STEP,C_GR,C_TTIME}      , _WR, 1, step_gr_ttime_scpi_dispose_fun},
+    {{C_STEP,C_GR,C_ITIME}      , _WR, 1, step_gr_itime_scpi_dispose_fun},
+    {{C_STEP,C_GR,C_PSIGNAL}    , _WR, 1, step_gr_psignal_scpi_dispose_fun},
+    {{C_STEP,C_GR,C_CNEXT}      , _WR, 1, step_gr_cnext_scpi_dispose_fun},
     /* 结果指令集 */
-    {{C_RESULT,C_CAPACITY,C_USED}   , result_cap_used_scpi_dispose_fun},
-    {{C_RESULT,C_CAPACITY,C_FREE}   , result_cap_free_scpi_dispose_fun},
-    {{C_RESULT,C_CAPACITY,C_ALL}    , result_cap_all_scpi_dispose_fun},
-    {{C_RESULT,C_CAPACITY,C_PASS}   , result_cap_pass_scpi_dispose_fun},
-    {{C_RESULT,C_CAPACITY,C_FAIL}   , result_cap_fail_scpi_dispose_fun},
-    {{C_RESULT,C_CLEAR,C_ALL}       , result_clear_all_scpi_dispose_fun},
-    {{C_RESULT,C_FETCH,C_SINGLE}    , result_fetch_single_scpi_dispose_fun},
-    {{C_RESULT,C_DUT,C_NAME}        , result_dut_name_scpi_dispose_fun},
+    {{C_RESULT,C_CAPACITY,C_USED}   , _WR, 1, result_cap_used_scpi_dispose_fun},
+    {{C_RESULT,C_CAPACITY,C_FREE}   , _WR, 1, result_cap_free_scpi_dispose_fun},
+    {{C_RESULT,C_CAPACITY,C_ALL}    , _WR, 1, result_cap_all_scpi_dispose_fun},
+    {{C_RESULT,C_CAPACITY,C_PASS}   , _WR, 1, result_cap_pass_scpi_dispose_fun},
+    {{C_RESULT,C_CAPACITY,C_FAIL}   , _WR, 1, result_cap_fail_scpi_dispose_fun},
+    {{C_RESULT,C_CLEAR,C_ALL}       , _WR, 1, result_clear_all_scpi_dispose_fun},
+    {{C_RESULT,C_FETCH,C_SINGLE}    , _WR, 1, result_fetch_single_scpi_dispose_fun},
+    {{C_RESULT,C_DUT,C_NAME}        , _WR, 1, result_dut_name_scpi_dispose_fun},
     /* 系统指令集 */
-    {{C_SYSTEM,C_SCREEN,C_CONTRAST} , sys_screen_contrast_scpi_dispose_fun},
-    {{C_SYSTEM,C_BEEPER,C_VOLUME}   , sys_beeper_volume_scpi_dispose_fun},
-    {{C_SYSTEM,C_RHINT}             , sys_rhint_scpi_dispose_fun},
-    {{C_SYSTEM,C_RSAVE}             , sys_rsave_scpi_dispose_fun},
-    {{C_SYSTEM,C_OCOVER}            , sys_ocover_scpi_dispose_fun},
-    {{C_SYSTEM,C_GFI}               , sys_gfi_scpi_dispose_fun},
-    {{C_SYSTEM,C_PHV}               , sys_phv_scpi_dispose_fun},
-    {{C_SYSTEM,C_TSIGNAL}           , sys_tsignal_scpi_dispose_fun},
-    {{C_SYSTEM,C_SCHECK}            , sys_scheck_scpi_dispose_fun},
-    {{C_SYSTEM,C_CHINT}             , sys_chint_scpi_dispose_fun},
-    {{C_SYSTEM,C_TPORT}             , sys_tport_scpi_dispose_fun},
-    {{C_SYSTEM,C_LANGUAGE}          , sys_language_scpi_dispose_fun},
-    {{C_SYSTEM,C_FCONTINUE}         , sys_fcontinue_scpi_dispose_fun},
-    {{C_SYSTEM,C_KEY,C_KLOCK}       , sys_klock_scpi_dispose_fun},
-    {{C_SYSTEM,C_KEY,C_PASSWORD,C_NEW}, sys_password_new_scpi_dispose_fun},
-    {{C_SYSTEM,C_KEY,C_PASSWORD,C_NOW}, sys_password_now_scpi_dispose_fun},
-    {{C_SYSTEM,C_TIME}              , sys_time_scpi_dispose_fun},
-    {{C_SYSTEM,C_NRULE}             , sys_nrule_scpi_dispose_fun},
+    {{C_SYSTEM,C_SCREEN,C_CONTRAST} , _WR, 1, sys_screen_contrast_scpi_dispose_fun},
+    {{C_SYSTEM,C_BEEPER,C_VOLUME}   , _WR, 1, sys_beeper_volume_scpi_dispose_fun},
+    {{C_SYSTEM,C_RHINT}             , _WR, 1, sys_rhint_scpi_dispose_fun},
+    {{C_SYSTEM,C_RSAVE}             , _WR, 1, sys_rsave_scpi_dispose_fun},
+    {{C_SYSTEM,C_OCOVER}            , _WR, 1, sys_ocover_scpi_dispose_fun},
+    {{C_SYSTEM,C_GFI}               , _WR, 1, sys_gfi_scpi_dispose_fun},
+    {{C_SYSTEM,C_PHV}               , _WR, 1, sys_phv_scpi_dispose_fun},
+    {{C_SYSTEM,C_TSIGNAL}           , _WR, 1, sys_tsignal_scpi_dispose_fun},
+    {{C_SYSTEM,C_SCHECK}            , _WR, 1, sys_scheck_scpi_dispose_fun},
+    {{C_SYSTEM,C_CHINT}             , _WR, 1, sys_chint_scpi_dispose_fun},
+    {{C_SYSTEM,C_TPORT}             , _WR, 1, sys_tport_scpi_dispose_fun},
+    {{C_SYSTEM,C_LANGUAGE}          , _WR, 1, sys_language_scpi_dispose_fun},
+    {{C_SYSTEM,C_FCONTINUE}         , _WR, 1, sys_fcontinue_scpi_dispose_fun},
+    {{C_SYSTEM,C_KEY,C_KLOCK}       , _WR, 1, sys_klock_scpi_dispose_fun},
+    {{C_SYSTEM,C_KEY,C_PASSWORD,C_NEW}, _WR, 1, sys_password_new_scpi_dispose_fun},
+    {{C_SYSTEM,C_KEY,C_PASSWORD,C_NOW}, _WR, 1, sys_password_now_scpi_dispose_fun},
+    {{C_SYSTEM,C_TIME}              , _WR, 1, sys_time_scpi_dispose_fun},
+    {{C_SYSTEM,C_NRULE}             , _WR, 1, sys_nrule_scpi_dispose_fun},
 };
-
+/**
+  * @brief  查找命令码
+  * @param  [in] cmd_num SCPI指令属性
+  * @param  [in] err 错误码
+  *         @arg SCPI_NO_ERROR
+  *         @arg SCPI_UNDEFINED_HEADER
+  * @retval 查找结果,SCPI命令结构信息
+  */
 SCPI_CMD * find_cmd_num(CMD_NUM_T cmd_num, SCPI_ERR_T *err)
 {
     uint8_t n = 0;
@@ -340,7 +349,15 @@ SCPI_CMD * find_cmd_num(CMD_NUM_T cmd_num, SCPI_ERR_T *err)
     *err = SCPI_UNDEFINED_HEADER;
     return NULL;
 }
-
+/**
+  * @brief  查找SCPI一段命令对应的命令码
+  * @param  [in] section 单段命令字符串
+  * @param  [in] cmd_count 命令查找计数器，用于查找重码时从上次结束的位置开始查找
+  * @param  [in] err 错误码
+  *         @arg SCPI_NO_ERROR
+  *         @arg SCPI_UNDEFINED_HEADER
+  * @retval 查找结果,SCPI命令对应的命令码
+  */
 uint8_t find_one_section_cmd(uint8_t *section, uint32_t *cmd_count, SCPI_ERR_T *err)
 {
     uint8_t num = 0;

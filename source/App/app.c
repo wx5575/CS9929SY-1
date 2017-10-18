@@ -497,7 +497,7 @@ static void AppTaskModuleComm(void *p_arg)
     
     while(1)
     {
-        OS_DELAY_ms(5);
+        OS_DELAY_ms(2);
         module_comm_task();
         scpi_comm_task();
     }

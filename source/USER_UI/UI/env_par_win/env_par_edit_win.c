@@ -363,6 +363,7 @@ static MYUSER_WINDOW_T env_par_window =
     env_par_win_pos_size_pool/*pos_size_pool*/
 };
 
+MYUSER_WINDOW_T *this_win = &env_par_window;
 /* Private functions ---------------------------------------------------------*/
 
 /**
@@ -803,7 +804,15 @@ static void env_par_edit_win_cb(WM_MESSAGE * pMsg)
     }
 }
 /* Public functions ---------------------------------------------------------*/
-
+/**
+  * @brief  更新系统语言
+  * @param  无
+  * @retval 无
+  */
+void update_system_language(void)
+{
+    update_all_windows_text();
+}
 /**
   * @brief  创建对话框用来编辑环境变量
   * @param  [in] hWin 窗口句柄

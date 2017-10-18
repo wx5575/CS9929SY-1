@@ -255,6 +255,60 @@ static uint8_t count_check_num(uint8_t *data)
     return res;
 }
 /**
+  * @brief  检查参数的合法性
+  * @param  [in] cmd SCPI指令属性
+  * @param  [in] par SCPI传入参数信息
+  * @retval 检查结果
+  *         @arg SCPI_NO_ERROR
+  *         @arg SCPI_SYNTAX_ERROR
+  *         @arg SCPI_MISSING_PARAMETER
+  */
+static SCPI_ERR_T check_scpi_cmd_validity(SCPI_CMD *cmd, SCPI_DIS_FUN_PAR *par)
+{
+    if(cmd->att == E__ || cmd->att == _W_ || cmd->att == __R
+        || (cmd->att == _WR && par->type == SCPI_EXE))
+    {
+        if(cmd->par_num != IGNORE_PAR_NUM)
+        {
+            if(par->argc > cmd->par_num)
+            {
+                return SCPI_SYNTAX_ERROR;
+            }
+            else if(par->argc < cmd->par_num)
+            {
+                return SCPI_MISSING_PARAMETER;
+            }
+        }
+    }
+    
+    if(cmd->att == E__ || cmd->att == _W_)
+    {
+        if(par->type != SCPI_EXE)
+        {
+            return SCPI_SYNTAX_ERROR;
+        }
+    }
+    else if(cmd->att == __R)
+    {
+        if(par->type == SCPI_EXE)
+        {
+            return SCPI_SYNTAX_ERROR;
+        }
+    }
+    
+    /* 对于读写属性的指令，当是读指令时是不允许带参数的 */
+    if(cmd->att == _WR && par->type == SCPI_QUERY)
+    {
+        if(par->argc > 0)
+        {
+            return SCPI_SYNTAX_ERROR;
+        }
+    }
+    
+    return SCPI_NO_ERROR;
+}
+
+/**
   * @brief  串口1的接收处理函数
   * @param  [in] com_num 串口号
   * @param  [in] frame 数据帧
@@ -381,6 +435,15 @@ static SCPI_ERR_T scpi_receive_dispose_(uint8_t *frame, uint32_t len,
     scpi_par.ask_len = ask_len;
     scpi_par.type = cur_scpi_cmd_type;
     
+    /* 检查命令合法性 */
+    err = check_scpi_cmd_validity(p_scpi_cmd, &scpi_par);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    /* 进行处理函数 */
     if(p_scpi_cmd->dispose_fun != NULL)
     {
         err = p_scpi_cmd->dispose_fun(&scpi_par);
@@ -437,8 +500,10 @@ void scpi_receive_dispose(SCPI_COM_STRUCT *com, uint8_t *frame, uint32_t len)
     SCPI_ERR_T err;
     uint8_t ask_len = 0;
     
+    com->frame_buf[0] = 0;
     err = scpi_receive_dispose_(frame, len, com->frame_buf, &ask_len);
     
+    /* 设置指令返回 或 查询指令执行失败 */
     if((cur_scpi_cmd_type == SCPI_EXE) 
         || ((cur_scpi_cmd_type == SCPI_QUERY) && (err != SCPI_NO_ERROR)))
     {
@@ -447,8 +512,10 @@ void scpi_receive_dispose(SCPI_COM_STRUCT *com, uint8_t *frame, uint32_t len)
         add_end_code(com->frame_buf, &ask_len);
         com->send_fun(com, com->frame_buf, ask_len);
     }
+    /* 查询指令执行成功 */
     else if((cur_scpi_cmd_type == SCPI_QUERY) && (err == SCPI_NO_ERROR))
     {
+        ask_len = strlen((const char*)com->frame_buf);
         add_end_code(com->frame_buf, &ask_len);
         com->send_fun(com, com->frame_buf, ask_len);
     }

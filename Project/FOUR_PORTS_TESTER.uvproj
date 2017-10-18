@@ -1663,16 +1663,6 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>DOCUMENT</GroupName>
-          <Files>
-            <File>
-              <FileName>templet.c.txt</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\source\Document\templet.c.txt</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
           <GroupName>SCPI</GroupName>
           <Files>
             <File>
@@ -1699,6 +1689,21 @@
               <FileName>cs99xx_scpi_dispose.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\SCPI\cs99xx_scpi_dispose.c</FilePath>
+            </File>
+            <File>
+              <FileName>comm_bridge.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\SCPI\comm_bridge.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>DOCUMENT</GroupName>
+          <Files>
+            <File>
+              <FileName>templet.c.txt</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\source\Document\templet.c.txt</FilePath>
             </File>
           </Files>
         </Group>
@@ -3361,16 +3366,6 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>DOCUMENT</GroupName>
-          <Files>
-            <File>
-              <FileName>templet.c.txt</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\source\Document\templet.c.txt</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
           <GroupName>SCPI</GroupName>
           <Files>
             <File>
@@ -3397,6 +3392,21 @@
               <FileName>cs99xx_scpi_dispose.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\SCPI\cs99xx_scpi_dispose.c</FilePath>
+            </File>
+            <File>
+              <FileName>comm_bridge.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\SCPI\comm_bridge.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>DOCUMENT</GroupName>
+          <Files>
+            <File>
+              <FileName>templet.c.txt</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\source\Document\templet.c.txt</FilePath>
             </File>
           </Files>
         </Group>

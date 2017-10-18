@@ -37,7 +37,7 @@ SCPI_COM_STRUCT scpi_com={
     get_scpi_com_send_status,///<获取串口通信的发送状态
 };
 /**
-  * @brief  第1路串口发送数据函数,直接调用串口驱动层的发送函数
+  * @brief  串口发送数据函数,直接调用串口驱动层的发送函数
   * @param  [in] com 串口类指针
   * @param  [in] data 数据
   * @param  [in] len 数据长度
@@ -49,7 +49,7 @@ static void get_scpi_com_send_frame(SCPI_COM_STRUCT *com, uint8_t *data, uint32_
 }
 
 /**
-  * @brief  第1路串口重发函数,直接调用串口驱动层提供的重发函数
+  * @brief  串口重发函数,直接调用串口驱动层提供的重发函数
   * @param  [in] com 串口类指针
   * @retval None
   */
@@ -58,7 +58,7 @@ static void get_scpi_com_resend_frame(SCPI_COM_STRUCT *com)
     usart6_resend_data();
 }
 /**
-  * @brief  获取第1路串口接收到的数据
+  * @brief  获取串口接收到的数据
   * @param  [in] com 串口类指针
   * @retval 接收到的数据帧
   */
@@ -68,7 +68,7 @@ static uint8_t *get_scpi_com_frame(SCPI_COM_STRUCT *com)
 }
 
 /**
-  * @brief  获取第1路串口接收到的数据长度
+  * @brief  获取串口接收到的数据长度
   * @param  [in] com 串口类指针
   * @retval 接收到的数据帧长度
   */
@@ -99,7 +99,7 @@ static uint8_t get_scpi_com_receive_over_flag(SCPI_COM_STRUCT *com)
     return flag;
 }
 /**
-  * @brief  获取第1路串口发送状态
+  * @brief  获取串口发送状态
   * @param  [in] com 串口类指针
   * @retval 串口发送状态 0 未完成 1 发送完成
   */

@@ -528,6 +528,7 @@ static void file_win_paint_frame(void)
 static void dis_one_file_info(TEST_FILE *file)
 {
 	uint8_t list_buf[5][20] = {0};
+    uint8_t t_buf[20] = {0};
 	int32_t i = 0;
 	uint16_t row = 0;
 	
@@ -538,7 +539,12 @@ static void dis_one_file_info(TEST_FILE *file)
         sprintf((char *)list_buf[i++], "%s", file->name);
         sprintf((char *)list_buf[i++], "%s", work_mode_pool[file->work_mode%2]);
         sprintf((char *)list_buf[i++], "%d", file->total);
-        sprintf((char *)list_buf[i++], "%s", file->date);//get_time_str(0));
+        
+        turn_rtc_date_str(file->create_date, t_buf);
+        strcat((char*)list_buf[i], (const char*)t_buf);
+        strcat((char*)list_buf[i], " ");
+        turn_rtc_time_str(file->create_time, t_buf);
+        strcat((char*)list_buf[i++], (const char*)t_buf);
     }
     /* 文件不存在 */
     else
@@ -743,7 +749,8 @@ static void dispose_child_win_msg(CUSTOM_MSG_T * msg, WM_HWIN hWin)
                 
 				if(f->num < MAX_FILES)
 				{
-					strcpy((char *)f->date, (const char*)get_time_str(0));
+                    f->create_date = get_rtc_data();
+                    f->create_time = get_rtc_time();
 					file_pool[f->num] = *f;
                     copy_cur_file_to_new_pos(f->num);//拷贝当前文件到指定位置
                     send_cmd_to_all_module((void*)&file_pool[f->num], sizeof(TEST_FILE),
@@ -768,7 +775,8 @@ static void dispose_child_win_msg(CUSTOM_MSG_T * msg, WM_HWIN hWin)
 				f->num = row + 1;
 				if(f->num < MAX_FILES)
 				{
-					strcpy((char *)f->date, (const char*)get_time_str(0));
+                    f->create_date = get_rtc_data();
+                    f->create_time = get_rtc_time();
                     init_new_group_inf(f);//初始化记忆组
 					file_pool[f->num] = *f;
                     save_file(f->num);
@@ -829,7 +837,8 @@ static void dispose_child_win_msg(CUSTOM_MSG_T * msg, WM_HWIN hWin)
                     fn->total = fs->total;
                 }
                 
-                strcpy((char *)fn->date, (const char*)get_time_str(0));
+                fn->create_date = get_rtc_data();
+                fn->create_time = get_rtc_time();
                 file_pool[fn->num] = *fn;
                 save_file(fn->num);
                 send_cmd_to_all_module((void*)fn,

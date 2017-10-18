@@ -20,12 +20,17 @@
 #ifndef NULL
 #define NULL 0
 #endif
+typedef enum{
+    COMM_LOCAL,///<本控状态
+    COMM_REMOTE,///<远控状态
+}COMM_STATUS;
 /** 
   * @brief 应用程序使用的标记定义
   */
 typedef struct {
 	uint8_t stop_scan_key;///< 停止扫描键盘
     uint8_t calibration;///<校准标记
+    COMM_STATUS comm_status;///<通信状态
 }APP_FLAG;
 
 #ifdef   APP_GLOBALS
