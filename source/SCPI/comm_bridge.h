@@ -6,6 +6,9 @@
 void set_instrument_into_remote_bridge(void);
 void set_instrument_exit_remote_bridge(void);
 void get_instrument_comm_status_bridge(void);
+void source_test_start_bridge(void);
+void source_test_stop_bridge(void);
+
 
 void update_system_language_bridge(void);
 

@@ -63,6 +63,43 @@ typedef struct{
     uint8_t usable;///<数据可以使用标记
 //    uint16_t g_dis_time;///<测试时间
 }COMM_TEST_DATA;
+#pragma pack(1)
+typedef struct{
+    uint16_t vol;///<电压
+    uint16_t cur;///<电流
+    uint16_t real;///<真实电流
+    uint8_t range;///<电流量程
+}ACW_COMM_TEST_DATA;
+
+typedef struct{
+    uint16_t vol;///<电压
+    uint16_t cur;///<电流
+    uint8_t range;///<电流量程
+}DCW_COMM_TEST_DATA;
+
+typedef struct{
+    uint16_t vol;///<电压
+    uint16_t res;///<电阻
+    uint8_t range;///<电阻量程
+}IR_COMM_TEST_DATA;
+typedef struct{
+    uint16_t cur;///<电流
+    uint16_t res;///<电阻
+}GR_COMM_TEST_DATA;
+
+typedef struct{
+    uint16_t time;///<测试时间
+    uint8_t flag;///<测试标记
+    uint8_t status;///<测试状态
+    union{
+        ACW_COMM_TEST_DATA acw;///<ACW测试数据
+        DCW_COMM_TEST_DATA dcw;///<DCW测试数据
+        IR_COMM_TEST_DATA ir;///<IR测试数据
+        GR_COMM_TEST_DATA gr;///<GR测试数据
+    }un;
+}UN_COMM_TEST_DATA;
+
+#pragma pack()
 
 /**
   * @brief  同步测试端口信息
@@ -74,7 +111,7 @@ typedef struct{
     MODULE_ADDR_T addr;///<模块地址，方便查找使用
     MODULE_ADDR_T offset_addr;///<偏移地址
     ROAD_TEST_ST test_st;///<测试状态
-    COMM_TEST_DATA test_data;///<实时测试数据
+    UN_COMM_TEST_DATA test_data;///<实时测试数据
 }SYN_TEST_PORT_INF;
 
 #define FRAME_HEAD_SIZE     6  ///<帧头的字节个数
@@ -172,7 +209,7 @@ extern CS_ERR send_swap_step(MODULE_ADDR_T addr, uint8_t *data, uint32_t len);
 
 
 extern ROAD_TEST_ST read_road_test_status(ROAD_NUM_T road);
-extern COMM_TEST_DATA*  get_road_test_data(ROAD_NUM_T road, COMM_TEST_DATA *test_data);
+extern UN_COMM_TEST_DATA*  get_road_test_data(ROAD_NUM_T road, UN_COMM_TEST_DATA *test_data);
 extern SYN_TEST_PORT_INF* get_road_inf(MODULE_ADDR_T addr, CS_ERR *err);
 
 extern ROAD_INDEX_NUM_T get_road_index_num(MODULE_ADDR_T addr);

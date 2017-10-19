@@ -469,6 +469,30 @@ void report_key_value(void)
     }
 }
 
+/**
+  * @brief  模拟发送启动键
+  * @param  无
+  * @retval 无
+  */
+void simulate_send_start_key(void)
+{
+    if(send_key_msg_fun != NULL)
+    {
+        send_key_msg_fun(&s_Key_start.KeyCodeDown);
+    }
+}
 
+/**
+  * @brief  模拟发送复位键
+  * @param  无
+  * @retval 无
+  */
+void simulate_send_stop_key(void)
+{
+    if(send_key_msg_fun != NULL)
+    {
+        send_key_msg_fun(&s_Key_stop.KeyCodeDown);
+    }
+}
 
 /******************* (C) COPYRIGHT 2014 长盛仪器 *****END OF FILE****/

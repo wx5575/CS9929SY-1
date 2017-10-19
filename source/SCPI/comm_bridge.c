@@ -1,5 +1,6 @@
 
 #include "ui_comm_api.h"
+#include "keyboard.h"
 
 void set_instrument_exit_remote_bridge(void)
 {
@@ -13,27 +14,22 @@ void set_instrument_into_remote_bridge(void)
 
 void get_instrument_comm_status_bridge(void)
 {
-//    get_com_status();
+//    com_st_into_remote();
 }
-
-
-
-
-
-
 
 void update_system_language_bridge(void)
 {
-    update_system_language();
+    com_st_into_remote();
 }
 
+void source_test_start_bridge(void)
+{
+    simulate_send_start_key();
+}
 
-
-
-
-
-
-
-
+void source_test_stop_bridge(void)
+{
+    simulate_send_stop_key();
+}
 
 

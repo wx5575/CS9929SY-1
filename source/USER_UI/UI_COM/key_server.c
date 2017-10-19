@@ -452,8 +452,6 @@ void register_test_reset_server_fun(void(*fun)(void))
   */
 static void run_syn_stop_pin_irq(void)
 {
-    SYN_STOP_PIN = STOP_PIN;
-    
     if(test_reset_server != NULL && STOP_PIN != 1)
     {
         test_reset_server();
@@ -472,7 +470,7 @@ void key_scan_on(void)
     if(key_scan_status == 0)
     {
         key_scan_status = 1;
-        OSTaskResume(&ScanKeyTaskTCB, &err);
+//        OSTaskResume(&ScanKeyTaskTCB, &err);
     }
 }
 /**
@@ -487,9 +485,10 @@ void key_scan_off(void)
     if(key_scan_status == 1)
     {
         key_scan_status = 0;
-        OSTaskSuspend(&ScanKeyTaskTCB, &err);
+//        OSTaskSuspend(&ScanKeyTaskTCB, &err);
     }
 }
+
 /**
   * @brief  按键扫描任务
   * @param  无
@@ -511,7 +510,12 @@ void scan_key_task(void)
 	while(1)
 	{
 		OSTimeDlyHMSM(0, 0, 0, 10, 0, &err);
-		report_key_value();//记录键值
+        
+        if(key_scan_status)
+        {
+            report_key_value();//记录键值
+        }
+        
 		key_value =  get_key_value();//获取键值
 		
 		//系统功能按键处理

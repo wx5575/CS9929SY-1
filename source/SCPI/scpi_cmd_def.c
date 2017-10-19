@@ -15,6 +15,11 @@ typedef struct{
     const char*cmd;
     CMD_NUM     num;
 }CMD_SEGMENT_T;
+/**
+  * @brief  SCPI段与对应的数字编号，其中SCPI段支持重码，例如：
+  * "CONT"          , C_CONTRAST,
+  * "CONT"          , C_CONTROL,
+  */
 CMD_SEGMENT_T scpi_segment_pool[]=
 {
     "*IDN"          , C_IDN,
@@ -216,7 +221,7 @@ SCPI_CMD scpi_cmd_pool[]=
     {{C_SOURCE,C_TEST,C_START}      , E__, 0, source_test_start_scpi_dispose_fun},
     {{C_SOURCE,C_TEST,C_STOP}       , E__, 0, source_test_stop_scpi_dispose_fun},
     {{C_SOURCE,C_TEST,C_STATUS}     , __R, 0, source_test_status_scpi_dispose_fun},
-    {{C_SOURCE,C_TEST,C_FETCH}      , __R, 0, source_test_fetch_scpi_dispose_fun},
+    {{C_SOURCE,C_TEST,C_FETCH}      , __R, 1, source_test_fetch_scpi_dispose_fun},
     {{C_SOURCE,C_LOAD,C_STEP}       , E__, 1, source_load_step_scpi_dispose_fun},
     {{C_SOURCE,C_LOAD,C_FILE}       , E__, 1, source_load_file_scpi_dispose_fun},
     {{C_SOURCE,C_LIST,C_FINDEX}     , __R, 0, source_list_findex_scpi_dispose_fun},

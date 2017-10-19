@@ -27,10 +27,10 @@ RUNNING_EXT uint16_t sample_cur;         /* 采样电流 */
 RUNNING_EXT float cur_ad_vol;            /* 采样电流 */
 RUNNING_EXT uint16_t adc_value[2];       /* 采样电流 */
 
-RUNNING_EXT uint8_t output_buf[10];      /* 输出采集值 */
-RUNNING_EXT uint8_t loop_buf[10];        /* 回路采集值 */
-RUNNING_EXT uint8_t real_buf[10];        /* 真实电流采集值 */
-RUNNING_EXT uint8_t time_buf[10];        /* 测试时间 */
+RUNNING_EXT uint8_t output_buf[9][10];      /* 输出采集值 */
+RUNNING_EXT uint8_t loop_buf[9][10];        /* 回路采集值 */
+RUNNING_EXT uint8_t real_buf[9][10];        /* 真实电流采集值 */
+RUNNING_EXT uint8_t time_buf[9][10];        /* 测试时间 */
 
 RUNNING_EXT float vol_ave;               /* 电压 */
 RUNNING_EXT float cur_ave;               /* 电流 */

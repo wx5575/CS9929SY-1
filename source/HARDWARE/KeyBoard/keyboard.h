@@ -100,6 +100,8 @@ extern void init_keyboard(void);
 extern uint32_t scan_keyboard(void);
 extern void report_key_value(void);
 extern void register_key_send_msg_fun(void(*fun)(uint32_t *));
+extern void simulate_send_start_key(void);
+extern void simulate_send_stop_key(void);
 
 #endif //__KEYBOARD_H__
 

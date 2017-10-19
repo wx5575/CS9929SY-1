@@ -71,6 +71,10 @@ typedef struct
     uint8_t test_st;///<测试路状态
     CS_BOOL (*road_test_over)(void);///<判断该路是否测试结束
     CS_BOOL (*road_test_alarm)(void);///<判断该路是否测试报警
+    uint8_t output_buf[10];///<输出采集值
+    uint8_t loop_buf[10];///<回路采集值
+    uint8_t real_buf[10];///<真实电流采集值
+    uint8_t time_buf[10];///<测试时间
 }ROAD_DIS_ELE_INF;
 
 /**
@@ -223,6 +227,8 @@ static void test_win_update_cur_step_crc(void);
 static void set_roads_test_st(uint8_t test_st);
 static void roads_into_test_st(void);
 static void update_roads_bar(void);
+
+static void test_reset_fun(void);
 /* Private variables ---------------------------------------------------------*/
 static TEST_FLAG test_flag;///<测试标记
 
@@ -290,6 +296,7 @@ ROAD_DIS_ELE_INF road_test_dis_inf[]=
 };
 
 static uint32_t hold_start_sign_time;///<启动信号保持时间
+static uint32_t hold_stop_sign_time;///<复位信号保持时间
 /**
   * @brief  测试状态机的状态
   */
@@ -1479,7 +1486,7 @@ static void test_win_sys_start_key_fun_cb(KEY_MESSAGE *key_msg)
   */
 static void test_win_sys_stop_key_fun_cb(KEY_MESSAGE *key_msg)
 {
-    test_status = TEST_RESET;
+    test_reset_fun();
 }
 
 static void test_win_edit_num_direct_key_up_cb   (KEY_MESSAGE *key_msg)
@@ -3013,7 +3020,7 @@ char* div_str_pre_zero(char *str)
   * @param  [in] road_ele_inf 每路的显示对象信息
   * @retval 无
   */
-void update_road_bar_dis(COMM_TEST_DATA *inf, ROAD_DIS_ELE_INF* road_ele_inf)
+void update_road_bar_dis(UN_COMM_TEST_DATA *inf, ROAD_DIS_ELE_INF* road_ele_inf)
 {
     GUI_COLOR backcolor;
     
@@ -3035,21 +3042,18 @@ void update_road_bar_dis(COMM_TEST_DATA *inf, ROAD_DIS_ELE_INF* road_ele_inf)
         set_text_ele_font_backcolor(road_ele_inf->bar, this_win, backcolor);
     }
 }
-void update_result_inf(COMM_TEST_DATA *inf, ROAD_DIS_ELE_INF* road_ele_inf)
+void update_result_inf(UN_COMM_TEST_DATA *inf, ROAD_DIS_ELE_INF* road_ele_inf)
 {
     RES_TEST_DATA *res_test_data;
-    float f = 0;
     
     res_test_data = &result_inf_pool[road_ele_inf->road_num - 1].test_data;
     
     switch(cur_mode)
     {
         case ACW:
-            f = atof((const char*)inf->vol);
-            res_test_data->un.acw.vol = f * 1000;
-            f = atof((const char*)inf->cur);
-            res_test_data->un.acw.cur = f * pow(10, ac_gear[cur_gear].dec);
-            res_test_data->test_time = atof((const char*)inf->time) * 10;
+            res_test_data->un.acw.vol = inf->un.acw.vol;
+            res_test_data->un.acw.vol = inf->un.acw.cur;
+            res_test_data->test_time = inf->time;
             break;
         case DCW:
             break;
@@ -3066,30 +3070,42 @@ void update_result_inf(COMM_TEST_DATA *inf, ROAD_DIS_ELE_INF* road_ele_inf)
   * @param  [in] force 强制刷新标志
   * @retval 无
   */
-void dis_one_road_test_inf(COMM_TEST_DATA *inf, ROAD_DIS_ELE_INF* road_ele_inf, CS_BOOL force)
+void dis_one_road_test_inf(UN_COMM_TEST_DATA *inf, ROAD_DIS_ELE_INF* road_ele_inf, CS_BOOL force)
 {
     const uint8_t *str = NULL;
     static uint8_t flag = 0;
     RES_TEST_DATA *res_test_data;
+    uint8_t buf[20] = {0};
     
     res_test_data = &result_inf_pool[road_ele_inf->road_num - 1].test_data;
     strcat((char*)inf->time, (const char*)unit_pool[TIM_U_s]);
     div_str_pre_zero((char*)inf->time);
     
-    update_text_ele(road_ele_inf->time, this_win, inf->time);
+    mysprintf(road_ele_inf->time_buf, NULL, 151, inf->time);
+    sprintf((char*)buf, "%s%s", road_ele_inf->time_buf, unit_pool[TIM_U_s]);
+    update_text_ele(road_ele_inf->time, this_win, (const uint8_t*)div_str_pre_zero((char*)buf));
+    
+    update_text_ele(road_ele_inf->mode, this_win, mode_pool[cur_mode]);
     
     if(++flag % 5 == 0 || force == CS_TRUE)
     {
-        strcat((char*)inf->vol, (const char*)unit_pool[inf->vol_unit]);
-        div_str_pre_zero((char*)inf->vol);
-        strcat((char*)inf->cur, (const char*)unit_pool[inf->cur_unit]);
-        div_str_pre_zero((char*)inf->cur);
+        switch(cur_mode)
+        {
+            case ACW:
+                mysprintf(road_ele_inf->output_buf, NULL, 153, inf->un.acw.vol);
+                sprintf((char*)buf, "%s%s", road_ele_inf->output_buf, unit_pool[VOL_U_kV]);
+                update_text_ele(road_ele_inf->vol, this_win, (const uint8_t*)div_str_pre_zero((char*)buf));
+                mysprintf(road_ele_inf->loop_buf, NULL, 150 + ac_gear[inf->un.acw.range].dec, inf->un.acw.cur);
+                sprintf((char*)buf, "%s%s", road_ele_inf->loop_buf, unit_pool[ac_gear[inf->un.acw.range].unit]);
+                update_text_ele(road_ele_inf->cur, this_win, (const uint8_t*)div_str_pre_zero((char*)buf));
+                break;
+            case DCW:
+                break;
+        }
         
-        update_text_ele(road_ele_inf->vol, this_win, inf->vol);
-        update_text_ele(road_ele_inf->cur, this_win, inf->cur);
-        update_text_ele(road_ele_inf->mode, this_win, inf->mode);
         str = get_test_status_str(inf->status);
         res_test_data->test_result = inf->status;
+        road_ele_inf->test_st = inf->status;
         
         update_text_ele(road_ele_inf->status, this_win, str);
         update_road_bar_dis(inf, road_ele_inf);//测试出现异常时使用
@@ -3109,8 +3125,8 @@ void dis_step_num_inf(uint16_t step_num)
   */
 void dis_roads_inf(CS_BOOL force)
 {
-    COMM_TEST_DATA test_data;
-    COMM_TEST_DATA *road_inf;
+    UN_COMM_TEST_DATA test_data;
+    UN_COMM_TEST_DATA *road_inf;
     uint32_t num = 0;
     uint8_t road_num;
     int32_t i = 0;
@@ -3127,9 +3143,9 @@ void dis_roads_inf(CS_BOOL force)
             continue;
         }
         
-        if(road_inf->usable == 1)
+        if(road_inf->flag == 1)
         {
-            road_inf->usable = 0;
+            road_inf->flag = 0;
             if(road_inf->status == ST_TESTING)
             {
                 update_result_inf(&test_data, &road_test_dis_inf[i]);
@@ -3234,11 +3250,10 @@ void dis_test_over_status(void)
             {
                 str = get_test_status_str(ST_PASS);
                 update_text_ele(inf->status, this_win, str);
-                inf->test_st = ST_PASS;
+//                inf->test_st = ST_PASS; //能够提前一致显示出测试合格
             }
             else
             {
-                inf->test_st = ST_ERR_FAIL;
                 test_flag.fail = 1;
             }
         }
@@ -3261,6 +3276,14 @@ void run_start_sign(void)
             SYN_START_PIN = 1;
         }
     }
+    
+    if(hold_stop_sign_time > 0)
+    {
+        if(--hold_stop_sign_time == 0)
+        {
+            SYN_STOP_PIN = 1;
+        }
+    }
 }
 
 /**
@@ -3271,6 +3294,15 @@ void run_start_sign(void)
 void hold_start_sign(uint32_t ms)
 {
     hold_start_sign_time = ms;
+}
+/**
+  * @brief  设置启动信号保持时间
+  * @param  [in] ms 保持时间单位 ms
+  * @retval 无
+  */
+void hold_stop_sign(uint32_t ms)
+{
+    hold_stop_sign_time = ms;
 }
 
 /**
@@ -3283,11 +3315,22 @@ void send_start_sign(void)
     SYN_START_PIN = 0;
     hold_start_sign(100);
 }
-void test_reset_fun(void)
+
+/**
+  * @brief  向从机发送启动信号并保持100ms
+  * @param  无
+  * @retval 无
+  */
+void send_stop_sign(void)
 {
+    SYN_STOP_PIN = 0;
+    hold_stop_sign(200);
+}
+static void test_reset_fun(void)
+{
+    send_stop_sign();
     test_status = TEST_RESET;
 }
-
 /**
   * @brief  清空测试标记
   * @param  无
@@ -3828,7 +3871,27 @@ static void test_win_cb(WM_MESSAGE* pMsg)
 	}
 }
 /* Public functions ---------------------------------------------------------*/
+uint8_t get_road_test_status(ROAD_NUM_T road)
+{
+    return road_test_dis_inf[road - 1].test_st;
+}
+uint8_t* get_road_test_voltage(ROAD_NUM_T road)
+{
+    return road_test_dis_inf[road - 1].output_buf;
+}
+uint8_t* get_road_test_current(ROAD_NUM_T road)
+{
+    return road_test_dis_inf[road - 1].loop_buf;
+}
+uint8_t* get_road_test_real_current(ROAD_NUM_T road)
+{
+    return road_test_dis_inf[road - 1].real_buf;
+}
 
+uint8_t* get_road_test_time(ROAD_NUM_T road)
+{
+    return road_test_dis_inf[road - 1].time_buf;
+}
 /**
   * @brief  创建测试窗口
   * @param  [in] hWin 父窗口句柄

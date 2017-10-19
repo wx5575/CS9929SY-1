@@ -411,7 +411,7 @@ void get_slave_test_data(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
     ROAD_NUM_T road;
     
     road = get_road_index_num(index_addr);
-    memcpy(&syn_test_port[road - 1].test_data, data, sizeof(COMM_TEST_DATA));
+    memcpy(&syn_test_port[road - 1].test_data, data, sizeof(UN_COMM_TEST_DATA));
 }
 
 /**
@@ -507,7 +507,7 @@ void test_over_sign_h(COM_NUM com_num, uint8_t index_addr, uint8_t *data)
   * @param  [out] test_data 输出测试数据
   * @retval 获取到的模块测试数据
   */
-COMM_TEST_DATA* get_road_test_data(ROAD_NUM_T road, COMM_TEST_DATA *test_data)
+UN_COMM_TEST_DATA* get_road_test_data(ROAD_NUM_T road, UN_COMM_TEST_DATA *test_data)
 {
     uint8_t total_roads = 0;
     int32_t i = 0;
@@ -527,7 +527,7 @@ COMM_TEST_DATA* get_road_test_data(ROAD_NUM_T road, COMM_TEST_DATA *test_data)
         return NULL;
     }
     
-    memcpy(test_data, &syn_test_port[i].test_data, sizeof(COMM_TEST_DATA));
+    memcpy(test_data, &syn_test_port[i].test_data, sizeof(UN_COMM_TEST_DATA));
     
     return &syn_test_port[i].test_data;
 }

@@ -14,6 +14,8 @@
 #include "parameter_manage.h"
 #include "string.h"
 #include "stdlib.h"
+#include "ui_comm_api.h"
+#include "running_test.h"
 
 
 SCPI_ERR_T idn_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
@@ -80,7 +82,7 @@ static SCPI_ERR_T extract_file_par(TEST_FILE *file, SCPI_DIS_FUN_PAR *par)
     
     if(file->num >= MAX_FILES)
     {
-        return SCPI_INVALID_STRING_DATA;
+        return SCPI_DATA_OUT_OF_RANGE;
     }
     
     if(CS_TRUE == is_file_exist(file->num))
@@ -207,43 +209,222 @@ SCPI_ERR_T file_edit_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 
 SCPI_ERR_T file_del_single_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    FILE_NUM   file_num;
+    TEST_FILE *file;
+    CS_ERR err;
+    
+    file_num = atoi((const char*)par->argv[0]);
+    
+    if(file_num >= MAX_FILES)
+    {
+        return SCPI_DATA_OUT_OF_RANGE;
+    }
+    
+    if(CS_TRUE != is_file_exist(file_num))
+    {
+        return SCPI_DATA_OUT_OF_RANGE;
+    }
+    
+    send_cmd_to_all_module((void*)&file_num,
+        sizeof(file_num), send_slave_del_file);
+    
+    del_one_group_inf(file_num);//删除一个记组信息
+    
+    file = get_file_inf(0, &err);
+    
+    if(err == CS_ERR_NONE)
+    {
+        g_cur_file = file;
+        read_group_info(g_cur_file->num);//保存新建文件的记忆组信息
+        sys_flag.last_file_num = g_cur_file->num;//更新最近使用的文件编号
+        save_sys_flag();//保存系统标记
+        read_group_info(g_cur_file->num);//恢复最近使用的记忆组信息
+    }
+    
     return SCPI_NO_ERROR;
 }
 
 SCPI_ERR_T file_del_all_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    del_all_file();
+    send_cmd_to_all_module(NULL, 0, send_slave_clear_all_files);
+    
     return SCPI_NO_ERROR;
 }
 
 SCPI_ERR_T file_save_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    FILE_NUM   file_num;
+    TEST_FILE file;
+    uint8_t len = 0;
+    
+    file_num = atoi((const char*)par->argv[0]);
+    
+    if(file_num >= MAX_FILES)
+    {
+        return SCPI_DATA_OUT_OF_RANGE;
+    }
+    
+    if(CS_TRUE == is_file_exist(file_num))
+    {
+        return SCPI_PARAMETER_NOT_ALLOWED;
+    }
+    
+    /* 与当前文件号相同不允许操作 */
+    if(g_cur_file->num == file_num)
+    {
+        return SCPI_PARAMETER_NOT_ALLOWED;
+    }
+    
+    len = strlen((const char*)par->argv[1]);
+    if(par->argv[1][0] != '"' || par->argv[1][len - 1] != '"' || len > NAME_LON || len < 3)
+    {
+        return SCPI_INVALID_STRING_DATA;
+    }
+    
+    strncpy((char*)file.name, (const char*)&par->argv[1][1], len - 2);
+    
+    file.num = file_num;
+    
+    file.create_date = get_rtc_data();
+    file.create_time = get_rtc_time();
+    file_pool[file_num] = file;
+    copy_cur_file_to_new_pos(file_num);//拷贝当前文件到指定位置
+    send_cmd_to_all_module((void*)&file_pool[file_num], sizeof(TEST_FILE),
+                send_slave_save_file);
+    
     return SCPI_NO_ERROR;
 }
 
 SCPI_ERR_T file_read_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    FILE_NUM   file_num;
+    CS_ERR err;
+    TEST_FILE *f;
+    
+    file_num = atoi((const char*)par->argv[0]);
+    
+    if(file_num >= MAX_FILES)
+    {
+        return SCPI_DATA_OUT_OF_RANGE;
+    }
+    
+    if(CS_TRUE != is_file_exist(file_num))
+    {
+        return SCPI_PARAMETER_NOT_ALLOWED;
+    }
+    
+    f = get_file_inf(file_num, &err);
+    
+    if(err == CS_ERR_NONE)
+    {
+        g_cur_file = f;
+        read_group_info(g_cur_file->num);//保存新建文件的记忆组信息
+        sys_flag.last_file_num = g_cur_file->num;//更新最近使用的文件编号
+        save_sys_flag();//保存系统标记
+        read_group_info(g_cur_file->num);//恢复最近使用的记忆组信息
+        send_cmd_to_all_module((void*)&g_cur_file->num,
+            sizeof(g_cur_file->num), send_slave_load_file);
+    }
+    
     return SCPI_NO_ERROR;
 }
 
 SCPI_ERR_T file_catalog_single_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    FILE_NUM   file_num;
+    CS_ERR err;
+    TEST_FILE *f;
+    
+    file_num = atoi((const char*)par->argv[0]);
+    
+    if(file_num >= MAX_FILES)
+    {
+        return SCPI_DATA_OUT_OF_RANGE;
+    }
+    
+    if(CS_TRUE != is_file_exist(file_num))
+    {
+        strcpy((char*)par->ask_data, "0");
+    }
+    else
+    {
+        f = get_file_inf(file_num, &err);
+        
+        sprintf((char*)par->ask_data, "%d,\"%s\",%d,%s,%05.1f,%05.1f,%s",
+                f->num,
+                f->name,
+                f->total,
+                f->work_mode==G_MODE? "G":"N",
+                f->pass_time / 10.0,
+                f->buzzer_time / 10.0,
+                f->arc_mode==ARC_CUR_MODE? "1":"0");
+    }
+    
     return SCPI_NO_ERROR;
 }
 /* 源指令集 */
 SCPI_ERR_T source_test_start_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    source_test_start_bridge();
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T source_test_stop_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    source_test_stop_bridge();
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T source_test_status_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    uint8_t status[4] = {0};
+    
+    status[0] = get_road_test_status(1);
+    status[1] = get_road_test_status(2);
+    status[2] = get_road_test_status(3);
+    status[3] = get_road_test_status(4);
+    
+    sprintf((char*)par->ask_data, "%d,%d,%d,%d",status[0],status[1],status[2],status[3]);
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T source_test_fetch_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    ROAD_NUM_T road = 0;
+    uint8_t buf[20] = {0};
+    
+    road = atoi((const char*)par->argv[0]);
+    
+    if(road < 1 || road > 4)
+    {
+        return SCPI_DATA_OUT_OF_RANGE;
+    }
+    
+    /* 路号，步骤编号，测试模式，电压，电流档位，测试电流，真实电流，时间，测试状态 */
+//    sprintf((char*)par->ask_data, "%d,%d,%d,%s,%d,%s,%s,%s,%d",
+    sprintf((char*)par->ask_data, "%d,%d,%d,", road, cur_step, cur_mode - 1);
+    
+    switch(cur_mode)
+    {
+        case ACW:
+            strcat((char*)par->ask_data, (const char*)get_road_test_voltage(road));
+            strcat((char*)par->ask_data, ",");
+            sprintf((char*)buf, "%d,", cur_gear);
+            strcat((char*)par->ask_data, buf);
+            strcat((char*)par->ask_data, (const char*)get_road_test_current(road));
+            strcat((char*)par->ask_data, ",");
+            strcat((char*)par->ask_data, (const char*)get_road_test_real_current(road));
+            strcat((char*)par->ask_data, ",");
+            strcat((char*)par->ask_data, (const char*)get_road_test_time(road));
+            strcat((char*)par->ask_data, ",");
+            sprintf((char*)buf, "%d,", get_road_test_status(road));
+            strcat((char*)par->ask_data, ",");
+            break;
+        case DCW:
+            break;
+    }
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T source_load_step_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
@@ -274,7 +455,7 @@ SCPI_ERR_T source_list_mode_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
     return SCPI_NO_ERROR;
 }
-    /* 步骤指令集 */
+/* 步骤指令集 */
 SCPI_ERR_T step_insert_acw_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
     return SCPI_NO_ERROR;
