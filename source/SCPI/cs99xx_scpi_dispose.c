@@ -740,94 +740,1145 @@ SCPI_ERR_T source_list_mode_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
     return SCPI_NO_ERROR;
 }
 /* 步骤指令集 */
+SCPI_ERR_T step_insert_for_comm(uint8_t mode)
+{
+    STEP_NUM step;
+    uint8_t t_mode;
+    
+    step = g_cur_step->one_step.com.step;
+    
+    if(step >= MAX_STEPS)
+    {
+        return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    if(CS_FALSE == check_mode_validity(mode))
+    {
+        return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    /* G模式 */
+    if(g_cur_file->work_mode == G_MODE)
+    {
+        t_mode = get_first_step_mode();
+        
+        if(t_mode != mode)
+        {
+            return SCPI_EXECUTE_NOT_ALLOWED;
+        }
+    }
+    /* N模式 */
+    else
+    {
+    }
+    
+    insert_step(step, mode);//插入一步
+    save_group_info(g_cur_file->num);//保存当前步
+    load_steps_to_list(step + 1, 1);//加载新的当前步
+    g_cur_step = get_g_cur_step();
+    load_data();
+    update_test_win_text_display();
+    
+    send_cmd_to_all_module((void*)&mode, sizeof(mode), send_insert_step);
+    
+    return SCPI_NO_ERROR;
+}
 SCPI_ERR_T step_insert_acw_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    return step_insert_for_comm(ACW);
 }
 SCPI_ERR_T step_insert_dcw_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    return step_insert_for_comm(DCW);
 }
 SCPI_ERR_T step_insert_ir_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    return step_insert_for_comm(IR);
 }
 SCPI_ERR_T step_insert_gr_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    return step_insert_for_comm(GR);
 }
 SCPI_ERR_T step_delete_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    uint16_t total = 0;
+    STEP_NUM step = 0;
+    
+    total = g_cur_file->total;
+    step = g_cur_step->one_step.com.step;
+    
+    del_step(step);//删除光标所在行的测试步
+    send_cmd_to_all_module((void*)&step, sizeof(step), send_del_step);
+    
+    /* 删除的是最后一步 */
+    if(total == step)
+    {
+        load_steps_to_list(step - 1, 1);
+    }
+    /* 删除的不是最后一步 */
+    else
+    {
+        load_steps_to_list(step, 1);
+    }
+    
+    g_cur_step = get_g_cur_step();//获取当前步
+    load_data();
+    update_test_win_text_display();
+    
+    return SCPI_NO_ERROR;
+}
+/**
+  * @brief  移动步骤的方向枚举定义 向前移 或 向后移
+  */
+typedef enum{
+    MOVE_FORWARD,///<向前移动当前步
+    MOVE_BACKWARD,///<向后移动当前步
+    MOVE_SWAP,///<交换
+}MOVE_STEP_DIRECTION_T;
+
+
+SCPI_ERR_T step_move_for_comm(MOVE_STEP_DIRECTION_T dir, STEP_NUM sw_step)
+{
+    STEP_NUM one;
+    STEP_NUM two;
+    
+    two = g_cur_step->one_step.com.step;
+    
+    /* 向前移动测试步 */
+    if(dir == MOVE_FORWARD)
+    {
+        one = two - 1;
+        /* 第一行是第一步它不能向前移动 */
+        if(one == 0)
+        {
+            return SCPI_EXECUTE_NOT_ALLOWED;
+        }
+    }
+    /* 向后移动测试步 */
+    else if(dir == MOVE_BACKWARD)
+    {
+        /* 最后一步不能向后移动 */
+        if(two >= g_cur_file->total)
+        {
+            return SCPI_EXECUTE_NOT_ALLOWED;
+        }
+        
+        one = two + 1;
+    }
+    else if(dir == MOVE_SWAP)
+    {
+        one = sw_step;
+    }
+    /* 未知操作 */
+    else
+    {
+        return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    swap_step(one, two);//交换步骤
+    send_cmd_to_all_module((void*)&one, sizeof(one), send_swap_step);
+    save_group_info(g_cur_file->num);//保存记忆组信息
+    
+    load_steps_to_list(one, 1);
+    g_cur_step = get_g_cur_step();//获取当前步
+    load_data();
+    update_test_win_text_display();
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T step_move_front_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    return step_move_for_comm(MOVE_FORWARD, 0);
 }
 SCPI_ERR_T step_move_behind_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    return step_move_for_comm(MOVE_BACKWARD, 0);
 }
 SCPI_ERR_T step_interchange_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    STEP_NUM sw_step;
+    
+    sw_step = atoi((const char*)par->argv[0]);
+    
+    if(sw_step > g_cur_file->total)
+    {
+        return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    if(sw_step == g_cur_step->one_step.com.step)
+    {
+        return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    return step_move_for_comm(MOVE_SWAP, sw_step);
+}
+
+void set_step_par_for_comm(void)
+{
+    save_one_step(g_cur_step, g_cur_file->num, g_cur_step->one_step.com.step);
+    load_data();
+    update_test_win_text_display();
+    
+    send_cmd_to_all_module((void*)g_cur_step, sizeof(NODE_STEP), send_edit_step);
+}
+SCPI_ERR_T step_mode_for_comm(uint8_t mode)
+{
+    /* 测试模式改变了 */
+    if(g_cur_step->one_step.com.mode != mode)
+    {
+        if(g_cur_file->work_mode == G_MODE)
+        {
+            if(g_cur_step->one_step.com.step != 1)
+            {
+                return SCPI_EXECUTE_NOT_ALLOWED;
+            }
+            
+            clear_cur_group_all_test_step();
+            insert_step(0, mode);//插入一步
+            save_group_info(g_cur_file->num);//保存新建文件的记忆组信息
+            load_steps_to_list(1, 1);
+            g_cur_step = get_g_cur_step();//获取当前步
+        }
+        
+        g_cur_step->one_step.com.mode = mode;//更新当前步的测试模式
+        init_mode(g_cur_step);//初始化参数
+        set_step_par_for_comm();
+    }
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T step_mode_acw_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    return step_mode_for_comm(ACW);
 }
 SCPI_ERR_T step_mode_dcw_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    return step_mode_for_comm(DCW);
 }
 SCPI_ERR_T step_mode_ir_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    return step_mode_for_comm(IR);
 }
 SCPI_ERR_T step_mode_gr_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    return step_mode_for_comm(GR);
+}
+
+SCPI_ERR_T count_par_dces(uint8_t *buf, uint8_t *dec)
+{
+    uint8_t len = 0;
+    int32_t i = 0;
+    uint8_t flag = 0;
+    uint8_t tmp = 0;
+    
+    len = strlen((const char*)buf);
+    
+    for(i = 0; i < len; i++)
+    {
+        if(buf[i] >= '0' && buf[i] <= '9')
+        {
+            if(flag)
+            {
+                tmp++;
+            }
+        }
+        else if(buf[i] == '.')
+        {
+            if(flag)
+            {
+                return SCPI_INVALID_STRING_DATA;
+            }
+            
+            flag = 1;
+        }
+        else
+        {
+            return SCPI_INVALID_STRING_DATA;
+        }
+    }
+    
+    *dec = tmp;
+    
     return SCPI_NO_ERROR;
 }
-    /* ACW */
+SCPI_ERR_T check_mode_for_comm(uint8_t mode)
+{
+    if(mode != g_cur_step->one_step.com.mode)
+    {
+        return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    return SCPI_NO_ERROR;
+}
+
+SCPI_ERR_T set_cur_step_voltage(uint8_t mode, uint32_t value)
+{
+    SCPI_ERR_T err;
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    switch(mode)
+    {
+        case ACW:
+            if(value > ACW_VOL_H || value < ACW_VOL_L)
+            {
+                return SCPI_DATA_OUT_OF_RANGE;
+            }
+            g_cur_step->one_step.acw.output_vol = value;
+            break;
+        case DCW:
+            if(value > DCW_VOL_H || value < DCW_VOL_L)
+            {
+                return SCPI_DATA_OUT_OF_RANGE;
+            }
+            g_cur_step->one_step.dcw.output_vol = value;
+            break;
+        case IR:
+            if(value > IR_VOL_H || value < IR_VOL_L)
+            {
+                return SCPI_DATA_OUT_OF_RANGE;
+            }
+            g_cur_step->one_step.ir.output_vol = value;
+            break;
+        case GR:
+            if(value > GR_CUR_H || value < GR_CUR_L)
+            {
+                return SCPI_DATA_OUT_OF_RANGE;
+            }
+            g_cur_step->one_step.gr.output_cur = value;
+            break;
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    set_step_par_for_comm();
+    
+    return SCPI_NO_ERROR;
+}
+/* ACW */
 SCPI_ERR_T step_acw_voltage_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    uint32_t value;
+    uint8_t dec = 0;
+    SCPI_ERR_T err;
+    
+    err = count_par_dces(par->argv[0], &dec);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    value = atof((const char*)par->argv[0]) * ten_power(dec);
+    
+    err = set_cur_step_voltage(ACW, value);
+    
+    return err;
+}
+/**
+  * @brief  检查整型参数的合法性
+  * @param  [in] argv 参数字符串
+  * @retval 合法性
+  *         @arg SCPI_NO_ERROR
+  *         @arg SCPI_INVALID_STRING_DATA
+  */
+static SCPI_ERR_T check_int_par(uint8_t *argv)
+{
+    uint8_t len = 0;
+    int32_t i = 0;
+    
+    for(i = 0; i < len; i++)
+    {
+        if(argv[i] < '0' || argv[i] > '9')
+        {
+            return SCPI_INVALID_STRING_DATA;
+        }
+    }
+    
     return SCPI_NO_ERROR;
 }
+
+static SCPI_ERR_T set_cur_step_range(uint8_t mode, uint8_t range)
+{
+    SCPI_ERR_T err;
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    if(CS_TRUE != check_range_validity(mode, range))
+    {
+        return SCPI_DATA_OUT_OF_RANGE;
+    }
+    
+    switch(mode)
+    {
+        case ACW:
+        {
+            if(g_cur_step->one_step.acw.range != range)
+            {
+                g_cur_step->one_step.acw.range = range;
+                
+                /* 调整上限值 */
+                g_cur_step->one_step.acw.upper_limit = 500;
+                /* 调整下限值 */
+                g_cur_step->one_step.acw.lower_limit = 0;
+                /* 调整真实电流值 */
+                g_cur_step->one_step.acw.real_cur = 0;
+                /* 偏移值清零 */
+                g_cur_step->one_step.acw.offset_cur = 0;
+                g_cur_step->one_step.acw.offset_real = 0;
+                g_cur_step->one_step.acw.offset_result = 0;
+            }
+            break;
+        }
+        case DCW:
+            if(g_cur_step->one_step.dcw.range != range)
+            {
+                g_cur_step->one_step.dcw.range = range;
+                
+                /* 调整上限值 */
+                g_cur_step->one_step.dcw.upper_limit = 500;
+                /* 调整下限值 */
+                g_cur_step->one_step.dcw.lower_limit = 0;
+                /* 调整充电电流值 */
+                g_cur_step->one_step.dcw.charge_cur = 0;
+                /* 偏移值清零 */
+                g_cur_step->one_step.dcw.offset_cur = 0;
+                g_cur_step->one_step.dcw.offset_result = 0;
+            }
+            break;
+        default:
+            break;
+    }
+    
+    set_step_par_for_comm();
+    
+    return SCPI_NO_ERROR;
+}
+
 SCPI_ERR_T step_acw_range_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    uint32_t value;
+    SCPI_ERR_T err;
+    
+    err = check_int_par(par->argv[0]);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    value = atoi((const char*)par->argv[0]);
+    
+    err = set_cur_step_range(ACW, value);
+    return err;
+}
+
+SCPI_ERR_T set_cur_step_high(uint8_t mode, uint8_t high)
+{
+    SCPI_ERR_T err;
+    uint8_t gear = 0;
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    switch(mode)
+    {
+        case ACW:
+        {
+            if(high == g_cur_step->one_step.acw.upper_limit)
+            {
+                break;
+            }
+            
+            gear = g_cur_step->one_step.acw.range;
+            
+            if(high > ac_gear[gear].high_max || high < ac_gear[gear].high_min)
+            {
+                return SCPI_DATA_OUT_OF_RANGE;
+            }
+            
+            g_cur_step->one_step.acw.upper_limit = high;
+            
+            if(g_cur_step->one_step.acw.lower_limit > high)
+            {
+                g_cur_step->one_step.acw.lower_limit = high;
+            }
+            
+            if(g_cur_step->one_step.acw.real_cur > high)
+            {
+                g_cur_step->one_step.acw.real_cur = high;
+            }
+            break;
+        }
+        case DCW:
+        {
+            if(high == g_cur_step->one_step.dcw.upper_limit)
+            {
+                break;
+            }
+            
+            gear = g_cur_step->one_step.dcw.range;
+            
+            if(high > dc_gear[gear].high_max || high < dc_gear[gear].high_min)
+            {
+                return SCPI_DATA_OUT_OF_RANGE;
+            }
+            
+            g_cur_step->one_step.dcw.upper_limit = high;
+            
+            if(g_cur_step->one_step.dcw.lower_limit > high)
+            {
+                g_cur_step->one_step.dcw.lower_limit = high;
+            }
+            
+            if(g_cur_step->one_step.dcw.charge_cur > high)
+            {
+                g_cur_step->one_step.dcw.charge_cur = high;
+            }
+            break;
+        }
+        case IR:
+        {
+            if(high == g_cur_step->one_step.ir.upper_limit)
+            {
+                break;
+            }
+            
+            if(high > IR_RES_H || high < IR_RES_L)
+            {
+                return SCPI_DATA_OUT_OF_RANGE;
+            }
+            
+            g_cur_step->one_step.dcw.upper_limit = high;
+            
+            if(high > 0)
+            {
+                if(g_cur_step->one_step.dcw.lower_limit > high)
+                {
+                    g_cur_step->one_step.dcw.lower_limit = high - 1;
+                }
+            }
+            break;
+        }
+        case GR:
+        {
+            if(high == g_cur_step->one_step.gr.upper_limit)
+            {
+                break;
+            }
+            
+            if(high > IR_RES_H || high < IR_RES_L)
+            {
+                return SCPI_DATA_OUT_OF_RANGE;
+            }
+            
+            g_cur_step->one_step.gr.upper_limit = high;
+            
+            if(g_cur_step->one_step.gr.lower_limit > high)
+            {
+                g_cur_step->one_step.gr.lower_limit = high - 1;
+            }
+            break;
+        }
+    }
+    
+    set_step_par_for_comm();
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T step_acw_high_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    uint32_t value;
+    uint8_t dec = 0;
+    SCPI_ERR_T err;
+    
+    err = count_par_dces(par->argv[0], &dec);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    value = atof((const char*)par->argv[0]) * ten_power(dec);
+    
+    err = set_cur_step_high(ACW, value);
+    
+    return err;
+}
+
+static SCPI_ERR_T set_cur_step_low(uint8_t mode, uint8_t low)
+{
+    SCPI_ERR_T err;
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    switch(mode)
+    {
+        case ACW:
+        {
+            if(low == g_cur_step->one_step.acw.lower_limit)
+            {
+                break;
+            }
+            
+            if(low > g_cur_step->one_step.acw.upper_limit)
+            {
+                return SCPI_DATA_OUT_OF_RANGE;
+            }
+            
+            g_cur_step->one_step.acw.lower_limit = low;
+            break;
+        }
+        case DCW:
+        {
+            if(low == g_cur_step->one_step.dcw.lower_limit)
+            {
+                break;
+            }
+            
+            if(low > g_cur_step->one_step.dcw.upper_limit)
+            {
+                return SCPI_DATA_OUT_OF_RANGE;
+            }
+            
+            g_cur_step->one_step.dcw.lower_limit = low;
+            break;
+        }
+        case IR:
+        {
+            if(low == g_cur_step->one_step.ir.lower_limit)
+            {
+                break;
+            }
+            
+            if(g_cur_step->one_step.ir.upper_limit > 0)
+            {
+                if(low > g_cur_step->one_step.ir.upper_limit)
+                {
+                    return SCPI_DATA_OUT_OF_RANGE;
+                }
+            }
+            
+            g_cur_step->one_step.ir.lower_limit = low;
+            break;
+        }
+        case GR:
+        {
+            if(low == g_cur_step->one_step.gr.lower_limit)
+            {
+                break;
+            }
+            
+            if(low > g_cur_step->one_step.gr.upper_limit)
+            {
+                return SCPI_DATA_OUT_OF_RANGE;
+            }
+            
+            g_cur_step->one_step.gr.lower_limit = low;
+            break;
+        }
+    }
+    
+    set_step_par_for_comm();
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T step_acw_low_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    uint32_t value;
+    uint8_t dec = 0;
+    SCPI_ERR_T err;
+    
+    err = count_par_dces(par->argv[0], &dec);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    value = atof((const char*)par->argv[0]) * ten_power(dec);
+    
+    err = set_cur_step_low(ACW, value);
+    
+    return err;
+}
+
+static SCPI_ERR_T set_cur_step_real(uint8_t mode, uint8_t real)
+{
+    SCPI_ERR_T err;
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    switch(mode)
+    {
+        case ACW:
+        {
+            if(real == g_cur_step->one_step.acw.real_cur)
+            {
+                break;
+            }
+            
+            if(real > g_cur_step->one_step.acw.upper_limit)
+            {
+                return SCPI_DATA_OUT_OF_RANGE;
+            }
+            
+            g_cur_step->one_step.acw.real_cur = real;
+            break;
+        }
+    }
+    
+    set_step_par_for_comm();
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T step_acw_real_current_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    uint32_t value;
+    uint8_t dec = 0;
+    SCPI_ERR_T err;
+    
+    err = count_par_dces(par->argv[0], &dec);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    value = atof((const char*)par->argv[0]) * ten_power(dec);
+    
+    err = set_cur_step_real(ACW, value);
+    
+    return err;
+}
+
+static SCPI_ERR_T set_cur_step_arc(uint8_t mode, uint8_t arc)
+{
+    SCPI_ERR_T err;
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    switch(mode)
+    {
+        case ACW:
+        {
+            if(g_cur_file->arc_mode == ARC_CUR_MODE)
+            {
+                if(arc == g_cur_step->one_step.acw.arc_sur)
+                {
+                    break;
+                }
+                
+                if(arc > 2000)
+                {
+                    return SCPI_DATA_OUT_OF_RANGE;
+                }
+                
+                g_cur_step->one_step.acw.real_cur = arc;
+            }
+            else
+            {
+                if(arc == g_cur_step->one_step.acw.arc_sur)
+                {
+                    break;
+                }
+                
+                if(arc > 9)
+                {
+                    return SCPI_DATA_OUT_OF_RANGE;
+                }
+                
+                g_cur_step->one_step.acw.real_cur = arc;
+            }
+            break;
+        }
+        case DCW:
+        {
+            if(g_cur_file->arc_mode == ARC_CUR_MODE)
+            {
+                if(arc == g_cur_step->one_step.dcw.arc_sur)
+                {
+                    break;
+                }
+                
+                if(arc > 2000)
+                {
+                    return SCPI_DATA_OUT_OF_RANGE;
+                }
+                
+                g_cur_step->one_step.dcw.arc_sur = arc;
+            }
+            else
+            {
+                if(arc == g_cur_step->one_step.dcw.arc_sur)
+                {
+                    break;
+                }
+                
+                if(arc > 9)
+                {
+                    return SCPI_DATA_OUT_OF_RANGE;
+                }
+                
+                g_cur_step->one_step.dcw.arc_sur = arc;
+            }
+            break;
+        }
+    }
+    
+    set_step_par_for_comm();
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T step_acw_arc_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    uint32_t value;
+    uint8_t dec = 0;
+    SCPI_ERR_T err;
+    
+    //电弧侦测电流模式
+    if(g_cur_file->arc_mode == ARC_CUR_MODE)
+    {
+        err = count_par_dces(par->argv[0], &dec);
+        
+        if(err != SCPI_NO_ERROR)
+        {
+            return err;
+        }
+        
+        value = atof((const char*)par->argv[0]) * ten_power(dec);
+    }
+    //电弧侦测等级模式
+    else
+    {
+        err = check_int_par(par->argv[0]);
+        
+        if(err != SCPI_NO_ERROR)
+        {
+            return err;
+        }
+        
+        value = atoi((const char*)par->argv[0]);
+    }
+    
+    err = set_cur_step_arc(ACW, value);
+    
+    return err;
+}
+
+static SCPI_ERR_T set_cur_step_frequency(uint8_t mode, uint8_t freq)
+{
+    SCPI_ERR_T err;
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    switch(mode)
+    {
+        case ACW:
+        {
+            if(g_cur_step->one_step.acw.output_freq == freq)
+            {
+                return SCPI_NO_ERROR;
+            }
+            
+            if(freq > 4000 || freq < 400)
+            {
+                return SCPI_DATA_OUT_OF_RANGE;
+            }
+            
+            g_cur_step->one_step.acw.output_freq = freq;
+            break;
+        }
+    }
+    
+    set_step_par_for_comm();
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T step_acw_frequency_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    uint32_t value;
+    uint8_t dec = 0;
+    SCPI_ERR_T err;
+    
+    err = count_par_dces(par->argv[0], &dec);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    value = atof((const char*)par->argv[0]) * ten_power(dec);
+    
+    err = set_cur_step_frequency(ACW, value);
+    
+    return err;
+}
+
+static SCPI_ERR_T set_cur_step_rtime(uint8_t mode, uint8_t time)
+{
+    SCPI_ERR_T err;
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    switch(mode)
+    {
+        case ACW:
+        {
+            if(g_cur_step->one_step.acw.rise_time == time)
+            {
+                return SCPI_NO_ERROR;
+            }
+            
+            if(time > 9999 || (time > 0 && time < 3))
+            {
+                return SCPI_DATA_OUT_OF_RANGE;
+            }
+            
+            g_cur_step->one_step.acw.rise_time = time;
+            break;
+        }
+        case DCW:
+        {
+            if(g_cur_step->one_step.dcw.rise_time == time)
+            {
+                return SCPI_NO_ERROR;
+            }
+            
+            if(time > 9999 || (time > 0 && time < 3))
+            {
+                return SCPI_DATA_OUT_OF_RANGE;
+            }
+            
+            g_cur_step->one_step.dcw.rise_time = time;
+            break;
+        }
+        case IR:
+        {
+            if(g_cur_step->one_step.ir.rise_time == time)
+            {
+                return SCPI_NO_ERROR;
+            }
+            
+            if(time > 9999 || (time > 0 && time < 3))
+            {
+                return SCPI_DATA_OUT_OF_RANGE;
+            }
+            
+            g_cur_step->one_step.ir.rise_time = time;
+            break;
+        }
+    }
+    
+    set_step_par_for_comm();
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T step_acw_rtime_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    uint32_t value;
+    uint8_t dec = 0;
+    SCPI_ERR_T err;
+    
+    err = count_par_dces(par->argv[0], &dec);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    value = atof((const char*)par->argv[0]) * ten_power(dec);
+    
+    err = set_cur_step_rtime(ACW, value);
+    
+    return err;
+}
+
+static SCPI_ERR_T set_cur_step_ttime(uint8_t mode, uint8_t time)
+{
+    SCPI_ERR_T err;
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    if(time > 9999 || (time > 0 && time < 3))
+    {
+        return SCPI_DATA_OUT_OF_RANGE;
+    }
+    
+    switch(mode)
+    {
+        case ACW:
+        {
+            if(g_cur_step->one_step.acw.test_time == time)
+            {
+                return SCPI_NO_ERROR;
+            }
+            
+            g_cur_step->one_step.acw.test_time = time;
+            break;
+        }
+        case DCW:
+        {
+            if(g_cur_step->one_step.dcw.test_time == time)
+            {
+                return SCPI_NO_ERROR;
+            }
+            
+            g_cur_step->one_step.dcw.test_time = time;
+            break;
+        }
+        case IR:
+        {
+            if(g_cur_step->one_step.ir.test_time == time)
+            {
+                return SCPI_NO_ERROR;
+            }
+            
+            g_cur_step->one_step.ir.test_time = time;
+            break;
+        }
+        case GR:
+        {
+            if(g_cur_step->one_step.gr.test_time == time)
+            {
+                return SCPI_NO_ERROR;
+            }
+            
+            g_cur_step->one_step.gr.test_time = time;
+            break;
+        }
+    }
+    
+    set_step_par_for_comm();
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T step_acw_ttime_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    uint32_t value;
+    uint8_t dec = 0;
+    SCPI_ERR_T err;
+    
+    err = count_par_dces(par->argv[0], &dec);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    value = atof((const char*)par->argv[0]) * ten_power(dec);
+    
+    err = set_cur_step_ttime(ACW, value);
+    
+    return err;
+}
+
+static SCPI_ERR_T set_cur_step_ftime(uint8_t mode, uint8_t time)
+{
+    SCPI_ERR_T err;
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    if(time > 9999 || (time > 0 && time < 3))
+    {
+        return SCPI_DATA_OUT_OF_RANGE;
+    }
+    
+    switch(mode)
+    {
+        case ACW:
+        {
+            if(g_cur_step->one_step.acw.fall_time == time)
+            {
+                return SCPI_NO_ERROR;
+            }
+            
+            g_cur_step->one_step.acw.fall_time = time;
+            break;
+        }
+        case DCW:
+        {
+            if(g_cur_step->one_step.dcw.fall_time == time)
+            {
+                return SCPI_NO_ERROR;
+            }
+            
+            g_cur_step->one_step.dcw.fall_time = time;
+            break;
+        }
+    }
+    
+    set_step_par_for_comm();
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T step_acw_ftime_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    uint32_t value;
+    uint8_t dec = 0;
+    SCPI_ERR_T err;
+    
+    err = count_par_dces(par->argv[0], &dec);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    value = atof((const char*)par->argv[0]) * ten_power(dec);
+    
+    err = set_cur_step_ftime(ACW, value);
+    
+    return err;
 }
 SCPI_ERR_T step_acw_itime_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
@@ -849,7 +1900,7 @@ SCPI_ERR_T step_acw_port_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
     return SCPI_NO_ERROR;
 }
-    /* DCW */
+/* DCW */
 SCPI_ERR_T step_dcw_voltage_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
     return SCPI_NO_ERROR;
@@ -910,7 +1961,7 @@ SCPI_ERR_T step_dcw_port_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
     return SCPI_NO_ERROR;
 }
-    /* IR */
+/* IR */
 SCPI_ERR_T step_ir_voltage_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
     return SCPI_NO_ERROR;
@@ -955,7 +2006,7 @@ SCPI_ERR_T step_ir_port_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
     return SCPI_NO_ERROR;
 }
-    /* GR */
+/* GR */
 SCPI_ERR_T step_gr_current_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
     return SCPI_NO_ERROR;
@@ -984,7 +2035,7 @@ SCPI_ERR_T step_gr_cnext_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
     return SCPI_NO_ERROR;
 }
-    /* 结果指令集 */
+/* 结果指令集 */
 SCPI_ERR_T result_cap_used_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
     return SCPI_NO_ERROR;
@@ -1017,7 +2068,7 @@ SCPI_ERR_T result_dut_name_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
     return SCPI_NO_ERROR;
 }
-    /* 系统指令集 */
+/* 系统指令集 */
 SCPI_ERR_T sys_screen_contrast_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
     return SCPI_NO_ERROR;

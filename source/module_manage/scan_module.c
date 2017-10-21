@@ -153,6 +153,19 @@ void stop_scan_all_module(void)
 }
 
 /**
+  * @brief  停止4路串口进行模块扫描
+  * @param  无
+  * @retval 无
+  */
+void into_scan_module_over(void)
+{
+    com1_scan_module.status = SCAN_OVER;
+    com2_scan_module.status = SCAN_OVER;
+    com3_scan_module.status = SCAN_OVER;
+    com4_scan_module.status = SCAN_OVER;
+}
+
+/**
   * @brief  查询第1路串口扫描是是否结束
   * @param  无
   * @retval CS_FALSE 未结束 CS_TRUE 结束

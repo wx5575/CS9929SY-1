@@ -388,14 +388,22 @@ void set_module_road_num(void)
 void send_one_road_test_over_sign_h(uint8_t road_index)
 {
     CS_ERR err;
+    uint32_t time_out = 0;
+    
     comm_syn_sign = 0;
     
     do{
-    err = send_cmd_to_index_one_module((ROAD_INDEX)road_index, NULL, 0, send_test_over_sign_h);
-    }while(err!=CS_ERR_SEND_SUCCESS);
+        err = send_cmd_to_index_one_module((ROAD_INDEX)road_index, NULL, 0, send_test_over_sign_h);
+    }while(err != CS_ERR_SEND_SUCCESS);
+    
     while(1)
     {
         GUI_Delay(10);
+        
+        if(++time_out > 100)
+        {
+            break;
+        }
         
         if(comm_syn_sign == 1)
         {
@@ -407,14 +415,22 @@ void send_one_road_test_over_sign_h(uint8_t road_index)
 void send_one_road_test_over_sign_l(uint8_t road_index)
 {
     CS_ERR err;
+    uint32_t time_out = 0;
+    
     comm_syn_sign = 0;
     
     do{
-    err = send_cmd_to_index_one_module((ROAD_INDEX)road_index, NULL, 0, send_test_over_sign_l);
-    }while(err!=CS_ERR_SEND_SUCCESS);
+        err = send_cmd_to_index_one_module((ROAD_INDEX)road_index, NULL, 0, send_test_over_sign_l);
+    }while(err != CS_ERR_SEND_SUCCESS);
+    
     while(1)
     {
         GUI_Delay(10);
+        
+        if(++time_out > 100)
+        {
+            break;
+        }
         
         if(comm_syn_sign == 1)
         {

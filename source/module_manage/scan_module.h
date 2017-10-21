@@ -28,6 +28,7 @@ extern MODULE_ADDR_T get_com4_scan_addr(void);
 
 extern void scan_all_module(void);
 extern void stop_scan_all_module(void);
+extern void into_scan_module_over(void);
 extern void start_scan_all_module(void);
 
 extern void syn_module_num(void);

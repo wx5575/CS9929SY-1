@@ -255,7 +255,7 @@ uint16_t read_type(void)
 
 /**
  * @brief      检查当前机型是否支持GR
- *
+ * @param       无
  * @return     0 不支持GR 非0 支持GR
  */
 int32_t check_gr_mode(void)
@@ -265,7 +265,7 @@ int32_t check_gr_mode(void)
 
 /**
  * @brief      找到当前机型下的首个模式 优先顺序：ACW DCW IR GR BBD
- *
+ * @param  无
  * @return     首个模式
  */
 uint8_t get_first_mode(void)
@@ -301,6 +301,48 @@ uint8_t get_first_mode(void)
 		while(1); /* 出错 */
 	}
 	return mode;
+}
+/**
+  * @brief  判断模块合法性
+  * @param  无
+  * @return 合法性断断结果
+  *         @arg CS_TRUE 合法
+  *         @arg CS_FALSE 非法
+  */
+CS_BOOL check_mode_validity(uint8_t mode)
+{
+    CS_BOOL cs_bool = CS_FALSE;
+    
+	if(MODEL_EN & __ACW)
+	{
+		cs_bool = (mode == ACW)? CS_TRUE:CS_FALSE;
+	}
+	else if(MODEL_EN & __DCW)
+	{
+		cs_bool = (mode == DCW)? CS_TRUE:CS_FALSE;
+	}
+	else if(MODEL_EN & __IR)
+	{
+		cs_bool = (mode == IR)? CS_TRUE:CS_FALSE;
+	}
+	else if( MODEL_EN & __GR)
+	{
+		cs_bool = (mode == GR)? CS_TRUE:CS_FALSE;
+	}
+	else if(MODEL_EN & __BBD)
+	{
+		cs_bool = (mode == BBD)? CS_TRUE:CS_FALSE;
+	}
+	else if(MODEL_EN & __CC)
+	{
+		cs_bool = (mode == CC)? CS_TRUE:CS_FALSE;
+	}
+	else
+	{
+        cs_bool = CS_FALSE;
+	}
+    
+	return cs_bool;
 }
 /**
  * @brief      找到当前机型下的首个支持G模式的测试模式 优先顺序：ACW DCW
@@ -844,6 +886,88 @@ uint8_t get_max_cur_gear(uint8_t mode)
 	return 0;
 }
 
+CS_BOOL check_range_validity(uint8_t mode, uint8_t range)
+{
+	switch(mode)
+	{
+		case ACW:
+        {
+			if(type_spe.acw_gear & _AC_2A)
+			{
+				return (range == AC_2A)? CS_TRUE:CS_FALSE;
+			}
+			else if(type_spe.acw_gear & _AC_200mA)
+			{
+				return (range == AC_200mA)? CS_TRUE:CS_FALSE;
+			}
+			else if(type_spe.acw_gear & _AC_100mA)
+			{
+				return (range == AC_100mA)? CS_TRUE:CS_FALSE;
+			}
+			else if(type_spe.acw_gear & _AC_50mA)
+			{
+				return (range == AC_50mA)? CS_TRUE:CS_FALSE;
+			}
+			else if(type_spe.acw_gear & _AC_20mA)
+			{
+				return (range == AC_20mA)? CS_TRUE:CS_FALSE;
+			}
+			else if(type_spe.acw_gear & _AC_10mA)
+			{
+				return (range == AC_10mA)? CS_TRUE:CS_FALSE;
+			}
+			else if(type_spe.acw_gear & _AC_2mA)
+			{
+				return (range == AC_2mA)? CS_TRUE:CS_FALSE;
+			}
+			else if(type_spe.acw_gear & _AC_200uA)
+			{
+				return (range == AC_200uA)? CS_TRUE:CS_FALSE;
+			}
+            
+            break;
+        }
+		case DCW:
+        {
+			if(type_spe.dcw_gear & _DC_100mA)
+			{
+				return (range == DC_100mA)? CS_TRUE:CS_FALSE;
+			}
+			else if(type_spe.dcw_gear & _DC_50mA)
+			{
+				return (range == DC_50mA)? CS_TRUE:CS_FALSE;
+			}
+			else if(type_spe.dcw_gear & _DC_20mA)
+			{
+				return (range == DC_20mA)? CS_TRUE:CS_FALSE;
+			}
+			else if(type_spe.dcw_gear & _DC_10mA)
+			{
+				return (range == DC_10mA)? CS_TRUE:CS_FALSE;
+			}
+			else if(type_spe.dcw_gear & _DC_2mA)
+			{
+				return (range == DC_2mA)? CS_TRUE:CS_FALSE;
+			}
+			else if(type_spe.dcw_gear & _DC_200uA)
+			{
+				return (range == DC_200uA)? CS_TRUE:CS_FALSE;
+			}
+			else if(type_spe.dcw_gear & _DC_20uA)
+			{
+				return (range == DC_20uA)? CS_TRUE:CS_FALSE;
+			}
+			else if(type_spe.dcw_gear & _DC_2uA)
+			{
+				return (range == DC_2uA)? CS_TRUE:CS_FALSE;
+			}
+            
+            break;
+        }
+	}
+    
+	return CS_FALSE;
+}
 uint32_t define_hz_kinds(uint8_t mode, const uint8_t** gear_buf, uint8_t *flag)
 {
 	uint8_t kinds = 0;

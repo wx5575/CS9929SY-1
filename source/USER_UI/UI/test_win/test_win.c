@@ -889,6 +889,7 @@ static void test_win_select_test_mode_key_cb(KEY_MESSAGE *key_msg)
             save_setting_step();//保存正在设置的步骤参数
         }
         
+        load_data();
         update_test_win_text_ele_text(g_cur_win);
         update_test_mode_cur_value_menu_key_color();
         update_group_inf(g_cur_win);
@@ -2722,6 +2723,28 @@ void update_one_road_test_inf(MYUSER_WINDOW_T* win, ROAD_DIS_ELE_INF* road_ele_i
             update_text_ele(road_ele_inf->real, win, div_str_pre_zero(buf));
             break;
         case DCW:
+            sprintf((char*)buf, "%s%s", road_ele_inf->output_buf, unit_pool[VOL_U_kV]);
+            update_text_ele(road_ele_inf->vol, win, div_str_pre_zero(buf));
+            sprintf((char*)buf, "%s%s", road_ele_inf->loop_buf, unit_pool[dc_gear[cur_gear].unit]);
+            update_text_ele(road_ele_inf->cur, win, div_str_pre_zero(buf));
+            buf[0] = 0;
+            update_text_ele(road_ele_inf->real, win, div_str_pre_zero(buf));
+            break;
+        case IR:
+            sprintf((char*)buf, "%s%s", road_ele_inf->output_buf, unit_pool[VOL_U_kV]);
+            update_text_ele(road_ele_inf->vol, win, div_str_pre_zero(buf));
+            sprintf((char*)buf, "%s%s", road_ele_inf->loop_buf, unit_pool[ir_gear[cur_gear].unit]);
+            update_text_ele(road_ele_inf->cur, win, div_str_pre_zero(buf));
+            buf[0] = 0;
+            update_text_ele(road_ele_inf->real, win, div_str_pre_zero(buf));
+            break;
+        case GR:
+            sprintf((char*)buf, "%s%s", road_ele_inf->output_buf, unit_pool[CUR_U_A]);
+            update_text_ele(road_ele_inf->vol, win, div_str_pre_zero(buf));
+            sprintf((char*)buf, "%s%s", road_ele_inf->loop_buf, unit_pool[RES_U_mOHM]);
+            update_text_ele(road_ele_inf->cur, win, div_str_pre_zero(buf));
+            buf[0] = 0;
+            update_text_ele(road_ele_inf->real, win, div_str_pre_zero(buf));
             break;
     }
     
@@ -2769,12 +2792,13 @@ void transform_test_win_roads_text(void)
   */
 static void update_test_win_text_ele_text(MYUSER_WINDOW_T* win)
 {
+    transform_test_win_roads_text();
+    
     if(win->handle == 0)
     {
         return;
     }
     
-    transform_test_win_roads_text();
     update_test_win_roads_text(win);
     update_group_inf(win);
 }

@@ -559,6 +559,7 @@ extern uint32_t defined_hz_kinds(uint8_t mode, const uint8_t** gear_buf, uint8_t
 extern uint32_t defined_cur_kinds(uint8_t mode, const uint8_t *gear[], uint8_t* flag, uint16_t *kind);
 extern uint32_t defined_fail_mode_kinds(const uint8_t *fail_mode_buf[], uint8_t *flag);
 extern uint32_t defined_vol_kinds(uint8_t mode, const uint8_t **gear, uint8_t *flag);
+extern CS_BOOL check_range_validity(uint8_t mode, uint8_t range);
 extern int32_t check_mode(void);
 extern int32_t check_this_mode(uint8_t mode);
 extern uint32_t define_interface_config(uint8_t *flag);
@@ -568,6 +569,7 @@ extern uint8_t get_cc_max_gear(void);
 extern uint8_t get_dcw_max_gear(void);
 extern int32_t check_gr_mode(void);
 extern uint8_t get_first_mode(void);
+extern CS_BOOL check_mode_validity(uint8_t mode);
 extern uint8_t get_first_g_mode(void);
 extern void *get_defined_mode_table(void);
 extern void *get_defined_g_mode_table(void);

@@ -162,6 +162,29 @@ void load_data(void)
 			cur_delay_t = pun->ir.delay_time;
 			cur_port = pun->ir.port;
             cur_work_port = pun->ir.work_port;
+            
+			/* 计算出电阻的档位 */
+			if(cur_low < 10)
+			{
+				cur_gear = 1;
+			}
+			else if(cur_low < 100)
+			{
+				cur_gear = 2;
+			}
+			else if(cur_low < 1000)
+			{
+				cur_gear = 3;
+			}
+			else if(cur_low < 10*1000)
+			{
+				cur_gear = 4;
+			}
+			else
+			{
+				cur_gear = 5;
+			}
+            
 			break;
 		}
 		case GR:

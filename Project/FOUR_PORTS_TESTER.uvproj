@@ -1378,7 +1378,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>STEP_PAR_WIN</GroupName>
+          <GroupName>STEP_WIN</GroupName>
           <Files>
             <File>
               <FileName>7_step_edit_win.c</FileName>
@@ -3081,7 +3081,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>STEP_PAR_WIN</GroupName>
+          <GroupName>STEP_WIN</GroupName>
           <Files>
             <File>
               <FileName>7_step_edit_win.c</FileName>

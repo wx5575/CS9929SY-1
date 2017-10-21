@@ -809,7 +809,6 @@ static void step_win_cb(WM_MESSAGE* pMsg)
 
 /* Public functions ---------------------------------------------------------*/
 
-
 /**
   * @brief  创建步骤管理窗口
   * @param  [in] hWin 父窗口句柄

@@ -292,6 +292,7 @@ static void module_win_stop_f5_cb(KEY_MESSAGE *key_msg)
     update_module_win_start_menu_key_inf(key_msg->user_data);
     init_all_scan_mode_st();
     save_roads_flag();
+    into_scan_module_over();
 }
 /**
   * @brief  模块管理窗口中功能键F1回调函数
