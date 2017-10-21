@@ -64,6 +64,7 @@ static void clear_module_listview(void);
 
 static	LISTVIEW_Handle module_list_handle;///<模块管理列表句柄
 static	WM_HWIN timer_handle;///<定时器句柄
+static	uint8_t re_update_module_inf_flag;///<重新获取模块信息标记
 /**
   * @brief  模块管理窗口文本控件自动布局信息数组，根据不同的屏幕尺寸进行初始化
   */
@@ -236,6 +237,8 @@ static void module_win_start_f5_cb(KEY_MESSAGE *key_msg)
     start_all_scan_mode_st();
     clear_module_inf();//清空模块信息
     clear_module_listview();//清空模块表
+    
+    re_update_module_inf_flag = 1;
 }
 /**
   * @brief  模块管理窗口中功能键F1回调函数
@@ -475,6 +478,13 @@ static module_scan_manage(WM_HWIN hWin, MYUSER_WINDOW_T* win)
     {
         update_module_win_start_menu_key_inf(hWin);
         save_roads_flag();
+        
+        if(re_update_module_inf_flag)
+        {
+            re_update_module_inf_flag = 0;
+            syn_module_num();//同步模块的编辑
+            set_module_road_num();//设置模块的路编号
+        }
     }
 }
 void create_module_win_listview(WM_HWIN hWin)

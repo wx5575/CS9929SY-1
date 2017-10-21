@@ -30,6 +30,8 @@ extern void scan_all_module(void);
 extern void stop_scan_all_module(void);
 extern void start_scan_all_module(void);
 
+extern void syn_module_num(void);
+extern void set_module_road_num(void);
 
 extern CS_ERR connect_module(uint8_t addr);
 

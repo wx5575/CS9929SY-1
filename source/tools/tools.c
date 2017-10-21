@@ -157,6 +157,32 @@ uint8_t *dis_str_prev_zero(uint8_t *buf, uint8_t ch)
     
     return buf;
 }
+
+/**
+  * @brief  显示前对数据的前导0进行处理，全部换成空格
+  * @param  [in] str 数据字符串
+  * @retval 处理后的字符串
+  */
+uint8_t* div_str_pre_zero(uint8_t *str)
+{
+    uint8_t len = strlen(str);
+    uint32_t i = 0;
+    char *p = str;
+    
+    for(i = 1; i < len - 1; i++)
+    {
+        if(p[i - 1] == '0' && p[i] != '.')
+        {
+            p[i - 1] = ' ';
+        }
+        else
+        {
+            break;
+        }
+    }
+    
+    return p;
+}
 void mysprintf_2(uint8_t *buf, const uint8_t* unit, uint8_t format, uint32_t value)
 {
     mysprintf(buf, unit, format, value);

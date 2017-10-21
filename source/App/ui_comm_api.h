@@ -14,6 +14,8 @@ uint8_t* get_road_test_current(ROAD_NUM_T road);
 uint8_t* get_road_test_real_current(ROAD_NUM_T road);
 uint8_t* get_road_test_time(ROAD_NUM_T road);
 uint8_t* get_road_test_st(ROAD_NUM_T road);
+void update_test_win_text_display(void);
+uint8_t get_max_roads(void);
 
 
 #endif //__UI_COMM_API_H__

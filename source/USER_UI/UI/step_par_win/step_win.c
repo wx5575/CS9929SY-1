@@ -41,6 +41,7 @@ static void update_menu_key_inf(WM_HMEM hWin);
 static void dis_all_steps(void);
 static void update_step_cur_row_menu_key_st(WM_HWIN hWin);
 static void new_one_step(int hwin);
+static void insert_one_step(int hwin);
 static void dis_all_steps(void);
 static void update_g_cur_step(void);
 static void delete_g_cur_step(void);
@@ -106,7 +107,7 @@ static MYUSER_WINDOW_T step_windows =
   */
 static MENU_KEY_INFO_T 	step_exist_menu_key_info[] =
 {
-    {"", F_KEY_NEW      , KEY_F1 & _KEY_UP, step_exist_f1_cb },//f1
+    {"", F_KEY_INSTER   , KEY_F1 & _KEY_UP, step_exist_f1_cb },//f1
     {"", F_KEY_DETAIL   , KEY_F2 & _KEY_UP, step_exist_f2_cb },//f2
     {"", F_KEY_DEL		, KEY_F3 & _KEY_UP, step_exist_f3_cb },//f3
     {"", F_KEY_FORWARD  , KEY_F4 & _KEY_UP, step_exist_f4_cb },//f4
@@ -144,7 +145,7 @@ static CONFIG_FUNCTION_KEY_INFO_T 	step_win_sys_key_pool[]={
   */
 static void step_exist_f1_cb(KEY_MESSAGE *key_msg)
 {
-    new_one_step(key_msg->user_data);
+    insert_one_step(key_msg->user_data);
 }
 /**
   * @brief  步骤存在时功能键F2回调函数
@@ -301,6 +302,44 @@ static void new_one_step(int hwin)
     STEP_NUM step;
     
     step = g_cur_file->total;
+    
+    if(step >= MAX_STEPS)
+    {
+        return;
+    }
+    
+    /* G模式 */
+    if(g_cur_file->work_mode == G_MODE)
+    {
+        mode = get_first_step_mode();
+    }
+    /* N模式 */
+    else
+    {
+        mode = get_first_mode();
+    }
+    
+    insert_step(step, mode);//插入一步
+    save_group_info(g_cur_file->num);//保存当前步
+    dis_all_steps();//显示所有的步
+    LISTVIEW_SetSel(list_h, step);//选择新建的步
+    update_step_cur_row_menu_key_st(hwin);//更新当前行的菜单键信息
+    update_g_cur_step();//更新当前步
+    update_group_inf(g_cur_win);//更新记忆组显示信息
+    
+    send_cmd_to_all_module((void*)&mode, sizeof(mode), send_insert_step);
+}
+/**
+  * @brief  插入一个测试步
+  * @param  [in] hwin 窗口句柄
+  * @retval 无
+  */
+static void insert_one_step(int hwin)
+{
+    uint8_t mode;
+    STEP_NUM step;
+    
+    step = g_cur_step->one_step.com.step;
     
     if(step >= MAX_STEPS)
     {

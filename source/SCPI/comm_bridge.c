@@ -1,6 +1,7 @@
 
 #include "ui_comm_api.h"
 #include "keyboard.h"
+#include "os.h"
 
 void set_instrument_exit_remote_bridge(void)
 {
@@ -19,7 +20,8 @@ void get_instrument_comm_status_bridge(void)
 
 void update_system_language_bridge(void)
 {
-    com_st_into_remote();
+    update_system_language();
+    update_test_win_text_display();//更新测试窗口显示
 }
 
 void source_test_start_bridge(void)

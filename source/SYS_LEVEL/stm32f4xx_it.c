@@ -82,7 +82,7 @@ struct exception_stack_frame_fpu
 };
 void rt_hw_hard_fault_exception(void)
 {
-    while (1); 
+    while (1);
 }
 /**
   * @brief  This function handles Memory Manage exception.

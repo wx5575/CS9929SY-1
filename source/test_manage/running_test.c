@@ -21,6 +21,7 @@
 #include "stdio.h"
 #include "string.h"
 #include "LISTVIEW.H"
+#include "cs99xx_type.h"
 //#include "UI_COM/com_ui_info.h"
 #include "running_test.h"
 
@@ -59,6 +60,36 @@ uint8_t get_work_roads(void)
     return work_count;
 }
 
+/*
+ * 函数名：load_cur_frequency
+ * 描述  ：计算当前步输出频率
+ * 输入  ：frequency 频率设置值
+ * 输出  ：无
+ * 返回  ：返回对应的频率值 50hz--400hz 或 40.0hz - 400.0hz
+ */
+uint16_t load_cur_frequency(uint16_t frequency)
+{
+    uint16_t freq_buf[10] = {50,50,60,100,150,200,250,300,350,400};
+    uint16_t temp = 0;
+    
+    if(cur_mode == GR)
+    {
+        temp = freq_buf[frequency % 10];/* 开正弦波 */
+    }
+    else
+    {
+        if(type_spe.hz_type == HZ_TYPE_GRADE)
+        {
+            temp = freq_buf[frequency % 10];/* 开正弦波 */
+        }
+        else
+        {
+            temp = frequency/10.0;
+        }
+    }
+    
+    return temp;
+}
 void load_data(void)
 {
 	UN_STRUCT *pun = &g_cur_step->one_step;
@@ -77,6 +108,8 @@ void load_data(void)
 		{
             tes_t = pun->acw.test_time;
             ris_t = pun->acw.rise_time;
+            fal_t = pun->acw.fall_time;
+            int_t = pun->acw.inter_time;
 			steps_con = pun->acw.step_con;
 			steps_pass = pun->acw.step_pass;
 			
@@ -88,6 +121,16 @@ void load_data(void)
 			cur_arc_gear = pun->acw.arc_sur;/* 电弧侦测 */
 			cur_port = pun->acw.port;
             cur_work_port = pun->acw.work_port;
+            
+            if(type_spe.hz_type == HZ_TYPE_CONT)
+            {
+                cur_frequency = cur_frequency_gear;
+            }
+            else
+            {
+                cur_frequency = load_cur_frequency(cur_frequency_gear);
+            }
+            
 			break;
 		}
 		case DCW:

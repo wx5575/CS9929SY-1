@@ -21,6 +21,8 @@ extern uint32_t ten_power(u8 n);
 extern void mysprintf(uint8_t *buf, const uint8_t* unit, uint8_t type, uint32_t value);
 extern void mysprintf_2(uint8_t *buf, const uint8_t* unit, uint8_t format, uint32_t value);
 extern float myatof(uint8_t *buf);
+extern uint8_t *dis_str_prev_zero(uint8_t *buf, uint8_t ch);
+extern uint8_t* div_str_pre_zero(uint8_t *str);
 
 #endif //__TOOLS_H__
 

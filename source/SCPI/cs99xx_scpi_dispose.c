@@ -393,16 +393,19 @@ SCPI_ERR_T source_test_fetch_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
     ROAD_NUM_T road = 0;
     uint8_t buf[20] = {0};
+    uint8_t *str = NULL;
+    uint8_t max_roads = 0;
     
     road = atoi((const char*)par->argv[0]);
     
-    if(road < 1 || road > 4)
+    max_roads = get_max_roads();
+    
+    if(road < 1 || road > max_roads)
     {
         return SCPI_DATA_OUT_OF_RANGE;
     }
     
     /* 路号，步骤编号，测试模式，电压，电流档位，测试电流，真实电流，时间，测试状态 */
-//    sprintf((char*)par->ask_data, "%d,%d,%d,%s,%d,%s,%s,%s,%d",
     sprintf((char*)par->ask_data, "%d,%d,%d,", road, cur_step, cur_mode - 1);
     
     switch(cur_mode)
@@ -411,48 +414,329 @@ SCPI_ERR_T source_test_fetch_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
             strcat((char*)par->ask_data, (const char*)get_road_test_voltage(road));
             strcat((char*)par->ask_data, ",");
             sprintf((char*)buf, "%d,", cur_gear);
-            strcat((char*)par->ask_data, buf);
+            strcat((char*)par->ask_data, (const char*)buf);
             strcat((char*)par->ask_data, (const char*)get_road_test_current(road));
             strcat((char*)par->ask_data, ",");
-            strcat((char*)par->ask_data, (const char*)get_road_test_real_current(road));
-            strcat((char*)par->ask_data, ",");
-            strcat((char*)par->ask_data, (const char*)get_road_test_time(road));
-            strcat((char*)par->ask_data, ",");
-            sprintf((char*)buf, "%d,", get_road_test_status(road));
-            strcat((char*)par->ask_data, ",");
+            str = get_road_test_real_current(road);
+            if(strlen((const char*)str) == 0)
+            {
+                strcat((char*)par->ask_data, (const char*)"-----");
+            }
+            else
+            {
+                strcat((char*)par->ask_data, (const char*)str);
+            }
             break;
         case DCW:
+            strcat((char*)par->ask_data, (const char*)get_road_test_voltage(road));
+            strcat((char*)par->ask_data, ",");
+            sprintf((char*)buf, "%d,", cur_gear);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, (const char*)get_road_test_current(road));
+            break;
+        case IR:
+            strcat((char*)par->ask_data, (const char*)get_road_test_voltage(road));
+            strcat((char*)par->ask_data, ",");
+            sprintf((char*)buf, "%d,", cur_gear);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, (const char*)get_road_test_current(road));
+            break;
+        case GR:
+            strcat((char*)par->ask_data, (const char*)get_road_test_voltage(road));
+            strcat((char*)par->ask_data, ",");
+            strcat((char*)par->ask_data, (const char*)get_road_test_current(road));
             break;
     }
+    
+    strcat((char*)par->ask_data, ",");
+    strcat((char*)par->ask_data, (const char*)get_road_test_time(road));
+    strcat((char*)par->ask_data, ",");
+    sprintf((char*)buf, "%d", get_road_test_status(road));
+    strcat((char*)par->ask_data, (const char*)buf);
     
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T source_load_step_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    STEP_NUM step = 0;
+    
+    step = atoi((const char*)par->argv[0]);
+    
+    if(step > g_cur_file->total || step == 0)
+    {
+        return SCPI_DATA_OUT_OF_RANGE;
+    }
+    
+    
+    load_steps_to_list(step, 1);//加载新的当前步
+    g_cur_step = get_g_cur_step();
+    load_data();
+    update_test_win_text_display();
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T source_load_file_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    FILE_NUM   file_num;
+    CS_ERR err;
+    TEST_FILE *f;
+    
+    file_num = atoi((const char*)par->argv[0]);
+    
+    if(file_num >= MAX_FILES)
+    {
+        return SCPI_DATA_OUT_OF_RANGE;
+    }
+    
+    if(CS_TRUE != is_file_exist(file_num))
+    {
+        return SCPI_PARAMETER_NOT_ALLOWED;
+    }
+    
+    f = get_file_inf(file_num, &err);
+    
+    if(err == CS_ERR_NONE)
+    {
+        g_cur_file = f;
+        read_group_info(g_cur_file->num);//保存新建文件的记忆组信息
+        sys_flag.last_file_num = g_cur_file->num;//更新最近使用的文件编号
+        save_sys_flag();//保存系统标记
+        read_group_info(g_cur_file->num);//恢复最近使用的记忆组信息
+        send_cmd_to_all_module((void*)&g_cur_file->num,
+            sizeof(g_cur_file->num), send_slave_load_file);
+    }
+    
+    load_steps_to_list(1, 1);//加载新的当前步
+    g_cur_step = get_g_cur_step();
+    load_data();
+    update_test_win_text_display();
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T source_list_findex_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    sprintf((char*)par->ask_data, "%02d", g_cur_file->num);
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T source_list_fmessage_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    sprintf((char*)par->ask_data, "%d,\"%s\",%d,%s,%05.1f,%05.1f,%s",
+            g_cur_file->num,
+            g_cur_file->name,
+            g_cur_file->total,
+            g_cur_file->work_mode==G_MODE? "G":"N",
+            g_cur_file->pass_time / 10.0,
+            g_cur_file->buzzer_time / 10.0,
+            g_cur_file->arc_mode==ARC_CUR_MODE? "1":"0");
+        
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T source_list_sindex_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    sprintf((char*)par->ask_data, "%02d", cur_step);
     return SCPI_NO_ERROR;
+}
+
+void transition_work_port(uint8_t *buf, WORK_PORT *port)
+{
+    uint16_t *p_16;
+    int32_t i = 0;
+    
+    p_16 = (void*)port;
+    buf[0] = 0;
+    
+    for(i = 0; i < port->num; i++)
+    {
+        strcat((char*)buf, (((*p_16)>>(i * 2)) & 3) == 0 ? "X" : "H");
+//        strcat((char*)buf, ((i + 1) < port->num)? ",":"");
+    }
 }
 SCPI_ERR_T source_list_smessage_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    uint8_t buf[20] = {0};
+    
+    switch(cur_mode)
+    {
+        case ACW:
+            sprintf((char*)par->ask_data,"%02d,%d,", cur_step, cur_mode);
+            sprintf((char*)buf, "%05.3f,", cur_vol / 1000.0);
+            strcat((char*)par->ask_data, (const char*)buf);
+            sprintf((char*)buf, "%d,", cur_gear);
+            strcat((char*)par->ask_data, (const char*)buf);
+            mysprintf(buf, NULL, 150 + ac_gear[cur_gear].dec, cur_high);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            mysprintf(buf, NULL, 150 + ac_gear[cur_gear].dec, cur_low);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            mysprintf(buf, NULL, 150 + ac_gear[cur_gear].dec, cur_real_cur);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            
+            if(g_cur_file->arc_mode == ARC_CUR_MODE)
+            {
+                mysprintf(buf, NULL, 152, cur_arc_gear);
+            }
+            else
+            {
+                sprintf((char*)buf, "%d", cur_arc_gear);
+            }
+            
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            
+            mysprintf(buf, NULL, 151, cur_frequency);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            
+            mysprintf(buf, NULL, 151, ris_t);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            mysprintf(buf, NULL, 151, tes_t);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            mysprintf(buf, NULL, 151, fal_t);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            mysprintf(buf, NULL, 151, int_t);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            sprintf((char*)buf, "%d", steps_pass);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            sprintf((char*)buf, "%d", steps_con);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            
+            transition_work_port(buf, &cur_work_port);
+            strcat((char*)par->ask_data, (const char*)buf);
+            
+            break;
+        case DCW:
+            sprintf((char*)par->ask_data,"%02d,%d,", cur_step, cur_mode);
+            sprintf((char*)buf, "%05.3f,", cur_vol / 1000.0);
+            strcat((char*)par->ask_data, (const char*)buf);
+            sprintf((char*)buf, "%d,", cur_gear);
+            strcat((char*)par->ask_data, (const char*)buf);
+            mysprintf(buf, NULL, 150 + ac_gear[cur_gear].dec, cur_high);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            mysprintf(buf, NULL, 150 + ac_gear[cur_gear].dec, cur_low);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            mysprintf(buf, NULL, 150 + ac_gear[cur_gear].dec, cur_charge_cur);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            
+            if(g_cur_file->arc_mode == ARC_CUR_MODE)
+            {
+                mysprintf(buf, NULL, 152, cur_arc_gear);
+            }
+            else
+            {
+                sprintf((char*)buf, "%d", cur_arc_gear);
+            }
+            
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            
+            mysprintf(buf, NULL, 151, dly_t);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            
+            mysprintf(buf, NULL, 151, ris_t);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            mysprintf(buf, NULL, 151, tes_t);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            mysprintf(buf, NULL, 151, fal_t);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            mysprintf(buf, NULL, 151, int_t);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            sprintf((char*)buf, "%d", steps_pass);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            sprintf((char*)buf, "%d", steps_con);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            
+            transition_work_port(buf, &cur_work_port);
+            strcat((char*)par->ask_data, (const char*)buf);
+            
+            break;
+        case IR:
+            sprintf((char*)par->ask_data,"%02d,%d,", cur_step, cur_mode);
+            sprintf((char*)buf, "%05.3f,", cur_vol / 1000.0);
+            strcat((char*)par->ask_data, (const char*)buf);
+            sprintf((char*)buf, "%d,", cur_auto);
+            strcat((char*)par->ask_data, (const char*)buf);
+            mysprintf(buf, NULL, 150 + ac_gear[cur_gear].dec, cur_high);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            mysprintf(buf, NULL, 150 + ac_gear[cur_gear].dec, cur_low);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            
+            mysprintf(buf, NULL, 151, ris_t);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            mysprintf(buf, NULL, 151, tes_t);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            mysprintf(buf, NULL, 151, dly_t);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            mysprintf(buf, NULL, 151, int_t);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            sprintf((char*)buf, "%d", steps_pass);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            sprintf((char*)buf, "%d", steps_con);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            
+            transition_work_port(buf, &cur_work_port);
+            strcat((char*)par->ask_data, (const char*)buf);
+            
+            break;
+        case GR:
+            sprintf((char*)par->ask_data,"%02d,%d,", cur_step, cur_mode);
+            sprintf((char*)buf, "%05.3f,", cur_vol / 1000.0);
+            strcat((char*)par->ask_data, (const char*)buf);
+            mysprintf(buf, NULL, 150 + ac_gear[cur_gear].dec, cur_high);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            mysprintf(buf, NULL, 150 + ac_gear[cur_gear].dec, cur_low);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            mysprintf(buf, NULL, 151, tes_t);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            mysprintf(buf, NULL, 151, int_t);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            sprintf((char*)buf, "%d", steps_pass);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            sprintf((char*)buf, "%d", steps_con);
+            strcat((char*)par->ask_data, (const char*)buf);
+            strcat((char*)par->ask_data, ",");
+            
+            transition_work_port(buf, &cur_work_port);
+            strcat((char*)par->ask_data, (const char*)buf);
+            
+            break;
+    }
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T source_list_mode_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    strcpy((char*)par->ask_data, (const char*)mode_pool[cur_mode - 1]);
     return SCPI_NO_ERROR;
 }
 /* 步骤指令集 */
