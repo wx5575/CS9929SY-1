@@ -263,7 +263,7 @@ static uint8_t count_check_num(uint8_t *data)
   *         @arg SCPI_SYNTAX_ERROR
   *         @arg SCPI_MISSING_PARAMETER
   */
-static SCPI_ERR_T check_scpi_cmd_validity(SCPI_CMD *cmd, SCPI_DIS_FUN_PAR *par)
+static SCPI_ERR_T check_scpi_cmd_validity(const SCPI_CMD *cmd, SCPI_DIS_FUN_PAR *par)
 {
     if(cmd->att == E__ || cmd->att == _W_ || cmd->att == __R
         || (cmd->att == _WR && par->type == SCPI_EXE))
@@ -329,7 +329,7 @@ static SCPI_ERR_T scpi_receive_dispose_(uint8_t *frame, uint32_t len,
     SCPI_CMD scpi_cmd;
     int32_t i = 0;
     CMD_NUM_T cmd_num;
-    SCPI_CMD *p_scpi_cmd = NULL;
+    const SCPI_CMD *p_scpi_cmd = NULL;
     SCPI_DIS_FUN_PAR scpi_par;
     
     frame[len] = 0;

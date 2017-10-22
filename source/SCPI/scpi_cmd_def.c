@@ -20,7 +20,7 @@ typedef struct{
   * "CONT"          , C_CONTRAST,
   * "CONT"          , C_CONTROL,
   */
-CMD_SEGMENT_T scpi_segment_pool[]=
+static const CMD_SEGMENT_T scpi_segment_pool[]=
 {
     "*IDN"          , C_IDN,
     "*RST"          , C_RST,
@@ -199,7 +199,7 @@ const char * comm_error_msg[] =
 /**
   * @brief  SCPI命令池
   */
-SCPI_CMD scpi_cmd_pool[]=
+static const SCPI_CMD scpi_cmd_pool[]=
 {
     /* 公用指令集 */
     {{C_IDN}                , __R, 0, idn_scpi_dispose_fun},
@@ -331,12 +331,12 @@ SCPI_CMD scpi_cmd_pool[]=
   *         @arg SCPI_UNDEFINED_HEADER
   * @retval 查找结果,SCPI命令结构信息
   */
-SCPI_CMD * find_cmd_num(CMD_NUM_T cmd_num, SCPI_ERR_T *err)
+const SCPI_CMD * find_cmd_num(CMD_NUM_T cmd_num, SCPI_ERR_T *err)
 {
     uint8_t n = 0;
     int32_t i = 0;
     CMD_NUM_T *cmd_t;
-    SCPI_CMD *scpi_cmd = scpi_cmd_pool;
+    const SCPI_CMD *scpi_cmd = scpi_cmd_pool;
     
     n = ARRAY_SIZE(scpi_cmd_pool);
     
@@ -375,7 +375,7 @@ uint8_t find_one_section_cmd(uint8_t *section, uint32_t *cmd_count, SCPI_ERR_T *
         if( 0 == strcmp((const char*)section, scpi_segment_pool[i].cmd))
         {
             *err = SCPI_NO_ERROR;
-            *cmd_count = i + 1;
+            *cmd_count = i + 1;//记录下结束位置以备下次断续查询重码
             return scpi_segment_pool[i].num;
         }
     }

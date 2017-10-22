@@ -169,7 +169,7 @@ typedef struct{
 
 
 uint8_t find_one_section_cmd(uint8_t *section, uint32_t *cmd_count, SCPI_ERR_T *err);
-SCPI_CMD * find_cmd_num(CMD_NUM_T cmd_num, SCPI_ERR_T *err);
+const SCPI_CMD * find_cmd_num(CMD_NUM_T cmd_num, SCPI_ERR_T *err);
 
 #endif //__SCPI_CMD_DEF_H__
 

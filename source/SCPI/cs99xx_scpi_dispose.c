@@ -32,7 +32,31 @@ SCPI_ERR_T rst_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 
 SCPI_ERR_T comm_sadd_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint8_t addr = 0;
+    
+    if(par->type == SCPI_EXE)
+    {
+        addr = atoi((const char*)par->argv[0]);
+        if(addr > 0)
+        {
+            if(sys_par.local_addr != addr)
+            {
+                sys_par.local_addr = addr;
+                save_sys_par();
+            }
+        }
+        else
+        {
+            return SCPI_DATA_OUT_OF_RANGE;
+        }
+    }
+    else
+    {
+        sprintf((char*)par->ask_data, "%d", sys_par.local_addr);
+    }
+    
+    return err;
 }
 
 SCPI_ERR_T comm_remote_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
@@ -837,7 +861,7 @@ typedef enum{
 }MOVE_STEP_DIRECTION_T;
 
 
-SCPI_ERR_T step_move_for_comm(MOVE_STEP_DIRECTION_T dir, STEP_NUM sw_step)
+static SCPI_ERR_T step_move_for_comm(MOVE_STEP_DIRECTION_T dir, STEP_NUM sw_step)
 {
     STEP_NUM one;
     STEP_NUM two;
@@ -1011,9 +1035,20 @@ SCPI_ERR_T check_mode_for_comm(uint8_t mode)
     return SCPI_NO_ERROR;
 }
 
-SCPI_ERR_T set_cur_step_voltage(uint8_t mode, uint32_t value)
+static SCPI_ERR_T set_cur_step_voltage(SCPI_DIS_FUN_PAR *par, uint8_t mode)
 {
     SCPI_ERR_T err;
+    uint32_t value;
+    uint8_t dec = 0;
+    
+    err = count_par_dces(par->argv[0], &dec);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    value = atof((const char*)par->argv[0]) * ten_power(dec);
     
     err = check_mode_for_comm(mode);
     
@@ -1060,23 +1095,55 @@ SCPI_ERR_T set_cur_step_voltage(uint8_t mode, uint32_t value)
     
     return SCPI_NO_ERROR;
 }
-/* ACW */
-SCPI_ERR_T step_acw_voltage_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
+
+static SCPI_ERR_T get_cur_step_voltage(SCPI_DIS_FUN_PAR *par, uint8_t mode)
 {
-    uint32_t value;
-    uint8_t dec = 0;
     SCPI_ERR_T err;
+    uint32_t value;
     
-    err = count_par_dces(par->argv[0], &dec);
+    err = check_mode_for_comm(mode);
     
     if(err != SCPI_NO_ERROR)
     {
         return err;
     }
     
-    value = atof((const char*)par->argv[0]) * ten_power(dec);
+    switch(mode)
+    {
+        case ACW:
+            value = g_cur_step->one_step.acw.output_vol;
+            break;
+        case DCW:
+            value = g_cur_step->one_step.dcw.output_vol;
+            break;
+        case IR:
+            value = g_cur_step->one_step.ir.output_vol;
+            break;
+        case GR:
+            value = g_cur_step->one_step.gr.output_cur;
+            break;
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
+    }
     
-    err = set_cur_step_voltage(ACW, value);
+    mysprintf(par->ask_data, NULL, 153, value);
+    
+    return SCPI_NO_ERROR;
+}
+
+/* ACW */
+SCPI_ERR_T step_acw_voltage_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
+{
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_voltage(par, ACW);
+    }
+    else
+    {
+        err = get_cur_step_voltage(par, ACW);
+    }
     
     return err;
 }
@@ -1092,6 +1159,8 @@ static SCPI_ERR_T check_int_par(uint8_t *argv)
     uint8_t len = 0;
     int32_t i = 0;
     
+    len = strlen((const char*)argv);
+    
     for(i = 0; i < len; i++)
     {
         if(argv[i] < '0' || argv[i] > '9')
@@ -1103,9 +1172,19 @@ static SCPI_ERR_T check_int_par(uint8_t *argv)
     return SCPI_NO_ERROR;
 }
 
-static SCPI_ERR_T set_cur_step_range(uint8_t mode, uint8_t range)
+static SCPI_ERR_T set_cur_step_range(SCPI_DIS_FUN_PAR *par, uint8_t mode)
 {
-    SCPI_ERR_T err;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint8_t range;
+    
+    err = check_int_par(par->argv[0]);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    range = atoi((const char*)par->argv[0]);
     
     err = check_mode_for_comm(mode);
     
@@ -1157,7 +1236,7 @@ static SCPI_ERR_T set_cur_step_range(uint8_t mode, uint8_t range)
             }
             break;
         default:
-            break;
+            return SCPI_EXECUTE_NOT_ALLOWED;
     }
     
     set_step_par_for_comm();
@@ -1165,28 +1244,68 @@ static SCPI_ERR_T set_cur_step_range(uint8_t mode, uint8_t range)
     return SCPI_NO_ERROR;
 }
 
-SCPI_ERR_T step_acw_range_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
+
+static SCPI_ERR_T get_cur_step_range(SCPI_DIS_FUN_PAR *par, uint8_t mode)
 {
-    uint32_t value;
-    SCPI_ERR_T err;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint8_t range;
     
-    err = check_int_par(par->argv[0]);
+    err = check_mode_for_comm(mode);
     
     if(err != SCPI_NO_ERROR)
     {
         return err;
     }
     
-    value = atoi((const char*)par->argv[0]);
+    switch(mode)
+    {
+        case ACW:
+            range = g_cur_step->one_step.acw.range;
+            break;
+        case DCW:
+            range = g_cur_step->one_step.acw.range;
+            break;
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
+    }
     
-    err = set_cur_step_range(ACW, value);
+    sprintf((char*)par->ask_data, "%d", range);
+    
+    return SCPI_NO_ERROR;
+}
+
+
+SCPI_ERR_T step_acw_range_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
+{
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_range(par, ACW);
+    }
+    else
+    {
+        err = get_cur_step_range(par, ACW);
+    }
+    
     return err;
 }
 
-SCPI_ERR_T set_cur_step_high(uint8_t mode, uint8_t high)
+static SCPI_ERR_T set_cur_step_high(SCPI_DIS_FUN_PAR *par, uint8_t mode)
 {
-    SCPI_ERR_T err;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
     uint8_t gear = 0;
+    uint8_t dec = 0;
+    uint16_t high = 0;
+    
+    err = count_par_dces(par->argv[0], &dec);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    high = atof((const char*)par->argv[0]) * ten_power(dec);
     
     err = check_mode_for_comm(mode);
     
@@ -1294,17 +1413,79 @@ SCPI_ERR_T set_cur_step_high(uint8_t mode, uint8_t high)
             }
             break;
         }
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
     }
     
     set_step_par_for_comm();
     
     return SCPI_NO_ERROR;
 }
+
+static SCPI_ERR_T get_cur_step_high(SCPI_DIS_FUN_PAR *par, uint8_t mode)
+{
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint8_t gear = 0;
+    uint16_t high = 0;
+    uint8_t format = 0;
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    switch(mode)
+    {
+        case ACW:
+            gear = g_cur_step->one_step.acw.range;
+            high = g_cur_step->one_step.acw.upper_limit;
+            format = 100 + 50 + ac_gear[gear].dec;
+            break;
+        case DCW:
+            gear = g_cur_step->one_step.dcw.range;
+            high = g_cur_step->one_step.dcw.upper_limit;
+            format = 100 + 50 + dc_gear[gear].dec;
+            break;
+        case IR:
+            high = g_cur_step->one_step.ir.upper_limit;
+            format = 150;
+            break;
+        case GR:
+            high = g_cur_step->one_step.gr.upper_limit;
+            format = 151;
+            break;
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    mysprintf(par->ask_data, NULL, format, high);
+    
+    return SCPI_NO_ERROR;
+}
+
 SCPI_ERR_T step_acw_high_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    uint32_t value;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_high(par, ACW);
+    }
+    else
+    {
+        err = get_cur_step_high(par, ACW);
+    }
+    
+    return err;
+}
+
+static SCPI_ERR_T set_cur_step_low(SCPI_DIS_FUN_PAR *par, uint8_t mode)
+{
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint32_t low = 0;
     uint8_t dec = 0;
-    SCPI_ERR_T err;
     
     err = count_par_dces(par->argv[0], &dec);
     
@@ -1313,16 +1494,7 @@ SCPI_ERR_T step_acw_high_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
         return err;
     }
     
-    value = atof((const char*)par->argv[0]) * ten_power(dec);
-    
-    err = set_cur_step_high(ACW, value);
-    
-    return err;
-}
-
-static SCPI_ERR_T set_cur_step_low(uint8_t mode, uint8_t low)
-{
-    SCPI_ERR_T err;
+    low = atof((const char*)par->argv[0]) * ten_power(dec);
     
     err = check_mode_for_comm(mode);
     
@@ -1396,17 +1568,79 @@ static SCPI_ERR_T set_cur_step_low(uint8_t mode, uint8_t low)
             g_cur_step->one_step.gr.lower_limit = low;
             break;
         }
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
     }
     
     set_step_par_for_comm();
     
     return SCPI_NO_ERROR;
 }
+
+static SCPI_ERR_T get_cur_step_low(SCPI_DIS_FUN_PAR *par, uint8_t mode)
+{
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint32_t low = 0;
+    uint8_t gear = 0;
+    uint8_t format = 0;
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    switch(mode)
+    {
+        case ACW:
+            low = g_cur_step->one_step.acw.lower_limit;
+            gear = g_cur_step->one_step.acw.range;
+            format = 100 + 50 + ac_gear[gear].dec;
+            break;
+        case DCW:
+            low = g_cur_step->one_step.dcw.lower_limit;
+            gear = g_cur_step->one_step.dcw.range;
+            format = 100 + 50 + dc_gear[gear].dec;
+            break;
+        case IR:
+            low = g_cur_step->one_step.ir.lower_limit;
+            format = 150;
+            break;
+        case GR:
+            low = g_cur_step->one_step.gr.lower_limit;
+            format = 151;
+            break;
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    mysprintf(par->ask_data, NULL, format, low);
+    
+    return SCPI_NO_ERROR;
+}
+
 SCPI_ERR_T step_acw_low_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    uint32_t value;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_low(par, ACW);
+    }
+    else
+    {
+        err = get_cur_step_low(par, ACW);
+    }
+    
+    return err;
+}
+
+static SCPI_ERR_T set_cur_step_real(SCPI_DIS_FUN_PAR *par, uint8_t mode)
+{
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint32_t real = 0;
     uint8_t dec = 0;
-    SCPI_ERR_T err;
     
     err = count_par_dces(par->argv[0], &dec);
     
@@ -1415,16 +1649,8 @@ SCPI_ERR_T step_acw_low_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
         return err;
     }
     
-    value = atof((const char*)par->argv[0]) * ten_power(dec);
+    real = atof((const char*)par->argv[0]) * ten_power(dec);
     
-    err = set_cur_step_low(ACW, value);
-    
-    return err;
-}
-
-static SCPI_ERR_T set_cur_step_real(uint8_t mode, uint8_t real)
-{
-    SCPI_ERR_T err;
     
     err = check_mode_for_comm(mode);
     
@@ -1456,29 +1682,83 @@ static SCPI_ERR_T set_cur_step_real(uint8_t mode, uint8_t real)
     
     return SCPI_NO_ERROR;
 }
-SCPI_ERR_T step_acw_real_current_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
+
+static SCPI_ERR_T get_cur_step_real(SCPI_DIS_FUN_PAR *par, uint8_t mode)
 {
-    uint32_t value;
-    uint8_t dec = 0;
-    SCPI_ERR_T err;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint32_t real = 0;
+    uint8_t gear = 0;
+    uint8_t format = 0;
     
-    err = count_par_dces(par->argv[0], &dec);
+    err = check_mode_for_comm(mode);
     
     if(err != SCPI_NO_ERROR)
     {
         return err;
     }
     
-    value = atof((const char*)par->argv[0]) * ten_power(dec);
+    switch(mode)
+    {
+        case ACW:
+            gear = g_cur_step->one_step.acw.range;
+            real = g_cur_step->one_step.acw.real_cur;
+            format = 100 + 50 + ac_gear[gear].dec;
+            break;
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
+    }
     
-    err = set_cur_step_real(ACW, value);
+    mysprintf(par->ask_data, NULL, format, real);
+    
+    return SCPI_NO_ERROR;
+}
+
+SCPI_ERR_T step_acw_real_current_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
+{
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_real(par, ACW);
+    }
+    else
+    {
+        err = get_cur_step_real(par, ACW);
+    }
     
     return err;
 }
 
-static SCPI_ERR_T set_cur_step_arc(uint8_t mode, uint8_t arc)
+static SCPI_ERR_T set_cur_step_arc(SCPI_DIS_FUN_PAR *par, uint8_t mode)
 {
     SCPI_ERR_T err;
+    uint32_t arc = 0;
+    uint8_t dec = 0;
+    
+    //电弧侦测电流模式
+    if(g_cur_file->arc_mode == ARC_CUR_MODE)
+    {
+        err = count_par_dces(par->argv[0], &dec);
+        
+        if(err != SCPI_NO_ERROR)
+        {
+            return err;
+        }
+        
+        arc = atof((const char*)par->argv[0]) * ten_power(dec);
+    }
+    //电弧侦测等级模式
+    else
+    {
+        err = check_int_par(par->argv[0]);
+        
+        if(err != SCPI_NO_ERROR)
+        {
+            return err;
+        }
+        
+        arc = atoi((const char*)par->argv[0]);
+    }
     
     err = check_mode_for_comm(mode);
     
@@ -1553,51 +1833,83 @@ static SCPI_ERR_T set_cur_step_arc(uint8_t mode, uint8_t arc)
             }
             break;
         }
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
     }
     
     set_step_par_for_comm();
     
     return SCPI_NO_ERROR;
 }
-SCPI_ERR_T step_acw_arc_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
+
+static SCPI_ERR_T get_cur_step_arc(SCPI_DIS_FUN_PAR *par, uint8_t mode)
 {
-    uint32_t value;
-    uint8_t dec = 0;
     SCPI_ERR_T err;
+    uint32_t arc = 0;
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    switch(mode)
+    {
+        case ACW:
+            arc = g_cur_step->one_step.acw.real_cur;
+            break;
+        case DCW:
+            arc = g_cur_step->one_step.acw.real_cur;
+            break;
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
+    }
     
     //电弧侦测电流模式
     if(g_cur_file->arc_mode == ARC_CUR_MODE)
     {
-        err = count_par_dces(par->argv[0], &dec);
-        
-        if(err != SCPI_NO_ERROR)
-        {
-            return err;
-        }
-        
-        value = atof((const char*)par->argv[0]) * ten_power(dec);
+        mysprintf(par->ask_data, NULL, 152, arc);
     }
     //电弧侦测等级模式
     else
     {
-        err = check_int_par(par->argv[0]);
-        
-        if(err != SCPI_NO_ERROR)
-        {
-            return err;
-        }
-        
-        value = atoi((const char*)par->argv[0]);
+        sprintf((char*)par->ask_data, "%d", arc);
     }
     
-    err = set_cur_step_arc(ACW, value);
+    return SCPI_NO_ERROR;
+}
+
+SCPI_ERR_T step_acw_arc_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
+{
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_arc(par, ACW);
+    }
+    else
+    {
+        err = get_cur_step_arc(par, ACW);
+    }
     
     return err;
 }
 
-static SCPI_ERR_T set_cur_step_frequency(uint8_t mode, uint8_t freq)
+static SCPI_ERR_T set_cur_step_frequency(SCPI_DIS_FUN_PAR *par, uint8_t mode)
 {
     SCPI_ERR_T err;
+    uint32_t freq = 0;
+    uint8_t dec = 0;
+    
+    err = count_par_dces(par->argv[0], &dec);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    freq = atof((const char*)par->argv[0]) * ten_power(dec);
     
     err = check_mode_for_comm(mode);
     
@@ -1623,17 +1935,79 @@ static SCPI_ERR_T set_cur_step_frequency(uint8_t mode, uint8_t freq)
             g_cur_step->one_step.acw.output_freq = freq;
             break;
         }
+        case GR:
+        {
+            if(g_cur_step->one_step.gr.output_freq == freq)
+            {
+                return SCPI_NO_ERROR;
+            }
+            
+            if(freq > 4000 || freq < 400)
+            {
+                return SCPI_DATA_OUT_OF_RANGE;
+            }
+            
+            g_cur_step->one_step.gr.output_freq = freq;
+            break;
+        }
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
     }
     
     set_step_par_for_comm();
     
     return SCPI_NO_ERROR;
 }
+static SCPI_ERR_T get_cur_step_frequency(SCPI_DIS_FUN_PAR *par, uint8_t mode)
+{
+    SCPI_ERR_T err;
+    uint32_t freq = 0;
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    switch(mode)
+    {
+        case ACW:
+            freq = g_cur_step->one_step.acw.output_freq;
+            break;
+        case GR:
+            freq = g_cur_step->one_step.gr.output_freq;
+            break;
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    mysprintf(par->ask_data, NULL, 151, freq);
+    
+    return SCPI_NO_ERROR;
+}
+
 SCPI_ERR_T step_acw_frequency_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    uint32_t value;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_frequency(par, ACW);
+    }
+    else
+    {
+        err = get_cur_step_frequency(par, ACW);
+    }
+    
+    return err;
+}
+
+static SCPI_ERR_T set_cur_step_rtime(SCPI_DIS_FUN_PAR *par, uint8_t mode)
+{
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint32_t time = 0;
     uint8_t dec = 0;
-    SCPI_ERR_T err;
     
     err = count_par_dces(par->argv[0], &dec);
     
@@ -1642,16 +2016,7 @@ SCPI_ERR_T step_acw_frequency_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
         return err;
     }
     
-    value = atof((const char*)par->argv[0]) * ten_power(dec);
-    
-    err = set_cur_step_frequency(ACW, value);
-    
-    return err;
-}
-
-static SCPI_ERR_T set_cur_step_rtime(uint8_t mode, uint8_t time)
-{
-    SCPI_ERR_T err;
+    time = atof((const char*)par->argv[0]) * ten_power(dec);
     
     err = check_mode_for_comm(mode);
     
@@ -1707,17 +2072,67 @@ static SCPI_ERR_T set_cur_step_rtime(uint8_t mode, uint8_t time)
             g_cur_step->one_step.ir.rise_time = time;
             break;
         }
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
     }
     
     set_step_par_for_comm();
     
     return SCPI_NO_ERROR;
 }
+static SCPI_ERR_T get_cur_step_rtime(SCPI_DIS_FUN_PAR *par, uint8_t mode)
+{
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint32_t time = 0;
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    switch(mode)
+    {
+        case ACW:
+            time = g_cur_step->one_step.acw.rise_time;
+            break;
+        case DCW:
+            time = g_cur_step->one_step.dcw.rise_time;
+            break;
+        case IR:
+            time = g_cur_step->one_step.ir.rise_time;
+            break;
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    mysprintf(par->ask_data, NULL, 151, time);
+    
+    return SCPI_NO_ERROR;
+}
+
 SCPI_ERR_T step_acw_rtime_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    uint32_t value;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_rtime(par, ACW);
+    }
+    else
+    {
+        err = get_cur_step_rtime(par, ACW);
+    }
+    
+    return err;
+}
+
+static SCPI_ERR_T set_cur_step_ttime(SCPI_DIS_FUN_PAR *par, uint8_t mode)
+{
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint32_t time = 0;
     uint8_t dec = 0;
-    SCPI_ERR_T err;
     
     err = count_par_dces(par->argv[0], &dec);
     
@@ -1726,16 +2141,7 @@ SCPI_ERR_T step_acw_rtime_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
         return err;
     }
     
-    value = atof((const char*)par->argv[0]) * ten_power(dec);
-    
-    err = set_cur_step_rtime(ACW, value);
-    
-    return err;
-}
-
-static SCPI_ERR_T set_cur_step_ttime(uint8_t mode, uint8_t time)
-{
-    SCPI_ERR_T err;
+    time = atof((const char*)par->argv[0]) * ten_power(dec);
     
     err = check_mode_for_comm(mode);
     
@@ -1797,11 +2203,62 @@ static SCPI_ERR_T set_cur_step_ttime(uint8_t mode, uint8_t time)
     
     return SCPI_NO_ERROR;
 }
+static SCPI_ERR_T get_cur_step_ttime(SCPI_DIS_FUN_PAR *par, uint8_t mode)
+{
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint32_t time = 0;
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    switch(mode)
+    {
+        case ACW:
+            time = g_cur_step->one_step.acw.test_time;
+            break;
+        case DCW:
+            time = g_cur_step->one_step.dcw.test_time;
+            break;
+        case IR:
+            time = g_cur_step->one_step.ir.test_time;
+            break;
+        case GR:
+            time = g_cur_step->one_step.gr.test_time;
+            break;
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    mysprintf(par->ask_data, NULL, 151, time);
+    
+    return SCPI_NO_ERROR;
+}
+
 SCPI_ERR_T step_acw_ttime_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    uint32_t value;
-    uint8_t dec = 0;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_ttime(par, ACW);
+    }
+    else
+    {
+        err = get_cur_step_ttime(par, ACW);
+    }
+    
+    return err;
+}
+
+static SCPI_ERR_T set_cur_step_ftime(SCPI_DIS_FUN_PAR *par, uint8_t mode)
+{
     SCPI_ERR_T err;
+    uint32_t time = 0;
+    uint8_t dec = 0;
     
     err = count_par_dces(par->argv[0], &dec);
     
@@ -1810,16 +2267,7 @@ SCPI_ERR_T step_acw_ttime_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
         return err;
     }
     
-    value = atof((const char*)par->argv[0]) * ten_power(dec);
-    
-    err = set_cur_step_ttime(ACW, value);
-    
-    return err;
-}
-
-static SCPI_ERR_T set_cur_step_ftime(uint8_t mode, uint8_t time)
-{
-    SCPI_ERR_T err;
+    time = atof((const char*)par->argv[0]) * ten_power(dec);
     
     err = check_mode_for_comm(mode);
     
@@ -1855,17 +2303,63 @@ static SCPI_ERR_T set_cur_step_ftime(uint8_t mode, uint8_t time)
             g_cur_step->one_step.dcw.fall_time = time;
             break;
         }
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
     }
     
     set_step_par_for_comm();
     
     return SCPI_NO_ERROR;
 }
+static SCPI_ERR_T get_cur_step_ftime(SCPI_DIS_FUN_PAR *par, uint8_t mode)
+{
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint32_t time = 0;
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    switch(mode)
+    {
+        case ACW:
+            time = g_cur_step->one_step.acw.fall_time;
+            break;
+        case DCW:
+            time = g_cur_step->one_step.dcw.fall_time;
+            break;
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    mysprintf(par->ask_data, NULL, 151, time);
+    
+    return SCPI_NO_ERROR;
+}
+
 SCPI_ERR_T step_acw_ftime_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    uint32_t value;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_ftime(par, ACW);
+    }
+    else
+    {
+        err = get_cur_step_ftime(par, ACW);
+    }
+    
+    return err;
+}
+static SCPI_ERR_T set_cur_step_itime(SCPI_DIS_FUN_PAR *par, uint8_t mode)
+{
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint32_t time = 0;
     uint8_t dec = 0;
-    SCPI_ERR_T err;
     
     err = count_par_dces(par->argv[0], &dec);
     
@@ -1874,31 +2368,681 @@ SCPI_ERR_T step_acw_ftime_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
         return err;
     }
     
-    value = atof((const char*)par->argv[0]) * ten_power(dec);
+    time = atof((const char*)par->argv[0]) * ten_power(dec);
     
-    err = set_cur_step_ftime(ACW, value);
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    if(time > 9999)
+    {
+        return SCPI_DATA_OUT_OF_RANGE;
+    }
+    
+    switch(mode)
+    {
+        case ACW:
+        {
+            if(g_cur_step->one_step.acw.inter_time == time)
+            {
+                return SCPI_NO_ERROR;
+            }
+            
+            g_cur_step->one_step.acw.inter_time = time;
+            break;
+        }
+        case DCW:
+        {
+            if(g_cur_step->one_step.dcw.inter_time == time)
+            {
+                return SCPI_NO_ERROR;
+            }
+            
+            g_cur_step->one_step.dcw.inter_time = time;
+            break;
+        }
+        case IR:
+        {
+            if(g_cur_step->one_step.ir.inter_time == time)
+            {
+                return SCPI_NO_ERROR;
+            }
+            
+            g_cur_step->one_step.ir.inter_time = time;
+            break;
+        }
+        case GR:
+        {
+            if(g_cur_step->one_step.gr.inter_time == time)
+            {
+                return SCPI_NO_ERROR;
+            }
+            
+            g_cur_step->one_step.gr.inter_time = time;
+            break;
+        }
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    set_step_par_for_comm();
+    
+    return SCPI_NO_ERROR;
+}
+static SCPI_ERR_T get_cur_step_itime(SCPI_DIS_FUN_PAR *par, uint8_t mode)
+{
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint32_t time = 0;
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    switch(mode)
+    {
+        case ACW:
+            time = g_cur_step->one_step.acw.inter_time;
+            break;
+        case DCW:
+            time = g_cur_step->one_step.dcw.inter_time;
+            break;
+        case IR:
+            time = g_cur_step->one_step.ir.inter_time;
+            break;
+        case GR:
+            time = g_cur_step->one_step.gr.inter_time;
+            break;
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    mysprintf(par->ask_data, NULL, 151, time);
+    
+    return SCPI_NO_ERROR;
+}
+
+SCPI_ERR_T step_acw_itime_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
+{
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_itime(par, ACW);
+    }
+    else
+    {
+        err = get_cur_step_itime(par, ACW);
+    }
     
     return err;
 }
-SCPI_ERR_T step_acw_itime_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
+
+static SCPI_ERR_T set_cur_step_ctime(SCPI_DIS_FUN_PAR *par, uint8_t mode)
 {
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint32_t time = 0;
+    uint8_t dec = 0;
+    
+    err = count_par_dces(par->argv[0], &dec);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    time = atof((const char*)par->argv[0]) * ten_power(dec);
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    /* G模式才允许执行 */
+    if(g_cur_file->work_mode != G_MODE)
+    {
+        return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    if(time > 9999)
+    {
+        return SCPI_DATA_OUT_OF_RANGE;
+    }
+    
+    /* G模式的第一步缓变时间只能为0 */
+    if(g_cur_step->one_step.com.step == 1)
+    {
+        time = 0;
+    }
+    
+    switch(mode)
+    {
+        case ACW:
+        {
+            if(g_cur_step->one_step.acw.inter_time == time)
+            {
+                return SCPI_NO_ERROR;
+            }
+            
+            g_cur_step->one_step.acw.inter_time = time;
+            break;
+        }
+        case DCW:
+        {
+            if(g_cur_step->one_step.dcw.inter_time == time)
+            {
+                return SCPI_NO_ERROR;
+            }
+            
+            g_cur_step->one_step.dcw.inter_time = time;
+            break;
+        }
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    set_step_par_for_comm();
+    
     return SCPI_NO_ERROR;
 }
+
+
+static SCPI_ERR_T get_cur_step_ctime(SCPI_DIS_FUN_PAR *par, uint8_t mode)
+{
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint32_t time = 0;
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    /* G模式才允许执行 */
+    if(g_cur_file->work_mode != G_MODE)
+    {
+        return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    switch(mode)
+    {
+        case ACW:
+            time = g_cur_step->one_step.acw.inter_time;
+            break;
+        case DCW:
+            time = g_cur_step->one_step.dcw.inter_time;
+            break;
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    mysprintf(par->ask_data, NULL, 151, time);
+    
+    return SCPI_NO_ERROR;
+}
+
+
 SCPI_ERR_T step_acw_ctime_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_ctime(par, ACW);
+    }
+    else
+    {
+        err = get_cur_step_ctime(par, ACW);
+    }
+    
+    return err;
+}
+
+
+
+static SCPI_ERR_T check_sw_par(uint8_t *argv, uint8_t *value)
+{
+    if(0 == strcmp((const char*)argv, "ON") || 0 == strcmp((const char*)argv, "1"))
+    {
+        *value = 1;
+    }
+    else if(0 == strcmp((const char*)argv, "OFF") || 0 == strcmp((const char*)argv, "0"))
+    {
+        *value = 0;
+    }
+    else
+    {
+        return SCPI_INVALID_STRING_DATA;
+    }
+    
     return SCPI_NO_ERROR;
 }
+static SCPI_ERR_T set_cur_step_psignal(SCPI_DIS_FUN_PAR *par, uint8_t mode)
+{
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint8_t psignal = 0;
+    
+    err = check_sw_par(par->argv[0], &psignal);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    switch(mode)
+    {
+        case ACW:
+        {
+            if(g_cur_step->one_step.acw.step_pass == psignal)
+            {
+                return SCPI_NO_ERROR;
+            }
+            
+            g_cur_step->one_step.acw.step_pass = psignal;
+            break;
+        }
+        case DCW:
+        {
+            if(g_cur_step->one_step.dcw.step_pass == psignal)
+            {
+                return SCPI_NO_ERROR;
+            }
+            
+            g_cur_step->one_step.dcw.step_pass = psignal;
+            break;
+        }
+        case IR:
+        {
+            if(g_cur_step->one_step.ir.step_pass == psignal)
+            {
+                return SCPI_NO_ERROR;
+            }
+            
+            g_cur_step->one_step.ir.step_pass = psignal;
+            break;
+        }
+        case GR:
+        {
+            if(g_cur_step->one_step.gr.step_pass == psignal)
+            {
+                return SCPI_NO_ERROR;
+            }
+            
+            g_cur_step->one_step.gr.step_pass = psignal;
+            break;
+        }
+    }
+    
+    set_step_par_for_comm();
+    
+    return SCPI_NO_ERROR;
+}
+
+
+static SCPI_ERR_T get_cur_step_psignal(SCPI_DIS_FUN_PAR *par, uint8_t mode)
+{
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint8_t psignal = 0;
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    switch(mode)
+    {
+        case ACW:
+            psignal = g_cur_step->one_step.acw.step_pass;
+            break;
+        case DCW:
+            psignal = g_cur_step->one_step.dcw.step_pass;
+            break;
+        case IR:
+            psignal = g_cur_step->one_step.ir.step_pass;
+            break;
+        case GR:
+            psignal = g_cur_step->one_step.gr.step_pass;
+            break;
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    strcpy((char*)par->ask_data, psignal==0?"0":"1");
+    
+    return SCPI_NO_ERROR;
+}
+
 SCPI_ERR_T step_acw_psignal_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_psignal(par, ACW);
+    }
+    else
+    {
+        err = get_cur_step_psignal(par, ACW);
+    }
+    
+    return err;
+}
+
+static SCPI_ERR_T set_cur_step_cnext(SCPI_DIS_FUN_PAR *par, uint8_t mode)
+{
+    SCPI_ERR_T err;
+    uint8_t cnext = 0;
+    
+    err = check_sw_par(par->argv[0], &cnext);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    switch(mode)
+    {
+        case ACW:
+        {
+            if(g_cur_step->one_step.acw.step_con == cnext)
+            {
+                return SCPI_NO_ERROR;
+            }
+            
+            g_cur_step->one_step.acw.step_con = cnext;
+            break;
+        }
+        case DCW:
+        {
+            if(g_cur_step->one_step.dcw.step_con == cnext)
+            {
+                return SCPI_NO_ERROR;
+            }
+            
+            g_cur_step->one_step.dcw.step_con = cnext;
+            break;
+        }
+        case IR:
+        {
+            if(g_cur_step->one_step.ir.step_con == cnext)
+            {
+                return SCPI_NO_ERROR;
+            }
+            
+            g_cur_step->one_step.ir.step_con = cnext;
+            break;
+        }
+        case GR:
+        {
+            if(g_cur_step->one_step.gr.step_con == cnext)
+            {
+                return SCPI_NO_ERROR;
+            }
+            
+            g_cur_step->one_step.gr.step_con = cnext;
+            break;
+        }
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    set_step_par_for_comm();
+    
     return SCPI_NO_ERROR;
 }
+
+static SCPI_ERR_T get_cur_step_cnext(SCPI_DIS_FUN_PAR *par, uint8_t mode)
+{
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint8_t cnext = 0;
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    switch(mode)
+    {
+        case ACW:
+            cnext = g_cur_step->one_step.acw.step_con;
+            break;
+        case DCW:
+            cnext = g_cur_step->one_step.dcw.step_con;
+            break;
+        case IR:
+            cnext = g_cur_step->one_step.ir.step_con;
+            break;
+        case GR:
+            cnext = g_cur_step->one_step.gr.step_con;
+            break;
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    strcpy((char*)par->ask_data, cnext==0?"0":"1");
+    
+    return SCPI_NO_ERROR;
+}
+
 SCPI_ERR_T step_acw_cnext_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_cnext(par, ACW);
+    }
+    else
+    {
+        err = get_cur_step_cnext(par, ACW);
+    }
+    
+    return err;
+}
+
+static SCPI_ERR_T check_port_par(uint8_t *argv, WORK_PORT *port)
+{
+    uint8_t len = 0;
+    int32_t i = 0;
+    uint16_t *p16 = NULL;
+    uint8_t port_num = 0;
+    
+    memset(port, 0, sizeof(WORK_PORT));
+    p16 = (uint16_t*)port;
+    len = strlen((const char*)argv);
+    
+    for(i = 0; i < len; i++)
+    {
+        if(argv[i] == 'H')
+        {
+            *p16 |= (2 << (i * 2));
+            port_num++;
+        }
+        else if(argv[i] == 'X')
+        {
+            *p16 &= ~(3 << (i * 2));
+            port_num++;
+        }
+        else
+        {
+            return SCPI_INVALID_STRING_DATA;
+        }
+    }
+    
+    port->num = port_num;
+    
+    return SCPI_NO_ERROR;
+}
+static SCPI_ERR_T set_cur_step_port(SCPI_DIS_FUN_PAR *par, uint8_t mode)
+{
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    WORK_PORT port;
+    WORK_PORT *tport;
+    uint8_t buf[20] = {0};
+    int32_t i = 0;
+    
+    for(i = 0; i < par->argc; i++)
+    {
+        if(strlen((const char*)par->argv[i]) > 1)
+        {
+            return SCPI_INVALID_STRING_DATA;
+        }
+        
+        strcat((char*)buf, (const char*)par->argv[i]);
+    }
+    
+    err = check_port_par(buf, &port);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    switch(mode)
+    {
+        case ACW:
+            tport = &g_cur_step->one_step.acw.work_port;
+            break;
+        case DCW:
+            tport = &g_cur_step->one_step.dcw.work_port;
+            break;
+        case IR:
+            tport = &g_cur_step->one_step.ir.work_port;
+            break;
+        case GR:
+            tport = &g_cur_step->one_step.gr.work_port;
+            break;
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    if(tport->num != port.num)
+    {
+        return SCPI_INVALID_STRING_DATA;
+    }
+    
+    if(0 == memcmp(tport, &port, sizeof(tport->ports)))
+    {
+        return SCPI_NO_ERROR;
+    }
+    
+    memcpy(tport, &port, sizeof(tport->ports));
+    set_step_par_for_comm();
+    
+    return SCPI_NO_ERROR;
+}
+
+static SCPI_ERR_T get_port_par(uint8_t *argv, WORK_PORT *port)
+{
+    int32_t i = 0;
+    uint16_t *p16 = NULL;
+    uint8_t val = 0;
+    
+    p16 = (uint16_t*)port;
+    argv[0] = 0;
+    
+    for(i = 0; i < port->num; i++)
+    {
+        val = ((*p16) >> (i * 2)) & 3;
+        
+        if(val == 2)
+        {
+            strcat((char*)argv, "H");
+        }
+        else if(val == 0)
+        {
+            strcat((char*)argv, "L");
+        }
+        
+        if((i + 1) < port->num)
+        {
+            strcat((char*)argv, ",");
+        }
+    }
+    
+    return SCPI_NO_ERROR;
+}
+static SCPI_ERR_T get_cur_step_port(SCPI_DIS_FUN_PAR *par, uint8_t mode)
+{
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    WORK_PORT *tport;
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    switch(mode)
+    {
+        case ACW:
+            tport = &g_cur_step->one_step.acw.work_port;
+            break;
+        case DCW:
+            tport = &g_cur_step->one_step.dcw.work_port;
+            break;
+        case IR:
+            tport = &g_cur_step->one_step.ir.work_port;
+            break;
+        case GR:
+            tport = &g_cur_step->one_step.gr.work_port;
+            break;
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    get_port_par(par->ask_data, tport);
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T step_acw_port_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_port(par, ACW);
+    }
+    else
+    {
+        err = get_cur_step_port(par, ACW);
+    }
+    
+    return err;
 }
 /* DCW */
 SCPI_ERR_T step_dcw_voltage_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
