@@ -773,6 +773,23 @@ static void result_win_cb(WM_MESSAGE* pMsg)
 }
 
 /* Public functions ---------------------------------------------------------*/
+
+void result_clear_all(void)
+{
+    my_deldir("\\ROOT\\RESULT");//删除结果目录
+    
+    if(sys_par.used_res_num == 0
+        && sys_par.pass_res_num == 0
+        && sys_par.cover_res_num == 0)
+    {
+        return;
+    }
+    
+    sys_par.used_res_num = 0;
+    sys_par.pass_res_num = 0;
+    sys_par.cover_res_num = 0;
+    save_sys_par();
+}
 /**
   * @brief  创建结果管理窗口
   * @param  [in] pMsg 窗口消息

@@ -19,6 +19,8 @@ typedef struct{
   * @brief  SCPI段与对应的数字编号，其中SCPI段支持重码，例如：
   * "CONT"          , C_CONTRAST,
   * "CONT"          , C_CONTROL,
+  * "PASS"          , C_PASS,
+  * "PASS"          , C_PASSWORD,
   */
 static const CMD_SEGMENT_T scpi_segment_pool[]=
 {
@@ -118,6 +120,7 @@ static const CMD_SEGMENT_T scpi_segment_pool[]=
     "OCOV"          , C_OCOVER,
     "OCOVer"        , C_OCOVER,
     "PASS"          , C_PASS,
+    "PASS"          , C_PASSWORD,
     "PASSword"      , C_PASSWORD,
     "PHV"           , C_PHV,
     "PORT"          , C_PORT,
@@ -276,7 +279,7 @@ static const SCPI_CMD scpi_cmd_pool[]=
     {{C_STEP,C_DCW,C_PORT}      , _WR, IGNORE_PAR_NUM, step_dcw_port_scpi_dispose_fun},
     /* IR */
     {{C_STEP,C_IR,C_VOLTAGE}    , _WR, 1, step_ir_voltage_scpi_dispose_fun},
-    {{C_STEP,C_IR,C_ARANGE}     , _WR, 1, step_ir_range_scpi_dispose_fun},
+    {{C_STEP,C_IR,C_ARANGE}     , _WR, 1, step_ir_arange_scpi_dispose_fun},
     {{C_STEP,C_IR,C_HIGH}       , _WR, 1, step_ir_high_scpi_dispose_fun},
     {{C_STEP,C_IR,C_LOW}        , _WR, 1, step_ir_low_scpi_dispose_fun},
     {{C_STEP,C_IR,C_RTIME}      , _WR, 1, step_ir_rtime_scpi_dispose_fun},
@@ -295,13 +298,13 @@ static const SCPI_CMD scpi_cmd_pool[]=
     {{C_STEP,C_GR,C_PSIGNAL}    , _WR, 1, step_gr_psignal_scpi_dispose_fun},
     {{C_STEP,C_GR,C_CNEXT}      , _WR, 1, step_gr_cnext_scpi_dispose_fun},
     /* 结果指令集 */
-    {{C_RESULT,C_CAPACITY,C_USED}   , _WR, 1, result_cap_used_scpi_dispose_fun},
-    {{C_RESULT,C_CAPACITY,C_FREE}   , _WR, 1, result_cap_free_scpi_dispose_fun},
-    {{C_RESULT,C_CAPACITY,C_ALL}    , _WR, 1, result_cap_all_scpi_dispose_fun},
-    {{C_RESULT,C_CAPACITY,C_PASS}   , _WR, 1, result_cap_pass_scpi_dispose_fun},
-    {{C_RESULT,C_CAPACITY,C_FAIL}   , _WR, 1, result_cap_fail_scpi_dispose_fun},
-    {{C_RESULT,C_CLEAR,C_ALL}       , _WR, 1, result_clear_all_scpi_dispose_fun},
-    {{C_RESULT,C_FETCH,C_SINGLE}    , _WR, 1, result_fetch_single_scpi_dispose_fun},
+    {{C_RESULT,C_CAPACITY,C_USED}   , __R, 0, result_cap_used_scpi_dispose_fun},
+    {{C_RESULT,C_CAPACITY,C_FREE}   , __R, 0, result_cap_free_scpi_dispose_fun},
+    {{C_RESULT,C_CAPACITY,C_ALL}    , __R, 0, result_cap_all_scpi_dispose_fun},
+    {{C_RESULT,C_CAPACITY,C_PASS}   , __R, 0, result_cap_pass_scpi_dispose_fun},
+    {{C_RESULT,C_CAPACITY,C_FAIL}   , __R, 0, result_cap_fail_scpi_dispose_fun},
+    {{C_RESULT,C_CLEAR,C_ALL}       , E__, 0, result_clear_all_scpi_dispose_fun},
+    {{C_RESULT,C_FETCH,C_SINGLE}    , __R, 1, result_fetch_single_scpi_dispose_fun},
     {{C_RESULT,C_DUT,C_NAME}        , _WR, 1, result_dut_name_scpi_dispose_fun},
     /* 系统指令集 */
     {{C_SYSTEM,C_SCREEN,C_CONTRAST} , _WR, 1, sys_screen_contrast_scpi_dispose_fun},
@@ -318,9 +321,9 @@ static const SCPI_CMD scpi_cmd_pool[]=
     {{C_SYSTEM,C_LANGUAGE}          , _WR, 1, sys_language_scpi_dispose_fun},
     {{C_SYSTEM,C_FCONTINUE}         , _WR, 1, sys_fcontinue_scpi_dispose_fun},
     {{C_SYSTEM,C_KEY,C_KLOCK}       , _WR, 1, sys_klock_scpi_dispose_fun},
-    {{C_SYSTEM,C_KEY,C_PASSWORD,C_NEW}, _WR, 1, sys_password_new_scpi_dispose_fun},
-    {{C_SYSTEM,C_KEY,C_PASSWORD,C_NOW}, _WR, 1, sys_password_now_scpi_dispose_fun},
-    {{C_SYSTEM,C_TIME}              , _WR, 1, sys_time_scpi_dispose_fun},
+    {{C_SYSTEM,C_KEY,C_PASSWORD,C_NEW}, _W_, 2, sys_password_new_scpi_dispose_fun},
+    {{C_SYSTEM,C_KEY,C_PASSWORD,C_NOW}, __R, 0, sys_password_now_scpi_dispose_fun},
+    {{C_SYSTEM,C_TIME}              , _WR, 6, sys_time_scpi_dispose_fun},
     {{C_SYSTEM,C_NRULE}             , _WR, 1, sys_nrule_scpi_dispose_fun},
 };
 /**

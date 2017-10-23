@@ -80,7 +80,7 @@ static SCPI_ERR_T split_scpi_par(uint8_t *scpi_cmd, uint8_t *par[], uint8_t *lay
         }
         else
         {
-            return SCPI_UNDEFINED_HEADER;
+            return SCPI_INVALID_STRING_DATA;
         }
     }
     
@@ -160,7 +160,7 @@ static SCPI_ERR_T split_scpi_cmd(uint8_t *scpi_cmd, uint8_t *cmd[], uint8_t *lay
         }
         else if(scpi_cmd[i] == ':')
         {
-            if(j >= MAX_SCPI_CMD_NUM)
+            if(j >= MAX_SCPI_CMD_LAYER)
             {
                 return SCPI_UNDEFINED_HEADER;
             }
@@ -217,7 +217,7 @@ static SCPI_ERR_T scpi_server_receive_new_frame(uint8_t *scpi_cmd, uint32_t len)
     }
     else
     {
-        return SCPI_UNDEFINED_HEADER;
+        return SCPI_SYNTAX_ERROR;
     }
     
     return SCPI_NO_ERROR;
@@ -265,8 +265,8 @@ static uint8_t count_check_num(uint8_t *data)
   */
 static SCPI_ERR_T check_scpi_cmd_validity(const SCPI_CMD *cmd, SCPI_DIS_FUN_PAR *par)
 {
-    if(cmd->att == E__ || cmd->att == _W_ || cmd->att == __R
-        || (cmd->att == _WR && par->type == SCPI_EXE))
+    /* 只执行，只写、只读类指令对参数个数进行检查。 */
+    if(cmd->att == E__ || cmd->att == _W_ || cmd->att == __R)
     {
         if(cmd->par_num != IGNORE_PAR_NUM)
         {
@@ -296,12 +296,26 @@ static SCPI_ERR_T check_scpi_cmd_validity(const SCPI_CMD *cmd, SCPI_DIS_FUN_PAR 
         }
     }
     
-    /* 对于读写属性的指令，当是读指令时是不允许带参数的 */
-    if(cmd->att == _WR && par->type == SCPI_QUERY)
+    /* 读写类指令只对写指令时的参数进行检查 对于读写属性的指令，当是读指令时是不允许带参数的 */
+    if(cmd->att == _WR && cmd->par_num != IGNORE_PAR_NUM)
     {
-        if(par->argc > 0)
+        if(par->type == SCPI_EXE)
         {
-            return SCPI_SYNTAX_ERROR;
+            if(par->argc > cmd->par_num)
+            {
+                return SCPI_SYNTAX_ERROR;
+            }
+            else if(par->argc < cmd->par_num)
+            {
+                return SCPI_MISSING_PARAMETER;
+            }
+        }
+        else
+        {
+            if(par->argc > 0)
+            {
+                return SCPI_SYNTAX_ERROR;
+            }
         }
     }
     
@@ -318,8 +332,8 @@ static SCPI_ERR_T check_scpi_cmd_validity(const SCPI_CMD *cmd, SCPI_DIS_FUN_PAR 
 static SCPI_ERR_T scpi_receive_dispose_(uint8_t *frame, uint32_t len,
                                 uint8_t *ask_frame, uint8_t *ask_len)
 {
-    uint8_t *cmd[MAX_SCPI_CMD_NUM] = {0};
-    uint32_t cmd_count[MAX_SCPI_CMD_NUM] = {0};
+    uint8_t *cmd[MAX_SCPI_CMD_LAYER] = {0};
+    uint32_t cmd_count[MAX_SCPI_CMD_LAYER] = {0};
     uint8_t *par[MAX_SCPI_PAR_NUM] = {0};
     uint8_t *p_par = NULL;//参数字符串
     uint8_t layer = 0;

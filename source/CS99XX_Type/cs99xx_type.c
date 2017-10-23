@@ -315,31 +315,45 @@ CS_BOOL check_mode_validity(uint8_t mode)
     
 	if(MODEL_EN & __ACW)
 	{
-		cs_bool = (mode == ACW)? CS_TRUE:CS_FALSE;
+       if(mode == ACW)
+       {
+           cs_bool = CS_TRUE;
+       }
 	}
-	else if(MODEL_EN & __DCW)
+    if(MODEL_EN & __DCW)
 	{
-		cs_bool = (mode == DCW)? CS_TRUE:CS_FALSE;
+       if(mode == DCW)
+       {
+           cs_bool = CS_TRUE;
+       }
 	}
-	else if(MODEL_EN & __IR)
+    if(MODEL_EN & __IR)
 	{
-		cs_bool = (mode == IR)? CS_TRUE:CS_FALSE;
+       if(mode == IR)
+       {
+           cs_bool = CS_TRUE;
+       }
 	}
-	else if( MODEL_EN & __GR)
+    if( MODEL_EN & __GR)
 	{
-		cs_bool = (mode == GR)? CS_TRUE:CS_FALSE;
+       if(mode == GR)
+       {
+           cs_bool = CS_TRUE;
+       }
 	}
-	else if(MODEL_EN & __BBD)
+    if(MODEL_EN & __BBD)
 	{
-		cs_bool = (mode == BBD)? CS_TRUE:CS_FALSE;
+       if(mode == BBD)
+       {
+           cs_bool = CS_TRUE;
+       }
 	}
-	else if(MODEL_EN & __CC)
+    if(MODEL_EN & __CC)
 	{
-		cs_bool = (mode == CC)? CS_TRUE:CS_FALSE;
-	}
-	else
-	{
-        cs_bool = CS_FALSE;
+       if(mode == CC)
+       {
+           cs_bool = CS_TRUE;
+       }
 	}
     
 	return cs_bool;
@@ -888,41 +902,67 @@ uint8_t get_max_cur_gear(uint8_t mode)
 
 CS_BOOL check_range_validity(uint8_t mode, uint8_t range)
 {
+    CS_BOOL flag = CS_FALSE;
+    
 	switch(mode)
 	{
 		case ACW:
         {
 			if(type_spe.acw_gear & _AC_2A)
 			{
-				return (range == AC_2A)? CS_TRUE:CS_FALSE;
+                if(range == AC_2A)
+                {
+                    flag = CS_TRUE;
+                }
 			}
-			else if(type_spe.acw_gear & _AC_200mA)
+            if(type_spe.acw_gear & _AC_200mA)
 			{
-				return (range == AC_200mA)? CS_TRUE:CS_FALSE;
+                if(range == AC_200mA)
+                {
+                    flag = CS_TRUE;
+                }
 			}
-			else if(type_spe.acw_gear & _AC_100mA)
+            if(type_spe.acw_gear & _AC_100mA)
 			{
-				return (range == AC_100mA)? CS_TRUE:CS_FALSE;
+                if(range == AC_100mA)
+                {
+                    flag = CS_TRUE;
+                }
 			}
-			else if(type_spe.acw_gear & _AC_50mA)
+            if(type_spe.acw_gear & _AC_50mA)
 			{
-				return (range == AC_50mA)? CS_TRUE:CS_FALSE;
+                if(range == AC_50mA)
+                {
+                    flag = CS_TRUE;
+                }
 			}
-			else if(type_spe.acw_gear & _AC_20mA)
+            if(type_spe.acw_gear & _AC_20mA)
 			{
-				return (range == AC_20mA)? CS_TRUE:CS_FALSE;
+                if(range == AC_20mA)
+                {
+                    flag = CS_TRUE;
+                }
 			}
-			else if(type_spe.acw_gear & _AC_10mA)
+            if(type_spe.acw_gear & _AC_10mA)
 			{
-				return (range == AC_10mA)? CS_TRUE:CS_FALSE;
+                if(range == AC_10mA)
+                {
+                    flag = CS_TRUE;
+                }
 			}
-			else if(type_spe.acw_gear & _AC_2mA)
+            if(type_spe.acw_gear & _AC_2mA)
 			{
-				return (range == AC_2mA)? CS_TRUE:CS_FALSE;
+                if(range == AC_2mA)
+                {
+                    flag = CS_TRUE;
+                }
 			}
-			else if(type_spe.acw_gear & _AC_200uA)
+            if(type_spe.acw_gear & _AC_200uA)
 			{
-				return (range == AC_200uA)? CS_TRUE:CS_FALSE;
+                if(range == AC_200uA)
+                {
+                    flag = CS_TRUE;
+                }
 			}
             
             break;
@@ -931,42 +971,66 @@ CS_BOOL check_range_validity(uint8_t mode, uint8_t range)
         {
 			if(type_spe.dcw_gear & _DC_100mA)
 			{
-				return (range == DC_100mA)? CS_TRUE:CS_FALSE;
+                if(range == DC_100mA)
+                {
+                    flag = CS_TRUE;
+                }
 			}
-			else if(type_spe.dcw_gear & _DC_50mA)
+            if(type_spe.dcw_gear & _DC_50mA)
 			{
-				return (range == DC_50mA)? CS_TRUE:CS_FALSE;
+                if(range == DC_50mA)
+                {
+                    flag = CS_TRUE;
+                }
 			}
-			else if(type_spe.dcw_gear & _DC_20mA)
+            if(type_spe.dcw_gear & _DC_20mA)
 			{
-				return (range == DC_20mA)? CS_TRUE:CS_FALSE;
+                if(range == DC_20mA)
+                {
+                    flag = CS_TRUE;
+                }
 			}
-			else if(type_spe.dcw_gear & _DC_10mA)
+            if(type_spe.dcw_gear & _DC_10mA)
 			{
-				return (range == DC_10mA)? CS_TRUE:CS_FALSE;
+                if(range == DC_10mA)
+                {
+                    flag = CS_TRUE;
+                }
 			}
-			else if(type_spe.dcw_gear & _DC_2mA)
+            if(type_spe.dcw_gear & _DC_2mA)
 			{
-				return (range == DC_2mA)? CS_TRUE:CS_FALSE;
+                if(range == DC_2mA)
+                {
+                    flag = CS_TRUE;
+                }
 			}
-			else if(type_spe.dcw_gear & _DC_200uA)
+            if(type_spe.dcw_gear & _DC_200uA)
 			{
-				return (range == DC_200uA)? CS_TRUE:CS_FALSE;
+                if(range == DC_200uA)
+                {
+                    flag = CS_TRUE;
+                }
 			}
-			else if(type_spe.dcw_gear & _DC_20uA)
+            if(type_spe.dcw_gear & _DC_20uA)
 			{
-				return (range == DC_20uA)? CS_TRUE:CS_FALSE;
+                if(range == DC_20uA)
+                {
+                    flag = CS_TRUE;
+                }
 			}
-			else if(type_spe.dcw_gear & _DC_2uA)
+            if(type_spe.dcw_gear & _DC_2uA)
 			{
-				return (range == DC_2uA)? CS_TRUE:CS_FALSE;
+                if(range == DC_2uA)
+                {
+                    flag = CS_TRUE;
+                }
 			}
             
             break;
         }
 	}
     
-	return CS_FALSE;
+	return flag;
 }
 uint32_t define_hz_kinds(uint8_t mode, const uint8_t** gear_buf, uint8_t *flag)
 {

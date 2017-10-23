@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    scpi_cmd_def.c
+  * @file    scpi_cmd_def.h
   * @author  王鑫
   * @version V1.0.0
   * @date    2017.10.13
@@ -127,7 +127,7 @@ typedef enum {
     SCPI_EXECUTE_NOT_ALLOWED    ,   /*指令执行不允许，在当前状态下，不允许执行指令*/
     SCPI_PARAMETER_NOT_ALLOWED  ,   /*接收到指令不允许的参数*/
     SCPI_MISSING_PARAMETER      ,   /*指令中遗漏了参数*/
-    SCPI_UNDEFINED_HEADER       ,   /*未定义的指令投*/
+    SCPI_UNDEFINED_HEADER       ,   /*未定义的指令头*/
     SCPI_PARAMETER_TYPE_ERROR   ,   /*参数类型错误*/
     SCPI_INVALID_STRING_DATA    ,   /*不允许的字符串参数*/
     SCPI_EXECUTE_TIME_OUT       ,   /*执行超时*/
@@ -141,7 +141,7 @@ typedef enum{
 }SCPI_CMD_TYPE;
 
 #define MAX_SCPI_PAR_NUM    50 ///<SCPI指令可以携带的最大参数个数
-#define MAX_SCPI_CMD_NUM    4  ///<SCPI指令可以包含的最大指令级数
+#define MAX_SCPI_CMD_LAYER    4  ///<SCPI指令可以包含的最大指令级数
 typedef struct{
     uint8_t **argv;///<SCPI指令处理函数携带的参数
     uint8_t argc;///<SCPI指令处理函数携带的参数个数
@@ -161,7 +161,7 @@ typedef enum{
                                 且参数个数不确定等使用
 
 typedef struct{
-    uint8_t cmd[MAX_SCPI_CMD_NUM];///<4级指令
+    uint8_t cmd[MAX_SCPI_CMD_LAYER];///<4级指令
     SCPI_ATTRIBUTE att;///<指令属性
     uint8_t par_num;///<参数个数 如果为 IGNORE_PAR_NUM 则为自定义参数个数，程序不会自动检查参数个数的合法性
     SCPI_ERR_T (*dispose_fun)(SCPI_DIS_FUN_PAR *par);///<处理函数

@@ -3078,7 +3078,7 @@ CS_BOOL all_road_test_over(void)
     {
         if(++timeout_count > 5)
         {
-//            return CS_TRUE;
+            return CS_TRUE;
         }
     }
     else if(over_count == 0)

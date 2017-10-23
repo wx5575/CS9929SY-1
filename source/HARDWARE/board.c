@@ -65,10 +65,10 @@ void bsp_init(void)
     RCC_GetClocksFreq(&clock);//获取时钟频率
     
     /* 串口配置 */
-    usart1_config(115200 * 6);
-    usart2_config(115200 * 6);
-    usart3_config(115200 * 6);
-    uart4_config (115200 * 6);
+    usart1_config(115200 * 1);
+    usart2_config(115200 * 1);
+    usart3_config(115200 * 1);
+    uart4_config (115200 * 1);
     usart6_config (9600);
 }
 

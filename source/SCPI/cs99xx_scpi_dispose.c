@@ -1,4 +1,12 @@
-
+/**
+  ******************************************************************************
+  * @file    cs99xx_scpi_dispose.c
+  * @author  王鑫
+  * @version V1.0.0
+  * @date    2017.10.23
+  * @brief   SCPI指令处理函数定义
+  ******************************************************************************
+  */
 #include "string.h"
 #include "stdio.h"
 #include "cs99xx_struct.h"
@@ -16,6 +24,7 @@
 #include "stdlib.h"
 #include "ui_comm_api.h"
 #include "running_test.h"
+#include "rtc_config.h"
 
 
 SCPI_ERR_T idn_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
@@ -561,7 +570,7 @@ SCPI_ERR_T source_list_sindex_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
     return SCPI_NO_ERROR;
 }
 
-void transition_work_port(uint8_t *buf, WORK_PORT *port)
+static void transition_work_port(uint8_t *buf, WORK_PORT *port)
 {
     uint16_t *p_16;
     int32_t i = 0;
@@ -764,7 +773,7 @@ SCPI_ERR_T source_list_mode_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
     return SCPI_NO_ERROR;
 }
 /* 步骤指令集 */
-SCPI_ERR_T step_insert_for_comm(uint8_t mode)
+static SCPI_ERR_T step_insert_for_comm(uint8_t mode)
 {
     STEP_NUM step;
     uint8_t t_mode;
@@ -860,7 +869,6 @@ typedef enum{
     MOVE_SWAP,///<交换
 }MOVE_STEP_DIRECTION_T;
 
-
 static SCPI_ERR_T step_move_for_comm(MOVE_STEP_DIRECTION_T dir, STEP_NUM sw_step)
 {
     STEP_NUM one;
@@ -937,7 +945,7 @@ SCPI_ERR_T step_interchange_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
     return step_move_for_comm(MOVE_SWAP, sw_step);
 }
 
-void set_step_par_for_comm(void)
+static void set_step_par_for_comm(void)
 {
     save_one_step(g_cur_step, g_cur_file->num, g_cur_step->one_step.com.step);
     load_data();
@@ -945,7 +953,7 @@ void set_step_par_for_comm(void)
     
     send_cmd_to_all_module((void*)g_cur_step, sizeof(NODE_STEP), send_edit_step);
 }
-SCPI_ERR_T step_mode_for_comm(uint8_t mode)
+static SCPI_ERR_T step_mode_for_comm(uint8_t mode)
 {
     /* 测试模式改变了 */
     if(g_cur_step->one_step.com.mode != mode)
@@ -988,7 +996,7 @@ SCPI_ERR_T step_mode_gr_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
     return step_mode_for_comm(GR);
 }
 
-SCPI_ERR_T count_par_dces(uint8_t *buf, uint8_t *dec)
+static SCPI_ERR_T count_par_dces(uint8_t *buf, uint8_t *dec)
 {
     uint8_t len = 0;
     int32_t i = 0;
@@ -1025,7 +1033,7 @@ SCPI_ERR_T count_par_dces(uint8_t *buf, uint8_t *dec)
     
     return SCPI_NO_ERROR;
 }
-SCPI_ERR_T check_mode_for_comm(uint8_t mode)
+static SCPI_ERR_T check_mode_for_comm(uint8_t mode)
 {
     if(mode != g_cur_step->one_step.com.mode)
     {
@@ -3047,174 +3055,978 @@ SCPI_ERR_T step_acw_port_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 /* DCW */
 SCPI_ERR_T step_dcw_voltage_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_voltage(par, DCW);
+    }
+    else
+    {
+        err = get_cur_step_voltage(par, DCW);
+    }
+    
+    return err;
 }
 SCPI_ERR_T step_dcw_range_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_range(par, DCW);
+    }
+    else
+    {
+        err = get_cur_step_range(par, DCW);
+    }
+    
+    return err;
 }
 SCPI_ERR_T step_dcw_high_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_high(par, DCW);
+    }
+    else
+    {
+        err = get_cur_step_high(par, DCW);
+    }
+    
+    return err;
 }
 SCPI_ERR_T step_dcw_low_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_low(par, DCW);
+    }
+    else
+    {
+        err = get_cur_step_low(par, DCW);
+    }
+    
+    return err;
+}
+static SCPI_ERR_T set_cur_step_ccurrent(SCPI_DIS_FUN_PAR *par, uint8_t mode)
+{
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint32_t charge = 0;
+    uint8_t dec = 0;
+    
+    err = count_par_dces(par->argv[0], &dec);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    charge = atof((const char*)par->argv[0]) * ten_power(dec);
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    switch(mode)
+    {
+        case DCW:
+        {
+            if(charge == g_cur_step->one_step.dcw.charge_cur)
+            {
+                return SCPI_NO_ERROR;
+            }
+            
+            if(charge > g_cur_step->one_step.dcw.upper_limit)
+            {
+                return SCPI_DATA_OUT_OF_RANGE;
+            }
+            
+            g_cur_step->one_step.dcw.charge_cur = charge;
+            break;
+        }
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    set_step_par_for_comm();
+    
     return SCPI_NO_ERROR;
 }
+
+static SCPI_ERR_T get_cur_step_ccurrent(SCPI_DIS_FUN_PAR *par, uint8_t mode)
+{
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint32_t charge = 0;
+    uint8_t gear = 0;
+    uint8_t format = 0;
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    switch(mode)
+    {
+        case DCW:
+            charge = g_cur_step->one_step.dcw.lower_limit;
+            gear = g_cur_step->one_step.dcw.range;
+            format = 100 + 50 + dc_gear[gear].dec;
+            break;
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    mysprintf(par->ask_data, NULL, format, charge);
+    
+    return SCPI_NO_ERROR;
+}
+
+
 SCPI_ERR_T step_dcw_ccurrent_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_ccurrent(par, DCW);
+    }
+    else
+    {
+        err = get_cur_step_ccurrent(par, DCW);
+    }
+    
+    return err;
 }
 SCPI_ERR_T step_dcw_arc_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_arc(par, DCW);
+    }
+    else
+    {
+        err = get_cur_step_arc(par, DCW);
+    }
+    
+    return err;
+}
+static SCPI_ERR_T set_cur_step_dtime(SCPI_DIS_FUN_PAR *par, uint8_t mode)
+{
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint32_t time = 0;
+    uint8_t dec = 0;
+    
+    err = count_par_dces(par->argv[0], &dec);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    time = atof((const char*)par->argv[0]) * ten_power(dec);
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    switch(mode)
+    {
+        case DCW:
+        {
+            if(g_cur_step->one_step.dcw.delay_time == time)
+            {
+                return SCPI_NO_ERROR;
+            }
+            
+            if(time > 9999 || (time > 0 && time < 3))
+            {
+                return SCPI_DATA_OUT_OF_RANGE;
+            }
+            
+            g_cur_step->one_step.dcw.delay_time = time;
+            break;
+        }
+        case IR:
+        {
+            if(g_cur_step->one_step.ir.delay_time == time)
+            {
+                return SCPI_NO_ERROR;
+            }
+            
+            if(time > 9999 || (time > 0 && time < 3))
+            {
+                return SCPI_DATA_OUT_OF_RANGE;
+            }
+            
+            g_cur_step->one_step.ir.delay_time = time;
+            break;
+        }
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    set_step_par_for_comm();
+    
     return SCPI_NO_ERROR;
 }
+static SCPI_ERR_T get_cur_step_dtime(SCPI_DIS_FUN_PAR *par, uint8_t mode)
+{
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint32_t time = 0;
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    switch(mode)
+    {
+        case DCW:
+            time = g_cur_step->one_step.dcw.delay_time;
+            break;
+        case IR:
+            time = g_cur_step->one_step.ir.delay_time;
+            break;
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    mysprintf(par->ask_data, NULL, 151, time);
+    
+    return SCPI_NO_ERROR;
+}
+
 SCPI_ERR_T step_dcw_dtime_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_dtime(par, DCW);
+    }
+    else
+    {
+        err = get_cur_step_dtime(par, DCW);
+    }
+    
+    return err;
 }
 SCPI_ERR_T step_dcw_rtime_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_rtime(par, DCW);
+    }
+    else
+    {
+        err = get_cur_step_rtime(par, DCW);
+    }
+    
+    return err;
 }
 SCPI_ERR_T step_dcw_ttime_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_ttime(par, DCW);
+    }
+    else
+    {
+        err = get_cur_step_ttime(par, DCW);
+    }
+    
+    return err;
 }
 SCPI_ERR_T step_dcw_ftime_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_ftime(par, DCW);
+    }
+    else
+    {
+        err = get_cur_step_ftime(par, DCW);
+    }
+    
+    return err;
 }
 SCPI_ERR_T step_dcw_itime_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_itime(par, DCW);
+    }
+    else
+    {
+        err = get_cur_step_itime(par, DCW);
+    }
+    
+    return err;
 }
 SCPI_ERR_T step_dcw_ctime_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_ctime(par, DCW);
+    }
+    else
+    {
+        err = get_cur_step_ctime(par, DCW);
+    }
+    
+    return err;
 }
 SCPI_ERR_T step_dcw_psignal_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_psignal(par, DCW);
+    }
+    else
+    {
+        err = get_cur_step_psignal(par, DCW);
+    }
+    
+    return err;
 }
 SCPI_ERR_T step_dcw_cnext_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_cnext(par, DCW);
+    }
+    else
+    {
+        err = get_cur_step_cnext(par, DCW);
+    }
+    
+    return err;
 }
 SCPI_ERR_T step_dcw_port_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_port(par, DCW);
+    }
+    else
+    {
+        err = get_cur_step_port(par, DCW);
+    }
+    
+    return err;
 }
 /* IR */
 SCPI_ERR_T step_ir_voltage_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_voltage(par, IR);
+    }
+    else
+    {
+        err = get_cur_step_voltage(par, IR);
+    }
+    
+    return err;
+}
+static SCPI_ERR_T set_cur_step_arange(SCPI_DIS_FUN_PAR *par, uint8_t mode)
+{
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint8_t arange = 0;
+    
+    err = check_sw_par(par->argv[0], &arange);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    switch(mode)
+    {
+        case IR:
+        {
+            if(g_cur_step->one_step.ir.auto_shift == arange)
+            {
+                return SCPI_NO_ERROR;
+            }
+            
+            g_cur_step->one_step.ir.auto_shift = arange;
+            break;
+        }
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    set_step_par_for_comm();
+    
     return SCPI_NO_ERROR;
 }
-SCPI_ERR_T step_ir_range_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
+
+
+static SCPI_ERR_T get_cur_step_arange(SCPI_DIS_FUN_PAR *par, uint8_t mode)
 {
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint8_t arange = 0;
+    
+    err = check_mode_for_comm(mode);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    switch(mode)
+    {
+        case IR:
+            arange = g_cur_step->one_step.ir.auto_shift;
+            break;
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    strcpy((char*)par->ask_data, arange==0?"0":"1");
+    
     return SCPI_NO_ERROR;
+}
+
+
+SCPI_ERR_T step_ir_arange_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
+{
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_arange(par, IR);
+    }
+    else
+    {
+        err = get_cur_step_arange(par, IR);
+    }
+    
+    return err;
 }
 SCPI_ERR_T step_ir_high_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_high(par, IR);
+    }
+    else
+    {
+        err = get_cur_step_high(par, IR);
+    }
+    
+    return err;
 }
 SCPI_ERR_T step_ir_low_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_low(par, IR);
+    }
+    else
+    {
+        err = get_cur_step_low(par, IR);
+    }
+    
+    return err;
 }
 SCPI_ERR_T step_ir_rtime_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_rtime(par, IR);
+    }
+    else
+    {
+        err = get_cur_step_rtime(par, IR);
+    }
+    
+    return err;
 }
 SCPI_ERR_T step_ir_ttime_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_ttime(par, IR);
+    }
+    else
+    {
+        err = get_cur_step_ttime(par, IR);
+    }
+    
+    return err;
 }
 SCPI_ERR_T step_ir_dtime_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_dtime(par, IR);
+    }
+    else
+    {
+        err = get_cur_step_dtime(par, IR);
+    }
+    
+    return err;
 }
 SCPI_ERR_T step_ir_itime_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_itime(par, IR);
+    }
+    else
+    {
+        err = get_cur_step_itime(par, IR);
+    }
+    
+    return err;
 }
 SCPI_ERR_T step_ir_psignal_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_psignal(par, IR);
+    }
+    else
+    {
+        err = get_cur_step_psignal(par, IR);
+    }
+    
+    return err;
 }
 SCPI_ERR_T step_ir_cnext_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_cnext(par, IR);
+    }
+    else
+    {
+        err = get_cur_step_cnext(par, IR);
+    }
+    
+    return err;
 }
 SCPI_ERR_T step_ir_port_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_port(par, IR);
+    }
+    else
+    {
+        err = get_cur_step_port(par, IR);
+    }
+    
+    return err;
 }
 /* GR */
 SCPI_ERR_T step_gr_current_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_voltage(par, GR);
+    }
+    else
+    {
+        err = get_cur_step_voltage(par, GR);
+    }
+    
+    return err;
 }
 SCPI_ERR_T step_gr_high_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_high(par, GR);
+    }
+    else
+    {
+        err = get_cur_step_high(par, GR);
+    }
+    
+    return err;
 }
 SCPI_ERR_T step_gr_low_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_low(par, GR);
+    }
+    else
+    {
+        err = get_cur_step_low(par, GR);
+    }
+    
+    return err;
 }
 SCPI_ERR_T step_gr_ttime_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_ttime(par, GR);
+    }
+    else
+    {
+        err = get_cur_step_ttime(par, GR);
+    }
+    
+    return err;
 }
 SCPI_ERR_T step_gr_itime_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_itime(par, GR);
+    }
+    else
+    {
+        err = get_cur_step_itime(par, GR);
+    }
+    
+    return err;
 }
 SCPI_ERR_T step_gr_psignal_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_psignal(par, GR);
+    }
+    else
+    {
+        err = get_cur_step_psignal(par, GR);
+    }
+    
+    return err;
 }
 SCPI_ERR_T step_gr_cnext_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = set_cur_step_cnext(par, GR);
+    }
+    else
+    {
+        err = get_cur_step_cnext(par, GR);
+    }
+    
+    return err;
 }
 /* 结果指令集 */
 SCPI_ERR_T result_cap_used_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    sprintf((char*)par->ask_data, "%d", sys_par.used_res_num);
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T result_cap_free_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    uint32_t total_res = 0;
+    
+    total_res = get_result_max_num();
+    sprintf((char*)par->ask_data, "%d", total_res - sys_par.used_res_num);
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T result_cap_all_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    uint32_t total_res = 0;
+    
+    total_res = get_result_max_num();
+    sprintf((char*)par->ask_data, "%d", total_res);
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T result_cap_pass_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    sprintf((char*)par->ask_data, "%d", sys_par.pass_res_num);
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T result_cap_fail_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    sprintf((char*)par->ask_data, "%d", sys_par.used_res_num - sys_par.pass_res_num);
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T result_clear_all_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    result_clear_all();
+    return SCPI_NO_ERROR;
+}
+
+static SCPI_ERR_T transform_one_res_to_str(uint8_t *res_str, RESULT_INF *res)
+{
+    uint8_t buf[20] = {0};
+    uint8_t range = 0;
+    uint8_t format = 0;
+    
+    sprintf((char*)res_str, "%s,%02d,%02d,%s,%d,%s,",
+                res->product_code,
+                res->par.step,
+                res->par.total_step,
+                res->par.work_mode == G_MODE?"G":"N",
+                res->par.mode - 1,
+                res->par.file_name);
+                
+    switch(res->par.mode)
+    {
+        case ACW:
+            mysprintf(buf, NULL, 153, res->test_data.un.acw.vol);
+            strcat((char*)res_str, (const char*)buf);
+            strcat((char*)res_str, ",");
+            range = res->test_data.un.acw.range;
+            sprintf((char*)buf, "%d,", ac_gear[range].comm);
+            strcat((char*)res_str, (const char*)buf);
+            format = 100 + 50 + ac_gear[range].dec;
+            mysprintf(buf, NULL, format, res->test_data.un.acw.cur);
+            strcat((char*)res_str, (const char*)buf);
+            strcat((char*)res_str, ",");
+            if(res->test_data.un.acw.real > 0)
+            {
+                mysprintf(buf, NULL, format, res->test_data.un.acw.real);
+            }
+            else
+            {
+                strcpy((char*)buf, "-----");
+            }
+            strcat((char*)res_str, (const char*)buf);
+            strcat((char*)res_str, ",");
+            break;
+        case DCW:
+            mysprintf(buf, NULL, 153, res->test_data.un.dcw.vol);
+            strcat((char*)res_str, (const char*)buf);
+            strcat((char*)res_str, ",");
+            range = res->test_data.un.dcw.range;
+            sprintf((char*)buf, "%d,", dc_gear[range].comm);
+            strcat((char*)res_str, (const char*)buf);
+            format = 100 + 50 + dc_gear[range].dec;
+            mysprintf(buf, NULL, format, res->test_data.un.dcw.cur);
+            strcat((char*)res_str, (const char*)buf);
+            strcat((char*)res_str, ",");
+            strcat((char*)res_str, "-----");
+            strcat((char*)res_str, ",");
+            break;
+        case IR:
+            mysprintf(buf, NULL, 153, res->test_data.un.ir.vol);
+            strcat((char*)res_str, (const char*)buf);
+            strcat((char*)res_str, ",");
+            range = res->test_data.un.ir.range;
+            sprintf((char*)buf, "%d,", ir_gear[range].comm);
+            strcat((char*)res_str, (const char*)buf);
+            format = 100 + 50 + ir_gear[range].dec;
+            mysprintf(buf, NULL, format, res->test_data.un.ir.res);
+            strcat((char*)res_str, (const char*)buf);
+            strcat((char*)res_str, ",");
+            strcat((char*)res_str, "-----");
+            strcat((char*)res_str, ",");
+            break;
+        case GR:
+            mysprintf(buf, NULL, 153, res->test_data.un.gr.cur);
+            strcat((char*)res_str, (const char*)buf);
+            strcat((char*)res_str, ",");
+            format = 100 + 50 + 1;
+            mysprintf(buf, NULL, format, res->test_data.un.gr.res);
+            strcat((char*)res_str, (const char*)buf);
+            strcat((char*)res_str, ",");
+            strcat((char*)res_str, "-----");
+            strcat((char*)res_str, ",");
+            break;
+        default:
+            return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    mysprintf(buf, NULL, 151, res->test_data.test_time);
+    strcat((char*)res_str, (const char*)buf);
+    strcat((char*)res_str, ",");
+    strcat((char*)res_str, res->test_data.test_result==ST_PASS? "P":"F");
+    strcat((char*)res_str, ",");
+    turn_rtc_date_str(res->test_data.record_date, buf);
+    strcat((char*)res_str, (const char*)buf);
+    strcat((char*)res_str, " ");
+    turn_rtc_time_str(res->test_data.record_time, buf);
+    strcat((char*)res_str, (const char*)buf);
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T result_fetch_single_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
-    return SCPI_NO_ERROR;
+    SCPI_ERR_T err;
+    uint32_t result_count = 0;
+    RESULT_INF res;
+    CS_ERR cs_err;
+    
+    err = check_int_par(par->argv[0]);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    result_count = atoi((const char*)par->argv[0]);
+    
+    if(result_count > sys_par.used_res_num)
+    {
+        return SCPI_DATA_OUT_OF_RANGE;
+    }
+    
+    read_one_result(result_count, &res, &cs_err);
+    
+    if(cs_err != CS_ERR_NONE)
+    {
+        return SCPI_EXECUTE_NOT_ALLOWED;
+    }
+    
+    err = transform_one_res_to_str(par->ask_data, &res);
+    
+    return err;
 }
 SCPI_ERR_T result_dut_name_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    uint8_t len = 0;
+    
+    len = strlen((const char*)par->argv[0]);
+    
+    if(par->type == SCPI_EXE)
+    {
+        if(len > NAME_LON)
+        {
+            return SCPI_INVALID_STRING_DATA;
+        }
+        
+        if(len <= 2 || par->argv[0][0] != '"' || par->argv[0][len - 1] != '"')
+        {
+            return SCPI_INVALID_STRING_DATA;
+        }
+        
+        if(0 == memcmp(sys_par.dut_name, &par->argv[0][1], len - 2))
+        {
+            return SCPI_NO_ERROR;
+        }
+        
+        memset(sys_par.dut_name, 0, sizeof(sys_par.dut_name));
+        strncpy((char*)sys_par.dut_name, (const char*)&par->argv[0][1], len - 2);
+        save_sys_par();
+    }
+    else
+    {
+        strcpy((char*)par->ask_data, (const char*)sys_par.dut_name);
+    }
+    
     return SCPI_NO_ERROR;
 }
 /* 系统指令集 */
 SCPI_ERR_T sys_screen_contrast_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint8_t value = 0;
+    
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = check_int_par(par->argv[0]);
+        
+        if(err != SCPI_NO_ERROR)
+        {
+            return err;
+        }
+        
+        value = atoi((const char*)par->argv[0]);
+        
+        if(value < 1 || value > 9)
+        {
+            return SCPI_DATA_OUT_OF_RANGE;
+        }
+        
+        if(sys_par.contrast == value)
+        {
+            return SCPI_NO_ERROR;
+        }
+        
+        sys_par.contrast = value;
+        save_sys_par();
+    }
+    else
+    {
+        sprintf((char*)par->ask_data, "%d", sys_par.contrast);
+    }
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T sys_beeper_volume_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
@@ -3223,38 +4035,257 @@ SCPI_ERR_T sys_beeper_volume_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 }
 SCPI_ERR_T sys_rhint_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint8_t value = 0;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = check_int_par(par->argv[0]);
+        
+        if(err != SCPI_NO_ERROR)
+        {
+            return err;
+        }
+        
+        value = atoi((const char*)par->argv[0]);
+        
+        if(value > 9)
+        {
+            return SCPI_DATA_OUT_OF_RANGE;
+        }
+        
+        if(sys_par.allowance == value)
+        {
+            return SCPI_NO_ERROR;
+        }
+        
+        sys_par.allowance = value;
+        save_sys_par();
+    }
+    else
+    {
+        sprintf((char*)par->ask_data, "%d", sys_par.allowance);
+    }
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T sys_rsave_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint8_t value = 0;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = check_sw_par(par->argv[0], &value);
+        
+        if(err != SCPI_NO_ERROR)
+        {
+            return err;
+        }
+        
+        if(sys_par.is_save_res == value)
+        {
+            return SCPI_NO_ERROR;
+        }
+        
+        sys_par.is_save_res = value;
+        save_sys_par();
+    }
+    else
+    {
+        sprintf((char*)par->ask_data, "%d", sys_par.is_save_res);
+    }
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T sys_ocover_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint8_t value = 0;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = check_sw_par(par->argv[0], &value);
+        
+        if(err != SCPI_NO_ERROR)
+        {
+            return err;
+        }
+        
+        if(sys_par.is_overflow_cover == value)
+        {
+            return SCPI_NO_ERROR;
+        }
+        
+        sys_par.is_overflow_cover = value;
+        save_sys_par();
+    }
+    else
+    {
+        sprintf((char*)par->ask_data, "%d", sys_par.is_overflow_cover);
+    }
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T sys_gfi_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint8_t value = 0;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = check_sw_par(par->argv[0], &value);
+        
+        if(err != SCPI_NO_ERROR)
+        {
+            return err;
+        }
+        
+        if(sys_par.is_gfi_protect == value)
+        {
+            return SCPI_NO_ERROR;
+        }
+        
+        sys_par.is_gfi_protect = value;
+        save_sys_par();
+    }
+    else
+    {
+        sprintf((char*)par->ask_data, "%d", sys_par.is_gfi_protect);
+    }
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T sys_phv_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
     return SCPI_NO_ERROR;
 }
+static SCPI_ERR_T check_tsignal_par(uint8_t *argv, uint8_t *value)
+{
+    if(0 == strcmp((const char*)argv, "TEVel") || 0 == strcmp((const char*)argv, "1"))
+    {
+        *value = 1;
+    }
+    else if(0 == strcmp((const char*)argv, "DOT") || 0 == strcmp((const char*)argv, "0"))
+    {
+        *value = 0;
+    }
+    else
+    {
+        return SCPI_INVALID_STRING_DATA;
+    }
+    
+    return SCPI_NO_ERROR;
+}
+
 SCPI_ERR_T sys_tsignal_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint8_t value = 0;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = check_tsignal_par(par->argv[0], &value);
+        
+        if(err != SCPI_NO_ERROR)
+        {
+            return err;
+        }
+        
+        if(sys_par.test_level == value)
+        {
+            return SCPI_NO_ERROR;
+        }
+        
+        sys_par.test_level = value;
+        save_sys_par();
+    }
+    else
+    {
+        sprintf((char*)par->ask_data, "%d", sys_par.test_level);
+    }
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T sys_scheck_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint8_t value = 0;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = check_sw_par(par->argv[0], &value);
+        
+        if(err != SCPI_NO_ERROR)
+        {
+            return err;
+        }
+        
+        if(sys_par.is_self_check == value)
+        {
+            return SCPI_NO_ERROR;
+        }
+        
+        sys_par.is_self_check = value;
+        save_sys_par();
+    }
+    else
+    {
+        sprintf((char*)par->ask_data, "%d", sys_par.is_self_check);
+    }
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T sys_chint_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
     return SCPI_NO_ERROR;
 }
+
+static SCPI_ERR_T check_tport_par(uint8_t *argv, uint8_t *value)
+{
+    if(0 == strcmp((const char*)argv, "GND") || 0 == strcmp((const char*)argv, "1"))
+    {
+        *value = 1;
+    }
+    else if(0 == strcmp((const char*)argv, "FLOat") || 0 == strcmp((const char*)argv, "0"))
+    {
+        *value = 0;
+    }
+    else
+    {
+        return SCPI_INVALID_STRING_DATA;
+    }
+    
+    return SCPI_NO_ERROR;
+}
+
 SCPI_ERR_T sys_tport_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint8_t value = 0;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = check_tport_par(par->argv[0], &value);
+        
+        if(err != SCPI_NO_ERROR)
+        {
+            return err;
+        }
+        
+        if(sys_par.test_method == value)
+        {
+            return SCPI_NO_ERROR;
+        }
+        
+        sys_par.test_method = value;
+        save_sys_par();
+    }
+    else
+    {
+        sprintf((char*)par->ask_data, "%d", sys_par.test_method);
+    }
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T sys_language_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
@@ -3264,18 +4295,16 @@ SCPI_ERR_T sys_language_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
     if(par->type == SCPI_EXE)
     {
         if(0 == strcmp((const char*)par->argv[0], "CHINese")
-            || 0 == strcmp((const char*)par->argv[0], "CHIN")
             || 0 == strcmp((const char*)par->argv[0], "1"))
         {
-            value = 0;
+            value = CHINESE;
         }
         else if(0 == strcmp((const char*)par->argv[0], "ENGLish")
-            || 0 == strcmp((const char*)par->argv[0], "ENGL")
             || 0 == strcmp((const char*)par->argv[0], "0"))
         {
-            value = 1;
+            value = ENGLISH;
         }
-        /* 参数不允许 */
+        /* 不允许的字符串参数 */
         else
         {
             return SCPI_INVALID_STRING_DATA;
@@ -3297,25 +4326,231 @@ SCPI_ERR_T sys_language_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 }
 SCPI_ERR_T sys_fcontinue_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint8_t value = 0;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = check_sw_par(par->argv[0], &value);
+        
+        if(err != SCPI_NO_ERROR)
+        {
+            return err;
+        }
+        
+        if(sys_par.is_falt_continue == value)
+        {
+            return SCPI_NO_ERROR;
+        }
+        
+        sys_par.is_falt_continue = value;
+        save_sys_par();
+    }
+    else
+    {
+        sprintf((char*)par->ask_data, "%d", sys_par.is_falt_continue);
+    }
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T sys_klock_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint8_t value = 0;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = check_sw_par(par->argv[0], &value);
+        
+        if(err != SCPI_NO_ERROR)
+        {
+            return err;
+        }
+        
+        if(sys_par.key_lock == value)
+        {
+            return SCPI_NO_ERROR;
+        }
+        
+        sys_par.key_lock = value;
+        save_sys_par();
+    }
+    else
+    {
+        sprintf((char*)par->ask_data, "%d", sys_par.key_lock);
+    }
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T sys_password_new_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint8_t len = 0;
+    
+    err = check_int_par(par->argv[1]);
+    
+    if(err != SCPI_NO_ERROR)
+    {
+        return err;
+    }
+    
+    len = strlen((const char*)par->argv[1]);
+    
+    /* 检查新密码长度 */
+    if(len > 8)
+    {
+        return SCPI_INVALID_STRING_DATA;
+    }
+    
+    /* 验证密码 */
+    if(0 != strcmp((const char*)sys_par.password, (const char*)par->argv[0]))
+    {
+        return SCPI_PARAMETER_NOT_ALLOWED;
+    }
+    
+    if(0 == strcmp((const char*)sys_par.password, (const char*)par->argv[1]))
+    {
+        return SCPI_NO_ERROR;
+    }
+    
+    /* 设置新密码 */
+    strcpy((char*)sys_par.password, (const char*)par->argv[1]);
+    save_sys_par();
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T sys_password_now_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    strcpy((char*)par->ask_data, (const char*)sys_par.password);
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T sys_time_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint8_t value[6] = {0};
+    uint8_t flag = 0;
+    uint16_t year = 0;
+    uint8_t day_max;
+    int32_t i = 0;
+    
+    if(par->type == SCPI_EXE)
+    {
+        for(i = 0; i < 6; i++)
+        {
+            err = check_int_par(par->argv[i]);
+            
+            if(err != SCPI_NO_ERROR)
+            {
+                return err;
+            }
+            
+            value[i] = atoi((const char*)par->argv[i]);
+        }
+        
+        /* 检查年 */
+        if(value[0] > 99)
+        {
+            return SCPI_DATA_OUT_OF_RANGE;
+        }
+        
+        /* 检查月 */
+        if(value[1] < 1 || value[1] > 12)
+        {
+            return SCPI_DATA_OUT_OF_RANGE;
+        }
+        
+        year = 2000 + value[0];
+        
+        if((((year % 4) == 0) && (year % 100 != 0)) || ((year % 400) == 0))
+        {
+            flag = 1;
+        }
+        
+        if(value[1] == 4 || value[1] == 6 || value[1] == 9 || value[1] == 11)
+        {
+            day_max = 30;
+        }
+        else if(value[1] == 2)
+        {
+            day_max = 28 + flag;
+        }
+        else
+        {
+            day_max = 31;
+        }
+        
+        /* 检查日期 */
+        if(value[2] < 1 || value[2] > day_max)
+        {
+            return SCPI_DATA_OUT_OF_RANGE;
+        }
+        
+        /* 检查时 */
+        if(value[3] > 23)
+        {
+            return SCPI_DATA_OUT_OF_RANGE;
+        }
+        /* 检查分 */
+        if(value[4] > 59)
+        {
+            return SCPI_DATA_OUT_OF_RANGE;
+        }
+        /* 检查秒 */
+        if(value[5] > 59)
+        {
+            return SCPI_DATA_OUT_OF_RANGE;
+        }
+        
+        rtc_set_time(year, value[1], value[2], value[3], value[4], value[5]);
+    }
+    else
+    {
+        sprintf((char*)par->ask_data, "%02d,%02d,%02d,%02d,%02d,%02d",
+                get_rtc_year() - 2000,
+                get_rtc_month(),
+                get_rtc_day(),
+                get_rtc_hour(),
+                get_rtc_minute(),
+                get_rtc_second());
+    }
+    
     return SCPI_NO_ERROR;
 }
 SCPI_ERR_T sys_nrule_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
+    SCPI_ERR_T err = SCPI_NO_ERROR;
+    uint8_t value = 0;
+    
+    if(par->type == SCPI_EXE)
+    {
+        err = check_int_par(par->argv[0]);
+        
+        if(err != SCPI_NO_ERROR)
+        {
+            return err;
+        }
+        
+        value = atoi((const char*)par->argv[0]);
+        
+        if(value > 2)
+        {
+            return SCPI_DATA_OUT_OF_RANGE;
+        }
+        
+        if(sys_par.num_rule == value)
+        {
+            return SCPI_NO_ERROR;
+        }
+        
+        sys_par.num_rule = value;
+        save_sys_par();
+    }
+    else
+    {
+        sprintf((char*)par->ask_data, "%d", sys_par.num_rule);
+    }
+    
     return SCPI_NO_ERROR;
 }
+
+/************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

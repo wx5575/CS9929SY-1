@@ -1,4 +1,12 @@
-
+/**
+  ******************************************************************************
+  * @file    cs99xx_scpi_dispose.h
+  * @author  王鑫
+  * @version V1.0.0
+  * @date    2017.10.23
+  * @brief   SCPI指令处理函数定义
+  ******************************************************************************
+  */
 #ifndef __CS99XX_SCPI_DISPOSE_H__
 #define __CS99XX_SCPI_DISPOSE_H__
 
@@ -78,7 +86,7 @@ extern SCPI_ERR_T step_dcw_cnext_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par);
 extern SCPI_ERR_T step_dcw_port_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par);
 /* IR */
 extern SCPI_ERR_T step_ir_voltage_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par);
-extern SCPI_ERR_T step_ir_range_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par);
+extern SCPI_ERR_T step_ir_arange_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par);
 extern SCPI_ERR_T step_ir_high_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par);
 extern SCPI_ERR_T step_ir_low_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par);
 extern SCPI_ERR_T step_ir_rtime_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par);
@@ -125,3 +133,5 @@ extern SCPI_ERR_T sys_password_now_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par);
 extern SCPI_ERR_T sys_time_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par);
 extern SCPI_ERR_T sys_nrule_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par);
 #endif //__CS99XX_SCPI_DISPOSE_H__
+
+/************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

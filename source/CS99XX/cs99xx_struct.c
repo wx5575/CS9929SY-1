@@ -134,12 +134,12 @@ GEAR_STR ac_gear[]=
     {0},//0
     {CUR_2uA_STR   , CUR_U_uA, 2000, 1, 2000, 0, 5, 3},//2uA
     {CUR_20uA_STR  , CUR_U_uA, 2000, 1, 2000, 0, 5, 2},//20uA
-    {CUR_200uA_STR , CUR_U_uA, 2000, 1, 2000, 0, 5, 1},//200uA
-    {CUR_2mA_STR   , CUR_U_mA, 2000, 1, 2000, 0, 5, 3},
-    {CUR_10mA_STR  , CUR_U_mA, 1000, 1, 1000, 0, 5, 2},
-    {CUR_20mA_STR  , CUR_U_mA, 2000, 1, 2000, 0, 5, 2},
-    {CUR_50mA_STR  , CUR_U_mA, 5000, 1, 5000, 0, 5, 2},
-    {CUR_100mA_STR , CUR_U_mA, 1000, 1, 1000, 0, 5, 1},
+    {CUR_200uA_STR , CUR_U_uA, 2000, 1, 2000, 0, 5, 1, 0},//200uA
+    {CUR_2mA_STR   , CUR_U_mA, 2000, 1, 2000, 0, 5, 3, 1},
+    {CUR_10mA_STR  , CUR_U_mA, 1000, 1, 1000, 0, 5, 2, 2},
+    {CUR_20mA_STR  , CUR_U_mA, 2000, 1, 2000, 0, 5, 2, 2},
+    {CUR_50mA_STR  , CUR_U_mA, 5000, 1, 5000, 0, 5, 2, 3},
+    {CUR_100mA_STR , CUR_U_mA, 1000, 1, 1000, 0, 5, 1, 3},
     {CUR_200mA_STR , CUR_U_mA, 2000, 1, 2000, 0, 5, 1},
     {CUR_2A_STR    , CUR_U_A , 1250, 1, 1250, 0, 5, 3},//2A
 };
@@ -149,13 +149,13 @@ GEAR_STR ac_gear[]=
 GEAR_STR dc_gear[]=
 {
     {0},//0
-    {CUR_2uA_STR   , CUR_U_uA, 2000, 1, 2000, 0, 5, 3},//2uA
-    {CUR_20uA_STR  , CUR_U_uA, 2000, 1, 2000, 0, 5, 2},//20uA
-    {CUR_200uA_STR , CUR_U_uA, 2000, 1, 2000, 0, 5, 1},//200uA
-    {CUR_2mA_STR   , CUR_U_mA, 2000, 1, 2000, 0, 5, 3},
-    {CUR_10mA_STR  , CUR_U_mA, 1000, 1, 1000, 0, 5, 2},
-    {CUR_20mA_STR  , CUR_U_mA, 2000, 1, 2000, 0, 5, 2},
-    {CUR_50mA_STR  , CUR_U_mA, 5000, 1, 5000, 0, 5, 2},
+    {CUR_2uA_STR   , CUR_U_uA, 2000, 1, 2000, 0, 5, 3, 0},//2uA
+    {CUR_20uA_STR  , CUR_U_uA, 2000, 1, 2000, 0, 5, 2, 1},//20uA
+    {CUR_200uA_STR , CUR_U_uA, 2000, 1, 2000, 0, 5, 1, 2},//200uA
+    {CUR_2mA_STR   , CUR_U_mA, 2000, 1, 2000, 0, 5, 3, 3},
+    {CUR_10mA_STR  , CUR_U_mA, 1000, 1, 1000, 0, 5, 2, 4},
+    {CUR_20mA_STR  , CUR_U_mA, 2000, 1, 2000, 0, 5, 2, 4},
+    {CUR_50mA_STR  , CUR_U_mA, 5000, 1, 5000, 0, 5, 2, 5},
     {CUR_100mA_STR , CUR_U_mA, 1000, 1, 1000, 0, 5, 1},
 };
 /**

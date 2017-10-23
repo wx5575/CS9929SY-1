@@ -801,7 +801,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGUARM</Key>
-          <Name>/</Name>
+          <Name></Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -906,6 +906,51 @@
           <WinNumber>1</WinNumber>
           <ItemText>tport</ItemText>
         </Ww>
+        <Ww>
+          <count>19</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>sys_par.dut_name</ItemText>
+        </Ww>
+        <Ww>
+          <count>20</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>cmd</ItemText>
+        </Ww>
+        <Ww>
+          <count>21</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>cmd_num</ItemText>
+        </Ww>
+        <Ww>
+          <count>22</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>scpi_cmd_pool</ItemText>
+        </Ww>
+        <Ww>
+          <count>23</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>n,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>24</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>i,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>25</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>cmd_t</ItemText>
+        </Ww>
+        <Ww>
+          <count>26</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>scpi_cmd</ItemText>
+        </Ww>
+        <Ww>
+          <count>27</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>cmd_num</ItemText>
+        </Ww>
       </WatchWindow1>
       <WatchWindow2>
         <Ww>
@@ -1006,10 +1051,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>15</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>66</TopLine>
+      <CurrentLine>76</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\HARDWARE\RTC\rtc_config.c</PathWithFileName>
       <FilenameWithoutPath>rtc_config.c</FilenameWithoutPath>
@@ -1072,8 +1117,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>53</TopLine>
+      <CurrentLine>74</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\HARDWARE\board.c</PathWithFileName>
       <FilenameWithoutPath>board.c</FilenameWithoutPath>
@@ -1200,8 +1245,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>69</TopLine>
-      <CurrentLine>70</CurrentLine>
+      <TopLine>93</TopLine>
+      <CurrentLine>99</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\HARDWARE\KeyBoard\panel_4094.c</PathWithFileName>
       <FilenameWithoutPath>panel_4094.c</FilenameWithoutPath>
@@ -2160,8 +2205,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>100</TopLine>
+      <CurrentLine>111</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\UCOSIII\uC-CPU\ARM-Cortex-M4\RealView\cpu_a.asm</PathWithFileName>
       <FilenameWithoutPath>cpu_a.asm</FilenameWithoutPath>
@@ -2304,8 +2349,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>782</TopLine>
-      <CurrentLine>791</CurrentLine>
+      <TopLine>783</TopLine>
+      <CurrentLine>789</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\UCOSIII\uCOS-III\Source\os_core.c</PathWithFileName>
       <FilenameWithoutPath>os_core.c</FilenameWithoutPath>
@@ -2616,7 +2661,7 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>75</TopLine>
+      <TopLine>83</TopLine>
       <CurrentLine>94</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\UCOSIII\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView\os_cpu_c.c</PathWithFileName>
@@ -3102,10 +3147,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>1</ColumnNumber>
+      <ColumnNumber>29</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>889</TopLine>
-      <CurrentLine>890</CurrentLine>
+      <TopLine>341</TopLine>
+      <CurrentLine>348</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\CS99XX_Type\cs99xx_type.c</PathWithFileName>
       <FilenameWithoutPath>cs99xx_type.c</FilenameWithoutPath>
@@ -3148,7 +3193,7 @@
 
   <Group>
     <GroupName>CS99XX</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -3158,10 +3203,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>19</ColumnNumber>
+      <ColumnNumber>4</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>126</TopLine>
-      <CurrentLine>132</CurrentLine>
+      <TopLine>139</TopLine>
+      <CurrentLine>148</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\CS99XX\cs99xx_struct.c</PathWithFileName>
       <FilenameWithoutPath>cs99xx_struct.c</FilenameWithoutPath>
@@ -3692,7 +3737,7 @@
 
   <Group>
     <GroupName>TEST_WIN</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -3718,10 +3763,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>1</ColumnNumber>
+      <ColumnNumber>27</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>2783</TopLine>
-      <CurrentLine>2787</CurrentLine>
+      <TopLine>3069</TopLine>
+      <CurrentLine>3081</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\USER_UI\UI\test_win\test_win.c</PathWithFileName>
       <FilenameWithoutPath>test_win.c</FilenameWithoutPath>
@@ -3772,7 +3817,7 @@
 
   <Group>
     <GroupName>SYS_TIME_WIN</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -3798,10 +3843,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>42</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>1</TopLine>
+      <CurrentLine>10</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\USER_UI\UI\sys_time_win\sys_time_edit_win.c</PathWithFileName>
       <FilenameWithoutPath>sys_time_edit_win.c</FilenameWithoutPath>
@@ -3812,7 +3857,7 @@
 
   <Group>
     <GroupName>STEP_WIN</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -3840,7 +3885,7 @@
       <Focus>0</Focus>
       <ColumnNumber>8</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1588</TopLine>
+      <TopLine>1589</TopLine>
       <CurrentLine>1597</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\USER_UI\UI\step_par_win\step_edit_win.c</PathWithFileName>
@@ -4108,7 +4153,7 @@
 
   <Group>
     <GroupName>RESULT_WIN</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -4134,10 +4179,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>47</ColumnNumber>
+      <ColumnNumber>13</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>787</TopLine>
+      <CurrentLine>796</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\USER_UI\UI\result_win\result_win.c</PathWithFileName>
       <FilenameWithoutPath>result_win.c</FilenameWithoutPath>
@@ -4198,10 +4243,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>2</ColumnNumber>
+      <ColumnNumber>4</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>52</TopLine>
+      <CurrentLine>213</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\USER_UI\UI\result_win\result_statis_win.c</PathWithFileName>
       <FilenameWithoutPath>result_statis_win.c</FilenameWithoutPath>
@@ -4318,10 +4363,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>33</ColumnNumber>
+      <ColumnNumber>4</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>10</TopLine>
+      <CurrentLine>22</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\mem_manage\cs99xx_sdcard_manage.c</PathWithFileName>
       <FilenameWithoutPath>cs99xx_sdcard_manage.c</FilenameWithoutPath>
@@ -4360,7 +4405,7 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>112</TopLine>
+      <TopLine>113</TopLine>
       <CurrentLine>121</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\usb_manage\cs99xx_usb_manager.c</PathWithFileName>
@@ -4406,10 +4451,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>9</ColumnNumber>
+      <ColumnNumber>6</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>195</TopLine>
-      <CurrentLine>204</CurrentLine>
+      <TopLine>251</TopLine>
+      <CurrentLine>262</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\test_manage\running_test.c</PathWithFileName>
       <FilenameWithoutPath>running_test.c</FilenameWithoutPath>
@@ -4456,7 +4501,7 @@
       <Focus>0</Focus>
       <ColumnNumber>18</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>644</TopLine>
+      <TopLine>645</TopLine>
       <CurrentLine>653</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\parameter_manage\parameter_manage.c</PathWithFileName>
@@ -4590,9 +4635,9 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>18</ColumnNumber>
+      <ColumnNumber>14</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>206</TopLine>
+      <TopLine>207</TopLine>
       <CurrentLine>215</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\module_manage\send_cmd.c</PathWithFileName>
@@ -4614,10 +4659,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>24</ColumnNumber>
+      <ColumnNumber>17</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>17</TopLine>
-      <CurrentLine>26</CurrentLine>
+      <TopLine>200</TopLine>
+      <CurrentLine>205</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\SCPI\scpi_cmd_def.c</PathWithFileName>
       <FilenameWithoutPath>scpi_cmd_def.c</FilenameWithoutPath>
@@ -4630,10 +4675,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>5</ColumnNumber>
+      <ColumnNumber>4</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>270</TopLine>
-      <CurrentLine>285</CurrentLine>
+      <TopLine>310</TopLine>
+      <CurrentLine>321</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\SCPI\scpi_analysis_cmd.c</PathWithFileName>
       <FilenameWithoutPath>scpi_analysis_cmd.c</FilenameWithoutPath>
@@ -4678,10 +4723,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>31</ColumnNumber>
+      <ColumnNumber>4</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>35</TopLine>
-      <CurrentLine>46</CurrentLine>
+      <TopLine>1</TopLine>
+      <CurrentLine>9</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\SCPI\cs99xx_scpi_dispose.c</PathWithFileName>
       <FilenameWithoutPath>cs99xx_scpi_dispose.c</FilenameWithoutPath>

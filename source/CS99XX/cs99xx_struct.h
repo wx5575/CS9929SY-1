@@ -645,6 +645,7 @@ typedef struct {
     uint32_t low_min;///<档位的下限最小值
     uint8_t lon;///<最大长度，包括小数点
     uint8_t dec;///<档位的小数点位数
+    uint8_t comm;///<通信档位
 }GEAR_STR;
 
 typedef struct{

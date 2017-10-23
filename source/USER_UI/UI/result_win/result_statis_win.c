@@ -205,12 +205,6 @@ static void update_menu_key_inf(WM_HMEM hWin)
 
 static void update_result_statis_inf(void)
 {
-//    RESULT_STATIS_WIN_CAPACITY,///<
-//    RESULT_STATIS_WIN_USED,///<
-//    RESULT_STATIS_WIN_RESIDUE,///<
-//    RESULT_STATIS_WIN_PASS,///<
-//    RESULT_STATIS_WIN_FAIL,///<
-//    RESULT_STATIS_WIN_PERCENT///<
     uint8_t buf[201] = {0};
     uint32_t total_res = 0;
     CS_INDEX *index = result_statis_win_text_ele_table;
