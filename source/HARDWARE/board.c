@@ -1,10 +1,10 @@
-/**
+ï»¿/**
   ******************************************************************************
   * @file    board.c
-  * @author  ÍõöÎ
+  * @author  ç‹é‘«
   * @version V1.0.0
   * @date    2017.5.12
-  * @brief   °å¼¶Ö§³Ö
+  * @brief   æ¿çº§æ”¯æŒ
   ******************************************************************************
   */
   
@@ -23,7 +23,6 @@
 #include "spi_flash.h"
 #include "cs99xx_mem_api.h"
 #include "mem_alloc.h"
-//#include "led.h"
 #include "tim3.h"
 #include "tim4.h"
 #include "GUI.h"
@@ -39,32 +38,32 @@
 
 
 /**
-  * @brief  ´æ·ÅRCCÊ±ÖÓĞÅÏ¢£¬ÓÃÀ´ÁË½âÊ±ÖÓÅäÖÃ
+  * @brief  å­˜æ”¾RCCæ—¶é’Ÿä¿¡æ¯ï¼Œç”¨æ¥äº†è§£æ—¶é’Ÿé…ç½®
   */
 static RCC_ClocksTypeDef clock;
 
 /**
-  * @brief  °å¼¶³õÊ¼»¯
-  * @param  ÎŞ
-  * @retval ÎŞ
+  * @brief  æ¿çº§åˆå§‹åŒ–
+  * @param  æ— 
+  * @retval æ— 
   */
 void bsp_init(void)
 {
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);//ÖĞ¶Ï·Ö×éÅäÖÃ
-    fsmc_peripheral_config();//FSMCÅäÖÃ
-    fsmc_gpio_config();//FSMC GPIOÅäÖÃ
-	key_led_buzzer_init();//°´¼üLED·äÃùÆ÷
-    register_tim3_server_fun(sub_buzzer_time);//×¢²á¶¨Ê±Æ÷·şÎñº¯Êı
-    register_tim3_server_fun(sub_led_time);//×¢²á¶¨Ê±Æ÷·şÎñº¯Êı
-    key_start_stop_gpio_init();//Æô¶¯¸´Î»°´¼üGPIO³õÊ¼»¯
-	ra8875_bsp_Init();//RA8875Ó²¼ş³õÊ¼»¯
-	rtc_init();//RTC³õÊ¼»¯
-    coded_disc_init();//ÂëÅÌ³õÊ¼»¯
-    init_flash();//ÍâÀ©FLASH³õÊ¼»¯
-    tim3_init(10 - 1, 4200 - 1);//10 * 0.1ms = 1ms //¶¨Ê±Æ÷3³õÊ¼»¯
-    RCC_GetClocksFreq(&clock);//»ñÈ¡Ê±ÖÓÆµÂÊ
+  	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);//ä¸­æ–­åˆ†ç»„é…ç½®
+    fsmc_peripheral_config();//FSMCé…ç½®
+    fsmc_gpio_config();//FSMC GPIOé…ç½®
+    key_led_buzzer_init();//æŒ‰é”®LEDèœ‚é¸£å™¨
+    register_tim3_server_fun(sub_buzzer_time);//æ³¨å†Œå®šæ—¶å™¨æœåŠ¡å‡½æ•°
+    register_tim3_server_fun(sub_led_time);//æ³¨å†Œå®šæ—¶å™¨æœåŠ¡å‡½æ•°
+    key_start_stop_gpio_init();//å¯åŠ¨å¤ä½æŒ‰é”®GPIOåˆå§‹åŒ–
+  	ra8875_bsp_Init();//RA8875ç¡¬ä»¶åˆå§‹åŒ–
+	  rtc_init();//RTCåˆå§‹åŒ–
+    coded_disc_init();//ç ç›˜åˆå§‹åŒ–
+    init_flash();//å¤–æ‰©FLASHåˆå§‹åŒ–
+    tim3_init(10 - 1, 4200 - 1);//10 * 0.1ms = 1ms //å®šæ—¶å™¨3åˆå§‹åŒ–
+    RCC_GetClocksFreq(&clock);//è·å–æ—¶é’Ÿé¢‘ç‡
     
-    /* ´®¿ÚÅäÖÃ */
+    /* ä¸²å£é…ç½® */
     usart1_config(115200 * 1);
     usart2_config(115200 * 1);
     usart3_config(115200 * 1);
@@ -73,4 +72,4 @@ void bsp_init(void)
 }
 
 
-/************************ (C) COPYRIGHT 2017 ³¤Ê¢ÒÇÆ÷ *****END OF FILE****/
+/************************ (C) COPYRIGHT 2017 é•¿ç››ä»ªå™¨ *****END OF FILE****/

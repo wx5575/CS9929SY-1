@@ -457,7 +457,7 @@ static SCPI_ERR_T scpi_receive_dispose_(uint8_t *frame, uint32_t len,
         return err;
     }
     
-    /* 进行处理函数 */
+    /* 进入处理函数 */
     if(p_scpi_cmd->dispose_fun != NULL)
     {
         err = p_scpi_cmd->dispose_fun(&scpi_par);

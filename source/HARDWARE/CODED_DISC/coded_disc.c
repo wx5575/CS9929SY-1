@@ -124,7 +124,7 @@ static void coded_disc_soft_delay_10us(u32 dly_us)
 }
 void scan_coded_disc(void)
 {
-    static int32_t count;
+//    static int32_t count;
     static uint32_t left_count;
     static uint32_t right_count;
     const uint8_t COUNTX = 30;
@@ -134,7 +134,7 @@ void scan_coded_disc(void)
 //        return;
 //    }
     
-    count = 0;
+//    count = 0;
     
     if(1 == GPIO_ReadInputDataBit(C_DISC_LEFT_PORT, C_DISC_LEFT_PIN))
     {

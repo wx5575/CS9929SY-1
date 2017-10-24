@@ -559,7 +559,7 @@ extern uint32_t defined_hz_kinds(uint8_t mode, const uint8_t** gear_buf, uint8_t
 extern uint32_t defined_cur_kinds(uint8_t mode, const uint8_t *gear[], uint8_t* flag, uint16_t *kind);
 extern uint32_t defined_fail_mode_kinds(const uint8_t *fail_mode_buf[], uint8_t *flag);
 extern uint32_t defined_vol_kinds(uint8_t mode, const uint8_t **gear, uint8_t *flag);
-extern CS_BOOL check_range_validity(uint8_t mode, uint8_t range);
+extern CS_BOOL check_range_validity(uint8_t mode, uint8_t range, uint8_t *gear);
 extern int32_t check_mode(void);
 extern int32_t check_this_mode(uint8_t mode);
 extern uint32_t define_interface_config(uint8_t *flag);

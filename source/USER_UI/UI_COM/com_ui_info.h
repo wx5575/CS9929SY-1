@@ -440,6 +440,7 @@ extern void show_user_window(MYUSER_WINDOW_T* win_info);
 extern void show_cur_window(void);
 extern void back_win(WM_HWIN id);
 extern void del_cur_window(void);
+extern void del_user_window(WM_HMEM handle);
 extern MYUSER_WINDOW_T * get_user_window_info(WM_HWIN hWin);
 extern TEXT_ELE_T* get_text_ele_node(CS_INDEX index, CS_LIST* list, CS_ERR *err);
 extern void set_com_text_ele_dis_inf(UI_ELE_DISPLAY_INFO_T *inf, CS_INDEX index);
@@ -532,7 +533,9 @@ extern void create_restor_factory_setting_dialog(int hWin);
 extern void create_help_win(int hWin);
 extern void create_run_log_win(int hWin);
 extern void create_self_check_win(int hWin);
+extern void delete_self_check_win(void);
 extern void create_start_win(int hWin);
+extern void delete_start_win(void);
 extern void create_calibration_win(int hWin);
 extern void create_module_win(int hWin);
 

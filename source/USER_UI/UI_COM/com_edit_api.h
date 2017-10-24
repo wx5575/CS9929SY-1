@@ -67,3 +67,5 @@ extern void auto_layout_win_text_ele(MYUSER_WINDOW_T* win);
 
 #endif //__COM_EDIT_API_H__
 
+
+/************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

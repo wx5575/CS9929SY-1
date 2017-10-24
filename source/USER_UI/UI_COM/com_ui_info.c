@@ -1357,6 +1357,62 @@ void del_cur_window(void)
     show_user_window(win);//显示出用户当前窗口
 }
 /**
+  * @brief  删除当前用户界面窗口,并返回新的当前窗口地址，将窗口中所有的对象都删除，将全局的当前编辑对象
+  * @brief  指针设为NULL,将删除的窗口的句柄清零
+  * @param  [in] win_info 窗口对象指针
+  * @retval 新窗口的地址
+  */
+void del_user_window(WM_HMEM handle)
+{
+	CS_LIST *list_head = &windows_list;//窗口链表头
+    MYUSER_WINDOW_T* win_info = NULL;
+	int res = 0;
+    MYUSER_WINDOW_T* win = NULL;
+    CS_LIST *index;
+    
+	list_for_each( index, list_head )
+	{
+		win_info = list_entry( index, MYUSER_WINDOW_T, w_list );
+        
+		if(win_info->handle == handle)
+		{
+            break;
+        }
+    }
+    
+    if(win_info->handle != handle)
+    {
+        return;
+    }
+    
+	list_del(&win_info->w_list);//把窗口信息从窗口链表中删除
+	res = list_empty(list_head);//判断上一级窗口是否为空
+    
+    //上一级窗口不为空就获取上一级窗口的地址
+	if(!res)
+	{
+		win = list_entry(list_head->prev, MYUSER_WINDOW_T, w_list);//上一级窗口
+	}
+    //上一级窗口为空
+	else
+	{
+		win = NULL;
+	}
+    
+    delete_win_all_ele(win_info);//删除窗口中所有控件
+    set_cur_edit_ele(NULL);//将当前编辑对象置为空
+    disable_system_fun_key_fun();//失能系统功能按键
+    
+	WM_DeleteWindow(win_info->handle);//删除窗口控件
+    if(handle == g_cur_win->handle)
+    {
+        set_cur_window(win);//把新窗口设置为当前窗口
+        show_user_window(win);//显示出用户当前窗口
+    }
+    
+	win_info->handle = 0;//清除被删除窗口的句柄
+}
+/**
   * @brief  显示用户窗口
   * @param  [in] win_info 窗口对象指针
   * @retval 无

@@ -260,6 +260,18 @@ static void self_check_win_cb(WM_MESSAGE * pMsg)
 /* Public functions ---------------------------------------------------------*/
 
 /**
+  * @brief  删除自检窗口
+  * @param  [in] pMsg 窗口消息
+  * @retval 无
+  */
+void delete_self_check_win(void)
+{
+    if(self_check_windows.handle != 0)
+    {
+        del_user_window(self_check_windows.handle);
+    }
+}
+/**
   * @brief  创建自检窗口
   * @param  [in] pMsg 窗口消息
   * @retval 无

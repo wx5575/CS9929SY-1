@@ -434,6 +434,8 @@ static void main_win_cb(WM_MESSAGE * pMsg)
 	switch (pMsg->MsgId)
 	{
 		case WM_CREATE:
+            delete_start_win();
+            delete_self_check_win();
 			set_user_window_handle(hWin);
 			win = get_user_window_info(hWin);
             
@@ -447,7 +449,11 @@ static void main_win_cb(WM_MESSAGE * pMsg)
             create_slogo_image(hWin);
             create_www_qr_code_image(hWin);
             create_wts_qr_code_image(hWin);
+            WM_CreateTimer(hWin, 0, 1000, 0);
 			break;
+		case WM_TIMER:
+            create_test_win(0);//时间到后自动进入测试界面
+            break;
 		case WM_PAINT:
 			main_win_paintframe();
 			break;
@@ -529,17 +535,23 @@ void main_ui_enter(void)
     into_start_win();//进入启动窗口
     GUI_Delay(500);//调用这个函数可以刷新界面
     read_par_from_memory();//从存储器读取参数
-    into_self_check_win();//进入自检窗口
-    GUI_Delay(2000);//调用这个函数可以刷新界面
-    while(self_check_ok == 0)
+    
+    if(sys_par.is_self_check == 1)
     {
-        GUI_Delay(1);//调用这个函数可以刷新界面
+        into_self_check_win();//进入自检窗口
+        GUI_Delay(2000);//调用这个函数可以刷新界面
+    //    delete_start_win();
+    //    delete_self_check_win();
+        while(self_check_ok == 0)
+        {
+            GUI_Delay(1);//调用这个函数可以刷新界面
+        }
     }
+    
     create_key_menu_window();//创建按键界面
     create_status_bar_windows();
     create_main_windows();//创建主界面
     
-	
 	while(1)
 	{
 		GUI_Delay(1);//调用这个函数可以刷新界面

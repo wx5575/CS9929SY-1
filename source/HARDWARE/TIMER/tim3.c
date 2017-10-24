@@ -11,7 +11,7 @@
 #include "tim3.h"
 
 
-#define TIM3_MAX_SERVER_FUN     20 ///< tim3最大的服务函数的个数
+#define TIM3_MAX_SERVER_FUN     30 ///< tim3最大的服务函数的个数
 
 /**
   * @brief  定时器服务函数指针

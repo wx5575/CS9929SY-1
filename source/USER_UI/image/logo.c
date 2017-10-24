@@ -3,8 +3,9 @@
 #include "IMAGE.H"
 #include "ff.h"
 #include "mem_alloc.h"
+#include "logo.h"
 
-IMAGE_Handle create_logo_imagex(WM_HWIN hWin)
+IMAGE_Handle create_logo_imagex(WM_HWIN hWin, CS_IMAGE_T* image)
 {
     IMAGE_Handle handle;
     uint8_t *bmpBuffer;
@@ -18,10 +19,10 @@ IMAGE_Handle create_logo_imagex(WM_HWIN hWin)
     
     if(res == FR_OK)
     {
-//        bmpBuffer = malloc_ex_mem(f.fsize);
+        bmpBuffer = malloc_ex_mem(f.fsize);
         
-        hmem = GUI_ALLOC_AllocZero(f.fsize);
-        bmpBuffer = GUI_ALLOC_h2p(hmem);
+        // hmem = GUI_ALLOC_AllocZero(f.fsize);
+        // bmpBuffer = GUI_ALLOC_h2p(hmem);
         
         if(bmpBuffer != NULL)
         {
@@ -44,7 +45,7 @@ IMAGE_Handle create_logo_imagex(WM_HWIN hWin)
     return handle;
 }
 
-IMAGE_Handle create_logo_image(WM_HWIN hWin)
+IMAGE_Handle create_logo_image(WM_HWIN hWin, CS_IMAGE_T* image)
 {
     IMAGE_Handle handle;
     uint8_t *bmpBuffer;
@@ -84,7 +85,7 @@ IMAGE_Handle create_logo_image(WM_HWIN hWin)
     return handle;
 }
 
-IMAGE_Handle create_slogo_image(WM_HWIN hWin)
+IMAGE_Handle create_slogo_image(WM_HWIN hWin, CS_IMAGE_T* image)
 {
     IMAGE_Handle handle;
     uint8_t *bmpBuffer;
@@ -126,7 +127,7 @@ IMAGE_Handle create_slogo_image(WM_HWIN hWin)
     return handle;
 }
 
-IMAGE_Handle create_miclogo_image(WM_HWIN hWin, void**mem)
+IMAGE_Handle create_miclogo_image(WM_HWIN hWin, void**mem, CS_IMAGE_T* image)
 {
     IMAGE_Handle handle;
     uint8_t *bmpBuffer;
@@ -165,7 +166,7 @@ IMAGE_Handle create_miclogo_image(WM_HWIN hWin, void**mem)
     
     return handle;
 }
-IMAGE_Handle create_main_image(WM_HWIN hWin)
+IMAGE_Handle create_main_image(WM_HWIN hWin, CS_IMAGE_T* image)
 {
     IMAGE_Handle handle;
     uint8_t *bmpBuffer;
@@ -203,7 +204,7 @@ IMAGE_Handle create_main_image(WM_HWIN hWin)
     return handle;
 }
 
-IMAGE_Handle create_www_qr_code_image(WM_HWIN hWin)
+IMAGE_Handle create_www_qr_code_image(WM_HWIN hWin, CS_IMAGE_T* image)
 {
     IMAGE_Handle handle;
     uint8_t *bmpBuffer;
@@ -259,7 +260,7 @@ void stop_count_run_time(void)
     count_flag = 0;
 }
 
-IMAGE_Handle create_wts_qr_code_image(WM_HWIN hWin)
+IMAGE_Handle create_wts_qr_code_image(WM_HWIN hWin, CS_IMAGE_T* image)
 {
     IMAGE_Handle handle;
     uint8_t *bmpBuffer;
@@ -297,7 +298,7 @@ IMAGE_Handle create_wts_qr_code_image(WM_HWIN hWin)
     return handle;
 }
 
-IMAGE_Handle create_test_image(WM_HWIN hWin)
+IMAGE_Handle create_test_image(WM_HWIN hWin, CS_IMAGE_T* image)
 {
     IMAGE_Handle handle;
     uint8_t *bmpBuffer;

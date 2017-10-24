@@ -439,7 +439,7 @@ SCPI_ERR_T source_test_fetch_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
     }
     
     /* 路号，步骤编号，测试模式，电压，电流档位，测试电流，真实电流，时间，测试状态 */
-    sprintf((char*)par->ask_data, "%d,%d,%d,", road, cur_step, cur_mode - 1);
+    sprintf((char*)par->ask_data, "%d,%d,", cur_step, cur_mode - 1);
     
     switch(cur_mode)
     {
@@ -450,6 +450,8 @@ SCPI_ERR_T source_test_fetch_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
             strcat((char*)par->ask_data, (const char*)buf);
             strcat((char*)par->ask_data, (const char*)get_road_test_current(road));
             strcat((char*)par->ask_data, ",");
+            sprintf((char*)buf, "%d,", cur_real_cur!=0);
+            strcat((char*)par->ask_data, (const char*)buf);
             str = get_road_test_real_current(road);
             if(strlen((const char*)str) == 0)
             {
@@ -1201,7 +1203,7 @@ static SCPI_ERR_T set_cur_step_range(SCPI_DIS_FUN_PAR *par, uint8_t mode)
         return err;
     }
     
-    if(CS_TRUE != check_range_validity(mode, range))
+    if(CS_TRUE != check_range_validity(mode, range, &range))
     {
         return SCPI_DATA_OUT_OF_RANGE;
     }
@@ -1228,6 +1230,7 @@ static SCPI_ERR_T set_cur_step_range(SCPI_DIS_FUN_PAR *par, uint8_t mode)
             break;
         }
         case DCW:
+        {
             if(g_cur_step->one_step.dcw.range != range)
             {
                 g_cur_step->one_step.dcw.range = range;
@@ -1243,6 +1246,7 @@ static SCPI_ERR_T set_cur_step_range(SCPI_DIS_FUN_PAR *par, uint8_t mode)
                 g_cur_step->one_step.dcw.offset_result = 0;
             }
             break;
+        }
         default:
             return SCPI_EXECUTE_NOT_ALLOWED;
     }
@@ -1251,7 +1255,6 @@ static SCPI_ERR_T set_cur_step_range(SCPI_DIS_FUN_PAR *par, uint8_t mode)
     
     return SCPI_NO_ERROR;
 }
-
 
 static SCPI_ERR_T get_cur_step_range(SCPI_DIS_FUN_PAR *par, uint8_t mode)
 {
@@ -1269,9 +1272,11 @@ static SCPI_ERR_T get_cur_step_range(SCPI_DIS_FUN_PAR *par, uint8_t mode)
     {
         case ACW:
             range = g_cur_step->one_step.acw.range;
+            range = ac_gear[range].comm;
             break;
         case DCW:
             range = g_cur_step->one_step.acw.range;
+            range = dc_gear[range].comm;
             break;
         default:
             return SCPI_EXECUTE_NOT_ALLOWED;

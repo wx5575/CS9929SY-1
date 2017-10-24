@@ -3078,7 +3078,7 @@ CS_BOOL all_road_test_over(void)
     {
         if(++timeout_count > 5)
         {
-            return CS_TRUE;
+//            return CS_TRUE;
         }
     }
     else if(over_count == 0)
@@ -3096,7 +3096,7 @@ CS_BOOL all_road_test_over(void)
 void dis_test_over_status(void)
 {
     CS_BOOL res;
-    const uint8_t *str;
+//    const uint8_t *str;
     int32_t i = 0;
     uint32_t num = 0;
     ROAD_DIS_ELE_INF *inf = NULL;
@@ -3113,8 +3113,8 @@ void dis_test_over_status(void)
             
             if(res == CS_FALSE)
             {
-                str = get_test_status_str(ST_PASS);
-                update_text_ele(inf->status, this_win, str);
+//                str = get_test_status_str(ST_PASS);
+//                update_text_ele(inf->status, this_win, str);
 //                inf->test_st = ST_PASS; //能够提前一致显示出测试合格
             }
             else
@@ -3178,7 +3178,7 @@ void hold_stop_sign(uint32_t ms)
 void send_start_sign(void)
 {
     SYN_START_PIN = 0;
-    hold_start_sign(100);
+    hold_start_sign(200);
 }
 
 /**
