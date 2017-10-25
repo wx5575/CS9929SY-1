@@ -40,6 +40,7 @@ enum{
     CAL_STOP,///<停止校准
     SET_MEASURE_VALUE,///<设置测试值
     LOAD_CAL_POINT,///<加载校准点作为当前校准点
+    READ_SLAVE_ST,///<读从机状态
 };
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -304,7 +305,7 @@ static void calibration_win_direct_key_left_cb (KEY_MESSAGE *key_msg)
 static void calibration_win_direct_key_right_cb(KEY_MESSAGE *key_msg)
 {
 }
-static void calibration_win_enter_key_up_cb	   (KEY_MESSAGE *key_msg)
+static void calibration_win_enter_key_up_cb(KEY_MESSAGE *key_msg)
 {
 }
 
@@ -673,6 +674,14 @@ static void cal_status_machine(void)
             
             break;
         }
+        case READ_SLAVE_ST:
+        {
+            if(ROAD_STOPPING ==  read_road_test_status(road))
+            {
+                cal_status = CAL_ST_IDLE;
+            }
+            break;
+        }
         case CAL_STOP:
         {
             road = (ROAD_INDEX)get_cur_cal_road();
@@ -681,10 +690,7 @@ static void cal_status_machine(void)
             
             if(err == CS_ERR_SEND_SUCCESS)
             {
-                if(ROAD_STOPPING ==  read_road_test_status(road))
-                {
-                    cal_status = CAL_ST_IDLE;
-                }
+                cal_status = READ_SLAVE_ST;
             }
             
             break;
@@ -819,6 +825,7 @@ static void calibration_win_cb(WM_MESSAGE * pMsg)
 {
 	MYUSER_WINDOW_T* win;
 	WM_HWIN hWin = pMsg->hWin;
+	static CS_IMAGE_T cs_image;
 	
 	switch (pMsg->MsgId)
 	{
@@ -826,6 +833,7 @@ static void calibration_win_cb(WM_MESSAGE * pMsg)
 			set_calibration_windows_handle(hWin);
 			win = get_user_window_info(hWin);
             create_calibration_win_listview(hWin);
+            create_miclogo_image(hWin, &cs_image);
             init_create_win_all_ele(win);
 			cal_win_timer_handle = WM_CreateTimer(hWin, 0, 100, 0);
             set_cur_cal_road(1);
@@ -848,6 +856,7 @@ static void calibration_win_cb(WM_MESSAGE * pMsg)
             WM_DeleteTimer(cal_win_timer_handle);
             cal_status = EXIT_CAL_WIN;
             cal_status_machine();
+            delete_image(&cs_image);
 			break;
 		default:
 			WM_DefaultProc(pMsg);

@@ -4521,6 +4521,7 @@ SCPI_ERR_T sys_time_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
     
     return SCPI_NO_ERROR;
 }
+
 SCPI_ERR_T sys_nrule_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
 {
     SCPI_ERR_T err = SCPI_NO_ERROR;
@@ -4555,6 +4556,48 @@ SCPI_ERR_T sys_nrule_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
         sprintf((char*)par->ask_data, "%d", sys_par.num_rule);
     }
     
+    return SCPI_NO_ERROR;
+}
+
+/* 校准指令集 */
+SCPI_ERR_T cal_enter_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
+{
+    return SCPI_NO_ERROR;
+}
+SCPI_ERR_T cal_exit_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
+{
+    return SCPI_NO_ERROR;
+}
+SCPI_ERR_T cal_status_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
+{
+    return SCPI_NO_ERROR;
+}
+SCPI_ERR_T cal_mode_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
+{
+    return SCPI_NO_ERROR;
+}
+SCPI_ERR_T cal_range_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
+{
+    return SCPI_NO_ERROR;
+}
+SCPI_ERR_T cal_start_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
+{
+    return SCPI_NO_ERROR;
+}
+SCPI_ERR_T cal_stop_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
+{
+    return SCPI_NO_ERROR;
+}
+SCPI_ERR_T cal_measure_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
+{
+    return SCPI_NO_ERROR;
+}
+SCPI_ERR_T cal_points_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
+{
+    return SCPI_NO_ERROR;
+}
+SCPI_ERR_T cal_load_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par)
+{
     return SCPI_NO_ERROR;
 }
 

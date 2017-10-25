@@ -730,13 +730,14 @@ static void result_win_cb(WM_MESSAGE* pMsg)
 	WM_HWIN hWin = pMsg->hWin;
     CS_ERR err;
     static void *p_mem;
+	static CS_IMAGE_T cs_image;
 	
 	switch (pMsg->MsgId)
 	{
 		case WM_CREATE:
 			WM_SetFocus(hWin);/* 设置聚焦 */
             set_user_window_handle(hWin);
-            create_miclogo_image(hWin, &p_mem);
+            create_miclogo_image(hWin, &cs_image);
 			win = get_user_window_info(hWin);
             init_create_win_all_ele(win);
             update_result_win_key_inf(hWin);
@@ -764,7 +765,7 @@ static void result_win_cb(WM_MESSAGE* pMsg)
 		case WM_NOTIFY_PARENT:
 			break;
 		case WM_DELETE:
-            free_ex_mem(p_mem);
+            delete_image(&cs_image);
 			break;
 		default:
 			WM_DefaultProc(pMsg);

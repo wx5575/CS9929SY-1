@@ -538,6 +538,7 @@ extern void create_start_win(int hWin);
 extern void delete_start_win(void);
 extern void create_calibration_win(int hWin);
 extern void create_module_win(int hWin);
+extern void create_auto_cal_win(int hWin);
 
 #endif //__COM_UI_INFO_H__
 

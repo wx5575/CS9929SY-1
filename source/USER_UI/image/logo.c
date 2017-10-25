@@ -1,16 +1,19 @@
 
 #include "ui_com/com_ui_info.h"
-#include "IMAGE.H"
 #include "ff.h"
 #include "mem_alloc.h"
 #include "logo.h"
+
+void delete_image(CS_IMAGE_T* image)
+{
+    free_ex_mem(image->buf);
+}
 
 IMAGE_Handle create_logo_imagex(WM_HWIN hWin, CS_IMAGE_T* image)
 {
     IMAGE_Handle handle;
     uint8_t *bmpBuffer;
     FRESULT res;
-    GUI_HMEM hmem;
     FIL f;
     uint32_t width = 0;
     uint32_t height = 0;
@@ -20,9 +23,6 @@ IMAGE_Handle create_logo_imagex(WM_HWIN hWin, CS_IMAGE_T* image)
     if(res == FR_OK)
     {
         bmpBuffer = malloc_ex_mem(f.fsize);
-        
-        // hmem = GUI_ALLOC_AllocZero(f.fsize);
-        // bmpBuffer = GUI_ALLOC_h2p(hmem);
         
         if(bmpBuffer != NULL)
         {
@@ -34,9 +34,8 @@ IMAGE_Handle create_logo_imagex(WM_HWIN hWin, CS_IMAGE_T* image)
                 WM_CF_SHOW, 0, id_base++, 0);
             
             IMAGE_SetBMP(handle, bmpBuffer, f.fsize);
-//            free_ex_mem(bmpBuffer);
-//            GUI_ALLOC_Free(hmem);
-            bmpBuffer = NULL;
+            image->buf = bmpBuffer;
+            image->handle = handle;
         }
         
         f_close(&f);
@@ -50,7 +49,6 @@ IMAGE_Handle create_logo_image(WM_HWIN hWin, CS_IMAGE_T* image)
     IMAGE_Handle handle;
     uint8_t *bmpBuffer;
     FRESULT res;
-    GUI_HMEM hmem;
     FIL f;
     uint32_t width = 0;
     uint32_t height = 0;
@@ -59,10 +57,7 @@ IMAGE_Handle create_logo_image(WM_HWIN hWin, CS_IMAGE_T* image)
     
     if(res == FR_OK)
     {
-//        bmpBuffer = malloc_ex_mem(f.fsize);
-        
-        hmem = GUI_ALLOC_AllocZero(f.fsize);
-        bmpBuffer = GUI_ALLOC_h2p(hmem);
+        bmpBuffer = malloc_ex_mem(f.fsize);
         
         if(bmpBuffer != NULL)
         {
@@ -74,9 +69,8 @@ IMAGE_Handle create_logo_image(WM_HWIN hWin, CS_IMAGE_T* image)
                 WM_CF_SHOW, 0, id_base++, 0);
             
             IMAGE_SetBMP(handle, bmpBuffer, f.fsize);
-//            free_ex_mem(bmpBuffer);
-//            GUI_ALLOC_Free(hmem);
-            bmpBuffer = NULL;
+            image->buf = bmpBuffer;
+            image->handle = handle;
         }
         
         f_close(&f);
@@ -99,8 +93,6 @@ IMAGE_Handle create_slogo_image(WM_HWIN hWin, CS_IMAGE_T* image)
     if(res == FR_OK)
     {
         bmpBuffer = malloc_ex_mem(f.fsize);
-//        hmem = GUI_ALLOC_AllocZero(f.fsize);
-//        bmpBuffer = GUI_ALLOC_h2p(hmem);
         
         if(bmpBuffer != NULL)
         {
@@ -116,9 +108,8 @@ IMAGE_Handle create_slogo_image(WM_HWIN hWin, CS_IMAGE_T* image)
                 WM_CF_SHOW, 0, id_base++, 0);
             
             IMAGE_SetBMP(handle, bmpBuffer, f.fsize);
-//            free_ex_mem(bmpBuffer);
-//            GUI_ALLOC_Free(hmem);
-            bmpBuffer = NULL;
+            image->buf = bmpBuffer;
+            image->handle = handle;
         }
         
         f_close(&f);
@@ -127,7 +118,7 @@ IMAGE_Handle create_slogo_image(WM_HWIN hWin, CS_IMAGE_T* image)
     return handle;
 }
 
-IMAGE_Handle create_miclogo_image(WM_HWIN hWin, void**mem, CS_IMAGE_T* image)
+IMAGE_Handle create_miclogo_image(WM_HWIN hWin, CS_IMAGE_T* image)
 {
     IMAGE_Handle handle;
     uint8_t *bmpBuffer;
@@ -144,7 +135,6 @@ IMAGE_Handle create_miclogo_image(WM_HWIN hWin, void**mem, CS_IMAGE_T* image)
         
         if(bmpBuffer != NULL)
         {
-            *mem = bmpBuffer;
             f_read(&f, bmpBuffer, f.fsize, NULL);
             width = *(int32_t*)&bmpBuffer[18];
             height = *(int32_t*)&bmpBuffer[18+4];
@@ -157,8 +147,8 @@ IMAGE_Handle create_miclogo_image(WM_HWIN hWin, void**mem, CS_IMAGE_T* image)
                 WM_CF_SHOW, 0, id_base++, 0);
             
             IMAGE_SetBMP(handle, bmpBuffer, f.fsize);
-//            free_ex_mem(bmpBuffer);
-            bmpBuffer = NULL;
+            image->buf = bmpBuffer;
+            image->handle = handle;
         }
         
         f_close(&f);
@@ -172,8 +162,6 @@ IMAGE_Handle create_main_image(WM_HWIN hWin, CS_IMAGE_T* image)
     uint8_t *bmpBuffer;
     FRESULT res;
     FIL f;
-//    uint32_t width = 0;
-//    uint32_t height = 0;
     
     res = f_open (&f, "\\ROOT\\IMAGE\\main.bmp", FA_READ);
     
@@ -184,18 +172,13 @@ IMAGE_Handle create_main_image(WM_HWIN hWin, CS_IMAGE_T* image)
         if(bmpBuffer != NULL)
         {
             f_read(&f, bmpBuffer, f.fsize, NULL);
-//            width = *(uint16_t*)&bmpBuffer[1];
-//            height = *(uint16_t*)&bmpBuffer[1+2];
             
-//            handle = IMAGE_CreateUser((800-width) / 2, (480 - height) / 2, width, height, hWin,
-//                WM_CF_SHOW, 0, id_base++, 0);
             handle = IMAGE_CreateUser(0, 0, 600, 360, hWin,
                 WM_CF_SHOW, 0, id_base++, 0);
             
             IMAGE_SetBMP(handle, bmpBuffer, f.fsize);
-//            IMAGE_SetGIF(handle, bmpBuffer, f.fsize);
-//            free_ex_mem(bmpBuffer);
-            bmpBuffer = NULL;
+            image->buf = bmpBuffer;
+            image->handle = handle;
         }
         
         f_close(&f);
@@ -227,13 +210,10 @@ IMAGE_Handle create_www_qr_code_image(WM_HWIN hWin, CS_IMAGE_T* image)
             
             handle = IMAGE_CreateUser(20, 300, width, height, hWin,
                 WM_CF_SHOW, 0, id_base++, 0);
-//            handle = IMAGE_CreateUser(0, 0, 600, 360, hWin,
-//                WM_CF_SHOW, 0, id_base++, 0);
             
             IMAGE_SetBMP(handle, bmpBuffer, f.fsize);
-//            IMAGE_SetGIF(handle, bmpBuffer, f.fsize);
-//            free_ex_mem(bmpBuffer);
-            bmpBuffer = NULL;
+            image->buf = bmpBuffer;
+            image->handle = handle;
         }
         
         f_close(&f);
@@ -283,13 +263,10 @@ IMAGE_Handle create_wts_qr_code_image(WM_HWIN hWin, CS_IMAGE_T* image)
             
             handle = IMAGE_CreateUser(220, 300, width, height, hWin,
                 WM_CF_SHOW, 0, id_base++, 0);
-//            handle = IMAGE_CreateUser(0, 0, 600, 360, hWin,
-//                WM_CF_SHOW, 0, id_base++, 0);
             
             IMAGE_SetBMP(handle, bmpBuffer, f.fsize);
-//            IMAGE_SetGIF(handle, bmpBuffer, f.fsize);
-//            free_ex_mem(bmpBuffer);
-            bmpBuffer = NULL;
+            image->buf = bmpBuffer;
+            image->handle = handle;
         }
         
         f_close(&f);
@@ -326,9 +303,8 @@ IMAGE_Handle create_test_image(WM_HWIN hWin, CS_IMAGE_T* image)
                 WM_CF_SHOW, 0, id_base++, 0);
             
             IMAGE_SetBMP(handle, bmpBuffer, f.fsize);
-//            IMAGE_SetGIF(handle, bmpBuffer, f.fsize);
-            free_ex_mem(bmpBuffer);
-            bmpBuffer = NULL;
+            image->buf = bmpBuffer;
+            image->handle = handle;
         }
         
         f_close(&f);

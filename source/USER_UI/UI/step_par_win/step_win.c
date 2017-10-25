@@ -19,6 +19,7 @@
 #include "step_win.h"
 #include "module_manage.h"
 #include "send_cmd.h"
+#include "image/logo.h"
 
 
 /* Private typedef -----------------------------------------------------------*/
@@ -765,6 +766,7 @@ static void step_win_cb(WM_MESSAGE* pMsg)
 {
 	MYUSER_WINDOW_T* win;
 	WM_HWIN hWin = pMsg->hWin;
+	static CS_IMAGE_T cs_image;
 	
 	switch (pMsg->MsgId)
 	{
@@ -788,6 +790,7 @@ static void step_win_cb(WM_MESSAGE* pMsg)
             update_key_inf(hWin);
             update_g_cur_step();
             update_group_inf(g_cur_win);
+            create_miclogo_image(hWin, &cs_image);
 //            GUI_Delay(1);
 //            WM_CreateTimer(hWin, 0, 1, 0);
             break;
@@ -801,11 +804,13 @@ static void step_win_cb(WM_MESSAGE* pMsg)
 			break;
 		case WM_NOTIFY_PARENT:
 			break;
+		case WM_DELETE:
+            delete_image(&cs_image);
+			break;
 		default:
 			WM_DefaultProc(pMsg);
 	}
 }
-
 
 /* Public functions ---------------------------------------------------------*/
 

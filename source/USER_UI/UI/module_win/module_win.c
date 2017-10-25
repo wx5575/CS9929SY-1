@@ -554,6 +554,7 @@ static void module_win_cb(WM_MESSAGE * pMsg)
 {
 	MYUSER_WINDOW_T* win;
 	WM_HWIN hWin = pMsg->hWin;
+	static CS_IMAGE_T cs_image;
 	
 	switch (pMsg->MsgId)
 	{
@@ -563,7 +564,7 @@ static void module_win_cb(WM_MESSAGE * pMsg)
             create_module_win_listview(hWin);
             init_module_listview();
             init_create_win_all_ele(win);
-            
+            create_miclogo_image(hWin, &cs_image);
             init_all_scan_mode_st();
             timer_handle = WM_CreateTimer(hWin, 0, 10, 0);
 			break;
@@ -579,6 +580,9 @@ static void module_win_cb(WM_MESSAGE * pMsg)
 			break;
 		}
 		case WM_KEY:
+			break;
+		case WM_DELETE:
+            delete_image(&cs_image);
 			break;
 		default:
 			WM_DefaultProc(pMsg);

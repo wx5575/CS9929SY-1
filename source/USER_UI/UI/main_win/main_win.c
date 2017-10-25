@@ -430,6 +430,7 @@ static void main_win_cb(WM_MESSAGE * pMsg)
 {
 	MYUSER_WINDOW_T* win;
 	WM_HWIN hWin = pMsg->hWin;
+	static CS_IMAGE_T cs_image;
 	
 	switch (pMsg->MsgId)
 	{
@@ -446,9 +447,9 @@ static void main_win_cb(WM_MESSAGE * pMsg)
             init_window_text_ele_list(win);//初始化窗口文本对象链表
 			init_window_text_ele(win);
             
-            create_slogo_image(hWin);
-            create_www_qr_code_image(hWin);
-            create_wts_qr_code_image(hWin);
+            create_slogo_image(hWin, &cs_image);
+            create_www_qr_code_image(hWin, &cs_image);
+            create_wts_qr_code_image(hWin, &cs_image);
             WM_CreateTimer(hWin, 0, 1000, 0);
 			break;
 		case WM_TIMER:

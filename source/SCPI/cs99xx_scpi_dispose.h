@@ -132,6 +132,19 @@ extern SCPI_ERR_T sys_password_new_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par);
 extern SCPI_ERR_T sys_password_now_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par);
 extern SCPI_ERR_T sys_time_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par);
 extern SCPI_ERR_T sys_nrule_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par);
+
+/* 校准指令集 */
+extern SCPI_ERR_T cal_enter_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par);
+extern SCPI_ERR_T cal_exit_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par);
+extern SCPI_ERR_T cal_status_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par);
+extern SCPI_ERR_T cal_mode_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par);
+extern SCPI_ERR_T cal_range_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par);
+extern SCPI_ERR_T cal_start_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par);
+extern SCPI_ERR_T cal_stop_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par);
+extern SCPI_ERR_T cal_measure_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par);
+extern SCPI_ERR_T cal_points_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par);
+extern SCPI_ERR_T cal_load_scpi_dispose_fun(SCPI_DIS_FUN_PAR *par);
+
 #endif //__CS99XX_SCPI_DISPOSE_H__
 
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

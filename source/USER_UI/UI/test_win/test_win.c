@@ -3671,7 +3671,7 @@ static void test_win_cb(WM_MESSAGE* pMsg)
 {
 	WM_HWIN hWin = pMsg->hWin;
 	MYUSER_WINDOW_T* win;
-    static void *p_mem;
+	static CS_IMAGE_T cs_image;
     
 	switch (pMsg->MsgId)
 	{
@@ -3683,7 +3683,7 @@ static void test_win_cb(WM_MESSAGE* pMsg)
             register_tim3_server_fun(run_start_sign);
             register_test_reset_server_fun(test_reset_fun);
 //            create_test_image(hWin);
-            create_miclogo_image(hWin, &p_mem);
+            create_miclogo_image(hWin, &cs_image);
 			WM_SetFocus(hWin);/* 设置聚焦 */
 			WM_SetCreateFlags(WM_CF_MEMDEV);//如果不开启显示效果非常差, 开启后刷屏很慢
 			test_win_timer_handle = WM_CreateTimer(hWin, 0, 100, 0);
@@ -3727,7 +3727,7 @@ static void test_win_cb(WM_MESSAGE* pMsg)
 		case WM_NOTIFY_PARENT:
 			break;
 		case WM_DELETE:
-            free_ex_mem(p_mem);
+            delete_image(&cs_image);
 			break;
 		default:
 			WM_DefaultProc(pMsg);

@@ -214,12 +214,13 @@ static void run_log_win_cb(WM_MESSAGE * pMsg)
 {
 	MYUSER_WINDOW_T* win;
 	WM_HWIN hWin = pMsg->hWin;
+	static CS_IMAGE_T cs_image;
 	
 	switch (pMsg->MsgId)
 	{
 		case WM_CREATE:
 			set_user_window_handle(hWin);
-            create_logo_imagex(hWin);
+            create_logo_imagex(hWin, &cs_image);
 			win = get_user_window_info(hWin);
             
             if(win->init_key_fun != NULL)
@@ -235,6 +236,7 @@ static void run_log_win_cb(WM_MESSAGE * pMsg)
 		case WM_KEY:
 			break;
 		case WM_DELETE:
+            delete_image(&cs_image);
 			break;
 		default:
 			WM_DefaultProc(pMsg);

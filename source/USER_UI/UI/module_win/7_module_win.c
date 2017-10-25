@@ -38,7 +38,7 @@ WIDGET_POS_SIZE_T _7_module_windows=
 	0/*x*/, 0/*y*/, SIZE_7INCH_WIDTH/*width*/, SIZE_7INCH_HEIGH/*height*/,
 };
 
-#define MODULE_BASE_T_X      5
+#define MODULE_BASE_T_X      35
 #define MODULE_BASE_T_Y      0
 #define MODULE_BASE_T_W      120
 

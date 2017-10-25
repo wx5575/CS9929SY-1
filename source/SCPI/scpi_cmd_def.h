@@ -30,6 +30,7 @@ typedef enum{
     C_BBDShort,
     C_BEEPER,
     C_BEHIND,
+    C_CALIBRATION,
     C_CAPACITY,
     C_CATALOG,  
     C_CCURRENT,
@@ -46,6 +47,8 @@ typedef enum{
     C_DTIME ,
     C_DUT   ,
     C_EDIT   ,
+    C_ENTER,
+    C_EXIT,
     C_FAIL  ,
     C_FCONTINUE,
     C_FETCH  ,
@@ -74,6 +77,7 @@ typedef enum{
     C_LOAD  ,
     C_LOCAL  ,
     C_LOW   ,
+    C_MEASURE,
     C_MODE  ,
     C_MOVE  ,
     C_NAME  ,
@@ -84,6 +88,7 @@ typedef enum{
     C_PASS  ,
     C_PASSWORD,
     C_PHV   ,
+    C_POINTS,
     C_PORT  ,
     C_PSIGNAL,
     C_RANGE ,
@@ -119,6 +124,7 @@ typedef enum{
     C_USED  ,
     C_VOLTAGE,
     C_VOLUME,
+
 }CMD_NUM;
 
 typedef enum {

@@ -225,6 +225,7 @@ static void self_check_win_cb(WM_MESSAGE * pMsg)
 {
 	MYUSER_WINDOW_T* win;
 	WM_HWIN hWin = pMsg->hWin;
+	static CS_IMAGE_T cs_image;
 	
 	switch (pMsg->MsgId)
 	{
@@ -233,7 +234,7 @@ static void self_check_win_cb(WM_MESSAGE * pMsg)
 			win = get_user_window_info(hWin);
             init_create_win_all_ele(win);
 			WM_SetFocus(hWin);/* 设置聚焦 */
-            create_logo_imagex(hWin);
+            create_logo_imagex(hWin, &cs_image);
 			timer_handle = WM_CreateTimer(hWin, 0, 300, 0);
             self_check_count = 0;
             self_check_ok = 0;
@@ -251,6 +252,9 @@ static void self_check_win_cb(WM_MESSAGE * pMsg)
             WM_RestartTimer(timer_handle, 300);
 			break;
         }
+		case WM_DELETE:
+            delete_image(&cs_image);
+			break;
 		default:
 			WM_DefaultProc(pMsg);
 			break;
