@@ -3441,6 +3441,7 @@ static void test_status_machine(void)
         case CHECK_TEST_OVER_SIGN:
             break;
         case TEST_START:
+            sys_flag.test_count++;///<测试总次数加1
             load_data();
             test_step = cur_step;
             dis_step_num_inf(test_step);

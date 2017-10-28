@@ -22,7 +22,7 @@
 * Initial font height:  20                                           *
 * Range disabled:       0000 - FFFF                                  *
 * Read pattern file: F:\CS9929SY\CS9929SY\CS9929SY\source\Document\24ËÎÌו.txt*
-* Read pattern file: F:\CS9929SY\CS9929SY\CS9929SY\source\Document\24ËÎÌו.txt*
+* Range disabled:       0000 - FFFF                                  *
 * Read pattern file: F:\CS9929SY\CS9929SY\CS9929SY\source\Document\24ËÎÌו.txt*
 *                                                                    *
 **********************************************************************
@@ -615,6 +615,29 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_20_003A[ 60] = { /* code 003A, COLO
   0x00, 0x00, 0x00
 };
 
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_20_003C[ 60] = { /* code 003C, LESS-THAN SIGN */
+  0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00,
+  0x00, 0x01, 0xE0,
+  0x00, 0x07, 0x80,
+  0x00, 0x1E, 0x00,
+  0x00, 0x78, 0x00,
+  0x01, 0xE0, 0x00,
+  0x07, 0x80, 0x00,
+  0x1E, 0x00, 0x00,
+  0x2E, 0x00, 0x00,
+  0x07, 0x80, 0x00,
+  0x01, 0xE0, 0x00,
+  0x00, 0x78, 0x00,
+  0x00, 0x1E, 0x00,
+  0x00, 0x07, 0x80,
+  0x00, 0x01, 0xE0,
+  0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00
+};
+
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_20_003D[ 60] = { /* code 003D, EQUALS SIGN */
   0x00, 0x00, 0x00,
   0x00, 0x00, 0x00,
@@ -633,6 +656,29 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_20_003D[ 60] = { /* code 003D, EQUA
   0x00, 0x00, 0x00,
   0x00, 0x00, 0x00,
   0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_20_003E[ 60] = { /* code 003E, GREATER-THAN SIGN */
+  0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00,
+  0x2D, 0x00, 0x00,
+  0x0B, 0x40, 0x00,
+  0x02, 0xD0, 0x00,
+  0x00, 0xB4, 0x00,
+  0x00, 0x2D, 0x00,
+  0x00, 0x0B, 0x40,
+  0x00, 0x02, 0xD0,
+  0x00, 0x02, 0xE0,
+  0x00, 0x0B, 0x40,
+  0x00, 0x2D, 0x00,
+  0x00, 0xB4, 0x00,
+  0x02, 0xD0, 0x00,
+  0x0B, 0x40, 0x00,
+  0x2D, 0x00, 0x00,
   0x00, 0x00, 0x00,
   0x00, 0x00, 0x00,
   0x00, 0x00, 0x00
@@ -3101,6 +3147,29 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_20_524D[120] = { /* code 524D */
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_20_5269[120] = { /* code 5269 */
+  0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x0F, 0x00, 0x3D, 0x00,
+  0x0B, 0xFF, 0xF7, 0x80, 0x38, 0x00,
+  0x00, 0x07, 0x40, 0x00, 0x38, 0x00,
+  0x2F, 0xFF, 0xFF, 0xDF, 0x78, 0x00,
+  0x00, 0x07, 0x40, 0x0F, 0x78, 0x00,
+  0x00, 0xD7, 0x7C, 0x0F, 0x78, 0x00,
+  0x00, 0xBB, 0x79, 0xDF, 0x78, 0x00,
+  0x2F, 0xE7, 0x7F, 0x8F, 0x78, 0x00,
+  0x00, 0xA7, 0x78, 0x8F, 0x78, 0x00,
+  0x01, 0xE7, 0x78, 0x9F, 0x78, 0x00,
+  0x3F, 0xFF, 0x7F, 0xEF, 0x78, 0x00,
+  0x28, 0x9F, 0xC0, 0x0F, 0x78, 0x00,
+  0x00, 0x3F, 0xFC, 0x0F, 0x78, 0x00,
+  0x00, 0xA7, 0x5F, 0x8D, 0x38, 0x00,
+  0x02, 0xD7, 0x47, 0xC0, 0x38, 0x00,
+  0x0B, 0x47, 0x41, 0x80, 0x38, 0x00,
+  0x2C, 0x07, 0x40, 0x0B, 0xF8, 0x00,
+  0x00, 0x07, 0x40, 0x00, 0xB0, 0x00,
+  0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+};
+
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_20_529F[120] = { /* code 529F */
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
   0x00, 0x00, 0x00, 0x7C, 0x00, 0x00,
@@ -4090,6 +4159,29 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_20_5927[120] = { /* code 5927 */
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_20_5929[120] = { /* code 5929 */
+  0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x03, 0x80, 0x00,
+  0x02, 0xFF, 0xDB, 0xFF, 0xE0, 0x00,
+  0x00, 0x00, 0x3C, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x3C, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x3C, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x3C, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x3C, 0x00, 0xB0, 0x00,
+  0x2F, 0xFF, 0xFF, 0xFF, 0xFD, 0x00,
+  0x00, 0x00, 0x7F, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0xB7, 0x40, 0x00, 0x00,
+  0x00, 0x00, 0xF2, 0xC0, 0x00, 0x00,
+  0x00, 0x01, 0xE1, 0xD0, 0x00, 0x00,
+  0x00, 0x03, 0xC0, 0xB0, 0x00, 0x00,
+  0x00, 0x0B, 0x40, 0x3C, 0x00, 0x00,
+  0x00, 0x1E, 0x00, 0x1F, 0x00, 0x00,
+  0x00, 0x78, 0x00, 0x0B, 0xE0, 0x00,
+  0x03, 0xD0, 0x00, 0x01, 0xFF, 0x00,
+  0x2F, 0x00, 0x00, 0x00, 0x34, 0x00,
+  0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+};
+
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_20_5931[120] = { /* code 5931 */
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
   0x00, 0x00, 0x2F, 0x00, 0x00, 0x00,
@@ -4340,6 +4432,29 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_20_5B9E[120] = { /* code 5B9E */
   0x00, 0x02, 0xE0, 0x0F, 0xD0, 0x00,
   0x00, 0x3F, 0x40, 0x02, 0xF0, 0x00,
   0x1F, 0xF0, 0x00, 0x00, 0xB0, 0x00,
+  0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_20_5BB9[120] = { /* code 5BB9 */
+  0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0xB8, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x2F, 0x00, 0x00, 0x00,
+  0x03, 0xFF, 0xFF, 0xFF, 0xFC, 0x00,
+  0x07, 0x80, 0x00, 0x00, 0xBD, 0x00,
+  0x0F, 0x4B, 0x81, 0xE0, 0xD0, 0x00,
+  0x00, 0x2E, 0x1D, 0x3F, 0x00, 0x00,
+  0x00, 0xB8, 0x3F, 0x07, 0xD0, 0x00,
+  0x03, 0xD0, 0xBF, 0x01, 0xE0, 0x00,
+  0x0F, 0x02, 0xD2, 0xD0, 0x00, 0x00,
+  0x00, 0x0B, 0x80, 0xB8, 0x00, 0x00,
+  0x00, 0x2E, 0x00, 0x1F, 0xC0, 0x00,
+  0x00, 0xFF, 0xFF, 0xFF, 0xFE, 0x00,
+  0x0F, 0x8E, 0x00, 0x2D, 0x34, 0x00,
+  0x28, 0x0E, 0x00, 0x2D, 0x00, 0x00,
+  0x00, 0x0E, 0x00, 0x2D, 0x00, 0x00,
+  0x00, 0x0E, 0x00, 0x2D, 0x00, 0x00,
+  0x00, 0x1F, 0xFF, 0xFD, 0x00, 0x00,
+  0x00, 0x1E, 0x00, 0x2C, 0x00, 0x00,
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
@@ -5976,6 +6091,29 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_20_675F[120] = { /* code 675F */
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_20_6761[120] = { /* code 6761 */
+  0x00, 0x03, 0x80, 0x00, 0x00, 0x00,
+  0x00, 0x0B, 0xD0, 0x00, 0x00, 0x00,
+  0x00, 0x0F, 0xFF, 0xFF, 0x40, 0x00,
+  0x00, 0x2F, 0x40, 0x3E, 0x00, 0x00,
+  0x00, 0x76, 0xC0, 0xBC, 0x00, 0x00,
+  0x00, 0xE0, 0xE1, 0xF0, 0x00, 0x00,
+  0x03, 0x80, 0x3F, 0xC0, 0x00, 0x00,
+  0x0E, 0x00, 0x3F, 0x40, 0x00, 0x00,
+  0x00, 0x03, 0xF7, 0xF8, 0x00, 0x00,
+  0x02, 0xFE, 0x1F, 0x6F, 0xFF, 0x00,
+  0x3F, 0x40, 0x1E, 0x00, 0x00, 0x00,
+  0x01, 0xFF, 0xFF, 0xFF, 0xD0, 0x00,
+  0x00, 0x00, 0x1E, 0x00, 0x00, 0x00,
+  0x00, 0x0F, 0x9E, 0xB4, 0x00, 0x00,
+  0x00, 0x2F, 0x1E, 0x2F, 0x00, 0x00,
+  0x00, 0x78, 0x1E, 0x07, 0xD0, 0x00,
+  0x01, 0xE3, 0x1E, 0x02, 0xF0, 0x00,
+  0x0B, 0x43, 0xFE, 0x00, 0xF0, 0x00,
+  0x1C, 0x00, 0x3C, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+};
+
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_20_679C[120] = { /* code 679C */
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
   0x00, 0xBF, 0xF7, 0xFF, 0x80, 0x00,
@@ -6157,6 +6295,29 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_20_6A21[120] = { /* code 6A21 */
   0x00, 0xF0, 0x0F, 0x07, 0xC0, 0x00,
   0x00, 0xF0, 0x7C, 0x01, 0xFF, 0x00,
   0x00, 0xFF, 0xE0, 0x00, 0x28, 0x00,
+  0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+};
+
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_20_6B21[120] = { /* code 6B21 */
+  0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x0B, 0xC0, 0x00, 0x00,
+  0x0B, 0x40, 0x0B, 0x80, 0x00, 0x00,
+  0x02, 0xE0, 0x0F, 0x00, 0x00, 0x00,
+  0x00, 0xF7, 0x5D, 0x00, 0x00, 0x00,
+  0x00, 0xAA, 0x2F, 0xFF, 0xFD, 0x00,
+  0x00, 0x0D, 0x39, 0x80, 0xB9, 0x00,
+  0x00, 0x1C, 0xB1, 0xF0, 0xE0, 0x00,
+  0x00, 0x39, 0xD1, 0xF2, 0x80, 0x00,
+  0x00, 0x77, 0x82, 0xF0, 0x00, 0x00,
+  0x00, 0xAB, 0x02, 0xF4, 0x00, 0x00,
+  0x01, 0xD0, 0x03, 0xA8, 0x00, 0x00,
+  0x1F, 0xC0, 0x07, 0x5C, 0x00, 0x00,
+  0x03, 0xC0, 0x0B, 0x0E, 0x00, 0x00,
+  0x03, 0xC0, 0x1D, 0x0B, 0x40, 0x00,
+  0x03, 0xC0, 0x38, 0x03, 0xC0, 0x00,
+  0x07, 0xD0, 0xF0, 0x01, 0xF4, 0x00,
+  0x01, 0xCB, 0x80, 0x00, 0xBF, 0x00,
+  0x00, 0x7D, 0x00, 0x00, 0x24, 0x00,
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
@@ -8667,6 +8828,29 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_20_91CF[120] = { /* code 91CF */
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
+GUI_CONST_STORAGE unsigned char acGUI_Fonthz_20_949F[120] = { /* code 949F */
+  0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+  0x00, 0xF8, 0x00, 0x3D, 0x00, 0x00,
+  0x01, 0xF0, 0x00, 0x3C, 0x00, 0x00,
+  0x02, 0xE0, 0x00, 0x3C, 0x00, 0x00,
+  0x02, 0xFF, 0xE0, 0x3C, 0x00, 0x00,
+  0x03, 0x80, 0x2F, 0xFF, 0xFC, 0x00,
+  0x0B, 0x00, 0x2D, 0x3C, 0x78, 0x00,
+  0x0F, 0xFF, 0xAD, 0x3C, 0x78, 0x00,
+  0x1D, 0xF0, 0x2D, 0x3C, 0x78, 0x00,
+  0x34, 0xF0, 0x2D, 0x3C, 0x78, 0x00,
+  0x3F, 0xFF, 0xEF, 0xFF, 0xF8, 0x00,
+  0x00, 0xF0, 0x2D, 0x3C, 0x78, 0x00,
+  0x00, 0xF0, 0x00, 0x3C, 0x00, 0x00,
+  0x00, 0xF0, 0xE0, 0x3C, 0x00, 0x00,
+  0x00, 0xF7, 0xC0, 0x3C, 0x00, 0x00,
+  0x00, 0xFE, 0x00, 0x3C, 0x00, 0x00,
+  0x00, 0xF8, 0x00, 0x3C, 0x00, 0x00,
+  0x00, 0xB0, 0x00, 0x3C, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x38, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+};
+
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_20_952E[120] = { /* code 952E */
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
   0x01, 0xE0, 0x00, 0x1F, 0x00, 0x00,
@@ -9174,7 +9358,7 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_20_FF0C[120] = { /* code FF0C, FULL
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
-GUI_CONST_STORAGE GUI_CHARINFO GUI_Fonthz_20_CharInfo[397] = {
+GUI_CONST_STORAGE GUI_CHARINFO GUI_Fonthz_20_CharInfo[405] = {
    {  11,  11,  3, acGUI_Fonthz_20_0020 } /* code 0020 */
   ,{  11,  11,  3, acGUI_Fonthz_20_0021 } /* code 0021 */
   ,{  11,  11,  3, acGUI_Fonthz_20_0022 } /* code 0022 */
@@ -9200,7 +9384,9 @@ GUI_CONST_STORAGE GUI_CHARINFO GUI_Fonthz_20_CharInfo[397] = {
   ,{  11,  11,  3, acGUI_Fonthz_20_0038 } /* code 0038 */
   ,{  11,  11,  3, acGUI_Fonthz_20_0039 } /* code 0039 */
   ,{  11,  11,  3, acGUI_Fonthz_20_003A } /* code 003A */
+  ,{  11,  11,  3, acGUI_Fonthz_20_003C } /* code 003C */
   ,{  11,  11,  3, acGUI_Fonthz_20_003D } /* code 003D */
+  ,{  11,  11,  3, acGUI_Fonthz_20_003E } /* code 003E */
   ,{  11,  11,  3, acGUI_Fonthz_20_003F } /* code 003F */
   ,{  11,  11,  3, acGUI_Fonthz_20_0041 } /* code 0041 */
   ,{  11,  11,  3, acGUI_Fonthz_20_0042 } /* code 0042 */
@@ -9308,6 +9494,7 @@ GUI_CONST_STORAGE GUI_CHARINFO GUI_Fonthz_20_CharInfo[397] = {
   ,{  21,  21,  6, acGUI_Fonthz_20_521D } /* code 521D */
   ,{  21,  21,  6, acGUI_Fonthz_20_5220 } /* code 5220 */
   ,{  21,  21,  6, acGUI_Fonthz_20_524D } /* code 524D */
+  ,{  21,  21,  6, acGUI_Fonthz_20_5269 } /* code 5269 */
   ,{  21,  21,  6, acGUI_Fonthz_20_529F } /* code 529F */
   ,{  21,  21,  6, acGUI_Fonthz_20_52A1 } /* code 52A1 */
   ,{  21,  21,  6, acGUI_Fonthz_20_52A8 } /* code 52A8 */
@@ -9351,6 +9538,7 @@ GUI_CONST_STORAGE GUI_CHARINFO GUI_Fonthz_20_CharInfo[397] = {
   ,{  21,  21,  6, acGUI_Fonthz_20_590D } /* code 590D */
   ,{  21,  21,  6, acGUI_Fonthz_20_591A } /* code 591A */
   ,{  21,  21,  6, acGUI_Fonthz_20_5927 } /* code 5927 */
+  ,{  21,  21,  6, acGUI_Fonthz_20_5929 } /* code 5929 */
   ,{  21,  21,  6, acGUI_Fonthz_20_5931 } /* code 5931 */
   ,{  21,  21,  6, acGUI_Fonthz_20_5934 } /* code 5934 */
   ,{  21,  21,  6, acGUI_Fonthz_20_5982 } /* code 5982 */
@@ -9362,6 +9550,7 @@ GUI_CONST_STORAGE GUI_CHARINFO GUI_Fonthz_20_CharInfo[397] = {
   ,{  21,  21,  6, acGUI_Fonthz_20_5B89 } /* code 5B89 */
   ,{  21,  21,  6, acGUI_Fonthz_20_5B9A } /* code 5B9A */
   ,{  21,  21,  6, acGUI_Fonthz_20_5B9E } /* code 5B9E */
+  ,{  21,  21,  6, acGUI_Fonthz_20_5BB9 } /* code 5BB9 */
   ,{  21,  21,  6, acGUI_Fonthz_20_5BC6 } /* code 5BC6 */
   ,{  21,  21,  6, acGUI_Fonthz_20_5BF9 } /* code 5BF9 */
   ,{  21,  21,  6, acGUI_Fonthz_20_5BFC } /* code 5BFC */
@@ -9433,6 +9622,7 @@ GUI_CONST_STORAGE GUI_CHARINFO GUI_Fonthz_20_CharInfo[397] = {
   ,{  21,  21,  6, acGUI_Fonthz_20_673A } /* code 673A */
   ,{  21,  21,  6, acGUI_Fonthz_20_6743 } /* code 6743 */
   ,{  21,  21,  6, acGUI_Fonthz_20_675F } /* code 675F */
+  ,{  21,  21,  6, acGUI_Fonthz_20_6761 } /* code 6761 */
   ,{  21,  21,  6, acGUI_Fonthz_20_679C } /* code 679C */
   ,{  21,  21,  6, acGUI_Fonthz_20_67E5 } /* code 67E5 */
   ,{  21,  21,  6, acGUI_Fonthz_20_680F } /* code 680F */
@@ -9441,6 +9631,7 @@ GUI_CONST_STORAGE GUI_CHARINFO GUI_Fonthz_20_CharInfo[397] = {
   ,{  21,  21,  6, acGUI_Fonthz_20_6863 } /* code 6863 */
   ,{  21,  21,  6, acGUI_Fonthz_20_68C0 } /* code 68C0 */
   ,{  21,  21,  6, acGUI_Fonthz_20_6A21 } /* code 6A21 */
+  ,{  21,  21,  6, acGUI_Fonthz_20_6B21 } /* code 6B21 */
   ,{  21,  21,  6, acGUI_Fonthz_20_6B62 } /* code 6B62 */
   ,{  21,  21,  6, acGUI_Fonthz_20_6B63 } /* code 6B63 */
   ,{  21,  21,  6, acGUI_Fonthz_20_6B65 } /* code 6B65 */
@@ -9550,6 +9741,7 @@ GUI_CONST_STORAGE GUI_CHARINFO GUI_Fonthz_20_CharInfo[397] = {
   ,{  21,  21,  6, acGUI_Fonthz_20_901F } /* code 901F */
   ,{  21,  21,  6, acGUI_Fonthz_20_9192 } /* code 9192 */
   ,{  21,  21,  6, acGUI_Fonthz_20_91CF } /* code 91CF */
+  ,{  21,  21,  6, acGUI_Fonthz_20_949F } /* code 949F */
   ,{  21,  21,  6, acGUI_Fonthz_20_952E } /* code 952E */
   ,{  21,  21,  6, acGUI_Fonthz_20_957F } /* code 957F */
   ,{  21,  21,  6, acGUI_Fonthz_20_95ED } /* code 95ED */
@@ -9574,2151 +9766,2186 @@ GUI_CONST_STORAGE GUI_CHARINFO GUI_Fonthz_20_CharInfo[397] = {
   ,{  21,  21,  6, acGUI_Fonthz_20_FF0C } /* code FF0C */
 };
 
-GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop310 = {
+GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop315 = {
    0xFF0C /* first character */
   ,0xFF0C /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[396] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[404] /* address of first character */
   ,(GUI_CONST_STORAGE GUI_FONT_PROP *)0 /* pointer to next GUI_FONT_PROP */
 };
 
-GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop309 = {
+GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop314 = {
    0x9E70 /* first character */
   ,0x9E70 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[395] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[403] /* address of first character */
+  ,&GUI_Fonthz_20_Prop315 /* pointer to next GUI_FONT_PROP */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop313 = {
+   0x9E23 /* first character */
+  ,0x9E23 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[402] /* address of first character */
+  ,&GUI_Fonthz_20_Prop314 /* pointer to next GUI_FONT_PROP */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop312 = {
+   0x9AA4 /* first character */
+  ,0x9AA4 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[401] /* address of first character */
+  ,&GUI_Fonthz_20_Prop313 /* pointer to next GUI_FONT_PROP */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop311 = {
+   0x9A8C /* first character */
+  ,0x9A8C /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[400] /* address of first character */
+  ,&GUI_Fonthz_20_Prop312 /* pointer to next GUI_FONT_PROP */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop310 = {
+   0x98DE /* first character */
+  ,0x98DE /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[399] /* address of first character */
+  ,&GUI_Fonthz_20_Prop311 /* pointer to next GUI_FONT_PROP */
+};
+
+GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop309 = {
+   0x98CE /* first character */
+  ,0x98CE /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[398] /* address of first character */
   ,&GUI_Fonthz_20_Prop310 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop308 = {
-   0x9E23 /* first character */
-  ,0x9E23 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[394] /* address of first character */
+   0x9891 /* first character */
+  ,0x9891 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[397] /* address of first character */
   ,&GUI_Fonthz_20_Prop309 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop307 = {
-   0x9AA4 /* first character */
-  ,0x9AA4 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[393] /* address of first character */
+   0x987B /* first character */
+  ,0x987B /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[396] /* address of first character */
   ,&GUI_Fonthz_20_Prop308 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop306 = {
-   0x9A8C /* first character */
-  ,0x9A8C /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[392] /* address of first character */
+   0x9879 /* first character */
+  ,0x9879 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[395] /* address of first character */
   ,&GUI_Fonthz_20_Prop307 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop305 = {
-   0x98DE /* first character */
-  ,0x98DE /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[391] /* address of first character */
+   0x9762 /* first character */
+  ,0x9762 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[394] /* address of first character */
   ,&GUI_Fonthz_20_Prop306 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop304 = {
-   0x98CE /* first character */
-  ,0x98CE /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[390] /* address of first character */
+   0x9694 /* first character */
+  ,0x9694 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[393] /* address of first character */
   ,&GUI_Fonthz_20_Prop305 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop303 = {
-   0x9891 /* first character */
-  ,0x9891 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[389] /* address of first character */
+   0x9669 /* first character */
+  ,0x9669 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[392] /* address of first character */
   ,&GUI_Fonthz_20_Prop304 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop302 = {
-   0x987B /* first character */
-  ,0x987B /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[388] /* address of first character */
+   0x9664 /* first character */
+  ,0x9664 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[391] /* address of first character */
   ,&GUI_Fonthz_20_Prop303 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop301 = {
-   0x9879 /* first character */
-  ,0x9879 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[387] /* address of first character */
+   0x9650 /* first character */
+  ,0x9650 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[390] /* address of first character */
   ,&GUI_Fonthz_20_Prop302 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop300 = {
-   0x9762 /* first character */
-  ,0x9762 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[386] /* address of first character */
+   0x964D /* first character */
+  ,0x964D /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[389] /* address of first character */
   ,&GUI_Fonthz_20_Prop301 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop299 = {
-   0x9694 /* first character */
-  ,0x9694 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[385] /* address of first character */
+   0x963B /* first character */
+  ,0x963B /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[388] /* address of first character */
   ,&GUI_Fonthz_20_Prop300 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop298 = {
-   0x9669 /* first character */
-  ,0x9669 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[384] /* address of first character */
+   0x9605 /* first character */
+  ,0x9605 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[387] /* address of first character */
   ,&GUI_Fonthz_20_Prop299 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop297 = {
-   0x9664 /* first character */
-  ,0x9664 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[383] /* address of first character */
+   0x95F4 /* first character */
+  ,0x95F4 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[386] /* address of first character */
   ,&GUI_Fonthz_20_Prop298 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop296 = {
-   0x9650 /* first character */
-  ,0x9650 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[382] /* address of first character */
+   0x95ED /* first character */
+  ,0x95ED /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[385] /* address of first character */
   ,&GUI_Fonthz_20_Prop297 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop295 = {
-   0x964D /* first character */
-  ,0x964D /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[381] /* address of first character */
+   0x957F /* first character */
+  ,0x957F /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[384] /* address of first character */
   ,&GUI_Fonthz_20_Prop296 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop294 = {
-   0x963B /* first character */
-  ,0x963B /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[380] /* address of first character */
+   0x952E /* first character */
+  ,0x952E /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[383] /* address of first character */
   ,&GUI_Fonthz_20_Prop295 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop293 = {
-   0x9605 /* first character */
-  ,0x9605 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[379] /* address of first character */
+   0x949F /* first character */
+  ,0x949F /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[382] /* address of first character */
   ,&GUI_Fonthz_20_Prop294 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop292 = {
-   0x95F4 /* first character */
-  ,0x95F4 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[378] /* address of first character */
+   0x91CF /* first character */
+  ,0x91CF /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[381] /* address of first character */
   ,&GUI_Fonthz_20_Prop293 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop291 = {
-   0x95ED /* first character */
-  ,0x95ED /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[377] /* address of first character */
+   0x9192 /* first character */
+  ,0x9192 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[380] /* address of first character */
   ,&GUI_Fonthz_20_Prop292 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop290 = {
-   0x957F /* first character */
-  ,0x957F /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[376] /* address of first character */
+   0x901F /* first character */
+  ,0x901F /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[379] /* address of first character */
   ,&GUI_Fonthz_20_Prop291 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop289 = {
-   0x952E /* first character */
-  ,0x952E /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[375] /* address of first character */
+   0x901A /* first character */
+  ,0x901A /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[378] /* address of first character */
   ,&GUI_Fonthz_20_Prop290 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop288 = {
-   0x91CF /* first character */
-  ,0x91CF /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[374] /* address of first character */
+   0x9009 /* first character */
+  ,0x9009 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[377] /* address of first character */
   ,&GUI_Fonthz_20_Prop289 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop287 = {
-   0x9192 /* first character */
-  ,0x9192 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[373] /* address of first character */
+   0x9000 /* first character */
+  ,0x9000 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[376] /* address of first character */
   ,&GUI_Fonthz_20_Prop288 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop286 = {
-   0x901F /* first character */
-  ,0x901F /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[372] /* address of first character */
+   0x8FDE /* first character */
+  ,0x8FDE /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[375] /* address of first character */
   ,&GUI_Fonthz_20_Prop287 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop285 = {
-   0x901A /* first character */
-  ,0x901A /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[371] /* address of first character */
+   0x8FDC /* first character */
+  ,0x8FDC /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[374] /* address of first character */
   ,&GUI_Fonthz_20_Prop286 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop284 = {
-   0x9009 /* first character */
-  ,0x9009 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[370] /* address of first character */
+   0x8FD4 /* first character */
+  ,0x8FD4 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[373] /* address of first character */
   ,&GUI_Fonthz_20_Prop285 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop283 = {
-   0x9000 /* first character */
-  ,0x9000 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[369] /* address of first character */
+   0x8FD0 /* first character */
+  ,0x8FD0 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[372] /* address of first character */
   ,&GUI_Fonthz_20_Prop284 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop282 = {
-   0x8FDE /* first character */
-  ,0x8FDE /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[368] /* address of first character */
+   0x8F93 /* first character */
+  ,0x8F93 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[371] /* address of first character */
   ,&GUI_Fonthz_20_Prop283 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop281 = {
-   0x8FDC /* first character */
-  ,0x8FDC /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[367] /* address of first character */
+   0x8F91 /* first character */
+  ,0x8F91 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[370] /* address of first character */
   ,&GUI_Fonthz_20_Prop282 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop280 = {
-   0x8FD4 /* first character */
-  ,0x8FD4 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[366] /* address of first character */
+   0x8F6F /* first character */
+  ,0x8F6F /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[369] /* address of first character */
   ,&GUI_Fonthz_20_Prop281 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop279 = {
-   0x8FD0 /* first character */
-  ,0x8FD0 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[365] /* address of first character */
+   0x8F6C /* first character */
+  ,0x8F6C /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[368] /* address of first character */
   ,&GUI_Fonthz_20_Prop280 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop278 = {
-   0x8F93 /* first character */
-  ,0x8F93 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[364] /* address of first character */
+   0x8DF3 /* first character */
+  ,0x8DF3 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[367] /* address of first character */
   ,&GUI_Fonthz_20_Prop279 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop277 = {
-   0x8F91 /* first character */
-  ,0x8F91 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[363] /* address of first character */
+   0x8DEF /* first character */
+  ,0x8DEF /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[366] /* address of first character */
   ,&GUI_Fonthz_20_Prop278 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop276 = {
-   0x8F6F /* first character */
-  ,0x8F6F /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[362] /* address of first character */
+   0x8D2E /* first character */
+  ,0x8D2E /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[365] /* address of first character */
   ,&GUI_Fonthz_20_Prop277 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop275 = {
-   0x8F6C /* first character */
-  ,0x8F6C /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[361] /* address of first character */
+   0x8D25 /* first character */
+  ,0x8D25 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[364] /* address of first character */
   ,&GUI_Fonthz_20_Prop276 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop274 = {
-   0x8DF3 /* first character */
-  ,0x8DF3 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[360] /* address of first character */
+   0x8BFB /* first character */
+  ,0x8BFB /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[363] /* address of first character */
   ,&GUI_Fonthz_20_Prop275 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop273 = {
-   0x8DEF /* first character */
-  ,0x8DEF /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[359] /* address of first character */
+   0x8BF7 /* first character */
+  ,0x8BF7 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[362] /* address of first character */
   ,&GUI_Fonthz_20_Prop274 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop272 = {
-   0x8D2E /* first character */
-  ,0x8D2E /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[358] /* address of first character */
+   0x8BF4 /* first character */
+  ,0x8BF4 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[361] /* address of first character */
   ,&GUI_Fonthz_20_Prop273 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop271 = {
-   0x8D25 /* first character */
-  ,0x8D25 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[357] /* address of first character */
+   0x8BED /* first character */
+  ,0x8BED /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[360] /* address of first character */
   ,&GUI_Fonthz_20_Prop272 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop270 = {
-   0x8BFB /* first character */
-  ,0x8BFB /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[356] /* address of first character */
+   0x8BE5 /* first character */
+  ,0x8BE6 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[358] /* address of first character */
   ,&GUI_Fonthz_20_Prop271 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop269 = {
-   0x8BF7 /* first character */
-  ,0x8BF7 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[355] /* address of first character */
+   0x8BD5 /* first character */
+  ,0x8BD5 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[357] /* address of first character */
   ,&GUI_Fonthz_20_Prop270 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop268 = {
-   0x8BF4 /* first character */
-  ,0x8BF4 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[354] /* address of first character */
+   0x8BC1 /* first character */
+  ,0x8BC1 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[356] /* address of first character */
   ,&GUI_Fonthz_20_Prop269 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop267 = {
-   0x8BED /* first character */
-  ,0x8BED /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[353] /* address of first character */
+   0x8BBE /* first character */
+  ,0x8BBE /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[355] /* address of first character */
   ,&GUI_Fonthz_20_Prop268 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop266 = {
-   0x8BE5 /* first character */
-  ,0x8BE6 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[351] /* address of first character */
+   0x8BB8 /* first character */
+  ,0x8BB8 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[354] /* address of first character */
   ,&GUI_Fonthz_20_Prop267 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop265 = {
-   0x8BD5 /* first character */
-  ,0x8BD5 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[350] /* address of first character */
+   0x8BB0 /* first character */
+  ,0x8BB0 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[353] /* address of first character */
   ,&GUI_Fonthz_20_Prop266 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop264 = {
-   0x8BC1 /* first character */
-  ,0x8BC1 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[349] /* address of first character */
+   0x8BA4 /* first character */
+  ,0x8BA4 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[352] /* address of first character */
   ,&GUI_Fonthz_20_Prop265 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop263 = {
-   0x8BBE /* first character */
-  ,0x8BBE /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[348] /* address of first character */
+   0x8BA1 /* first character */
+  ,0x8BA1 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[351] /* address of first character */
   ,&GUI_Fonthz_20_Prop264 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop262 = {
-   0x8BB8 /* first character */
-  ,0x8BB8 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[347] /* address of first character */
+   0x8B66 /* first character */
+  ,0x8B66 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[350] /* address of first character */
   ,&GUI_Fonthz_20_Prop263 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop261 = {
-   0x8BB0 /* first character */
-  ,0x8BB0 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[346] /* address of first character */
+   0x8A00 /* first character */
+  ,0x8A00 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[349] /* address of first character */
   ,&GUI_Fonthz_20_Prop262 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop260 = {
-   0x8BA4 /* first character */
-  ,0x8BA4 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[345] /* address of first character */
+   0x89E6 /* first character */
+  ,0x89E6 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[348] /* address of first character */
   ,&GUI_Fonthz_20_Prop261 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop259 = {
-   0x8BA1 /* first character */
-  ,0x8BA1 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[344] /* address of first character */
+   0x89C4 /* first character */
+  ,0x89C4 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[347] /* address of first character */
   ,&GUI_Fonthz_20_Prop260 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop258 = {
-   0x8B66 /* first character */
-  ,0x8B66 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[343] /* address of first character */
+   0x8986 /* first character */
+  ,0x8986 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[346] /* address of first character */
   ,&GUI_Fonthz_20_Prop259 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop257 = {
-   0x8A00 /* first character */
-  ,0x8A00 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[342] /* address of first character */
+   0x8981 /* first character */
+  ,0x8981 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[345] /* address of first character */
   ,&GUI_Fonthz_20_Prop258 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop256 = {
-   0x89E6 /* first character */
-  ,0x89E6 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[341] /* address of first character */
+   0x88AB /* first character */
+  ,0x88AB /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[344] /* address of first character */
   ,&GUI_Fonthz_20_Prop257 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop255 = {
-   0x89C4 /* first character */
-  ,0x89C4 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[340] /* address of first character */
+   0x8868 /* first character */
+  ,0x8868 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[343] /* address of first character */
   ,&GUI_Fonthz_20_Prop256 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop254 = {
-   0x8986 /* first character */
-  ,0x8986 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[339] /* address of first character */
+   0x884C /* first character */
+  ,0x884C /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[342] /* address of first character */
   ,&GUI_Fonthz_20_Prop255 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop253 = {
-   0x8981 /* first character */
-  ,0x8981 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[338] /* address of first character */
+   0x8702 /* first character */
+  ,0x8702 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[341] /* address of first character */
   ,&GUI_Fonthz_20_Prop254 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop252 = {
-   0x88AB /* first character */
-  ,0x88AB /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[337] /* address of first character */
+   0x8303 /* first character */
+  ,0x8303 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[340] /* address of first character */
   ,&GUI_Fonthz_20_Prop253 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop251 = {
-   0x8868 /* first character */
-  ,0x8868 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[336] /* address of first character */
+   0x82F1 /* first character */
+  ,0x82F1 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[339] /* address of first character */
   ,&GUI_Fonthz_20_Prop252 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop250 = {
-   0x884C /* first character */
-  ,0x884C /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[335] /* address of first character */
+   0x81F4 /* first character */
+  ,0x81F4 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[338] /* address of first character */
   ,&GUI_Fonthz_20_Prop251 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop249 = {
-   0x8702 /* first character */
-  ,0x8702 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[334] /* address of first character */
+   0x81EA /* first character */
+  ,0x81EA /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[337] /* address of first character */
   ,&GUI_Fonthz_20_Prop250 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop248 = {
-   0x8303 /* first character */
-  ,0x8303 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[333] /* address of first character */
+   0x8131 /* first character */
+  ,0x8131 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[336] /* address of first character */
   ,&GUI_Fonthz_20_Prop249 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop247 = {
-   0x82F1 /* first character */
-  ,0x82F1 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[332] /* address of first character */
+   0x80FD /* first character */
+  ,0x80FD /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[335] /* address of first character */
   ,&GUI_Fonthz_20_Prop248 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop246 = {
-   0x81F4 /* first character */
-  ,0x81F4 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[331] /* address of first character */
+   0x8054 /* first character */
+  ,0x8054 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[334] /* address of first character */
   ,&GUI_Fonthz_20_Prop247 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop245 = {
-   0x81EA /* first character */
-  ,0x81EA /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[330] /* address of first character */
+   0x7F6E /* first character */
+  ,0x7F6E /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[333] /* address of first character */
   ,&GUI_Fonthz_20_Prop246 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop244 = {
-   0x8131 /* first character */
-  ,0x8131 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[329] /* address of first character */
+   0x7F51 /* first character */
+  ,0x7F51 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[332] /* address of first character */
   ,&GUI_Fonthz_20_Prop245 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop243 = {
-   0x80FD /* first character */
-  ,0x80FD /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[328] /* address of first character */
+   0x7F16 /* first character */
+  ,0x7F16 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[331] /* address of first character */
   ,&GUI_Fonthz_20_Prop244 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop242 = {
-   0x8054 /* first character */
-  ,0x8054 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[327] /* address of first character */
+   0x7F13 /* first character */
+  ,0x7F13 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[330] /* address of first character */
   ,&GUI_Fonthz_20_Prop243 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop241 = {
-   0x7F6E /* first character */
-  ,0x7F6E /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[326] /* address of first character */
+   0x7EFC /* first character */
+  ,0x7EFC /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[329] /* address of first character */
   ,&GUI_Fonthz_20_Prop242 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop240 = {
-   0x7F51 /* first character */
-  ,0x7F51 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[325] /* address of first character */
+   0x7EED /* first character */
+  ,0x7EED /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[328] /* address of first character */
   ,&GUI_Fonthz_20_Prop241 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop239 = {
-   0x7F16 /* first character */
-  ,0x7F16 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[324] /* address of first character */
+   0x7EE7 /* first character */
+  ,0x7EE7 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[327] /* address of first character */
   ,&GUI_Fonthz_20_Prop240 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop238 = {
-   0x7F13 /* first character */
-  ,0x7F13 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[323] /* address of first character */
+   0x7EDF /* first character */
+  ,0x7EDF /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[326] /* address of first character */
   ,&GUI_Fonthz_20_Prop239 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop237 = {
-   0x7EFC /* first character */
-  ,0x7EFC /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[322] /* address of first character */
+   0x7ED3 /* first character */
+  ,0x7ED3 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[325] /* address of first character */
   ,&GUI_Fonthz_20_Prop238 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop236 = {
-   0x7EED /* first character */
-  ,0x7EED /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[321] /* address of first character */
+   0x7EC6 /* first character */
+  ,0x7EC6 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[324] /* address of first character */
   ,&GUI_Fonthz_20_Prop237 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop235 = {
-   0x7EE7 /* first character */
-  ,0x7EE7 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[320] /* address of first character */
+   0x7EC4 /* first character */
+  ,0x7EC4 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[323] /* address of first character */
   ,&GUI_Fonthz_20_Prop236 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop234 = {
-   0x7EDF /* first character */
-  ,0x7EDF /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[319] /* address of first character */
+   0x7EA7 /* first character */
+  ,0x7EA7 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[322] /* address of first character */
   ,&GUI_Fonthz_20_Prop235 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop233 = {
-   0x7ED3 /* first character */
-  ,0x7ED3 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[318] /* address of first character */
+   0x7CFB /* first character */
+  ,0x7CFB /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[321] /* address of first character */
   ,&GUI_Fonthz_20_Prop234 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop232 = {
-   0x7EC6 /* first character */
-  ,0x7EC6 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[317] /* address of first character */
+   0x7BA1 /* first character */
+  ,0x7BA1 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[320] /* address of first character */
   ,&GUI_Fonthz_20_Prop233 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop231 = {
-   0x7EC4 /* first character */
-  ,0x7EC4 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[316] /* address of first character */
+   0x7B49 /* first character */
+  ,0x7B49 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[319] /* address of first character */
   ,&GUI_Fonthz_20_Prop232 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop230 = {
-   0x7EA7 /* first character */
-  ,0x7EA7 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[315] /* address of first character */
+   0x7B2C /* first character */
+  ,0x7B2C /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[318] /* address of first character */
   ,&GUI_Fonthz_20_Prop231 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop229 = {
-   0x7CFB /* first character */
-  ,0x7CFB /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[314] /* address of first character */
+   0x7B26 /* first character */
+  ,0x7B26 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[317] /* address of first character */
   ,&GUI_Fonthz_20_Prop230 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop228 = {
-   0x7BA1 /* first character */
-  ,0x7BA1 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[313] /* address of first character */
+   0x7AEF /* first character */
+  ,0x7AEF /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[316] /* address of first character */
   ,&GUI_Fonthz_20_Prop229 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop227 = {
-   0x7B49 /* first character */
-  ,0x7B49 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[312] /* address of first character */
+   0x7AD9 /* first character */
+  ,0x7AD9 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[315] /* address of first character */
   ,&GUI_Fonthz_20_Prop228 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop226 = {
-   0x7B2C /* first character */
-  ,0x7B2C /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[311] /* address of first character */
+   0x7A7A /* first character */
+  ,0x7A7A /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[314] /* address of first character */
   ,&GUI_Fonthz_20_Prop227 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop225 = {
-   0x7B26 /* first character */
-  ,0x7B26 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[310] /* address of first character */
+   0x7A33 /* first character */
+  ,0x7A33 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[313] /* address of first character */
   ,&GUI_Fonthz_20_Prop226 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop224 = {
-   0x7AEF /* first character */
-  ,0x7AEF /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[309] /* address of first character */
+   0x7A0B /* first character */
+  ,0x7A0B /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[312] /* address of first character */
   ,&GUI_Fonthz_20_Prop225 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop223 = {
-   0x7AD9 /* first character */
-  ,0x7AD9 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[308] /* address of first character */
+   0x79FB /* first character */
+  ,0x79FB /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[311] /* address of first character */
   ,&GUI_Fonthz_20_Prop224 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop222 = {
-   0x7A7A /* first character */
-  ,0x7A7A /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[307] /* address of first character */
+   0x79F0 /* first character */
+  ,0x79F0 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[310] /* address of first character */
   ,&GUI_Fonthz_20_Prop223 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop221 = {
-   0x7A33 /* first character */
-  ,0x7A33 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[306] /* address of first character */
+   0x79D2 /* first character */
+  ,0x79D2 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[309] /* address of first character */
   ,&GUI_Fonthz_20_Prop222 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop220 = {
-   0x7A0B /* first character */
-  ,0x7A0B /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[305] /* address of first character */
+   0x793A /* first character */
+  ,0x793A /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[308] /* address of first character */
   ,&GUI_Fonthz_20_Prop221 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop219 = {
-   0x79FB /* first character */
-  ,0x79FB /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[304] /* address of first character */
+   0x786E /* first character */
+  ,0x786E /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[307] /* address of first character */
   ,&GUI_Fonthz_20_Prop220 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop218 = {
-   0x79F0 /* first character */
-  ,0x79F0 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[303] /* address of first character */
+   0x786C /* first character */
+  ,0x786C /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[306] /* address of first character */
   ,&GUI_Fonthz_20_Prop219 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop217 = {
-   0x79D2 /* first character */
-  ,0x79D2 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[302] /* address of first character */
+   0x7801 /* first character */
+  ,0x7801 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[305] /* address of first character */
   ,&GUI_Fonthz_20_Prop218 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop216 = {
-   0x793A /* first character */
-  ,0x793A /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[301] /* address of first character */
+   0x77ED /* first character */
+  ,0x77ED /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[304] /* address of first character */
   ,&GUI_Fonthz_20_Prop217 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop215 = {
-   0x786E /* first character */
-  ,0x786E /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[300] /* address of first character */
+   0x771F /* first character */
+  ,0x771F /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[303] /* address of first character */
   ,&GUI_Fonthz_20_Prop216 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop214 = {
-   0x786C /* first character */
-  ,0x786C /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[299] /* address of first character */
+   0x76DB /* first character */
+  ,0x76DB /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[302] /* address of first character */
   ,&GUI_Fonthz_20_Prop215 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop213 = {
-   0x7801 /* first character */
-  ,0x7801 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[298] /* address of first character */
+   0x76D8 /* first character */
+  ,0x76D8 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[301] /* address of first character */
   ,&GUI_Fonthz_20_Prop214 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop212 = {
-   0x77ED /* first character */
-  ,0x77ED /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[297] /* address of first character */
+   0x76D6 /* first character */
+  ,0x76D6 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[300] /* address of first character */
   ,&GUI_Fonthz_20_Prop213 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop211 = {
-   0x771F /* first character */
-  ,0x771F /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[296] /* address of first character */
+   0x7684 /* first character */
+  ,0x7684 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[299] /* address of first character */
   ,&GUI_Fonthz_20_Prop212 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop210 = {
-   0x76DB /* first character */
-  ,0x76DB /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[295] /* address of first character */
+   0x754C /* first character */
+  ,0x754C /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[298] /* address of first character */
   ,&GUI_Fonthz_20_Prop211 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop209 = {
-   0x76D8 /* first character */
-  ,0x76D8 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[294] /* address of first character */
+   0x7535 /* first character */
+  ,0x7535 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[297] /* address of first character */
   ,&GUI_Fonthz_20_Prop210 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop208 = {
-   0x76D6 /* first character */
-  ,0x76D6 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[293] /* address of first character */
+   0x7528 /* first character */
+  ,0x7528 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[296] /* address of first character */
   ,&GUI_Fonthz_20_Prop209 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop207 = {
-   0x7684 /* first character */
-  ,0x7684 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[292] /* address of first character */
+   0x7406 /* first character */
+  ,0x7406 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[295] /* address of first character */
   ,&GUI_Fonthz_20_Prop208 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop206 = {
-   0x754C /* first character */
-  ,0x754C /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[291] /* address of first character */
+   0x73AF /* first character */
+  ,0x73AF /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[294] /* address of first character */
   ,&GUI_Fonthz_20_Prop207 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop205 = {
-   0x7535 /* first character */
-  ,0x7535 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[290] /* address of first character */
+   0x7387 /* first character */
+  ,0x7387 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[293] /* address of first character */
   ,&GUI_Fonthz_20_Prop206 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop204 = {
-   0x7528 /* first character */
-  ,0x7528 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[289] /* address of first character */
+   0x72B6 /* first character */
+  ,0x72B6 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[292] /* address of first character */
   ,&GUI_Fonthz_20_Prop205 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop203 = {
-   0x7406 /* first character */
-  ,0x7406 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[288] /* address of first character */
+   0x7269 /* first character */
+  ,0x7269 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[291] /* address of first character */
   ,&GUI_Fonthz_20_Prop204 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop202 = {
-   0x73AF /* first character */
-  ,0x73AF /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[287] /* address of first character */
+   0x7248 /* first character */
+  ,0x7248 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[290] /* address of first character */
   ,&GUI_Fonthz_20_Prop203 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop201 = {
-   0x7387 /* first character */
-  ,0x7387 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[286] /* address of first character */
+   0x70B9 /* first character */
+  ,0x70B9 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[289] /* address of first character */
   ,&GUI_Fonthz_20_Prop202 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop200 = {
-   0x72B6 /* first character */
-  ,0x72B6 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[285] /* address of first character */
+   0x6EE8 /* first character */
+  ,0x6EE8 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[288] /* address of first character */
   ,&GUI_Fonthz_20_Prop201 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop199 = {
-   0x7269 /* first character */
-  ,0x7269 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[284] /* address of first character */
+   0x6EA2 /* first character */
+  ,0x6EA2 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[287] /* address of first character */
   ,&GUI_Fonthz_20_Prop200 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop198 = {
-   0x7248 /* first character */
-  ,0x7248 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[283] /* address of first character */
+   0x6E90 /* first character */
+  ,0x6E90 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[286] /* address of first character */
   ,&GUI_Fonthz_20_Prop199 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop197 = {
-   0x70B9 /* first character */
-  ,0x70B9 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[282] /* address of first character */
+   0x6E05 /* first character */
+  ,0x6E05 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[285] /* address of first character */
   ,&GUI_Fonthz_20_Prop198 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop196 = {
-   0x6EE8 /* first character */
-  ,0x6EE8 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[281] /* address of first character */
+   0x6DB2 /* first character */
+  ,0x6DB2 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[284] /* address of first character */
   ,&GUI_Fonthz_20_Prop197 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop195 = {
-   0x6EA2 /* first character */
-  ,0x6EA2 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[280] /* address of first character */
+   0x6D88 /* first character */
+  ,0x6D88 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[283] /* address of first character */
   ,&GUI_Fonthz_20_Prop196 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop194 = {
-   0x6E90 /* first character */
-  ,0x6E90 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[279] /* address of first character */
+   0x6D6E /* first character */
+  ,0x6D6E /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[282] /* address of first character */
   ,&GUI_Fonthz_20_Prop195 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop193 = {
-   0x6E05 /* first character */
-  ,0x6E05 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[278] /* address of first character */
+   0x6D4B /* first character */
+  ,0x6D4B /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[281] /* address of first character */
   ,&GUI_Fonthz_20_Prop194 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop192 = {
-   0x6DB2 /* first character */
-  ,0x6DB2 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[277] /* address of first character */
+   0x6D41 /* first character */
+  ,0x6D41 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[280] /* address of first character */
   ,&GUI_Fonthz_20_Prop193 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop191 = {
-   0x6D88 /* first character */
-  ,0x6D88 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[276] /* address of first character */
+   0x6CE8 /* first character */
+  ,0x6CE8 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[279] /* address of first character */
   ,&GUI_Fonthz_20_Prop192 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop190 = {
-   0x6D6E /* first character */
-  ,0x6D6E /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[275] /* address of first character */
+   0x6CD5 /* first character */
+  ,0x6CD5 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[278] /* address of first character */
   ,&GUI_Fonthz_20_Prop191 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop189 = {
-   0x6D4B /* first character */
-  ,0x6D4B /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[274] /* address of first character */
+   0x6C5F /* first character */
+  ,0x6C5F /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[277] /* address of first character */
   ,&GUI_Fonthz_20_Prop190 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop188 = {
-   0x6D41 /* first character */
-  ,0x6D41 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[273] /* address of first character */
+   0x6BD4 /* first character */
+  ,0x6BD4 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[276] /* address of first character */
   ,&GUI_Fonthz_20_Prop189 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop187 = {
-   0x6CE8 /* first character */
-  ,0x6CE8 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[272] /* address of first character */
+   0x6B65 /* first character */
+  ,0x6B65 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[275] /* address of first character */
   ,&GUI_Fonthz_20_Prop188 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop186 = {
-   0x6CD5 /* first character */
-  ,0x6CD5 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[271] /* address of first character */
+   0x6B62 /* first character */
+  ,0x6B63 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[273] /* address of first character */
   ,&GUI_Fonthz_20_Prop187 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop185 = {
-   0x6C5F /* first character */
-  ,0x6C5F /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[270] /* address of first character */
+   0x6B21 /* first character */
+  ,0x6B21 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[272] /* address of first character */
   ,&GUI_Fonthz_20_Prop186 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop184 = {
-   0x6BD4 /* first character */
-  ,0x6BD4 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[269] /* address of first character */
+   0x6A21 /* first character */
+  ,0x6A21 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[271] /* address of first character */
   ,&GUI_Fonthz_20_Prop185 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop183 = {
-   0x6B65 /* first character */
-  ,0x6B65 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[268] /* address of first character */
+   0x68C0 /* first character */
+  ,0x68C0 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[270] /* address of first character */
   ,&GUI_Fonthz_20_Prop184 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop182 = {
-   0x6B62 /* first character */
-  ,0x6B63 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[266] /* address of first character */
+   0x6863 /* first character */
+  ,0x6863 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[269] /* address of first character */
   ,&GUI_Fonthz_20_Prop183 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop181 = {
-   0x6A21 /* first character */
-  ,0x6A21 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[265] /* address of first character */
+   0x683C /* first character */
+  ,0x683C /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[268] /* address of first character */
   ,&GUI_Fonthz_20_Prop182 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop180 = {
-   0x68C0 /* first character */
-  ,0x68C0 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[264] /* address of first character */
+   0x6821 /* first character */
+  ,0x6821 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[267] /* address of first character */
   ,&GUI_Fonthz_20_Prop181 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop179 = {
-   0x6863 /* first character */
-  ,0x6863 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[263] /* address of first character */
+   0x680F /* first character */
+  ,0x680F /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[266] /* address of first character */
   ,&GUI_Fonthz_20_Prop180 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop178 = {
-   0x683C /* first character */
-  ,0x683C /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[262] /* address of first character */
+   0x67E5 /* first character */
+  ,0x67E5 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[265] /* address of first character */
   ,&GUI_Fonthz_20_Prop179 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop177 = {
-   0x6821 /* first character */
-  ,0x6821 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[261] /* address of first character */
+   0x679C /* first character */
+  ,0x679C /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[264] /* address of first character */
   ,&GUI_Fonthz_20_Prop178 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop176 = {
-   0x680F /* first character */
-  ,0x680F /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[260] /* address of first character */
+   0x6761 /* first character */
+  ,0x6761 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[263] /* address of first character */
   ,&GUI_Fonthz_20_Prop177 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop175 = {
-   0x67E5 /* first character */
-  ,0x67E5 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[259] /* address of first character */
+   0x675F /* first character */
+  ,0x675F /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[262] /* address of first character */
   ,&GUI_Fonthz_20_Prop176 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop174 = {
-   0x679C /* first character */
-  ,0x679C /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[258] /* address of first character */
+   0x6743 /* first character */
+  ,0x6743 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[261] /* address of first character */
   ,&GUI_Fonthz_20_Prop175 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop173 = {
-   0x675F /* first character */
-  ,0x675F /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[257] /* address of first character */
+   0x673A /* first character */
+  ,0x673A /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[260] /* address of first character */
   ,&GUI_Fonthz_20_Prop174 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop172 = {
-   0x6743 /* first character */
-  ,0x6743 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[256] /* address of first character */
+   0x672F /* first character */
+  ,0x672F /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[259] /* address of first character */
   ,&GUI_Fonthz_20_Prop173 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop171 = {
-   0x673A /* first character */
-  ,0x673A /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[255] /* address of first character */
+   0x672C /* first character */
+  ,0x672C /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[258] /* address of first character */
   ,&GUI_Fonthz_20_Prop172 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop170 = {
-   0x672F /* first character */
-  ,0x672F /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[254] /* address of first character */
+   0x672A /* first character */
+  ,0x672A /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[257] /* address of first character */
   ,&GUI_Fonthz_20_Prop171 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop169 = {
-   0x672C /* first character */
-  ,0x672C /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[253] /* address of first character */
+   0x671F /* first character */
+  ,0x671F /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[256] /* address of first character */
   ,&GUI_Fonthz_20_Prop170 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop168 = {
-   0x672A /* first character */
-  ,0x672A /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[252] /* address of first character */
+   0x670D /* first character */
+  ,0x670D /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[255] /* address of first character */
   ,&GUI_Fonthz_20_Prop169 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop167 = {
-   0x671F /* first character */
-  ,0x671F /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[251] /* address of first character */
+   0x6708 /* first character */
+  ,0x6709 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[253] /* address of first character */
   ,&GUI_Fonthz_20_Prop168 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop166 = {
-   0x670D /* first character */
-  ,0x670D /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[250] /* address of first character */
+   0x66F4 /* first character */
+  ,0x66F4 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[252] /* address of first character */
   ,&GUI_Fonthz_20_Prop167 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop165 = {
-   0x6708 /* first character */
-  ,0x6709 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[248] /* address of first character */
+   0x6676 /* first character */
+  ,0x6676 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[251] /* address of first character */
   ,&GUI_Fonthz_20_Prop166 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop164 = {
-   0x66F4 /* first character */
-  ,0x66F4 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[247] /* address of first character */
+   0x663E /* first character */
+  ,0x663E /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[250] /* address of first character */
   ,&GUI_Fonthz_20_Prop165 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop163 = {
-   0x6676 /* first character */
-  ,0x6676 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[246] /* address of first character */
+   0x662F /* first character */
+  ,0x662F /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[249] /* address of first character */
   ,&GUI_Fonthz_20_Prop164 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop162 = {
-   0x663E /* first character */
-  ,0x663E /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[245] /* address of first character */
+   0x660E /* first character */
+  ,0x660E /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[248] /* address of first character */
   ,&GUI_Fonthz_20_Prop163 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop161 = {
-   0x662F /* first character */
-  ,0x662F /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[244] /* address of first character */
+   0x65F6 /* first character */
+  ,0x65F6 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[247] /* address of first character */
   ,&GUI_Fonthz_20_Prop162 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop160 = {
-   0x660E /* first character */
-  ,0x660E /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[243] /* address of first character */
+   0x65E5 /* first character */
+  ,0x65E5 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[246] /* address of first character */
   ,&GUI_Fonthz_20_Prop161 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop159 = {
-   0x65F6 /* first character */
-  ,0x65F6 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[242] /* address of first character */
+   0x65E0 /* first character */
+  ,0x65E0 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[245] /* address of first character */
   ,&GUI_Fonthz_20_Prop160 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop158 = {
-   0x65E5 /* first character */
-  ,0x65E5 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[241] /* address of first character */
+   0x65B0 /* first character */
+  ,0x65B0 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[244] /* address of first character */
   ,&GUI_Fonthz_20_Prop159 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop157 = {
-   0x65E0 /* first character */
-  ,0x65E0 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[240] /* address of first character */
+   0x65AD /* first character */
+  ,0x65AD /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[243] /* address of first character */
   ,&GUI_Fonthz_20_Prop158 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop156 = {
-   0x65B0 /* first character */
-  ,0x65B0 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[239] /* address of first character */
+   0x6587 /* first character */
+  ,0x6587 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[242] /* address of first character */
   ,&GUI_Fonthz_20_Prop157 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop155 = {
-   0x65AD /* first character */
-  ,0x65AD /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[238] /* address of first character */
+   0x6570 /* first character */
+  ,0x6570 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[241] /* address of first character */
   ,&GUI_Fonthz_20_Prop156 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop154 = {
-   0x6587 /* first character */
-  ,0x6587 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[237] /* address of first character */
+   0x6548 /* first character */
+  ,0x6548 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[240] /* address of first character */
   ,&GUI_Fonthz_20_Prop155 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop153 = {
-   0x6570 /* first character */
-  ,0x6570 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[236] /* address of first character */
+   0x653E /* first character */
+  ,0x653E /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[239] /* address of first character */
   ,&GUI_Fonthz_20_Prop154 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop152 = {
-   0x6548 /* first character */
-  ,0x6548 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[235] /* address of first character */
+   0x6539 /* first character */
+  ,0x6539 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[238] /* address of first character */
   ,&GUI_Fonthz_20_Prop153 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop151 = {
-   0x653E /* first character */
-  ,0x653E /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[234] /* address of first character */
+   0x64CD /* first character */
+  ,0x64CD /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[237] /* address of first character */
   ,&GUI_Fonthz_20_Prop152 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop150 = {
-   0x6539 /* first character */
-  ,0x6539 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[233] /* address of first character */
+   0x6478 /* first character */
+  ,0x6478 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[236] /* address of first character */
   ,&GUI_Fonthz_20_Prop151 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop149 = {
-   0x64CD /* first character */
-  ,0x64CD /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[232] /* address of first character */
+   0x63D2 /* first character */
+  ,0x63D2 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[235] /* address of first character */
   ,&GUI_Fonthz_20_Prop150 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop148 = {
-   0x6478 /* first character */
-  ,0x6478 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[231] /* address of first character */
+   0x63D0 /* first character */
+  ,0x63D0 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[234] /* address of first character */
   ,&GUI_Fonthz_20_Prop149 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop147 = {
-   0x63D2 /* first character */
-  ,0x63D2 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[230] /* address of first character */
+   0x63A7 /* first character */
+  ,0x63A7 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[233] /* address of first character */
   ,&GUI_Fonthz_20_Prop148 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop146 = {
-   0x63D0 /* first character */
-  ,0x63D0 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[229] /* address of first character */
+   0x63A5 /* first character */
+  ,0x63A5 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[232] /* address of first character */
   ,&GUI_Fonthz_20_Prop147 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop145 = {
-   0x63A7 /* first character */
-  ,0x63A7 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[228] /* address of first character */
+   0x6377 /* first character */
+  ,0x6377 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[231] /* address of first character */
   ,&GUI_Fonthz_20_Prop146 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop144 = {
-   0x63A5 /* first character */
-  ,0x63A5 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[227] /* address of first character */
+   0x636E /* first character */
+  ,0x636E /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[230] /* address of first character */
   ,&GUI_Fonthz_20_Prop145 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop143 = {
-   0x6377 /* first character */
-  ,0x6377 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[226] /* address of first character */
+   0x6362 /* first character */
+  ,0x6362 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[229] /* address of first character */
   ,&GUI_Fonthz_20_Prop144 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop142 = {
-   0x636E /* first character */
-  ,0x636E /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[225] /* address of first character */
+   0x62E9 /* first character */
+  ,0x62E9 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[228] /* address of first character */
   ,&GUI_Fonthz_20_Prop143 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop141 = {
-   0x6362 /* first character */
-  ,0x6362 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[224] /* address of first character */
+   0x62A4 /* first character */
+  ,0x62A5 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[226] /* address of first character */
   ,&GUI_Fonthz_20_Prop142 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop140 = {
-   0x62E9 /* first character */
-  ,0x62E9 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[223] /* address of first character */
+   0x6280 /* first character */
+  ,0x6280 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[225] /* address of first character */
   ,&GUI_Fonthz_20_Prop141 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop139 = {
-   0x62A4 /* first character */
-  ,0x62A5 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[221] /* address of first character */
+   0x6267 /* first character */
+  ,0x6267 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[224] /* address of first character */
   ,&GUI_Fonthz_20_Prop140 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop138 = {
-   0x6280 /* first character */
-  ,0x6280 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[220] /* address of first character */
+   0x6240 /* first character */
+  ,0x6240 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[223] /* address of first character */
   ,&GUI_Fonthz_20_Prop139 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop137 = {
-   0x6267 /* first character */
-  ,0x6267 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[219] /* address of first character */
+   0x6237 /* first character */
+  ,0x6237 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[222] /* address of first character */
   ,&GUI_Fonthz_20_Prop138 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop136 = {
-   0x6240 /* first character */
-  ,0x6240 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[218] /* address of first character */
+   0x6210 /* first character */
+  ,0x6210 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[221] /* address of first character */
   ,&GUI_Fonthz_20_Prop137 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop135 = {
-   0x6237 /* first character */
-  ,0x6237 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[217] /* address of first character */
+   0x610F /* first character */
+  ,0x610F /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[220] /* address of first character */
   ,&GUI_Fonthz_20_Prop136 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop134 = {
-   0x6210 /* first character */
-  ,0x6210 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[216] /* address of first character */
+   0x606F /* first character */
+  ,0x606F /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[219] /* address of first character */
   ,&GUI_Fonthz_20_Prop135 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop133 = {
-   0x610F /* first character */
-  ,0x610F /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[215] /* address of first character */
+   0x6062 /* first character */
+  ,0x6062 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[218] /* address of first character */
   ,&GUI_Fonthz_20_Prop134 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop132 = {
-   0x606F /* first character */
-  ,0x606F /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[214] /* address of first character */
+   0x603B /* first character */
+  ,0x603B /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[217] /* address of first character */
   ,&GUI_Fonthz_20_Prop133 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop131 = {
-   0x6062 /* first character */
-  ,0x6062 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[213] /* address of first character */
+   0x6001 /* first character */
+  ,0x6001 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[216] /* address of first character */
   ,&GUI_Fonthz_20_Prop132 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop130 = {
-   0x603B /* first character */
-  ,0x603B /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[212] /* address of first character */
+   0x5FEB /* first character */
+  ,0x5FEB /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[215] /* address of first character */
   ,&GUI_Fonthz_20_Prop131 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop129 = {
-   0x6001 /* first character */
-  ,0x6001 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[211] /* address of first character */
+   0x5FD7 /* first character */
+  ,0x5FD7 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[214] /* address of first character */
   ,&GUI_Fonthz_20_Prop130 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop128 = {
-   0x5FEB /* first character */
-  ,0x5FEB /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[210] /* address of first character */
+   0x5FC5 /* first character */
+  ,0x5FC6 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[212] /* address of first character */
   ,&GUI_Fonthz_20_Prop129 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop127 = {
-   0x5FD7 /* first character */
-  ,0x5FD7 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[209] /* address of first character */
+   0x5FAE /* first character */
+  ,0x5FAE /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[211] /* address of first character */
   ,&GUI_Fonthz_20_Prop128 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop126 = {
-   0x5FC5 /* first character */
-  ,0x5FC6 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[207] /* address of first character */
+   0x5F85 /* first character */
+  ,0x5F85 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[210] /* address of first character */
   ,&GUI_Fonthz_20_Prop127 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop125 = {
-   0x5FAE /* first character */
-  ,0x5FAE /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[206] /* address of first character */
+   0x5F55 /* first character */
+  ,0x5F55 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[209] /* address of first character */
   ,&GUI_Fonthz_20_Prop126 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop124 = {
-   0x5F85 /* first character */
-  ,0x5F85 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[205] /* address of first character */
+   0x5F27 /* first character */
+  ,0x5F27 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[208] /* address of first character */
   ,&GUI_Fonthz_20_Prop125 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop123 = {
-   0x5F55 /* first character */
-  ,0x5F55 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[204] /* address of first character */
+   0x5F0F /* first character */
+  ,0x5F0F /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[207] /* address of first character */
   ,&GUI_Fonthz_20_Prop124 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop122 = {
-   0x5F27 /* first character */
-  ,0x5F27 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[203] /* address of first character */
+   0x5F02 /* first character */
+  ,0x5F02 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[206] /* address of first character */
   ,&GUI_Fonthz_20_Prop123 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop121 = {
-   0x5F0F /* first character */
-  ,0x5F0F /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[202] /* address of first character */
+   0x5F00 /* first character */
+  ,0x5F00 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[205] /* address of first character */
   ,&GUI_Fonthz_20_Prop122 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop120 = {
-   0x5F02 /* first character */
-  ,0x5F02 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[201] /* address of first character */
+   0x5EFA /* first character */
+  ,0x5EFA /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[204] /* address of first character */
   ,&GUI_Fonthz_20_Prop121 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop119 = {
-   0x5F00 /* first character */
-  ,0x5F00 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[200] /* address of first character */
+   0x5EF6 /* first character */
+  ,0x5EF6 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[203] /* address of first character */
   ,&GUI_Fonthz_20_Prop120 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop118 = {
-   0x5EFA /* first character */
-  ,0x5EFA /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[199] /* address of first character */
+   0x5EA6 /* first character */
+  ,0x5EA6 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[202] /* address of first character */
   ,&GUI_Fonthz_20_Prop119 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop117 = {
-   0x5EF6 /* first character */
-  ,0x5EF6 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[198] /* address of first character */
+   0x5E74 /* first character */
+  ,0x5E74 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[201] /* address of first character */
   ,&GUI_Fonthz_20_Prop118 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop116 = {
-   0x5EA6 /* first character */
-  ,0x5EA6 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[197] /* address of first character */
+   0x5E38 /* first character */
+  ,0x5E38 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[200] /* address of first character */
   ,&GUI_Fonthz_20_Prop117 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop115 = {
-   0x5E74 /* first character */
-  ,0x5E74 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[196] /* address of first character */
+   0x5E2E /* first character */
+  ,0x5E2E /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[199] /* address of first character */
   ,&GUI_Fonthz_20_Prop116 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop114 = {
-   0x5E38 /* first character */
-  ,0x5E38 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[195] /* address of first character */
+   0x5DF2 /* first character */
+  ,0x5DF2 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[198] /* address of first character */
   ,&GUI_Fonthz_20_Prop115 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop113 = {
-   0x5E2E /* first character */
-  ,0x5E2E /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[194] /* address of first character */
+   0x5DE5 /* first character */
+  ,0x5DE5 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[197] /* address of first character */
   ,&GUI_Fonthz_20_Prop114 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop112 = {
-   0x5DF2 /* first character */
-  ,0x5DF2 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[193] /* address of first character */
+   0x5C3E /* first character */
+  ,0x5C3E /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[196] /* address of first character */
   ,&GUI_Fonthz_20_Prop113 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop111 = {
-   0x5DE5 /* first character */
-  ,0x5DE5 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[192] /* address of first character */
+   0x5C0F /* first character */
+  ,0x5C0F /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[195] /* address of first character */
   ,&GUI_Fonthz_20_Prop112 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop110 = {
-   0x5C3E /* first character */
-  ,0x5C3E /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[191] /* address of first character */
+   0x5BFC /* first character */
+  ,0x5BFC /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[194] /* address of first character */
   ,&GUI_Fonthz_20_Prop111 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop109 = {
-   0x5C0F /* first character */
-  ,0x5C0F /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[190] /* address of first character */
+   0x5BF9 /* first character */
+  ,0x5BF9 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[193] /* address of first character */
   ,&GUI_Fonthz_20_Prop110 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop108 = {
-   0x5BFC /* first character */
-  ,0x5BFC /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[189] /* address of first character */
+   0x5BC6 /* first character */
+  ,0x5BC6 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[192] /* address of first character */
   ,&GUI_Fonthz_20_Prop109 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop107 = {
-   0x5BF9 /* first character */
-  ,0x5BF9 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[188] /* address of first character */
+   0x5BB9 /* first character */
+  ,0x5BB9 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[191] /* address of first character */
   ,&GUI_Fonthz_20_Prop108 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop106 = {
-   0x5BC6 /* first character */
-  ,0x5BC6 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[187] /* address of first character */
+   0x5B9E /* first character */
+  ,0x5B9E /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[190] /* address of first character */
   ,&GUI_Fonthz_20_Prop107 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop105 = {
-   0x5B9E /* first character */
-  ,0x5B9E /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[186] /* address of first character */
+   0x5B9A /* first character */
+  ,0x5B9A /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[189] /* address of first character */
   ,&GUI_Fonthz_20_Prop106 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop104 = {
-   0x5B9A /* first character */
-  ,0x5B9A /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[185] /* address of first character */
+   0x5B89 /* first character */
+  ,0x5B89 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[188] /* address of first character */
   ,&GUI_Fonthz_20_Prop105 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop103 = {
-   0x5B89 /* first character */
-  ,0x5B89 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[184] /* address of first character */
+   0x5B81 /* first character */
+  ,0x5B81 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[187] /* address of first character */
   ,&GUI_Fonthz_20_Prop104 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop102 = {
-   0x5B81 /* first character */
-  ,0x5B81 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[183] /* address of first character */
+   0x5B57 /* first character */
+  ,0x5B58 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[185] /* address of first character */
   ,&GUI_Fonthz_20_Prop103 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop101 = {
-   0x5B57 /* first character */
-  ,0x5B58 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[181] /* address of first character */
+   0x59CB /* first character */
+  ,0x59CB /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[184] /* address of first character */
   ,&GUI_Fonthz_20_Prop102 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop100 = {
-   0x59CB /* first character */
-  ,0x59CB /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[180] /* address of first character */
+   0x59A5 /* first character */
+  ,0x59A5 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[183] /* address of first character */
   ,&GUI_Fonthz_20_Prop101 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop99 = {
-   0x59A5 /* first character */
-  ,0x59A5 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[179] /* address of first character */
+   0x5982 /* first character */
+  ,0x5982 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[182] /* address of first character */
   ,&GUI_Fonthz_20_Prop100 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop98 = {
-   0x5982 /* first character */
-  ,0x5982 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[178] /* address of first character */
+   0x5934 /* first character */
+  ,0x5934 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[181] /* address of first character */
   ,&GUI_Fonthz_20_Prop99 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop97 = {
-   0x5934 /* first character */
-  ,0x5934 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[177] /* address of first character */
+   0x5931 /* first character */
+  ,0x5931 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[180] /* address of first character */
   ,&GUI_Fonthz_20_Prop98 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop96 = {
-   0x5931 /* first character */
-  ,0x5931 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[176] /* address of first character */
+   0x5929 /* first character */
+  ,0x5929 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[179] /* address of first character */
   ,&GUI_Fonthz_20_Prop97 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop95 = {
    0x5927 /* first character */
   ,0x5927 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[175] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[178] /* address of first character */
   ,&GUI_Fonthz_20_Prop96 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop94 = {
    0x591A /* first character */
   ,0x591A /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[174] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[177] /* address of first character */
   ,&GUI_Fonthz_20_Prop95 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop93 = {
    0x590D /* first character */
   ,0x590D /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[173] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[176] /* address of first character */
   ,&GUI_Fonthz_20_Prop94 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop92 = {
    0x5883 /* first character */
   ,0x5883 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[172] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[175] /* address of first character */
   ,&GUI_Fonthz_20_Prop93 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop91 = {
    0x578B /* first character */
   ,0x578B /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[171] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[174] /* address of first character */
   ,&GUI_Fonthz_20_Prop92 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop90 = {
    0x5757 /* first character */
   ,0x5757 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[170] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[173] /* address of first character */
   ,&GUI_Fonthz_20_Prop91 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop89 = {
    0x5740 /* first character */
   ,0x5740 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[169] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[172] /* address of first character */
   ,&GUI_Fonthz_20_Prop90 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop88 = {
    0x5730 /* first character */
   ,0x5730 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[168] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[171] /* address of first character */
   ,&GUI_Fonthz_20_Prop89 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop87 = {
    0x5728 /* first character */
   ,0x5728 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[167] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[170] /* address of first character */
   ,&GUI_Fonthz_20_Prop88 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop86 = {
    0x56F4 /* first character */
   ,0x56F4 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[166] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[169] /* address of first character */
   ,&GUI_Fonthz_20_Prop87 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop85 = {
    0x56DE /* first character */
   ,0x56DE /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[165] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[168] /* address of first character */
   ,&GUI_Fonthz_20_Prop86 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop84 = {
    0x56DB /* first character */
   ,0x56DB /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[164] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[167] /* address of first character */
   ,&GUI_Fonthz_20_Prop85 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop83 = {
    0x5668 /* first character */
   ,0x5668 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[163] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[166] /* address of first character */
   ,&GUI_Fonthz_20_Prop84 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop82 = {
    0x5584 /* first character */
   ,0x5584 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[162] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[165] /* address of first character */
   ,&GUI_Fonthz_20_Prop83 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop81 = {
    0x54C1 /* first character */
   ,0x54C1 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[161] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[164] /* address of first character */
   ,&GUI_Fonthz_20_Prop82 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop80 = {
    0x548C /* first character */
   ,0x548C /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[160] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[163] /* address of first character */
   ,&GUI_Fonthz_20_Prop81 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop79 = {
    0x544A /* first character */
   ,0x544A /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[159] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[162] /* address of first character */
   ,&GUI_Fonthz_20_Prop80 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop78 = {
    0x542F /* first character */
   ,0x542F /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[158] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[161] /* address of first character */
   ,&GUI_Fonthz_20_Prop79 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop77 = {
    0x5426 /* first character */
   ,0x5426 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[157] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[160] /* address of first character */
   ,&GUI_Fonthz_20_Prop78 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop76 = {
    0x5417 /* first character */
   ,0x5417 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[156] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[159] /* address of first character */
   ,&GUI_Fonthz_20_Prop77 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop75 = {
    0x540C /* first character */
   ,0x540E /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[153] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[156] /* address of first character */
   ,&GUI_Fonthz_20_Prop76 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop74 = {
    0x5408 /* first character */
   ,0x5408 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[152] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[155] /* address of first character */
   ,&GUI_Fonthz_20_Prop75 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop73 = {
    0x53F7 /* first character */
   ,0x53F8 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[150] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[153] /* address of first character */
   ,&GUI_Fonthz_20_Prop74 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop72 = {
    0x53E3 /* first character */
   ,0x53E3 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[149] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[152] /* address of first character */
   ,&GUI_Fonthz_20_Prop73 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop71 = {
    0x53D8 /* first character */
   ,0x53D8 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[148] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[151] /* address of first character */
   ,&GUI_Fonthz_20_Prop72 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop70 = {
    0x53D6 /* first character */
   ,0x53D6 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[147] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[150] /* address of first character */
   ,&GUI_Fonthz_20_Prop71 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop69 = {
    0x53D1 /* first character */
   ,0x53D1 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[146] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[149] /* address of first character */
   ,&GUI_Fonthz_20_Prop70 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop68 = {
    0x53CA /* first character */
   ,0x53CA /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[145] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[148] /* address of first character */
   ,&GUI_Fonthz_20_Prop69 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop67 = {
    0x53C2 /* first character */
   ,0x53C2 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[144] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[147] /* address of first character */
   ,&GUI_Fonthz_20_Prop68 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop66 = {
    0x539F /* first character */
   ,0x539F /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[143] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[146] /* address of first character */
   ,&GUI_Fonthz_20_Prop67 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop65 = {
    0x538B /* first character */
   ,0x538B /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[142] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[145] /* address of first character */
   ,&GUI_Fonthz_20_Prop66 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop64 = {
    0x5382 /* first character */
   ,0x5382 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[141] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[144] /* address of first character */
   ,&GUI_Fonthz_20_Prop65 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop63 = {
    0x5357 /* first character */
   ,0x5357 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[140] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[143] /* address of first character */
   ,&GUI_Fonthz_20_Prop64 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop62 = {
    0x5347 /* first character */
   ,0x5347 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[139] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[142] /* address of first character */
   ,&GUI_Fonthz_20_Prop63 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop61 = {
    0x533A /* first character */
   ,0x533A /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[138] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[141] /* address of first character */
   ,&GUI_Fonthz_20_Prop62 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop60 = {
    0x52FF /* first character */
   ,0x52FF /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[137] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[140] /* address of first character */
   ,&GUI_Fonthz_20_Prop61 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop59 = {
    0x52A8 /* first character */
   ,0x52A9 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[135] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[138] /* address of first character */
   ,&GUI_Fonthz_20_Prop60 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop58 = {
    0x52A1 /* first character */
   ,0x52A1 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[134] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[137] /* address of first character */
   ,&GUI_Fonthz_20_Prop59 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop57 = {
    0x529F /* first character */
   ,0x529F /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[133] /* address of first character */
+  ,&GUI_Fonthz_20_CharInfo[136] /* address of first character */
   ,&GUI_Fonthz_20_Prop58 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop56 = {
-   0x524D /* first character */
-  ,0x524D /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[132] /* address of first character */
+   0x5269 /* first character */
+  ,0x5269 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[135] /* address of first character */
   ,&GUI_Fonthz_20_Prop57 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop55 = {
-   0x5220 /* first character */
-  ,0x5220 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[131] /* address of first character */
+   0x524D /* first character */
+  ,0x524D /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[134] /* address of first character */
   ,&GUI_Fonthz_20_Prop56 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop54 = {
-   0x521D /* first character */
-  ,0x521D /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[130] /* address of first character */
+   0x5220 /* first character */
+  ,0x5220 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[133] /* address of first character */
   ,&GUI_Fonthz_20_Prop55 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop53 = {
-   0x521B /* first character */
-  ,0x521B /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[129] /* address of first character */
+   0x521D /* first character */
+  ,0x521D /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[132] /* address of first character */
   ,&GUI_Fonthz_20_Prop54 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop52 = {
-   0x5219 /* first character */
-  ,0x5219 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[128] /* address of first character */
+   0x521B /* first character */
+  ,0x521B /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[131] /* address of first character */
   ,&GUI_Fonthz_20_Prop53 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop51 = {
-   0x5217 /* first character */
-  ,0x5217 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[127] /* address of first character */
+   0x5219 /* first character */
+  ,0x5219 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[130] /* address of first character */
   ,&GUI_Fonthz_20_Prop52 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop50 = {
-   0x5206 /* first character */
-  ,0x5207 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[125] /* address of first character */
+   0x5217 /* first character */
+  ,0x5217 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[129] /* address of first character */
   ,&GUI_Fonthz_20_Prop51 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop49 = {
-   0x51FA /* first character */
-  ,0x51FA /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[124] /* address of first character */
+   0x5206 /* first character */
+  ,0x5207 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[127] /* address of first character */
   ,&GUI_Fonthz_20_Prop50 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop48 = {
-   0x51C6 /* first character */
-  ,0x51C6 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[123] /* address of first character */
+   0x51FA /* first character */
+  ,0x51FA /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[126] /* address of first character */
   ,&GUI_Fonthz_20_Prop49 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop47 = {
-   0x51B5 /* first character */
-  ,0x51B5 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[122] /* address of first character */
+   0x51C6 /* first character */
+  ,0x51C6 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[125] /* address of first character */
   ,&GUI_Fonthz_20_Prop48 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop46 = {
-   0x5199 /* first character */
-  ,0x5199 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[121] /* address of first character */
+   0x51B5 /* first character */
+  ,0x51B5 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[124] /* address of first character */
   ,&GUI_Fonthz_20_Prop47 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop45 = {
-   0x5176 /* first character */
-  ,0x5176 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[120] /* address of first character */
+   0x5199 /* first character */
+  ,0x5199 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[123] /* address of first character */
   ,&GUI_Fonthz_20_Prop46 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop44 = {
-   0x5173 /* first character */
-  ,0x5173 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[119] /* address of first character */
+   0x5176 /* first character */
+  ,0x5176 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[122] /* address of first character */
   ,&GUI_Fonthz_20_Prop45 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop43 = {
-   0x516C /* first character */
-  ,0x516C /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[118] /* address of first character */
+   0x5173 /* first character */
+  ,0x5173 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[121] /* address of first character */
   ,&GUI_Fonthz_20_Prop44 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop42 = {
-   0x5165 /* first character */
-  ,0x5165 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[117] /* address of first character */
+   0x516C /* first character */
+  ,0x516C /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[120] /* address of first character */
   ,&GUI_Fonthz_20_Prop43 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop41 = {
-   0x5145 /* first character */
-  ,0x5145 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[116] /* address of first character */
+   0x5165 /* first character */
+  ,0x5165 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[119] /* address of first character */
   ,&GUI_Fonthz_20_Prop42 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop40 = {
-   0x5141 /* first character */
-  ,0x5141 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[115] /* address of first character */
+   0x5145 /* first character */
+  ,0x5145 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[118] /* address of first character */
   ,&GUI_Fonthz_20_Prop41 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop39 = {
-   0x50A8 /* first character */
-  ,0x50A8 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[114] /* address of first character */
+   0x5141 /* first character */
+  ,0x5141 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[117] /* address of first character */
   ,&GUI_Fonthz_20_Prop40 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop38 = {
-   0x505C /* first character */
-  ,0x505C /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[113] /* address of first character */
+   0x50A8 /* first character */
+  ,0x50A8 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[116] /* address of first character */
   ,&GUI_Fonthz_20_Prop39 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop37 = {
-   0x503C /* first character */
-  ,0x503C /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[112] /* address of first character */
+   0x505C /* first character */
+  ,0x505C /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[115] /* address of first character */
   ,&GUI_Fonthz_20_Prop38 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop36 = {
-   0x4FEE /* first character */
-  ,0x4FEE /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[111] /* address of first character */
+   0x503C /* first character */
+  ,0x503C /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[114] /* address of first character */
   ,&GUI_Fonthz_20_Prop37 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop35 = {
-   0x4FE1 /* first character */
-  ,0x4FE1 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[110] /* address of first character */
+   0x4FEE /* first character */
+  ,0x4FEE /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[113] /* address of first character */
   ,&GUI_Fonthz_20_Prop36 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop34 = {
-   0x4FDD /* first character */
-  ,0x4FDD /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[109] /* address of first character */
+   0x4FE1 /* first character */
+  ,0x4FE1 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[112] /* address of first character */
   ,&GUI_Fonthz_20_Prop35 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop33 = {
-   0x4FA6 /* first character */
-  ,0x4FA6 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[108] /* address of first character */
+   0x4FDD /* first character */
+  ,0x4FDD /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[111] /* address of first character */
   ,&GUI_Fonthz_20_Prop34 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop32 = {
-   0x4F5C /* first character */
-  ,0x4F5C /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[107] /* address of first character */
+   0x4FA6 /* first character */
+  ,0x4FA6 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[110] /* address of first character */
   ,&GUI_Fonthz_20_Prop33 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop31 = {
-   0x4F59 /* first character */
-  ,0x4F59 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[106] /* address of first character */
+   0x4F5C /* first character */
+  ,0x4F5C /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[109] /* address of first character */
   ,&GUI_Fonthz_20_Prop32 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop30 = {
-   0x4F4D /* first character */
-  ,0x4F4D /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[105] /* address of first character */
+   0x4F59 /* first character */
+  ,0x4F59 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[108] /* address of first character */
   ,&GUI_Fonthz_20_Prop31 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop29 = {
-   0x4F1A /* first character */
-  ,0x4F1A /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[104] /* address of first character */
+   0x4F4D /* first character */
+  ,0x4F4D /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[107] /* address of first character */
   ,&GUI_Fonthz_20_Prop30 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop28 = {
-   0x4EF6 /* first character */
-  ,0x4EF6 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[103] /* address of first character */
+   0x4F1A /* first character */
+  ,0x4F1A /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[106] /* address of first character */
   ,&GUI_Fonthz_20_Prop29 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop27 = {
-   0x4EEA /* first character */
-  ,0x4EEA /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[102] /* address of first character */
+   0x4EF6 /* first character */
+  ,0x4EF6 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[105] /* address of first character */
   ,&GUI_Fonthz_20_Prop28 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop26 = {
-   0x4EAC /* first character */
-  ,0x4EAC /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[101] /* address of first character */
+   0x4EEA /* first character */
+  ,0x4EEA /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[104] /* address of first character */
   ,&GUI_Fonthz_20_Prop27 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop25 = {
-   0x4EA7 /* first character */
-  ,0x4EA7 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[100] /* address of first character */
+   0x4EAC /* first character */
+  ,0x4EAC /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[103] /* address of first character */
   ,&GUI_Fonthz_20_Prop26 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop24 = {
-   0x4E8E /* first character */
-  ,0x4E8E /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[ 99] /* address of first character */
+   0x4EA7 /* first character */
+  ,0x4EA7 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[102] /* address of first character */
   ,&GUI_Fonthz_20_Prop25 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop23 = {
-   0x4E8B /* first character */
-  ,0x4E8B /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[ 98] /* address of first character */
+   0x4E8E /* first character */
+  ,0x4E8E /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[101] /* address of first character */
   ,&GUI_Fonthz_20_Prop24 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop22 = {
-   0x4E66 /* first character */
-  ,0x4E66 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[ 97] /* address of first character */
+   0x4E8B /* first character */
+  ,0x4E8B /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[100] /* address of first character */
   ,&GUI_Fonthz_20_Prop23 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop21 = {
-   0x4E49 /* first character */
-  ,0x4E49 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[ 96] /* address of first character */
+   0x4E66 /* first character */
+  ,0x4E66 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[ 99] /* address of first character */
   ,&GUI_Fonthz_20_Prop22 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop20 = {
-   0x4E3A /* first character */
-  ,0x4E3B /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[ 94] /* address of first character */
+   0x4E49 /* first character */
+  ,0x4E49 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[ 98] /* address of first character */
   ,&GUI_Fonthz_20_Prop21 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop19 = {
-   0x4E32 /* first character */
-  ,0x4E32 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[ 93] /* address of first character */
+   0x4E3A /* first character */
+  ,0x4E3B /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[ 96] /* address of first character */
   ,&GUI_Fonthz_20_Prop20 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop18 = {
-   0x4E2D /* first character */
-  ,0x4E2D /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[ 92] /* address of first character */
+   0x4E32 /* first character */
+  ,0x4E32 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[ 95] /* address of first character */
   ,&GUI_Fonthz_20_Prop19 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop17 = {
-   0x4E2A /* first character */
-  ,0x4E2A /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[ 91] /* address of first character */
+   0x4E2D /* first character */
+  ,0x4E2D /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[ 94] /* address of first character */
   ,&GUI_Fonthz_20_Prop18 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop16 = {
-   0x4E22 /* first character */
-  ,0x4E22 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[ 90] /* address of first character */
+   0x4E2A /* first character */
+  ,0x4E2A /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[ 93] /* address of first character */
   ,&GUI_Fonthz_20_Prop17 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop15 = {
-   0x4E0D /* first character */
-  ,0x4E0D /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[ 89] /* address of first character */
+   0x4E22 /* first character */
+  ,0x4E22 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[ 92] /* address of first character */
   ,&GUI_Fonthz_20_Prop16 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop14 = {
-   0x4E0A /* first character */
-  ,0x4E0B /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[ 87] /* address of first character */
+   0x4E0D /* first character */
+  ,0x4E0D /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[ 91] /* address of first character */
   ,&GUI_Fonthz_20_Prop15 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop13 = {
-   0x4E00 /* first character */
-  ,0x4E00 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[ 86] /* address of first character */
+   0x4E0A /* first character */
+  ,0x4E0B /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[ 89] /* address of first character */
   ,&GUI_Fonthz_20_Prop14 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop12 = {
-   0x03BC /* first character */
-  ,0x03BC /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[ 85] /* address of first character */
+   0x4E00 /* first character */
+  ,0x4E00 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[ 88] /* address of first character */
   ,&GUI_Fonthz_20_Prop13 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop11 = {
-   0x03A9 /* first character */
-  ,0x03A9 /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[ 84] /* address of first character */
+   0x03BC /* first character */
+  ,0x03BC /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[ 87] /* address of first character */
   ,&GUI_Fonthz_20_Prop12 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop10 = {
-   0x007D /* first character */
-  ,0x007D /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[ 83] /* address of first character */
+   0x03A9 /* first character */
+  ,0x03A9 /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[ 86] /* address of first character */
   ,&GUI_Fonthz_20_Prop11 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop9 = {
-   0x0061 /* first character */
-  ,0x007B /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[ 56] /* address of first character */
+   0x007D /* first character */
+  ,0x007D /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[ 85] /* address of first character */
   ,&GUI_Fonthz_20_Prop10 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop8 = {
-   0x005F /* first character */
-  ,0x005F /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[ 55] /* address of first character */
+   0x0061 /* first character */
+  ,0x007B /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[ 58] /* address of first character */
   ,&GUI_Fonthz_20_Prop9 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop7 = {
-   0x005D /* first character */
-  ,0x005D /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[ 54] /* address of first character */
+   0x005F /* first character */
+  ,0x005F /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[ 57] /* address of first character */
   ,&GUI_Fonthz_20_Prop8 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop6 = {
-   0x0041 /* first character */
-  ,0x005B /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[ 27] /* address of first character */
+   0x005D /* first character */
+  ,0x005D /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[ 56] /* address of first character */
   ,&GUI_Fonthz_20_Prop7 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop5 = {
-   0x003F /* first character */
-  ,0x003F /* last character  */
-  ,&GUI_Fonthz_20_CharInfo[ 26] /* address of first character */
+   0x0041 /* first character */
+  ,0x005B /* last character  */
+  ,&GUI_Fonthz_20_CharInfo[ 29] /* address of first character */
   ,&GUI_Fonthz_20_Prop6 /* pointer to next GUI_FONT_PROP */
 };
 
 GUI_CONST_STORAGE GUI_FONT_PROP GUI_Fonthz_20_Prop4 = {
-   0x003D /* first character */
-  ,0x003D /* last character  */
+   0x003C /* first character */
+  ,0x003F /* last character  */
   ,&GUI_Fonthz_20_CharInfo[ 25] /* address of first character */
   ,&GUI_Fonthz_20_Prop5 /* pointer to next GUI_FONT_PROP */
 };

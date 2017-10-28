@@ -322,6 +322,7 @@ void read_par_inf(void)
     TEST_FILE *f;
     
     read_sys_flag();//读取系统标志
+    sys_flag.power_on_count++;//开机次数加1
     
     if(sys_flag.mem_init)
     {

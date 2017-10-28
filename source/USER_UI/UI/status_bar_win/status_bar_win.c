@@ -184,11 +184,19 @@ static void status_bar_win_cb(WM_MESSAGE * pMsg)
 		case WM_TIMER:
 		{
             uint8_t *str = get_time_str(0);
+            
 			win = get_user_window_info(hWin);
             status_bar_win_text_ele_pool[STATUS_BAR_WIN_SYS_TIME].text[CHINESE] = str;
             status_bar_win_text_ele_pool[STATUS_BAR_WIN_SYS_TIME].text[ENGLISH] = str;
 			update_text_ele((CS_INDEX)STATUS_BAR_WIN_SYS_TIME, win, str);
 			WM_RestartTimer(timer_handle, 1000);
+            sys_flag.sys_run_time++;
+            startup_time++;
+            /* 每分钟保存一次 */
+            if((sys_flag.sys_run_time % 60) == 0)
+            {
+                save_sys_flag();
+            }
 			break;
 		}
 		case WM_KEY:

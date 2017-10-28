@@ -632,6 +632,8 @@ typedef struct{
 	uint32_t power_on_count;///<开机次数计数
 	uint32_t mem_init;///<存储器初始化标志 非零时要初始化
 	FILE_NUM last_file_num;///< 最近使用的记忆组文件编号
+    uint32_t sys_run_time;///<系统总的运行时间
+    uint32_t test_count;///<测试次数计数
 }SYS_FLAG;
 /**
   * @brief  档位信息结构定义
@@ -853,6 +855,7 @@ STRUCT_EXT TEST_FILE file_pool[MAX_FILES];///< 文件池
 STRUCT_EXT TEST_FILE global_file;///< 全局文件实体用于界面通信
 STRUCT_EXT SYS_PAR sys_par;///<系统参数
 STRUCT_EXT SYS_FLAG sys_flag;///<系统参数
+STRUCT_EXT uint32_t startup_time;///<开机运行时间
 STRUCT_EXT NODE_STEP * g_cur_step;///<当前步指针
 STRUCT_EXT uint32_t g_product_code;///<当前产品编码
 STRUCT_EXT uint32_t g_cur_step_crc;///<当前步的CRC校验数据

@@ -48,6 +48,8 @@ void _7_init_run_log_win_layout1_text_ele_pos(TEXT_ELE_T *pool)
 		{&GUI_Fonthz_20}, GUI_WHITE, GUI_INVALID_COLOR, GUI_TA_LEFT | GUI_TA_TOP
     };
     uint8_t offset = 30;
+    uint16_t name_x = 10;
+    uint16_t value_x = 270;
     
     inf.base_x = 0;
     inf.base_y = 0;
@@ -77,9 +79,32 @@ void _7_init_run_log_win_layout1_text_ele_pos(TEXT_ELE_T *pool)
     inf.pos_size.x = 10;
     inf.pos_size.y = 100;
     inf.pos_size.height = 300;
-    //注意事项
+//    //注意事项
     inf.pos_size.y += offset;
-    memcpy(&pool[RUN_LOG_WIN_NOTICE].dis_info, &inf, sizeof(UI_ELE_DISPLAY_INFO_T));
+    inf.pos_size.x = name_x;
+    memcpy(&pool[RUN_LOG_WIN_INSPECTION_DATE_N].dis_info, &inf, sizeof(UI_ELE_DISPLAY_INFO_T));
+    inf.pos_size.x = value_x - 60;
+    memcpy(&pool[RUN_LOG_WIN_INSPECTION_DATE_V].dis_info, &inf, sizeof(UI_ELE_DISPLAY_INFO_T));
+    inf.pos_size.y += offset;
+    inf.pos_size.x = name_x;
+    memcpy(&pool[RUN_LOG_WIN_BOOT_TIMES_N].dis_info, &inf, sizeof(UI_ELE_DISPLAY_INFO_T));
+    inf.pos_size.x = value_x;
+    memcpy(&pool[RUN_LOG_WIN_BOOT_TIMES_V].dis_info, &inf, sizeof(UI_ELE_DISPLAY_INFO_T));
+    inf.pos_size.y += offset;
+    inf.pos_size.x = name_x;
+    memcpy(&pool[RUN_LOG_WIN_TESTING_TIMES_N].dis_info, &inf, sizeof(UI_ELE_DISPLAY_INFO_T));
+    inf.pos_size.x = value_x;
+    memcpy(&pool[RUN_LOG_WIN_TESTING_TIMES_V].dis_info, &inf, sizeof(UI_ELE_DISPLAY_INFO_T));
+    inf.pos_size.y += offset;
+    inf.pos_size.x = name_x;
+    memcpy(&pool[RUN_LOG_WIN_STARTUP_TIME_N].dis_info, &inf, sizeof(UI_ELE_DISPLAY_INFO_T));
+    inf.pos_size.x = value_x - 60;
+    memcpy(&pool[RUN_LOG_WIN_STARTUP_TIME_V].dis_info, &inf, sizeof(UI_ELE_DISPLAY_INFO_T));
+    inf.pos_size.y += offset;
+    inf.pos_size.x = name_x;
+    memcpy(&pool[RUN_LOG_WIN_OPERATION_TIME_N].dis_info, &inf, sizeof(UI_ELE_DISPLAY_INFO_T));
+    inf.pos_size.x = value_x - 60;
+    memcpy(&pool[RUN_LOG_WIN_OPERATION_TIME_V].dis_info, &inf, sizeof(UI_ELE_DISPLAY_INFO_T));
     
     
 }

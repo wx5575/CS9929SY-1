@@ -185,6 +185,7 @@ typedef struct{
 	KEY_DISPOSE_FUN	key_f1_0;///< 组合键 KEY_F1 + KEY_0
 	KEY_DISPOSE_FUN	key_f1_1;///< 组合键 KEY_F1 + KEY_1
 	KEY_DISPOSE_FUN	key_f1_4;///< 组合键 KEY_F1 + KEY_4
+	KEY_DISPOSE_FUN	key_f4_5;///< 组合键 KEY_F1 + KEY_4
 	
 }KEY_FUNCATION;
 
