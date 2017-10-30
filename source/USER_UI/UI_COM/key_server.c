@@ -465,7 +465,7 @@ static uint8_t key_scan_status;
   */
 void key_scan_on(void)
 {
-    OS_ERR err;
+//    OS_ERR err;
     
     if(key_scan_status == 0)
     {
@@ -480,7 +480,7 @@ void key_scan_on(void)
   */
 void key_scan_off(void)
 {
-    OS_ERR err;
+//    OS_ERR err;
     
     if(key_scan_status == 1)
     {
@@ -532,8 +532,6 @@ void scan_key_task(void)
 		{
 			global_fun_key_dispose(key_value);
 		}
-        
-//        scan_coded_disc();
 	}					 
 }
 
