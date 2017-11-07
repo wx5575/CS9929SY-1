@@ -1318,6 +1318,21 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>SYS_TIME_WIN</GroupName>
+          <Files>
+            <File>
+              <FileName>7_sys_time_edit_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\sys_time_win\7_sys_time_edit_win.c</FilePath>
+            </File>
+            <File>
+              <FileName>sys_time_edit_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\sys_time_win\sys_time_edit_win.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>KEY_MENU_WIN</GroupName>
           <Files>
             <File>
@@ -1359,21 +1374,6 @@
               <FileName>warning_win.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\USER_UI\UI\warning_win\warning_win.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>SYS_TIME_WIN</GroupName>
-          <Files>
-            <File>
-              <FileName>7_sys_time_edit_win.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\USER_UI\UI\sys_time_win\7_sys_time_edit_win.c</FilePath>
-            </File>
-            <File>
-              <FileName>sys_time_edit_win.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\USER_UI\UI\sys_time_win\sys_time_edit_win.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -3021,6 +3021,21 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>SYS_TIME_WIN</GroupName>
+          <Files>
+            <File>
+              <FileName>7_sys_time_edit_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\sys_time_win\7_sys_time_edit_win.c</FilePath>
+            </File>
+            <File>
+              <FileName>sys_time_edit_win.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\USER_UI\UI\sys_time_win\sys_time_edit_win.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>KEY_MENU_WIN</GroupName>
           <Files>
             <File>
@@ -3062,21 +3077,6 @@
               <FileName>warning_win.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\USER_UI\UI\warning_win\warning_win.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>SYS_TIME_WIN</GroupName>
-          <Files>
-            <File>
-              <FileName>7_sys_time_edit_win.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\USER_UI\UI\sys_time_win\7_sys_time_edit_win.c</FilePath>
-            </File>
-            <File>
-              <FileName>sys_time_edit_win.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\USER_UI\UI\sys_time_win\sys_time_edit_win.c</FilePath>
             </File>
           </Files>
         </Group>

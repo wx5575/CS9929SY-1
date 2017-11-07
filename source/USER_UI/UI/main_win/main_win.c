@@ -187,12 +187,12 @@ static void main_win_f3_cb(KEY_MESSAGE *key_msg)
     uint8_t flag = get_key_lock_flag();
     
     /* 加锁 */
-    if(flag)
-    {
-        init_back_up_will_enter_win_inf(create_sys_manager_win, g_cur_win->handle);
-    }
-    /* 未加锁 */
-    else
+//    if(flag)
+//    {
+//        init_back_up_will_enter_win_inf(create_sys_manager_win, g_cur_win->handle);
+//    }
+//    /* 未加锁 */
+//    else
     {
         create_sys_manager_win(key_msg->user_data);
     }

@@ -1,4 +1,4 @@
-﻿/**
+/**
   ******************************************************************************
   * @file    board.c
   * @author  王鑫
@@ -35,6 +35,7 @@
 #include "usart6.h"
 #include "bsp_tft_lcd.h"
 #include "FSMC_CONFIG.H"
+#include "spi_fpga.h"
 
 
 /**
@@ -69,6 +70,7 @@ void bsp_init(void)
     usart3_config(115200 * 1);
     uart4_config (115200 * 1);
     usart6_config (9600);
+    init_spi_fpga_gpio();
 }
 
 

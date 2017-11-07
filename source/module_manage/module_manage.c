@@ -531,6 +531,75 @@ UN_COMM_TEST_DATA* get_road_test_data(ROAD_NUM_T road, UN_COMM_TEST_DATA *test_d
     
     return &syn_test_port[i].test_data;
 }
+
+/**
+  * @brief  根据路号获取模块测试数据
+  * @param  [in] road 路号
+  * @param  [out] test_data 输出测试数据
+  * @retval 获取到的模块测试数据
+  */
+COM_FRAME* get_road_test_data_fpga(ROAD_NUM_T road, COM_FRAME *test_data)
+{
+    uint8_t total_roads = 0;
+    int32_t i = 0;
+    
+    total_roads = get_total_roads_num();
+    
+    for(i = 0; i < total_roads; i++)
+    {
+        if(syn_test_port[i].road_num == road)
+        {
+            break;
+        }
+    }
+    
+    if(i == total_roads)
+    {
+        return NULL;
+    }
+    
+    memcpy(test_data, &syn_test_port[i].com_frame, sizeof(COM_FRAME));
+    
+    return &syn_test_port[i].com_frame;
+}
+#define TEST_DATA_FPGA_ROAD1_CMD   0x02000000
+#define TEST_DATA_FPGA_ROAD2_CMD   0x02100000
+#define TEST_DATA_FPGA_ROAD3_CMD   0x02200000
+#define TEST_DATA_FPGA_ROAD4_CMD   0x02300000
+void module_delay_ms(uint32_t time)
+{
+    uint32_t i = 0;
+    
+    
+    while(time--)
+    {
+        for(i = 0; i < 16 * 1000; i++)
+        {
+        }
+    }
+}
+void read_one_road_test_data_fpga(ROAD_NUM_T road)
+{
+    uint32_t cmd_buf[]={
+        TEST_DATA_FPGA_ROAD1_CMD,
+        TEST_DATA_FPGA_ROAD2_CMD,
+        TEST_DATA_FPGA_ROAD3_CMD,
+        TEST_DATA_FPGA_ROAD4_CMD,
+    };
+    COM_FRAME *frame = &syn_test_port[road - 1].com_frame;
+    
+    ReadDataFromFPGA(cmd_buf[road - 1], sizeof(COM_FRAME), (u8 *)frame);
+}
+void read_test_data_fpga(void)
+{
+    read_one_road_test_data_fpga(INDEX_ROAD_1);
+//    module_delay_ms(10);
+    read_one_road_test_data_fpga(INDEX_ROAD_2);
+//    module_delay_ms(10);
+    read_one_road_test_data_fpga(INDEX_ROAD_3);
+//    module_delay_ms(10);
+    read_one_road_test_data_fpga(INDEX_ROAD_4);
+}
 /**
   * @brief  根据路号获取模块测试状态
   * @param  [in] road 路号

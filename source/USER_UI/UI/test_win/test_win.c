@@ -2976,6 +2976,44 @@ void dis_one_road_test_inf(UN_COMM_TEST_DATA *inf, ROAD_DIS_ELE_INF* road_ele_in
         update_road_bar_dis(inf, road_ele_inf);//测试出现异常时使用
     }
 }
+void dis_one_road_test_inf_fpga(COM_FRAME* inf, ROAD_DIS_ELE_INF* road_ele_inf, CS_BOOL force)
+{
+    const uint8_t *str = NULL;
+    static uint8_t flag = 0;
+    RES_TEST_DATA *res_test_data;
+    uint8_t buf[20] = {0};
+    
+    res_test_data = &result_inf_pool[road_ele_inf->road_num - 1].test_data;
+    
+    mysprintf(road_ele_inf->time_buf, NULL, 151, inf->acw.time);
+    sprintf((char*)buf, "%s%s", road_ele_inf->time_buf, unit_pool[TIM_U_s]);
+    update_text_ele(road_ele_inf->time, this_win, div_str_pre_zero(buf));
+    update_text_ele(road_ele_inf->mode, this_win, mode_pool[cur_mode]);
+    
+    if(++flag % 5 == 0 || force == CS_TRUE)
+    {
+        switch(cur_mode)
+        {
+            case ACW:
+                mysprintf(road_ele_inf->output_buf, NULL, 153, inf->acw.vol);
+                sprintf((char*)buf, "%s%s", road_ele_inf->output_buf, unit_pool[VOL_U_kV]);
+                update_text_ele(road_ele_inf->vol, this_win, div_str_pre_zero(buf));
+                mysprintf(road_ele_inf->loop_buf, NULL, 150 + ac_gear[inf->acw.cur_inf].dec, inf->acw.cur);
+                sprintf((char*)buf, "%s%s", road_ele_inf->loop_buf, unit_pool[ac_gear[inf->acw.cur_inf].unit]);
+                update_text_ele(road_ele_inf->cur, this_win, div_str_pre_zero(buf));
+                break;
+            case DCW:
+                break;
+        }
+        
+        str = get_test_status_str(inf->acw.test_status);
+        res_test_data->test_result = inf->acw.test_status;
+        road_ele_inf->test_st = inf->acw.test_status;
+        
+        update_text_ele(road_ele_inf->status, this_win, str);
+//        update_road_bar_dis(inf, road_ele_inf);//测试出现异常时使用
+    }
+}
 void dis_step_num_inf(uint16_t step_num)
 {
     uint8_t buf[10] = {0};
@@ -2995,27 +3033,41 @@ void dis_roads_inf(CS_BOOL force)
     uint32_t num = 0;
     uint8_t road_num;
     int32_t i = 0;
+    COM_FRAME* frame;
+    COM_FRAME t_frame;
     
     num = ARRAY_SIZE(road_test_dis_inf);
     
     for(i = 0; i < num; i++)
     {
         road_num = road_test_dis_inf[i].road_num;
-        road_inf = get_road_test_data(road_num, &test_data);
+//        road_inf = get_road_test_data(road_num, &test_data);
+        
+        frame = get_road_test_data_fpga(road_num, &t_frame);
         
         if(road_inf == NULL)
         {
             continue;
         }
         
-        if(road_inf->flag == 1)
+//        if(road_inf->flag == 1)
+//        {
+//            road_inf->flag = 0;
+//            if(road_inf->status == ST_TESTING)
+//            {
+//                update_result_inf(&test_data, &road_test_dis_inf[i]);
+//            }
+//            dis_one_road_test_inf(&test_data, &road_test_dis_inf[i], force);
+//        }
+        if(frame->acw.test_flag == 1)
         {
-            road_inf->flag = 0;
+            frame->acw.test_flag = 0;
             if(road_inf->status == ST_TESTING)
             {
                 update_result_inf(&test_data, &road_test_dis_inf[i]);
             }
-            dis_one_road_test_inf(&test_data, &road_test_dis_inf[i], force);
+            
+            dis_one_road_test_inf_fpga(&t_frame, &road_test_dis_inf[i], force);
         }
     }
 }
@@ -3490,7 +3542,8 @@ static void test_status_machine(void)
             
             break;
         case TEST_TESTING:
-            send_cmd_to_all_module(NULL, 0, send_get_test_data);
+//            send_cmd_to_all_module(NULL, 0, send_get_test_data);
+            read_test_data_fpga();
             dis_roads_inf(CS_FALSE);
             
             /* 判断当前步是否测试结束 */

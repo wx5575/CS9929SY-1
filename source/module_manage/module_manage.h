@@ -99,6 +99,53 @@ typedef struct{
     }un;
 }UN_COMM_TEST_DATA;
 
+
+typedef struct
+{
+    uint16_t vol;//电压
+    uint16_t cur;//电流
+    uint16_t real;//真实电流
+    uint8_t cur_inf;//电流信息
+    uint8_t test_flag;//测试标记
+    uint8_t test_status;//测试状态
+    uint16_t time;//测试时间
+}ACW_FRAME;
+
+typedef struct
+{
+    uint16_t vol;//电压
+    uint16_t cur;//电流
+    uint8_t cur_inf;//电流信息
+    uint8_t test_flag;//测试标记
+    uint8_t test_status;//测试状态
+    uint16_t time;//测试时间
+}DCW_FRAME;
+
+typedef struct
+{
+    uint16_t vol;//电压
+    uint16_t res;//电流
+    uint8_t res_inf;//电阻信息
+    uint8_t test_flag;//测试标记
+    uint8_t test_status;//测试状态
+    uint16_t time;//测试时间
+}IR_FRAME;
+
+typedef struct
+{
+    uint16_t cur;//电流
+    uint16_t res;//电阻
+    uint8_t res_inf;//电阻信息
+    uint8_t test_flag;//测试标记
+    uint8_t test_status;//测试状态
+    uint16_t time;//测试时间
+}GR_FRAME;
+typedef union{
+    ACW_FRAME acw;
+    DCW_FRAME dcw;
+    IR_FRAME ir;
+    GR_FRAME gr;
+}COM_FRAME;
 #pragma pack()
 
 /**
@@ -112,6 +159,7 @@ typedef struct{
     MODULE_ADDR_T offset_addr;///<偏移地址
     ROAD_TEST_ST test_st;///<测试状态
     UN_COMM_TEST_DATA test_data;///<实时测试数据
+    COM_FRAME com_frame;///<测试数据公共帧
 }SYN_TEST_PORT_INF;
 
 #define FRAME_HEAD_SIZE     6  ///<帧头的字节个数
@@ -223,6 +271,9 @@ extern CS_BOOL road1_test_alarm(void);
 extern CS_BOOL road2_test_alarm(void);
 extern CS_BOOL road3_test_alarm(void);
 extern CS_BOOL road4_test_alarm(void);
+
+extern COM_FRAME* get_road_test_data_fpga(ROAD_NUM_T road, COM_FRAME *test_data);
+extern void read_test_data_fpga(void);
 
 #endif //__MODULE_MANAGE_H__
 

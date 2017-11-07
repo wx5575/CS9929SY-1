@@ -210,7 +210,7 @@ static int RTC_Configuration(void)
 	RTC_SetTime(RTC_Format_BCD, &RTC_TimeStructure);  
 	
 	/* 配置备份寄存器，表示已经设置过RTC */
-	RTC_WriteBackupRegister(RTC_BKP_DR0, 0xA5A5);
+	RTC_WriteBackupRegister(RTC_BKP_DR1, 0xA5A5);
 	
     return 0;
 }
@@ -297,10 +297,12 @@ void turn_rtc_date_str(uint32_t t_date, uint8_t* date)
   */
 void rtc_init(void)
 {
-//    RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR, ENABLE);//使能PWR时钟
-//    PWR_BackupAccessCmd(ENABLE);//使能后备寄存器访问
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR, ENABLE);//使能PWR时钟
+ 	RCC_APB1PeriphClockCmd(RCC_AHB1Periph_BKPSRAM, ENABLE);
+    PWR_BackupAccessCmd(ENABLE);//使能后备寄存器访问
+    RTC_WaitForSynchro();
     
-    if (RTC_ReadBackupRegister(RTC_BKP_DR0) != 0xA5A5)
+    if (RTC_ReadBackupRegister(RTC_BKP_DR1) != 0xA5A5)
     {
         if ( RTC_Configuration() != 0)
         {
@@ -309,8 +311,8 @@ void rtc_init(void)
     }
     else
     {
-		RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR, ENABLE);
-		PWR_BackupAccessCmd(ENABLE);
+//		RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR, ENABLE);
+//		PWR_BackupAccessCmd(ENABLE);
 		RTC_WaitForSynchro();
 		RTC_ClearFlag(RTC_FLAG_ALRAF);
 		RTC_ClearITPendingBit(RTC_IT_ALRA);
@@ -318,10 +320,10 @@ void rtc_init(void)
 // 		EXTI_ClearITPendingBit(EXTI_Line17);
 // 		EXTI_ClearITPendingBit(EXTI_Line22);
 		
-		RTC->WPR = 0XCA;
-		RTC->WPR = 0X53;
-		RTC->CR = 0;
-		RTC->WPR = 0XFF;
+//		RTC->WPR = 0XCA;
+//		RTC->WPR = 0X53;
+//		RTC->CR = 0;
+//		RTC->WPR = 0XFF;
     }
 }
 
