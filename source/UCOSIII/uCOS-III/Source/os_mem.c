@@ -32,7 +32,6 @@
 
 #define   MICRIUM_SOURCE
 #include  <os.h>
-#include "usart.h"
 
 #ifdef VSC_INCLUDE_SOURCE_FILE_NAMES
 const  CPU_CHAR  *os_mem__c = "$Id: $";

@@ -30,7 +30,7 @@ WIDGET_POS_SIZE_T _7_file_save_as_windows=
 	150/*x*/, 50/*y*/, 400/*width*/, 150/*height*/,
 };
 
-#define FONT    &GUI_Fonthz_24
+#define FONT    &GUI_Fonthz_26
 
 /**
   * @brief  7寸屏文件编辑窗口编辑对象自动布局结构

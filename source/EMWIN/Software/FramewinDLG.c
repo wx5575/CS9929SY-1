@@ -30,10 +30,7 @@
 **********************************************************************
 */
 #define ID_FRAMEWIN_0 (GUI_ID_USER + 0x00)
-#define ID_PROGBAR_0 (GUI_ID_USER + 0x01)
-#define ID_LISTWHEEL_0 (GUI_ID_USER + 0x02)
-#define ID_LISTWHEEL_1 (GUI_ID_USER + 0x03)
-#define ID_LISTWHEEL_2 (GUI_ID_USER + 0x04)
+#define ID_MULTIEDIT_0 (GUI_ID_USER + 0x01)
 
 
 // USER START (Optionally insert additional defines)
@@ -54,11 +51,8 @@
 *       _aDialogCreate
 */
 static const GUI_WIDGET_CREATE_INFO _aDialogCreate[] = {
-  { FRAMEWIN_CreateIndirect, "Framewin", ID_FRAMEWIN_0, 7, 10, 320, 240, 0, 0x0, 0 },
-  { PROGBAR_CreateIndirect, "Progbar", ID_PROGBAR_0, 51, 116, 141, 20, 0, 0x0, 0 },
-  { LISTWHEEL_CreateIndirect, "Listwheel", ID_LISTWHEEL_0, 74, 27, 50, 30, 0, 0x0, 0 },
-  { LISTWHEEL_CreateIndirect, "Listwheel", ID_LISTWHEEL_1, 129, 28, 50, 30, 0, 0x0, 0 },
-  { LISTWHEEL_CreateIndirect, "Listwheel", ID_LISTWHEEL_2, 184, 30, 50, 30, 0, 0x0, 0 },
+  { FRAMEWIN_CreateIndirect, "Framewin", ID_FRAMEWIN_0, 0, 0, 320, 240, 0, 0x0, 0 },
+  { MULTIEDIT_CreateIndirect, "Multiedit", ID_MULTIEDIT_0, 0, 0, 234, 127, 0, 0x0, 0 },
   // USER START (Optionally insert additional widgets)
   // USER END
 };
@@ -87,20 +81,11 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
   switch (pMsg->MsgId) {
   case WM_INIT_DIALOG:
     //
-    // Initialization of 'Listwheel'
+    // Initialization of 'Multiedit'
     //
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_LISTWHEEL_0);
-    LISTWHEEL_AddString(hItem, "String");
-    //
-    // Initialization of 'Listwheel'
-    //
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_LISTWHEEL_1);
-    LISTWHEEL_AddString(hItem, "String");
-    //
-    // Initialization of 'Listwheel'
-    //
-    hItem = WM_GetDialogItem(pMsg->hWin, ID_LISTWHEEL_2);
-    LISTWHEEL_AddString(hItem, "String");
+    hItem = WM_GetDialogItem(pMsg->hWin, ID_MULTIEDIT_0);
+    MULTIEDIT_SetText(hItem, "Multiedit");
+    MULTIEDIT_SetFont(hItem, GUI_FONT_13_1);
     // USER START (Optionally insert additional code for further widget initialization)
     // USER END
     break;
@@ -108,7 +93,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
     Id    = WM_GetId(pMsg->hWinSrc);
     NCode = pMsg->Data.v;
     switch(Id) {
-    case ID_LISTWHEEL_0: // Notifications sent by 'Listwheel'
+    case ID_MULTIEDIT_0: // Notifications sent by 'Multiedit'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:
         // USER START (Optionally insert code for reacting on notification message)
@@ -118,43 +103,7 @@ static void _cbDialog(WM_MESSAGE * pMsg) {
         // USER START (Optionally insert code for reacting on notification message)
         // USER END
         break;
-      case WM_NOTIFICATION_SEL_CHANGED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
-        break;
-      // USER START (Optionally insert additional code for further notification handling)
-      // USER END
-      }
-      break;
-    case ID_LISTWHEEL_1: // Notifications sent by 'Listwheel'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
-        break;
-      case WM_NOTIFICATION_RELEASED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
-        break;
-      case WM_NOTIFICATION_SEL_CHANGED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
-        break;
-      // USER START (Optionally insert additional code for further notification handling)
-      // USER END
-      }
-      break;
-    case ID_LISTWHEEL_2: // Notifications sent by 'Listwheel'
-      switch(NCode) {
-      case WM_NOTIFICATION_CLICKED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
-        break;
-      case WM_NOTIFICATION_RELEASED:
-        // USER START (Optionally insert code for reacting on notification message)
-        // USER END
-        break;
-      case WM_NOTIFICATION_SEL_CHANGED:
+      case WM_NOTIFICATION_VALUE_CHANGED:
         // USER START (Optionally insert code for reacting on notification message)
         // USER END
         break;

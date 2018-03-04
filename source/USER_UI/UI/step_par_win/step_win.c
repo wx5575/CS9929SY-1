@@ -17,8 +17,11 @@
 #include "step_edit_win.h"
 #include "7_step_ui.h"
 #include "step_win.h"
+#include "module_manage.h"
+#include "send_cmd.h"
+#include "image/logo.h"
 
-  
+
 /* Private typedef -----------------------------------------------------------*/
 
 /**
@@ -39,6 +42,7 @@ static void update_menu_key_inf(WM_HMEM hWin);
 static void dis_all_steps(void);
 static void update_step_cur_row_menu_key_st(WM_HWIN hWin);
 static void new_one_step(int hwin);
+static void insert_one_step(int hwin);
 static void dis_all_steps(void);
 static void update_g_cur_step(void);
 static void delete_g_cur_step(void);
@@ -104,7 +108,7 @@ static MYUSER_WINDOW_T step_windows =
   */
 static MENU_KEY_INFO_T 	step_exist_menu_key_info[] =
 {
-    {"", F_KEY_NEW      , KEY_F1 & _KEY_UP, step_exist_f1_cb },//f1
+    {"", F_KEY_INSTER   , KEY_F1 & _KEY_UP, step_exist_f1_cb },//f1
     {"", F_KEY_DETAIL   , KEY_F2 & _KEY_UP, step_exist_f2_cb },//f2
     {"", F_KEY_DEL		, KEY_F3 & _KEY_UP, step_exist_f3_cb },//f3
     {"", F_KEY_FORWARD  , KEY_F4 & _KEY_UP, step_exist_f4_cb },//f4
@@ -142,7 +146,7 @@ static CONFIG_FUNCTION_KEY_INFO_T 	step_win_sys_key_pool[]={
   */
 static void step_exist_f1_cb(KEY_MESSAGE *key_msg)
 {
-    new_one_step(key_msg->user_data);
+    insert_one_step(key_msg->user_data);
 }
 /**
   * @brief  步骤存在时功能键F2回调函数
@@ -323,6 +327,46 @@ static void new_one_step(int hwin)
     update_step_cur_row_menu_key_st(hwin);//更新当前行的菜单键信息
     update_g_cur_step();//更新当前步
     update_group_inf(g_cur_win);//更新记忆组显示信息
+    
+    send_cmd_to_all_module((void*)&mode, sizeof(mode), send_insert_step);
+}
+/**
+  * @brief  插入一个测试步
+  * @param  [in] hwin 窗口句柄
+  * @retval 无
+  */
+static void insert_one_step(int hwin)
+{
+    uint8_t mode;
+    STEP_NUM step;
+    
+    step = g_cur_step->one_step.com.step;
+    
+    if(step >= MAX_STEPS)
+    {
+        return;
+    }
+    
+    /* G模式 */
+    if(g_cur_file->work_mode == G_MODE)
+    {
+        mode = get_first_step_mode();
+    }
+    /* N模式 */
+    else
+    {
+        mode = get_first_mode();
+    }
+    
+    insert_step(step, mode);//插入一步
+    save_group_info(g_cur_file->num);//保存当前步
+    dis_all_steps();//显示所有的步
+    LISTVIEW_SetSel(list_h, step);//选择新建的步
+    update_step_cur_row_menu_key_st(hwin);//更新当前行的菜单键信息
+    update_g_cur_step();//更新当前步
+    update_group_inf(g_cur_win);//更新记忆组显示信息
+    
+    send_cmd_to_all_module((void*)&mode, sizeof(mode), send_insert_step);
 }
 /**
   * @brief  移动测试步
@@ -368,6 +412,7 @@ static void move_step(MOVE_STEP_DIRECTION dir)
     }
     
     swap_step(one, two);//交换步骤
+    send_cmd_to_all_module((void*)&one, sizeof(one), send_swap_step);
     save_group_info(g_cur_file->num);//保存记忆组信息
     dis_all_steps();//显示所有的步骤信息
     
@@ -464,15 +509,18 @@ static void delete_g_cur_step(void)
     int row = 0;
     NODE_STEP *node;
     uint32_t total = g_cur_file->total;
+    STEP_NUM step_num;
     
 	row = LISTVIEW_GetSel(list_h);
+    step_num = row + 1;
 	
-    if(total < row + 1)
+    if(total < step_num)
     {
         return;
     }
     
-    del_step(row + 1);//删除光标所在行的测试步
+    del_step(step_num);//删除光标所在行的测试步
+    send_cmd_to_all_module((void*)&step_num, sizeof(step_num), send_del_step);
     clear_step_listview();//清空列表
     dis_all_steps();//显示所有步骤信息
     
@@ -503,6 +551,9 @@ static void delete_g_cur_step(void)
     update_group_inf(g_cur_win);//更新记忆组信息
     update_step_cur_row_menu_key_st(g_cur_win->handle);//更新当前行的菜单信息
     save_group_info(g_cur_file->num);//保存记忆组信息
+    
+    step_num = g_cur_step->one_step.com.step;
+    send_cmd_to_all_module((void*)&step_num, sizeof(step_num), send_load_step);
 }
 /**
   * @brief  更新当前步骤
@@ -513,19 +564,23 @@ static void update_g_cur_step(void)
 {
     int row = 0;
     NODE_STEP *node;
+    STEP_NUM step_num;
     
 	row = LISTVIEW_GetSel(list_h);
+    step_num = row + 1;
 	
 	/* 步骤存在 */
-    if(g_cur_file->total >= row + 1)
+    if(g_cur_file->total >= step_num)
     {
-        load_steps_to_list(row + 1, 1);//加载新的当前步
+        load_steps_to_list(step_num, 1);//加载新的当前步
         node = get_g_cur_step();
         
         if(NULL != node)
         {
             g_cur_step = node;
         }
+        
+        send_cmd_to_all_module((void*)&step_num, sizeof(step_num), send_load_step);
     }
 }
 /**
@@ -595,21 +650,21 @@ static uint32_t init_step_dis_inf(uint8_t buf[5][20], NODE_STEP *node)
             mysprintf(buf[i++], unit_pool[VOL_U_kV] , 53, un->acw.output_vol);
             mysprintf(buf[i++], unit_pool[TIM_U_s]  , 51, un->acw.test_time);
             strcpy((char*)buf[i++], (const char*)sw_pool[SYS_LANGUAGE][!!un->acw.step_con]);
-            transform_test_port_to_str(&un->acw.port, buf[i++]);
+            transform_test_port_to_str(&un->acw.work_port, buf[i++]);
             
             break;
         case DCW:
             mysprintf(buf[i++], unit_pool[VOL_U_kV] , 53, un->dcw.output_vol);
             mysprintf(buf[i++], unit_pool[TIM_U_s]  , 51, un->dcw.test_time);
             strcpy((char*)buf[i++], (const char*)sw_pool[SYS_LANGUAGE][!!un->dcw.step_con]);
-            transform_test_port_to_str(&un->dcw.port, buf[i++]);
+            transform_test_port_to_str(&un->dcw.work_port, buf[i++]);
             
             break;
         case IR:
             mysprintf(buf[i++], unit_pool[VOL_U_kV] , 53, un->ir.output_vol);
             mysprintf(buf[i++], unit_pool[TIM_U_s]  , 51, un->ir.test_time);
             strcpy((char*)buf[i++], (const char*)sw_pool[SYS_LANGUAGE][!!un->ir.step_con]);
-            transform_test_port_to_str(&un->ir.port, buf[i++]);
+            transform_test_port_to_str(&un->ir.work_port, buf[i++]);
             
             break;
         case GR:
@@ -711,6 +766,7 @@ static void step_win_cb(WM_MESSAGE* pMsg)
 {
 	MYUSER_WINDOW_T* win;
 	WM_HWIN hWin = pMsg->hWin;
+	static CS_IMAGE_T cs_image;
 	
 	switch (pMsg->MsgId)
 	{
@@ -734,6 +790,7 @@ static void step_win_cb(WM_MESSAGE* pMsg)
             update_key_inf(hWin);
             update_g_cur_step();
             update_group_inf(g_cur_win);
+            create_miclogo_image(hWin, &cs_image);
 //            GUI_Delay(1);
 //            WM_CreateTimer(hWin, 0, 1, 0);
             break;
@@ -747,14 +804,15 @@ static void step_win_cb(WM_MESSAGE* pMsg)
 			break;
 		case WM_NOTIFY_PARENT:
 			break;
+		case WM_DELETE:
+            delete_image(&cs_image);
+			break;
 		default:
 			WM_DefaultProc(pMsg);
 	}
 }
 
-
 /* Public functions ---------------------------------------------------------*/
-
 
 /**
   * @brief  创建步骤管理窗口

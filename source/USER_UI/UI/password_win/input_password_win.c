@@ -85,7 +85,7 @@ static MENU_KEY_INFO_T 	input_pwd_menu_key_info[] =
     {"", F_KEY_CLEAR    , KEY_F2 & _KEY_UP, input_pwd_win_f2_cb },//f2
     {"", F_KEY_NULL     , KEY_F3 & _KEY_UP, input_pwd_win_f3_cb },//f3
     {"", F_KEY_NULL     , KEY_F4 & _KEY_UP, input_pwd_win_f4_cb },//f4
-    {"", F_KEY_ENTER       , KEY_F5 & _KEY_UP, input_pwd_win_f5_cb },//f5
+    {"", F_KEY_ENTER    , KEY_F5 & _KEY_UP, input_pwd_win_f5_cb },//f5
     {"", F_KEY_BACK     , KEY_F6 & _KEY_UP, input_pwd_win_f6_cb },//f6
 };
 
@@ -100,7 +100,7 @@ static EDIT_ELE_T input_password_ele_pool[]=
         {"",""},/* 默认值 */
         {NULL, D_N_BYTES},/* 数据指针 */
         {NULL,0},/* 资源表 */
-        {ELE_EDIT_STR, E_STRING_T},/*类型*/
+        {ELE_EDIT_STR,},/*类型*/
         {0/*dec*/,20/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {0/*heigh*/,0/*low*/,{"1-8个数字","1-8 Numbers"}/*notice*/},/*range*/
         {reg_input_pwd_menu_key,reg_input_pwd_sys_key,keyboard_fun_pwd,},/*key_inf*/

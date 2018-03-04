@@ -73,6 +73,13 @@ typedef enum{
     F_KEY_AUTO,///<自动
     F_KEY_GND,///<接地
     F_KEY_FLOAT,///<浮地
+    F_KEY_START,///<启动
+    F_KEY_STOP,///<停止
+    F_KEY_MODULE,///<模块
+    F_KEY_STATIS,///<统计
+    F_KEY_LEAD_OUT,///<导出
+    F_KEY_LEAD_IN,///<导入
+    F_KEY_GOTO,///<跳转
 }MENU_KEY_INDEX_ENUM;
 
 /**
@@ -178,6 +185,7 @@ typedef struct{
 	KEY_DISPOSE_FUN	key_f1_0;///< 组合键 KEY_F1 + KEY_0
 	KEY_DISPOSE_FUN	key_f1_1;///< 组合键 KEY_F1 + KEY_1
 	KEY_DISPOSE_FUN	key_f1_4;///< 组合键 KEY_F1 + KEY_4
+	KEY_DISPOSE_FUN	key_f4_5;///< 组合键 KEY_F1 + KEY_4
 	
 }KEY_FUNCATION;
 

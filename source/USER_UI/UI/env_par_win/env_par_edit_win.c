@@ -179,7 +179,7 @@ static EDIT_ELE_T env_par_ele_pool[]=
             language_pool, ARRAY_SIZE(language_pool),
             language_table,ARRAY_SIZE(language_table),
         },/* 资源表 */
-        {ELE_DROPDOWN, E_INT_T},/*类型*/
+        {ELE_DROPDOWN, },/*类型*/
         {0/*dec*/,20/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {0/*heigh*/,0/*low*/,{"Language","Language"}/*notice*/},/*range*/
         {reg_env_language_sys_key,env_win_edit_language_menu_key_init,keyboard_fun_num,},/*key_inf*/
@@ -190,7 +190,7 @@ static EDIT_ELE_T env_par_ele_pool[]=
         {0},/* 默认值 */
         {NULL, 4/*数据字节数*/},/* 数据指针 */
         {NULL, 0,NULL, 0},/* 资源表 */
-        {ELE_EDIT_NUM, E_INT_T},/*类型*/
+        {ELE_EDIT_NUM, },/*类型*/
         {0/*dec*/,1/*lon*/,U_PER_CENT/*unit*/,},/*format*/
         {9/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
         {NULL, env_win_edit_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
@@ -205,7 +205,7 @@ static EDIT_ELE_T env_par_ele_pool[]=
             (void*)sw_status_buf, ARRAY_SIZE(sw_status_buf),
             {sw_pool[CHINESE], sw_pool[ENGLISH]}
         },/* 资源表 */
-        {ELE_DROPDOWN, E_INT_T},/*类型*/
+        {ELE_DROPDOWN, },/*类型*/
         {0/*dec*/,5/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
         {NULL, env_win_edit_sw_menu_key_init, keyboard_fun_num,},/*key_inf*/
@@ -220,7 +220,7 @@ static EDIT_ELE_T env_par_ele_pool[]=
             (void*)sw_status_buf, ARRAY_SIZE(sw_status_buf),
             {sw_pool[CHINESE], sw_pool[ENGLISH]}
         },/* 资源表 */
-        {ELE_DROPDOWN, E_INT_T},/*类型*/
+        {ELE_DROPDOWN, },/*类型*/
         {0/*dec*/,5/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
         {NULL, env_win_edit_sw_menu_key_init, keyboard_fun_num,},/*key_inf*/
@@ -235,7 +235,7 @@ static EDIT_ELE_T env_par_ele_pool[]=
             (void*)sw_status_buf, ARRAY_SIZE(sw_status_buf),
             {sw_pool[CHINESE], sw_pool[ENGLISH]}
         },/* 资源表 */
-        {ELE_DROPDOWN, E_INT_T},/*类型*/
+        {ELE_DROPDOWN, },/*类型*/
         {0/*dec*/,5/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
         {NULL, env_win_edit_sw_menu_key_init, keyboard_fun_num,},/*key_inf*/
@@ -250,7 +250,7 @@ static EDIT_ELE_T env_par_ele_pool[]=
             (void*)sw_status_buf, ARRAY_SIZE(sw_status_buf),
             {sw_pool[CHINESE], sw_pool[ENGLISH]}
         },/* 资源表 */
-        {ELE_DROPDOWN, E_INT_T},/*类型*/
+        {ELE_DROPDOWN, },/*类型*/
         {0/*dec*/,5/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
         {NULL, env_win_edit_sw_menu_key_init, keyboard_fun_num,},/*key_inf*/
@@ -261,7 +261,7 @@ static EDIT_ELE_T env_par_ele_pool[]=
         {0},/* 默认值 */
         {NULL, 4/*数据字节数*/},/* 数据指针 */
         {NULL, 0,NULL, 0},/* 资源表 */
-        {ELE_EDIT_NUM, E_INT_T},/*类型*/
+        {ELE_EDIT_NUM, },/*类型*/
         {1/*dec*/,5/*lon*/,TIM_U_s/*unit*/,},/*format*/
         {9999/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
         {NULL, env_win_edit_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
@@ -276,7 +276,7 @@ static EDIT_ELE_T env_par_ele_pool[]=
             (void*)test_port_flag_pool, ARRAY_SIZE(test_port_flag_pool),
             {test_port_pool[CHINESE], test_port_pool[ENGLISH]}
         },/* 资源表 */
-        {ELE_DROPDOWN, E_INT_T},/*类型*/
+        {ELE_DROPDOWN, },/*类型*/
         {0/*dec*/,5/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
         {NULL, env_win_edit_gnd_float_menu_key_init, keyboard_fun_num,},/*key_inf*/
@@ -291,7 +291,7 @@ static EDIT_ELE_T env_par_ele_pool[]=
             (void*)sw_status_buf, ARRAY_SIZE(sw_status_buf),
             {sw_pool[CHINESE], sw_pool[ENGLISH]}
         },/* 资源表 */
-        {ELE_DROPDOWN, E_INT_T},/*类型*/
+        {ELE_DROPDOWN, },/*类型*/
         {0/*dec*/,5/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
         {NULL, env_win_edit_sw_menu_key_init, keyboard_fun_num,},/*key_inf*/
@@ -302,7 +302,7 @@ static EDIT_ELE_T env_par_ele_pool[]=
         {0},/* 默认值 */
         {NULL, 4/*数据字节数*/},/* 数据指针 */
         {NULL, 0,NULL, 0},/* 资源表 */
-        {ELE_EDIT_NUM, E_INT_T},/*类型*/
+        {ELE_EDIT_NUM, },/*类型*/
         {0/*dec*/,1/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {2/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
         {NULL, env_win_edit_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
@@ -363,6 +363,7 @@ static MYUSER_WINDOW_T env_par_window =
     env_par_win_pos_size_pool/*pos_size_pool*/
 };
 
+MYUSER_WINDOW_T *this_win = &env_par_window;
 /* Private functions ---------------------------------------------------------*/
 
 /**
@@ -803,7 +804,15 @@ static void env_par_edit_win_cb(WM_MESSAGE * pMsg)
     }
 }
 /* Public functions ---------------------------------------------------------*/
-
+/**
+  * @brief  更新系统语言
+  * @param  无
+  * @retval 无
+  */
+void update_system_language(void)
+{
+    update_all_windows_text();
+}
 /**
   * @brief  创建对话框用来编辑环境变量
   * @param  [in] hWin 窗口句柄

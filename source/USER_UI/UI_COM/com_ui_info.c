@@ -7,7 +7,7 @@
   * @brief   提供公共界面服务接口
   ******************************************************************************
   */
-  
+
 /* Private macro -------------------------------------------------------------*/
 #define COM_UI_GLOBALS
 
@@ -220,7 +220,7 @@ void auto_init_win_text_ele_dis_inf(MYUSER_WINDOW_T *win)
         
         ++row;
         
-        if(row > auto_layout->rows)
+        if(row >= auto_layout->rows)
         {
             row = 0;
             column++;
@@ -289,9 +289,9 @@ void adjust_win_text_ele_dis_inf(MYUSER_WINDOW_T *win)
                 }
                 
                 /* 调整文本的x坐标 */
-                if(adjust_inf->pos_size.x.en == CS_TRUE)
+                if(adjust_inf->pos_size.offset_x.en == CS_TRUE)
                 {
-                    pos->x = adjust_inf->pos_size.x.value;
+                    pos->x += adjust_inf->pos_size.offset_x.value;
                 }
                 
                 /* 调整文本控件的宽度 */
@@ -370,12 +370,22 @@ void init_window_edit_ele_dis_inf(MYUSER_WINDOW_T *win, EDIT_ELE_AUTO_LAYOUT_T* 
         }
     }
 }
+/**
+  * @brief  隐藏编辑对象
+  * @param  [in] ele 编辑对象
+  * @retval 无
+  */
 static void hide_edit_ele(EDIT_ELE_T *ele)
 {
     WM_HideWindow(ele->dis.name.handle);
     WM_HideWindow(ele->dis.edit.handle);
     WM_HideWindow(ele->dis.unit.handle);
 }
+/**
+  * @brief  显示编辑对象
+  * @param  [in] ele 编辑对象
+  * @retval 无
+  */
 static void show_edit_ele(EDIT_ELE_T *ele)
 {
     WM_ShowWindow(ele->dis.name.handle);
@@ -484,7 +494,7 @@ void auto_init_win_edit_ele_dis_inf(MYUSER_WINDOW_T *win)
             row = 0;
             column++;
             
-            if(column >= auto_layout->columns)
+            if(column > auto_layout->columns)
             {
                 //换页
                 column = 0;
@@ -792,6 +802,28 @@ void set_text_ele_font_color(CS_INDEX index, MYUSER_WINDOW_T* win, GUI_COLOR col
     node->dis_info.font_color = color;
 }
 /**
+  * @brief  设置文本对象的字体颜色
+  * @param  [in] index 文本对象的索引值
+  * @param  [in] win 文本对象所在的窗口指针
+  * @param  [in] color 要设置的文本颜色
+  * @retval 无
+  */
+void set_text_ele_font_backcolor(CS_INDEX index, MYUSER_WINDOW_T* win, GUI_COLOR back_color)
+{
+	TEXT_ELE_T *node = NULL;
+    CS_ERR err;
+	
+	node = get_text_ele_node(index, &win->text.list_head, &err);//获取文本对象指针
+	
+	if(node == NULL || err != CS_ERR_NONE)
+	{
+		return;
+	}
+	
+    node->dis_info.back_color = back_color;
+	TEXT_SetBkColor(node->handle, back_color);
+}
+/**
   * @brief  查找并显示文本对象，如果查找到就显示文本对象内容
   * @param  [in] index 文本对象的索引
   * @param  [in] win 文本对象所在窗口的指针
@@ -811,6 +843,76 @@ void update_text_ele(CS_INDEX index, MYUSER_WINDOW_T* win, const uint8_t *str)
 	}
 	
 	_show_text_ele(node, str);//显示文本对象
+}
+/**
+  * @brief  查找并显示文本对象，如果查找到就显示文本对象内容
+  * @param  [in] index 文本对象的索引
+  * @param  [in] win 文本对象所在窗口的指针
+  * @param  [in] str 要显示的文本
+  * @retval 无
+  */
+void set_text_ele(CS_INDEX index, MYUSER_WINDOW_T* win, const uint8_t *str)
+{
+	TEXT_ELE_T *node = NULL;
+    CS_ERR err;
+	
+	node = get_text_ele_node(index, &win->text.list_head, &err);//获取文本对象指针
+	
+	if(node == NULL || err != CS_ERR_NONE)
+	{
+		return;
+	}
+	
+    TEXT_SetText(node->handle, (const char*)str);
+}
+/**
+  * @brief  查找并显示文本对象，如果查找到就显示文本对象内容
+  * @param  [in] index 文本对象的索引
+  * @param  [in] win 文本对象所在窗口的指针
+  * @param  [in] str 要显示的文本
+  * @retval 无
+  */
+void get_text_ele_text(CS_INDEX index, MYUSER_WINDOW_T* win, uint8_t *str, uint32_t size)
+{
+	TEXT_ELE_T *node = NULL;
+    CS_ERR err;
+	
+	node = get_text_ele_node(index, &win->text.list_head, &err);//获取文本对象指针
+	
+	if(node == NULL || err != CS_ERR_NONE)
+	{
+		return;
+	}
+	
+    TEXT_GetText(node->handle, (char*)str, size);
+}
+/**
+  * @brief  设置文本对象的可见性
+  * @param  [in] index 文本对象的索引
+  * @param  [in] win 文本对象所在窗口的指针
+  * @param  [in] visible 0不可见性 1可见
+  * @retval 无
+  */
+void set_text_ele_visible(CS_INDEX index, MYUSER_WINDOW_T* win, uint8_t visible)
+{
+	TEXT_ELE_T *node = NULL;
+    CS_ERR err;
+	
+	node = get_text_ele_node(index, &win->text.list_head, &err);//获取文本对象指针
+	
+	if(node == NULL || err != CS_ERR_NONE)
+	{
+		return;
+	}
+	
+    if(visible)
+    {
+        WM_ShowWindow(node->handle);
+    }
+    else
+    {
+        WM_HideWindow(node->handle);
+    }
 }
 /**
   * @brief  查找并显示公共文本对象，如果查找到就显示文本对象内容
@@ -894,6 +996,7 @@ void create_user_window(MYUSER_WINDOW_T* win_info, CS_LIST *list_head, WM_HWIN h
         return;
     }
     
+    /* 如果父窗口句柄为0就创建桌面窗口 */
     if(h_parent == 0)
     {
         h_parent = WM_HBKWIN;
@@ -925,6 +1028,11 @@ void create_user_window(MYUSER_WINDOW_T* win_info, CS_LIST *list_head, WM_HWIN h
     disable_system_fun_key_fun();//失能系统功能按键
     set_cur_window(win_info);//将新建窗口设为当前窗口
     win_info->handle = WM_CreateWindowAsChild(x, y, width, height, h_parent, WM_CF_MEMDEV_ON_REDRAW | WM_CF_SHOW, cb_fun, 0);//WM_CF_SHOW
+    
+    if(win_info->init_key_fun != NULL)
+    {
+        win_info->init_key_fun(win_info->handle);
+    }
 }
 /**
   * @brief  设置当前用户窗口尺寸
@@ -954,15 +1062,64 @@ void init_sys_function_key_inf(MYUSER_WINDOW_T* win)
 }
 
 /**
+  * @brief  选中文本对象，取消选中后要 改变背景颜色
+  * @param  [in] ele 文本对象信息
+  * @retval 无
+  */
+void select_text_ele(TEXT_ELE_T *ele)
+{
+    TEXT_SetBkColor(ele->handle, SELETED_COLOR);
+    TEXT_SetTextColor(ele->handle, GUI_RED);
+}
+/**
+  * @brief  取消选中文本对象，取消选中后要 恢复背景颜色
+  * @param  [in] ele 文本对象信息
+  * @retval 无
+  */
+void dis_select_text_ele(TEXT_ELE_T *ele)
+{
+    TEXT_SetBkColor(ele->handle, ele->dis_info.back_color);
+    TEXT_SetTextColor(ele->handle, ele->dis_info.font_color);
+}
+/**
+  * @brief  自动布局窗口中的文本对象
+  * @param  [in] win 窗口信息
+  * @retval 无
+  */
+void auto_layout_win_text_ele(MYUSER_WINDOW_T* win)
+{
+    auto_init_win_text_ele_dis_inf(win);//自动布局窗口中的普通文本
+    adjust_win_text_ele_dis_inf(win);//调整某些文本对象的布局
+}
+
+/**
+  * @brief  初始化并创建窗口中的文本对象
+  * @param  [in] win 窗口结构信息
+  * @retval 无
+  */
+void init_create_win_text_ele(MYUSER_WINDOW_T* win)
+{
+    init_window_text_ele_list(win);
+    auto_layout_win_text_ele(win);
+    init_window_text_ele(win);
+}
+
+/**
   * @brief  初始化并创建窗口内所有控件 只包含文本控件和编辑控件(编辑框、下拉框)
   * @param  [in] win 窗口结构指针
   * @retval 无
   */
 void init_create_win_all_ele(MYUSER_WINDOW_T* win)
 {
+    /* 使用提供的初始化函数 */
     if(NULL != win->text.init_create_fun)
     {
         win->text.init_create_fun(win);//创建文本对象
+    }
+    /* 如果没有提供初始化函数就使用默认的初始化函数 */
+    else
+    {
+        init_create_win_text_ele(win);
     }
     
     if(NULL != win->edit.init_create_fun)
@@ -1059,6 +1216,11 @@ void create_user_dialog(MYUSER_WINDOW_T* win_info, CS_LIST *list_head, WM_HWIN h
     disable_system_fun_key_fun();//失能系统功能按键
     set_cur_window(win_info);
     win_info->handle = GUI_CreateDialogBox(&aDialogBox, 1, cb_fun, hWin, 0, 0);//非阻塞
+    
+    if(win_info->init_key_fun != NULL)
+    {
+        win_info->init_key_fun(win_info->handle);
+    }
 }
 /**
   * @brief  删除文本对象链表中的所有节点
@@ -1188,10 +1350,66 @@ void del_cur_window(void)
     delete_win_all_ele(win_info);//删除窗口中所有控件
     set_cur_edit_ele(NULL);//将当前编辑对象置为空
     disable_system_fun_key_fun();//失能系统功能按键
-    set_cur_window(win);//把新窗口设置为当前窗口
-    show_user_window(win);//显示出用户当前窗口
     
 	WM_DeleteWindow(win_info->handle);//删除窗口控件
+	win_info->handle = 0;//清除被删除窗口的句柄
+    set_cur_window(win);//把新窗口设置为当前窗口
+    show_user_window(win);//显示出用户当前窗口
+}
+/**
+  * @brief  删除当前用户界面窗口,并返回新的当前窗口地址，将窗口中所有的对象都删除，将全局的当前编辑对象
+  * @brief  指针设为NULL,将删除的窗口的句柄清零
+  * @param  [in] win_info 窗口对象指针
+  * @retval 新窗口的地址
+  */
+void del_user_window(WM_HMEM handle)
+{
+	CS_LIST *list_head = &windows_list;//窗口链表头
+    MYUSER_WINDOW_T* win_info = NULL;
+	int res = 0;
+    MYUSER_WINDOW_T* win = NULL;
+    CS_LIST *index;
+    
+	list_for_each( index, list_head )
+	{
+		win_info = list_entry( index, MYUSER_WINDOW_T, w_list );
+        
+		if(win_info->handle == handle)
+		{
+            break;
+        }
+    }
+    
+    if(win_info->handle != handle)
+    {
+        return;
+    }
+    
+	list_del(&win_info->w_list);//把窗口信息从窗口链表中删除
+	res = list_empty(list_head);//判断上一级窗口是否为空
+    
+    //上一级窗口不为空就获取上一级窗口的地址
+	if(!res)
+	{
+		win = list_entry(list_head->prev, MYUSER_WINDOW_T, w_list);//上一级窗口
+	}
+    //上一级窗口为空
+	else
+	{
+		win = NULL;
+	}
+    
+    delete_win_all_ele(win_info);//删除窗口中所有控件
+    set_cur_edit_ele(NULL);//将当前编辑对象置为空
+    disable_system_fun_key_fun();//失能系统功能按键
+    
+	WM_DeleteWindow(win_info->handle);//删除窗口控件
+    if(handle == g_cur_win->handle)
+    {
+        set_cur_window(win);//把新窗口设置为当前窗口
+        show_user_window(win);//显示出用户当前窗口
+    }
+    
 	win_info->handle = 0;//清除被删除窗口的句柄
 }
 /**
@@ -1273,8 +1491,8 @@ void init_dialog(MYUSER_WINDOW_T * win)
     FRAMEWIN_SetTitleHeight(hWin, 35);
     FRAMEWIN_SetTextColor(hWin, GUI_BLACK);
     FRAMEWIN_SetText(hWin, (const char*)win->win_name[SYS_LANGUAGE]);
-    FRAMEWIN_SetFont(hWin, &GUI_Fonthz_26);
-    FRAMEWIN_SetTextAlign(hWin, GUI_TA_CENTER);
+    FRAMEWIN_SetFont(hWin, &GUI_Fonthz_24);
+    FRAMEWIN_SetTextAlign(hWin, GUI_TA_HCENTER | GUI_TA_VCENTER);
 //    FRAMEWIN_SetBarColor(hWin, 1, GUI_LIGHTBLUE);
     FRAMEWIN_SetBarColor(hWin, 1, 0x804000);
     FRAMEWIN_SetBarColor(hWin, 0, GUI_LIGHTBLUE);
@@ -1391,7 +1609,7 @@ TEXT_ELE_T com_text_ele_pool[COM_ELE_NUM]=
     
 	{{page_num_buf[0]    ,page_num_buf[1] }, COM_PAGE_NOTICE },///<页码文本对象
     
-	{{"文件名:", "FileName:" }, COM_UI_FILE_NAME    },///<记忆组文本名文本对象
+	{{"文件名:", "File:" }, COM_UI_FILE_NAME    },///<记忆组文本名文本对象
 	{{"DEFAULT", "DEFAULT"   }, COM_UI_CUR_FILE_NAME},///<记忆组文件名文本对象
 	{{"步骤:"  , "Step:"     }, COM_UI_STEP         },///<记忆组步骤名称文本对象
 	{{"01/01"  , "01/01"     }, COM_UI_CUR_STEP     },///<记忆组步骤文本对象

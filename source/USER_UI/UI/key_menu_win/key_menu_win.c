@@ -40,7 +40,7 @@ typedef struct {
 #define MENU_KEY_HEIGHT			((MENU_KEY_AREA_HEIGHT - (MENU_KEY_NUM + 1) * MENU_KEY_O) / (MENU_KEY_NUM))
 
 #define KEY_DOWN_COLOR		    GUI_DARKBLUE //GUI_DARKGRAY//
-#define KEY_UP_COLOR		    0x804000 //GUI_LIGHTGRAY//GUI_LIGHTBLUE //
+#define KEY_UP_COLOR		   0xff5050 //0x804000 //GUI_LIGHTGRAY//GUI_LIGHTBLUE //
 #define KEY_EN_BACK_COLOR		KEY_UP_COLOR
 #define KEY_EN_FONT_COLOR	    GUI_WHITE
 #define KEY_DIS_BACK_COLOR		KEY_UP_COLOR
@@ -109,7 +109,7 @@ static const STAND_MENU_KEY_INFO_T all_menu_key_info_[]=
 	{{"读取", "Read"	}, F_KEY_READ		},
 	{{"编辑", "Edit"	}, F_KEY_EDIT		},
 	{{"返回", "Back"	}, F_KEY_BACK		},
-	{{"显示", "Dis."	}, F_KEY_DISPLAY	},
+	{{"显示", "Display"	}, F_KEY_DISPLAY	},
 	{{"测试", "Test"	}, F_KEY_TEST   	},
 	{{"帮助", "Help"	}, F_KEY_HELP   	},
 	{{"电压", "Voltage"	}, F_KEY_VOL    	},
@@ -131,6 +131,13 @@ static const STAND_MENU_KEY_INFO_T all_menu_key_info_[]=
 	{{"自动", "Auto"    }, F_KEY_AUTO       },
 	{{"接地", "GND"     }, F_KEY_GND        },
 	{{"浮地", "Float"   }, F_KEY_FLOAT      },
+	{{"启动", "START"   }, F_KEY_START      },
+	{{"停止", "STOP"    }, F_KEY_STOP       },
+	{{"模块", "MODULE"  }, F_KEY_MODULE     },
+	{{"统计", "statis." }, F_KEY_STATIS     },
+	{{"导出", "LeadOut"}, F_KEY_LEAD_OUT   },
+	{{"导入", "LeadIn" }, F_KEY_LEAD_IN    },
+	{{"跳转", "GOTO"    }, F_KEY_GOTO       },
 };
 
 /**
@@ -737,7 +744,14 @@ void change_menu_key_font_color(uint32_t key_value, GUI_COLOR color)
     
 	display_menu_key();//刷新菜单键显示
 }
-
+void hide_key_menu_win(void)
+{
+    WM_HideWindow(key_menu_windows.handle);
+}
+void show_key_menu_win(void)
+{
+    WM_ShowWindow(key_menu_windows.handle);
+}
 /**
   * @brief  创建菜单按键窗口
   * @param  无

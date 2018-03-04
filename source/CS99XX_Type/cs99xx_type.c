@@ -255,7 +255,7 @@ uint16_t read_type(void)
 
 /**
  * @brief      检查当前机型是否支持GR
- *
+ * @param       无
  * @return     0 不支持GR 非0 支持GR
  */
 int32_t check_gr_mode(void)
@@ -265,7 +265,7 @@ int32_t check_gr_mode(void)
 
 /**
  * @brief      找到当前机型下的首个模式 优先顺序：ACW DCW IR GR BBD
- *
+ * @param  无
  * @return     首个模式
  */
 uint8_t get_first_mode(void)
@@ -301,6 +301,62 @@ uint8_t get_first_mode(void)
 		while(1); /* 出错 */
 	}
 	return mode;
+}
+/**
+  * @brief  判断模块合法性
+  * @param  无
+  * @return 合法性断断结果
+  *         @arg CS_TRUE 合法
+  *         @arg CS_FALSE 非法
+  */
+CS_BOOL check_mode_validity(uint8_t mode)
+{
+    CS_BOOL cs_bool = CS_FALSE;
+    
+	if(MODEL_EN & __ACW)
+	{
+       if(mode == ACW)
+       {
+           cs_bool = CS_TRUE;
+       }
+	}
+    if(MODEL_EN & __DCW)
+	{
+       if(mode == DCW)
+       {
+           cs_bool = CS_TRUE;
+       }
+	}
+    if(MODEL_EN & __IR)
+	{
+       if(mode == IR)
+       {
+           cs_bool = CS_TRUE;
+       }
+	}
+    if( MODEL_EN & __GR)
+	{
+       if(mode == GR)
+       {
+           cs_bool = CS_TRUE;
+       }
+	}
+    if(MODEL_EN & __BBD)
+	{
+       if(mode == BBD)
+       {
+           cs_bool = CS_TRUE;
+       }
+	}
+    if(MODEL_EN & __CC)
+	{
+       if(mode == CC)
+       {
+           cs_bool = CS_TRUE;
+       }
+	}
+    
+	return cs_bool;
 }
 /**
  * @brief      找到当前机型下的首个支持G模式的测试模式 优先顺序：ACW DCW
@@ -844,6 +900,154 @@ uint8_t get_max_cur_gear(uint8_t mode)
 	return 0;
 }
 
+CS_BOOL check_range_validity(uint8_t mode, uint8_t range, uint8_t *gear)
+{
+    CS_BOOL flag = CS_FALSE;
+    
+	switch(mode)
+	{
+		case ACW:
+        {
+			if(type_spe.acw_gear & _AC_2A)
+			{
+                if(range == ac_gear[AC_2A].comm)
+                {
+                    *gear = AC_2A;
+                    return CS_TRUE;
+                }
+			}
+            if(type_spe.acw_gear & _AC_200mA)
+			{
+                if(range == ac_gear[AC_200mA].comm)
+                {
+                    *gear = AC_200mA;
+                    return CS_TRUE;
+                }
+			}
+            if(type_spe.acw_gear & _AC_100mA)
+			{
+                if(range == ac_gear[AC_100mA].comm)
+                {
+                    *gear = AC_100mA;
+                    return CS_TRUE;
+                }
+			}
+            if(type_spe.acw_gear & _AC_50mA)
+			{
+                if(range == ac_gear[AC_50mA].comm)
+                {
+                    *gear = AC_50mA;
+                    return CS_TRUE;
+                }
+			}
+            if(type_spe.acw_gear & _AC_20mA)
+			{
+                if(range == ac_gear[AC_20mA].comm)
+                {
+                    *gear = AC_20mA;
+                    return CS_TRUE;
+                }
+			}
+            if(type_spe.acw_gear & _AC_10mA)
+			{
+                if(range == ac_gear[AC_10mA].comm)
+                {
+                    *gear = AC_10mA;
+                    return CS_TRUE;
+                }
+			}
+            if(type_spe.acw_gear & _AC_2mA)
+			{
+                if(range == ac_gear[AC_2mA].comm)
+                {
+                    *gear = AC_2mA;
+                    return CS_TRUE;
+                }
+			}
+            if(type_spe.acw_gear & _AC_200uA)
+			{
+                if(range == ac_gear[AC_200uA].comm)
+                {
+                    *gear = AC_200uA;
+                    return CS_TRUE;
+                }
+			}
+            
+            break;
+        }
+		case DCW:
+        {
+			if(type_spe.dcw_gear & _DC_100mA)
+			{
+                if(range == dc_gear[DC_100mA].comm)
+                {
+                    *gear = DC_100mA;
+                    return CS_TRUE;
+                }
+			}
+            if(type_spe.dcw_gear & _DC_50mA)
+			{
+                if(range == dc_gear[DC_50mA].comm)
+                {
+                    *gear = DC_50mA;
+                    return CS_TRUE;
+                }
+			}
+            if(type_spe.dcw_gear & _DC_20mA)
+			{
+                if(range == dc_gear[DC_20mA].comm)
+                {
+                    *gear = DC_20mA;
+                    return CS_TRUE;
+                }
+			}
+            if(type_spe.dcw_gear & _DC_10mA)
+			{
+                if(range == dc_gear[DC_10mA].comm)
+                {
+                    *gear = DC_10mA;
+                    return CS_TRUE;
+                }
+			}
+            if(type_spe.dcw_gear & _DC_2mA)
+			{
+                if(range == dc_gear[DC_2mA].comm)
+                {
+                    *gear = DC_2mA;
+                    return CS_TRUE;
+                }
+			}
+            if(type_spe.dcw_gear & _DC_200uA)
+			{
+                if(range == dc_gear[DC_200uA].comm)
+                {
+                    *gear = DC_200uA;
+                    return CS_TRUE;
+                }
+			}
+            if(type_spe.dcw_gear & _DC_20uA)
+			{
+                if(range == dc_gear[DC_20uA].comm)
+                {
+                    *gear = DC_20uA;
+                    return CS_TRUE;
+                }
+			}
+            if(type_spe.dcw_gear & _DC_2uA)
+			{
+                if(range == dc_gear[DC_2uA].comm)
+                {
+                    *gear = DC_2uA;
+                    return CS_TRUE;
+                }
+			}
+            
+            break;
+        }
+	}
+    
+	return flag;
+}
 uint32_t define_hz_kinds(uint8_t mode, const uint8_t** gear_buf, uint8_t *flag)
 {
 	uint8_t kinds = 0;

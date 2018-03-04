@@ -84,8 +84,8 @@ static TEXT_ELE_T restore_setting_ui_text_ele_pool[]=
 	{
         {"恢复出厂设置会导致用户数据丢失.\n\n"
           "确定要继续吗?",
-          "Restoring factory settings results in loss of user data.\n"
-          "Are you sure you want to continue?"
+          "Restoring factory settings \nresults in loss of user data.\n"
+          "Are you sure\n you want to continue?"
         },
         RESTORE_SETTING_NOTICE
     },

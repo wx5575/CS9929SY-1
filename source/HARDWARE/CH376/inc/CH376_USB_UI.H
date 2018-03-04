@@ -56,5 +56,6 @@ typedef unsigned char volatile      *PUINT8V;
 uint8_t OPEN_FILE(char *fliepath);
 uint8_t WAIT_DEVICE_CONNECT(void);
 uint8_t init_ch376(void);
+int receive_barcode(void);
 
 #endif

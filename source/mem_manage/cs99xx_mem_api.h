@@ -11,7 +11,6 @@
 #define __CS99XX_MEM_API_H__
 
 #include    "sys_level.h"
-#include    "cs99xx_flash_manage.h"
 #include    "cs99xx_struct.h"
 
 /******************* 全局变量声明 *********************/
@@ -43,6 +42,11 @@ extern void save_group_info(const FILE_NUM file_num);
 extern void read_group_info(const FILE_NUM file_num);
 extern uint8_t get_first_step_mode(void);
 
+extern void save_roads_flag(void);
+extern void read_roads_flag(void);
+extern uint32_t get_result_max_num(void);
+
+extern void read_one_result(uint32_t result_count, RESULT_INF *res, CS_ERR *err);
 #endif //__CS99XX_MEM_API_H__
 
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

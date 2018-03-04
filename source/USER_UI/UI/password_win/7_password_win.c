@@ -25,7 +25,7 @@ WIDGET_POS_SIZE_T _7_password_windows=
     _7_PWD_WIN_WIDTH/*width*/, _7_PWD_WIN_HEIGHT/*height*/,
 };
 
-#define FONT    &GUI_Fonthz_24
+#define FONT    &GUI_Fonthz_26
 
 /** 
   * @brief 7寸屏密码界面编辑对象自动布局结构
@@ -50,7 +50,7 @@ EDIT_ELE_AUTO_LAYOUT_T _7_pwd_edit_ele_auto_layout_inf=
 TEXT_ELE_AUTO_LAYOUT_T _7_pwd_text_ele_auto_layout_inf=
 {
    PWD_BASE_T_X/*base_x*/,PWD_BASE_T_Y/*base_y*/,PWD_ELE_T_W/*width*/,30/*height*/,
-    3/*rows*/,1/*column*/,50/*row_spacing*/,0/*column_spacing*/,
+    4/*rows*/,1/*column*/,50/*row_spacing*/,0/*column_spacing*/,
     {&GUI_Fonthz_20}, GUI_BLACK, GUI_INVALID_COLOR, GUI_TA_LEFT | GUI_TA_VCENTER,20
 };
 

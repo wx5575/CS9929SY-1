@@ -19,7 +19,6 @@
 #include "stdio.h"
 #include "keyboard.h"
 
-#define SELETED_COLOR	GUI_LIGHTBLUE
 
 static void create_win_edit_ele(EDIT_ELE_T *ele, WM_HWIN hParent);
 
@@ -50,6 +49,14 @@ CS_INDEX get_edit_ele_index(EDIT_ELE_T *edit_pool, uint32_t pool_size, CS_INDEX 
     return (CS_INDEX)0;
 }
 
+/**
+  * @brief  获取编辑对象结构信息
+  * @param  [in] edit_pool 控件池
+  * @param  [in] pool_size 控件池的大小
+  * @param  [in] index 控件索引值，是控件索引池中的元素
+  * @param  [out] err 成功返回 CS_ERR_NONE, 失败返回 CS_ERR_ELE_INDEX_INVALID
+  * @retval EDIT_ELE_T* 编辑对象的结构信息，如果返回NULL 说明没有找到匹配的编辑对象
+  */
 EDIT_ELE_T* get_edit_ele_inf(EDIT_ELE_T *edit_pool, uint32_t pool_size, CS_INDEX index, CS_ERR*err)
 {
     EDIT_ELE_T *ele = NULL;
@@ -688,6 +695,11 @@ EDIT_ELE_T *get_cur_win_edit_ele_list_head(void)
     return list_entry(g_cur_win->edit.list_head.next, EDIT_ELE_T, e_list);
 }
 
+/**
+  * @brief  更新编辑对象的范围文本信息
+  * @param  [in] ele 编辑对象指针
+  * @retval 无
+  */
 void update_ele_range_text(EDIT_ELE_T *ele)
 {
     uint8_t*str[2] = {0};//ele->range.notice[SYS_LANGUAGE];
@@ -706,11 +718,13 @@ void update_ele_range_text(EDIT_ELE_T *ele)
             break;
         case ELE_EDIT_NUM:
         {
+            /* 定制化处理函数不为空 */
             if(ele->range.provided_dis_range_fun != NULL)
             {
                 ele->range.provided_dis_range_fun(ele);
                 flag = 1;
             }
+            /* 默认处理 */
             else
             {
                 mysprintf(buf1, unit_pool[ele->format.unit], ele->format.dec + ele->format.lon * 10 + 1 * 100, ele->range.low);
@@ -726,6 +740,7 @@ void update_ele_range_text(EDIT_ELE_T *ele)
         case ELE_EDIT_STR:
             break;
         case ELE_DROPDOWN:
+            /* 第一个资源表 不支持中英文切换 */
             if(ele->resource.table != NULL)
             {
                 for(i = 0; i < ele->resource.size; i++)
@@ -734,6 +749,7 @@ void update_ele_range_text(EDIT_ELE_T *ele)
                     strcat((char*)buf, " ");
                 }
             }
+            /* 第二个资源表支持中英文切换 */
             else if(ele->resource.table_2 != NULL)
             {
                 for(i = 0; i < ele->resource.size; i++)
@@ -749,6 +765,7 @@ void update_ele_range_text(EDIT_ELE_T *ele)
             break;
     }
     
+    /* 非定制化处理的编辑对象要更新范围文本显示内容 */
     if(0 == flag)
     {
         set_com_text_ele_inf((CS_INDEX)COM_RANGE_NOTICE, g_cur_win, str);
@@ -845,26 +862,6 @@ void dis_select_edit_ele(EDIT_ELE_T *ele, LOAD_DATA_FLAG flag)
     {
         upload_par_to_ram(ele);//将数据上载到内存中
     }
-}
-/**
-  * @brief  选中文本对象，取消选中后要 改变背景颜色
-  * @param  [in] ele 文本对象信息
-  * @retval 无
-  */
-void select_text_ele(TEXT_ELE_T *ele)
-{
-    TEXT_SetBkColor(ele->handle, SELETED_COLOR);
-    TEXT_SetTextColor(ele->handle, GUI_RED);
-}
-/**
-  * @brief  取消选中文本对象，取消选中后要 恢复背景颜色
-  * @param  [in] ele 文本对象信息
-  * @retval 无
-  */
-void dis_select_text_ele(TEXT_ELE_T *ele)
-{
-    TEXT_SetBkColor(ele->handle, ele->dis_info.back_color);
-    TEXT_SetTextColor(ele->handle, ele->dis_info.font_color);
 }
 /**
   * @brief  获取当前编辑对象中编辑控件的句柄
@@ -1199,41 +1196,6 @@ void com_win_direct_key_right_cb(KEY_MESSAGE *key_msg)
         }
 	}
 }
-/**
-  * @brief  初始化开关类型编辑对象的资源信息
-  * @param  [in] ele 编辑对象
-  * @retval 无
-  */
-void init_sw_type_edit_ele_resource_inf(EDIT_ELE_T* ele)
-{
-    init_edit_ele_resource_inf(ele, sw_pool[SYS_LANGUAGE], ARRAY_SIZE(sw_pool[SYS_LANGUAGE]));
-    init_edit_ele_resource_user_data_inf(ele, (void*)sw_status_buf, ARRAY_SIZE(sw_status_buf));
-}
-
-/**
-  * @brief  初始化编辑对象的资源信息
-  * @param  [in] ele 编辑对象
-  * @param  [in] res_table 资源表
-  * @param  [in] size 资源表中元素个数
-  * @retval 无
-  */
-void init_edit_ele_resource_inf(EDIT_ELE_T* ele, void *res_table, uint32_t size)
-{
-    ele->resource.table = res_table;
-    ele->resource.size = size;
-}
-/**
-  * @brief  初始化编辑对象的资源用户数据
-  * @param  [in] ele 编辑对象
-  * @param  [in] res_table 资源表
-  * @param  [in] size 资源表中元素个数
-  * @retval 无
-  */
-void init_edit_ele_resource_user_data_inf(EDIT_ELE_T* ele, void *res_table, uint32_t size)
-{
-    ele->resource.user_data = res_table;
-    ele->resource.user_data_size = size;
-}
 
 /**
   * @brief  设置当前窗口编辑控件的索引表信息
@@ -1316,15 +1278,4 @@ void auto_layout_win_edit_ele(MYUSER_WINDOW_T* win)
     auto_init_win_edit_ele_dis_inf(win);//自动布局窗口中的编辑对象
     adjust_win_edit_ele_dis_inf(win);//调整某些编辑对象的布局
 }
-/**
-  * @brief  自动布局窗口中的文本对象
-  * @param  [in] win 窗口信息
-  * @retval 无
-  */
-void auto_layout_win_text_ele(MYUSER_WINDOW_T* win)
-{
-    auto_init_win_text_ele_dis_inf(win);//自动布局窗口中的普通文本
-    adjust_win_text_ele_dis_inf(win);//调整某些文本对象的布局
-}
-
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

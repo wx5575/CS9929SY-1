@@ -29,6 +29,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_it.h"
+#include "os.h"
  
 
 /** @addtogroup Template_Project
@@ -79,13 +80,8 @@ struct exception_stack_frame_fpu
     uint32_t psr;
     uint32_t buf[10];
 };
-void rt_hw_hard_fault_exception(struct exception_stack_frame *exception_stack)
+void rt_hw_hard_fault_exception(void)
 {
-    int x = 0;
-    
-    x++;
-    x = x + 1;
-    
     while (1);
 }
 /**
@@ -159,10 +155,12 @@ void DebugMon_Handler(void)
   * @param  None
   * @retval None
   */
-//void SysTick_Handler(void)
-//{
-// 
-//}
+void SysTick_Handler(void)
+{
+    OSIntEnter();
+    OSTimeTick();//调用ucos的时钟服务程序
+    OSIntExit();
+}
 
 /******************************************************************************/
 /*                 STM32F4xx Peripherals Interrupt Handlers                   */

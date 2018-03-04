@@ -19,14 +19,44 @@
 #define MAX_FILES			((uint16_t)31)  ///< 最大文件数目包括一个默认的文件 
 #define NAME_LON			((uint16_t)14)  ///< 文件名的长度 
 
+
+
+#define MAX_RESULT_NUM      ((uint16_t)8000) ///<最大的结果条数8000条
 #define PWD_MAX_LEN         8               ///<密码的最大长度
 #define DEFAULT_PWD         "888888"        ///<系统默认密码
 
+#define SYS_LANGUAGE		sys_par.language //CHINESE //ENGLISH //
+#define SCREEM_SIZE         g_custom_sys_par.screem_size
 /** 
   * @brief 用户数组对象索引,只提供类型，用来将用户的索引统一
   */
-#define CS_INDEX    int32_t
-
+typedef   int32_t  CS_INDEX;
+/**
+  * @brief  模块地址
+  */
+typedef uint8_t MODULE_ADDR_T;
+/**
+  * @brief  多路端口的索引编号
+  */
+typedef uint8_t ROAD_INDEX_NUM_T;
+/**
+  * @brief  多路端口的编号
+  */
+typedef uint8_t ROAD_NUM_T;
+/**
+  * @brief  多路端口的索引
+  */
+typedef enum{
+    INDEX_ROAD_1 = 1,///<第1路索引
+    INDEX_ROAD_2,///<第2路索引
+    INDEX_ROAD_3,///<第3路索引
+    INDEX_ROAD_4,///<第4路索引
+    INDEX_ROAD_5,///<第5路索引
+    INDEX_ROAD_6,///<第6路索引
+    INDEX_ROAD_7,///<第7路索引
+    INDEX_ROAD_8,///<第8路索引
+}ROAD_INDEX;
+#define MAX_SYN_ROADS_NUM   8 ///<最大的同步测试路数
 /**
   * @brief  bool常量定义
   */
@@ -49,6 +79,18 @@ typedef enum{
     CS_ERR_KEY_VALUE_INVALID,///<键值无效
     CS_ERR_ELE_INDEX_INVALID,///<对象索引无效
     CS_ERR_TEST_MODE_INVALTD,///<测试模式非法
+    
+    CS_ERR_COM_BUSY,///<串口忙
+    CS_ERR_SEND_SUCCESS,///<发送成功
+    CS_ERR_SEND_FAIL,///<发送失败
+    CS_ERR_COMM_TROUBLE,///<通信故障或从机不存在
+    CS_ERR_COMM_ADDR_INVALTD,///<通信地址无效
+    CS_ERR_COMM_NORMAL,///<通信正常
+    CS_ERR_COMM_CRC_ERR,///<通信CRC校验错误
+    CS_ERR_COMM_SLAVE_ERR,///<从机通信错误
+    CS_ERR_ROAD_INVALTD,///<路号不存在
+    
+    CS_ERR_READ_RES_FAIL,///<读取结果失败
 }CS_ERR;
 /**
   * @brief  文件编号
@@ -82,6 +124,14 @@ typedef struct{
 }TEST_PORT;
 
 /**
+  * @brief  工作端口结构定义，针对多路同步测试设计，用来指定模块是否参与工作
+  */
+typedef struct{
+    _TEST_PORT ports[TEST_PORTS_MAX / 8];
+    uint8_t num;
+    uint8_t mode;/* 通信时使用 */
+}WORK_PORT;
+/**
   * @brief  ACW数据结构定义
   */
 typedef struct {
@@ -101,6 +151,7 @@ typedef struct {
 	uint8_t 	step_pass;					///< 步间pass */
 	uint8_t 	step_con;					///< 步间连续 */
 	TEST_PORT	port;                       ///< 端口 */
+    WORK_PORT   work_port;                  ///< 工作端口，标示出参与工作的端口
 	
 	uint16_t	offset_cur;                 ///< 偏移电流 */
 	uint16_t 	offset_real;                ///< 偏移真实电流 */
@@ -127,6 +178,7 @@ typedef struct {
 	uint8_t 	step_pass;         		///< 步间pass */
 	uint8_t 	step_con; 				///< 步间连续 */
 	TEST_PORT	port;                       ///< 端口 */
+    WORK_PORT   work_port;                  ///< 工作端口，标示出参与工作的端口
 	
 	uint16_t	offset_cur;                 ///< 偏移电流 */
 	uint16_t 	offset_real;                ///< 偏移真实电流 */
@@ -155,6 +207,7 @@ typedef struct {
 	uint8_t 	step_pass;         		///< 步间pass */
 	uint8_t		step_con; 				///< 步间连续 */
 	TEST_PORT	port;                       ///< 端口 */
+    WORK_PORT   work_port;                  ///< 工作端口，标示出参与工作的端口
 	
 	uint16_t	offset_cur;                 ///< 偏移电流 */
 	uint8_t 	offset_result;              ///< 偏移电流测量结果 OFFSET_PASS OFFSET_FAIL OFFSET_NONE */
@@ -177,6 +230,7 @@ typedef struct {
 	uint8_t 	step_pass;	        		///< 步间pass */
 	uint8_t 	step_con;					///< 步间连续 */
 	TEST_PORT	port;	                    ///< 端口 */
+    WORK_PORT   work_port;                  ///< 工作端口，标示出参与工作的端口
 }IR_STRUCT;
 
 /**
@@ -195,7 +249,8 @@ typedef struct {
 	uint8_t 	step_con; 				///< 步间连续 */
 	uint16_t	output_freq;				///< 输出频率 */
 	uint16_t	test_method;                ///< 当脉冲测试模式使能了以后 0表示脉冲测试 1表示连续测试 */
-	
+	WORK_PORT   work_port;                  ///< 工作端口，标示出参与工作的端口
+    
 	uint16_t	offset_res;                 ///< 偏移电阻 */
 	uint8_t	    offset_result;              ///< 偏移电流测量结果 OFFSET_PASS OFFSET_FAIL OFFSET_NONE */
 }GR_STRUCT;
@@ -219,7 +274,8 @@ typedef struct {
 	float		cap_value; ///< 电容值 */
 	uint8_t 	gear; ///< 保存获取电容值时的电流档位 默认 20mA */
 	TEST_PORT	port; ///< 端口 */
-	
+	WORK_PORT   work_port;                  ///< 工作端口，标示出参与工作的端口
+    
 	uint8_t 	get_cs_ok; ///< 标记获取电容已经OK */
     
 	float   	offset_cap; ///<偏移电阻 */
@@ -280,9 +336,10 @@ typedef enum{
   * @brief  工件模式的枚举定义
   */
 typedef enum{
-	N_MODE,///<N模式
 	G_MODE,///<G模式
+	N_MODE,///<N模式
 }WORK_MODE_T;
+extern const uint8_t *work_mode_pool[2];
 
 /**
   * @brief  ARC 侦测枚举定义
@@ -449,7 +506,7 @@ typedef enum{
     CAP_U_uF,///< uF
     FREQ_U_Hz,///< Hz
     U_PER_CENT,///< (%) 
-}UNIT_T;
+}UNIT_T, CS_UNIT_ENUM;
 
 /**
   * @brief  文件结构定义
@@ -462,7 +519,8 @@ typedef struct{
 	uint16_t buzzer_time;///<蜂鸣时间
 	uint16_t pass_time;///<PASS时间
     ARC_MODE arc_mode;///<电弧侦测模式
-	uint8_t date[22];///<存放日期时间 xxxx.xx.xx xx:xx:xx
+    uint32_t create_date;///<创建日期
+    uint32_t create_time;///<创建时间
 }TEST_FILE;
 /**
   * @brief  屏幕尺寸枚举定义
@@ -503,28 +561,6 @@ typedef enum{
     TEST_PORT_GND,///< 测试端口接地
     TEST_PORT_FLOAT,///< 测试端口浮地
 }TEST_PORT_GND_FLOAT;
-/**
-  * @brief  系统参数结构定义
-  */
-
-//typedef struct{
-//    uint8_t amp_select;/* 功放类型 老功放 和 8833功放 */
-//    uint8_t par_medium;/* 参数存储介质 eep 或 flash */
-//    uint8_t res_medium;/* 结果存储介质 eep 或 flash */
-//    uint8_t cal_medium;/* 校准存储介质 eep 或 flash */
-//    uint8_t buzzer_en;/* 蜂鸣器硬开关 */
-//    uint8_t mute_sw;/* 系统静音模式开关 静音时测试报警不会一直响 */
-//    uint8_t amp_type;/* 功放类型 LINE PWM */
-//    uint8_t leading_sw;/* 数据导入导出到U盘开关 */
-//	uint8_t ir_gear_hold;/* IR换挡保持时间开关 */
-//	uint8_t ir_speed_sw;/* IR测试速度定制开关 打开后系统参数中有相应的设置项 快 中 慢 */
-//	uint8_t offset_set_en;/* 偏移手动设置使能 */
-//}CUSTOM_SYS_PAR;//定制系统参数
-
-typedef struct{
-    uint8_t addr[16];/* 地址缓存 */
-    uint8_t count;/* 模块个数计数 */
-}DC_MODULE_USING_INFO;
 
 /**
   * @brief  系统参数结构定义
@@ -557,7 +593,7 @@ typedef struct Sys_Parameter{
 	
 	uint16_t used_res_num;		///< 已经记录的结果总数 用于统计结果
 	uint16_t pass_res_num;		///< 合格的数 用于统计结果 
-	uint16_t cover_res_num;		///< 当used_res_num记满n条后就如果允许覆盖就启动该计数变量计数 当其记满4500条后清零 
+	uint16_t cover_res_num;		///< 当used_res_num记满n条后就如果允许覆盖就启动该计数变量计数 当其记满最大条后清零 
 	
 	uint8_t key_lock;		    ///< 键盘锁 
 	
@@ -570,9 +606,25 @@ typedef struct Sys_Parameter{
     uint16_t ir_gear_hold;		///< IR切换档位延时 
 	uint8_t ir_speed_sw;		///< IR测试速度 快 中 慢 通过设置滤波深度实现 
     uint8_t start_way;			///< 仪器的启动方式 组合启动与通信和PLC都发出信号才会启动仪器 
-    DC_MODULE_USING_INFO    dc_module_using_info;///< 正在使用的DC模块地址信息 
 }SYS_PAR;
 
+#define SYN_MAX_COM_NUM   4 ///<同步测试使用的串口个数
+
+/**
+  * @brief  管理所有路的信息为了加快通过路号对各模块地址的查找将所有的有效地址依次存入
+  *         这个结构中
+  */
+typedef struct
+{
+    uint8_t road_buf[16];///<串口上挂的模块的地址
+    uint8_t count;///<串口挂的模块总个数
+}_ROADS_FLAG;
+/**
+  * @brief  所有串口上挂接的模块的信息结构定义
+  */
+typedef struct{
+    _ROADS_FLAG     flag[SYN_MAX_COM_NUM];
+}ROADS_FLAG;
 /**
   * @brief  系统标志结构定义
   */
@@ -580,6 +632,8 @@ typedef struct{
 	uint32_t power_on_count;///<开机次数计数
 	uint32_t mem_init;///<存储器初始化标志 非零时要初始化
 	FILE_NUM last_file_num;///< 最近使用的记忆组文件编号
+    uint32_t sys_run_time;///<系统总的运行时间
+    uint32_t test_count;///<测试次数计数
 }SYS_FLAG;
 /**
   * @brief  档位信息结构定义
@@ -593,8 +647,99 @@ typedef struct {
     uint32_t low_min;///<档位的下限最小值
     uint8_t lon;///<最大长度，包括小数点
     uint8_t dec;///<档位的小数点位数
+    uint8_t comm;///<通信档位
 }GEAR_STR;
 
+typedef struct{
+    uint16_t vol;///<电压
+    uint16_t hight;///<电流上限
+    uint16_t lower;///<电流下限
+    uint8_t range;///<电流档位
+    uint16_t test_time;///<测试时间
+    uint16_t rise_time;///<上升时间
+}ACW_RES_SET;
+typedef struct{
+    uint16_t vol;///<电压
+    uint16_t hight;///<电流上限
+    uint16_t lower;///<电流下限
+    uint8_t range;///<电流档位
+    uint16_t test_time;///<测试时间
+    uint16_t rise_time;///<上升时间
+}DCW_RES_SET;
+typedef struct{
+    uint16_t vol;///<电压
+    uint32_t hight;///<电阻上限
+    uint32_t lower;///<电阻下限
+    uint16_t test_time;///<测试时间
+    uint16_t rise_time;///<上升时间
+}IR_RES_SET;
+typedef struct{
+    uint16_t cur;///<电流
+    uint16_t hight;///<电阻上限
+    uint16_t lower;///<电阻下限
+    uint16_t test_time;///<测试时间
+}GR_RES_SET;
+/**
+  * @brief  结果设置信息结构定义
+  */
+typedef struct {
+    uint8_t file_name[NAME_LON + 1];///<文件名
+    uint8_t mode;///<测试模式
+    uint8_t step;///<测试步骤
+    uint8_t total_step;///<总测试步骤
+    uint8_t work_mode;///<工作模式
+    union{
+        ACW_RES_SET acw;///<ACW结果设置参数
+        DCW_RES_SET dcw;///<DCW结果设置参数
+        IR_RES_SET ir;///<IR结果设置参数
+        GR_RES_SET gr;///<GR结果设置参数
+    }un;
+}RES_SETTING_PAR;
+
+typedef struct{
+    uint16_t vol;///<电压
+    uint16_t cur;///<电流
+    uint16_t real;///<真实电流
+    uint8_t range;///<电流档位
+}RES_ACW;
+typedef struct{
+    uint16_t vol;///<电压
+    uint16_t cur;///<电流
+    uint8_t range;///<电流档位
+}RES_DCW;
+typedef struct{
+    uint16_t vol;///<电压
+    uint16_t res;///<电阻
+    uint8_t range;///<电阻档位
+}RES_IR;
+typedef struct{
+    uint16_t cur;///<电流
+    uint16_t res;///<电阻
+}RES_GR;
+/**
+  * @brief  结果测试数据信息结构定义
+  */
+typedef struct {
+    union{
+        RES_ACW acw;///<ACW测试数据
+        RES_DCW dcw;///<DCW测试数据
+        RES_IR ir;///<IR测试数据
+        RES_GR gr;///<GR测试数据
+    }un;
+    uint16_t test_time;///<测试时间
+    uint8_t test_result;///<测试结果
+    uint32_t record_date;///<记录日期
+    uint32_t record_time;///<记录时间
+}RES_TEST_DATA;
+/**
+  * @brief  结果信息结构定义
+  */
+typedef struct {
+    uint8_t product_code[31];///<产品编码
+    uint8_t road_num;///<测试路 例：第1路
+    RES_SETTING_PAR par;///<设置参数
+    RES_TEST_DATA test_data;///<测试数据
+}RESULT_INF;
 #ifdef   STRUCT_GLOBALS
 #define  STRUCT_EXT
 #else
@@ -617,10 +762,79 @@ extern const uint8_t *language_pool[2];
 extern const uint8_t *sw_pool[2][2];
 extern const SW_STATUS sw_status_buf[2];
 extern const uint8_t *arc_mode_pool[2][2];
+extern const uint8_t arc_mode_buf[2];
 extern const uint8_t *test_port_pool[2][2];
 extern const uint8_t test_port_flag_pool[2];
-extern const char* status_str[][2];
-extern const char* except_buf[][3];
+
+
+enum{
+	TEST_WAIT_INDEX,
+	TEST_RISE_INDEX,
+	TEST_TEST_INDEX,
+	TEST_FALL_INDEX,
+	TEST_CHANGE_INDEX,
+	TEST_INTER_INDEX,
+	TEST_PASS_INDEX,
+	TEST_FAIL_INDEX,
+	TEST_CHARGE_INDEX,
+	TEST_STAB_INDEX,
+	TEST_DISCHARGE_INDEX,
+	TEST_DISCHARGE_OVER_INDEX,
+    TEST_OUTPUT_DELAY,
+    
+    ERR_HIGH_INDEX  ,    /* 电流上限报警 */
+    ERR_LOW_INDEX   ,    /* 电流下限报警 */
+    ERR_REAL_INDEX  ,    /* 真实电流报警 */
+    ERR_CHARGE_INDEX,    /* 充电报警 */
+    ERR_OPEN_INDEX  ,    /* 开路报警 */
+    ERR_SHORT_INDEX ,    /* 短路报警 */
+    ERR_ARC_INDEX   ,    /* ARC 报警 */
+    ERR_GFI_INDEX   ,    /* GFI 报警 */
+    ERR_AMP_INDEX   ,    /* 功放报警 */
+    ERR_GEAR_INDEX  ,   /* 档位报警 */
+    ERR_VOL_INDEX   ,   /* 电压异常 */
+};
+extern const uint8_t* status_str[][2];
+
+typedef enum {
+	ST_VOL_RISE     = 0,
+	ST_TESTING      = 1,
+	ST_VOL_FALL     = 2,
+	ST_INTER_WAIT   = 3,
+	ST_WAIT         = 4,
+	ST_PASS         = 5,
+	ST_STOP         = 6,            /* 复位状态 */
+	ST_ERR_H        = 7,
+	ST_ERR_L        = 8,
+	ST_ERR_SHORT    = 9,
+	ST_ERR_VOL_ABNORMAL = 10,       /* 电压异常 */
+	ST_ERR_ARC      = 11,
+	ST_ERR_GFI      = 12,
+	ST_ERR_FAIL     = 13,
+	ST_ERR_REAL     = 14,           /* 真实电流报警 */
+	ST_ERR_CHAR     = 15,           /* 充电报警 */
+	ST_ERR_GEAR     = 16,           /* 量程报警 / 档位报警 */
+	ST_ERR_AMP      = 17,
+	ST_OUTPUT_DELAY = 18,
+	ST_ERR_OPEN     = 19,           /* 开路报警 */
+}TestingStatusTypedef;  /*运行时状态*/
+
+/* 错误码 */
+typedef enum err_num_enum{
+    ERR_NONE   = 0,    /* 没有错误 */
+    ERR_HIGH   = 1,    /* 电流上限报警 */
+    ERR_LOW    = 2,    /* 电流下限报警 */
+    ERR_REAL   = 3,    /* 真实电流报警 */
+    ERR_CHARGE = 4,    /* 充电报警 */
+    ERR_OPEN   = 5,    /* 开路报警 */
+    ERR_SHORT  = 6,    /* 短路报警 */
+    ERR_ARC    = 7,    /* ARC 报警 */
+    ERR_GFI    = 8,    /* GFI 报警 */
+    ERR_AMP    = 9,    /* 功放报警 */
+    ERR_GEAR   = 10,   /* 档位报警 */
+    ERR_VOL    = 11,   /* 电压异常 */
+}ERR_NUM_ENUM;
+extern const uint8_t* except_buf[][3];
 
 #define ACW_STR     "ACW"
 #define DCW_STR     "DCW"
@@ -632,6 +846,7 @@ extern const uint8_t *mode_pool[10];
 
 
 
+STRUCT_EXT ROADS_FLAG  roads_flag;
 
 STRUCT_EXT uint8_t step_used_flag[MAX_STEPS/8 + 1 + 1];///<步骤已使用的标记列表
 STRUCT_EXT uint16_t cur_group_table[MAX_STEPS];///<记忆组步骤地址映射表
@@ -640,9 +855,14 @@ STRUCT_EXT TEST_FILE file_pool[MAX_FILES];///< 文件池
 STRUCT_EXT TEST_FILE global_file;///< 全局文件实体用于界面通信
 STRUCT_EXT SYS_PAR sys_par;///<系统参数
 STRUCT_EXT SYS_FLAG sys_flag;///<系统参数
+STRUCT_EXT uint32_t startup_time;///<开机运行时间
 STRUCT_EXT NODE_STEP * g_cur_step;///<当前步指针
+STRUCT_EXT uint32_t g_product_code;///<当前产品编码
+STRUCT_EXT uint32_t g_cur_step_crc;///<当前步的CRC校验数据
+STRUCT_EXT uint32_t g_cur_step_crc_bk;///<当前步CRC校验数据备份
 STRUCT_EXT TESTGROUP test_step_buf;///<测试步缓冲区
 STRUCT_EXT CS_LIST list_head_99xx;///<测试步链表头
+STRUCT_EXT RESULT_INF result_inf_pool[8];///<结果存放的缓冲区 支持同时测试8路数据
 
 extern GEAR_STR ac_gear[];
 extern GEAR_STR dc_gear[];

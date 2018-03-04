@@ -1,13 +1,12 @@
-
- /**
-   ******************************************************************************
-   * @file    sys_time_edit_win.c
-   * @author  王鑫
-   * @version V1.0.0
-   * @date    2017.4.18
-   * @brief   系统时间管理窗口
-   ******************************************************************************
-   */
+/**
+  ******************************************************************************
+  * @file    sys_time_edit_win.c
+  * @author  王鑫
+  * @version V1.0.0
+  * @date    2017.4.18
+  * @brief   系统时间管理窗口
+  ******************************************************************************
+  */
 
 #include "stdio.h"
 #include "stdlib.h"
@@ -160,7 +159,7 @@ static MENU_KEY_INFO_T 	sys_time_key_info[] =
     {"" , F_KEY_NULL    , KEY_F2 & _KEY_UP, sys_time_f2_cb },//f2
     {"" , F_KEY_NULL    , KEY_F3 & _KEY_UP, sys_time_f3_cb },//f3
     {"" , F_KEY_NULL    , KEY_F4 & _KEY_UP, sys_time_f4_cb },//f4
-    {"" , F_KEY_ENTER      , KEY_F5 & _KEY_UP, sys_time_f5_cb },//f5
+    {"" , F_KEY_ENTER   , KEY_F5 & _KEY_UP, sys_time_f5_cb },//f5
     {"" , F_KEY_BACK    , KEY_F6 & _KEY_UP, sys_time_f6_cb },//f6
 };
 /**
@@ -874,7 +873,7 @@ static void create_list_wheel(int x, int y, int xSize, int ySize,
     //
     // Create LISTWHEEL object
     //
-    pFont         = &GUI_Fonthz_24;
+    pFont         = &GUI_Fonthz_26;
     LineHeight    = 30;
     pWheel->pFont = pFont;
     pWheel->font_color_sel = GUI_RED;
@@ -887,7 +886,7 @@ static void create_list_wheel(int x, int y, int xSize, int ySize,
         return;
     }
     
-    LISTWHEEL_SetFont(hWin, &GUI_Fonthz_24);
+    LISTWHEEL_SetFont(hWin, &GUI_Fonthz_26);
     LISTWHEEL_SetTextAlign(hWin, TextAlign);
     LISTWHEEL_SetSnapPosition(hWin, (ySize - LineHeight) / 2);
     LISTWHEEL_SetOwnerDraw(hWin, owner_draw);

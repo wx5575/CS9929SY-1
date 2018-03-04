@@ -12,6 +12,8 @@
 #include	<string.h>
 #include    <stdio.h>
 #include    "cs99xx_mem_api.h"
+#include    "cs99xx_flash_manage.h"
+#include    "cs99xx_sdcard_manage.h"
 
 /**
   * @brief  保存文件
@@ -193,6 +195,50 @@ void read_group_info(const FILE_NUM file_num)
 uint8_t get_first_step_mode(void)
 {
     return get_first_step_mode_flash();
+}
+
+/**
+  * @brief  获取第一步的测试模式
+  * @param  无
+  * @retval 测试模式
+  */
+void read_roads_flag(void)
+{
+    read_roads_flag_flash();
+}
+
+/**
+  * @brief  获取第一步的测试模式
+  * @param  无
+  * @retval 测试模式
+  */
+void save_roads_flag(void)
+{
+    save_roads_flag_flash();
+}
+
+/**
+  * @brief  获取测试结果的最大条数
+  * @param  无
+  * @retval 测试结果的最大条数
+  */
+uint32_t get_result_max_num(void)
+{
+    return F_RES_TOTAL;
+}
+
+/**
+  * @brief  读取1条测试结果
+  * @param  [in] result_count 要读取的结果编号
+  * @param  [out] res 结果存放的缓冲区
+  * @param  [out] err 错误码
+            @arg CS_ERR_NONE 读取结果成功
+            @arg CS_ERR_READ_RES_FAIL 读取结果失败
+  * @retval 无
+  */
+void read_one_result(uint32_t result_count, RESULT_INF *res, CS_ERR *err)
+{
+    read_one_result_sd(result_count, res, err);
 }
 
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

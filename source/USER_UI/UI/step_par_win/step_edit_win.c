@@ -15,6 +15,9 @@
 #include "ui_com/com_edit_api.h"
 #include "7_step_edit_win.h"
 #include "step_edit_win.h"
+#include "module_manage.h"
+#include "send_cmd.h"
+#include "crc.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /**
@@ -141,7 +144,7 @@ static void check_test_port_value_validity(EDIT_ELE_T* ele, uint32_t *value);
 static void check_gr_output_cur_value_validity(EDIT_ELE_T* ele, uint32_t *value);
 
 static uint8_t get_cur_step_mode(void);
-static TEST_PORT *get_cur_step_test_port(void);
+static WORK_PORT *get_cur_step_work_port(void);
 static void update_arc_mode_deit_inf(EDIT_ELE_T* ele);
 /* Private variables ---------------------------------------------------------*/
 /**
@@ -218,7 +221,7 @@ static CS_INDEX acw_par_index[]=
     STEP_EDIT_WIN_CONT,///<步间连续
     STEP_EDIT_WIN_PASS,///<步间PASS
     STEP_EDIT_WIN_PORT,///<输出端口
-    STEP_EDIT_WIN_DELAY_T,///<延时时间
+//    STEP_EDIT_WIN_DELAY_T,///<延时时间
 };
 /**
   * @brief  ACW G模式 步骤编辑窗口中要显示的编辑控件的索引表
@@ -466,7 +469,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {0},/* 默认值 */
         {NULL, sizeof(STEP_NUM)/*数据字节数*/},/* 数据指针 */
         {NULL, 0},/* 资源表 */
-        {ELE_EDIT_NUM, E_INT_T},/*类型*/
+        {ELE_EDIT_NUM, },/*类型*/
         {0/*dec*/,2/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {99/*heigh*/,1/*low*/,{"",""}/*notice*/},/*range*/
         {edit_step_num_sys_key, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
@@ -477,10 +480,10 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {0},/* 默认值 */
         {NULL, 1/*数据字节数*/},/* 数据指针 */
         {NULL, 0,NULL, 0},/* 资源表 */
-        {ELE_DROPDOWN, E_INT_T},/*类型*/
+        {ELE_DROPDOWN, },/*类型*/
         {0/*dec*/,20/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {MODE_END/*heigh*/,ACW/*low*/,{"",""}/*notice*/},/*range*/
-        {edit_mode_win_sys_key_init, edit_mode_menu_key_init, keyboard_fun_num,},/*key_inf*/
+        {edit_mode_win_sys_key_init, edit_mode_menu_key_init, NULL,},/*key_inf*/
     },
     {
         {"输出电压:","Voltage:"}, /* 名称 */
@@ -488,7 +491,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
         {NULL, 0,NULL, 0},/* 资源表 */
-        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {ELE_EDIT_NUM, },/*类型*/
         {3/*dec*/,5/*lon*/,VOL_U_kV/*unit*/,},/*format*/
         {5000/*heigh*/,50/*low*/,{"",""}/*notice*/},/*range*/
         {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
@@ -499,13 +502,13 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {0},/* 默认值 */
         {NULL, 1/*数据字节数*/},/* 数据指针 */
         {NULL, 0,NULL, 0},/* 资源表 */
-        {ELE_DROPDOWN, E_INT_T},/*类型*/
+        {ELE_DROPDOWN, },/*类型*/
         {0/*dec*/,20/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {
             MODE_END/*heigh*/,ACW/*low*/,{"",""}/*notice*/,
             check_range_value_validity
         },/*range*/
-        {step_edit_win_sys_key_init, edit_range_menu_key_init, keyboard_fun_num,},/*key_inf*/
+        {step_edit_win_sys_key_init, edit_range_menu_key_init, NULL,},/*key_inf*/
     },
     /* ACW DCW 上限 */
     {
@@ -514,7 +517,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
         {NULL, 0,NULL, 0},/* 资源表 */
-        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {ELE_EDIT_NUM, },/*类型*/
         {3/*dec*/,5/*lon*/,CUR_U_mA/*unit*/,},/*format*/
         {
             2000/*heigh*/,0/*low*/,{"",""}/*notice*/,
@@ -529,7 +532,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
         {NULL, 0,NULL, 0},/* 资源表 */
-        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {ELE_EDIT_NUM, },/*类型*/
         {3/*dec*/,5/*lon*/,CUR_U_mA/*unit*/,},/*format*/
         {
             2000/*heigh*/,0/*low*/,{"",""}/*notice*/,
@@ -543,11 +546,15 @@ static EDIT_ELE_T step_par_ele_pool[]=
         STEP_EDIT_WIN_AUTO_IR,/* 通过枚举索引 */
         {0},/* 默认值 */
         {NULL, 4/*数据字节数*/},/* 数据指针 */
-        {NULL, 0,NULL, 0},/* 资源表 */
-        {ELE_DROPDOWN, E_INT_T},/*类型*/
+        {
+            NULL, ARRAY_SIZE(sw_pool[CHINESE]),
+            (void*)sw_status_buf, ARRAY_SIZE(sw_status_buf),
+            {sw_pool[CHINESE], sw_pool[ENGLISH]}
+        },/* 资源表 */
+        {ELE_DROPDOWN, },/*类型*/
         {0/*dec*/,5/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
-        {step_edit_win_sys_key_init, edit_sw_menu_key_init, keyboard_fun_num,},/*key_inf*/
+        {step_edit_win_sys_key_init, edit_sw_menu_key_init, NULL,},/*key_inf*/
     },
     /* IR上限 */
     {
@@ -556,7 +563,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {0},/* 默认值 */
         {NULL, 4/*数据字节数*/},/* 数据指针 */
         {NULL, 0,NULL, 0},/* 资源表 */
-        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {ELE_EDIT_NUM, },/*类型*/
         {0/*dec*/,5/*lon*/,RES_U_MOHM/*unit*/,},/*format*/
         {
             2000/*heigh*/,0/*low*/,{"",""}/*notice*/,
@@ -571,7 +578,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {0},/* 默认值 */
         {NULL, 4/*数据字节数*/},/* 数据指针 */
         {NULL, 0,NULL, 0},/* 资源表 */
-        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {ELE_EDIT_NUM, },/*类型*/
         {0/*dec*/,5/*lon*/,RES_U_MOHM/*unit*/,},/*format*/
         {
             2000/*heigh*/,0/*low*/,{"",""}/*notice*/,
@@ -586,7 +593,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
         {NULL, 0,NULL, 0},/* 资源表 */
-        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {ELE_EDIT_NUM, },/*类型*/
         {1/*dec*/,5/*lon*/,RES_U_mOHM/*unit*/,},/*format*/
         {
             2000/*heigh*/,0/*low*/,{"",""}/*notice*/,
@@ -602,7 +609,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
         {NULL, 0,NULL, 0},/* 资源表 */
-        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {ELE_EDIT_NUM, },/*类型*/
         {1/*dec*/,5/*lon*/,RES_U_mOHM/*unit*/,},/*format*/
         {
             2000/*heigh*/,0/*low*/,{"",""}/*notice*/,
@@ -616,7 +623,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
         {NULL, 0,NULL, 0},/* 资源表 */
-        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {ELE_EDIT_NUM, },/*类型*/
         {2/*dec*/,5/*lon*/,CUR_U_mA/*unit*/,},/*format*/
         {2000/*heigh*/,0/*low*/,{"(电流模式)",""}/*notice*/},/*range*/
 //        {step_edit_win_sys_key_init, edit_arc_menu_key_init, keyboard_fun_num,},/*key_inf*/
@@ -628,7 +635,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
         {NULL, 0,NULL, 0},/* 资源表 */
-        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {ELE_EDIT_NUM, },/*类型*/
         {3/*dec*/,5/*lon*/,CUR_U_mA/*unit*/,},/*format*/
         {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
         {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
@@ -639,7 +646,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
         {NULL, 0,NULL, 0},/* 资源表 */
-        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {ELE_EDIT_NUM, },/*类型*/
         {1/*dec*/,5/*lon*/,FREQ_U_Hz/*unit*/,},/*format*/
         {4000/*heigh*/,400/*low*/,{"",""}/*notice*/},/*range*/
         {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
@@ -650,7 +657,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
         {NULL, 0,NULL, 0},/* 资源表 */
-        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {ELE_EDIT_NUM, },/*类型*/
         {1/*dec*/,5/*lon*/,TIM_U_s/*unit*/,},/*format*/
         {9999/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
         {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
@@ -661,7 +668,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
         {NULL, 0,NULL, 0},/* 资源表 */
-        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {ELE_EDIT_NUM, },/*类型*/
         {1/*dec*/,5/*lon*/,TIM_U_s/*unit*/,},/*format*/
         {
             9999/*heigh*/,3/*low*/,{"0,0.3-999.9s","0,0.3-999.9s"}/*notice*/,
@@ -675,7 +682,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
         {NULL, 0,NULL, 0},/* 资源表 */
-        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {ELE_EDIT_NUM, },/*类型*/
         {1/*dec*/,5/*lon*/,TIM_U_s/*unit*/},/*format*/
         {
             9999/*heigh*/,3/*low*/,{"0,0.3-999.9s","0,0.3-999.9s"}/*notice*/,
@@ -689,7 +696,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
         {NULL, 0,NULL, 0},/* 资源表 */
-        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {ELE_EDIT_NUM, },/*类型*/
         {1/*dec*/,5/*lon*/,TIM_U_s/*unit*/,},/*format*/
         {
             9999/*heigh*/,3/*low*/,{"0,0.3-999.9s","0,0.3-999.9s"}/*notice*/,
@@ -703,7 +710,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
         {NULL, 0,NULL, 0},/* 资源表 */
-        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {ELE_EDIT_NUM, },/*类型*/
         {1/*dec*/,5/*lon*/,TIM_U_s/*unit*/,},/*format*/
         {9999/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
         {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
@@ -714,7 +721,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
         {NULL, 0,NULL, 0},/* 资源表 */
-        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {ELE_EDIT_NUM, },/*类型*/
         {1/*dec*/,5/*lon*/,TIM_U_s/*unit*/,},/*format*/
         {9999/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
         {step_edit_win_sys_key_init, edit_step_num_menu_key_init, keyboard_fun_num,},/*key_inf*/
@@ -724,8 +731,12 @@ static EDIT_ELE_T step_par_ele_pool[]=
         STEP_EDIT_WIN_CONT,/* 通过枚举索引 */
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
-        {NULL, 0,NULL, 0},/* 资源表 */
-        {ELE_DROPDOWN, E_FLOAT_T},/*类型*/
+        {
+            NULL, ARRAY_SIZE(sw_pool[CHINESE]),
+            (void*)sw_status_buf, ARRAY_SIZE(sw_status_buf),
+            {sw_pool[CHINESE], sw_pool[ENGLISH]}
+        },/* 资源表 */
+        {ELE_DROPDOWN, },/*类型*/
         {3/*dec*/,5/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
         {step_edit_win_sys_key_init, edit_sw_menu_key_init, keyboard_fun_num,},/*key_inf*/
@@ -735,19 +746,23 @@ static EDIT_ELE_T step_par_ele_pool[]=
         STEP_EDIT_WIN_PASS,/* 通过枚举索引 */
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
-        {NULL, 0,NULL, 0},/* 资源表 */
-        {ELE_DROPDOWN, E_FLOAT_T},/*类型*/
+        {
+            NULL, ARRAY_SIZE(sw_pool[CHINESE]),
+            (void*)sw_status_buf, ARRAY_SIZE(sw_status_buf),
+            {sw_pool[CHINESE], sw_pool[ENGLISH]}
+        },/* 资源表 */
+        {ELE_DROPDOWN, },/*类型*/
         {3/*dec*/,5/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {2000/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
-        {step_edit_win_sys_key_init, edit_sw_menu_key_init, keyboard_fun_num,},/*key_inf*/
+        {step_edit_win_sys_key_init, edit_sw_menu_key_init, NULL,},/*key_inf*/
     },
     {
-        {"输出端口:","Port:"}, /* 名称 */
+        {"工作端口:","Work Port:"}, /* 名称 */
         STEP_EDIT_WIN_PORT,/* 通过枚举索引 */
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
         {NULL, 0,NULL, 0},/* 资源表 */
-        {ELE_EDIT_STR, E_STRING_T},/*类型*/
+        {ELE_EDIT_STR, },/*类型*/
         {3/*dec*/,20/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {
             2000/*heigh*/,0/*low*/,{"0-X 1-H","0-X 1-H"}/*notice*/,
@@ -761,7 +776,7 @@ static EDIT_ELE_T step_par_ele_pool[]=
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
         {NULL, 0,NULL, 0},/* 资源表 */
-        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {ELE_EDIT_NUM, },/*类型*/
         {2/*dec*/,5/*lon*/,CUR_U_A/*unit*/,},/*format*/
         {
             4000/*heigh*/,300/*low*/,{"",""}/*notice*/,
@@ -997,6 +1012,7 @@ static void edit_sw_f5_cb(KEY_MESSAGE *key_msg)
 {
     step_edit_win_enter_key_cb(key_msg);
 }
+
 /**
   * @brief  步骤参数编辑窗口ENTER键回调函数
   * @param  [in] key_msg 按键消息
@@ -1013,6 +1029,8 @@ static void step_edit_win_enter_key_cb(KEY_MESSAGE *key_msg)
     {
         fun(key_msg);
     }
+    
+    check_cur_step_changed_send_to_slave();//检查步骤参数是否已经改变
 }
 /**
   * @brief  编辑开关变量使用的功能键F6回调函数
@@ -1081,7 +1099,7 @@ static void check_test_time_value_validity(EDIT_ELE_T* ele, uint32_t *value)
     }
 }
 
-static TEST_PORT *get_cur_step_test_port(void)
+static WORK_PORT *get_cur_step_work_port(void)
 {
     void *p = NULL;
     uint8_t mode = get_cur_step_mode();
@@ -1089,13 +1107,16 @@ static TEST_PORT *get_cur_step_test_port(void)
     switch(mode)
     {
         case ACW:
-            p = &g_cur_step->one_step.acw.port;
+            p = &g_cur_step->one_step.acw.work_port;
             break;
         case DCW:
-            p = &g_cur_step->one_step.dcw.port;
+            p = &g_cur_step->one_step.dcw.work_port;
             break;
         case IR:
-            p = &g_cur_step->one_step.ir.port;
+            p = &g_cur_step->one_step.ir.work_port;
+            break;
+        case GR:
+            p = &g_cur_step->one_step.gr.work_port;
             break;
         default:
             break;
@@ -1112,9 +1133,9 @@ static TEST_PORT *get_cur_step_test_port(void)
 static void check_test_port_value_validity(EDIT_ELE_T* ele, uint32_t *value)
 {
     uint8_t* str = (void*)value;
-    TEST_PORT * port;
+    WORK_PORT * port;
     
-    port = get_cur_step_test_port();
+    port = get_cur_step_work_port();
     
     if(port !=  NULL)
     {
@@ -1232,10 +1253,15 @@ static void edit_step_num_direct_key_enter_cb(KEY_MESSAGE *key_msg)
 {
     uint32_t new_step = get_edit_ele_value(g_cur_edit_ele,NULL);
     uint32_t old_step = get_cur_step();
+    STEP_NUM step_num;
     
     if(new_step != old_step && new_step != 0 && new_step <= g_cur_file->total)
     {
+        save_setting_step();//保存正在设置的步骤参数
         re_init_create_win_all_ele(new_step);
+        update_cur_step_crc();
+        step_num = new_step;
+        send_cmd_to_all_module((void*)&step_num, sizeof(step_num), send_load_step);
     }
     else
     {
@@ -1339,6 +1365,8 @@ static void update_and_init_mode(void)
         save_setting_step();//保存正在设置的步骤参数
         re_init_create_win_all_ele(g_cur_step->one_step.com.step);//重新初始化并创建所有的对象
     }
+    
+    check_cur_step_changed_send_to_slave();//检查步骤参数是否已经改变
 }
 /**
   * @brief  编辑测试模式使用的向上键回调函数
@@ -2068,23 +2096,11 @@ static void set_acw_par_win_ele_data(UN_STRUCT *step)
     update_time_range_affect_inf(step);//更新时间范围信息
     
     reg_edit_ele_data_inf(STEP_EDIT_WIN_CONT, &acw->step_con,  sizeof(acw->step_con));//步间连续
-    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_CONT, &err);
-    
-    if(err == CS_ERR_NONE)
-    {
-        init_sw_type_edit_ele_resource_inf(ele);
-    }
     
     reg_edit_ele_data_inf(STEP_EDIT_WIN_PASS, &acw->step_pass,  sizeof(acw->step_pass));//步间PASS
-    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_PASS, &err);
-    
-    if(err == CS_ERR_NONE)
-    {
-        init_sw_type_edit_ele_resource_inf(ele);
-    }
     
     /* 输出端口 */
-    transform_test_port_to_str(&acw->port, set_port_buf);
+    transform_test_port_to_str(&acw->work_port, set_port_buf);
     reg_edit_ele_data_inf(STEP_EDIT_WIN_PORT, set_port_buf, sizeof(set_port_buf));
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_PORT, &err);
     
@@ -2223,24 +2239,12 @@ static void set_dcw_par_win_ele_data(UN_STRUCT *step)
     
     /* 步间连续 */
     reg_edit_ele_data_inf(STEP_EDIT_WIN_CONT, &dcw->step_con,  sizeof(dcw->step_con));
-    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_CONT, &err);
-    
-    if(err == CS_ERR_NONE)
-    {
-        init_sw_type_edit_ele_resource_inf(ele);
-    }
     
     /* 步间PASS */
     reg_edit_ele_data_inf(STEP_EDIT_WIN_PASS, &dcw->step_pass,  sizeof(dcw->step_pass));
-    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_PASS, &err);
-    
-    if(err == CS_ERR_NONE)
-    {
-        init_sw_type_edit_ele_resource_inf(ele);
-    }
     
     /* 输出端口 */
-    transform_test_port_to_str(&dcw->port, set_port_buf);
+    transform_test_port_to_str(&dcw->work_port, set_port_buf);
     reg_edit_ele_data_inf(STEP_EDIT_WIN_PORT, set_port_buf, sizeof(set_port_buf));
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_PORT, &err);
     
@@ -2424,12 +2428,6 @@ static void set_ir_par_win_ele_data(UN_STRUCT *step)
     
     /* 自动换档 */
     reg_edit_ele_data_inf(STEP_EDIT_WIN_AUTO_IR, &ir->auto_shift,  sizeof(ir->auto_shift));
-    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_AUTO_IR, &err);
-    
-    if(err == CS_ERR_NONE)
-    {
-        init_sw_type_edit_ele_resource_inf(ele);
-    }
     
     reg_edit_ele_data_inf(STEP_EDIT_WIN_DELAY_T, &ir->delay_time,  sizeof(ir->delay_time));//延时时间
     reg_edit_ele_data_inf(STEP_EDIT_WIN_RAISE_T, &ir->rise_time,  sizeof(ir->rise_time));//上升时间
@@ -2438,23 +2436,11 @@ static void set_ir_par_win_ele_data(UN_STRUCT *step)
     
     
     reg_edit_ele_data_inf(STEP_EDIT_WIN_CONT, &ir->step_con,  sizeof(ir->step_con));//步间连续
-    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_CONT, &err);
-    
-    if(err == CS_ERR_NONE)
-    {
-        init_sw_type_edit_ele_resource_inf(ele);
-    }
     
     reg_edit_ele_data_inf(STEP_EDIT_WIN_PASS, &ir->step_pass,  sizeof(ir->step_pass));//步间PASS
-    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_PASS, &err);
-    
-    if(err == CS_ERR_NONE)
-    {
-        init_sw_type_edit_ele_resource_inf(ele);
-    }
     
     /* 输出端口 */
-    transform_test_port_to_str(&ir->port, set_port_buf);
+    transform_test_port_to_str(&ir->work_port, set_port_buf);
     reg_edit_ele_data_inf(STEP_EDIT_WIN_PORT, set_port_buf, sizeof(set_port_buf));
     ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_PORT, &err);
     
@@ -2523,22 +2509,9 @@ static void set_gr_par_win_ele_data(UN_STRUCT *step)
     
     /* 步间连续 */
     reg_edit_ele_data_inf(STEP_EDIT_WIN_CONT, &gr->step_con,  sizeof(gr->step_con));
-    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_CONT, &err);
-    
-    if(err == CS_ERR_NONE)
-    {
-        init_sw_type_edit_ele_resource_inf(ele);
-    }
     
     /* 步间PASS */
-    reg_edit_ele_data_inf(STEP_EDIT_WIN_PASS, &gr->step_pass,  sizeof(gr->step_pass));
-    ele = get_edit_ele_inf(pool, size, STEP_EDIT_WIN_PASS, &err);
-    
-    if(err == CS_ERR_NONE)
-    {
-        init_sw_type_edit_ele_resource_inf(ele);
-    }
-    
+    reg_edit_ele_data_inf(STEP_EDIT_WIN_PASS, &gr->step_pass,  sizeof(gr->step_pass));  
 }
 
 static void init_test_mode_edit_ele_resource_inf(EDIT_ELE_T* ele, UN_STRUCT *step)
@@ -2663,6 +2636,7 @@ static void step_edit_win_direct_key_up_cb(KEY_MESSAGE *key_msg)
 {
     com_edit_win_direct_key_up_cb(key_msg);//调用通用的向上键回调
     save_setting_step();//保存数据
+    check_cur_step_changed_send_to_slave();//检查步骤参数是否已经改变
 }
 /**
   * @brief  向上键的回调函数
@@ -2673,6 +2647,7 @@ static void step_edit_win_sys_key_enter_cb(KEY_MESSAGE *key_msg)
 {
     com_edit_win_direct_key_down_cb(key_msg);//调用通用的向下键回调
     save_setting_step();//保存数据
+    check_cur_step_changed_send_to_slave();//检查步骤参数是否已经改变
 }
 /**
   * @brief  向下键的回调函数
@@ -2683,6 +2658,7 @@ static void step_edit_win_direct_key_down_cb(KEY_MESSAGE *key_msg)
 {
     com_edit_win_direct_key_down_cb(key_msg);//调用通用的向下键回调
     save_setting_step();//保存数据
+    check_cur_step_changed_send_to_slave();//检查步骤参数是否已经改变
 }
 
 /**
@@ -2742,7 +2718,7 @@ static void edit_test_port_direct_key_right_cb(KEY_MESSAGE *key_msg)
 {
     uint8_t cursor;
     WM_HWIN handle;
-    TEST_PORT *port;
+    WORK_PORT *port;
     
     handle = get_cur_edit_handle();
     
@@ -2753,7 +2729,7 @@ static void edit_test_port_direct_key_right_cb(KEY_MESSAGE *key_msg)
     
     cursor = EDIT_GetCursorCharPos(handle);//获取光标位置
     
-    port = get_cur_step_test_port();
+    port = get_cur_step_work_port();
     
     if(cursor == port->num)
     {
@@ -2841,6 +2817,31 @@ static void step_edit_windows_cb(WM_MESSAGE* pMsg)
 
 /* Public functions ---------------------------------------------------------*/
 
+/**
+  * @brief  更新当前步CRC值
+  * @param  无
+  * @retval 无
+  */
+void update_cur_step_crc(void)
+{
+    g_cur_step_crc =  stm32_crc32_byte((uint8_t*)&tmp_step_par, sizeof(tmp_step_par));
+    g_cur_step_crc_bk = g_cur_step_crc;
+}
+/**
+  * @brief  检查当前的编辑步的参数是否发改变，如果改变就把当前步发送给从机模块
+  * @param  无
+  * @retval 无
+  */
+void check_cur_step_changed_send_to_slave(void)
+{
+    g_cur_step_crc =  stm32_crc32_byte((uint8_t*)&tmp_step_par, sizeof(tmp_step_par));
+    
+    if(g_cur_step_crc != g_cur_step_crc_bk)
+    {
+        g_cur_step_crc_bk = g_cur_step_crc;
+        send_cmd_to_all_module((void*)&tmp_step_par, sizeof(tmp_step_par), send_edit_step);
+    }
+}
 
 void get_mode_edit_ele_inf(UN_STRUCT *step, EDIT_ELE_T* ret_ele, CS_ERR *err)
 {
@@ -2933,7 +2934,6 @@ void get_auto_shift_edit_ele_inf(UN_STRUCT *step, EDIT_ELE_T* ret_ele, CS_ERR *e
     
     if(*err == CS_ERR_NONE)
     {
-        init_sw_type_edit_ele_resource_inf(ele);
         *ret_ele = *ele;
     }
     

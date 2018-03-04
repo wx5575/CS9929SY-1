@@ -11,6 +11,7 @@
 #include "stdio.h"
 #include "LISTVIEW.H"
 #include "UI_COM/com_ui_info.h"
+#include "result_win.h"
 
 
 WIDGET_POS_SIZE_T _7_result_windows=
@@ -18,49 +19,134 @@ WIDGET_POS_SIZE_T _7_result_windows=
 	0/*x*/,0/*y*/,690/*width*/,455/*height*/,
 };
 
-WM_HWIN _7_create_result_listview(WM_HWIN hWin)
+/**
+  * @brief  7寸屏结果管理界面布局1,对文本控件的位置尺寸信息进行初始化
+  * @param  [in] pool 文本控件结构数组
+  * @retval 无
+  */
+void _7_init_result_win_layout1_text_ele_pos(TEXT_ELE_T *pool)
 {
-    LISTVIEW_Handle list_h;
-	HEADER_Handle hHeader;
-	SCROLLBAR_Handle hScrollbar;
-	int32_t i = 0;
-	uint8_t buf[20] = {0};
+    int32_t i = 0;
+    TEXT_ELE_T *ele;
+    #define FONT_RES_WIN &GUI_Fonthz_26
     
-	list_h = LISTVIEW_CreateEx(0, 0, 690, 455, hWin, WM_CF_MEMDEV_ON_REDRAW | WM_CF_SHOW, 0, id_base++);
-	hScrollbar = SCROLLBAR_CreateAttached(list_h, SCROLLBAR_CF_VERTICAL);
-	
-	LISTVIEW_SetFont(list_h, &GUI_Fonthz_24);
-	
-	hHeader = LISTVIEW_GetHeader(list_h);
-	HEADER_SetFont(hHeader,&GUI_Fonthz_24);
-	HEADER_SetHeight(hHeader,28);
-	LISTVIEW_AddColumn(list_h, 60	, SELE_STR("编号","NO.")			, GUI_TA_HCENTER | GUI_TA_VCENTER);
-    LISTVIEW_AddColumn(list_h, 80	, SELE_STR("模式","Mode")			, GUI_TA_HCENTER | GUI_TA_VCENTER);
-    LISTVIEW_AddColumn(list_h, 80	, SELE_STR("电压","Vol.")			, GUI_TA_HCENTER | GUI_TA_VCENTER);
-    LISTVIEW_AddColumn(list_h, 80	, SELE_STR("电流","Cur.")			, GUI_TA_HCENTER | GUI_TA_VCENTER);
-//    LISTVIEW_AddColumn(list_h, 190	, SELE_STR("文件名","FileName")		, GUI_TA_HCENTER | GUI_TA_VCENTER);
-//    LISTVIEW_AddColumn(list_h, 80	, SELE_STR("总步数","Total")		, GUI_TA_HCENTER | GUI_TA_VCENTER);
-//    LISTVIEW_AddColumn(list_h, 262	, SELE_STR("建立时间","CreateDate")	, GUI_TA_HCENTER | GUI_TA_VCENTER);
-	
-    SCROLLBAR_SetWidth(hScrollbar,18);
-	SCROLLBAR_SetColor(hScrollbar, SCROLLBAR_CI_THUMB, GUI_BLACK);//缩略图0x00A0A0A0
-	SCROLLBAR_SetColor(hScrollbar, SCROLLBAR_CI_SHAFT, GUI_WHITE);  //轴
-	SCROLLBAR_SetColor(hScrollbar, SCROLLBAR_CI_ARROW, GUI_GRAY);  //箭头
-	WIDGET_SetEffect(hScrollbar, &WIDGET_Effect_None);
-	
-	for(i = 0; i < 14; i++)
-	{
-		LISTVIEW_AddRow(list_h, 0);
-		sprintf((char *)buf, "%02d", i + 1);
-		LISTVIEW_SetItemText(list_h, 0,i, (const char*)buf);
-	}
+//    ele = &pool[RESULT_WIN_PRODUCT_NUM];
+//    
+//    ele->dis_info.base_x = 0;
+//    ele->dis_info.base_y = 0;
+//    ele->dis_info.pos_size.x = 5;
+//    ele->dis_info.pos_size.y = 30;
+//    ele->dis_info.back_color = GUI_INVALID_COLOR;
+//    ele->dis_info.font = FONT_RES_WIN;
+//    ele->dis_info.font_color = GUI_WHITE;
+//    ele->dis_info.max_len = 100;
+//    ele->dis_info.align = GUI_TA_CENTER | GUI_TA_TOP;
+//    ele->dis_info.pos_size.height = 30;
+//    ele->dis_info.pos_size.width = 190;
+//    
+//    for(i = 0; i < 16; i++)
+//    {
+//        ele = &pool[RESULT_WIN_NUM01 + i];
+//        
+//        ele->dis_info.base_x = 0;
+//        ele->dis_info.base_y = 0;
+//        ele->dis_info.pos_size.x = 5;
+//        ele->dis_info.pos_size.y = 60 + 23 * i;
+//        ele->dis_info.back_color = GUI_INVALID_COLOR;
+//        ele->dis_info.font = FONT_RES_WIN;
+//        ele->dis_info.font_color = GUI_WHITE;
+//        ele->dis_info.max_len = 100;
+//        ele->dis_info.align = GUI_TA_CENTER | GUI_TA_TOP;
+//        ele->dis_info.pos_size.height = 30;
+//        ele->dis_info.pos_size.width = 180;
+//    }
+//    
+//    ele = &pool[RESULT_WIN_TEST_RES_INF];
+//    
+//    ele->dis_info.base_x = 0;
+//    ele->dis_info.base_y = 0;
+//    ele->dis_info.pos_size.x = 10;
+//    ele->dis_info.pos_size.y = 30;
+//    ele->dis_info.back_color = GUI_INVALID_COLOR;
+//    ele->dis_info.font = FONT_RES_WIN;
+//    ele->dis_info.font_color = GUI_WHITE;
+//    ele->dis_info.max_len = 100;
+//    ele->dis_info.align = GUI_TA_CENTER | GUI_TA_TOP;
+//    ele->dis_info.pos_size.height = 30;
+//    ele->dis_info.pos_size.width = 675 - 10;
     
-	LISTVIEW_SetSel(list_h, 0);
-    LISTVIEW_SetGridVis(list_h, 1);
-	LISTVIEW_SetBkColor(list_h, LISTVIEW_CI_UNSEL, GUI_LIGHTBLUE);
-	LISTVIEW_SetRowHeight(list_h, 30);
+    for(i = 0; i < 8; i++)
+    {
+        ele = &pool[RESULT_WIN_TEST_RES_1 + i];
+        
+        ele->dis_info.base_x = 0;
+        ele->dis_info.base_y = 0;
+        ele->dis_info.pos_size.x = 10;
+        ele->dis_info.pos_size.y = 60 + 30 * i;
+        ele->dis_info.back_color = GUI_INVALID_COLOR;
+        ele->dis_info.font = FONT_RES_WIN;
+        ele->dis_info.font_color = GUI_WHITE;
+        ele->dis_info.max_len = 100;
+        ele->dis_info.align = GUI_TA_LEFT | GUI_TA_TOP;
+        ele->dis_info.pos_size.height = 30;
+        ele->dis_info.pos_size.width = 650;
+    }
     
-    return list_h;
-}
+    ele = &pool[RESULT_WIN_SETTING_PAR];
+    
+    ele->dis_info.base_x = 0;
+    ele->dis_info.base_y = 0;
+    ele->dis_info.pos_size.x = 10;
+    ele->dis_info.pos_size.y = 220;
+    ele->dis_info.back_color = GUI_INVALID_COLOR;
+    ele->dis_info.font = FONT_RES_WIN;
+    ele->dis_info.font_color = GUI_WHITE;
+    ele->dis_info.max_len = 100;
+    ele->dis_info.align = GUI_TA_CENTER | GUI_TA_TOP;
+    ele->dis_info.pos_size.height = 30;
+    ele->dis_info.pos_size.width = 395 - 180;
+    
+    ele = &pool[RESULT_WIN_SETTING_PAR_C];
+    
+    ele->dis_info.base_x = 0;
+    ele->dis_info.base_y = 0;
+    ele->dis_info.pos_size.x = 10;
+    ele->dis_info.pos_size.y = 260;
+    ele->dis_info.back_color = GUI_INVALID_COLOR;
+    ele->dis_info.font = FONT_RES_WIN;
+    ele->dis_info.font_color = GUI_WHITE;
+    ele->dis_info.max_len = 100;
+    ele->dis_info.align = GUI_TA_LEFT | GUI_TA_TOP;
+    ele->dis_info.pos_size.height = 200;
+    ele->dis_info.pos_size.width = 395 - 170;
+    
+    ele = &pool[RESULT_WIN_TEST_DATA];
+    
+    ele->dis_info.base_x = 0;
+    ele->dis_info.base_y = 0;
+    ele->dis_info.pos_size.x = 270;
+    ele->dis_info.pos_size.y = 220;
+    ele->dis_info.back_color = GUI_INVALID_COLOR;
+    ele->dis_info.font = FONT_RES_WIN;
+    ele->dis_info.font_color = GUI_WHITE;
+    ele->dis_info.max_len = 100;
+    ele->dis_info.align = GUI_TA_CENTER | GUI_TA_TOP;
+    ele->dis_info.pos_size.height = 30;
+    ele->dis_info.pos_size.width = 670 - 370;
+    
+    ele = &pool[RESULT_WIN_TEST_DATA_C];
+    
+    ele->dis_info.base_x = 0;
+    ele->dis_info.base_y = 0;
+    ele->dis_info.pos_size.x = 270;
+    ele->dis_info.pos_size.y = 260;
+    ele->dis_info.back_color = GUI_INVALID_COLOR;
+    ele->dis_info.font = FONT_RES_WIN;
+    ele->dis_info.font_color = GUI_WHITE;
+    ele->dis_info.max_len = 100;
+    ele->dis_info.align = GUI_TA_LEFT | GUI_TA_TOP;
+    ele->dis_info.pos_size.height = 200;
+    ele->dis_info.pos_size.width = 670 - 270;
+}    
 
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

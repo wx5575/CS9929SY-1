@@ -27,54 +27,7 @@ uint32_t ten_power(u8 n)
 	}
 	return temp;
 }
-float myatof(uint8_t *buf)
-{
-    uint8_t t_buf[2][100];
-    int32_t i = 0;
-    int32_t j = 0;
-    uint8_t k = 0;
-    uint8_t len = 0;
-    float val_1;
-    float val_2;
-    float fol;
-    
-    memset(t_buf, 0, sizeof(t_buf));
-    len = strlen((const char*)buf);
-    
-    if(len >= sizeof(t_buf[0]))
-    {
-        len = sizeof(t_buf[0] - 1);
-    }
-    
-    for(i = 0; i < len; i++)
-    {
-        if(buf[i] == '.')
-        {
-            if(j == 1)
-            {
-                break;
-            }
-            
-            j++;
-            k = 0;
-            continue;
-        }
-        else if(buf[i] < '0' && buf[i] > '9')
-        {
-            break;
-        }
-        
-        t_buf[j][k++] = buf[i];
-    }
-    
-    val_1 = atoi((const char*)t_buf[0]);
-    val_2 = atoi((const char*)t_buf[1]);
-    
-    fol = val_2;
-    fol /= ten_power(k);
-    
-    return (fol + val_1);
-}
+
 /**
   * @brief  自定义格式化字符串,用来取代对sprintf的，因为sprintf不安全
   * @param  [out] buf 输出字符串
@@ -203,6 +156,32 @@ uint8_t *dis_str_prev_zero(uint8_t *buf, uint8_t ch)
     }
     
     return buf;
+}
+
+/**
+  * @brief  显示前对数据的前导0进行处理，全部换成空格
+  * @param  [in] str 数据字符串
+  * @retval 处理后的字符串
+  */
+uint8_t* div_str_pre_zero(uint8_t *str)
+{
+    uint8_t len = strlen(str);
+    uint32_t i = 0;
+    char *p = str;
+    
+    for(i = 1; i < len - 1; i++)
+    {
+        if(p[i - 1] == '0' && p[i] != '.')
+        {
+            p[i - 1] = ' ';
+        }
+        else
+        {
+            break;
+        }
+    }
+    
+    return p;
 }
 void mysprintf_2(uint8_t *buf, const uint8_t* unit, uint8_t format, uint32_t value)
 {

@@ -24,6 +24,11 @@ extern void keyboard_fun_num(uint32_t key_value);
 extern void keyboard_fun_pwd(uint32_t key_value);
 extern void keyboard_test_port(uint32_t key);
 
+extern void clear_key_buf(void);
+extern void key_scan_off(void);
+extern void key_scan_on(void);
+extern void register_test_reset_server_fun(void(*fun)(void));
+
 #endif //__KEY_SERVER_H__
 
 /************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

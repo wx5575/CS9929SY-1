@@ -17,6 +17,23 @@
 
 #include "sys_level.h"
 
+extern unsigned char const g_Ascii32[];
+
+extern unsigned char const g_Ascii24[];
+
+extern unsigned char const g_Hz24[];
+
+extern unsigned char const g_Ascii29[];
+
+extern unsigned char const g_Hz29[];
+
+extern unsigned char const g_Ascii16[];
+
+extern unsigned char const g_Hz16[];
+
+extern unsigned char const g_Ascii12[];
+
+extern unsigned char const g_Hz12[];
 
 #define BUTTON_BEEP()	BEEP_KeyTone();	/* 按键提示音 */
 //#define BUTTON_BEEP()	/* 无按键提示音 */
@@ -150,6 +167,7 @@ typedef enum
 	FC_ST_12 = 0,		/* 宋体12x12点阵 （宽x高） */
 	FC_ST_16,			/* 宋体15x16点阵 （宽x高） */
 	FC_ST_24,			/* 宋体24x24点阵 （宽x高） -- 暂时未支持 */
+	FC_ST_29,			/* 宋体24x24点阵 （宽x高） -- 暂时未支持 */
 	FC_ST_32,			/* 宋体32x32点阵 （宽x高） -- 暂时未支持 */	
 	
 	FC_RA8875_16,		/* RA8875 内置字体 16点阵 */
@@ -164,6 +182,11 @@ typedef struct
 	uint16_t FrontColor;/* 字体颜色 */
 	uint16_t BackColor;	/* 文字背景颜色，透明 */
 	uint16_t Space;		/* 文字间距，单位 = 像素 */
+    
+	uint16_t usFontCode;	/* 字体代码 0 表示16点阵 */
+	uint16_t usTextColor;	/* 字体颜色 */
+	uint16_t usBackColor;	/* 文字背景颜色，透明 */
+	uint16_t usSpace;		/* 文字间距，单位 = 像素 */
 }FONT_T;
 
 /* 控件ID */

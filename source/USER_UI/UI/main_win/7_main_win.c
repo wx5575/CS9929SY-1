@@ -38,10 +38,10 @@ WIDGET_POS_SIZE_T _7_main_windows=
 /**
   * @brief  初始化7寸屏中主界面系统状态信息区
   */
-const GUI_RECT _7_sys_st_info_area =
-{
-    0, SIZE_7INCH_HEIGH - 25, 0 + SIZE_7INCH_WIDTH - 110, SIZE_7INCH_HEIGH - 1
-};
+//const GUI_RECT _7_sys_st_info_area =
+//{
+//    0, SIZE_7INCH_HEIGH - 25, 0 + SIZE_7INCH_WIDTH - 110, SIZE_7INCH_HEIGH - 1
+//};
 /**
   * @brief  初始化7寸屏中主界面文本对象的显示信息
   * @param  [out] pool 文本对象显示信息数组
@@ -49,27 +49,82 @@ const GUI_RECT _7_sys_st_info_area =
   */
 void _7_init_main_ui_text_ele_pos(TEXT_ELE_T *pool)
 {
-    uint8_t *str;
-    UI_ELE_DISPLAY_INFO_T inf={	//主界面的通信状态
-		0/*base_x*/,0/*base_y*/,0/*x*/,0/*y*/,0/*width*/,25/*height*/,100,
-		{&GUI_Fonthz_20}, GUI_BLACK, GUI_INVALID_COLOR, GUI_TA_LEFT | GUI_TA_TOP
-    };
+//    uint8_t *str;
+    TEXT_ELE_T *ele;
+//    UI_ELE_DISPLAY_INFO_T inf={	//主界面的通信状态
+//		0/*base_x*/,0/*base_y*/,0/*x*/,0/*y*/,0/*width*/,25/*height*/,100,
+//		{&GUI_Fonthz_20}, GUI_BLACK, GUI_INVALID_COLOR, GUI_TA_LEFT | GUI_TA_TOP
+//    };
     
-    //主界面的系统时间
-    inf.base_x = 0;
-    inf.base_y = 0;
-    inf.pos_size.width = 210;
-    inf.pos_size.x = SIZE_7INCH_WIDTH - 115 - inf.pos_size.width;
-    inf.pos_size.y = SIZE_7INCH_HEIGH - inf.pos_size.height;
-    memcpy(&pool[MAIN_UI_SYS_TIME].dis_info, &inf, sizeof(UI_ELE_DISPLAY_INFO_T));
-    str = get_time_str(0);
-    pool[MAIN_UI_SYS_TIME].text[0] = str;
-    pool[MAIN_UI_SYS_TIME].text[1] = str;
+    ele = &pool[MAIN_UI_CSALLWIN];
     
-    //主界面的通信状态
-    inf.pos_size.width = 80;
-    inf.pos_size.x -= inf.pos_size.width;
-    memcpy(&pool[MAIN_UI_COM_ST].dis_info, &inf, sizeof(UI_ELE_DISPLAY_INFO_T));
+    ele->dis_info.base_x = 0;
+    ele->dis_info.base_y = 0;
+    ele->dis_info.pos_size.x = 5;
+    ele->dis_info.pos_size.y = 50;
+    ele->dis_info.back_color = GUI_INVALID_COLOR;
+    ele->dis_info.font = &GUI_Fontxingkai_80;
+    ele->dis_info.font_color = GUI_WHITE;
+    ele->dis_info.max_len = 100;
+    ele->dis_info.align = GUI_TA_CENTER | GUI_TA_TOP;
+    ele->dis_info.pos_size.height = 90;
+    ele->dis_info.pos_size.width = 600;
+    
+    ele = &pool[MAIN_UI_VERSION];
+    
+    ele->dis_info.base_x = 0;
+    ele->dis_info.base_y = 0;
+    ele->dis_info.pos_size.x = 200;
+    ele->dis_info.pos_size.y = 200;
+    ele->dis_info.back_color = GUI_INVALID_COLOR;
+    ele->dis_info.font = &GUI_Fonthz_26;
+    ele->dis_info.font_color = GUI_WHITE;
+    ele->dis_info.max_len = 100;
+    ele->dis_info.align = GUI_TA_LEFT | GUI_TA_TOP;
+    ele->dis_info.pos_size.height = 30;
+    ele->dis_info.pos_size.width = 300;
+    
+    ele = &pool[MAIN_UI_TYPE];
+    
+    ele->dis_info.base_x = 0;
+    ele->dis_info.base_y = 0;
+    ele->dis_info.pos_size.x = 200;
+    ele->dis_info.pos_size.y = 240;
+    ele->dis_info.back_color = GUI_INVALID_COLOR;
+    ele->dis_info.font = &GUI_Fonthz_26;
+    ele->dis_info.font_color = GUI_WHITE;
+    ele->dis_info.max_len = 100;
+    ele->dis_info.align = GUI_TA_LEFT | GUI_TA_TOP;
+    ele->dis_info.pos_size.height = 30;
+    ele->dis_info.pos_size.width = 300;
+    
+    ele = &pool[MAIN_UI_WWW];
+    
+    ele->dis_info.base_x = 0;
+    ele->dis_info.base_y = 0;
+    ele->dis_info.pos_size.x = 20;
+    ele->dis_info.pos_size.y = 405;
+    ele->dis_info.back_color = GUI_INVALID_COLOR;
+    ele->dis_info.font = &GUI_Fonthz_20;
+    ele->dis_info.font_color = GUI_WHITE;
+    ele->dis_info.max_len = 100;
+    ele->dis_info.align = GUI_TA_CENTER | GUI_TA_TOP;
+    ele->dis_info.pos_size.height = 30;
+    ele->dis_info.pos_size.width = 100;
+    
+    ele = &pool[MAIN_UI_WTS];
+    
+    ele->dis_info.base_x = 0;
+    ele->dis_info.base_y = 0;
+    ele->dis_info.pos_size.x = 190;
+    ele->dis_info.pos_size.y = 405;
+    ele->dis_info.back_color = GUI_INVALID_COLOR;
+    ele->dis_info.font = &GUI_Fonthz_20;
+    ele->dis_info.font_color = GUI_WHITE;
+    ele->dis_info.max_len = 100;
+    ele->dis_info.align = GUI_TA_CENTER | GUI_TA_TOP;
+    ele->dis_info.pos_size.height = 30;
+    ele->dis_info.pos_size.width = 170;
 }
 
 

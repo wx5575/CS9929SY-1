@@ -210,7 +210,7 @@ static EDIT_ELE_T edit_file_ele_pool[]=
         {"DEFAULT","DEFAULT"},/* 默认值 */
         {NULL, D_N_BYTES},/* 数据指针 */
         {NULL,0},/* 资源表 */
-        {ELE_EDIT_STR, E_STRING_T},/*类型*/
+        {ELE_EDIT_STR, },/*类型*/
         {0/*dec*/, NAME_LON/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {
             0/*heigh*/,0/*low*/,{"1-14个字符 \n(A-Z a-z 0-9 空格 + / - .)"
@@ -224,7 +224,7 @@ static EDIT_ELE_T edit_file_ele_pool[]=
         {0},/* 默认值 */
         {NULL, 1/*数据字节数*/},/* 数据指针 */
         {work_mode_pool, ARRAY_SIZE(work_mode_pool)},/* 资源表 */
-        {ELE_DROPDOWN, E_INT_T},/*类型*/
+        {ELE_DROPDOWN, },/*类型*/
         {0/*dec*/,20/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {
             0/*heigh*/,0/*low*/,{"",""}/*notice*/,
@@ -237,7 +237,7 @@ static EDIT_ELE_T edit_file_ele_pool[]=
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
         {NULL, 0},/* 资源表 */
-        {ELE_EDIT_NUM, E_INT_T},/*类型*/
+        {ELE_EDIT_NUM, },/*类型*/
         {1/*dec*/,5/*lon*/,TIM_U_s/*unit*/,},/*format*/
         {9999/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
         {fbeeptime_sys_key, fbeeptime_menu_key, keyboard_fun_num,},/*key_inf*/
@@ -248,7 +248,7 @@ static EDIT_ELE_T edit_file_ele_pool[]=
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
         {NULL, 0},/* 资源表 */
-        {ELE_EDIT_NUM, E_FLOAT_T},/*类型*/
+        {ELE_EDIT_NUM, },/*类型*/
         {1/*dec*/,5/*lon*/,TIM_U_s/*unit*/,},/*format*/
         {9999/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
         {fpasstime_sys_key, fpasstime_menu_key, keyboard_fun_num,},/*key_inf*/
@@ -258,8 +258,12 @@ static EDIT_ELE_T edit_file_ele_pool[]=
         FSAVE_UI_ARC_MODE,/* 通过枚举索引 */
         {0},/* 默认值 */
         {NULL, 2/*数据字节数*/},/* 数据指针 */
-        {NULL, 0},/* 资源表 */
-        {ELE_DROPDOWN, E_INT_T},/*类型*/
+        {
+            NULL, ARRAY_SIZE(arc_mode_pool[CHINESE]),
+            (void*)arc_mode_buf, ARRAY_SIZE(arc_mode_buf),
+            {arc_mode_pool[CHINESE], arc_mode_pool[ENGLISH]}
+        },/* 资源表 */
+        {ELE_DROPDOWN, },/*类型*/
         {1/*dec*/,5/*lon*/,NULL_U_NULL/*unit*/,},/*format*/
         {9999/*heigh*/,0/*low*/,{"",""}/*notice*/},/*range*/
         {fpasstime_sys_key, edit_arc_menu_key_init, keyboard_fun_num,},/*key_inf*/
@@ -973,8 +977,8 @@ static void set_file_par_window_ele_data(TEST_FILE *f)
     uint32_t size;
     static uint8_t work_mode_flag[]=
     {
-        N_MODE,// N模式
         G_MODE,// G模式
+        N_MODE,// N模式
     };
     
     pool = g_cur_win->edit.pool;
@@ -994,12 +998,6 @@ static void set_file_par_window_ele_data(TEST_FILE *f)
     reg_edit_ele_data_inf(FSAVE_UI_PASST, &f->pass_time,  sizeof(f->pass_time));//PASS时间
     
     reg_edit_ele_data_inf(FSAVE_UI_ARC_MODE, &f->arc_mode,  sizeof(f->arc_mode));//电弧侦测
-    ele = get_edit_ele_inf(pool, size, FSAVE_UI_ARC_MODE, &err);
-    
-    if(err == CS_ERR_NONE)
-    {
-        init_edit_ele_resource_inf(ele, arc_mode_pool[SYS_LANGUAGE], ARRAY_SIZE(arc_mode_pool[SYS_LANGUAGE]));
-    }
 }
 /**
   * @brief  初始化并创建窗口编辑对象

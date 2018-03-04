@@ -2308,14 +2308,14 @@ void RA8875_DrawHLine(uint16_t _usX1 , uint16_t _usY1 , uint16_t _usX2 , uint16_
 void RA8875_DrawHColorLine(uint16_t _usX1 , uint16_t _usY1, uint16_t _usWidth, uint16_t *_pColor)
 {
 	uint16_t i;
-
+    
 	s_ucRA8875Busy = 1;
 	
 	RA8875_REG = 0x46; RA8875_RAM = _usX1;
 	RA8875_REG = 0x47; RA8875_RAM = _usX1 >> 8;
 	RA8875_REG = 0x48; RA8875_RAM = _usY1;
 	RA8875_REG = 0x49; RA8875_RAM = _usY1 >> 8;
-
+    
 	RA8875_REG = 0x02; 		/* 用于设定RA8875 进入内存(DDRAM或CGRAM)读取/写入模式 */
 	
 	for (i = 0; i < _usWidth; i++)

@@ -56,6 +56,7 @@ KEY_DISPOSE_FUN *get_key_inf(uint32_t key)
 		case KEY_F1 & KEY_0: temp_fun = &key_funcation.key_f1_0;break;
 		case KEY_F1 & KEY_1: temp_fun = &key_funcation.key_f1_1;break;
 		case KEY_F1 & KEY_4: temp_fun = &key_funcation.key_f1_4;break;
+		case KEY_F4 & KEY_5: temp_fun = &key_funcation.key_f4_5;break;
         
 		case KEY_UNLOCK & KEY_0:      temp_fun = &key_funcation.key_clock_0;break;
 		case KEY_UNLOCK & KEY_OFFSET: temp_fun = &key_funcation.key_clock_offset;break;
@@ -170,6 +171,8 @@ void disable_system_fun_key_fun(void)
 {
     uint32_t key_buf[]=
     {
+        KEY_START,
+//        KEY_STOP,
         CODE_LEFT,
         CODE_RIGH,
 //        KEY_EXIT,
@@ -181,13 +184,14 @@ void disable_system_fun_key_fun(void)
         KEY_DOWN,
         KEY_LEFT,
         KEY_RIGHT,
-        KEY_F0 & _KEY_UP,
+//        KEY_F0 & _KEY_UP,
         KEY_F1 & _KEY_UP,
         KEY_F2 & _KEY_UP,
         KEY_F3 & _KEY_UP,
         KEY_F4 & _KEY_UP,
         KEY_F5 & _KEY_UP,
         KEY_F6 & _KEY_UP,
+        KEY_F4 & KEY_5,
     };
     uint32_t size = ARRAY_SIZE(key_buf);
     int32_t i = 0;

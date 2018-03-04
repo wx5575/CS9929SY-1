@@ -78,14 +78,16 @@ u8 usmart_sys_cmd_exe(u8 *str)
 	u8 sfname[MAX_FNAME_LEN];//存放本地函数名
 	u8 pnum;
 	u8 rval;
-	u32 res;  
+	u32 res;
 	res=usmart_get_cmdname(str,sfname,&i,MAX_FNAME_LEN);//得到指令及指令长度
 	if(res)return USMART_FUNCERR;//错误的指令 
-	str+=i;	 	 			    
+	str+=i;
+    
 	for(i=0;i<sizeof(sys_cmd_tab)/4;i++)//支持的系统指令
 	{
 		if(usmart_strcmp(sfname,sys_cmd_tab[i])==0)break;
 	}
+    
 	switch(i)
 	{					   
 		case 0:

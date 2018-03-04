@@ -10,6 +10,8 @@
 #include "bsp_tft_lcd.h"
 #include "LCD_RA8875.h"
 
+#define USE_SMALL_FONT 1
+
 uint16_t g_LcdHeight = 480;			/* 显示屏分辨率-高度 */
 uint16_t g_LcdWidth = 800;			/* 显示屏分辨率-宽度 */
 uint8_t g_LcdDirection;				/* 显示方向.0，1，2，3 */
@@ -91,4 +93,3 @@ void LCD_DrawLine(uint16_t _usX1 , uint16_t _usY1 , uint16_t _usX2 , uint16_t _u
 {
 	RA8875_DrawLine(_usX1 , _usY1 , _usX2, _usY2 , _usColor);
 }
-

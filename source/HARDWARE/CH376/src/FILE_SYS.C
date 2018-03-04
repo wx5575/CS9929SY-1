@@ -187,7 +187,7 @@ UINT8	Wait376Interrupt( void )  /* 等待CH376中断(INT#低电平)，返回中断状态码, 超
 #endif
 #else
 	UINT32	i;
-	for ( i = 0; i < 5000000; i ++ ) {  /* 计数防止超时,默认的超时时间,与单片机主频有关 */
+	for ( i = 0; i < 500000; i ++ ) {  /* 计数防止超时,默认的超时时间,与单片机主频有关 */
 		if ( Query376Interrupt( ) ) return( CH376GetIntStatus( ) );  /* 检测到中断 */
 /* 在等待CH376中断的过程中,可以做些需要及时处理的其它事情 */
 	}
@@ -241,6 +241,12 @@ UINT8	CH376FileOpen( PUINT8 name )  /* 在根目录或者当前目录下打开文件或者目录(文
 	if ( name[0] == DEF_SEPAR_CHAR1 || name[0] == DEF_SEPAR_CHAR2 ) CH376WriteVar32( VAR_CURRENT_CLUST, 0 );
 	return( CH376SendCmdWaitInt( CMD0H_FILE_OPEN ) );
 }
+/* 继续枚举文件 */
+UINT8 CH376ENUM_FILE_GO(void)
+{
+    return CH376SendCmdWaitInt(CMD0H_FILE_ENUM_GO);
+}
+
 
 UINT8	CH376FileCreate( PUINT8 name )  /* 在根目录或者当前目录下新建文件,如果文件已经存在那么先删除 */
 {

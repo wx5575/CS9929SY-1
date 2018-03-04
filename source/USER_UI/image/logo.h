@@ -1,17 +1,31 @@
 /**
   ******************************************************************************
   * @file    sys_manage_win.h
-  * @author  ÍõöÎ
+  * @author  ç‹é‘«
   * @version V1.0.0
   * @date    2017.5.11
-  * @brief   ÏµÍ³¹ÜÀí½çÃæ
+  * @brief   ç³»ç»Ÿç®¡ç†ç•Œé¢
   ******************************************************************************
   */
 #ifndef __LOGO_H__
 #define __LOGO_H__
 
-void create_logo_image(WM_HWIN hWin);
+#include "IMAGE.H"
+typedef struct{
+    WM_HWIN handle;///<å›¾ç‰‡å¥æŸ„
+    void *buf;///<å›¾ç‰‡ç¼“å†²åŒº
+}CS_IMAGE_T;
+
+void delete_image(CS_IMAGE_T* image);
+IMAGE_Handle create_logo_imagex(WM_HWIN hWin, CS_IMAGE_T* image);
+IMAGE_Handle create_logo_image(WM_HWIN hWin, CS_IMAGE_T* image);
+IMAGE_Handle create_slogo_image(WM_HWIN hWin, CS_IMAGE_T* image);
+IMAGE_Handle create_main_image(WM_HWIN hWin, CS_IMAGE_T* image);
+IMAGE_Handle create_www_qr_code_image(WM_HWIN hWin, CS_IMAGE_T* image);
+IMAGE_Handle create_wts_qr_code_image(WM_HWIN hWin, CS_IMAGE_T* image);
+IMAGE_Handle create_test_image(WM_HWIN hWin, CS_IMAGE_T* image);
+IMAGE_Handle create_miclogo_image(WM_HWIN hWin, CS_IMAGE_T* image);
 
 #endif //__LOGO_H__
 
-/************************ (C) COPYRIGHT 2017 ³¤Ê¢ÒÇÆ÷ *****END OF FILE****/
+/************************ (C) COPYRIGHT 2017 é•¿ç››ä»ªå™¨ *****END OF FILE****/

@@ -26,15 +26,14 @@
 
 #pragma  diag_suppress 870 //消除870号编译警告
 
-#define SYS_LANGUAGE		sys_par.language //CHINESE //ENGLISH //
-#define SCREEM_SIZE         g_custom_sys_par.screem_size
 /* 选择字体 如果当前系统字体为空就使用系统字体 不为空就正常使用 */
 #define SEL_FONT(font)      font[SYS_LANGUAGE]==NULL?font[CHINESE]:font[SYS_LANGUAGE]
 #define SELE_STR(S1, S2)	(SYS_LANGUAGE==CHINESE?S1:S2) ///< 根据系统语言选择不同的字符串
 /* 选择要使用的字符串，如果对应语言的字符串不存在，就用中文字符串 */
 #define SEL_USER_STR(str)      str[SYS_LANGUAGE]==NULL?str[CHINESE]:str[SYS_LANGUAGE]
-#define WINDOWS_BAK_COLOR	GUI_BLUE	//GUI_GRAY ///< 窗口背景色
+#define WINDOWS_BAK_COLOR	GUI_BLUE	//0x00FF6464 //GUI_GRAY ///< 窗口背景色
 
+#define SELETED_COLOR	GUI_LIGHTBLUE
 /** 
   * @brief 编辑控件结构
   */
@@ -57,17 +56,17 @@ typedef enum{
   * @brief 控件位置尺寸结构
   */
 typedef struct{
-	uint16_t x;///<x坐标
-	uint16_t y;///<y坐标
-	uint16_t width;///<宽
-	uint16_t height;///<高
+	uint16_t x;///<x坐标(像素)
+	uint16_t y;///<y坐标(像素)
+	uint16_t width;///<宽(像素)
+	uint16_t height;///<高(像素)
 }WIDGET_POS_SIZE_T;
 /** 
   * @brief 控件显示信息结构
   */
 typedef struct UI_ELE_DISPLAY_INFO{
-	uint16_t base_x;///< x基坐标
-	uint16_t base_y;///<y基坐标
+	uint16_t base_x;///< x基坐标(像素)
+	uint16_t base_y;///<y基坐标(像素)
     WIDGET_POS_SIZE_T pos_size;///<窗口的位置尺寸
 	uint8_t max_len;///< 最大长度
     const GUI_FONT * font;//字体
@@ -107,14 +106,14 @@ typedef struct{
   * @brief 界面文本对象自动布局结构
   */
 typedef struct{
-    uint16_t base_x;///<x基坐标
-    uint16_t base_y;///<y基坐标
-    uint16_t width;///<文本控件的宽度
-    uint16_t height;///<文本控件的高度
+    uint16_t base_x;///<x基坐标(像素)
+    uint16_t base_y;///<y基坐标(像素)
+    uint16_t width;///<文本控件的宽度(像素)
+    uint16_t height;///<文本控件的高度(像素)
     uint8_t rows;///<最大行数
     uint8_t columns;///<最大列数
-    uint8_t row_spacing;///<行距
-    uint8_t column_spacing;///<列距
+    uint8_t row_spacing;///<行距(像素)
+    uint8_t column_spacing;///<列距(像素)
     const GUI_FONT * font[FONT_SIZE_NUM];//不同语言可以使用不同的字体
     GUI_COLOR font_color;///<字体颜色
     GUI_COLOR back_color;///<背景颜色
@@ -147,7 +146,7 @@ typedef struct{
   * @brief 调整项结构定义
   */
 typedef struct{
-    uint32_t value;///<调整值
+    int32_t value;///<调整值
     CS_BOOL en;///<调整使能 CS_TRUE 表示调整使能 CS_FALSE 表示调整无效
 }ADJUST_OPT;
 /**
@@ -171,7 +170,7 @@ typedef struct{
     ADJUST_OPT align;///<文本对齐方式
     struct{
         ADJUST_OPT base_x;///<x基坐标
-        ADJUST_OPT x;///<x坐标
+        ADJUST_OPT offset_x;///<x坐标偏移值 >0 向右偏 <0向左偏
         ADJUST_OPT width;///<宽度
     }pos_size;
 }ADJUST_TEXT_ELE_LAYOUT;
@@ -230,16 +229,6 @@ typedef enum{
 }ELE_TYPE;
 
 /** 
-  * @brief 数据类型
-  */
-typedef enum{
-	E_INT_T,///< 整数
-	E_FLOAT_T,///< 浮点数
-	E_STRING_T,///< 字符串数据
-	E_STRUCT_T,///< 结构体数据
-}DATA_TYPE;
-
-/** 
   * @brief 数据所占的空间size 
   */
 typedef enum{
@@ -254,8 +243,8 @@ typedef enum{
   * @brief 编辑控件可配置属性
   */
 typedef struct{
-    uint16_t width;///<宽
-    uint16_t height;///<高
+    uint16_t width;///<宽(像素)
+    uint16_t height;///<高(像素)
     const GUI_FONT *font;///<字体
     GUI_COLOR font_color;///<字体颜色
     GUI_COLOR back_color;///<背景颜色
@@ -271,8 +260,8 @@ typedef struct{
     CONFIGURABLE_PROPERTY name;///< 名称
     CONFIGURABLE_PROPERTY edit;///< 编辑
     CONFIGURABLE_PROPERTY unit;///< 单位
-    uint16_t x;///< 所在窗口的 x 坐标
-    uint16_t y;///< 所在窗口的 x 坐标
+    uint16_t x;///< 所在窗口的 x 坐标(像素)
+    uint16_t y;///< 所在窗口的 x 坐标(像素)
 }EDIT_ELE_DISPLAY_INF;
 
 /** 
@@ -301,7 +290,6 @@ struct EDIT_ELE_T_{
     /* 类型 */
     struct{
         ELE_TYPE type;///< 对象类型
-        DATA_TYPE data_type;///< 数据类型
     }type;
     
     /* 格式 */
@@ -427,11 +415,19 @@ COM_UI_EXT EDIT_ELE_T     *g_cur_edit_ele_bk;///<备份当前编辑对象
 COM_UI_EXT TEXT_ELE_T           *g_cur_text_ele;///<当前文本对象
 COM_UI_EXT CUSTOM_MSG_T 	    g_custom_msg;///<用户自定义消息实体变量
 COM_UI_EXT uint32_t             id_base;///<全局控件ID变量
+COM_UI_EXT uint8_t              self_check_ok;///<自检结束标记
 
 extern TEXT_ELE_T * get_text_ele_inf(TEXT_ELE_T *text_pool, uint32_t pool_size, CS_INDEX index, CS_ERR*err);
 extern void init_window_text_ele(MYUSER_WINDOW_T* win);
+
+extern void select_text_ele(TEXT_ELE_T *ele);
+extern void dis_select_text_ele(TEXT_ELE_T *ele);
+extern void set_text_ele(CS_INDEX index, MYUSER_WINDOW_T* win, const uint8_t *str);
+extern void get_text_ele_text(CS_INDEX index, MYUSER_WINDOW_T* win, uint8_t *str, uint32_t size);
 extern void update_text_ele(CS_INDEX index, MYUSER_WINDOW_T* win, const uint8_t *str);
+extern void set_text_ele_visible(CS_INDEX index, MYUSER_WINDOW_T* win, uint8_t visible);
 extern void set_text_ele_font_color(CS_INDEX index, MYUSER_WINDOW_T* win, GUI_COLOR color);
+extern void set_text_ele_font_backcolor(CS_INDEX index, MYUSER_WINDOW_T* win, GUI_COLOR back_color);
 extern void create_user_window(MYUSER_WINDOW_T* win_info, CS_LIST *list_head, WM_HWIN h_parent);
 extern void init_window_pos_size(MYUSER_WINDOW_T* win_inf, WIDGET_POS_SIZE_T *pos_size_inf);
 extern void init_sys_function_key_inf(MYUSER_WINDOW_T* win);
@@ -444,6 +440,7 @@ extern void show_user_window(MYUSER_WINDOW_T* win_info);
 extern void show_cur_window(void);
 extern void back_win(WM_HWIN id);
 extern void del_cur_window(void);
+extern void del_user_window(WM_HMEM handle);
 extern MYUSER_WINDOW_T * get_user_window_info(WM_HWIN hWin);
 extern TEXT_ELE_T* get_text_ele_node(CS_INDEX index, CS_LIST* list, CS_ERR *err);
 extern void set_com_text_ele_dis_inf(UI_ELE_DISPLAY_INFO_T *inf, CS_INDEX index);
@@ -484,9 +481,24 @@ extern void register_backup_key_inf_fun(void(*fun)(void));
 extern void register_recover_key_inf_fun(void(*fun)(void));
 
 /* 各个窗口的创建接口.放在这里方便窗口间相互创建 */
+extern void create_main_windows(void);
+extern void create_status_bar_windows(void);
+extern void update_shift_bmp(void);
+extern void update_unlock_bmp(void);
+extern void update_usb_dis_status(void);
+extern void create_status_bar_win_progbar(void);
+extern void delete_status_bar_win_progbar(void);
+extern void set_status_bar_win_progbar_show(void);
+extern void set_status_bar_win_progbar_value(int32_t value);
 extern void create_file_win(int hWin);
 extern void create_sys_manager_win(int hWin);
 extern void create_key_menu_window(void);
+
+extern void show_key_menu_win(void);
+extern void hide_key_menu_win(void);
+extern void show_main_win(void);
+extern void hide_main_win(void);
+
 extern void create_test_win(int hWin);
 extern void create_warning_dialog(int hWin);
 extern void set_warning_ui_inf(WARNING_INF *warning);
@@ -495,6 +507,7 @@ extern void create_password_ui(int hWin);
 extern void init_back_up_will_enter_win_inf(void (*fun)(int), int data);
 extern void create_input_password_ui(int hWin);
 extern void create_result_win(int id);
+extern void create_result_statis_dialog(int id);
 extern void init_menu_key_info(MENU_KEY_INFO_T * info, uint32_t n, int data);
 extern void unregister_system_key_fun(CONFIG_FUNCTION_KEY_INFO_T info[], uint32_t n);
 extern void register_system_key_fun(CONFIG_FUNCTION_KEY_INFO_T info[], uint32_t n, int data);
@@ -503,6 +516,9 @@ extern void set_menu_key_config_st(MENU_KEY_INFO_T * inf, uint32_t size,
                         CS_INDEX index, SYS_KEY_ST_ENUM st, CS_ERR *err);
 extern void change_menu_key_font_color(uint32_t key_value, GUI_COLOR color);
 
+
+extern void update_cur_step_crc(void);
+extern void check_cur_step_changed_send_to_slave(void);
 extern void get_mode_edit_ele_inf(UN_STRUCT *step, EDIT_ELE_T* ret_ele, CS_ERR *err);
 extern void get_range_edit_ele_inf(UN_STRUCT *step, EDIT_ELE_T* ret_ele, CS_ERR *err);
 extern void get_vol_edit_ele_inf(UN_STRUCT *step, EDIT_ELE_T* ret_ele, CS_ERR *err);
@@ -514,8 +530,15 @@ extern void create_env_par_dialog(int hWin);
 extern void create_sys_time_dialog(int hWin);
 extern void create_restor_factory_setting_dialog(int hWin);
 
+extern void create_help_win(int hWin);
+extern void create_run_log_win(int hWin);
 extern void create_self_check_win(int hWin);
+extern void delete_self_check_win(void);
 extern void create_start_win(int hWin);
+extern void delete_start_win(void);
+extern void create_calibration_win(int hWin);
+extern void create_module_win(int hWin);
+extern void create_auto_cal_win(int hWin);
 
 #endif //__COM_UI_INFO_H__
 

@@ -23,7 +23,7 @@ WIDGET_POS_SIZE_T _7_input_password_windows=
     _7_INPUT_PWD_WIN_WIDTH/*width*/, _7_INPUT_PWD_WIN_HEIGHT/*height*/,
 };
 
-#define FONT    &GUI_Fonthz_24
+#define FONT    &GUI_Fonthz_26
 
 /* 密码界面文本对象自动布局结构 */
 EDIT_ELE_AUTO_LAYOUT_T _7_input_pwd_edit_ele_auto_layout_inf=

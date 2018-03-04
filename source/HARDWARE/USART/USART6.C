@@ -1,0 +1,288 @@
+/**
+  ******************************************************************************
+  * @file    usart6.c
+  * @author  王鑫
+  * @version V1.0.0
+  * @date    2017.4.18
+  * @brief   usart6 的驱动程序
+  ******************************************************************************
+  */
+
+#include "usart6.H"
+#include "os.h"
+
+#define     BUFFER_SIZE         (512)
+//#define     MAX_485_EN
+#define     UART_TIMEOUT   (20)    //ms
+
+#define UART_PORT   USART6
+
+static uint8_t uart_send_buf[BUFFER_SIZE];
+static uint8_t uart_receive_data[BUFFER_SIZE];
+
+static uint8_t *send_buf;/* 发送缓冲区 */
+static uint16_t send_count;/* 发送数据计数 */
+static uint8_t *send_buf_bak;/* 发送缓冲区备份 以备重发使用 */
+static uint16_t send_count_bak;/* 发送数据计数 以备重发使用 */
+static uint8_t uart_send_st;/* 串口发送状态 */
+static uint32_t usart_timeout;///<超时计时
+static uint8_t usart_receive_over;///<接收完成标志
+static uint32_t receive_count;/* 接收字节计数 */
+
+
+/**
+  * @brief  usart6 配置
+  * @param  无
+  * @retval 无
+  */
+void usart6_config(uint32_t baud_rate)
+{
+    GPIO_InitTypeDef GPIO_InitStructure;
+    USART_InitTypeDef USART_InitStructure;
+    USART_ClockInitTypeDef USART_ClockInitStruct;
+    NVIC_InitTypeDef NVIC_InitStructure;
+    
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART6, ENABLE); //开启usart6时钟
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);  //开启GPIOC时钟
+    GPIO_PinAFConfig(GPIOC, GPIO_PinSource6, GPIO_AF_USART6);//这相当于M3的开启复用时钟？只配置复用的引脚，
+    GPIO_PinAFConfig(GPIOC, GPIO_PinSource7, GPIO_AF_USART6);//               
+    
+    /*配置GPIOC*/
+    GPIO_StructInit(&GPIO_InitStructure);      //缺省值填入
+    
+    /*配置GPIOC_Pin6为TX输出*/
+    GPIO_InitStructure.GPIO_Pin=GPIO_Pin_6;
+    GPIO_InitStructure.GPIO_Mode=GPIO_Mode_AF;     //设置为复用，必须为AF，OUT不行
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOC,&GPIO_InitStructure);
+    
+    /*配置GPIOC_Pin7为RX输入*/
+    GPIO_InitStructure.GPIO_Pin=GPIO_Pin_7;
+    GPIO_InitStructure.GPIO_Mode=GPIO_Mode_AF;     //这也必须为复用，与M3不同！
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOC,&GPIO_InitStructure);
+    
+    /*IO引脚复用功能设置，与之前版本不同*/
+    /*配置usart6*/
+    USART_StructInit(&USART_InitStructure);
+    USART_InitStructure.USART_BaudRate =baud_rate;
+    USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+    USART_InitStructure.USART_StopBits = USART_StopBits_1;
+    USART_InitStructure.USART_Parity = USART_Parity_No;
+    USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+    USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+    USART_Init(UART_PORT, &USART_InitStructure);
+    USART_ClockStructInit(&USART_ClockInitStruct);
+    USART_ClockInit(UART_PORT, &USART_ClockInitStruct);
+    
+    USART_ITConfig(UART_PORT, USART_IT_RXNE, ENABLE); //使能 usart6中断
+    USART_Cmd(UART_PORT, ENABLE); //使能 usart6
+    
+    NVIC_InitStructure.NVIC_IRQChannel = USART6_IRQn; //嵌套通道为usart6_IRQn
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0; //抢占优先级为 0
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;    //响应优先级为 0
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;     //通道中断使能
+    NVIC_Init(&NVIC_InitStructure);
+}
+
+/**
+  * @brief  usart6发送数据
+  * @param  无
+  * @retval 无
+  */
+void usart6_send_data(uint8_t *data, uint32_t len)
+{
+    send_buf = data;
+    send_count = len;
+	send_buf_bak = send_buf;/* 发送缓冲区备份 以备重发使用 */
+	send_count_bak = send_count;/* 发送数据计数 以备重发使用 */
+    USART_ITConfig(UART_PORT, USART_IT_RXNE, DISABLE);
+    USART_ITConfig(UART_PORT, USART_IT_TC, ENABLE);
+}
+/**
+  * @brief  usart6发送数据
+  * @param  无
+  * @retval 无
+  */
+void usart6_resend_data(void)
+{
+    send_buf = send_buf_bak;
+    send_count = send_count_bak;
+    
+    USART_ITConfig(UART_PORT, USART_IT_RXNE, DISABLE);
+    USART_ITConfig(UART_PORT, USART_IT_TC, ENABLE);
+}
+
+/**
+  * @brief  获取发送状态
+  * @param  无
+  * @retval 发送状态
+  */
+uint8_t usart6_get_send_status(void)
+{
+    uint8_t res = uart_send_st;
+    
+    uart_send_st = 0;
+    
+    return res;
+}
+/**
+  * @brief  获取接收数据缓冲区地址
+  * @param  无
+  * @retval 接收数据缓冲区地址
+  */
+uint8_t* usart6_get_receive_data(void)
+{
+    return uart_receive_data;
+}
+/**
+  * @brief  获取接收计数器
+  * @param  无
+  * @retval 无
+  */
+uint32_t usart6_get_receive_data_count(void)
+{
+    return receive_count;
+}
+/**
+  * @brief  清空接收计数器
+  * @param  无
+  * @retval 无
+  */
+void usart6_clear_receive_data_count(void)
+{
+    receive_count = 0;
+}
+/**
+  * @brief  获取串口发送数据缓冲区
+  * @param  无
+  * @retval 发送数据缓冲区地址
+  */
+uint8_t * usart6_get_send_buf(void)
+{
+    return uart_send_buf;
+}
+/**
+  * @brief  复位超时定时器
+  * @param  无
+  * @retval 无
+  */
+void usart6_reset_timeout(void)
+{
+    usart_timeout = UART_TIMEOUT;
+}
+/**
+  * @brief  获取超时计数器值
+  * @param  无
+  * @retval 超时计数器值
+  */
+uint32_t usart6_get_timeout(void)
+{
+    return usart_timeout;
+}
+/**
+  * @brief  超时计数器减一
+  * @param  无
+  * @retval 无
+  */
+uint32_t usart6_sub_timeout(void)
+{
+    usart_timeout--;
+    
+    return usart_timeout;
+}
+
+/**
+  * @brief  更新并判断串口的超时时间是否为0，如果为0就表示接收完成了,此函数是被定时中断调用
+  * @param  无
+  * @retval 无
+  */
+void usart6_judge_timout(void)
+{
+    if(usart_timeout > 0)
+    {
+        usart_timeout--;
+        
+        if(usart_timeout == 0)
+        {
+            usart_receive_over = 1;
+        }
+    }
+}
+/**
+  * @brief  获取接收完成标志
+  * @param  无
+  * @retval 接收完成标志
+  */
+uint8_t get_usart6_receive_over_flag(void)
+{
+    return usart_receive_over;
+}
+/**
+  * @brief  清空接收完成标志
+  * @param  无
+  * @retval 无
+  */
+void clear_usart6_receive_over_flag(void)
+{
+    usart_receive_over = 0;
+}
+/**
+  * @brief  清空接收计数器
+  * @param  无
+  * @retval 无
+  */
+void usart6_clear_receive_count(void)
+{
+    receive_count = 0;
+}
+/**
+  * @brief  usart6中断服务程序
+  * @param  无
+  * @retval 无
+  */
+void usart6_close(void)
+{
+	USART_Cmd(UART_PORT, DISABLE);
+    USART_ITConfig(UART_PORT, USART_IT_TC, DISABLE);
+    USART_ITConfig(UART_PORT, USART_IT_RXNE, DISABLE);
+}
+
+/**
+  * @brief  usart6中断服务程序
+  * @param  无
+  * @retval 无
+  */
+void USART6_IRQHandler(void)
+{
+	OSIntEnter();
+    
+    if(USART_GetITStatus(UART_PORT, USART_IT_RXNE) == SET)
+    {
+        usart6_reset_timeout();//复位超时计时器
+        uart_receive_data[receive_count] = USART_ReceiveData(UART_PORT);
+        receive_count = (receive_count + 1) % BUFFER_SIZE;
+	}
+    if(USART_GetITStatus(UART_PORT, USART_IT_TC) == SET)
+    {
+        if(send_count == 0)
+        {
+            USART_ITConfig(UART_PORT, USART_IT_TC, DISABLE);
+            USART_ITConfig(UART_PORT, USART_IT_RXNE, ENABLE);
+            uart_send_st = 1;//标记发送完成
+        #ifdef MAX_485_EN
+            MAX485_CTRL = MAX485_CTRL_LOW;
+        #endif
+        }
+        else
+        {
+            USART_SendData(UART_PORT , *send_buf);
+            send_count--;
+            send_buf++;
+        }
+	}
+    
+	OSIntExit();
+}
+
+/************************ (C) COPYRIGHT 2017 长盛仪器 *****END OF FILE****/

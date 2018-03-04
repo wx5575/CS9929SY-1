@@ -61,6 +61,8 @@
 #define F_SYS_PAR_BASE          (2*1024) /* 存放系统参数 占37个字节(可能会有变更)  */
 #define F_SYS_PAR_SIZE          (sizeof(SYS_PAR))
 
+#define F_MODULE_INF_BASE          (F_SYS_PAR_BASE + 512) /* 存放模块信息 (可能会有变更)  */
+#define F_MODULE_INF_SIZE          (sizeof(ROADS_FLAG))
 
 // #define F_PAGE_OFFSET(n, per_page_num)          (F_PAGE_SIZE * ((n) / (per_page_num)))  /* 计算页偏移 */
 // #define F_PAGE_INNER_OFFSET(n, per_page_num, size)    ((size) * ((n) % (per_page_num))) /* 计算页内偏移 */
@@ -108,6 +110,9 @@ extern void init_group_step_used_flag_flash(void);
 extern void copy_cur_file_to_new_pos_flash(const FILE_NUM file_num);
 extern uint8_t get_first_step_mode_flash(void);
 extern void create_mutex_protect_flash(void);
+
+extern void read_roads_flag_flash(void);
+extern void save_roads_flag_flash(void);
 
 #endif //__CS99XX_FLASH_MANAGE_H__
 

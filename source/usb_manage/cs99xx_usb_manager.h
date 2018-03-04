@@ -1,9 +1,18 @@
-
+/**
+  ******************************************************************************
+  * @file    cs99xx_usb_manage.h
+  * @author  王鑫
+  * @version V1.0.0
+  * @date    2017.4.18
+  * @brief   USB管理
+  ******************************************************************************
+  */
 #ifndef __CS99XX_USB_MANAGER_H__
 #define __CS99XX_USB_MANAGER_H__
 
 #include "sys_level.h"
 
+#pragma  diag_suppress 870 //消除870号编译警告
 
 enum{
     CH376_USB_1 = 1,
@@ -17,12 +26,13 @@ enum{
 
 enum{
 	USB_TASK_NULL,
-	USB_LEADING_OUT_RESULT,//导出结果
-	USB_LEADING_OUT_SYS_DATA,//导出系统数据
-	USB_LEADING_IN_SYS_DATA,//导入系统数据
-	USB_SAVE_ONE_RESULT,//保存一条结果,测试一条保存一条
+	USB_LEADING_OUT_RESULT,///<导出结果
+	USB_LEADING_OUT_SYS_DATA,///<导出系统数据
+	USB_LEADING_IN_SYS_DATA,///<导入系统数据
+	USB_SAVE_ONE_RESULT,///<保存一条结果,测试一条保存一条
     
     USB_SCREEN_CAPTURE,///<截屏
+    USB_COPY_FILE,///<拷贝文件
 };
 
 typedef struct{
@@ -44,7 +54,7 @@ USB_MANAGER_EXT uint8_t usb_exe_task;
 
 extern int32_t check_usb_flash(void);
 extern uint8_t check_connect_usb(uint8_t strong_brush);
-extern uint8_t check_connect_usb2(void);
+extern uint8_t check_connect_usb2(uint8_t strong_brush);
 extern void usb1_server_task(void);
 extern void usb2_server_task(void);
 extern int32_t leading_out_result_usb(void);
@@ -61,3 +71,5 @@ extern uint8_t new_file_in_usb_flash(uint8_t *file_name, uint8_t *path);
 extern void set_usb_disk_task(uint8_t cmd);
 
 #endif //__CS99XX_USB_MANAGER_H__
+
+/************************ (C) COPYRIGHT Nanjing Changsheng *****END OF FILE****/

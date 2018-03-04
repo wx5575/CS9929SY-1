@@ -7,6 +7,7 @@
 /* Private macro -------------------------------------------------------------*/
 
 /* Private variables ---------------------------------------------------------*/
+/* Public variables ---------------------------------------------------------*/
 
 /* Private function prototypes -----------------------------------------------*/
 
@@ -15,7 +16,7 @@
 
 /*****************************************************/
 //对字库中的部分字模进行修正
-/* Ω */
+/* Ω 03A9 */
 /* 29号 */
 /* Start of unicode area <Basic Greek> */
 GUI_CONST_STORAGE unsigned char acGUI_Fonthz_29_03A9[232] = { /* code 03A9, GREEK CAPITAL LETTER OMEGA */
@@ -76,7 +77,7 @@ GUI_CONST_STORAGE unsigned char acGUI_Fonthz_29_03A9[232] = { /* code 03A9, GREE
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
  /***********************************************************/
 /* 24号 */
-/* μ */
+/* μ 03BC */
 /* Start of unicode area <Basic Greek> */
 GUI_CONST_STORAGE unsigned char acGUI_Font24_03BC[168] = { /* code 03BC, GREEK SMALL LETTER MU */
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
@@ -105,5 +106,9 @@ GUI_CONST_STORAGE unsigned char acGUI_Font24_03BC[168] = { /* code 03BC, GREEK S
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
 };
   ,{  13,  13,  7, acGUI_Fonthz_24_03BC } /* code 03BC */
-  
-  
+
+29号字体数据结构调整
+  ,{  15,  15,   2,  10,  16, acGUI_Fonthz_29_03BC } /* code 03BC, GREEK SMALL LETTER MU */
+
+
+  ,{  13,  13,   2,   9,  16, acGUI_Fonthz_26_03BC } /* code 03BC, GREEK SMALL LETTER MU */

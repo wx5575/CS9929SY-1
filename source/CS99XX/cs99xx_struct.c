@@ -28,7 +28,7 @@ const uint8_t *unit_pool[]=
 /**
   * @brief  工作模式
   */
-const uint8_t *work_mode_pool[2]={"N","G"};
+const uint8_t *work_mode_pool[2]={"G","N"};
 /**
   * @brief  语言
   */
@@ -53,6 +53,10 @@ const uint8_t *arc_mode_pool[2][2]={
     {"电流","等级"},
     {"Current","Grade"},
 };
+const uint8_t arc_mode_buf[2]={
+	ARC_CUR_MODE,   ///<电弧侦测电流模式
+	ARC_GRADE_MODE, ///<电弧侦测档位模式
+};
 /**
   * @brief  测试端口
   */
@@ -73,7 +77,7 @@ const uint8_t * mode_pool[10]=
 /**
   * @brief  测试状态
   */
-const char* status_str[][2] = 
+const uint8_t* status_str[][2] = 
 {
 	{"等待测试", "TestWait"},
 	{"电压上升", "  Rise  "},
@@ -87,12 +91,26 @@ const char* status_str[][2] =
 	{"稳压时间", "Sta.Time"},
 	{"正在放电", "Discharg"},
 	{"放电结束", "Disch.OK"},
-	{"输出延时", "Out.Dly"},
+	{"输出延时", "Out.Dly" },
+    
+	{"上限报警", "High Fail"},
+	{"下限报警", "Low Fail" },
+	{"真实报警", "Real Fail"},
+	{"充电报警", "Char Fail"},
+	{"开路报警", "Open Fail"},
+	{"短路报警", "ShortFail"},
+	{"ARC报警" , "ARC Fail" },
+	{"GFI报警" , "GFI Fail" },
+	{"功放报警", "AMP Fail" },
+	{"档位报警", "GEAR Fail"},
+	{"电压异常", "VOL. Fail"},
+	{"未定义"  , "Undefine "},
 };
+
 /**
   * @brief  测试异常状态
   */
-const char* except_buf[][3]=
+const uint8_t* except_buf[][3]=
 {
 	{"","",""},
 	{"上限报警", "High Fail", "High"   },
@@ -116,12 +134,12 @@ GEAR_STR ac_gear[]=
     {0},//0
     {CUR_2uA_STR   , CUR_U_uA, 2000, 1, 2000, 0, 5, 3},//2uA
     {CUR_20uA_STR  , CUR_U_uA, 2000, 1, 2000, 0, 5, 2},//20uA
-    {CUR_200uA_STR , CUR_U_uA, 2000, 1, 2000, 0, 5, 1},//200uA
-    {CUR_2mA_STR   , CUR_U_mA, 2000, 1, 2000, 0, 5, 3},
-    {CUR_10mA_STR  , CUR_U_mA, 1000, 1, 1000, 0, 5, 2},
-    {CUR_20mA_STR  , CUR_U_mA, 2000, 1, 2000, 0, 5, 2},
-    {CUR_50mA_STR  , CUR_U_mA, 5000, 1, 5000, 0, 5, 2},
-    {CUR_100mA_STR , CUR_U_mA, 1000, 1, 1000, 0, 5, 1},
+    {CUR_200uA_STR , CUR_U_uA, 2000, 1, 2000, 0, 5, 1, 0},//200uA
+    {CUR_2mA_STR   , CUR_U_mA, 2000, 1, 2000, 0, 5, 3, 1},
+    {CUR_10mA_STR  , CUR_U_mA, 1000, 1, 1000, 0, 5, 2, 2},
+    {CUR_20mA_STR  , CUR_U_mA, 2000, 1, 2000, 0, 5, 2, 2},
+    {CUR_50mA_STR  , CUR_U_mA, 5000, 1, 5000, 0, 5, 2, 3},
+    {CUR_100mA_STR , CUR_U_mA, 1000, 1, 1000, 0, 5, 1, 3},
     {CUR_200mA_STR , CUR_U_mA, 2000, 1, 2000, 0, 5, 1},
     {CUR_2A_STR    , CUR_U_A , 1250, 1, 1250, 0, 5, 3},//2A
 };
@@ -131,13 +149,13 @@ GEAR_STR ac_gear[]=
 GEAR_STR dc_gear[]=
 {
     {0},//0
-    {CUR_2uA_STR   , CUR_U_uA, 2000, 1, 2000, 0, 5, 3},//2uA
-    {CUR_20uA_STR  , CUR_U_uA, 2000, 1, 2000, 0, 5, 2},//20uA
-    {CUR_200uA_STR , CUR_U_uA, 2000, 1, 2000, 0, 5, 1},//200uA
-    {CUR_2mA_STR   , CUR_U_mA, 2000, 1, 2000, 0, 5, 3},
-    {CUR_10mA_STR  , CUR_U_mA, 1000, 1, 1000, 0, 5, 2},
-    {CUR_20mA_STR  , CUR_U_mA, 2000, 1, 2000, 0, 5, 2},
-    {CUR_50mA_STR  , CUR_U_mA, 5000, 1, 5000, 0, 5, 2},
+    {CUR_2uA_STR   , CUR_U_uA, 2000, 1, 2000, 0, 5, 3, 0},//2uA
+    {CUR_20uA_STR  , CUR_U_uA, 2000, 1, 2000, 0, 5, 2, 1},//20uA
+    {CUR_200uA_STR , CUR_U_uA, 2000, 1, 2000, 0, 5, 1, 2},//200uA
+    {CUR_2mA_STR   , CUR_U_mA, 2000, 1, 2000, 0, 5, 3, 3},
+    {CUR_10mA_STR  , CUR_U_mA, 1000, 1, 1000, 0, 5, 2, 4},
+    {CUR_20mA_STR  , CUR_U_mA, 2000, 1, 2000, 0, 5, 2, 4},
+    {CUR_50mA_STR  , CUR_U_mA, 5000, 1, 5000, 0, 5, 2, 5},
     {CUR_100mA_STR , CUR_U_mA, 1000, 1, 1000, 0, 5, 1},
 };
 /**
@@ -164,7 +182,7 @@ TEST_FILE default_file =
 	10,///<蜂鸣时间
 	0,///<PASS时间
 	ARC_CUR_MODE,///<电弧侦测模式
-  0,///<存放日期时间 xxxx.xx.xx xx:xx:xx
+    0,///<存放日期时间 xxxx.xx.xx xx:xx:xx
 };
 
 /************************ (C) COPYRIGHT Nanjing Changsheng 2017 *****END OF FILE****/

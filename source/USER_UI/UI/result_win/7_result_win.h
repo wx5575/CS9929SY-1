@@ -1,4 +1,4 @@
-﻿/**
+/**
   ******************************************************************************
   * @file    7_result_win.h
   * @author  王鑫
@@ -14,7 +14,7 @@
 
 extern WIDGET_POS_SIZE_T        _7_result_windows;
 
-extern WM_HWIN _7_create_result_listview(WM_HWIN hWin);
+extern void _7_init_result_win_layout1_text_ele_pos(TEXT_ELE_T *pool);
 
 #endif //__7_RESULT_WIN_H__
 
